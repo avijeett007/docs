@@ -1,0 +1,39 @@
+---
+title: "Endpoints"
+description: "Reference for MCP endpoints and request/response patterns."
+---
+
+## Overview
+
+This page summarizes MCP endpoints at a high level. Detailed specs are based on the internal API specification in the main Knotie AI repo.
+
+## Customer management
+
+- `POST /api/v1/mcp/customers/onboard`
+- `POST /api/v1/mcp/customers`
+- `GET /api/v1/mcp/customers`
+- `GET /api/v1/mcp/customers/{customerId}`
+- `PATCH /api/v1/mcp/customers/{customerId}`
+
+## Portal access
+
+- `POST /api/v1/mcp/customers/{customerId}/portal-access`
+- `POST /api/v1/mcp/customers/{customerId}/portal-access/block`
+- `POST /api/v1/mcp/customers/{customerId}/reset-password`
+
+## Agent mapping
+
+- `POST /api/v1/mcp/retell-agents/{agentId}/map-customer`
+- `POST /api/v1/mcp/retell-agents/{agentId}/unmap-customer`
+- `POST /api/v1/mcp/vapi-agents/{agentId}/map-customer`
+- `POST /api/v1/mcp/vapi-agents/{agentId}/unmap-customer`
+
+## Team members
+
+- `POST /api/v1/mcp/customers/{customerId}/team-members`
+- `GET /api/v1/mcp/customers/{customerId}/team-members`
+- `DELETE /api/v1/mcp/customers/{customerId}/team-members/{teamMemberId}`
+
+## Screenshots
+
+![Endpoints placeholder](/images/placeholder.svg)

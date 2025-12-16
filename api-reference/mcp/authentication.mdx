@@ -1,0 +1,24 @@
+---
+title: "Authentication"
+description: "How to authenticate MCP API requests using a Partner API key."
+---
+
+## Authentication method
+
+All MCP API endpoints require a Partner API key passed via the `X-API-Key` header.
+
+```bash
+curl -X GET \
+  "https://YOUR_BASE_URL/api/v1/mcp/customers" \
+  -H "X-API-Key: pkt_your_partner_api_key"
+```
+
+## Getting an API key
+
+Partner API keys are created in the partner dashboard under **Settings** > **API Keys**.
+
+## Security guidance
+
+- Keep API keys secret.
+- Rotate keys if you suspect compromise.
+- Use least-privilege operational practices (only share keys with trusted systems).

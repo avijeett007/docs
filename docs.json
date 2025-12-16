@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "Knotie AI",
   "colors": {
     "primary": "#16A34A",
     "light": "#07C983",
@@ -17,32 +17,48 @@
             "group": "Getting started",
             "pages": [
               "index",
-              "quickstart",
-              "development"
+              "getting-started/overview",
+              "getting-started/pricing-and-features",
+              "getting-started/free-forever"
             ]
           },
           {
-            "group": "Customization",
+            "group": "Account & security",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              "account/signup",
+              "account/google-login",
+              "account/passkeys",
+              "account/mfa",
+              "account/card-verification"
             ]
           },
           {
-            "group": "Writing content",
+            "group": "Customer onboarding",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
+              "customer-management/onboard-customer",
+              "customer-management/portal-modes",
+              "customer-management/whitelabel-subdomain",
+              "customer-management/custom-domain",
+              "customer-management/email-domains"
             ]
           },
           {
-            "group": "AI tools",
+            "group": "Agents",
             "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "agents/retell/import-retell-agent",
+              "agents/vapi/import-vapi-agent"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Use cases",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "use-cases/index",
+              "use-cases/coming-soon"
             ]
           }
         ]
@@ -51,18 +67,23 @@
         "tab": "API reference",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "Overview",
             "pages": [
               "api-reference/introduction"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "MCP APIs",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "api-reference/mcp/introduction",
+              "api-reference/mcp/authentication",
+              "api-reference/mcp/endpoints"
+            ]
+          },
+          {
+            "group": "More API specs",
+            "pages": [
+              "api-reference/future-specs"
             ]
           }
         ]

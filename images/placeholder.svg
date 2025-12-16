@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+  <rect width="1200" height="675" fill="#0b1220"/>
+  <rect x="60" y="60" width="1080" height="555" fill="#111b2d" stroke="#2a3a5f" stroke-width="4"/>
+  <text x="600" y="320" text-anchor="middle" font-family="ui-sans-serif, system-ui, -apple-system" font-size="44" fill="#e5e7eb">Screenshot Placeholder</text>
+  <text x="600" y="380" text-anchor="middle" font-family="ui-sans-serif, system-ui, -apple-system" font-size="22" fill="#9ca3af">Replace with an image in docs/images/</text>
+</svg>
