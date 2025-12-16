@@ -1,33 +1,21 @@
 ---
 title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+description: 'Partner-facing API reference for Knotie AI'
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+## Overview
 
-## Welcome
+This section documents partner-facing APIs used to automate common operations in Knotie AI.
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+## What’s included
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+- MCP APIs for customer onboarding, portal access management, and agent mapping
+- A placeholder section for additional API specs we’ll publish in the future
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+Authentication varies by API.
 
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
-```
+- MCP APIs: authenticate using a Partner API key via `X-API-Key`
+
+See: `/api-reference/mcp/authentication`
