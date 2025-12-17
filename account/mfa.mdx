@@ -9,14 +9,34 @@ MFA adds an extra layer of security by requiring a second factor during sign-in.
 
 ## Recommendation
 
-Enable MFA for all partner accounts that manage customer access, billing, domains, or API keys.
+Enable MFA for all partner accounts that manage:
+
+- Customer access
+- Domains
+- API keys
+- Billing (especially Stripe)
+
+If you connect Stripe, we strongly recommend enabling MFA.
 
 ## How to set up
 
-1. Open your account security settings.
-2. Choose **Enable MFA**.
-3. Scan the QR code using an authenticator app.
-4. Save your recovery codes.
+1. In the Partner Portal, go to **Settings**.
+2. Find **Multi-Factor Authentication**.
+3. Click **Enable MFA**.
+4. Scan the QR code using an authenticator app (Google Authenticator, Authy, 1Password, etc.).
+5. Save your **backup codes**.
+
+## Backup codes
+
+Backup codes are a fallback if you lose access to your authenticator app.
+
+In Settings, you can generate and download new backup codes.
+
+## Can I disable MFA?
+
+You can disable MFA in Settings in some cases.
+
+If Stripe Connect is enabled for your account, MFA may be required.
 
 ## Screenshots
 

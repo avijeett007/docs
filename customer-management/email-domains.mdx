@@ -3,21 +3,65 @@ title: "Email domains"
 description: "Integrate email domains using Knotie AI email systems."
 ---
 
-## Overview
+## What email domain setup does
 
-Email domain setup helps customers send emails from their own domain (rather than a generic sender).
+Email domain setup lets you send emails from your own domain (instead of a generic sender). This is important for:
 
-## Setup steps
+- Brand trust (customers recognize your domain)
+- Better deliverability (fewer spam issues)
+- Consistent “From” name and address
 
-1. Add the email domain in the customer settings.
-2. Copy the DNS records (SPF, DKIM, and any verification records).
-3. Add records to the domain’s DNS.
-4. Verify inside Knotie AI.
+## Before you start
+
+- Make sure **Domain Email Service** is enabled for your account.
+- Make sure you (or your customer) can edit DNS records for the domain.
+- Decide what you want your sender to look like:
+  - **From name** (example: `Knotie Support`)
+  - **From email** (example: `support@yourdomain.com`)
+
+## Set up your email domain
+
+1. In the Partner Portal, open **Settings**.
+2. Go to **Email Domain Management**.
+3. In **Setup Your Domain**:
+   - Enter **Domain Name** (example: `yourdomain.com`).
+   - Enter **From Email** (example: `support@yourdomain.com`).
+   - Enter **From Name** (example: `Knotie Support`).
+4. Click **Setup Domain**.
+
+Knotie AI will show the DNS records you need to add.
+
+## Add DNS records (the “copy/paste” part)
+
+1. Open the DNS provider for the domain (Cloudflare, GoDaddy, Namecheap, etc.).
+2. Add each DNS record exactly as shown in Knotie AI.
+3. Save the changes.
+
+Tip: If your DNS provider asks for “Host/Name”, it might be `@` for the root domain.
+
+## Verify your domain
+
+1. Back in **Email Domain Management**, click **Verify Domain**.
+2. If the status shows **pending**, wait a bit and try again.
+3. Once verified, you’ll see a verified status in the header.
+
+## Send a test email
+
+After your domain is verified:
+
+1. Click **Send Test Email**.
+2. Check your inbox and confirm the sender shows your domain.
+
+## Troubleshooting
+
+- **Domain verification stays pending**
+  - DNS changes can take time to propagate.
+  - Re-check that you copied values exactly (extra spaces can break verification).
+- **You see “Domain Email Service Not Enabled”**
+  - Go to **Settings** and enable Domain Email Service first.
+- **Test email fails**
+  - Verification must be completed before test emails can be sent.
 
 ## Screenshots
 
 ![Email domain setup](/images/placeholder.svg)
-
-## Troubleshooting
-
-- DKIM is the most common cause of verification issues. Confirm the record value is copied exactly.

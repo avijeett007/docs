@@ -4,8 +4,8 @@
   "name": "Knotie AI",
   "colors": {
     "primary": "#3B82F6",
-    "light": "#14B8A6",
-    "dark": "#A855F7"
+    "light": "#3B82F6",
+    "dark": "#3B82F6"
   },
   "favicon": "/logo/knotie.svg",
   "navigation": {
@@ -18,6 +18,8 @@
             "pages": [
               "index",
               "getting-started/overview",
+              "getting-started/onboarding-checklist",
+              "getting-started/video-tutorials",
               "getting-started/pricing-and-features",
               "getting-started/free-forever"
             ]

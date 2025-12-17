@@ -3,27 +3,59 @@ title: "Custom domains"
 description: "Onboard a customer’s custom domain and validate DNS."
 ---
 
-## Overview
+## What a custom domain does
 
-Custom domains let customers use their own brand URL for the portal.
+A custom domain lets your customer sign in to the portal on their own branded URL (for example, `portal.customer.com`).
+
+This is the most “premium” option because it keeps the experience fully on the customer’s brand.
 
 ## Before you start
 
-- Confirm you have access to the domain’s DNS
-- Decide whether you will use a subdomain (recommended)
+- Make sure you (or your customer) can edit DNS records for the domain.
+- Pick a subdomain for the portal (recommended), such as:
+  - `portal.customer.com`
+  - `support.customer.com`
 
-## Setup steps
+## Add the domain in Knotie AI
 
-1. Add the domain in the customer settings.
-2. Copy the required DNS records.
-3. Add the records in the customer’s DNS provider.
-4. Wait for DNS propagation.
-5. Verify the domain in Knotie AI.
+1. In the Partner Portal, open **Settings**.
+2. Go to **Whitelabel**.
+3. Find the **Custom Domain** section.
+4. Enter your customer’s portal domain (for example, `portal.customer.com`).
+5. Click **Save**.
+
+Knotie AI will show the DNS records you need to add.
+
+## Add the DNS records
+
+1. Open the DNS provider for the domain (Cloudflare, GoDaddy, Namecheap, etc.).
+2. Copy the DNS record(s) shown in Knotie AI exactly.
+3. Paste them into the DNS provider:
+   - Make sure the **Host/Name** matches (for example `portal`).
+   - Make sure the **Value/Target** matches.
+   - If a record includes a trailing dot, keep it.
+4. Save the changes.
+
+## Verify the domain
+
+1. Back in Knotie AI, click **Verify** (or re-check status) in the Custom Domain section.
+2. Wait for the status to change to verified.
+3. Open the portal URL in an incognito window and confirm:
+   - The portal loads.
+   - Sign-in works.
+   - Branding is correct.
+
+## Troubleshooting
+
+- **Verification fails immediately**
+  - Re-check for typos in the record value.
+  - Confirm you didn’t add the record to the wrong domain.
+- **Verification is “pending” for a while**
+  - DNS can take time to propagate. Wait a bit and try again.
+- **Portal loads but shows the wrong thing**
+  - Clear cache or test in an incognito window.
+  - Confirm you used the exact subdomain you verified.
 
 ## Screenshots
 
 ![Custom domain setup](/images/placeholder.svg)
-
-## Troubleshooting
-
-- DNS changes can take time. If verification fails, re-check the record values and try again.
