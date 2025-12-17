@@ -1,0 +1,58 @@
+---
+title: "API keys (Partner Settings)"
+description: "Create and manage Partner API keys for automation, MCP, and secure programmatic access."
+---
+
+## What API Keys are for
+
+**API Keys** let you connect Knotie AI to external tools and automations.
+
+Common uses:
+
+- AI automation (MCP)
+- Internal dashboards
+- Custom scripts for customer onboarding
+
+## Where to find it
+
+In the Partner Portal:
+
+1. Open **Settings**.
+2. Click **API Keys**.
+
+## Create a new API key
+
+On the API Keys page:
+
+1. Click **Create API Key** (or the create action shown in the key manager section).
+2. Give the key a name you’ll recognize (example: “N8N Production”).
+3. Save.
+
+Important: copy the key and store it safely.
+
+## Keep keys secure
+
+API keys should be treated like passwords.
+
+- Do not paste keys into client-side code.
+- Use a password manager or secrets vault.
+- Rotate keys if a contractor leaves your team.
+
+## Using your API key with MCP
+
+If you’re using MCP endpoints, you’ll typically pass your key in an `X-API-Key` header.
+
+(Your API Reference section includes copy/paste examples.)
+
+## Troubleshooting
+
+- **I don’t see API Keys under Settings**
+  - You may be logged in as a team member without settings permissions.
+  - Ask the account owner to grant access.
+- **My API calls fail**
+  - Confirm you’re using the correct key.
+  - Confirm the base URL for the endpoint.
+
+## Screenshots
+
+![API Keys page](/images/placeholder.svg)
