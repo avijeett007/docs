@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Knotie AI",
+  "name": "Knotie AI PRO",
   "colors": {
     "primary": "#3B82F6",
     "light": "#3B82F6",
@@ -48,6 +48,17 @@
             "group": "Partner portal",
             "pages": [
               "partner-portal/overview",
+              "partner-portal/customers/overview",
+              "partner-portal/customers/customer-info-and-deal-management",
+              "partner-portal/customers/features-addons-and-menu-visibility",
+              "partner-portal/customers/customer-portal-access-actions",
+              "partner-portal/customers/billing-for-a-customer",
+              "partner-portal/customers/phone-numbers-for-a-customer",
+              "partner-portal/customers/credits-and-ai-credit-management",
+              "partner-portal/customers/embed-urls",
+              "partner-portal/customers/tool-call-quota",
+              "partner-portal/customers/deployment-status-tracking",
+              "partner-portal/customers/customer-portal-management",
               "partner-portal/credits",
               "partner-portal/phone-numbers",
               "partner-portal/agent-analytics",
@@ -56,6 +67,13 @@
               "partner-portal/prospects",
               "partner-portal/team-management",
               "partner-portal/api-keys",
+              "partner-portal/settings/overview",
+              "partner-portal/settings/subscription-and-billing",
+              "partner-portal/settings/integration-settings",
+              "partner-portal/settings/email-settings",
+              "partner-portal/settings/stripe-connect",
+              "partner-portal/settings/branding-settings",
+              "partner-portal/settings/knowledge-base-processing",
               "partner-portal/marketing",
               "partner-portal/tutorials"
             ]
@@ -117,8 +135,8 @@
     "global": {}
   },
   "logo": {
-    "light": "/logo/knotie.svg",
-    "dark": "/logo/knotie.svg"
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
   },
   "navbar": {
     "links": [
