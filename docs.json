@@ -45,10 +45,33 @@
             ]
           },
           {
+            "group": "Partner portal",
+            "pages": [
+              "partner-portal/overview",
+              "partner-portal/credits",
+              "partner-portal/phone-numbers",
+              "partner-portal/agent-analytics",
+              "partner-portal/billing-and-invoices",
+              "partner-portal/metered-billing",
+              "partner-portal/prospects",
+              "partner-portal/team-management",
+              "partner-portal/api-keys",
+              "partner-portal/marketing",
+              "partner-portal/tutorials"
+            ]
+          },
+          {
             "group": "Agents",
             "pages": [
               "agents/retell/import-retell-agent",
-              "agents/vapi/import-vapi-agent"
+              "agents/vapi/import-vapi-agent",
+              "agents/ultravox/manage-ultravox-agents",
+              "agents/elevenlabs/manage-elevenlabs-agents",
+              "agents/ghl/manage-ghl-agents",
+              "agents/n8n/n8n-automation",
+              "agents/n8n/n8n-chat-agents",
+              "agents/n8n/n8n-tokens",
+              "agents/migration/agent-migration"
             ]
           }
         ]
