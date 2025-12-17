@@ -1,0 +1,66 @@
+---
+title: "Email settings (SMTP and Domain Email Service)"
+description: "Choose between custom SMTP or Domain Email Service for sending white-label emails from your portal."
+---
+
+## What Email Settings is for
+
+Email Settings controls how your portal sends white-label emails (invites, notifications, and system messages).
+
+You typically choose one of two options:
+
+- **Custom SMTP Server** (bring your own mail server)
+- **Domain Email Service** (one-click setup to send from your domain)
+
+## Where to find it
+
+1. Open **Settings**.
+2. Scroll to **Email Settings**.
+
+## Option A: Configure a custom SMTP server
+
+1. Click **Configure SMTP**.
+2. Toggle **Use Custom SMTP**.
+3. Fill in:
+   - SMTP Host
+   - SMTP Port
+   - SMTP Username
+   - SMTP Password
+   - From Email
+   - From Name
+4. Acknowledge the risk checkbox (required).
+5. Click **Test Connection** (recommended).
+6. Save.
+
+Notes:
+
+- If you already have a saved password, you may not need to re-enter it unless changing it.
+- Testing uses the `/api/partner/smtp/test` endpoint.
+
+## Option B: Enable Domain Email Service (irreversible)
+
+The Settings page includes a **Domain Email Service** block with an **Activate** button.
+
+Important:
+
+- The UI warns this is **irreversible**.
+- Once enabled, **SMTP cannot be re-enabled**.
+
+When you click **Enable Domain Email Service**, the portal redirects you to:
+
+- `/partner/settings/email-domain`
+
+Follow that page’s domain verification steps.
+
+## Troubleshooting
+
+- **Configure SMTP is disabled**
+  - Domain Email Service is active.
+- **SMTP test fails**
+  - Confirm host/port.
+  - Confirm username/password.
+  - Confirm your SMTP provider allows the sender address.
+
+## Screenshots
+
+![Email settings](/images/placeholder.svg)

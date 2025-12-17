@@ -1,0 +1,53 @@
+---
+title: "Integration settings (provider API keys)"
+description: "Add provider keys (GHL, VAPI, Retell, Ultravox) so you can import agents, run calls, and see analytics."
+---
+
+## What Integration Settings controls
+
+**Integration Settings** is where you connect provider credentials used by your AI agents.
+
+Without these keys, you may see warnings in other parts of the portal (for example Agent Analytics or import modals).
+
+## Where to find it
+
+1. Open **Settings**.
+2. Find the **Integration Settings** section.
+3. Click **Update Integration**.
+
+## What you can configure
+
+The Settings page displays these integration fields:
+
+- **GoHighLevel Calendar ID**
+- **GoHighLevel API Key**
+- **VAPI API Key**
+- **Retell API Key**
+- **Ultravox API Key**
+
+## Add or update provider keys
+
+1. Click **Update Integration**.
+2. Open the **Integration** tab.
+3. Paste your provider key(s).
+4. Save.
+
+## Key validation (what to expect)
+
+The portal validates some keys before saving:
+
+- **VAPI**: validates by calling `https://api.vapi.ai/assistant`
+- **Retell**: validates by calling `https://api.retellai.com/list-agents`
+- **Ultravox**: validates by calling `https://api.ultravox.ai/api/agents` using `X-API-Key`
+
+If validation fails, you’ll see an “invalid API key” message.
+
+## Best practices
+
+- Keep keys in a password manager.
+- Rotate keys if a contractor leaves.
+- Use separate provider accounts for production vs testing where possible.
+
+## Screenshots
+
+![Integration settings](/images/placeholder.svg)
