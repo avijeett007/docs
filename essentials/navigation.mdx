@@ -1,7 +1,7 @@
 ---
-title: 'Navigation'
-description: 'The navigation field in docs.json defines the pages that go in the navigation menu'
-icon: 'map'
+title: "Navigation"
+description: "The navigation field in docs.json defines the pages that go in the navigation menu"
+icon: "map"
 ---
 
 The navigation menu is the list of links on every website.
@@ -29,6 +29,7 @@ Our navigation syntax is recursive which means you can make nested navigation gr
   ]
 }
 ```
+
 
 ```json Nested Navigation
 "navigation": {
@@ -61,9 +62,7 @@ Simply put your MDX files in folders and update the paths in `docs.json`.
 For example, to have a page at `https://yoursite.com/your-folder/your-page` you would make a folder called `your-folder` containing an MDX file called `your-page.mdx`.
 
 <Warning>
-
-You cannot use `api` for the name of a folder unless you nest it inside another folder. Mintlify uses Next.js which reserves the top-level `api` folder for internal server calls. A folder name such as `api-reference` would be accepted.
-
+  You cannot use `api` for the name of a folder unless you nest it inside another folder. Mintlify uses Next.js which reserves the top-level `api` folder for internal server calls. A folder name such as `api-reference` would be accepted.
 </Warning>
 
 ```json Navigation With Folder
