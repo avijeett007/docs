@@ -1,24 +1,40 @@
 /* Mintlify custom CSS */
 
 /* Make the navbar wordmark logo larger without affecting page content */
+header .nav-logo,
+nav .nav-logo,
 .nav-logo {
-  height: 32px;
+  height: 44px;
+  display: flex;
+  align-items: center;
 }
 
+header .nav-logo img,
+header .nav-logo svg,
+nav .nav-logo img,
+nav .nav-logo svg,
 .nav-logo img,
 .nav-logo svg {
-  height: 32px;
+  height: 44px;
+  max-height: 44px;
   width: auto;
 }
 
 /* Slightly larger on desktop */
 @media (min-width: 768px) {
+  header .nav-logo,
+  nav .nav-logo,
   .nav-logo {
-    height: 36px;
+    height: 52px;
   }
 
+  header .nav-logo img,
+  header .nav-logo svg,
+  nav .nav-logo img,
+  nav .nav-logo svg,
   .nav-logo img,
   .nav-logo svg {
-    height: 36px;
+    height: 52px;
+    max-height: 52px;
   }
 }
