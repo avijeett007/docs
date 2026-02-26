@@ -1,0 +1,113 @@
+---
+title: "Agency command center: run outbound campaigns for clients without extra middleware"
+description: "Use Knotie Partner Portal to separate clients, map numbers to agents, enforce credits, and trigger outbound calls from GHL natively."
+---
+
+## Who this is for
+
+This playbook is for agencies that:
+
+- Run outbound lead follow-up for multiple clients
+- Need clean separation by client (billing, credits, reporting)
+- Want to avoid adding extra platforms (middleware costs + complexity)
+
+## The client concern this solves
+
+A common objection to outbound automation stacks is:
+
+- “I don’t want to pay for Knotie *and* another automation platform.”
+
+With Knotie’s **native GHL webhook support**, you can often remove the “middleware” layer that was previously used only for payload shaping.
+
+## What you’ll build
+
+A repeatable client delivery process:
+
+1. Onboard a client as a **Customer**
+2. Import a phone number (Twilio or Retell)
+3. Assign a voice agent to that number with **Outbound** enabled
+4. Generate a per-number outbound webhook key (`owk_...`)
+5. Add a GHL workflow webhook step using that key
+
+> 📸 _[Screenshot placeholder: Partner Portal customer list + phone number mapping overview]_
+
+## Step 1 — Onboard the client as a customer
+
+1. Partner Portal → **Customers**
+2. Create the customer record
+3. (Optional) Enable customer portal access if you want them to see call logs/credits
+
+> 📸 _[Screenshot placeholder: Quick onboard customer modal]_
+
+## Step 2 — Set up credits (so usage is enforceable)
+
+Why credits matter:
+
+- Agencies need a hard stop to prevent runaway spend
+- Clients need predictable billing
+
+1. Open customer **Manage** modal
+2. Go to **Credits**
+3. Add credits for the customer
+
+> 📸 _[Screenshot placeholder: Customer Manage → Credits tab]_
+
+## Step 3 — Import and assign a phone number
+
+1. Partner Portal → **Phone Numbers**
+2. Import from:
+   - **Twilio** (owned in Twilio)
+   - **Retell** (purchased inside Retell)
+3. Assign the number to the client/customer
+
+> 📸 _[Screenshot placeholder: Phone number imported and assigned to customer]_
+
+## Step 4 — Assign the outbound agent
+
+1. In the phone numbers table, click **Assign Agent**
+2. Select the correct provider agent
+3. Enable **Outbound**
+
+> 📸 _[Screenshot placeholder: Assign Agent modal with provider-specific agent list]_
+
+## Step 5 — Generate a dedicated webhook key
+
+Each phone number has its own key.
+
+1. Open phone number details
+2. Generate **Outbound Webhook Key**
+3. Store in your agency vault/password manager
+
+> 📸 _[Screenshot placeholder: Outbound key generated for a specific number]_
+
+## Step 6 — Connect the client’s GHL workflow
+
+In the client’s GoHighLevel account:
+
+- Add a Webhook step:
+  - `POST https://automate.knotie-ai.pro/api/outbound-call`
+- Add `Authorization: Bearer owk_...`
+- Add required custom data:
+  - `from_number`
+  - `to_number`
+- Add `dynamicdata_*` fields for personalization
+
+> 📸 _[Screenshot placeholder: GHL workflow webhook action configured]_
+
+## Delivery checklist (copy/paste)
+
+- Customer created
+- Credits added
+- Number imported
+- Customer assigned to number
+- Agent assigned to number (Outbound enabled)
+- Outbound key generated and stored
+- GHL workflow published
+- Test lead submitted and call verified
+
+## Best practices
+
+- Use **warm lead timing** (call within minutes)
+- Keep your outbound agent CTA simple (book, qualify, route)
+- Rotate numbers if you see spam flagging patterns
+

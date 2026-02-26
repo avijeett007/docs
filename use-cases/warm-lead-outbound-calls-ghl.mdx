@@ -1,0 +1,142 @@
+---
+title: "Warm-lead outbound calls from GoHighLevel (native webhook)"
+description: "Call leads within minutes of form submission using Knotie’s native GoHighLevel webhook support — no n8n middleware required."
+---
+
+## Who this is for
+
+Use this playbook if you:
+
+- Run lead-gen campaigns (Facebook Lead Ads, TikTok lead forms, landing-page forms)
+- Manage a GoHighLevel (GHL) CRM for yourself or your clients
+- Want an AI voice agent to call leads *immediately* while they are still warm
+
+## Business goal
+
+Outbound AI calling fails when you dial cold lists.
+
+This playbook is designed around a simple principle:
+
+- **Call within 5–10 minutes** of the lead submitting a form.
+
+That timing increases pickup rates and reduces the chance your numbers get flagged as spam.
+
+## What you’ll build
+
+A GHL Workflow that:
+
+- Triggers when a lead is created / form submitted
+- Sends a **Webhook** action directly to Knotie
+- Passes structured variables (`dynamicdata_*`) into your voice agent
+
+## Prerequisites
+
+- A customer created in your Partner Portal
+- A phone number imported (Twilio or **Retell**) and assigned to that customer
+- An outbound-capable voice agent assigned to that phone number
+- An **Outbound Webhook Key** generated for that phone number (starts with `owk_`)
+
+> 📸 _[Screenshot placeholder: Partner Portal → Phone Numbers list showing imported number, customer assigned, outbound agent assigned]_
+
+## Step 1 — Prepare the phone number in Knotie
+
+1. Partner Portal → **Phone Numbers**
+2. Import a phone number (Twilio or Retell)
+3. Assign the phone number to the correct customer
+4. Assign an outbound-capable agent to the phone number
+
+> 📸 _[Screenshot placeholder: Import Numbers modal (provider selection)]_
+
+## Step 2 — Generate an outbound webhook key
+
+1. Open the phone number details panel
+2. Find **Outbound Webhook**
+3. Click **Generate Key**
+4. Copy the key immediately (shown once)
+
+> 📸 _[Screenshot placeholder: Phone number detail panel → Outbound Webhook section]_
+
+## Step 3 — Create the GHL Workflow
+
+1. In GHL: **Automation → Workflows → New Workflow**
+2. Choose a trigger that guarantees a phone number exists, for example:
+   - Facebook Lead Form
+   - TikTok Lead Gen
+   - Form Submitted
+   - Contact Created
+
+> 📸 _[Screenshot placeholder: GHL workflow trigger selection]_
+
+## Step 4 — Add a Webhook action (native)
+
+Add an action:
+
+- **Action type**: `Webhook`
+- **Method**: `POST`
+- **URL**: `https://automate.knotie-ai.pro/api/outbound-call`
+
+> 📸 _[Screenshot placeholder: GHL webhook action configuration]_
+
+## Step 5 — Add required custom data fields
+
+In the webhook’s **Custom Data** section, add:
+
+- `from_number`: your registered Knotie phone number (E.164)
+- `to_number`: lead phone number (GHL merge field)
+
+Example:
+
+| Key | Value |
+|---|---|
+| `from_number` | `+1XXXXXXXXXX` |
+| `to_number` | `{{contact.phone_raw}}` |
+
+## Step 6 — Add dynamic conversation variables
+
+To pass variables into your agent, use `dynamicdata_*` fields.
+
+Example:
+
+| Key | Value | Agent variable |
+|---|---|---|
+| `dynamicdata_customer_name` | `{{contact.name}}` | `customer_name` |
+| `dynamicdata_lead_source` | `Facebook Lead Ad` | `lead_source` |
+| `dynamicdata_service_type` | `{{contact.service_type}}` | `service_type` |
+
+> 📸 _[Screenshot placeholder: GHL webhook custom data with dynamicdata_* fields]_
+
+## Step 7 — Add the Authorization header
+
+In webhook **Headers**:
+
+| Key | Value |
+|---|---|
+| `Authorization` | `Bearer owk_YOUR_KEY_HERE` |
+
+> 📸 _[Screenshot placeholder: GHL webhook headers with Authorization bearer token]_
+
+## Step 8 — Test
+
+1. Use a test submission (or GHL test tool)
+2. Confirm the webhook step shows `200 OK`
+3. Confirm an outbound call appears in Knotie call logs
+
+### Common failure modes
+
+- **401 Unauthorized**
+  - Wrong `Authorization` header or wrong key
+- **404 Phone not found**
+  - `from_number` does not match the imported/registered number
+- **402 Insufficient credits**
+  - Customer needs credits
+
+## Recommended agent behavior (anti-spam)
+
+In your agent script/prompt:
+
+- Acknowledge the lead action (“You just submitted our form…”) to reduce hang-ups
+- Ask 1–2 qualifying questions
+- Move to a single CTA (book a call, send a link, confirm availability)
+
+> 📸 _[Screenshot placeholder: Agent prompt showing how dynamic variables are referenced]_
+

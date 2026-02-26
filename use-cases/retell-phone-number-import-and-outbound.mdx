@@ -1,0 +1,98 @@
+---
+title: "Use Retell-purchased phone numbers for outbound calling (import to Knotie)"
+description: "Import phone numbers purchased inside Retell, assign them to customers and agents, then trigger outbound calls via webhooks."
+---
+
+## Why this use case exists
+
+Many agencies and operators purchase phone numbers *inside Retell*.
+
+Historically, outbound setups required importing numbers directly from providers like Twilio/Telnyx, which created friction.
+
+Knotie now supports **Retell phone number import**, enabling:
+
+- Use of Retell-managed numbers in Knotie
+- Customer assignment + credit tracking in Knotie
+- Outbound dialing from external systems (GHL, forms, custom webhooks)
+
+## What you’ll achieve
+
+- Import Retell phone numbers into Knotie Partner Portal
+- Assign the number to a customer
+- Assign a Retell agent to the number (Outbound enabled)
+- Generate an outbound webhook key (`owk_...`)
+
+> 📸 _[Screenshot placeholder: Phone Numbers page showing provider = Retell and Imported badge]_
+
+## Prerequisites
+
+- A Retell account with phone numbers purchased
+- Retell API credentials
+- At least one Retell agent
+- A customer onboarded in Knotie
+
+## Step 1 — Import Retell numbers
+
+1. Partner Portal → **Phone Numbers**
+2. Click **Import Numbers**
+3. Choose **Retell** as the provider
+4. Enter Retell API credentials
+5. Select one or more numbers to import
+
+> 📸 _[Screenshot placeholder: Import Numbers wizard → Retell provider selected]_
+
+## Step 2 — Assign the imported number to a customer
+
+1. In the Phone Numbers list, find the imported number
+2. If it shows **Unassigned**, click **Assign**
+3. Choose the correct customer
+4. Save
+
+> 📸 _[Screenshot placeholder: Assign Customer modal]_
+
+## Step 3 — Assign a Retell agent (Outbound)
+
+1. In the **Agent Assignment** column, click **Assign Agent**
+2. Select a Retell agent
+3. Enable **Outbound** for the mapping
+4. Save
+
+> 📸 _[Screenshot placeholder: Agent assignment modal with Outbound toggle enabled]_
+
+## Step 4 — Generate an outbound webhook key
+
+1. Open the phone number detail panel
+2. Find **Outbound Webhook**
+3. Click **Generate Key**
+4. Copy and store it securely
+
+> 📸 _[Screenshot placeholder: Outbound Webhook Key generated (owk_...)]_
+
+## Step 5 — Trigger outbound calls
+
+You can trigger outbound calls from:
+
+- GoHighLevel workflows (native)
+- Custom webhooks
+- Your backend
+
+### Required fields
+
+Your webhook request must include:
+
+- `from_number` (the imported Retell number)
+- `to_number` (the lead phone number)
+
+### Authentication
+
+Send:
+
+- `Authorization: Bearer owk_...`
+
+> 📸 _[Screenshot placeholder: Example webhook request payload]_
+
+## Operational notes
+
+- If you are using Retell-purchased numbers, billing for telephony may remain with Retell.
+- Knotie still provides the partner/customer management layer: assignment, tracking, and quota/credit enforcement.
+
