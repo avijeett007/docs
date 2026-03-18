@@ -44,6 +44,55 @@ If you’re using MCP endpoints, you’ll typically pass your key in an `X-API-K
 
 (Your API Reference section includes copy/paste examples.)
 
+## Platform API
+
+The **Platform API** allows you to programmatically interact with Knotie AI Pro features:
+
+- Create and manage customers
+- Trigger automations
+- Access analytics data
+- Manage credits and billing
+
+To use the Platform API:
+
+1. Generate an API key from **Settings → API Keys**.
+2. Include the key in your API requests.
+3. Refer to the **API Reference** section for endpoint documentation.
+
+[Insert Screenshot: Platform API Settings]
+
+## API Gateway
+
+The **API Gateway** feature provides advanced API management with four different types of API keys:
+
+### 1. Partner API Key
+- Full access to partner-level operations
+- Used for internal dashboards and automations
+- Highest privilege level
+
+### 2. Customer API Key
+- Scoped to a specific customer
+- Limited to customer-specific operations
+- Ideal for customer-facing integrations
+
+### 3. Read-Only API Key
+- Can only fetch data (GET requests)
+- Cannot modify any resources
+- Safe for analytics dashboards
+
+### 4. Webhook API Key
+- Used specifically for webhook integrations
+- Limited to webhook-related endpoints
+- Secure callback authentication
+
+[Insert Screenshot: API Gateway - 4 Key Types]
+
+### Best practices for API Gateway
+
+- Use the **least privilege** key type for each use case.
+- Rotate keys regularly, especially after team changes.
+- Monitor key usage in **Agent Analytics**.
+
 ## Troubleshooting
 
 - **I don’t see API Keys under Settings**

@@ -52,15 +52,49 @@ After your domain is verified:
 1. Click **Send Test Email**.
 2. Check your inbox and confirm the sender shows your domain.
 
+## Using custom domains for email accounts
+
+Once your email domain is verified, you can use it for:
+
+### Customer email accounts
+
+Create customer email addresses on your domain:
+
+1. Go to **Customer Portal Management**.
+2. When creating a new customer, use `customer@yourdomain.com` format.
+3. Customers receive emails from your branded domain.
+
+### Notification emails
+
+All system notifications will be sent from your custom domain:
+
+- Invitation emails
+- Password reset emails
+- Low credit alerts
+- Billing notifications
+
+### White-label email experience
+
+Combining email domains with your white-label portal creates a fully branded experience:
+
+- Portal URL: `portal.yourcompany.com`
+- Email sender: `support@yourcompany.com`
+- Brand consistency across all touchpoints
+
+[Insert Screenshot: Email Domain Management - Complete Setup]
+
 ## Troubleshooting
 
 - **Domain verification stays pending**
-  - DNS changes can take time to propagate.
+  - DNS changes can take time to propagate (up to 48 hours, typically 15-30 minutes).
   - Re-check that you copied values exactly (extra spaces can break verification).
-- **You see “Domain Email Service Not Enabled”**
+- **You see "Domain Email Service Not Enabled"**
   - Go to **Settings** and enable Domain Email Service first.
 - **Test email fails**
   - Verification must be completed before test emails can be sent.
+- **Emails going to spam**
+  - Verify SPF, DKIM, and DMARC records are properly configured.
+  - Check your domain reputation with email testing tools.
 
 ## Screenshots
 

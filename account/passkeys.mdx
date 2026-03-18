@@ -1,6 +1,6 @@
 ---
 title: "Passkeys"
-description: "Set up passkeys for fast, secure authentication and learn when to use them."
+description: "Set up passkeys for fast, secure, passwordless authentication as part of your MFA security."
 ---
 
 ## Overview
@@ -13,10 +13,27 @@ In Knotie AI, passkeys are designed to be:
 - Resistant to phishing
 - Easy to use across devices
 
+## Passkeys as MFA
+
+Passkeys serve as a strong form of **multi-factor authentication (MFA)**. When you use a passkey:
+
+- **Something you have** – Your device (phone, laptop, security key)
+- **Something you are** – Your biometric (Face ID, Touch ID, fingerprint)
+
+This combination provides stronger security than traditional password + SMS code methods.
+
+### Benefits over traditional MFA
+
+- **No codes to enter** – No waiting for SMS or authenticator app codes.
+- **Phishing-resistant** – Passkeys are cryptographically bound to the website, so fake login pages can't steal them.
+- **Faster login** – One tap or glance to authenticate.
+- **No password to remember** – Eliminates the weakest link in security.
+
 ## When to use passkeys
 
 - You want the simplest sign-in experience.
 - You want strong protection against phishing.
+- You manage sensitive data (customer info, billing, API keys).
 
 We recommend passkeys for all partner accounts.
 
@@ -44,8 +61,12 @@ If your email already has a passkey registered:
 
 ![Passkey setup](/Group1\(2\).png)
 
+[Insert Screenshot: Passkey Setup Flow]
+
 ## Troubleshooting
 
 - If passkey setup fails, confirm you’re using a modern browser (Chrome, Safari, or Edge).
 - Make sure your device has a screen lock enabled.
 - If you don’t see passkey options on the login page, enter a valid email first.
+- **Passkey not working on new device** – You’ll need to register a new passkey on each device you use.
+- **Lost access to passkey device** – Use your backup authentication method (password + MFA) to log in and register a new passkey.

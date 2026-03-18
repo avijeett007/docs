@@ -37,6 +37,19 @@ Notes:
 - If you already have a saved password, you may not need to re-enter it unless changing it.
 - Testing uses the `/api/partner/smtp/test` endpoint.
 
+### SMTP security and vulnerabilities
+
+When using custom SMTP, be aware of potential security considerations:
+
+- **Credential exposure** – SMTP credentials are stored in the database. Use a dedicated email account with limited permissions.
+- **Connection security** – Always use TLS/SSL (port 465 or 587) to encrypt the connection.
+- **Rate limiting** – Some SMTP providers have rate limits. Monitor your sending volume.
+- **SPF/DKIM/DMARC** – Configure these DNS records to improve deliverability and prevent spoofing.
+
+The UI includes a risk acknowledgment checkbox to ensure you understand these considerations before enabling custom SMTP.
+
+[Insert Screenshot: SMTP Configuration with Security Warning]
+
 ## Option B: Enable Domain Email Service (irreversible)
 
 The Settings page includes a **Domain Email Service** block with an **Activate** button.

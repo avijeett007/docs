@@ -1,0 +1,215 @@
+---
+title: "Integration apps selection"
+description: "Control which integration apps are available to each customer in their portal."
+---
+
+## What Integration Apps Selection is for
+
+**Integration Apps Selection** allows you to control which integration apps a customer can access in their portal's Integration section.
+
+This gives you granular control over:
+- Which third-party services customers can connect
+- Tier-based access restrictions
+- Custom integration packages per customer
+
+## Where to find it
+
+1. Go to **Customer List**.
+2. Select a customer.
+3. Click **Manage**.
+4. Go to the **Features & Add-ons** tab.
+5. Find the **Integration** section.
+
+## Enable integrations for a customer
+
+Before selecting specific apps, you must enable the Integration menu:
+
+1. In the **Menu Visibility** section, toggle **Show Integration** to ON.
+2. The Integration menu will now appear in the customer's portal.
+
+[Insert Screenshot: Enable Integration Toggle]
+
+## Select allowed apps
+
+Once integrations are enabled, you can choose which apps the customer can access:
+
+1. In the **Features & Add-ons** tab, find **Allowed Apps**.
+2. Click **Select Apps**.
+3. A modal will appear with all available integration apps.
+4. Check the apps you want to allow for this customer.
+5. Click **Save**.
+
+### Available integration apps
+
+The app selection modal displays apps in categories:
+
+**Communication**
+- Gmail
+- Outlook
+- Slack
+- Microsoft Teams
+- Zoom
+
+**CRM & Sales**
+- HubSpot
+- Salesforce
+- Pipedrive
+- Close
+- Copper
+
+**Project Management**
+- Asana
+- Trello
+- Monday.com
+- ClickUp
+- Notion
+
+**Automation**
+- Zapier
+- Make (Integromat)
+- N8N
+- Webhooks
+
+**Other Apps**
+- Google Calendar
+- Google Sheets
+- Airtable
+- And many more...
+
+[Insert Screenshot: App Selection Modal]
+
+## How app restrictions work
+
+When you select specific apps for a customer:
+
+### Customer sees only allowed apps
+
+In their portal's Integration section, customers will only see:
+- Apps you've explicitly allowed
+- Apps they can connect or configure
+- No upgrade prompts for restricted apps
+
+### OAuth and API key flows
+
+When a customer tries to connect an app:
+- **Allowed apps** – Full connection flow works normally
+- **Restricted apps** – Connection is blocked server-side with error message: "This integration is not available for your account. Please contact your administrator."
+
+### Tier access validation
+
+The system validates app access at multiple levels:
+1. **Client-side** – Only displays allowed apps
+2. **Server-side** – Validates OAuth requests
+3. **API endpoint** – Checks permissions on API key connections
+
+[Insert Screenshot: Customer Integration Grid - Filtered Apps]
+
+## Use cases
+
+### Tier-based packages
+
+Create integration packages for different customer tiers:
+
+**Basic Tier**
+- Gmail
+- Google Calendar
+- Webhooks
+
+**Pro Tier**
+- All Basic apps
+- HubSpot
+- Slack
+- Zapier
+
+**Enterprise Tier**
+- All apps available
+
+### Custom integration bundles
+
+Offer specialized packages:
+
+**CRM Bundle**
+- HubSpot
+- Salesforce
+- Pipedrive
+
+**Communication Bundle**
+- Slack
+- Microsoft Teams
+- Zoom
+
+**Automation Bundle**
+- Zapier
+- Make
+- N8N
+
+[Insert Screenshot: Integration Packages Example]
+
+## Allow all apps vs selective apps
+
+### Allow all apps
+
+To give a customer access to all integration apps:
+
+1. In the app selection modal, check **Select All**.
+2. Save.
+
+This is useful for:
+- Enterprise customers
+- Testing environments
+- Full-featured accounts
+
+### Selective apps
+
+To restrict to specific apps:
+
+1. Uncheck **Select All**.
+2. Check only the apps you want to allow.
+3. Save.
+
+This is useful for:
+- Free tier users
+- Specialized use cases
+- Security-conscious customers
+
+## Integration visibility without apps
+
+If you enable **Show Integration** but don't select any apps:
+- The Integration menu appears in the customer portal
+- No apps are displayed
+- Customer sees an empty state or upgrade prompt
+
+**Best practice:** Always select at least one app when enabling integrations.
+
+## Troubleshooting
+
+### Customer can't see Integration menu
+- Verify **Show Integration** is toggled ON
+- Check that at least one app is selected in **Allowed Apps**
+
+### Customer can't connect an app
+- Confirm the app is in the **Allowed Apps** list
+- Check server logs for permission errors
+- Verify OAuth credentials are configured for the app
+
+### App selection modal doesn't open
+- Ensure **Show Integration** is enabled first
+- Refresh the page and try again
+
+### Changes not reflected in customer portal
+- Customer may need to log out and log back in
+- Clear browser cache
+- Wait 1-2 minutes for cache invalidation
+
+## Best practices
+
+- **Start conservative** – Begin with fewer apps and add more based on customer needs
+- **Document packages** – Create clear tier definitions (Basic, Pro, Enterprise)
+- **Test restrictions** – Verify blocked apps show appropriate error messages
+- **Monitor usage** – Track which apps customers actually use
+- **Regular reviews** – Quarterly review of app access per customer
+
+## Related pages
+
+- [Features & Add-ons](/partner-portal/customers/features-addons-and-menu-visibility) – Menu visibility settings
+- [Integration Settings](/partner-portal/settings/integration-settings) – Configure provider API keys
