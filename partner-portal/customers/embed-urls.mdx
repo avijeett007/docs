@@ -20,6 +20,12 @@ Use cases:
 3. Click **Manage**.
 4. Go to the **Embed URLs** tab.
 
+Before generating embed links, confirm:
+- The customer has portal access enabled.
+- The customer account is active.
+- You are generating the token for the correct customer workspace.
+- You understand where the embed will be used (widget, iframe, or server-side integration).
+
 ## Create an embed token
 
 ### Generate a new token
@@ -41,11 +47,23 @@ Embed tokens are customer-scoped and include:
 - **Expiration** – Tokens may have expiration dates (if configured)
 - **Permissions** – Scoped to what the customer can access
 
+### Important Distinction
+
+Embed tokens are **not** the same as Partner API Keys.
+
+### Key Differences
+
+- Use **Embed URLs / Embed Tokens** for customer-scoped widgets, iframe embeds, and embedded customer experiences.
+- Use [API Keys](/partner-portal/api-keys) for partner-level automations, backend integrations, MCP, and broader platform API access.
+
 ## Use embed tokens
 
 ### In website widgets
 
 Add the token to your widget embed code:
+- Use the **customer embed token**, not a partner API key.
+- Only embed on sites you control or trust.
+- If the token is ever exposed publicly beyond the intended embed, revoke and rotate it.
 
 ```html
 <script>
@@ -60,6 +78,9 @@ Add the token to your widget embed code:
 ### In API requests
 
 Include the token in API headers:
+- Prefer server-side usage where possible.
+- Do **not** swap in a partner API key if the flow is meant to stay customer-scoped.
+- If you are building a mobile or browser-based app, store the token in your backend and proxy requests instead of hardcoding sensitive values in the client.
 
 ```bash
 curl -X GET https://api.knotie-ai.pro/v1/customer/data \
@@ -69,6 +90,9 @@ curl -X GET https://api.knotie-ai.pro/v1/customer/data \
 ### In iframe embeds
 
 Pass the token as a URL parameter:
+- Prefer the **Copy URL** action from the portal when available so you use the exact generated embed URL.
+- Remember that URL tokens can appear in browser history, logs, analytics tools, and referrer flows depending on your setup.
+- If an iframe URL is shared outside its intended environment, revoke the token and generate a new one.
 
 ```html
 <iframe 
@@ -78,7 +102,7 @@ Pass the token as a URL parameter:
 ></iframe>
 ```
 
-[Insert Screenshot: Embed Code Examples]
+![Embed URLs Tab Overview](/images/screenshots/screenshot-2026-03-19-202821.png)
 
 ## Manage existing tokens
 
@@ -97,6 +121,7 @@ To get the full embed URL:
 1. Find the token in the list.
 2. Click **Copy URL**.
 3. The complete embed URL is copied to clipboard.
+4. Paste it only into the destination app, site, or trusted system that should host the embedded experience.
 
 ### Revoke a token
 
@@ -123,7 +148,8 @@ For security, periodically rotate embed tokens:
 
 ### Keep tokens private
 
-- **Never expose in client-side code** – Don't hardcode in public JavaScript
+- **Do not use partner API keys in client-side code** – Keep partner-level credentials in your backend only
+- **Treat embed tokens as controlled customer access credentials** – Only place them where the embedded experience is intentionally allowed to run
 - **Use environment variables** – Store tokens securely on server-side
 - **Avoid version control** – Don't commit tokens to Git repositories
 - **Restrict access** – Only share with authorized developers
@@ -144,7 +170,7 @@ If a token is exposed:
 3. **Update all instances** – Replace in all embed locations
 4. **Audit activity** – Check for unauthorized usage
 
-[Insert Screenshot: Token Security Warning]
+![Token Security Warning](/images/screenshots/screenshot-2026-03-19-163137.png)
 
 ## Common embed scenarios
 
@@ -169,7 +195,7 @@ If a token is exposed:
 3. Use token for API requests from app.
 4. App fetches customer-specific content.
 
-[Insert Screenshot: Common Embed Use Cases]
+![Common Embed Use Cases](/images/Screenshot2025-12-24at1.42.43PM.png)
 
 ## Troubleshooting
 
@@ -178,6 +204,7 @@ If a token is exposed:
 - **Wrong customer ID** – Verify token matches customer
 - **Expired token** – Create new token if expired
 - **Permissions issue** – Ensure customer has necessary feature access
+- **Wrong token type** – Confirm you used an embed token, not a partner API key
 
 ### Widget not loading
 - **CORS issues** – Verify domain is whitelisted
