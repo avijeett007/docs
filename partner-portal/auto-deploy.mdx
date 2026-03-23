@@ -1,0 +1,328 @@
+---
+title: "Auto-deploy"
+description: "Automatically deploy AI agents for customers who complete the SaaS onboarding flow."
+---
+
+## What Auto-Deploy is for
+
+**Auto-Deploy** automatically activates AI agents for customers who complete the full 9-step SaaS onboarding process. This eliminates manual deployment work and provides instant activation for self-service customers.
+
+Use auto-deploy when:
+- Running a SaaS portal with self-service onboarding
+- You want customers to get instant access after signup
+- You have sufficient credits to cover deployments
+
+## How auto-deploy works
+
+### The deployment flow
+
+1. **Customer completes Step 9** – All onboarding steps finished
+2. **System checks prerequisites** – Validates credits, configuration
+3. **Job queued** – Deployment added to KnotieManager queue
+4. **Agent deployed** – AI Receptionist activated automatically
+5. **Customer notified** – Confirmation email sent (if configured)
+
+### Deployment statuses
+
+Customers can have different deployment statuses:
+
+- **not_started** – Onboarding not complete
+- **queued** – Deployment job is in queue
+- **pending_credits** – Waiting for sufficient credits
+- **agent_ready** – Agent deployed but awaiting phone number
+- **completed** – Fully deployed and operational
+- **failed** – Deployment encountered an error
+
+![Deployment Status Overview](/images/screenshots/screenshot-2026-03-19-163428.png)
+
+## Prerequisites for auto-deploy
+
+### 1. SaaS Portal Mode enabled
+
+Auto-deploy requires SaaS mode:
+
+1. Go to **Settings → Whitelabel**.
+2. Select **SaaS Portal** mode.
+3. Enable **SaaS Onboarding**.
+
+### 2. Sufficient credit balance
+
+Your partner account needs minimum credits:
+
+**Free Forever partners:**
+- 1000 cents ($10) Telephony Credits
+- 200 Knotie Credits
+
+**Paid tier partners:**
+- 500 cents ($5) Telephony Credits
+- 200 Knotie Credits
+
+If credits are insufficient, deployment status becomes **pending_credits**.
+
+### 3. Auto-deploy enabled
+
+Toggle auto-deploy in whitelabel settings:
+
+1. Go to **Settings → Whitelabel**.
+2. In **SaaS Portal Configuration**, find **Auto-Deploy Enabled**.
+3. Toggle to ON.
+4. Save settings.
+
+![Auto-Deploy Toggle](/images/screenshots/screenshot-2026-03-19-221234.png)
+
+## Enable auto-deploy
+
+### Step 1: Configure SaaS settings
+
+1. Navigate to **Settings → Whitelabel**.
+2. Select **SaaS Portal** mode.
+3. Configure:
+   - **SaaS Onboarding Enabled** – Toggle ON
+   - **Free AI Credits** – Set initial credits (e.g., 50)
+   - **SaaS Agent Tier** – Choose agent capability level
+
+### Step 2: Enable auto-deploy
+
+1. In the **SaaS Portal Configuration** section.
+2. Find **Auto-Deploy Enabled** toggle.
+3. Set to ON.
+4. Click **Save Settings**.
+
+### Step 3: Ensure credit availability
+
+1. Check your credit balance in **Credits** page.
+2. Top up if below minimum thresholds.
+3. Set up low-credit alerts to avoid deployment failures.
+
+![Auto-Deploy Configuration](/images/screenshots/screenshot-2026-03-19-221234.png)
+
+## What happens during auto-deploy
+
+### Phase 1: Customer completes onboarding
+
+When a customer finishes Step 9:
+1. Customer data is validated.
+2. AI credits are enabled for the customer.
+3. Deployment status is determined.
+
+### Phase 2: Credit validation
+
+System checks partner credit balance:
+
+**If sufficient credits:**
+- Deployment status → `queued`
+- Job sent to KnotieManager
+
+**If insufficient credits:**
+- Deployment status → `pending_credits`
+- Email notification sent to partner
+- Customer can still access portal but agent is inactive
+
+### Phase 3: Deployment execution
+
+KnotieManager processes the job:
+
+1. **Agent creation** – AI agent configured based on onboarding data
+2. **Knowledge base setup** – Customer's uploaded documents processed
+3. **Voice selection** – AI voice assigned based on agent tier
+4. **Integration configuration** – Tools and integrations activated
+5. **Final validation** – System checks all components
+
+### Phase 4: Completion
+
+**On success:**
+- Deployment status → `completed`
+- Customer can make/receive calls
+- Confirmation email sent
+
+**On failure:**
+- Deployment status → `failed`
+- Error logged for review
+- Support notification sent
+
+![Auto-Deploy Process Flow](/images/screenshots/screenshot-2026-03-19-195117.png)
+
+## Monitor deployment status
+
+### In Customer List
+
+View deployment status for each customer:
+
+1. Go to **Customer List**.
+2. Each customer shows a status badge:
+   - **Queued** – Deployment in progress (spinning icon)
+   - **Pending Credits** – Waiting for credits (amber)
+   - **Agent Ready** – Deployed successfully (green)
+   - **Completed** – Fully operational (green)
+   - **Failed** – Deployment error (red)
+
+### Continue deployment manually
+
+If a customer is **pending_credits**, you can resume deployment:
+
+1. Top up your credits.
+2. Find the customer in Customer List.
+3. Click **Continue Deployment** button.
+4. System re-queues the deployment job.
+
+![Continue Deployment Workflow](/images/screenshots/screenshot-2026-03-19-163428.png)
+
+## Deployment notifications
+
+### Insufficient credits notification
+
+When auto-deploy fails due to insufficient credits, you receive an email:
+
+**Subject:** ⚠️ Auto-Deployment Pending - Credits Required - [Customer Name]
+
+**Contains:**
+- Customer details
+- Current credit balance
+- Minimum required credits
+- Link to top up credits
+
+### Deployment failure notification
+
+If deployment fails for other reasons, support receives notification with:
+- Customer information
+- Error details
+- Troubleshooting steps
+
+![Deployment Notification Context](/images/Screenshot2025-12-28at01.54.56.png)
+
+## Credit requirements explained
+
+### Why minimum credits are required
+
+Auto-deploy requires upfront credits to ensure:
+- Agent can be activated without interruption
+- Customer has immediate access to services
+- No failed deployments due to insufficient funds
+
+### How credits are consumed
+
+During auto-deploy:
+
+1. **Telephony Credits** – Phone number provisioning, call routing setup
+2. **Knotie Credits** – AI agent processing, knowledge base embedding, tool initialization
+
+The exact amount consumed depends on:
+- Agent tier selected
+- Knowledge base size
+- Number of integrations
+- Tool complexity
+
+### Free AI Credits for customers
+
+Customers receive **Free AI Credits** (configured in SaaS settings):
+- These are separate from your partner credits
+- Used for initial testing and onboarding calls
+- Configurable per partner (default: 50 credits)
+
+## Troubleshooting
+
+### Auto-deploy not triggering
+
+**Possible causes:**
+- Auto-Deploy toggle is OFF
+- SaaS Onboarding not enabled
+- Customer didn't complete all 9 steps
+- Partner credits below minimum threshold
+
+**Solution:**
+1. Verify auto-deploy is enabled in Settings → Whitelabel.
+2. Check customer completed Step 9 in Prospects list.
+3. Confirm credit balance meets minimums.
+
+### Deployment stuck in "queued"
+
+**Possible causes:**
+- KnotieManager queue backlog
+- Network issues
+- Configuration errors
+
+**Solution:**
+1. Wait 5-10 minutes for queue processing.
+2. Check deployment status in Customer List.
+3. Contact support if stuck for >30 minutes.
+
+### Deployment failed
+
+**Possible causes:**
+- Invalid customer data
+- Missing required integrations
+- Agent configuration errors
+- Knowledge base processing failure
+
+**Solution:**
+1. Review customer's onboarding data for completeness.
+2. Check error message in deployment logs.
+3. Manually configure missing elements.
+4. Retry deployment from Customer List.
+
+### Credits deducted but agent not deployed
+
+**Possible causes:**
+- Deployment job failed mid-process
+- Credits consumed for partial setup
+
+**Solution:**
+1. Check Customer List for deployment status.
+2. Review credit history for transaction details.
+3. Manually complete deployment if needed.
+4. Contact support for credit refund if applicable.
+
+## Manual deployment fallback
+
+If auto-deploy is disabled or fails, you can deploy manually:
+
+1. Go to **Customer List**.
+2. Select the customer.
+3. Click **Manage**.
+4. Go to **Deployment** tab.
+5. Configure agent settings manually.
+6. Click **Deploy Agent**.
+
+This gives you full control over the deployment process.
+
+![Manual Deployment Tab](/images/screenshots/screenshot-2026-03-19-163428.png)
+
+## Best practices
+
+### Credit management
+
+- **Maintain buffer** – Keep 5-10x minimum credits for multiple deployments
+- **Set up alerts** – Configure low-credit notifications
+- **Monitor consumption** – Track credit usage per deployment
+- **Automate top-ups** – Use recurring payments for credit purchases
+
+### Deployment monitoring
+
+- **Check daily** – Review pending deployments each morning
+- **Follow up quickly** – Address pending_credits status within hours
+- **Track success rate** – Monitor deployment success vs failure ratio
+- **Optimize onboarding** – Reduce friction points causing deployment failures
+
+### Customer experience
+
+- **Set expectations** – Inform customers deployment may take 5-10 minutes
+- **Provide generous free credits** – Allow thorough testing before purchase
+- **Send confirmation emails** – Notify when deployment completes
+- **Offer support** – Be available for questions during initial setup
+
+## Auto-deploy vs manual deployment
+
+| Feature | Auto-Deploy | Manual Deployment |
+|---------|-------------|-------------------|
+| **Speed** | Instant (5-10 min) | Requires partner action |
+| **Scalability** | Handles unlimited customers | Limited by partner availability |
+| **Customization** | Uses templates | Full control |
+| **Credit requirement** | Upfront minimums | Per-deployment |
+| **Best for** | SaaS/self-service | Custom/enterprise customers |
+
+## Related pages
+
+- [SaaS Portal Mode](/partner-portal/settings/saas-portal-mode) – Configure SaaS mode
+- [Prospects](/partner-portal/prospects) – Track onboarding progress
+- [Credits Management](/partner-portal/credits) – Top up credits
+- [Deployment Status Tracking](/partner-portal/customers/deployment-status-tracking) – Monitor deployments

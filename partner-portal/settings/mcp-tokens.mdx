@@ -1,0 +1,84 @@
+---
+title: "MCP Tokens"
+description: "Generate and manage MCP tokens for AI coding assistants and automation tools."
+---
+
+## What MCP Tokens are for
+
+**MCP Tokens** (Model Context Protocol tokens) allow AI coding assistants like Cursor, Windsurf, and Claude to interact with your Knotie AI Pro account programmatically.
+
+Use MCP tokens when you want to:
+
+- **Automate workflows** – Let AI tools manage customers, agents, or credits.
+- **Build integrations** – Connect Knotie AI Pro to your development environment.
+- **Access data** – Query analytics and customer information via AI assistants.
+
+## Where to find it
+
+1. Open **Settings**.
+2. Scroll to the bottom of the page.
+3. Find the **MCP Tokens** section.
+
+![MCP Tokens Section](/images/screenshots/screenshot-2026-03-19-212021.png)
+
+## Generate an MCP token
+
+1. In the **MCP Tokens** section, click **Generate Token**.
+2. Give the token a descriptive name (e.g., "Cursor Development").
+3. Copy the generated token immediately—it won't be shown again.
+4. Store the token securely in a password manager.
+
+![Create MCP Token Modal](/images/screenshots/screenshot-2026-03-19-212041.png)
+
+## Using MCP tokens
+
+### With Cursor
+
+Add your MCP token to Cursor's settings to enable Knotie AI Pro integration:
+
+1. Open Cursor settings.
+2. Navigate to MCP configuration.
+3. Add your Knotie AI Pro endpoint and token.
+
+### With Windsurf
+
+Configure MCP in Windsurf:
+
+1. Open Windsurf settings.
+2. Add MCP server configuration.
+3. Include your token in the authentication header.
+
+### With Claude Desktop
+
+Set up MCP for Claude Desktop:
+
+1. Edit your Claude configuration file.
+2. Add the Knotie AI Pro MCP server.
+3. Include your authentication token.
+
+## Token security
+
+- **Never share tokens** – Treat MCP tokens like passwords.
+- **Rotate regularly** – Generate new tokens periodically.
+- **Revoke unused tokens** – Delete tokens you no longer need.
+- **Use separate tokens** – Create different tokens for different tools/environments.
+
+## Revoking tokens
+
+1. Go to **Settings → MCP Tokens**.
+2. Find the token you want to revoke.
+3. Click **Delete** or **Revoke**.
+4. Confirm the action.
+
+Once revoked, the token immediately stops working.
+
+## Troubleshooting
+
+- **Token not working** – Confirm you copied the full token without extra spaces.
+- **Access denied** – Check that your account has API access enabled.
+- **Can't find MCP Tokens section** – Scroll to the bottom of the Settings page.
+
+## Related pages
+
+- [API Keys](/partner-portal/api-keys) – Partner API keys for general automation
+- [MCP API Reference](/api-reference/mcp/introduction) – Endpoint documentation

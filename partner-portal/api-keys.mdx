@@ -13,6 +13,8 @@ Common uses:
 - Internal dashboards
 - Custom scripts for customer onboarding
 
+For customer-scoped widgets, iframe embeds, and embedded portal access, use [Embed URLs](/partner-portal/customers/embed-urls) instead of a partner API key.
+
 ## Where to find it
 
 In the Partner Portal:
@@ -44,6 +46,55 @@ If you’re using MCP endpoints, you’ll typically pass your key in an `X-API-K
 
 (Your API Reference section includes copy/paste examples.)
 
+## Platform API
+
+The **Platform API** allows you to programmatically interact with Knotie AI Pro features:
+
+- Create and manage customers
+- Trigger automations
+- Access analytics data
+- Manage credits and billing
+
+To use the Platform API:
+
+1. Generate an API key from **Settings → API Keys**.
+2. Include the key in your API requests.
+3. Refer to the **API Reference** section for endpoint documentation.
+
+![Platform API Settings](/images/screenshots/screenshot-2026-03-19-211740.png)
+
+## API Gateway
+
+The **API Gateway** feature provides advanced API management with four different types of API keys:
+
+### 1. Partner API Key
+- Full access to partner-level operations
+- Used for internal dashboards and automations
+- Highest privilege level
+
+### 2. Customer API Key
+- Scoped to a specific customer
+- Limited to customer-specific operations
+- Ideal for customer-facing integrations
+
+### 3. Read-Only API Key
+- Can only fetch data (GET requests)
+- Cannot modify any resources
+- Safe for analytics dashboards
+
+### 4. Webhook API Key
+- Used specifically for webhook integrations
+- Limited to webhook-related endpoints
+- Secure callback authentication
+
+![API Gateway - 4 Key Types](/images/screenshots/screenshot-2026-03-19-211713.png)
+
+### Best practices for API Gateway
+
+- Use the **least privilege** key type for each use case.
+- Rotate keys regularly, especially after team changes.
+- Monitor key usage in **Agent Analytics**.
+
 ## Troubleshooting
 
 - **I don’t see API Keys under Settings**
@@ -55,8 +106,4 @@ If you’re using MCP endpoints, you’ll typically pass your key in an `X-API-K
 
 ## Screenshot
 
-![Screenshot2025 12 28at01 49 55](/images/Screenshot2025-12-28at01.49.55.png)
-
-![Screenshot2025 12 28at01 50 46](/images/Screenshot2025-12-28at01.50.46.png)
-
-![Screenshot2025 12 28at01 50 29](/images/Screenshot2025-12-28at01.50.29.png)
+![Create API Key Modal](/images/screenshots/screenshot-2026-03-19-211904.png)
