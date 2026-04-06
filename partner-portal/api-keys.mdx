@@ -1,109 +1,73 @@
 ---
-title: "API keys (Partner Settings)"
-description: "Create and manage Partner API keys for automation, MCP, and secure programmatic access."
+title: "API access overview"
+description: "Understand when to use AI Gateway, customer API keys, MCP tokens, and embed URLs."
 ---
 
-## What API Keys are for
+## Start here first
 
-**API Keys** let you connect Knotie AI Pro to external tools and automations.
+If you are looking for the current OpenAI-compatible API key flow, use the top-level [AI Gateway](/partner-portal/ai-gateway) page.
 
-Common uses:
+That is where partners now:
 
-- AI automation (MCP)
-- Internal dashboards
-- Custom scripts for customer onboarding
+- Create virtual LLM keys
+- Control model access
+- Manage budgets and top-ups
+- Regenerate or revoke keys
+- Configure customer self-service AI Gateway access
 
-For customer-scoped widgets, iframe embeds, and embedded portal access, use [Embed URLs](/partner-portal/customers/embed-urls) instead of a partner API key.
+## Which option to use
 
-## Where to find it
+### AI Gateway
 
-In the Partner Portal:
+Use [AI Gateway](/partner-portal/ai-gateway) when you need:
 
-1. Open **Settings**.
-2. Click **API Keys**.
+- OpenAI-compatible virtual keys
+- Model restrictions
+- Metered LLM usage
+- Customer-billed AI Gateway keys
+- Customer self-service key creation from the whitelabel portal
 
-## Create a new API key
+### Customer portal API Keys
 
-On the API Keys page:
+Use the customer-side **API Keys** menu when a customer needs standard programmatic access that depends on:
 
-1. Click **Create API Key** (or the create action shown in the key manager section).
-2. Give the key a name you’ll recognize (example: “N8N Production”).
-3. Save.
+- **API Access** being enabled
+- **API Keys** menu visibility being enabled
 
-Important: copy the key and store it safely.
+This is separate from **AI Gateway**.
 
-## Keep keys secure
+### MCP Tokens
 
-API keys should be treated like passwords.
+Use **MCP Tokens** when you are working with MCP-specific integrations and agent tooling.
 
-- Do not paste keys into client-side code.
-- Use a password manager or secrets vault.
-- Rotate keys if a contractor leaves your team.
+### Embed URLs
 
-## Using your API key with MCP
+Use [Embed URLs](/partner-portal/customers/embed-urls) for:
 
-If you’re using MCP endpoints, you’ll typically pass your key in an `X-API-Key` header.
+- Customer-scoped widgets
+- Embedded portal experiences
+- iframe or embedded access flows
 
-(Your API Reference section includes copy/paste examples.)
+Do **not** use a partner AI Gateway key for embedded customer portal access.
 
-## Platform API
+## Security reminders
 
-The **Platform API** allows you to programmatically interact with Knotie AI Pro features:
+Treat any key or token like a password:
 
-- Create and manage customers
-- Trigger automations
-- Access analytics data
-- Manage credits and billing
+- Never expose it in client-side code unless that flow is specifically designed for browser use
+- Store it in a secrets manager or password vault
+- Rotate it after team changes or suspected exposure
 
-To use the Platform API:
+## Common confusion to avoid
 
-1. Generate an API key from **Settings → API Keys**.
-2. Include the key in your API requests.
-3. Refer to the **API Reference** section for endpoint documentation.
+- **AI Gateway** is for metered LLM access.
+- **API Keys** visibility in the client portal depends on **API Access**.
+- **AI Gateway** visibility in the client portal depends on **AI Credits** plus the partner self-service setting.
+- **Embed URLs** are for embedded customer experiences, not server-side partner automation.
 
-![Platform API Settings](/images/screenshots/screenshot-2026-03-19-211740.png)
+## Related pages
 
-## API Gateway
-
-The **API Gateway** feature provides advanced API management with four different types of API keys:
-
-### 1. Partner API Key
-- Full access to partner-level operations
-- Used for internal dashboards and automations
-- Highest privilege level
-
-### 2. Customer API Key
-- Scoped to a specific customer
-- Limited to customer-specific operations
-- Ideal for customer-facing integrations
-
-### 3. Read-Only API Key
-- Can only fetch data (GET requests)
-- Cannot modify any resources
-- Safe for analytics dashboards
-
-### 4. Webhook API Key
-- Used specifically for webhook integrations
-- Limited to webhook-related endpoints
-- Secure callback authentication
-
-![API Gateway - 4 Key Types](/images/screenshots/screenshot-2026-03-19-211713.png)
-
-### Best practices for API Gateway
-
-- Use the **least privilege** key type for each use case.
-- Rotate keys regularly, especially after team changes.
-- Monitor key usage in **Agent Analytics**.
-
-## Troubleshooting
-
-- **I don’t see API Keys under Settings**
-  - You may be logged in as a team member without settings permissions.
-  - Ask the account owner to grant access.
-- **My API calls fail**
-  - Confirm you’re using the correct key.
-  - Confirm the base URL for the endpoint.
-
-## Screenshot
-
-![Create API Key Modal](/images/screenshots/screenshot-2026-03-19-211904.png)
+- [AI Gateway](/partner-portal/ai-gateway)
+- [Features, add-ons, and menu visibility](/partner-portal/customers/features-addons-and-menu-visibility)
+- [Embed URLs](/partner-portal/customers/embed-urls)
+- [MCP tokens](/partner-portal/settings/mcp-tokens)
