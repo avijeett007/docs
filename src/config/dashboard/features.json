@@ -1,0 +1,49 @@
+{
+  "title": {
+    "main": "Your All-in-One",
+    "highlight": "AI Agency Platform"
+  },
+  "currentFeatures": [
+    {
+      "title": "VAPI Integration",
+      "description": "Import your VAPI agents with a simple API key - manage, track, and set custom pricing",
+      "iconName": "Link2"
+    },
+    {
+      "title": "Retell Integration",
+      "description": "Seamlessly bring your Retell agents into a centralized dashboard with full analytics",
+      "iconName": "Network"
+    },
+    {
+      "title": "Profit Multiplier",
+      "description": "Set custom markup pricing for each client and maximize your profit margins",
+      "iconName": "BarChart3"
+    }
+  ],
+  "upcomingFeatures": {
+    "sectionTitle": "Coming Soon",
+    "features": [
+      {
+        "title": "White-labeled Client Portal",
+        "description": "Provide your customers with a branded dashboard to manage their voice AI agents",
+        "iconName": "Globe",
+        "isUpcoming": true,
+        "comingSoonDate": "Coming Q2 2025"
+      },
+      {
+        "title": "Unified Analytics",
+        "description": "View consolidated performance metrics across all your voice AI platforms",
+        "iconName": "BarChart3",
+        "isUpcoming": true,
+        "comingSoonDate": "Coming Q1 2025"
+      },
+      {
+        "title": "Native Voice AI Platform",
+        "description": "Create and deploy your own voice AI agents directly through Knotie-AI Pro",
+        "iconName": "Mic",
+        "isUpcoming": true,
+        "comingSoonDate": "Future Feature"
+      }
+    ]
+  }
+}

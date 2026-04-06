@@ -1,0 +1,952 @@
+{
+  "dashboard": {
+    "hero": {
+      "defaultTitle": "Sprach-KI Portal",
+      "defaultSlogan": "Angetrieben von fortschrittlicher Sprach-KI-Technologie",
+      "getStarted": "Loslegen",
+      "learnMore": "Mehr Erfahren",
+      "login": "Anmelden",
+      "loginToDashboard": "Zum Dashboard anmelden",
+      "startFreeTrial": "Kostenlose Testversion Starten",
+      "customerEngagement": "Kundenbindung"
+    },
+    "features": {
+      "title": "KI-gestützte Sprachlösungen",
+      "subtitle": "Integrieren Sie nahtlos Sprach-KI in Ihre Geschäftsabläufe für verbesserte Kundenerfahrungen und optimierte Arbeitsabläufe.",
+      "availability": {
+        "title": "24/7 Verfügbarkeit",
+        "description": "Stellen Sie sicher, dass Ihr Unternehmen für Kunden immer erreichbar ist mit KI-gestützten Sprachantworten.",
+        "benefits": [
+          "Verpassen Sie nie einen Anruf",
+          "Sofortige Antwortzeit",
+          "Globale Zeitzonenunterstützung"
+        ]
+      },
+      "analytics": {
+        "title": "Analytics Dashboard",
+        "description": "Verfolgen Sie Kundeninteraktionen und gewinnen Sie Einblicke mit detaillierten Gesprächsanalysen.",
+        "benefits": [
+          "Echtzeitmetriken",
+          "Gesprächseinblicke",
+          "Leistungsverfolgung"
+        ]
+      },
+      "multiChannel": {
+        "title": "Multi-Channel-Support",
+        "description": "Verbinden Sie sich mit Kunden über Sprache, SMS, E-Mail und mehr von einer einzigen Plattform.",
+        "benefits": [
+          "Einheitlicher Posteingang",
+          "Plattformübergreifende Synchronisation",
+          "Nahtlose Übergaben"
+        ]
+      },
+      "security": {
+        "title": "Unternehmenssicherheit",
+        "description": "Bankniveau-Sicherheit mit Ende-zu-Ende-Verschlüsselung und Compliance-Zertifizierungen.",
+        "benefits": [
+          "SOC 2 konform",
+          "GDPR bereit",
+          "Datenverschlüsselung"
+        ]
+      },
+      "collaboration": {
+        "title": "Team-Zusammenarbeit",
+        "description": "Ermöglichen Sie Ihrem Team die Zusammenarbeit mit gemeinsamen Arbeitsbereichen und Echtzeit-Updates.",
+        "benefits": [
+          "Gemeinsame Dashboards",
+          "Team-Berechtigungen",
+          "Aktivitätsprotokolle"
+        ]
+      },
+      "integration": {
+        "title": "Einfache Integration",
+        "description": "Verbinden Sie sich mit Ihren bestehenden Tools und Arbeitsabläufen über unsere umfassende API.",
+        "benefits": [
+          "REST API",
+          "Webhooks",
+          "Vorgefertigte Konnektoren"
+        ]
+      }
+    },
+    "testimonials": {
+      "title": "Was Unsere Kunden Sagen",
+      "subtitle": "Schließen Sie sich Tausenden zufriedener Kunden an, die ihr Geschäft mit unseren Sprach-KI-Lösungen transformiert haben."
+    },
+    "cta": {
+      "title": "Bereit anzufangen?",
+      "subtitle": "Schließen Sie sich Tausenden von Unternehmen an, die bereits unsere Sprach-KI-Lösungen nutzen, um Kundenerfahrungen zu verbessern und Wachstum zu fördern.",
+      "getStarted": "Loslegen",
+      "learnMore": "Mehr Erfahren"
+    },
+    "integrations": {
+      "title": "Nahtlose Integrationen",
+      "subtitle": "Verbinden Sie sich mit Ihren bevorzugten Tools und Plattformen, um Ihren Arbeitsablauf zu optimieren und die Produktivität zu maximieren."
+    },
+    "footer": {
+      "privacyPolicy": "Datenschutzrichtlinie",
+      "termsOfService": "Nutzungsbedingungen",
+      "cookiePolicy": "Cookie-Richtlinie",
+      "contactUs": "Kontaktieren Sie Uns",
+      "product": "Produkt",
+      "support": "Support",
+      "features": "Funktionen",
+      "pricing": "Preise",
+      "integrations": "Integrationen",
+      "apiDocumentation": "API-Dokumentation",
+      "systemStatus": "Systemstatus",
+      "helpCenter": "Hilfezentrum",
+      "contactSupport": "Support kontaktieren",
+      "tutorials": "Tutorials",
+      "community": "Community",
+      "stayUpdated": "Bleiben Sie auf dem Laufenden",
+      "newsletterDescription": "Erhalten Sie die neuesten Updates und Einblicke direkt in Ihren Posteingang.",
+      "enterEmail": "E-Mail eingeben",
+      "subscribe": "Abonnieren",
+      "privacyNote": "Wir respektieren Ihre Privatsphäre. Jederzeit abbestellbar.",
+      "followUs": "Folgen Sie uns",
+      "legal": "Rechtliches",
+      "allRightsReserved": "Alle Rechte vorbehalten.",
+      "secureCompliant": "Sicher & Konform",
+      "uptime": "99,9% Betriebszeit"
+    },
+    "faqs": {
+      "defaultQuestions": [
+        {
+          "question": "Wie schnell kann ich anfangen?",
+          "answer": "Sie können sofort anfangen! Melden Sie sich für ein kostenloses Konto an und Sie haben innerhalb von Minuten Zugang zu unserer Sprach-KI-Plattform. Unser Setup-Assistent führt Sie durch die anfängliche Konfiguration."
+        },
+        {
+          "question": "Welche Art von Support bieten Sie?",
+          "answer": "Wir bieten 24/7 Kundensupport über mehrere Kanäle einschließlich Live-Chat, E-Mail und Telefon. Unser engagiertes Support-Team ist hier, um Ihnen zum Erfolg mit unserer Plattform zu verhelfen."
+        },
+        {
+          "question": "Sind meine Daten sicher?",
+          "answer": "Absolut. Wir verwenden Sicherheit auf Unternehmensebene mit Ende-zu-Ende-Verschlüsselung, SOC 2-Compliance und DSGVO-Compliance. Ihre Daten werden sicher gespeichert und niemals mit Dritten geteilt."
+        }
+      ]
+    }
+  },
+  "saas": {
+    "landing": {
+      "hero": {
+        "meet": "Lernen Sie kennen",
+        "aiReceptionist": "Ihren KI-Empfang",
+        "subheadline": "Verpassen Sie nie wieder einen Anruf. {brandName} betreut Ihre Kunden rund um die Uhr mit professionellen, intelligenten Gesprächen, die Termine buchen, Fragen beantworten und Ihr Geschäft wachsen lassen.",
+        "benefit1": "24/7 Verfügbarkeit",
+        "benefit2": "Nie Anrufe Verpassen",
+        "benefit3": "Zufriedene Kunden",
+        "benefit4": "Umsatz Steigern",
+        "ctaFree": "Jetzt KOSTENLOS Starten",
+        "cta": "Legen Wir Los",
+        "loginPrompt": "Schon ein Konto? Hier anmelden",
+        "noCreditCard": "Keine Kreditkarte erforderlich • Einrichtung in 5 Minuten",
+        "incomingCall": "Eingehender Anruf",
+        "customerCalling": "Kunde ruft an...",
+        "answering": "Wird beantwortet...",
+        "aiGreeting": "Hallo! Hier ist {brandName}. Wie kann ich Ihnen heute helfen?",
+        "customerRequest": "Ich möchte einen Termin für morgen buchen",
+        "aiResponse": "Gerne helfe ich Ihnen! Lassen Sie mich die Verfügbarkeit prüfen..."
+      },
+      "features": {
+        "whyChoose": "Warum Wählen",
+        "subtitle": "Transformieren Sie Ihr Unternehmen mit KI-gesteuertem Kundenservice, der rund um die Uhr arbeitet, um Ihren Umsatz zu steigern und Ihre Kunden zu begeistern.",
+        "items": {
+          "neverMissCall": {
+            "title": "Nie einen Anruf Verpassen",
+            "description": "Ihr KI-Empfang beantwortet jeden Anruf sofort, auch wenn Sie beschäftigt sind oder außerhalb der Geschäftszeiten."
+          },
+          "smartBooking": {
+            "title": "Intelligente Terminbuchung",
+            "description": "Plant automatisch Termine basierend auf Ihrer Verfügbarkeit und Geschäftsregeln."
+          },
+          "naturalConversations": {
+            "title": "Natürliche Gespräche",
+            "description": "Führt menschenähnliche Gespräche, die auf Ihr Unternehmen zugeschnitten sind."
+          },
+          "availability24_7": {
+            "title": "24/7 Verfügbarkeit",
+            "description": "Arbeitet rund um die Uhr, um Leads zu erfassen und Kunden zu betreuen, wenn Sie es nicht können."
+          },
+          "customerInfo": {
+            "title": "Kundeninformationen",
+            "description": "Sammelt und organisiert Kundendetails für besseren Service und Nachverfolgung."
+          },
+          "growBusiness": {
+            "title": "Lassen Sie Ihr Unternehmen Wachsen",
+            "description": "Wandelt mehr Anrufe in Kunden um mit professionellem, konsistentem Service."
+          },
+          "instantNotifications": {
+            "title": "Sofortige Benachrichtigungen",
+            "description": "Werden Sie sofort über wichtige Anrufe und Kundenanfragen informiert."
+          },
+          "easySetup": {
+            "title": "Einfache Einrichtung",
+            "description": "Bringen Sie Ihren KI-Empfang in nur 5 Minuten mit unserer geführten Einrichtung zum Laufen."
+          }
+        },
+        "cta": {
+          "title": "Bereit, Ihr Unternehmen zu Transformieren?",
+          "subtitle": "Schließen Sie sich Tausenden von Unternehmen an, die mit {brandName} nie wieder einen Kundenanruf verpassen.",
+          "button": "Jetzt Loslegen"
+        }
+      },
+      "footer": {
+        "poweredBy": "Angetrieben von fortschrittlicher KI-Technologie, um Ihre Geschäftskommunikation zu transformieren.",
+        "quickLinks": "Schnelllinks",
+        "getStarted": "Loslegen",
+        "features": "Funktionen",
+        "testimonials": "Referenzen",
+        "faq": "FAQ",
+        "resources": "Ressourcen",
+        "helpCenter": "Hilfecenter",
+        "contactUs": "Kontakt",
+        "privacyPolicy": "Datenschutzrichtlinie",
+        "termsOfService": "Nutzungsbedingungen",
+        "followUs": "Folgen Sie Uns",
+        "allRightsReserved": "Alle Rechte vorbehalten."
+      },
+      "faqs": {
+        "title": "Häufig Gestellte Fragen",
+        "subtitle": "Erhalten Sie Antworten auf häufige Fragen zu unserer Sprach-KI-Plattform.",
+        "items": {
+          "getStarted": {
+            "question": "Wie schnell kann ich loslegen?",
+            "answer": "Sie können sofort loslegen! Melden Sie sich für ein kostenloses Konto an und Sie haben innerhalb von Minuten Zugriff auf unsere Sprach-KI-Plattform. Unser Einrichtungsassistent führt Sie durch die anfängliche Konfiguration."
+          },
+          "dataSecurity": {
+            "question": "Sind meine Daten sicher?",
+            "answer": "Absolut. Wir verwenden Sicherheit auf Unternehmensniveau mit Ende-zu-Ende-Verschlüsselung, SOC 2-Konformität und DSGVO-Konformität. Ihre Daten werden sicher gespeichert und niemals an Dritte weitergegeben."
+          },
+          "integrations": {
+            "question": "Kann ich mit meinen bestehenden Tools integrieren?",
+            "answer": "Ja! Unsere Plattform bietet umfassende APIs und vorgefertigte Integrationen mit beliebten CRM-, Helpdesk- und Kommunikationstools. Wir bieten auch Webhooks für benutzerdefinierte Integrationen."
+          },
+          "freeTrial": {
+            "question": "Was ist in der kostenlosen Testversion enthalten?",
+            "answer": "Unsere kostenlose Testversion umfasst vollen Zugriff auf alle Funktionen für 14 Tage, bis zu 100 Sprachinteraktionen und dedizierten Onboarding-Support, um das Beste aus der Plattform herauszuholen."
+          },
+          "pricing": {
+            "question": "Wie funktioniert die Preisgestaltung?",
+            "answer": "Wir bieten flexible Preise basierend auf Ihren Nutzungsbedürfnissen. Sie können mit unserem kostenlosen Tarif beginnen und skalieren, wenn Ihr Unternehmen wächst. Alle Pläne umfassen Kernfunktionen mit zusätzlichen Fähigkeiten in höheren Stufen."
+          }
+        },
+        "stillHaveQuestions": "Haben Sie noch Fragen?",
+        "contactSupport": "Support Kontaktieren",
+        "getStarted": "Loslegen"
+      },
+      "testimonials": {
+        "title": "Was Unsere Kunden Sagen",
+        "subtitle": "Schließen Sie sich Tausenden zufriedener Unternehmen an, die ihren Kundenservice mit KI transformiert haben.",
+        "items": {
+          "sarah": {
+            "name": "Sarah Johnson",
+            "role": "Inhaberin einer Arztpraxis",
+            "content": "Unser KI-Empfang war ein Game-Changer. Wir verpassen keine Termine mehr und Patienten lieben die 24/7-Verfügbarkeit."
+          },
+          "mike": {
+            "name": "Mike Chen",
+            "role": "Restaurant-Manager",
+            "content": "Reservierungen werden perfekt abgewickelt, selbst während unserer geschäftigsten Stunden. Es ist wie ein engagierter Mitarbeiter, der nie eine Pause macht."
+          },
+          "lisa": {
+            "name": "Lisa Rodriguez",
+            "role": "Anwaltskanzlei-Partnerin",
+            "content": "Professionell, zuverlässig und immer verfügbar. Unsere Klienten sind beeindruckt von der Servicequalität und Reaktionsfähigkeit."
+          }
+        },
+        "readMore": "Mehr Bewertungen Lesen",
+        "stats": {
+          "callsHandled": {
+            "value": "10.000+",
+            "label": "Anrufe Bearbeitet"
+          },
+          "uptime": {
+            "value": "99,9%",
+            "label": "Betriebszeit"
+          },
+          "availability": {
+            "value": "24/7",
+            "label": "Verfügbarkeit"
+          },
+          "setupTime": {
+            "value": "5 Min",
+            "label": "Einrichtungszeit"
+          }
+        }
+      },
+      "trustIndicators": {
+        "title": "Vertraut von Unternehmen Weltweit",
+        "items": {
+          "activeUsers": "10.000+ Aktive Benutzer",
+          "uptime": "99,9% Betriebszeitgarantie",
+          "security": "Unternehmenssicherheit",
+          "support": "24/7 Support"
+        }
+      },
+      "loading": "Ihr KI-Empfangserlebnis wird geladen...",
+      "error": {
+        "title": "Dienst Nicht Verfügbar",
+        "message": "Der KI-Empfangsdienst kann nicht geladen werden. Bitte versuchen Sie es später erneut.",
+        "tryAgain": "Erneut Versuchen"
+      }
+    },
+    "onboarding": {
+      "step1": {
+        "title": "Lassen Sie uns {brandName} für Ihr Unternehmen einrichten",
+        "subtitle": "Erzählen Sie uns zunächst von Ihrem Unternehmen, damit wir Ihren KI-Empfangsmitarbeiter anpassen können",
+        "businessName": "Firmenname",
+        "businessNamePlaceholder": "Geben Sie Ihren Firmennamen ein",
+        "website": "Website-URL",
+        "websitePlaceholder": "https://ihrewebsite.de",
+        "noWebsite": "Ich habe noch keine Website",
+        "industry": "Branche",
+        "industryPlaceholder": "Wählen Sie Ihre Branche",
+        "continue": "Weiter",
+        "stepIndicator": "Schritt 1 von 9"
+      },
+      "step2": {
+        "title": "Ihre Website wird überprüft",
+        "subtitle": "Wir analysieren Ihre Website, um Ihr Unternehmen besser zu verstehen",
+        "stepIndicator": "Schritt 2 von 9",
+        "verificationMessages": [
+          "Verbindung zu Ihrer Website wird hergestellt...",
+          "Ihr Geschäftsinhalt wird analysiert...",
+          "Ihre Dienstleistungen werden verstanden...",
+          "Ihre Geschäftskategorie wird identifiziert...",
+          "Die Einrichtung Ihres KI-Assistenten wird abgeschlossen..."
+        ],
+        "marketingMessages": [
+          "Cherry wird jeden Anruf beantworten, 24/7 - verpassen Sie nie wieder einen Kunden!",
+          "Termine automatisch buchen und Bestätigungen an Ihren Kalender senden.",
+          "Mehrere Anrufe gleichzeitig bearbeiten, während Sie sich auf Ihr Geschäft konzentrieren.",
+          "Speziell auf Ihr Unternehmen trainiert, um genaue, hilfreiche Antworten zu geben.",
+          "Komplexe Anrufe nahtlos an Sie weiterleiten, wenn nötig."
+        ]
+      },
+      "step3": {
+        "title": "Erzählen Sie uns von sich",
+        "subtitle": "Wir benötigen Ihre Kontaktdaten, um Ihr Konto einzurichten und {brandName} bereitzustellen",
+        "firstName": "Vorname",
+        "firstNamePlaceholder": "Geben Sie Ihren Vornamen ein",
+        "lastName": "Nachname",
+        "lastNamePlaceholder": "Geben Sie Ihren Nachnamen ein",
+        "email": "E-Mail-Adresse",
+        "emailPlaceholder": "Geben Sie Ihre E-Mail-Adresse ein",
+        "phone": "Telefonnummer",
+        "phonePlaceholder": "Geben Sie Ihre Telefonnummer ein",
+        "continue": "Weiter",
+        "stepIndicator": "Schritt 3 von 9"
+      },
+      "step4": {
+        "title": "Welche Dienstleistungen bietet Ihr Unternehmen an?",
+        "subtitle": "Wählen Sie die Dienstleistungen aus, die Sie anbieten, damit {brandName} Kundenfragen genau beantworten kann",
+        "stepIndicator": "Schritt 4 von 9",
+        "aiSuggested": "KI-Vorgeschlagene Dienstleistungen",
+        "aiSuggestedDesc": "Basierend auf Ihrer Website-Analyse haben wir diese Dienstleistungen für Ihr Unternehmen vorausgewählt:",
+        "detectedFrom": "Von Ihrer Website erkannt:",
+        "popularServices": "Beliebte Dienstleistungen",
+        "allServices": "Alle Dienstleistungen",
+        "showAll": "Alle Kategorien anzeigen",
+        "showFewer": "Weniger anzeigen",
+        "otherServices": "Weitere Dienstleistungen",
+        "otherServicesPlaceholder": "Listen Sie zusätzliche Dienstleistungen auf, die oben nicht aufgeführt sind",
+        "otherServicesHint": "z.B. Haustierpflege, Home Staging, Individuelle Rahmung...",
+        "continue": "Weiter",
+        "processing": "Verarbeitung..."
+      },
+      "step5": {
+        "title": "Fügen Sie Ihr Geschäftswissen hinzu",
+        "subtitle": "Laden Sie Dokumente hoch oder fügen Sie Website-Seiten hinzu, um {brandName} auf Ihr spezifisches Geschäft zu trainieren",
+        "stepIndicator": "Schritt 5 von 9",
+        "uploadTab": "Dokumente hochladen",
+        "websiteTab": "Website-Seiten",
+        "dragDrop": "Dateien hier ablegen oder klicken zum Durchsuchen",
+        "fileSupport": "Unterstützt PDF, DOCX, TXT-Dateien (max. 10MB pro Datei)",
+        "addUrls": "Website-URLs hinzufügen",
+        "addMoreUrls": "Weitere URLs hinzufügen",
+        "continue": "Weiter",
+        "skip": "Vorerst überspringen",
+        "processing": "Verarbeitung...",
+        "websiteHint": "Wir verwenden Ihre Website-Inhalte aus Schritt 1, um Ihren KI-Assistenten zu trainieren"
+      },
+      "step6": {
+        "title": "Personalisieren Sie Ihre Begrüßung",
+        "subtitle": "Passen Sie an, wie {brandName} Ihre Anrufer begrüßen wird",
+        "stepIndicator": "Schritt 6 von 9",
+        "greetingLabel": "Ihre Begrüßungsnachricht",
+        "previewVoice": "Stimme vorhören",
+        "playing": "Wird abgespielt...",
+        "stop": "Stopp",
+        "continue": "Weiter",
+        "processing": "Verarbeitung...",
+        "tipsTitle": "Tipps für eine großartige Begrüßung:",
+        "tip1": "Halten Sie es unter 30 Sekunden",
+        "tip2": "Nennen Sie Ihren Firmennamen",
+        "tip3": "Seien Sie freundlich und professionell"
+      },
+      "step7": {
+        "title": "Welche Informationen soll {brandName} sammeln?",
+        "subtitle": "Wählen Sie die Informationen aus, die Sie von Anrufern erfassen möchten",
+        "stepIndicator": "Schritt 7 von 9",
+        "fullName": "Vollständiger Name",
+        "phoneNumber": "Telefonnummer",
+        "emailAddress": "E-Mail-Adresse",
+        "reasonForCalling": "Grund des Anrufs",
+        "preferredCallbackTime": "Bevorzugte Rückrufzeit",
+        "continue": "Weiter",
+        "processing": "Verarbeitung..."
+      },
+      "step8": {
+        "title": "Kommunikationseinstellungen",
+        "subtitle": "Konfigurieren Sie, wie {brandName} mit Ihnen und Ihren Kunden kommunizieren wird",
+        "stepIndicator": "Schritt 8 von 9",
+        "emailNotifications": "E-Mail-Benachrichtigungen",
+        "emailNotificationsDesc": "Erhalten Sie Zusammenfassungen von Anrufen und Terminen",
+        "smsNotifications": "SMS-Benachrichtigungen",
+        "smsNotificationsDesc": "Erhalten Sie Textwarnungen für neue Anrufe",
+        "calendarIntegration": "Kalenderintegration",
+        "calendarIntegrationDesc": "Termine automatisch zu Ihrem Kalender hinzufügen",
+        "continue": "Weiter",
+        "processing": "Verarbeitung..."
+      },
+      "step9": {
+        "title": "Überprüfen und Bereitstellen",
+        "subtitle": "Überprüfen Sie Ihre Einstellungen und stellen Sie {brandName} bereit",
+        "stepIndicator": "Schritt 9 von 9",
+        "getStartedForFree": "Jetzt KOSTENLOS starten!",
+        "getStartedNow": "Jetzt starten!",
+        "startWithFreeCredits": "Starten Sie mit {amount} KOSTENLOSEN KI-Credits, um unsere Sprach-KI-Technologie zu erkunden.",
+        "beginJourneyWithCredits": "Beginnen Sie Ihre Reise mit {amount} enthaltenen KI-Credits.",
+        "freeAiCreditsLabel": "KOSTENLOSE KI-Credits",
+        "creditExplanation": "1 KI-Credit = 1 Minute Gespräch. Perfekt zum Testen und Loslegen.",
+        "whatYouCanDoTitle": "Was Sie mit Ihren kostenlosen Credits tun können:",
+        "testVoiceConversations": "Testen Sie Sprachgespräche mit Ihrem KI-Agenten",
+        "experienceFullFunctionality": "Erleben Sie die volle Funktionalität",
+        "noPaymentRequired": "Keine Zahlung erforderlich, um zu beginnen",
+        "upgradeAnytime": "Jederzeit für mehr Credits upgraden",
+        "completeSetupToClaim": "Schließen Sie Ihre Einrichtung ab, um Ihre kostenlosen Credits zu erhalten",
+        "deploymentTimeEstimate": "Dieser Vorgang dauert etwa 2-3 Minuten",
+        "businessInfo": "Geschäftsinformationen",
+        "services": "Dienstleistungen",
+        "knowledgeBase": "Wissensdatenbank",
+        "greeting": "Begrüßung",
+        "infoCollection": "Informationserfassung",
+        "commSettings": "Kommunikationseinstellungen",
+        "edit": "Bearbeiten",
+        "deploy": "{brandName} bereitstellen",
+        "deploying": "Wird bereitgestellt...",
+        "congratulations": "Herzlichen Glückwunsch!",
+        "liveMessage": "Ihr KI-Rezeptionist ist jetzt live",
+        "goToDashboard": "Zum Dashboard",
+        "loginToDashboard": "Zum Dashboard Anmelden"
+      }
+    }
+  },
+  "auth": {
+    "login": {
+      "subtitle": "Melden Sie sich an, um auf Ihr Konto zuzugreifen"
+    },
+    "register": {
+      "subtitle": "Erstellen Sie Ihr Konto"
+    },
+    "email": "E-Mail-Adresse",
+    "emailPlaceholder": "sie@beispiel.com",
+    "password": "Passwort",
+    "confirmPassword": "Passwort bestätigen",
+    "fullName": "Vollständiger Name",
+    "fullNamePlaceholder": "Max Mustermann",
+    "passwordRequirement": "Muss mindestens 8 Zeichen lang sein",
+    "passwordsDoNotMatch": "Passwörter stimmen nicht überein",
+    "passwordTooShort": "Passwort muss mindestens 8 Zeichen lang sein",
+    "forgotPassword": "Passwort vergessen?",
+    "signIn": "Anmelden",
+    "signingIn": "Anmeldung läuft...",
+    "createAccount": "Konto erstellen",
+    "creatingAccount": "Konto wird erstellt...",
+    "registerButton": "Registrieren",
+    "or": "oder",
+    "magicLink": {
+      "sent": "Magic Link gesendet!",
+      "checkEmail": "Überprüfen Sie Ihre E-Mail für einen sicheren Anmeldelink. Der Link läuft in 30 Minuten ab."
+    },
+    "sendMagicLink": "Magic Link senden",
+    "sendingMagicLink": "Magic Link wird gesendet...",
+    "enterEmailForMagicLink": "Geben Sie oben Ihre E-Mail-Adresse ein, um einen Magic Link zu senden",
+    "noAccount": "Haben Sie kein Konto?",
+    "alreadyHaveAccount": "Haben Sie bereits ein Konto?",
+    "troubleReset": "Probleme? Setzen Sie hier Ihr Passwort zurück",
+    "accountCreatedVerifyEmail": "Konto erfolgreich erstellt! Bitte überprüfen Sie Ihre E-Mail und klicken Sie auf den Bestätigungslink, um Ihre Registrierung abzuschließen.",
+    "registrationError": "Bei der Registrierung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+    "registrationSuccessful": "Registrierung erfolgreich!",
+    "emailNotReceived": "E-Mail nicht erhalten? Überprüfen Sie Ihren Spam-Ordner oder kontaktieren Sie den Support.",
+    "forgotPasswordPage": {
+      "title": "Passwort Zurücksetzen",
+      "subtitle": "Geben Sie Ihre E-Mail-Adresse ein, um einen sicheren Reset-Link zu erhalten",
+      "sendResetLink": "Reset-Link Senden",
+      "processing": "Verarbeitung...",
+      "resetLinkSent": "Falls ein Konto mit dieser E-Mail existiert, erhalten Sie in Kürze einen sicheren Passwort-Reset-Link.",
+      "backToLogin": "Zurück zur Anmeldung"
+    }
+  },
+  "loading": "Laden...",
+  "navigation": {
+    "back": "Zurück"
+  },
+  "footer": {
+    "allRightsReserved": "Alle Rechte vorbehalten"
+  },
+  "portal": {
+    "common": {
+      "loading": "Loading...",
+      "error": "An error occurred",
+      "save": "Save",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "edit": "Edit",
+      "active": "Active",
+      "inactive": "Inactive",
+      "pending": "Pending",
+      "completed": "Completed",
+      "failed": "Failed",
+      "processing": "Processing...",
+      "success": "Success",
+      "actions": "Actions",
+      "status": "Status",
+      "name": "Name",
+      "description": "Description",
+      "create": "Create",
+      "update": "Update",
+      "confirm": "Confirm",
+      "close": "Close",
+      "download": "Download",
+      "upload": "Upload",
+      "search": "Search",
+      "filter": "Filter",
+      "refresh": "Refresh",
+      "noData": "No data available",
+      "viewDetails": "View Details"
+    },
+    "sidebar": {
+      "sections": {
+        "core": "Core",
+        "management": "Management",
+        "settingsSecurity": "Settings & Security",
+        "tools": "Tools"
+      },
+      "menu": {
+        "dashboard": "Dashboard",
+        "detailedUsage": "Detailed Usage",
+        "callHistory": "Call History",
+        "advancedAnalytics": "Advanced Analytics",
+        "knowledgeBase": "Knowledge Base",
+        "phoneNumbers": "Phone Numbers",
+        "integration": "Integration",
+        "docsMedia": "My Docs & Media",
+        "settings": "Settings",
+        "billing": "Billing & Payments",
+        "apiKeys": "API Keys",
+        "scheduleMeeting": "Schedule Meeting"
+      },
+      "labels": {
+        "comingSoon": "Coming Soon",
+        "getSupport": "Get Support",
+        "support": "Support",
+        "expandSidebar": "Expand sidebar",
+        "collapseSidebar": "Collapse sidebar"
+      }
+    },
+    "dashboard": {
+      "welcome": {
+        "title": "Welcome to {businessName} AI Dashboard",
+        "subtitle": "Monitor your AI agents, track performance, and analyze conversations."
+      },
+      "onboardingBanner": {
+        "title": "Continue Your AI Assistant Setup",
+        "description": "You have an incomplete onboarding for \"{businessName}\".",
+        "stepProgress": "You're currently at step {step} of 9",
+        "percentComplete": "{percentage}% complete",
+        "continueSetup": "Continue Setup"
+      },
+      "paymentBanner": {
+        "title": "Complete Your Payment Setup",
+        "description": "Your AI assistant is ready! Complete your payment setup to start receiving calls and access your phone number.",
+        "selectedPlan": "Selected plan: {planName} (${amount}/{interval})",
+        "setupPayment": "Setup Payment"
+      },
+      "phoneNumbers": {
+        "title": "Your AI Assistant Phone Numbers",
+        "active": "Active",
+        "connectedTo": "Connected to:",
+        "readyForCalls": "Ready to receive calls 24/7",
+        "liveMessage": "📞 Ready to go! Your AI assistant is live and ready to handle calls. Share these numbers with your customers or use them in your marketing materials."
+      },
+      "performance": {
+        "title": "Performance Overview",
+        "totalCalls": "Total Calls",
+        "acrossAllAgents": "Across all agents",
+        "totalMinutes": "Total Minutes",
+        "talkTime": "Talk time",
+        "activeAgents": "Active Agents",
+        "deployedActive": "Deployed and active",
+        "callVolumeTrend": "Call Volume Trend",
+        "last7Days": "Last 7 days"
+      },
+      "agents": {
+        "title": "Your AI Agents",
+        "viewConversations": "View conversations",
+        "active": "Active",
+        "inactive": "Inactive",
+        "chatAssistant": "Chat AI Assistant",
+        "voiceAssistant": "AI Voice Assistant",
+        "noPhoneNumber": "No phone number assigned",
+        "contactSupport": "Contact support to get started",
+        "readyForCalls": "Ready for calls",
+        "live": "Live",
+        "calls": "Calls",
+        "chats": "Chats",
+        "minutes": "Minutes",
+        "messages": "Messages",
+        "lastActivity": "Last Activity"
+      },
+      "recentCalls": {
+        "title": "Recent Calls",
+        "caller": "Caller",
+        "duration": "Duration",
+        "status": "Status",
+        "completed": "Completed",
+        "inProgress": "In Progress",
+        "missed": "Missed"
+      },
+      "misc": {
+        "never": "Never",
+        "recently": "Recently",
+        "noData": "No data",
+        "unknownAgent": "Unknown Agent",
+        "noAgentsAvailable": "No agents available for testing at the moment.",
+        "deploymentSuccess": "🎉 Congratulations! Your AI agent is now live and ready for business!",
+        "deploymentError": "Failed to deploy for business. Please try again."
+      }
+    },
+    "usage": {
+      "title": "Detailed Usage",
+      "subtitle": "Select an agent to view detailed analytics",
+      "stats": {
+        "totalDuration": "Total Duration",
+        "avgCostPerCall": "Avg Cost Per Call",
+        "totalCalls": "Total Calls",
+        "failedCalls": "Failed Calls",
+        "successRate": "Success Rate",
+        "avgDuration": "Avg Duration",
+        "totalCost": "Total Cost"
+      },
+      "timeFilters": {
+        "today": "Today",
+        "thisWeek": "This Week",
+        "thisMonth": "This Month"
+      },
+      "charts": {
+        "callVolumeOverTime": "Call Volume Over Time",
+        "callDistributionByHour": "Call Distribution by Hour",
+        "failureReasons": "Failure Reasons"
+      },
+      "table": {
+        "agentName": "Agent Name",
+        "duration": "Duration",
+        "cost": "Cost",
+        "calls": "Calls",
+        "successRate": "Success Rate"
+      },
+      "loading": "Loading...",
+      "noData": "No data available",
+      "error": "Error loading analytics"
+    },
+    "conversations": {
+      "title": "Chat logs",
+      "subtitle": "Conversation details and transcript",
+      "filters": {
+        "allAgents": "All Agents",
+        "allStatuses": "All Statuses",
+        "inbound": "Inbound",
+        "outbound": "Outbound",
+        "web": "Web"
+      },
+      "table": {
+        "agent": "Agent",
+        "caller": "Caller",
+        "duration": "Duration",
+        "status": "Status",
+        "started": "Started",
+        "actions": "Actions"
+      },
+      "status": {
+        "completed": "Completed",
+        "inProgress": "In Progress",
+        "failed": "Failed",
+        "missed": "Missed"
+      },
+      "transcript": {
+        "title": "Transcript",
+        "noTranscript": "No transcript available",
+        "user": "User",
+        "assistant": "Assistant",
+        "summary": "Summary"
+      },
+      "actions": {
+        "downloadTranscript": "Download Transcript",
+        "downloadRecording": "Download Recording",
+        "play": "Play",
+        "pause": "Pause",
+        "noRecording": "No recording available for this conversation"
+      },
+      "empty": "No conversations found",
+      "loading": "Loading conversations..."
+    },
+    "analytics": {
+      "title": "Analytics & Usage",
+      "subtitle": "View detailed analytics and usage statistics for your AI voice agents.",
+      "advancedTitle": "Advanced Analytics",
+      "advancedSubtitle": "Gain insights from your AI voice agent conversations",
+      "dateRange": {
+        "7days": "7 Days",
+        "30days": "30 Days",
+        "90days": "90 Days"
+      },
+      "tabs": {
+        "overview": "Overview",
+        "agentAnalytics": "Agent Analytics",
+        "actionPoints": "Action Points",
+        "detailedCalls": "Detailed Calls"
+      },
+      "charts": {
+        "sentimentAnalysis": "Sentiment Analysis",
+        "topTopics": "Top Topics",
+        "callOutcomes": "Call Outcomes",
+        "successful": "Successful",
+        "followUpNeeded": "Follow-up Needed",
+        "unsuccessful": "Unsuccessful"
+      },
+      "loading": "Loading analytics...",
+      "noData": "No analytics data available",
+      "error": "Error loading analytics",
+      "notEnabled": "This feature is not enabled for your account"
+    },
+    "knowledgeBase": {
+      "title": "Knowledge Base",
+      "subtitle": "Manage your AI agent's knowledge sources",
+      "tabs": {
+        "files": "Files",
+        "websites": "Websites"
+      },
+      "actions": {
+        "createKB": "Create Knowledge Base",
+        "newFolder": "New Folder",
+        "uploadFile": "Upload File",
+        "addWebsiteUrl": "Add Website URL",
+        "delete": "Delete",
+        "edit": "Edit",
+        "root": "Root",
+        "back": "Back"
+      },
+      "fileUpload": {
+        "title": "Upload File",
+        "dragDrop": "Drag and drop a file here, or click to select",
+        "description": "Description (optional)",
+        "supportedFormats": "Supported formats",
+        "maxSize": "Maximum file size: 10MB",
+        "cancel": "Cancel",
+        "upload": "Upload",
+        "uploading": "Uploading..."
+      },
+      "folder": {
+        "createTitle": "Create New Folder",
+        "folderName": "Folder Name",
+        "description": "Description (optional)",
+        "cancel": "Cancel",
+        "create": "Create"
+      },
+      "website": {
+        "addUrl": "Add Website URL",
+        "enterUrl": "Enter the URL to crawl",
+        "processing": "Processing...",
+        "indexed": "Indexed",
+        "failed": "Failed",
+        "pending": "Pending"
+      },
+      "status": {
+        "loading": "Loading knowledge bases...",
+        "noKB": "No knowledge bases found",
+        "noFiles": "No files or folders",
+        "processingStatus": "Processing status: "
+      }
+    },
+    "phoneNumbers": {
+      "title": "Phone Numbers",
+      "subtitle": "Manage your phone numbers for voice agents and communication",
+      "buttons": {
+        "import": "Import Numbers",
+        "buy": "Buy Phone Number",
+        "getNumber": "Get A Number"
+      },
+      "info": {
+        "managedByProvider": "Your phone numbers are managed by your service provider",
+        "needNew": "Need a new phone number?",
+        "contactProvider": "Contact your service provider"
+      },
+      "table": {
+        "phoneNumber": "Phone Number",
+        "status": "Status",
+        "agent": "Agent",
+        "actions": "Actions"
+      },
+      "status": {
+        "active": "Active",
+        "inactive": "Inactive",
+        "pending": "Pending",
+        "released": "Released"
+      },
+      "actions": {
+        "assignToAgent": "Assign to Agent",
+        "release": "Release Number",
+        "configure": "Configure"
+      }
+    },
+    "integration": {
+      "title": "Integration Hub",
+      "subtitle": "Connect your AI voice agents to external tools and services",
+      "custom": {
+        "title": "Custom Integrations",
+        "subtitle": "Build custom tool integrations using OpenAPI specifications",
+        "builder": "Custom Tool Builder",
+        "description": "Create custom integrations with any API or service",
+        "comingSoon": "Coming Soon",
+        "getNotified": "Get Notified"
+      }
+    },
+    "settings": {
+      "title": "Account Settings",
+      "subtitle": "Manage your account and security settings",
+      "profile": {
+        "title": "Profile Information",
+        "name": "Name",
+        "email": "Email"
+      },
+      "password": {
+        "title": "Change Password",
+        "current": "Current Password",
+        "new": "New Password",
+        "confirm": "Confirm Password",
+        "update": "Update Password",
+        "updating": "Updating..."
+      },
+      "validation": {
+        "passwordMismatch": "New passwords do not match",
+        "passwordLength": "Password must be at least 8 characters long",
+        "passwordSuccess": "Password changed successfully",
+        "passwordError": "Failed to change password"
+      },
+      "team": {
+        "title": "Team Management",
+        "subtitle": "Manage team members and permissions",
+        "invite": "Invite Member",
+        "role": "Role",
+        "status": "Status",
+        "actions": "Actions"
+      }
+    },
+    "billing": {
+      "tabs": {
+        "invoices": "Invoices",
+        "usage": "Usage",
+        "subscriptions": "Subscriptions",
+        "paymentMethods": "Payment Methods",
+        "credits": "Credits"
+      },
+      "summary": {
+        "totalInvoices": "Total Invoices",
+        "totalAmount": "Total Amount",
+        "paidAmount": "Paid Amount",
+        "pendingAmount": "Pending Amount",
+        "overdue": "Overdue"
+      },
+      "invoice": {
+        "number": "Invoice #",
+        "description": "Description",
+        "amount": "Amount",
+        "status": "Status",
+        "dueDate": "Due Date",
+        "actions": "Actions"
+      },
+      "invoiceStatus": {
+        "draft": "Draft",
+        "sent": "Sent",
+        "paid": "Paid",
+        "overdue": "Overdue",
+        "cancelled": "Cancelled",
+        "processing": "Processing"
+      },
+      "actions": {
+        "payNow": "Pay Now",
+        "viewInvoice": "View Invoice",
+        "download": "Download",
+        "requestCancellation": "Request Cancellation",
+        "refresh": "Refresh"
+      },
+      "paymentMethods": {
+        "add": "Add Payment Method",
+        "default": "Default",
+        "remove": "Remove",
+        "setDefault": "Set as Default"
+      },
+      "credits": {
+        "balance": "Credit Balance",
+        "buy": "Buy Credits",
+        "remaining": "credits remaining"
+      },
+      "toast": {
+        "paymentSuccess": "Payment completed successfully!",
+        "paymentCancelled": "Payment was cancelled",
+        "paymentError": "Failed to process payment"
+      }
+    },
+    "apiKeys": {
+      "title": "API Keys",
+      "subtitle": "Manage your API keys for programmatic access",
+      "redirecting": "Redirecting to API Keys page...",
+      "accessControl": {
+        "notEnabled": "API access is not enabled for your account",
+        "contactProvider": "Contact your service provider to enable API access"
+      },
+      "table": {
+        "name": "Name",
+        "keyPrefix": "Key Prefix",
+        "status": "Status",
+        "lastUsed": "Last Used",
+        "created": "Created",
+        "actions": "Actions"
+      },
+      "create": {
+        "title": "Create API Key",
+        "keyName": "Key Name",
+        "description": "Description (optional)",
+        "expiration": "Expiration Date (optional)",
+        "create": "Create",
+        "cancel": "Cancel"
+      },
+      "display": {
+        "title": "Your new API key",
+        "warning": "Copy this key now. You won't be able to see it again.",
+        "copy": "Copy to clipboard",
+        "copied": "Copied!"
+      },
+      "actions": {
+        "delete": "Delete",
+        "revoke": "Revoke"
+      },
+      "status": {
+        "active": "Active",
+        "expired": "Expired",
+        "revoked": "Revoked"
+      }
+    }
+  }
+}

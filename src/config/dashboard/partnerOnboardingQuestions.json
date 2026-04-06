@@ -1,0 +1,200 @@
+    {
+  "questions": [
+    {
+      "section": "basic",
+      "title": "Basic Information",
+      "subtitle": "Let's get started with some basic information",
+      "fields": [
+        {
+          "id": "firstName",
+          "type": "text",
+          "label": "Customer First Name",
+          "placeholder": "Enter customer's first name",
+          "required": true
+        },
+        {
+          "id": "lastName",
+          "type": "text",
+          "label": "Customer Last Name",
+          "placeholder": "Enter customer's last name",
+          "required": true
+        },
+        {
+          "id": "email",
+          "type": "email",
+          "label": "Customer Email",
+          "placeholder": "Enter customer's email address",
+          "required": true,
+          "validation": "email"
+        },
+        {
+          "id": "businessPhone",
+          "type": "tel",
+          "label": "Business Phone",
+          "placeholder": "Enter business phone number",
+          "required": true,
+          "validation": "phone"
+        }
+      ]
+    },
+    {
+      "section": "business",
+      "title": "Business Details",
+      "subtitle": "Tell us about their business",
+      "fields": [
+        {
+          "id": "companyName",
+          "type": "text",
+          "label": "Company Name",
+          "placeholder": "Enter company name",
+          "required": true
+        },
+        {
+          "id": "monthlyCallVolume",
+          "type": "radio",
+          "label": "Expected Monthly Call Volume",
+          "required": true,
+          "options": [
+            "Up to 100 calls",
+            "101-500 calls",
+            "501-1000 calls",
+            "1001-5000 calls",
+            "Over 5000 calls"
+          ]
+        },
+        {
+          "id": "peakHours",
+          "type": "radio",
+          "label": "Primary Operating Hours",
+          "required": true,
+          "options": [
+            "Standard Business Hours (9 AM - 6 PM)",
+            "Extended Hours (6 PM - 12 AM)",
+            "24/7 Coverage",
+            "Custom Schedule"
+          ]
+        }
+      ]
+    },
+    {
+      "section": "requirements",
+      "title": "Business Requirements",
+      "subtitle": "Let's understand their needs",
+      "fields": [
+        {
+          "id": "primaryUseCase",
+          "type": "radio",
+          "label": "Main Purpose",
+          "required": true,
+          "options": [
+            "Lead Qualification & Capture",
+            "Appointment Scheduling & Management",
+            "Customer Support & Service",
+            "Order Processing & Management",
+            "Information Collection & Distribution",
+            "Custom Solution"
+          ]
+        },
+        {
+          "id": "callComplexity",
+          "type": "radio",
+          "label": "Call Complexity Level",
+          "required": true,
+          "options": [
+            "Simple",
+            "Moderate",
+            "Complex"
+          ]
+        },
+        {
+          "id": "scriptComplexity",
+          "type": "radio",
+          "label": "Script Complexity Level",
+          "required": true,
+          "options": [
+            "Simple",
+            "Moderate",
+            "Complex"
+          ]
+        },
+        {
+          "id": "hasScript",
+          "type": "radio",
+          "label": "Do you have a call script ready?",
+          "required": true,
+          "options": [
+            "Yes, we have a detailed script",
+            "We have a basic script that needs enhancement",
+            "No, we need help creating a script"
+          ]
+        }
+      ]
+    },
+    {
+      "section": "integration",
+      "title": "System Integration",
+      "subtitle": "Tell us about their systems",
+      "fields": [
+        {
+          "id": "crmSystem",
+          "type": "select",
+          "label": "CRM System",
+          "required": true,
+          "options": [
+            "None",
+            "Salesforce",
+            "HubSpot",
+            "Zoho",
+            "Pipedrive",
+            "Go High Level (GHL)",
+            "Microsoft Dynamics",
+            "Other"
+          ]
+        },
+        {
+          "id": "phoneSystem",
+          "type": "select",
+          "label": "Current Phone System",
+          "required": true,
+          "options": [
+            "None",
+            "RingCentral",
+            "Twilio",
+            "Vonage",
+            "8x8",
+            "Other"
+          ]
+        }
+      ]
+    },
+    {
+      "section": "deployment",
+      "title": "Implementation Details",
+      "subtitle": "Let's plan the implementation",
+      "fields": [
+        {
+          "id": "deploymentTimeline",
+          "type": "radio",
+          "label": "Expected Deployment Timeline",
+          "required": true,
+          "options": [
+            "Immediate (within 2 weeks)",
+            "Short term (2-4 weeks)",
+            "Medium term (1-2 months)",
+            "Long term (2+ months)"
+          ]
+        },
+        {
+          "id": "wantsDemo",
+          "type": "radio",
+          "label": "Would they like a demo?",
+          "required": true,
+          "options": [
+            "Yes",
+            "No"
+          ]
+        }
+      ]
+    }
+  ]
+}

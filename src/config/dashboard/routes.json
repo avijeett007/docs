@@ -1,0 +1,26 @@
+{
+  "routes": {
+    "onboarding": {
+      "path": "/onboarding",
+      "title": "AI Assistant Setup",
+      "requiresAuth": true
+    },
+    "dashboard": {
+      "path": "/dashboard",
+      "title": "Dashboard",
+      "requiresAuth": true,
+      "requiresOnboarding": true
+    },
+    "settings": {
+      "path": "/settings",
+      "title": "Settings",
+      "requiresAuth": true,
+      "requiresOnboarding": true
+    }
+  },
+  "redirects": {
+    "default": "/dashboard",
+    "unauthenticated": "/login",
+    "onboardingIncomplete": "/onboarding"
+  }
+}

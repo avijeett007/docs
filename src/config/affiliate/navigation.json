@@ -1,0 +1,43 @@
+{
+  "brand": {
+    "name": "Knotie-AI",
+    "suffix": "Pro"
+  },
+  "navigation": [
+    {
+      "text": "Home",
+      "to": "/",
+      "isAnchor": false
+    },
+    {
+      "text": "Benefits",
+      "to": "#benefits",
+      "isAnchor": true
+    },
+    {
+      "text": "Partners",
+      "to": "/partners",
+      "isAnchor": false
+    }
+  ],
+  "social": [
+    {
+      "platform": "GitHub",
+      "icon": "FaGithub",
+      "url": "https://github.com/avijeett007/knotie-ai",
+      "hoverColor": "white"
+    },
+    {
+      "platform": "YouTube",
+      "icon": "FaYoutube",
+      "url": "https://youtube.com/@kno2gether",
+      "hoverColor": "red-500"
+    },
+    {
+      "platform": "Twitter",
+      "icon": "FaTwitter",
+      "url": "https://twitter.com",
+      "hoverColor": "red-500"
+    }
+  ]
+}

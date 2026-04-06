@@ -1,0 +1,140 @@
+{
+  "title": "Onboard GHL Voice AI Agents",
+  "subtitle": "Complete guide to integrate Go High Level Voice AI agents with Knotie AI Pro",
+  "video": {
+    "url": "",
+    "placeholder": {
+      "title": "Tutorial video coming soon",
+      "subtitle": "Follow the step-by-step instructions below"
+    }
+  },
+  "webhookUrl": "https://analytics.knotie-ai.pro/webhooks/ghl/webhook_data",
+  "prerequisites": {
+    "title": "Prerequisites",
+    "items": [
+      "Active Go High Level account with Voice AI capabilities",
+      "Access to GHL Workflow/Automation builder",
+      "Knotie AI Pro partner account with API key access"
+    ]
+  },
+  "steps": [
+    {
+      "number": 1,
+      "title": "Create API Key",
+      "description": "First, you need to create an API key in your Knotie AI Pro partner dashboard.",
+      "instructions": [
+        "Navigate to Settings → API Keys in your partner dashboard",
+        "Click \"Create New API Key\"",
+        "Give it a name like \"GHL Voice AI Integration\"",
+        "Copy and save the API key securely"
+      ],
+      "actionButton": {
+        "text": "Go to API Keys",
+        "icon": "FiKey",
+        "route": "/partner/settings/api-keys"
+      }
+    },
+    {
+      "number": 2,
+      "title": "Configure GHL Workflow",
+      "description": "Set up a workflow in Go High Level to send webhook data after each voice AI call.",
+      "workflowSteps": [
+        "Go to Automations → Workflows in your GHL account",
+        "Create a new workflow or edit existing one",
+        "Set trigger to \"Voice AI Call Completed\"",
+        "Add \"Send Webhook\" action",
+        "Configure webhook with the details below"
+      ],
+      "webhookConfig": {
+        "method": "POST",
+        "contentType": "application/json"
+      }
+    },
+    {
+      "number": 3,
+      "title": "Custom Data Configuration",
+      "description": "Configure the custom data that will be sent with each webhook. This data is crucial for proper tracking and billing.",
+      "requiredFields": [
+        {
+          "field": "transcripts",
+          "value": "{{call.transcript}}",
+          "type": "dynamic"
+        },
+        {
+          "field": "duration",
+          "value": "{{call.duration}}",
+          "type": "dynamic"
+        },
+        {
+          "field": "summary",
+          "value": "{{call.summary}}",
+          "type": "dynamic"
+        },
+        {
+          "field": "agent_id",
+          "value": "your_unique_agent_id",
+          "type": "static",
+          "required": true
+        },
+        {
+          "field": "partner_email_id",
+          "value": "your_partner_email@example.com",
+          "type": "static",
+          "required": true
+        },
+        {
+          "field": "api_key",
+          "value": "your_knotie_api_key",
+          "type": "static",
+          "required": true
+        },
+        {
+          "field": "base_per_minute_cost",
+          "value": "10",
+          "type": "static",
+          "description": "cost in cents",
+          "required": true
+        }
+      ],
+      "importantNotes": [
+        "Replace yellow highlighted values with your actual data",
+        "Use the same partner email as your Knotie AI Pro account",
+        "agent_id should be unique for each voice AI agent",
+        "base_per_minute_cost is in cents (10 = $0.10 per minute)"
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Test Your Integration",
+      "description": "Test your integration to ensure everything is working correctly.",
+      "testingSteps": [
+        "Make a test call using your GHL Voice AI agent",
+        "Complete the call normally",
+        "Check your GHL workflow logs for webhook delivery",
+        "Verify the agent appears in your Knotie AI Pro dashboard",
+        "Check analytics data is being recorded"
+      ],
+      "successIndicators": [
+        "Agent appears in GHL Voice AI Agents page",
+        "Call analytics are recorded",
+        "Credits are deducted from your balance",
+        "Transcript data is captured"
+      ]
+    }
+  ],
+  "support": {
+    "title": "Need Help?",
+    "description": "If you encounter any issues during setup, our support team is here to help.",
+    "buttons": [
+      {
+        "text": "Contact Support",
+        "type": "secondary"
+      },
+      {
+        "text": "View GHL Agents",
+        "type": "primary",
+        "route": "/partner/ai-agents/ghl"
+      }
+    ]
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "statusMessages": {
+    "ready": "Don't Miss This AI Gold Rush - Knotie AI Pro is Ready to Scale Your Agency",
+    "listening": "Knova is listening...",
+    "processing": "Processing with advanced AI intelligence..."
+  },
+  "hero": {
+    "title": "Finally, Scale Your Agency",
+    "animatedTexts": [
+      "Without Losing Clients",
+      "With Voice AI That Sells",
+      "Using GHL & N8N Integration",
+      "Beyond Your Competition",
+      "In This AI Gold Rush"
+    ],
+    "description": "Join {{LIVE_COUNT}} Agencies Who Struggled to Scale Voice AI - Until Now. Get Multi-Provider Cost Comparison, Complete White-Label Platform & Client Lock-In Technology That Prevents Clients From Churning Away.",
+    "image": "/images/hero-image.png",
+    "stats": [
+      { "value": "157+", "label": "Partner Agencies" },
+      { "value": "5", "label": "Major Providers" },
+      { "value": "100%", "label": "White-Label Ready" }
+    ],
+    "buttons": {
+      "primary": {
+        "text": "Get Started Now",
+        "link": "/partners"
+      },
+      "secondary": {
+        "text": "Click here for a Demo",
+        "link": "#demo-video"
+      }
+    }
+  },
+  "buttons": {
+    "primary": {
+      "text": "Get Started Now",
+      "link": "/partners"
+    },
+    "secondary": {
+      "text": "Click here for a Demo",
+      "link": "#demo-video"
+    }
+  }
+}

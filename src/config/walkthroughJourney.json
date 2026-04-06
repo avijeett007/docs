@@ -1,0 +1,300 @@
+{
+  "version": "1.0",
+  "title": "Partner Platform Walkthrough",
+  "description": "Step-by-step guide to help you get started with Knotie AI Pro",
+  "totalSteps": 10,
+  "estimatedDuration": "15-20 minutes",
+  "canSkip": true,
+  "skipWarning": "Skipping the walkthrough will unlock all features but you might miss important setup steps. You can restart the walkthrough anytime from Settings.",
+  "steps": [
+    {
+      "id": "welcome-video",
+      "stepNumber": 1,
+      "title": "Welcome to Knotie AI Pro",
+      "description": "Learn about the partner portal and platform overview",
+      "videoUrl": "https://youtube.com/embed/PLACEHOLDER_WELCOME_VIDEO",
+      "videoDuration": 120,
+      "canSkip": false,
+      "autoAdvance": true,
+      "autoAdvanceDelay": 5,
+      "unlocksMenus": ["dashboard"],
+      "completionCriteria": {
+        "type": "video_watched",
+        "minWatchPercentage": 80
+      },
+      "nextStep": "whitelabel-setup",
+      "instructions": "Watch this welcome video to understand how the partner portal works and what you can achieve with Knotie AI Pro."
+    },
+    {
+      "id": "whitelabel-setup",
+      "stepNumber": 2,
+      "title": "Setup Your White-Label Portal",
+      "description": "Configure your branded customer portal",
+      "videoUrl": "https://youtube.com/embed/PLACEHOLDER_WHITELABEL_VIDEO",
+      "videoDuration": 180,
+      "canSkip": true,
+      "autoAdvance": false,
+      "unlocksMenus": ["settings"],
+      "targetPage": "/partner/settings/whitelabel",
+      "completionCriteria": {
+        "type": "page_action",
+        "requiredActions": [
+          "portal_title_set",
+          "primary_color_set"
+        ]
+      },
+      "nextStep": "profile-settings",
+      "instructions": "Go to Settings → White-Label Portal and configure your portal title and branding colors.",
+      "helpText": "Your white-label portal allows customers to access their voice AI agents under your brand."
+    },
+    {
+      "id": "profile-settings",
+      "stepNumber": 3,
+      "title": "Complete Your Profile Settings",
+      "description": "Update your business information and contact details",
+      "videoUrl": "https://youtube.com/embed/PLACEHOLDER_PROFILE_VIDEO",
+      "videoDuration": 90,
+      "canSkip": true,
+      "autoAdvance": false,
+      "unlocksMenus": [],
+      "targetPage": "/partner/settings",
+      "completionCriteria": {
+        "type": "page_action",
+        "requiredActions": [
+          "business_name_updated",
+          "contact_info_updated"
+        ]
+      },
+      "nextStep": "stripe-integration",
+      "instructions": "Go to Settings → Profile Settings and ensure your business information is complete and accurate.",
+      "helpText": "Complete profile information helps build trust with your customers and ensures proper billing."
+    },
+    {
+      "id": "stripe-integration",
+      "stepNumber": 4,
+      "title": "Connect Your Stripe Account",
+      "description": "Setup payment processing for customer billing",
+      "videoUrl": "https://youtube.com/embed/PLACEHOLDER_STRIPE_VIDEO",
+      "videoDuration": 240,
+      "canSkip": true,
+      "autoAdvance": false,
+      "unlocksMenus": ["billing"],
+      "targetPage": "/partner/settings",
+      "completionCriteria": {
+        "type": "integration_connected",
+        "integration": "stripe"
+      },
+      "nextStep": "customer-onboarding",
+      "instructions": "In Settings, connect your Stripe account to enable customer billing and payment processing.",
+      "helpText": "Stripe integration is required to bill customers for voice AI services and collect payments."
+    },
+    {
+      "id": "customer-onboarding",
+      "stepNumber": 5,
+      "title": "Onboard Your First Customer",
+      "description": "Learn how to add and manage customers",
+      "videoUrl": "https://youtube.com/embed/PLACEHOLDER_CUSTOMER_VIDEO",
+      "videoDuration": 200,
+      "canSkip": true,
+      "autoAdvance": false,
+      "unlocksMenus": ["customers"],
+      "targetPage": "/partner/customers",
+      "completionCriteria": {
+        "type": "entity_created",
+        "entity": "customer",
+        "minCount": 1
+      },
+      "nextStep": "customer-portal-access",
+      "instructions": "Go to Customer List and add your first customer. You can add yourself as a test customer.",
+      "helpText": "Customers are the end-users who will use your voice AI agents. Each customer gets their own portal access."
+    },
+    {
+      "id": "customer-portal-access",
+      "stepNumber": 6,
+      "title": "Explore Customer Portal Features",
+      "description": "Learn about customer management and portal access",
+      "videoUrl": "https://youtube.com/embed/PLACEHOLDER_CUSTOMER_PORTAL_VIDEO",
+      "videoDuration": 150,
+      "canSkip": true,
+      "autoAdvance": false,
+      "unlocksMenus": [],
+      "targetPage": "/partner/customers",
+      "completionCriteria": {
+        "type": "page_action",
+        "requiredActions": [
+          "customer_portal_accessed"
+        ]
+      },
+      "nextStep": "ai-agent-setup",
+      "instructions": "In Customer List, click on a customer and explore the portal access and management features.",
+      "helpText": "Customer portal allows your clients to manage their voice AI agents, view analytics, and access support."
+    },
+    {
+      "id": "ai-agent-setup",
+      "stepNumber": 7,
+      "title": "Create Your First AI Agent",
+      "description": "Setup a voice AI agent using Retell AI",
+      "videoUrl": "https://youtube.com/embed/PLACEHOLDER_RETELL_VIDEO",
+      "videoDuration": 300,
+      "canSkip": true,
+      "autoAdvance": false,
+      "unlocksMenus": ["ai-agents"],
+      "targetPage": "/partner/ai-agents/retell",
+      "completionCriteria": {
+        "type": "entity_created",
+        "entity": "retell_agent",
+        "minCount": 1
+      },
+      "nextStep": "explore-ai-providers",
+      "instructions": "Go to Manage AI Agents → Manage Retell Agents and create your first voice AI agent.",
+      "helpText": "Retell AI provides high-quality voice agents with natural conversation capabilities."
+    },
+    {
+      "id": "explore-ai-providers",
+      "stepNumber": 8,
+      "title": "Explore Other AI Providers",
+      "description": "Learn about VAPI, Ultravox, ElevenLabs and other providers",
+      "videoUrl": "https://youtube.com/embed/PLACEHOLDER_PROVIDERS_VIDEO",
+      "videoDuration": 180,
+      "canSkip": true,
+      "autoAdvance": false,
+      "unlocksMenus": [],
+      "targetPage": "/partner/ai-agents",
+      "completionCriteria": {
+        "type": "page_visited",
+        "pages": [
+          "/partner/ai-agents/vapi",
+          "/partner/ai-agents/ultravox"
+        ],
+        "minPages": 1
+      },
+      "nextStep": "billing-and-credits",
+      "instructions": "Explore the different AI agent providers available in the Manage AI Agents section.",
+      "helpText": "Different providers offer unique features. Choose based on your specific use case and requirements."
+    },
+    {
+      "id": "billing-and-credits",
+      "stepNumber": 9,
+      "title": "Understand Billing & Credits",
+      "description": "Learn about credit system and billing management",
+      "videoUrl": "https://youtube.com/embed/PLACEHOLDER_BILLING_VIDEO",
+      "videoDuration": 160,
+      "canSkip": true,
+      "autoAdvance": false,
+      "unlocksMenus": ["credits", "analytics"],
+      "targetPage": "/partner/credits",
+      "completionCriteria": {
+        "type": "page_visited",
+        "pages": [
+          "/partner/credits",
+          "/partner/billing"
+        ],
+        "minPages": 2
+      },
+      "nextStep": "team-management",
+      "instructions": "Visit Credits and Billing sections to understand how the credit system and invoicing works.",
+      "helpText": "Credits are used for AI operations, telephony, and other services. Monitor usage to manage costs effectively."
+    },
+    {
+      "id": "team-management",
+      "stepNumber": 10,
+      "title": "Setup Team Management",
+      "description": "Learn how to invite team members and manage permissions",
+      "videoUrl": "https://youtube.com/embed/PLACEHOLDER_TEAM_VIDEO",
+      "videoDuration": 120,
+      "canSkip": true,
+      "autoAdvance": false,
+      "unlocksMenus": ["team", "marketing", "tutorials"],
+      "targetPage": "/partner/team",
+      "completionCriteria": {
+        "type": "page_visited",
+        "pages": ["/partner/team"],
+        "minPages": 1
+      },
+      "nextStep": null,
+      "instructions": "Go to Team Management to learn how to invite team members and manage their access levels.",
+      "helpText": "Team members can help manage customers and agents with different permission levels.",
+      "isLastStep": true,
+      "completionMessage": "Congratulations! You've completed the partner walkthrough. All features are now unlocked and you're ready to start building your voice AI business."
+    }
+  ],
+  "menuUnlockRules": {
+    "dashboard": {
+      "unlockedByDefault": true,
+      "requiredSteps": []
+    },
+    "customers": {
+      "unlockedByDefault": false,
+      "requiredSteps": ["stripe-integration"]
+    },
+    "billing": {
+      "unlockedByDefault": false,
+      "requiredSteps": ["stripe-integration"]
+    },
+    "analytics": {
+      "unlockedByDefault": false,
+      "requiredSteps": ["billing-and-credits"]
+    },
+    "credits": {
+      "unlockedByDefault": false,
+      "requiredSteps": ["billing-and-credits"]
+    },
+    "ai-agents": {
+      "unlockedByDefault": false,
+      "requiredSteps": ["customer-onboarding"]
+    },
+    "marketing": {
+      "unlockedByDefault": false,
+      "requiredSteps": ["team-management"]
+    },
+    "tutorials": {
+      "unlockedByDefault": false,
+      "requiredSteps": ["team-management"]
+    },
+    "team": {
+      "unlockedByDefault": false,
+      "requiredSteps": ["billing-and-credits"]
+    },
+    "settings": {
+      "unlockedByDefault": false,
+      "requiredSteps": ["welcome-video"]
+    }
+  },
+  "skipOptions": {
+    "allowSkipIndividualSteps": true,
+    "allowSkipEntireWalkthrough": true,
+    "skipWarningTitle": "Skip Walkthrough?",
+    "skipWarningMessage": "You can skip this walkthrough and unlock all features immediately. However, you might miss important setup steps that could help you get started faster. You can always restart the walkthrough from Settings.",
+    "skipConfirmText": "Skip Walkthrough",
+    "skipCancelText": "Continue Walkthrough"
+  },
+  "restartOptions": {
+    "allowRestart": true,
+    "restartWarningTitle": "Restart Walkthrough?",
+    "restartWarningMessage": "This will reset your walkthrough progress and lock menu items again. Your actual data and settings will not be affected.",
+    "restartConfirmText": "Restart Walkthrough",
+    "restartCancelText": "Cancel"
+  },
+  "videoSettings": {
+    "defaultProvider": "youtube",
+    "fallbackProvider": "supabase",
+    "autoplay": true,
+    "showControls": true,
+    "allowSkipVideo": true,
+    "trackWatchPercentage": true,
+    "minWatchPercentageForCompletion": 70
+  },
+  "uiSettings": {
+    "showProgressBar": true,
+    "showStepCounter": true,
+    "showEstimatedTime": true,
+    "allowQuickNavigation": false,
+    "highlightActiveMenuItem": true,
+    "showLockedMenuTooltips": true,
+    "lockedMenuTooltipText": "Complete the walkthrough to unlock this feature",
+    "progressBarColor": "#3B82F6",
+    "completedStepColor": "#10B981",
+    "currentStepColor": "#F59E0B",
+    "lockedStepColor": "#6B7280"
+  }
+}

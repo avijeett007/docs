@@ -1,0 +1,952 @@
+{
+  "dashboard": {
+    "hero": {
+      "defaultTitle": "Hlasový AI Portál",
+      "defaultSlogan": "Poháněno pokročilou hlasovou AI technologií",
+      "getStarted": "Začít",
+      "learnMore": "Dozvědět se více",
+      "login": "Přihlásit se",
+      "loginToDashboard": "Přihlásit se k Dashboardu",
+      "startFreeTrial": "Začít bezplatnou zkušební verzi",
+      "customerEngagement": "Zapojení zákazníků"
+    },
+    "features": {
+      "title": "AI-poháněná hlasová řešení",
+      "subtitle": "Bezproblémově integrujte hlasovou AI do vašich obchodních operací pro vylepšené zákaznické zkušenosti a zjednodušené pracovní postupy.",
+      "availability": {
+        "title": "Dostupnost 24/7",
+        "description": "Zajistěte, aby vaše podnikání bylo vždy přístupné zákazníkům s AI-poháněnými hlasovými odpověďmi.",
+        "benefits": [
+          "Nikdy nezmeškejte hovor",
+          "Okamžitý čas odezvy",
+          "Globální podpora časových pásem"
+        ]
+      },
+      "analytics": {
+        "title": "Analytický dashboard",
+        "description": "Sledujte zákaznické interakce a získejte poznatky s podrobnou analýzou konverzací.",
+        "benefits": [
+          "Metriky v reálném čase",
+          "Poznatky z konverzací",
+          "Sledování výkonu"
+        ]
+      },
+      "multiChannel": {
+        "title": "Vícekanálová podpora",
+        "description": "Spojte se se zákazníky prostřednictvím hlasu, SMS, e-mailu a dalších z jediné platformy.",
+        "benefits": [
+          "Sjednocená schránka",
+          "Synchronizace napříč platformami",
+          "Bezproblémové předávání"
+        ]
+      },
+      "security": {
+        "title": "Podniková bezpečnost",
+        "description": "Bezpečnost na úrovni banky s end-to-end šifrováním a certifikacemi compliance.",
+        "benefits": [
+          "SOC 2 kompatibilní",
+          "GDPR připraveno",
+          "Šifrování dat"
+        ]
+      },
+      "collaboration": {
+        "title": "Týmová spolupráce",
+        "description": "Umožněte vašemu týmu pracovat společně se sdílenými pracovními prostory a aktualizacemi v reálném čase.",
+        "benefits": [
+          "Sdílené dashboardy",
+          "Týmová oprávnění",
+          "Protokoly aktivit"
+        ]
+      },
+      "integration": {
+        "title": "Snadná integrace",
+        "description": "Připojte se k vašim stávajícím nástrojům a pracovním postupům prostřednictvím našeho komplexního API.",
+        "benefits": [
+          "REST API",
+          "Webhooks",
+          "Předpřipravené konektory"
+        ]
+      }
+    },
+    "testimonials": {
+      "title": "Co říkají naši zákazníci",
+      "subtitle": "Připojte se k tisícům spokojených zákazníků, kteří transformovali své podnikání s našimi hlasovými AI řešeními."
+    },
+    "cta": {
+      "title": "Připraveni začít?",
+      "subtitle": "Připojte se k tisícům podniků, které již používají naše hlasové AI řešení k vylepšení zákaznických zkušeností a podpoře růstu.",
+      "getStarted": "Začít",
+      "learnMore": "Dozvědět se více"
+    },
+    "integrations": {
+      "title": "Bezproblémové Integrace",
+      "subtitle": "Připojte se ke svým oblíbeným nástrojům a platformám pro zjednodušení pracovního toku a maximalizaci produktivity."
+    },
+    "footer": {
+      "privacyPolicy": "Zásady ochrany osobních údajů",
+      "termsOfService": "Podmínky služby",
+      "cookiePolicy": "Zásady cookies",
+      "contactUs": "Kontaktujte nás",
+      "product": "Produkt",
+      "support": "Podpora",
+      "features": "Funkce",
+      "pricing": "Ceny",
+      "integrations": "Integrace",
+      "apiDocumentation": "API Dokumentace",
+      "systemStatus": "Stav systému",
+      "helpCenter": "Centrum nápovědy",
+      "contactSupport": "Kontaktovat podporu",
+      "tutorials": "Návody",
+      "community": "Komunita",
+      "stayUpdated": "Zůstaňte informováni",
+      "newsletterDescription": "Získejte nejnovější aktualizace a poznatky přímo do vaší schránky.",
+      "enterEmail": "Zadejte váš email",
+      "subscribe": "Přihlásit se k odběru",
+      "privacyNote": "Respektujeme vaše soukromí. Odhlásit se můžete kdykoli.",
+      "followUs": "Sledujte nás",
+      "legal": "Právní",
+      "allRightsReserved": "Všechna práva vyhrazena.",
+      "secureCompliant": "Bezpečné a vyhovující",
+      "uptime": "99,9% dostupnost"
+    },
+    "faqs": {
+      "defaultQuestions": [
+        {
+          "question": "Jak rychle mohu začít?",
+          "answer": "Můžete začít okamžitě! Zaregistrujte se pro bezplatný účet a během několika minut budete mít přístup k naší hlasové AI platformě. Náš průvodce nastavením vás provede počáteční konfigurací."
+        },
+        {
+          "question": "Jaký typ podpory poskytujete?",
+          "answer": "Nabízíme 24/7 zákaznickou podporu prostřednictvím více kanálů včetně živého chatu, emailu a telefonu. Náš specializovaný tým podpory je zde, aby vám pomohl uspět s naší platformou."
+        },
+        {
+          "question": "Jsou moje data v bezpečí?",
+          "answer": "Absolutně. Používáme podnikovou úroveň zabezpečení s end-to-end šifrováním, SOC 2 compliance a GDPR compliance. Vaše data jsou bezpečně uložena a nikdy nejsou sdílena s třetími stranami."
+        }
+      ]
+    }
+  },
+  "saas": {
+    "landing": {
+      "hero": {
+        "meet": "Seznamte se s",
+        "aiReceptionist": "Vaším AI Recepčním",
+        "subheadline": "Už nikdy nezmeškejte hovor. {brandName} obsluhuje vaše zákazníky 24/7 profesionálními, inteligentními konverzacemi, které rezervují schůzky, odpovídají na otázky a rozvíjejí vaše podnikání.",
+        "benefit1": "Dostupnost 24/7",
+        "benefit2": "Žádné Zmeškané Hovory",
+        "benefit3": "Spokojení Zákazníci",
+        "benefit4": "Zvyšte Příjmy",
+        "ctaFree": "Začněte ZDARMA",
+        "cta": "Pojďme Začít",
+        "loginPrompt": "Už máte účet? Přihlaste se zde",
+        "noCreditCard": "Bez kreditní karty • Nastavení za 5 minut",
+        "incomingCall": "Příchozí Hovor",
+        "customerCalling": "Zákazník volá...",
+        "answering": "Odpovídám...",
+        "aiGreeting": "Dobrý den! Jsem {brandName}. Jak vám mohu dnes pomoci?",
+        "customerRequest": "Chtěl bych si zarezervovat schůzku na zítra",
+        "aiResponse": "Rád vám pomohu! Dovolte mi zkontrolovat dostupnost..."
+      },
+      "features": {
+        "whyChoose": "Proč Zvolit",
+        "subtitle": "Transformujte své podnikání pomocí zákaznického servisu poháněného AI, který pracuje 24/7 pro zvýšení vašich příjmů a potěšení vašich zákazníků.",
+        "items": {
+          "neverMissCall": {
+            "title": "Nikdy Nezmeškejte Hovor",
+            "description": "Váš AI recepční okamžitě odpovídá na každý hovor, i když jste zaneprázdněni nebo mimo pracovní dobu."
+          },
+          "smartBooking": {
+            "title": "Chytré Rezervace Schůzek",
+            "description": "Automaticky plánuje schůzky na základě vaší dostupnosti a obchodních pravidel."
+          },
+          "naturalConversations": {
+            "title": "Přirozené Konverzace",
+            "description": "Zapojuje zákazníky lidskými konverzacemi přizpůsobenými vašemu podnikání."
+          },
+          "availability24_7": {
+            "title": "Dostupnost 24/7",
+            "description": "Pracuje nepřetržitě, aby zachytil potenciální zákazníky a obsluhoval klienty, když vy nemůžete."
+          },
+          "customerInfo": {
+            "title": "Informace o Zákaznících",
+            "description": "Shromažďuje a organizuje údaje o zákaznících pro lepší služby a následnou péči."
+          },
+          "growBusiness": {
+            "title": "Rozvíjejte Své Podnikání",
+            "description": "Přeměňuje více hovorů na zákazníky s profesionálním, konzistentním servisem."
+          },
+          "instantNotifications": {
+            "title": "Okamžitá Upozornění",
+            "description": "Buďte okamžitě informováni o důležitých hovorech a požadavcích zákazníků."
+          },
+          "easySetup": {
+            "title": "Snadné Nastavení",
+            "description": "Zprovozněte svého AI recepčního za pouhých 5 minut s naším průvodcem nastavením."
+          }
+        },
+        "cta": {
+          "title": "Jste Připraveni Transformovat Své Podnikání?",
+          "subtitle": "Připojte se k tisícům firem, které s {brandName} nikdy nezmeškají zákaznický hovor.",
+          "button": "Začít Nyní"
+        }
+      },
+      "footer": {
+        "poweredBy": "Poháněno pokročilou AI technologií pro transformaci vaší obchodní komunikace.",
+        "quickLinks": "Rychlé Odkazy",
+        "getStarted": "Začít",
+        "features": "Funkce",
+        "testimonials": "Reference",
+        "faq": "Časté Dotazy",
+        "resources": "Zdroje",
+        "helpCenter": "Centrum Nápovědy",
+        "contactUs": "Kontaktujte Nás",
+        "privacyPolicy": "Zásady Ochrany Osobních Údajů",
+        "termsOfService": "Podmínky Služby",
+        "followUs": "Sledujte Nás",
+        "allRightsReserved": "Všechna práva vyhrazena."
+      },
+      "faqs": {
+        "title": "Často Kladené Otázky",
+        "subtitle": "Získejte odpovědi na běžné otázky o naší hlasové AI platformě.",
+        "items": {
+          "getStarted": {
+            "question": "Jak rychle mohu začít?",
+            "answer": "Můžete začít okamžitě! Zaregistrujte se pro bezplatný účet a během několika minut získáte přístup k naší hlasové AI platformě. Náš průvodce nastavením vás provede počáteční konfigurací."
+          },
+          "dataSecurity": {
+            "question": "Jsou moje data v bezpečí?",
+            "answer": "Absolutně. Používáme podnikové zabezpečení s end-to-end šifrováním, SOC 2 compliance a GDPR compliance. Vaše data jsou bezpečně uložena a nikdy nejsou sdílena s třetími stranami."
+          },
+          "integrations": {
+            "question": "Mohu integrovat s mými stávajícími nástroji?",
+            "answer": "Ano! Naše platforma nabízí komplexní API a předpřipravené integrace s populárními CRM, helpdesk a komunikačními nástroji. Poskytujeme také webhooky pro vlastní integrace."
+          },
+          "freeTrial": {
+            "question": "Co je zahrnuto v bezplatné zkušební verzi?",
+            "answer": "Naše bezplatná zkušební verze zahrnuje plný přístup ke všem funkcím po dobu 14 dnů, až 100 hlasových interakcí a vyhrazenou podporu při nástupu, která vám pomůže vytěžit z platformy maximum."
+          },
+          "pricing": {
+            "question": "Jak funguje cenotvorba?",
+            "answer": "Nabízíme flexibilní ceny založené na vašich potřebách využití. Můžete začít s naší bezplatnou úrovní a škálovat s růstem vašeho podnikání. Všechny plány zahrnují základní funkce s dalšími možnostmi ve vyšších úrovních."
+          }
+        },
+        "stillHaveQuestions": "Stále máte otázky?",
+        "contactSupport": "Kontaktujte Podporu",
+        "getStarted": "Začít"
+      },
+      "testimonials": {
+        "title": "Co Říkají Naši Zákazníci",
+        "subtitle": "Připojte se k tisícům spokojených firem, které transformovaly svůj zákaznický servis pomocí AI.",
+        "items": {
+          "sarah": {
+            "name": "Sarah Johnson",
+            "role": "Majitelka Lékařské Kliniky",
+            "content": "Náš AI recepční byl převratný. Už nezmeškáváme schůzky a pacienti milují dostupnost 24/7."
+          },
+          "mike": {
+            "name": "Mike Chen",
+            "role": "Manažer Restaurace",
+            "content": "Rezervace jsou zvládány dokonale, i během našich nejrušnějších hodin. Je to jako mít vyhrazeného člena personálu, který si nikdy nedá pauzu."
+          },
+          "lisa": {
+            "name": "Lisa Rodriguez",
+            "role": "Partnerka Právní Firmy",
+            "content": "Profesionální, spolehlivý a vždy dostupný. Naši klienti jsou ohromeni kvalitou služeb a reaktivitou."
+          }
+        },
+        "readMore": "Přečíst Více Recenzí",
+        "stats": {
+          "callsHandled": {
+            "value": "10 000+",
+            "label": "Zpracovaných Hovorů"
+          },
+          "uptime": {
+            "value": "99,9%",
+            "label": "Dostupnost"
+          },
+          "availability": {
+            "value": "24/7",
+            "label": "Dostupnost"
+          },
+          "setupTime": {
+            "value": "5 Min",
+            "label": "Čas Nastavení"
+          }
+        }
+      },
+      "trustIndicators": {
+        "title": "Důvěřují Nám Firmy Po Celém Světě",
+        "items": {
+          "activeUsers": "10 000+ Aktivních Uživatelů",
+          "uptime": "Záruka 99,9% Dostupnosti",
+          "security": "Podnikové Zabezpečení",
+          "support": "Podpora 24/7"
+        }
+      },
+      "loading": "Načítám váš zážitek s AI recepčním...",
+      "error": {
+        "title": "Služba Nedostupná",
+        "message": "Nelze načíst službu AI recepčního. Zkuste to prosím později.",
+        "tryAgain": "Zkusit Znovu"
+      }
+    },
+    "onboarding": {
+      "step1": {
+        "title": "Nastavme {brandName} pro vaše podnikání",
+        "subtitle": "Nejprve nám řekněte o vašem podnikání, abychom mohli přizpůsobit vašeho AI recepčního",
+        "businessName": "Název firmy",
+        "businessNamePlaceholder": "Zadejte název vaší firmy",
+        "website": "URL webových stránek",
+        "websitePlaceholder": "https://vašestránky.cz",
+        "noWebsite": "Ještě nemám webové stránky",
+        "industry": "Odvětví",
+        "industryPlaceholder": "Vyberte vaše odvětví",
+        "continue": "Pokračovat",
+        "stepIndicator": "Krok 1 z 9"
+      },
+      "step2": {
+        "title": "Ověřování vašich webových stránek",
+        "subtitle": "Analyzujeme vaše webové stránky, abychom lépe porozuměli vašemu podnikání",
+        "stepIndicator": "Krok 2 z 9",
+        "verificationMessages": [
+          "Připojování k vašim webovým stránkám...",
+          "Analýza obsahu vašeho podnikání...",
+          "Porozumění vašim službám...",
+          "Identifikace kategorie vašeho podnikání...",
+          "Dokončování nastavení vašeho AI asistenta..."
+        ],
+        "marketingMessages": [
+          "Cherry odpoví na každý hovor, 24/7 - už nikdy neztratíte zákazníka!",
+          "Automaticky naplánuje schůzky a pošle potvrzení do vašeho kalendáře.",
+          "Zvládne více hovorů současně, zatímco se soustředíte na své podnikání.",
+          "Speciálně trénovaná na vaše podnikání pro poskytování přesných a užitečných odpovědí.",
+          "Bezproblémově přesměruje složité hovory k vám, když je to potřeba."
+        ]
+      },
+      "step3": {
+        "title": "Řekněte nám o sobě",
+        "subtitle": "Potřebujeme vaše kontaktní údaje pro nastavení vašeho účtu a nasazení {brandName}",
+        "firstName": "Křestní jméno",
+        "firstNamePlaceholder": "Zadejte vaše křestní jméno",
+        "lastName": "Příjmení",
+        "lastNamePlaceholder": "Zadejte vaše příjmení",
+        "email": "E-mailová adresa",
+        "emailPlaceholder": "Zadejte vaši e-mailovou adresu",
+        "phone": "Telefonní číslo",
+        "phonePlaceholder": "Zadejte vaše telefonní číslo",
+        "continue": "Pokračovat",
+        "stepIndicator": "Krok 3 z 9"
+      },
+      "step4": {
+        "title": "Jaké služby vaše firma nabízí?",
+        "subtitle": "Vyberte služby, které poskytujete, aby {brandName} mohl přesně odpovídat na dotazy zákazníků",
+        "stepIndicator": "Krok 4 z 9",
+        "aiSuggested": "Služby navržené AI",
+        "aiSuggestedDesc": "Na základě analýzy vašich webových stránek jsme pro vaši firmu předvybrali tyto služby:",
+        "detectedFrom": "Zjištěno z vašich webových stránek:",
+        "popularServices": "Oblíbené služby",
+        "allServices": "Všechny služby",
+        "showAll": "Zobrazit všechny kategorie",
+        "showFewer": "Zobrazit méně",
+        "otherServices": "Další služby",
+        "otherServicesPlaceholder": "Uveďte další služby, které nejsou uvedeny výše",
+        "otherServicesHint": "např. Péče o domácí mazlíčky, Home staging, Vlastní rámování...",
+        "continue": "Pokračovat",
+        "processing": "Zpracování..."
+      },
+      "step5": {
+        "title": "Přidejte znalosti o vaší firmě",
+        "subtitle": "Nahrajte dokumenty nebo přidejte webové stránky pro trénování {brandName} na vaši konkrétní firmu",
+        "stepIndicator": "Krok 5 z 9",
+        "uploadTab": "Nahrát dokumenty",
+        "websiteTab": "Webové stránky",
+        "dragDrop": "Přetáhněte soubory sem nebo klikněte pro procházení",
+        "fileSupport": "Podporuje soubory PDF, DOCX, TXT (max 10 MB každý)",
+        "addUrls": "Přidat URL webových stránek",
+        "addMoreUrls": "Přidat další URL",
+        "continue": "Pokračovat",
+        "skip": "Prozatím přeskočit",
+        "processing": "Zpracování...",
+        "websiteHint": "Použijeme obsah vašich webových stránek z kroku 1 pro trénování vašeho AI asistenta"
+      },
+      "step6": {
+        "title": "Přizpůsobte si pozdrav",
+        "subtitle": "Přizpůsobte si, jak {brandName} bude zdravit vaše volající",
+        "stepIndicator": "Krok 6 z 9",
+        "greetingLabel": "Vaše uvítací zpráva",
+        "previewVoice": "Náhled hlasu",
+        "playing": "Přehrávání...",
+        "stop": "Zastavit",
+        "continue": "Pokračovat",
+        "processing": "Zpracování...",
+        "tipsTitle": "Tipy pro skvělý pozdrav:",
+        "tip1": "Udržujte ho pod 30 sekund",
+        "tip2": "Uveďte název vaší firmy",
+        "tip3": "Buďte přátelští a profesionální"
+      },
+      "step7": {
+        "title": "Jaké informace má {brandName} shromažďovat?",
+        "subtitle": "Vyberte informace, které chcete shromažďovat od volajících",
+        "stepIndicator": "Krok 7 z 9",
+        "fullName": "Celé jméno",
+        "phoneNumber": "Telefonní číslo",
+        "emailAddress": "E-mailová adresa",
+        "reasonForCalling": "Důvod volání",
+        "preferredCallbackTime": "Preferovaný čas zpětného volání",
+        "continue": "Pokračovat",
+        "processing": "Zpracování..."
+      },
+      "step8": {
+        "title": "Nastavení komunikace",
+        "subtitle": "Nakonfigurujte, jak {brandName} bude komunikovat s vámi a vašimi zákazníky",
+        "stepIndicator": "Krok 8 z 9",
+        "emailNotifications": "E-mailová oznámení",
+        "emailNotificationsDesc": "Přijímejte souhrny hovorů a schůzek",
+        "smsNotifications": "SMS oznámení",
+        "smsNotificationsDesc": "Získejte textová upozornění na nové hovory",
+        "calendarIntegration": "Integrace kalendáře",
+        "calendarIntegrationDesc": "Automaticky přidávat schůzky do vašeho kalendáře",
+        "continue": "Pokračovat",
+        "processing": "Zpracování..."
+      },
+      "step9": {
+        "title": "Zkontrolovat a nasadit",
+        "subtitle": "Zkontrolujte své nastavení a nasaďte {brandName}",
+        "stepIndicator": "Krok 9 z 9",
+        "getStartedForFree": "Začněte ZDARMA!",
+        "getStartedNow": "Začněte Nyní!",
+        "startWithFreeCredits": "Začněte s {amount} ZDARMA AI kredity k prozkoumání naší hlasové AI technologie.",
+        "beginJourneyWithCredits": "Začněte svou cestu s {amount} zahrnutými AI kredity.",
+        "freeAiCreditsLabel": "ZDARMA AI Kredity",
+        "creditExplanation": "1 AI Kredit = 1 Minuta konverzace. Perfektní pro testování a začátek.",
+        "whatYouCanDoTitle": "Co můžete dělat se svými bezplatnými kredity:",
+        "testVoiceConversations": "Testujte hlasové konverzace s vaším AI agentem",
+        "experienceFullFunctionality": "Zažijte plnou funkčnost",
+        "noPaymentRequired": "Není vyžadována platba pro začátek",
+        "upgradeAnytime": "Upgradujte kdykoli pro více kreditů",
+        "completeSetupToClaim": "Dokončete nastavení pro získání vašich bezplatných kreditů",
+        "deploymentTimeEstimate": "Tento proces trvá přibližně 2-3 minuty",
+        "businessInfo": "Informace o firmě",
+        "services": "Služby",
+        "knowledgeBase": "Znalostní báze",
+        "greeting": "Pozdrav",
+        "infoCollection": "Shromažďování informací",
+        "commSettings": "Nastavení komunikace",
+        "edit": "Upravit",
+        "deploy": "Nasadit {brandName}",
+        "deploying": "Nasazování...",
+        "congratulations": "Gratulujeme!",
+        "liveMessage": "Váš AI recepční je nyní aktivní",
+        "goToDashboard": "Přejít na řídicí panel",
+        "loginToDashboard": "Přihlásit se na řídicí panel"
+      }
+    }
+  },
+  "auth": {
+    "login": {
+      "subtitle": "Přihlaste se pro přístup k vašemu účtu"
+    },
+    "register": {
+      "subtitle": "Vytvořte si účet"
+    },
+    "email": "E-mailová adresa",
+    "emailPlaceholder": "vy@priklad.com",
+    "password": "Heslo",
+    "confirmPassword": "Potvrdit heslo",
+    "fullName": "Celé jméno",
+    "fullNamePlaceholder": "Jan Novák",
+    "passwordRequirement": "Musí mít alespoň 8 znaků",
+    "passwordsDoNotMatch": "Hesla se neshodují",
+    "passwordTooShort": "Heslo musí mít alespoň 8 znaků",
+    "forgotPassword": "Zapomněli jste heslo?",
+    "signIn": "Přihlásit se",
+    "signingIn": "Přihlašování...",
+    "createAccount": "Vytvořit účet",
+    "creatingAccount": "Vytváření účtu...",
+    "registerButton": "Registrovat",
+    "or": "nebo",
+    "magicLink": {
+      "sent": "Magický odkaz odeslán!",
+      "checkEmail": "Zkontrolujte svůj e-mail pro bezpečný přihlašovací odkaz. Odkaz vyprší za 30 minut."
+    },
+    "sendMagicLink": "Odeslat magický odkaz",
+    "sendingMagicLink": "Odesílání magického odkazu...",
+    "enterEmailForMagicLink": "Zadejte výše svou e-mailovou adresu pro odeslání magického odkazu",
+    "noAccount": "Nemáte účet?",
+    "alreadyHaveAccount": "Už máte účet?",
+    "troubleReset": "Máte problémy? Resetujte si heslo zde",
+    "accountCreatedVerifyEmail": "Účet úspěšně vytvořen! Zkontrolujte svůj e-mail a klikněte na ověřovací odkaz pro dokončení registrace.",
+    "registrationError": "Při registraci došlo k chybě. Zkuste to prosím znovu.",
+    "registrationSuccessful": "Registrace úspěšná!",
+    "emailNotReceived": "Nedostali jste e-mail? Zkontrolujte složku spam nebo kontaktujte podporu.",
+    "forgotPasswordPage": {
+      "title": "Obnovit Heslo",
+      "subtitle": "Zadejte svůj e-mail pro získání bezpečného odkazu na obnovení",
+      "sendResetLink": "Odeslat Odkaz na Obnovení",
+      "processing": "Zpracování...",
+      "resetLinkSent": "Pokud s tímto e-mailem existuje účet, brzy obdržíte bezpečný odkaz na obnovení hesla.",
+      "backToLogin": "Zpět na Přihlášení"
+    }
+  },
+  "loading": "Načítání...",
+  "navigation": {
+    "back": "Zpět"
+  },
+  "footer": {
+    "allRightsReserved": "Všechna práva vyhrazena"
+  },
+  "portal": {
+    "common": {
+      "loading": "Loading...",
+      "error": "An error occurred",
+      "save": "Save",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "edit": "Edit",
+      "active": "Active",
+      "inactive": "Inactive",
+      "pending": "Pending",
+      "completed": "Completed",
+      "failed": "Failed",
+      "processing": "Processing...",
+      "success": "Success",
+      "actions": "Actions",
+      "status": "Status",
+      "name": "Name",
+      "description": "Description",
+      "create": "Create",
+      "update": "Update",
+      "confirm": "Confirm",
+      "close": "Close",
+      "download": "Download",
+      "upload": "Upload",
+      "search": "Search",
+      "filter": "Filter",
+      "refresh": "Refresh",
+      "noData": "No data available",
+      "viewDetails": "View Details"
+    },
+    "sidebar": {
+      "sections": {
+        "core": "Core",
+        "management": "Management",
+        "settingsSecurity": "Settings & Security",
+        "tools": "Tools"
+      },
+      "menu": {
+        "dashboard": "Dashboard",
+        "detailedUsage": "Detailed Usage",
+        "callHistory": "Call History",
+        "advancedAnalytics": "Advanced Analytics",
+        "knowledgeBase": "Knowledge Base",
+        "phoneNumbers": "Phone Numbers",
+        "integration": "Integration",
+        "docsMedia": "My Docs & Media",
+        "settings": "Settings",
+        "billing": "Billing & Payments",
+        "apiKeys": "API Keys",
+        "scheduleMeeting": "Schedule Meeting"
+      },
+      "labels": {
+        "comingSoon": "Coming Soon",
+        "getSupport": "Get Support",
+        "support": "Support",
+        "expandSidebar": "Expand sidebar",
+        "collapseSidebar": "Collapse sidebar"
+      }
+    },
+    "dashboard": {
+      "welcome": {
+        "title": "Welcome to {businessName} AI Dashboard",
+        "subtitle": "Monitor your AI agents, track performance, and analyze conversations."
+      },
+      "onboardingBanner": {
+        "title": "Continue Your AI Assistant Setup",
+        "description": "You have an incomplete onboarding for \"{businessName}\".",
+        "stepProgress": "You're currently at step {step} of 9",
+        "percentComplete": "{percentage}% complete",
+        "continueSetup": "Continue Setup"
+      },
+      "paymentBanner": {
+        "title": "Complete Your Payment Setup",
+        "description": "Your AI assistant is ready! Complete your payment setup to start receiving calls and access your phone number.",
+        "selectedPlan": "Selected plan: {planName} (${amount}/{interval})",
+        "setupPayment": "Setup Payment"
+      },
+      "phoneNumbers": {
+        "title": "Your AI Assistant Phone Numbers",
+        "active": "Active",
+        "connectedTo": "Connected to:",
+        "readyForCalls": "Ready to receive calls 24/7",
+        "liveMessage": "📞 Ready to go! Your AI assistant is live and ready to handle calls. Share these numbers with your customers or use them in your marketing materials."
+      },
+      "performance": {
+        "title": "Performance Overview",
+        "totalCalls": "Total Calls",
+        "acrossAllAgents": "Across all agents",
+        "totalMinutes": "Total Minutes",
+        "talkTime": "Talk time",
+        "activeAgents": "Active Agents",
+        "deployedActive": "Deployed and active",
+        "callVolumeTrend": "Call Volume Trend",
+        "last7Days": "Last 7 days"
+      },
+      "agents": {
+        "title": "Your AI Agents",
+        "viewConversations": "View conversations",
+        "active": "Active",
+        "inactive": "Inactive",
+        "chatAssistant": "Chat AI Assistant",
+        "voiceAssistant": "AI Voice Assistant",
+        "noPhoneNumber": "No phone number assigned",
+        "contactSupport": "Contact support to get started",
+        "readyForCalls": "Ready for calls",
+        "live": "Live",
+        "calls": "Calls",
+        "chats": "Chats",
+        "minutes": "Minutes",
+        "messages": "Messages",
+        "lastActivity": "Last Activity"
+      },
+      "recentCalls": {
+        "title": "Recent Calls",
+        "caller": "Caller",
+        "duration": "Duration",
+        "status": "Status",
+        "completed": "Completed",
+        "inProgress": "In Progress",
+        "missed": "Missed"
+      },
+      "misc": {
+        "never": "Never",
+        "recently": "Recently",
+        "noData": "No data",
+        "unknownAgent": "Unknown Agent",
+        "noAgentsAvailable": "No agents available for testing at the moment.",
+        "deploymentSuccess": "🎉 Congratulations! Your AI agent is now live and ready for business!",
+        "deploymentError": "Failed to deploy for business. Please try again."
+      }
+    },
+    "usage": {
+      "title": "Detailed Usage",
+      "subtitle": "Select an agent to view detailed analytics",
+      "stats": {
+        "totalDuration": "Total Duration",
+        "avgCostPerCall": "Avg Cost Per Call",
+        "totalCalls": "Total Calls",
+        "failedCalls": "Failed Calls",
+        "successRate": "Success Rate",
+        "avgDuration": "Avg Duration",
+        "totalCost": "Total Cost"
+      },
+      "timeFilters": {
+        "today": "Today",
+        "thisWeek": "This Week",
+        "thisMonth": "This Month"
+      },
+      "charts": {
+        "callVolumeOverTime": "Call Volume Over Time",
+        "callDistributionByHour": "Call Distribution by Hour",
+        "failureReasons": "Failure Reasons"
+      },
+      "table": {
+        "agentName": "Agent Name",
+        "duration": "Duration",
+        "cost": "Cost",
+        "calls": "Calls",
+        "successRate": "Success Rate"
+      },
+      "loading": "Loading...",
+      "noData": "No data available",
+      "error": "Error loading analytics"
+    },
+    "conversations": {
+      "title": "Chat logs",
+      "subtitle": "Conversation details and transcript",
+      "filters": {
+        "allAgents": "All Agents",
+        "allStatuses": "All Statuses",
+        "inbound": "Inbound",
+        "outbound": "Outbound",
+        "web": "Web"
+      },
+      "table": {
+        "agent": "Agent",
+        "caller": "Caller",
+        "duration": "Duration",
+        "status": "Status",
+        "started": "Started",
+        "actions": "Actions"
+      },
+      "status": {
+        "completed": "Completed",
+        "inProgress": "In Progress",
+        "failed": "Failed",
+        "missed": "Missed"
+      },
+      "transcript": {
+        "title": "Transcript",
+        "noTranscript": "No transcript available",
+        "user": "User",
+        "assistant": "Assistant",
+        "summary": "Summary"
+      },
+      "actions": {
+        "downloadTranscript": "Download Transcript",
+        "downloadRecording": "Download Recording",
+        "play": "Play",
+        "pause": "Pause",
+        "noRecording": "No recording available for this conversation"
+      },
+      "empty": "No conversations found",
+      "loading": "Loading conversations..."
+    },
+    "analytics": {
+      "title": "Analytics & Usage",
+      "subtitle": "View detailed analytics and usage statistics for your AI voice agents.",
+      "advancedTitle": "Advanced Analytics",
+      "advancedSubtitle": "Gain insights from your AI voice agent conversations",
+      "dateRange": {
+        "7days": "7 Days",
+        "30days": "30 Days",
+        "90days": "90 Days"
+      },
+      "tabs": {
+        "overview": "Overview",
+        "agentAnalytics": "Agent Analytics",
+        "actionPoints": "Action Points",
+        "detailedCalls": "Detailed Calls"
+      },
+      "charts": {
+        "sentimentAnalysis": "Sentiment Analysis",
+        "topTopics": "Top Topics",
+        "callOutcomes": "Call Outcomes",
+        "successful": "Successful",
+        "followUpNeeded": "Follow-up Needed",
+        "unsuccessful": "Unsuccessful"
+      },
+      "loading": "Loading analytics...",
+      "noData": "No analytics data available",
+      "error": "Error loading analytics",
+      "notEnabled": "This feature is not enabled for your account"
+    },
+    "knowledgeBase": {
+      "title": "Knowledge Base",
+      "subtitle": "Manage your AI agent's knowledge sources",
+      "tabs": {
+        "files": "Files",
+        "websites": "Websites"
+      },
+      "actions": {
+        "createKB": "Create Knowledge Base",
+        "newFolder": "New Folder",
+        "uploadFile": "Upload File",
+        "addWebsiteUrl": "Add Website URL",
+        "delete": "Delete",
+        "edit": "Edit",
+        "root": "Root",
+        "back": "Back"
+      },
+      "fileUpload": {
+        "title": "Upload File",
+        "dragDrop": "Drag and drop a file here, or click to select",
+        "description": "Description (optional)",
+        "supportedFormats": "Supported formats",
+        "maxSize": "Maximum file size: 10MB",
+        "cancel": "Cancel",
+        "upload": "Upload",
+        "uploading": "Uploading..."
+      },
+      "folder": {
+        "createTitle": "Create New Folder",
+        "folderName": "Folder Name",
+        "description": "Description (optional)",
+        "cancel": "Cancel",
+        "create": "Create"
+      },
+      "website": {
+        "addUrl": "Add Website URL",
+        "enterUrl": "Enter the URL to crawl",
+        "processing": "Processing...",
+        "indexed": "Indexed",
+        "failed": "Failed",
+        "pending": "Pending"
+      },
+      "status": {
+        "loading": "Loading knowledge bases...",
+        "noKB": "No knowledge bases found",
+        "noFiles": "No files or folders",
+        "processingStatus": "Processing status: "
+      }
+    },
+    "phoneNumbers": {
+      "title": "Phone Numbers",
+      "subtitle": "Manage your phone numbers for voice agents and communication",
+      "buttons": {
+        "import": "Import Numbers",
+        "buy": "Buy Phone Number",
+        "getNumber": "Get A Number"
+      },
+      "info": {
+        "managedByProvider": "Your phone numbers are managed by your service provider",
+        "needNew": "Need a new phone number?",
+        "contactProvider": "Contact your service provider"
+      },
+      "table": {
+        "phoneNumber": "Phone Number",
+        "status": "Status",
+        "agent": "Agent",
+        "actions": "Actions"
+      },
+      "status": {
+        "active": "Active",
+        "inactive": "Inactive",
+        "pending": "Pending",
+        "released": "Released"
+      },
+      "actions": {
+        "assignToAgent": "Assign to Agent",
+        "release": "Release Number",
+        "configure": "Configure"
+      }
+    },
+    "integration": {
+      "title": "Integration Hub",
+      "subtitle": "Connect your AI voice agents to external tools and services",
+      "custom": {
+        "title": "Custom Integrations",
+        "subtitle": "Build custom tool integrations using OpenAPI specifications",
+        "builder": "Custom Tool Builder",
+        "description": "Create custom integrations with any API or service",
+        "comingSoon": "Coming Soon",
+        "getNotified": "Get Notified"
+      }
+    },
+    "settings": {
+      "title": "Account Settings",
+      "subtitle": "Manage your account and security settings",
+      "profile": {
+        "title": "Profile Information",
+        "name": "Name",
+        "email": "Email"
+      },
+      "password": {
+        "title": "Change Password",
+        "current": "Current Password",
+        "new": "New Password",
+        "confirm": "Confirm Password",
+        "update": "Update Password",
+        "updating": "Updating..."
+      },
+      "validation": {
+        "passwordMismatch": "New passwords do not match",
+        "passwordLength": "Password must be at least 8 characters long",
+        "passwordSuccess": "Password changed successfully",
+        "passwordError": "Failed to change password"
+      },
+      "team": {
+        "title": "Team Management",
+        "subtitle": "Manage team members and permissions",
+        "invite": "Invite Member",
+        "role": "Role",
+        "status": "Status",
+        "actions": "Actions"
+      }
+    },
+    "billing": {
+      "tabs": {
+        "invoices": "Invoices",
+        "usage": "Usage",
+        "subscriptions": "Subscriptions",
+        "paymentMethods": "Payment Methods",
+        "credits": "Credits"
+      },
+      "summary": {
+        "totalInvoices": "Total Invoices",
+        "totalAmount": "Total Amount",
+        "paidAmount": "Paid Amount",
+        "pendingAmount": "Pending Amount",
+        "overdue": "Overdue"
+      },
+      "invoice": {
+        "number": "Invoice #",
+        "description": "Description",
+        "amount": "Amount",
+        "status": "Status",
+        "dueDate": "Due Date",
+        "actions": "Actions"
+      },
+      "invoiceStatus": {
+        "draft": "Draft",
+        "sent": "Sent",
+        "paid": "Paid",
+        "overdue": "Overdue",
+        "cancelled": "Cancelled",
+        "processing": "Processing"
+      },
+      "actions": {
+        "payNow": "Pay Now",
+        "viewInvoice": "View Invoice",
+        "download": "Download",
+        "requestCancellation": "Request Cancellation",
+        "refresh": "Refresh"
+      },
+      "paymentMethods": {
+        "add": "Add Payment Method",
+        "default": "Default",
+        "remove": "Remove",
+        "setDefault": "Set as Default"
+      },
+      "credits": {
+        "balance": "Credit Balance",
+        "buy": "Buy Credits",
+        "remaining": "credits remaining"
+      },
+      "toast": {
+        "paymentSuccess": "Payment completed successfully!",
+        "paymentCancelled": "Payment was cancelled",
+        "paymentError": "Failed to process payment"
+      }
+    },
+    "apiKeys": {
+      "title": "API Keys",
+      "subtitle": "Manage your API keys for programmatic access",
+      "redirecting": "Redirecting to API Keys page...",
+      "accessControl": {
+        "notEnabled": "API access is not enabled for your account",
+        "contactProvider": "Contact your service provider to enable API access"
+      },
+      "table": {
+        "name": "Name",
+        "keyPrefix": "Key Prefix",
+        "status": "Status",
+        "lastUsed": "Last Used",
+        "created": "Created",
+        "actions": "Actions"
+      },
+      "create": {
+        "title": "Create API Key",
+        "keyName": "Key Name",
+        "description": "Description (optional)",
+        "expiration": "Expiration Date (optional)",
+        "create": "Create",
+        "cancel": "Cancel"
+      },
+      "display": {
+        "title": "Your new API key",
+        "warning": "Copy this key now. You won't be able to see it again.",
+        "copy": "Copy to clipboard",
+        "copied": "Copied!"
+      },
+      "actions": {
+        "delete": "Delete",
+        "revoke": "Revoke"
+      },
+      "status": {
+        "active": "Active",
+        "expired": "Expired",
+        "revoked": "Revoked"
+      }
+    }
+  }
+}

@@ -1,0 +1,238 @@
+{
+  "sections": [
+    {
+      "title": "2025 - Week 11",
+      "type": "changelog",
+      "content": {
+        "text": "Launched Knotie AI PRO - Partner-Enabled VOICE-AI Agent Platform",
+        "items": [
+          "✅ Unified Voice AI Management Platform",
+          "✅ Bring Your VAPI Agents to Knotie-AI Pro",
+          "✅ Real-Time Cost Tracking",
+          "✅ Advanced Voice AI Analytics",
+          "✅ Interactive Dashboards for Partners and Customers",
+          "✅ User authentication"
+        ],
+        "images": [
+          {
+            "src": "/images/features/customer_analytics.png",
+            "alt": "Real-time Customer analytics feature"
+          },
+          {
+            "src": "/images/features/partner_dashboard.png",
+            "alt": "Manage all your customer from an Integrated Dashboard"
+          },
+          {
+            "src": "/images/features/partner_agents.png",
+            "alt": "Manage all your Voice AI Agents from one App"
+          }
+        ]
+      }
+    },
+    {
+      "title": "2025 - Week 12",
+      "type": "changelog",
+      "content": {
+        "text": "Bringing ReTell AI Agents to Knotie-AI Pro",
+        "items": [
+          "✅ Manage Retell AI Agents",
+          "✅ Set Custom Profit Multiplier on different type of agents",
+          "✅ Customer Can View Agent Conversations to see how their agent is performing",
+          "✅ Customer Can Listen to Agent Conversations Recordings"
+        ],
+        "images": [
+          {
+            "src": "/images/features/partner_retell_agents.png",
+            "alt": "Onboard Retell AI Agents"
+          },
+          {
+            "src": "/images/features/customer_dashboard_integrated_agents.png",
+            "alt": "Customer to see analytics of all VAPI & Retell AI Agents"
+          },
+          {
+            "src": "/images/features/conversation_history.png",
+            "alt": "Customer can view all of their agent conversation history at one place"
+          }
+        ]
+      }
+    },
+    {
+      "title": "2025 - Week 15",
+      "type": "changelog",
+      "content": {
+        "text": "Advanced Analytics & Infrastructure Upgrades",
+        "items": [
+          "✅ Comprehensive Advanced Analytics System",
+          "✅ Detailed Call Analysis with in-depth metrics",
+          "✅ Overall Customer Agent Analysis",
+          "✅ Customer Action Points with actionable intelligence",
+          "✅ Deal Management for tracking customer deals",
+          "✅ Infrastructure Upgrade to larger cloud provider"
+        ],
+        "images": []
+      }
+    },
+    {
+      "title": "2025 - Week 16",
+      "type": "changelog",
+      "content": {
+        "text": "User Experience Improvements & New Demo Agent Feature",
+        "items": [
+          "✅ New Demo Agent Feature with ready-to-use templates",
+          "✅ One-Click Demo Deployment for sales calls",
+          "✅ New Tutorial Section with guides",
+          "✅ Enhanced Advanced Analytics with scalable worker configurations",
+          "✅ Fixed critical user experience issues"
+        ],
+        "images": []
+      }
+    },
+    {
+      "title": "2025 - Week 18",
+      "type": "changelog",
+      "content": {
+        "text": "True WhiteLabel Solution",
+        "items": [
+          "✅ Free Lifetime Subdomains for partners",
+          "✅ Complete Brand Control with logo, colors, and branding",
+          "✅ White-labeled customer portal experience",
+          "✅ Fixed customer portal branding display issues",
+          "✅ Improved high-volume transcription access"
+        ],
+        "images": []
+      }
+    },
+    {
+      "title": "2025 - Week 19 (Knot-1.0)",
+      "type": "changelog",
+      "content": {
+        "text": "Full White-Label with Custom Domains",
+        "items": [
+          "✅ Custom Domain Support for complete white-labeling",
+          "✅ Custom Portal Header with partner business name",
+          "✅ 22 AI Demo Templates across 10 different sectors",
+          "✅ Customer Self-Service Password Reset",
+          "✅ Improved Retell Agent Conversation Loading",
+          "✅ Fixed Partner Logo Display"
+        ],
+        "images": []
+      }
+    },
+    {
+      "title": "2025 - Week 20",
+      "type": "changelog",
+      "content": {
+        "text": "Partner Control & API Enhancements",
+        "items": [
+          "✅ Partner Control of Customer Portal Dashboard Options",
+          "✅ Partner Landing Page with Self-Signup Configuration",
+          "✅ Webhooks for Agent Analytics",
+          "✅ API Keys and Secrets for Partners and Customers",
+          "✅ Team Member Management for Partners and Customers",
+          "✅ Cloudflare One-Click Domain Verification"
+        ],
+        "images": []
+      }
+    },
+    {
+      "title": "2025 - Week 21",
+      "type": "roadmap",
+      "content": {
+        "text": "Provider Optimization & Reliability",
+        "items": [
+          "🚀 Retell AI Provider Optimization",
+          "🚀 VAPI Provider Production Readiness",
+          "🚀 Enhanced Error Handling for Voice AI Providers",
+          "🚀 Improved Call Quality Monitoring",
+          "🚀 Automated Provider Health Checks"
+        ],
+        "images": []
+      }
+    },
+    {
+      "title": "2025 - Week 22",
+      "type": "roadmap",
+      "content": {
+        "text": "Milie AI Integration",
+        "items": [
+          "🚀 Milie AI Voice Agent Support",
+          "🚀 Milie AI Analytics Integration",
+          "🚀 Custom Voice Selection for Milie Agents",
+          "🚀 Milie-specific Demo Templates",
+          "🚀 Milie AI Cost Tracking & Billing"
+        ],
+        "images": []
+      }
+    },
+    {
+      "title": "2025 - Week 23",
+      "type": "roadmap",
+      "content": {
+        "text": "Elevenlabs AI Integration",
+        "items": [
+          "🚀 Elevenlabs Voice Agent Support",
+          "🚀 Voice Cloning Capabilities",
+          "🚀 Multi-language Support for Elevenlabs",
+          "🚀 Elevenlabs-specific Demo Templates",
+          "🚀 Advanced Voice Customization Options"
+        ],
+        "images": []
+      }
+    },
+    {
+      "title": "2025 - Week 24",
+      "type": "roadmap",
+      "content": {
+        "text": "Custom SMTP & Webhook Enhancements",
+        "items": [
+          "🚀 Custom SMTP Configuration for Partners",
+          "🚀 Enhanced Webhook Support for Agents",
+          "🚀 Webhook Event Filtering & Management",
+          "🚀 Advanced Email Template Customization",
+          "🚀 Email Delivery Analytics & Reporting"
+        ],
+        "images": []
+      }
+    },
+    {
+      "title": "2025 - Q3",
+      "type": "roadmap",
+      "content": {
+        "text": "Major Provider Expansions",
+        "items": [
+          "🔮 Deepgram AI Agents Integration",
+          "🔮 Heygen AI Video Agent Support",
+          "🔮 AI SDRs Capability",
+          "🔮 Go High Level (GHL) Integration",
+          "🔮 Stripe Connect for Partner Payments",
+          "🔮 Additional Voice & Video AI Providers"
+        ],
+        "images": []
+      }
+    },
+    {
+      "title": "2025 - Q4",
+      "type": "roadmap",
+      "content": {
+        "text": "Platform Expansion & Advanced Features",
+        "items": [
+          "🔮 Document Management with AI Training",
+          "🔮 Enhanced Knowledge Base Features",
+          "🔮 Advanced Role-Based Access Control",
+          "🔮 Multi-channel Agent Deployment",
+          "🔮 AI Agent Performance Optimization",
+          "🔮 Enterprise-grade Security Enhancements"
+        ],
+        "images": []
+      }
+    }
+  ],
+  "partnerCTA": {
+    "title": "Shape Our Future",
+    "description": "Join us as a partner and influence our roadmap by submitting or voting on feature requests",
+    "buttonText": "Become a Partner",
+    "buttonLink": "/partners",
+    "secondaryButtonText": "Submit & Vote on Features",
+    "secondaryButtonLink": "https://knotie.featurebase.app/dashboard/roadmap"
+  }
+}

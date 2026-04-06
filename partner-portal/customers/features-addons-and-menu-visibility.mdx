@@ -1,6 +1,6 @@
 ---
 title: "Features, add-ons, and menu visibility"
-description: "Control customer portal access, enable add-on features, AI credit settings, and which menu items the customer sees."
+description: "Control customer portal access, enable add-on features, and decide which customer-portal menus appear, including AI Gateway."
 ---
 
 ## Where to find it
@@ -12,55 +12,75 @@ description: "Control customer portal access, enable add-on features, AI credit 
 
 ## Customer Portal toggle
 
-The section includes:
+The first toggle is:
 
 - **Enable Customer Portal**
 
-This controls whether the customer can access their dashboard.
+This controls whether the customer can access their own portal.
 
-If the customer is not eligible for portal access, the modal will show an error explaining why.
+If portal access cannot be enabled yet, the modal returns an eligibility error instead of silently turning the setting on.
 
 ## Add-on feature toggles
 
-The modal includes toggles for:
+The modal currently includes these add-on controls:
 
-- **Advanced Analytics**
+- **Advanced AI Analytics**
 - **Detailed Call Analysis**
 - **Action Point Analysis**
 - **API Access**
+- **Knowledge Base Processing** - shown as **coming soon**
 
-These features may be treated as add-ons depending on plan/policy.
+Notes:
 
-## API Keys visibility depends on API Access
+- **Advanced AI Analytics** can be blocked at the partner level until the partner enables that capability first.
+- **Knowledge Base Processing** is present in the UI but grayed out as coming soon.
 
-There is also a menu visibility toggle for **API Keys**, but it can be disabled if **API Access** is not enabled.
+## Premium add-ons
+
+The same panel also includes premium add-ons.
+
+At the moment, the customer modal includes:
+
+- **Twitter / X Integration**
+
+This is presented as a paid add-on with customer-level billing.
 
 ## AI Credit Management
 
-The modal can enable “credits-based” charging:
+The AI credit section includes:
 
 - **AI Credits Enabled**
-
-When enabled:
-
-- Pricing information display may be disabled (the UI indicates “Disabled when AI Credits are enabled”).
-
-### Low credit notifications
-
-If AI credits are enabled, you can configure:
-
 - **Enable Notifications**
 - **Low Credit Threshold**
 
-This sends whitelabel email alerts when the customer’s AI credits run low.
+Turning on **AI Credits Enabled** changes pricing behavior for that customer.
+
+When enabled:
+
+- The customer is charged using **AI Credits** instead of dollar pricing
+- **Show Pricing Information** is forced off
+- The customer becomes eligible for **AI Gateway** menu visibility
+
+Low-credit notifications:
+
+- Whitelabel email alerts can be enabled
+- The threshold is configured in **credits remaining**
+
+Important dependency:
+
+- If **AI Credits Enabled** is turned off again, **AI Gateway** is also turned off for that customer.
 
 ## Pricing information visibility
 
-The modal includes:
+The panel also includes:
 
 - **Show Pricing Information**
 
-Use this when you want the customer portal to show (or hide) pricing/cost info.
+This controls whether pricing/cost information is shown in the customer portal.
+
+Rule:
+
+- If **AI Credits Enabled** is on, **Show Pricing Information** is disabled.
 
 ## Menu Visibility Options
 
@@ -72,6 +92,39 @@ You can control which sections appear in the customer portal:
 - Schedule Meeting
 - Phone Numbers
 - API Keys (requires API Access)
+- AI Gateway (requires AI Credits)
+
+### API Keys visibility rule
+
+The **API Keys** menu can only be enabled when **API Access** is enabled.
+
+If **API Access** is turned off:
+
+- The **API Keys** menu is automatically turned off
+- The API Keys visibility toggle stays disabled until API Access is turned back on
+
+### AI Gateway visibility rule
+
+The **AI Gateway** menu is a separate toggle from **API Keys**.
+
+It is shown in the customer modal as **AI Gateway** with a **Beta** badge.
+
+The toggle only becomes available when:
+
+- **AI Credits Enabled** is on for that customer
+
+The menu's purpose is:
+
+- Allow the customer to generate their own AI Gateway API keys
+- Bill that usage through the customer's **AI Credits**
+
+For the customer to actually see AI Gateway in their portal, the partner must also enable **Customer Self-Service API Keys** in the partner-level [AI Gateway](/partner-portal/ai-gateway) page.
+
+### Billing & Payments visibility
+
+**Billing & Payments** is not controlled by a manual toggle in this panel.
+
+In the customer portal, it appears after the customer has portal credentials / active portal access.
 
 ## Embed URLs and portal access
 
@@ -101,9 +154,11 @@ If the portal isn’t enabled yet, the UI may show a notice that team members re
 
 ## Related pages
 
+- [AI Gateway](/partner-portal/ai-gateway) - Partner-level AI Gateway setup and customer self-service controls
+- [Client portal navigation, billing, and AI Gateway](/customer-management/client-portal-navigation-and-ai-gateway) - What the customer actually sees in the whitelabel portal
 - [Customer's Portal Access](/partner-portal/customers/customer-portal-access-actions) – Enable and manage customer portal access actions
 - [Embed URLs](/partner-portal/customers/embed-urls) – Generate customer-scoped embed tokens and URLs
-- [API Keys](/partner-portal/api-keys) – Partner-level API access for server-side integrations
+- [API access overview](/partner-portal/api-keys) – High-level API access guidance and where AI Gateway fits
 
 ## Screenshots
 
