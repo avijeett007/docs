@@ -1,9 +1,0 @@
-export { HeroBanner } from './HeroBanner';
-export { HeroHeading } from './HeroHeading';
-export { HeroSubtitle } from './HeroSubtitle';
-export { HeroButtons } from './HeroButtons';
-export { TrustIndicators } from './TrustIndicators';
-export { VoiceAgentInterface } from './VoiceAgentInterface';
-export { LiveStatusMessage } from './LiveStatusMessage';
-export { PlatformLogos } from './PlatformLogos';
-export { HeroSection } from './HeroSection';
