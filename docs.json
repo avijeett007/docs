@@ -115,6 +115,7 @@
               "use-cases/retell-phone-number-import-and-outbound",
               "use-cases/agency-outbound-command-center",
               "use-cases/automated-customer-onboarding",
+              "use-cases/credit-based-client-billing",
               "use-cases/coming-soon"
             ]
           }

@@ -1,0 +1,129 @@
+---
+title: "Set up credit-based billing for agency clients"
+description: "Configure per-client AI credit management with low-balance alerts, price-per-minute markups, and portal visibility controls."
+---
+
+## Who this is for
+
+This playbook is for agencies that:
+
+- Resell AI voice agent services to multiple clients
+- Want usage-based billing rather than flat-rate subscriptions
+- Need per-client credit controls to prevent runaway spend
+
+## Business goal
+
+Without credit controls, a single high-volume client can drain your account. This playbook sets up:
+
+- **Per-client credit balances** so each client pays for what they use
+- **Profit margins** via price-per-minute markups
+- **Low-balance alerts** so neither you nor your client gets surprised
+- **Portal visibility** so clients can self-serve top-ups (optional)
+
+## Prerequisites
+
+- At least one customer onboarded in the Partner Portal
+- Your own Knotie Credits balance topped up
+- (Optional) Stripe Connect configured for metered billing
+
+## Step 1 — Enable AI credits for a customer
+
+1. Partner Portal → **Customers**
+2. Open the customer's **Manage** panel
+3. Go to the **Credits & AI Credit Management** section
+4. Toggle **AI Credits Enabled** to on
+
+> This activates per-call credit deductions for this customer. Without it, calls use your partner balance directly.
+
+## Step 2 — Set the price per minute
+
+In the same section:
+
+1. Set **AI Credit Price Per Minute** — this is what the customer is charged per minute of AI agent usage
+2. Set **Grace Period** (seconds) — allows calls to complete slightly over the credit limit rather than cutting off mid-sentence
+
+**Pricing example:**
+
+| Your cost | Customer price | Your margin |
+|---|---|---|
+| $0.08/min | $0.12/min | 50% markup |
+| $0.08/min | $0.15/min | 87.5% markup |
+
+> **Tip**: Use **Agent Analytics** to understand your actual per-minute costs before setting markups.
+
+## Step 3 — Configure low-balance alerts
+
+Still in the customer's credit settings:
+
+1. Set **Low Credit Threshold** — the balance level that triggers a warning (e.g., 100 credits)
+2. Toggle **Low Credit Notifications Enabled** — sends alerts when the threshold is reached
+
+This prevents calls from silently failing when a client runs out of credits.
+
+## Step 4 — Add initial credits
+
+1. In the customer **Manage** panel, go to **Credits**
+2. Add credits to the customer's balance
+3. The customer's AI agent calls will now deduct from this balance
+
+## Step 5 — (Optional) Let clients see their balance
+
+Control what the client sees in their portal:
+
+| Setting | Effect |
+|---|---|
+| **Show Pricing Information** | Client can see their rate and balance |
+| **Customer Portal Enabled** | Client can log in to their portal |
+| **Restrict Credit Plan Visibility** | Limit which top-up plans the client can see |
+
+To configure:
+
+1. In customer **Manage** panel → **Features & Add-ons**
+2. Toggle portal and pricing visibility as needed
+
+## Step 6 — (Optional) Set up credit plans for self-serve top-ups
+
+If you want clients to buy credits themselves:
+
+1. Partner Portal → **Settings** → **Customer Credit Plans**
+2. Create plans (e.g., "100 minutes — $15", "500 minutes — $60")
+3. Optionally restrict per-customer which plans are visible using **Visible Customer Credit Plan IDs** in the customer settings
+
+## Verification checklist
+
+- [ ] AI credits enabled for the customer
+- [ ] Price per minute set with your desired margin
+- [ ] Low credit threshold configured
+- [ ] Notifications enabled
+- [ ] Initial credits added
+- [ ] (Optional) Portal access enabled with pricing visibility
+- [ ] (Optional) Credit plans created for self-serve
+
+## How credits flow
+
+```
+Partner buys Knotie Credits
+       ↓
+Partner allocates credits to Customer
+       ↓
+Customer's AI agent makes/receives calls
+       ↓
+Credits deducted at Customer's price-per-minute rate
+       ↓
+Low-balance alert fires when threshold is hit
+```
+
+## Troubleshooting
+
+| Symptom | Likely cause |
+|---|---|
+| Calls fail with "insufficient credits" | Customer balance is zero — add credits or enable grace period |
+| Client doesn't see their balance | **Show Pricing Information** is off in their portal settings |
+| No low-balance alerts | Notifications not enabled, or threshold set too low |
+| Credits deducting from partner instead of customer | **AI Credits Enabled** is off for that customer |
+
+## Next steps
+
+- Explore [Metered Billing](/partner-portal/metered-billing) for Stripe-based automated invoicing
+- Set up [automated onboarding](/use-cases/automated-customer-onboarding) to provision credits via API
+- Review [Agent Analytics](/partner-portal/agent-analytics) to optimize your pricing
