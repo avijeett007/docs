@@ -1,16 +1,48 @@
 ---
 title: "More API specs"
-description: "A place to add additional API references as they are published."
+description: "Upcoming API references — outbound calling, credits, analytics, and webhooks."
 ---
 
 ## Overview
 
-We’ll add more API references here as additional specs are published.
+Additional API references will be added here as they are published. Below is a preview of what's planned.
 
-## Suggested structure
+## Planned API areas
 
-- Authentication
-- Base URLs and environments
-- Rate limits
-- Error handling
-- Endpoint reference
+### Outbound calling API
+
+Trigger outbound calls programmatically without relying on CRM webhooks.
+
+- `POST /api/outbound-call` — initiate an outbound call
+- Required fields: `from_number`, `to_number`
+- Authentication: Bearer token using an outbound webhook key (`owk_...`)
+- Supports `dynamicdata_*` fields to pass variables into the agent conversation
+
+### Credits and billing API
+
+Manage customer credit balances and query usage.
+
+- View credit balance for a customer
+- Add or deduct credits
+- Query usage history and billing summaries
+
+### Analytics API
+
+Access call logs, agent performance metrics, and customer activity data.
+
+- Call history and recordings
+- Agent utilization and success rates
+- Per-customer usage breakdowns
+
+### Webhook events
+
+Receive real-time notifications for key platform events.
+
+- Call completed / failed
+- Customer created / updated
+- Credit balance low
+- Deployment status changed
+
+## Need an API sooner?
+
+If you need programmatic access to a feature that isn't documented yet, reach out to the Knotie AI team at [support@knotie-ai.pro](mailto:support@knotie-ai.pro).
