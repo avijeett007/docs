@@ -114,6 +114,7 @@
               "use-cases/warm-lead-outbound-calls-ghl",
               "use-cases/retell-phone-number-import-and-outbound",
               "use-cases/agency-outbound-command-center",
+              "use-cases/automated-customer-onboarding",
               "use-cases/coming-soon"
             ]
           }
