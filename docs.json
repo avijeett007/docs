@@ -62,6 +62,7 @@
               "partner-portal/customers/tool-call-quota",
               "partner-portal/customers/deployment-status-tracking",
               "partner-portal/customers/customer-portal-management",
+              "partner-portal/customers/vps-terminal",
               "partner-portal/customers/daily-management",
               "partner-portal/credits",
               "partner-portal/telephony-credits",
