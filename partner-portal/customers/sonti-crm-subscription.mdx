@@ -1,0 +1,93 @@
+---
+title: "Sonti CRM Subscription"
+description: "Manage per-customer GoHighLevel (GHL) CRM subscriptions — checkout, cancel, and understand billing tiers."
+---
+
+## What Sonti CRM Subscription is
+
+Sonti CRM Subscription lets partners provision a dedicated **GoHighLevel (GHL) CRM workspace** for each of their customers, billed on a per-customer monthly basis.
+
+Each customer workspace is a fully isolated GHL sub-account. The partner manages the subscription (checkout and cancel) from the Partner Portal, while the customer accesses their CRM directly via a unique dashboard URL.
+
+## Who needs a subscription
+
+Whether a customer needs a paid subscription depends on the partner's billing plan:
+
+| Partner plan | Monthly cost | Notes |
+|---|---|---|
+| **Lifetime** + non-self customer | $10 / month | Partner's own CRM (self-customer) is free |
+| **Free-forever** partner | $20 / month | — |
+| **Regular paid** partner | Included | No separate charge — Sonti CRM is included in the plan |
+
+A **self-customer** is one whose email matches the partner's own email address. Lifetime partners provision their own CRM workspace at no extra cost.
+
+## Checking subscription status
+
+Before provisioning or managing a subscription, you can check the current status for any customer via the **Manage** modal on the Customer List page.
+
+The status reflects both the **GHL workspace state** and the **Stripe subscription state**:
+
+- `not_provisioned` — No GHL workspace exists yet
+- `provisioning` — Workspace creation is in progress
+- `active` — GHL workspace is live; Stripe subscription is active (if applicable)
+- `paused` — GHL workspace was paused (e.g., after subscription cancel)
+- `cancelled` — Stripe subscription was cancelled
+
+## Starting a subscription (checkout)
+
+When a customer requires a paid subscription (Free-forever or Lifetime partner with a non-self customer), initiate checkout from the **Manage** modal under the **Sonti CRM** tab.
+
+<Callout type="info">
+  You must have an active Stripe Connect account linked to your Partner Portal to process payments.
+</Callout>
+
+**To start a subscription:**
+
+1. Navigate to **Customer List** → select a customer → **Manage**
+2. Open the **Sonti CRM** tab
+3. Click **Checkout** — this opens a Stripe Checkout session
+4. Complete payment on the Stripe-hosted page
+5. You are redirected back to the Customer List with a success message
+
+The subscription is confirmed when Stripe fires the `checkout.session.completed` webhook, which activates the subscription status in the database.
+
+[SCREENSHOT: Sonti CRM checkout flow]
+
+## Cancelling a subscription
+
+Cancelling stops future billing and **immediately pauses the customer's GHL workspace**, restricting their CRM access.
+
+**To cancel:**
+
+1. Navigate to **Customer List** → select a customer → **Manage**
+2. Open the **Sonti CRM** tab
+3. Click **Cancel Subscription**
+4. Confirm the cancellation
+
+The customer's GHL sub-account location is paused via the GHL API, and the Stripe subscription is cancelled. The subscription status updates to `cancelled`.
+
+[SCREENSHOT: Sonti CRM cancel confirmation]
+
+<Callout type="warning">
+  Cancellation is immediate and non-reversible from the Partner Portal. To restore access, the customer must go through checkout again.
+</Callout>
+
+## Provisioning the GHL workspace
+
+Once a subscription is active (or for Lifetime partners provisioning a self-customer), the GHL workspace is provisioned via the **Provision CRM** button in the Sonti CRM tab.
+
+Provisioning creates:
+
+- A **new GHL sub-account (location)** for the customer
+- A **GHL user** for you (the partner) with access to that location — GHL sends an activation email automatically on first provisioning
+- **Rebilling enabled** on all products so the sub-account wallet is active for usage-based features (phone, email, AI, workflows)
+
+You can update workspace details (business name, timezone, address) after provisioning via the **Update CRM** button.
+
+## Dashboard access
+
+After provisioning, the **Open Dashboard** button appears, linking directly to the customer's GHL CRM workspace. The login email used is the partner's email address.
+
+## Relationship to GHL Agent integration
+
+Sonti CRM Subscription is the **billing layer** for the GHL CRM integration. The [GHL Agent](/agents/ghl/manage-ghl-agents) feature uses the provisioned workspace — if the subscription is cancelled, the GHL workspace is paused and the agent's CRM functionality is affected.

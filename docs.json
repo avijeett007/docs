@@ -64,6 +64,7 @@
               "partner-portal/customers/customer-portal-management",
               "partner-portal/customers/vps-terminal",
               "partner-portal/customers/daily-management",
+              "partner-portal/customers/sonti-crm-subscription",
               "partner-portal/credits",
               "partner-portal/telephony-credits",
               "partner-portal/phone-numbers",
