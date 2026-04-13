@@ -1,0 +1,204 @@
+---
+title: "OpenClaw Partner Setup"
+description: "Deploy a production AI assistant for your customers using OpenClaw and Knotie AI Gateway."
+---
+
+## What is OpenClaw?
+
+OpenClaw is a setup tool that lets Knotie Agency Partners deploy a **production-ready AI assistant** for their customers — on a VPS they control, routed through the Knotie AI Gateway.
+
+Think of it as a "one-click deploy" for an AI agent that:
+- Runs on your customer's own server (Linux VPS)
+- Is accessible only over a private Tailscale network (no public internet exposure)
+- Comes pre-configured with CRM integrations, calendar sync, and memory
+- Lets the partner earn a margin on every AI call their customer makes
+
+## How it works
+
+```
+Customer pays partner for AI agent service
+         │
+         ▼
+   Partner's VPS (OpenClaw)
+         │
+    AI requests routed through
+         │
+         ▼
+   Knotie AI Gateway (partner earns margin)
+         │
+         ▼
+   AI response returned to customer
+```
+
+The partner sets the pricing for their customer — Knotie bills the partner at wholesale rates, and the partner marks up for profit.
+
+---
+
+## Prerequisites
+
+Before running the setup, you need:
+
+| Requirement | Where to get it |
+|---|---|
+| **Knotie API Key** | Partner Portal → Settings → API Keys |
+| **Tailscale Auth Key** | [tailscale.com/admin/settings/keys](https://login.tailscale.com/admin/settings/keys) |
+| **Knotie MCP Token** | Partner Portal → Settings → MCP Tokens |
+| **Linux VPS** | Ubuntu 22.04 or 24.04 (KVM recommended: Hostinger, Contabo) |
+| **Domain (optional)** | For custom branding |
+
+### Setting up Tailscale
+
+1. Create a free account at [tailscale.com](https://tailscale.com)
+2. Go to **Settings → Keys** and create an auth key
+3. Save the key — you'll paste it during the setup script
+
+[SCREENSHOT: Tailscale auth key creation in admin panel]
+
+### Creating Knotie credentials
+
+1. In the Partner Portal, go to **Settings → API Keys**
+2. Create a new key with **AI Gateway** scope
+3. Go to **Settings → MCP Tokens** and create a token for the customer
+4. Keep both ready — you'll need them during setup
+
+---
+
+## Running the setup
+
+Connect to your VPS as root (or with sudo access), then run:
+
+```bash
+curl -fsSL https://setup.knotie.ai/openclaw/install.sh | bash
+```
+
+The script will ask for:
+- **Customer name** — used as the agent's display name and slug
+- **Knotie API Key** — your partner API key
+- **Model ID** — defaults to `claude-opus-4-6`
+- **Tailscale auth key** — from your Tailscale admin panel
+- **Tailscale hostname** — e.g. `openclaw-acme-corp`
+- **Knotie MCP Token** — from the Partner Portal
+
+[SCREENSHOT: OpenClaw install script running in terminal]
+
+---
+
+## What the script installs
+
+The setup script installs and configures:
+
+| Component | Purpose |
+|---|---|
+| **OpenClaw** | The AI agent runtime |
+| **Tailscale** | Encrypted private network so the gateway is accessible only from your devices |
+| **QMD Memory** | Quick Memory Daemon for persistent conversation memory |
+| **Lossless-claw** | Context engine that prevents memory loss during long sessions |
+| **Knotie MCP Server** | Gives the agent tools: CRM (GoHighLevel), calendars (Google, Calendly), SMS/Email |
+| **Agent Browser Skill** | Enables web browsing capabilities |
+| **Knotie Gateway Enforcer** | Hourly cron that ensures the agent only routes through Knotie (not direct to Anthropic/OpenAI) |
+
+---
+
+## Managing deployed agents
+
+### Check gateway status
+
+```bash
+openclaw gateway status
+```
+
+### View agent logs
+
+```bash
+openclaw logs
+```
+
+### Restart the gateway
+
+```bash
+openclaw gateway restart
+```
+
+### Run the health enforcer manually
+
+```bash
+bash /usr/local/bin/knotie-guard.sh
+```
+
+### Access the gateway UI
+
+The gateway is only accessible over Tailscale — not on the public internet. Once Tailscale is connected, access it at:
+
+```
+https://your-hostname.ts.net
+```
+
+On first access, you'll need to approve the device:
+
+```bash
+openclaw devices list
+openclaw devices approve <request-id>
+```
+
+[SCREENSHOT: Agent deployed and visible in Tailscale admin panel]
+
+---
+
+## Updating the agent
+
+To re-run the setup (e.g., to update the model or MCP token):
+
+```bash
+curl -fsSL https://setup.knotie.ai/openclaw/install.sh | bash
+```
+
+The script detects existing installations and skips already-configured steps.
+
+To do a **full reset and clean uninstall**:
+
+```bash
+curl -fsSL https://setup.knotie.ai/openclaw/install.sh | bash -- --reset-clean
+```
+
+This removes OpenClaw, Tailscale, all config, and the memory/workspace directory. A backup archive is saved to `/tmp/openclaw-backup-YYYYMMDD-HHMMSS.tar.gz`.
+
+---
+
+## Configuration reference
+
+These values are set during install and stored in `~/.openclaw/openclaw.json`:
+
+| Setting | Default | Description |
+|---|---|---|
+| `contextWindow` | 200,000 tokens | Maximum context size |
+| `maxTokens` | 16,000 tokens | Maximum response length |
+| `gatewayPort` | 18,789 | Local port the gateway listens on |
+| `heartbeatInterval` | 30 minutes | How often the agent does a health check |
+| `sessionMaxIdleDays` | 7 days | Sessions expire after this long without activity |
+
+---
+
+## Troubleshooting
+
+**Tailscale serve not working**
+- Check that Tailscale Serve is enabled in your tailnet: [login.tailscale.com/admin/settings](https://login.tailscale.com/admin/settings)
+- Look for: **Allow nodes to connect to the Tailnet Service (Serve) and Funnel**
+- Re-run the setup script after enabling
+
+**Gateway not responding**
+```bash
+curl http://127.0.0.1:18789/healthz
+openclaw gateway status
+openclaw doctor
+```
+
+**Agent not using Knotie Gateway**
+The `knotie-guard.sh` cron runs hourly and will restore the correct config automatically. To manually check:
+```bash
+jq '.models.providers' ~/.openclaw/openclaw.json
+```
+Only `knotie-provider` should be present.
+
+**Support**
+- Email: support@knotie-ai.pro
+- Discord: [discord.gg/AQCdM68BTr](https://discord.gg/AQCdM68BTr)
