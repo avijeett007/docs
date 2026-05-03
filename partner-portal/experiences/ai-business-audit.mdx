@@ -1,0 +1,223 @@
+---
+title: "AI Business Audit Experience"
+description: "Deploy a branded, AI-powered business audit service for your prospects. Collects a business name, runs an automated analysis, and delivers a downloadable report — with optional paid service packages."
+---
+
+## What it is
+
+The **AI Business Audit** is a One-Click Experience that lets you offer an automated business-health analysis as a lead-generation or paid service product.
+
+A prospect visits your branded landing page, enters their business name, and within minutes receives a structured audit report covering areas like online presence, local SEO, and recommended next steps. The report can optionally include a menu of your service packages — each purchasable via Stripe Checkout.
+
+The entire flow runs under your white-label domain with no Knotie branding visible to the end customer.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the AI Business Audit landing page as it appears to a prospect (the business search form with your partner branding)._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the full prospect journey: landing page → business search → "Audit running" screen → report with package selection → Stripe Checkout._
+
+---
+
+## Prerequisites
+
+| Requirement | Notes |
+|---|---|
+| **Knotie plan with Experiences enabled** | Contact support if the Experiences menu is missing |
+| **Stripe Connect** | Required for paid packages. Configure at **Settings → Stripe Connect** |
+| **AI Gateway budget** | The audit runner uses your partner AI Gateway key automatically |
+| **Whitelabel domain or subdomain** | The prospect journey is served from your custom domain/alias |
+
+---
+
+## Enabling the AI Business Audit
+
+<Steps>
+  <Step title="Open Experiences">
+    In the Partner Portal sidebar, click **One-Click Experiences**.
+  </Step>
+  <Step title="Select AI Business Audit">
+    Find the **AI Business Audit** card and click **Enable**. The system automatically creates a dedicated AI Gateway key for this experience — you will see a status badge change from *Pending* to *Active* once it provisions.
+
+    > 📷 **Screenshot needed:** _Add a screenshot of the AI Business Audit experience card in the Experiences list, showing the Enable button and the "AI Gateway key: Active" status badge._
+  </Step>
+  <Step title="Set an alias">
+    Give your experience a URL alias (e.g., `audit`). Prospects will reach it at `https://your-domain.com/experience/audit`.
+  </Step>
+  <Step title="Save">
+    Click **Save**. The experience is now live.
+  </Step>
+</Steps>
+
+---
+
+## Configuring the experience
+
+### Branding
+
+Under the **Landing Page** tab you can override the default white-label branding specifically for this experience:
+
+| Field | Effect |
+|---|---|
+| **Business name** | Shown in the page header and email confirmations |
+| **Assistant name** | The "character" name used in the report narrative (e.g., "Aria") |
+| **Logo** | Replaces the default white-label logo |
+| **Primary colour** | Accent colour for buttons and highlights |
+| **Hero title / subtitle** | The headline copy on the prospect landing page |
+| **Trust pills** | Short social-proof badges shown below the hero (e.g., "500+ audits delivered") |
+| **Form disclaimer** | Legal/marketing text shown below the business search form |
+
+### Narrative model
+
+By default the audit narrative is generated with **Claude Sonnet 4.6**. To use a different model:
+
+1. Go to the **Settings** tab for this experience.
+2. Enter a model ID in the **Narrative model** field (must be allowed by your AI Gateway).
+
+<Note>Only models enabled in your partner AI Gateway are valid. Using a disallowed model ID will cause the audit job to fall back to the default.</Note>
+
+### Writing audits to Customer KB
+
+When **Write audits to Customer KB** is enabled, completed audit reports are stored as Knowledge Base files on the converted customer's account. Downstream agents can then reference these findings during calls.
+
+---
+
+## Service catalog: services and packages
+
+The service catalog lets you define what you offer and present purchasable packages at the bottom of the audit report.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Service Catalog configuration page in the Partner Portal, showing the services list and the packages panel._
+
+### Adding services
+
+In the Partner Portal, go to **One-Click Experiences → AI Business Audit → Services**.
+
+Click **Add service** and fill in:
+- **Title** — Short name (e.g., "Google Business Profile Optimisation")
+- **Description** — One or two sentences for the prospect
+- **Deliverables** — Bullet list of what's included
+
+Services are the atomic building blocks. They do not have prices on their own.
+
+### Creating packages
+
+Go to **One-Click Experiences → AI Business Audit → Packages**.
+
+Click **Add package** and configure:
+
+| Field | Description |
+|---|---|
+| **Name** | Package display name (e.g., "Growth Package") |
+| **Description** | Short selling pitch |
+| **Services included** | Select which services from your catalog are bundled |
+| **Pricing type** | `One-time` or `Recurring` |
+| **Amount** | Price in the smallest currency unit (e.g., 19900 = £199.00) |
+| **Currency** | `gbp`, `usd`, etc. |
+| **Highlighted** | Marks the package as "Most Popular" or similar |
+| **CTA label** | Button text on the report page (e.g., "Get this package") |
+| **Enabled** | Toggle visibility without deleting the package |
+
+When you save a package, Knotie automatically creates the corresponding Stripe Product and Price via your Stripe Connect account.
+
+<Warning>
+Stripe Connect must be connected and active before saving packages. If the Stripe sync fails, you will see an error banner — fix the Stripe connection and re-save.
+</Warning>
+
+---
+
+## The prospect journey
+
+Once enabled, the experience runs through these pages automatically:
+
+<Steps>
+  <Step title="Landing page">
+    The prospect lands on `https://your-domain.com/experience/audit`. They see your branding, the hero copy, trust pills, and a business-name search field.
+
+    > 📷 **Screenshot needed:** _Add a screenshot of the landing page including the business search autocomplete field._
+  </Step>
+  <Step title="Business lookup">
+    As the prospect types, an autocomplete powered by Google Places suggests matching businesses. The prospect selects their business (or types a free-form name).
+  </Step>
+  <Step title="Audit running">
+    The prospect sees a progress screen while the audit is being generated. The backend:
+    1. Pulls business data from external sources (via Apify)
+    2. Runs the LLM analysis pipeline
+    3. Stores the structured results
+
+    > 📷 **Screenshot needed:** _Add a screenshot of the "Audit running" progress screen._
+  </Step>
+  <Step title="Report page">
+    When complete, the prospect is redirected to the full report page. The report includes:
+    - An executive summary
+    - Scored sections with findings and recommendations
+    - Your service packages (if configured) with a Stripe Checkout button on each
+
+    The prospect can also click **Download PDF** to save a branded PDF copy.
+
+    > 📷 **Screenshot needed:** _Add a screenshot of the full report page, showing scored sections and a package card with the CTA button._
+  </Step>
+  <Step title="Package checkout">
+    Clicking a package CTA redirects to Stripe Checkout. On success, the prospect is converted to a customer in your Partner Portal and shown a thank-you page.
+  </Step>
+</Steps>
+
+> 🎬 **Video walkthrough:** _Record a clip of the partner-side setup: enabling the experience, adding a service, creating a package, and previewing the end result in a browser._
+
+---
+
+## Audit settings (advanced)
+
+Go to **One-Click Experiences → AI Business Audit → Settings** for these options:
+
+| Setting | Default | Description |
+|---|---|---|
+| **Narrative model** | `claude-sonnet-4-6` | LLM used for report generation |
+| **Write audits to Customer KB** | Off | Persist completed reports as KB files on converted customers |
+
+---
+
+## API reference (partner-facing endpoints)
+
+The following REST endpoints power the AI Business Audit. All partner endpoints require your partner API key as a Bearer token.
+
+### Experience management
+
+```
+GET  /api/partner/experiences
+POST /api/partner/experiences/[id]/services
+GET  /api/partner/experiences/[id]/packages
+POST /api/partner/experiences/[id]/provision-gateway-key
+```
+
+### Whitelabel audit (prospect-facing)
+
+These endpoints are called by the prospect-facing UI and do not require a partner key — they authenticate via the experience alias.
+
+| Method | Path | Description |
+|---|---|---|
+| `POST` | `/api/whitelabel/audit/[prospectId]/generate` | Start an audit job for a prospect |
+| `GET` | `/api/whitelabel/audit/[prospectId]/status` | Poll audit job status |
+| `GET` | `/api/whitelabel/audit/[prospectId]` | Fetch completed audit report |
+| `GET` | `/api/whitelabel/audit/[prospectId]/download-pdf` | Download branded PDF report |
+| `POST` | `/api/whitelabel/audit/[prospectId]/checkout/[packageId]` | Create a Stripe Checkout session for a package |
+| `POST` | `/api/whitelabel/audit/[prospectId]/purchase` | Mark a package as purchased (after Stripe webhook) |
+
+---
+
+## Troubleshooting
+
+**AI Gateway key is stuck on "Pending"**
+Wait up to 60 seconds after enabling the experience and refresh the page. If it stays pending, disable and re-enable the experience to trigger a fresh key provision.
+
+**Audit job never completes**
+- Check that your AI Gateway has remaining budget (Partner Portal → AI Gateway).
+- Verify the narrative model ID is valid and permitted on your gateway.
+- View KnotieManager logs for the audit queue worker if you have self-hosted access.
+
+**Stripe package button is greyed out**
+The Stripe product/price was not synced. Check your Stripe Connect status at **Settings → Stripe Connect**, then re-save the package.
+
+**PDF download is blank**
+The PDF renderer requires a completed audit. Confirm `status: completed` by calling the status endpoint before directing the prospect to download.
+
+---
+
+> Source: [knotie-ai-pro#573](https://github.com/avijeett007/knotie-ai-pro/pull/573) — _Install openclaw automated_

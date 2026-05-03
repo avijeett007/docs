@@ -46,6 +46,13 @@
             ]
           },
           {
+            "group": "One-Click Experiences",
+            "pages": [
+              "partner-portal/experiences/index",
+              "partner-portal/experiences/ai-business-audit"
+            ]
+          },
+          {
             "group": "Partner portal",
             "pages": [
               "partner-portal/overview",
