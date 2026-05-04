@@ -1,0 +1,148 @@
+---
+title: "SigNoz observability"
+description: "Connect Knotie AI Pro to a SigNoz instance — either SigNoz Cloud or your own self-hosted collector — to stream traces and logs."
+---
+
+## Overview
+
+Knotie AI Pro ships built-in OpenTelemetry instrumentation across all three services (`knotie-ai-pro`, `KnotieManager`, and `Knotie_Connect_Hub`). When enabled, the platform sends traces and structured logs to a SigNoz-compatible OTLP endpoint so you can monitor request latency, queue depth, credit deductions, and error rates in real time.
+
+Two deployment modes are supported:
+
+| Mode | Endpoint example | Ingestion key required? |
+|------|-----------------|------------------------|
+| `cloud` (default) | `https://ingest.us.signoz.cloud:443/v1/traces` | **Yes** |
+| `selfhosted` | `https://otel.your-domain.com/v1/traces` | No |
+
+> 📷 **Screenshot needed:** _Add a screenshot of the SigNoz dashboard showing Knotie AI Pro traces — e.g., a service map or the trace list filtered by `knotie-ai-pro-prod`._
+
+---
+
+## Prerequisites
+
+- A SigNoz account (cloud) **or** a self-hosted SigNoz instance reachable from your server
+- Access to your server's environment file (`.env`) for each Knotie service you deploy
+- `NEXT_PUBLIC_SIGNOZ_ENABLED=true` (main app) / `SIGNOZ_ENABLED=true` (KnotieManager, Connect Hub)
+
+---
+
+## Configure SigNoz Cloud (default)
+
+This is the out-of-the-box behaviour. Set the following variables in each service's `.env`:
+
+```bash
+# Main app (.env)
+NEXT_PUBLIC_SIGNOZ_ENABLED=true
+SIGNOZ_MODE=cloud
+SIGNOZ_ENDPOINT=https://ingest.us.signoz.cloud:443/v1/traces
+SIGNOZ_INGESTION_KEY=your-signoz-ingestion-key-here
+SIGNOZ_SERVICE_NAME=knotie-ai-pro-prod
+```
+
+```bash
+# KnotieManager (KnotieManager/.env)
+SIGNOZ_ENABLED=true
+SIGNOZ_MODE=cloud
+SIGNOZ_ENDPOINT=https://ingest.us.signoz.cloud:443/v1/traces
+SIGNOZ_INGESTION_KEY=your-signoz-ingestion-key-here
+SIGNOZ_SERVICE_NAME=knotie-manager-prod
+```
+
+```bash
+# Knotie Connect Hub (Knotie_Connect_Hub/.env)
+SIGNOZ_ENABLED=true
+SIGNOZ_MODE=cloud
+SIGNOZ_ENDPOINT=https://ingest.us.signoz.cloud:443/v1/traces
+SIGNOZ_INGESTION_KEY=your-signoz-ingestion-key-here
+SIGNOZ_SERVICE_NAME=knotie-connect-hub-prod
+```
+
+<Tip>
+Replace `us` in the endpoint with `eu` or `in` depending on the SigNoz Cloud region you signed up in. Your ingestion key is under **SigNoz → Settings → Ingestion Settings**.
+</Tip>
+
+---
+
+## Configure self-hosted SigNoz (new in #597)
+
+If you run your own SigNoz instance (e.g., via the [SigNoz Helm chart](https://signoz.io/docs/install/kubernetes/)), set `SIGNOZ_MODE=selfhosted`. The platform will send traces and logs to your collector without attaching the `signoz-ingestion-key` header — self-hosted collectors don't require authentication by default.
+
+```bash
+# Main app (.env)
+NEXT_PUBLIC_SIGNOZ_ENABLED=true
+SIGNOZ_MODE=selfhosted
+SIGNOZ_ENDPOINT=https://otel.your-domain.com/v1/traces
+# SIGNOZ_INGESTION_KEY is not required in selfhosted mode
+SIGNOZ_SERVICE_NAME=knotie-ai-pro-prod
+```
+
+```bash
+# KnotieManager (KnotieManager/.env)
+SIGNOZ_ENABLED=true
+SIGNOZ_MODE=selfhosted
+SIGNOZ_ENDPOINT=https://otel.your-domain.com/v1/traces
+SIGNOZ_SERVICE_NAME=knotie-manager-prod
+```
+
+```bash
+# Knotie Connect Hub (Knotie_Connect_Hub/.env)
+SIGNOZ_ENABLED=true
+SIGNOZ_MODE=selfhosted
+SIGNOZ_ENDPOINT=https://otel.your-domain.com/v1/traces
+SIGNOZ_SERVICE_NAME=knotie-connect-hub-prod
+```
+
+<Info>
+`SIGNOZ_ENDPOINT` must point to the OTLP HTTP receiver of your collector, typically port `4318` (HTTP) or `443` if behind a TLS-terminating reverse proxy. The platform derives the logs endpoint automatically by replacing `/v1/traces` with `/v1/logs`.
+</Info>
+
+<Warning>
+In `selfhosted` mode the platform sends telemetry without authentication. Make sure your OTLP endpoint is not publicly exposed without a firewall rule or network policy restricting access to your Knotie servers.
+</Warning>
+
+> 📷 **Screenshot needed:** _Add a screenshot of a self-hosted SigNoz instance receiving traces from Knotie AI Pro — e.g., the Services page showing `knotie-manager-prod` with a non-zero call count._
+
+> 🎬 **Video walkthrough:** _Record a short clip showing how to start a self-hosted SigNoz instance, set `SIGNOZ_MODE=selfhosted` in the env file, restart the service, and verify traces appear in the SigNoz UI._
+
+---
+
+## Environment variable reference
+
+The table below covers all three services. Each service reads its own `.env` file independently.
+
+| Variable | Service | Default | Description |
+|----------|---------|---------|-------------|
+| `NEXT_PUBLIC_SIGNOZ_ENABLED` | Main app | `false` | Set to `true` to enable telemetry |
+| `SIGNOZ_ENABLED` | KnotieManager, Connect Hub | `true` | Set to `true` to enable telemetry |
+| `SIGNOZ_MODE` | All | `cloud` | `cloud` or `selfhosted` |
+| `SIGNOZ_ENDPOINT` | All | `https://ingest.eu.signoz.cloud:443/v1/traces` | Full OTLP traces URL |
+| `SIGNOZ_INGESTION_KEY` | All | — | Required in `cloud` mode only |
+| `SIGNOZ_SERVICE_NAME` | All | service-specific | Name shown in SigNoz dashboards |
+
+---
+
+## Troubleshooting
+
+### Traces not appearing in SigNoz
+
+1. Verify `SIGNOZ_ENABLED` (or `NEXT_PUBLIC_SIGNOZ_ENABLED`) is `true` and that you restarted the process after changing env vars.
+2. Check the service logs for `[Telemetry] Initializing OpenTelemetry` — if missing, telemetry never started.
+3. In `cloud` mode, confirm `SIGNOZ_INGESTION_KEY` is set; a missing key prevents the transport from registering.
+4. In `selfhosted` mode, confirm `SIGNOZ_ENDPOINT` is reachable from your server: `curl -v <SIGNOZ_ENDPOINT>` should not time out.
+
+### "Missing configuration" warning in logs
+
+```
+⚠️  [OpenTelemetry] Missing configuration
+    Required (cloud mode): SIGNOZ_INGESTION_KEY
+```
+
+You are in `cloud` mode but `SIGNOZ_INGESTION_KEY` is empty. Either provide the key or switch to `SIGNOZ_MODE=selfhosted`.
+
+### Logs endpoint not receiving data
+
+The platform automatically derives the logs URL by replacing `/v1/traces` with `/v1/logs`. If your collector uses a different path for logs, you may need to run a reverse proxy that maps `/v1/logs` to the correct collector route.
+
+---
+
+> Source: [knotie-ai-pro#597](https://github.com/avijeett007/knotie-ai-pro/pull/597) — _updating otel collector to self hosted signoz_
