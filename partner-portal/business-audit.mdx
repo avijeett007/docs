@@ -1,0 +1,106 @@
+---
+title: "Business Audit"
+description: "Offer prospects a free local SEO audit of their Google Business Profile — branded as your own agency tool."
+---
+
+## What Business Audit is for
+
+**Business Audit** is a white-label lead generation tool built into your partner portal. You give prospects a link, they enter their business details, and the system automatically scores their Google Business Profile across seven pillars. The prospect receives a branded report — and you get a warm lead ready for follow-up.
+
+It works as a top-of-funnel tripwire: no cold outreach, no manual auditing, and no separate software to manage.
+
+## How a prospect experiences it
+
+The audit flows through four pages, all served from your white-label domain:
+
+1. **Landing page** (`/audit`) — The prospect enters their name, email address, and Google Business Profile listing URL.
+2. **Analysis page** — The system scores their profile. This typically takes 60–180 seconds. A progress ring keeps the prospect engaged.
+3. **Report page** — The full audit report is displayed. It shows a pillar-by-pillar score and — if you've configured service packages — a 90-Day Plan section with your pricing and a call-to-action.
+4. **Thank-you page** — Shown after the prospect purchases one of your packages. Confirms the sale and sets expectations for next steps.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Business Audit landing page as it appears on a partner's white-label domain, showing the business name, email, and GMB URL fields._
+
+> 📷 **Screenshot needed:** _Add a screenshot of the analysis/progress page showing the circular progress ring and estimated wait time._
+
+> 📷 **Screenshot needed:** _Add a screenshot of the full audit report page — including the pillar scores, recommendations section, 90-Day Plan card, and the PDF download button._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the complete prospect journey: entering business details on the landing page → watching the analysis run → reviewing the report → the thank-you confirmation after purchasing a package._
+
+## The seven audit pillars
+
+The report scores each business on:
+
+| Pillar | What it checks |
+|---|---|
+| Completeness | Are all GBP fields filled in? |
+| Reviews | Volume and average rating |
+| Responses | Whether the business replies to reviews |
+| Categories | Primary and secondary category relevance |
+| Photos | Number and recency of photos |
+| Posts / Q&A | Recent posts and answered questions |
+| Website | Whether a website is linked and loads correctly |
+
+Each pillar is weighted against local ranking benchmarks. The overall score reflects how competitive the business is in local search.
+
+## Prerequisites
+
+Before a prospect can use Business Audit, you need:
+
+1. **White-label domain configured** — The audit pages are served from your white-label subdomain or custom domain. See [White-label subdomain](/customer-management/whitelabel-subdomain) and [Custom domain](/customer-management/custom-domain) for setup.
+2. **Branding settings filled in** — Your business name, logo, and accent colour are pulled from your branding settings and applied to all audit pages. See [Branding settings](/partner-portal/settings/branding-settings).
+3. **Service packages configured** (optional) — If you want the 90-Day Plan section to appear in reports, add your service packages to your partner settings. Without them, the report still shows scores and recommendations but omits the pricing CTA.
+
+## Sharing the audit link
+
+Once your white-label domain is live, the audit landing page is available at:
+
+```
+https://<your-domain>/audit
+```
+
+Share this URL in:
+- Cold outreach emails
+- LinkedIn DMs
+- Agency website CTAs
+- Google Ads or social media campaigns
+
+You can also embed it as a button or link on your agency website.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Partner Portal branding settings page showing where the business name and accent colour are configured — these appear on the audit pages._
+
+## The 90-Day Plan section (report page)
+
+If you have service packages configured, the bottom of the audit report includes a **90-Day Plan** section. This is a dark-styled card that shows:
+
+- A numbered list of **service layers** (e.g., "SEO Optimisation", "Review Response Management") with their descriptions and projected impact.
+- The **monthly investment** (your configured package price).
+- A **next step CTA** with your package name and description.
+
+The prospect can click the CTA to purchase directly. After purchase, they land on the thank-you page.
+
+## Downloading the report as a PDF
+
+The report page includes a **Download PDF Report** button at the top. Prospects (and you, if you have the link) can download a PDF copy of the full audit at any time via:
+
+```
+GET /api/whitelabel/audit/<prospectId>/download-pdf
+```
+
+## Tracking who ran an audit
+
+Prospects who complete the Business Audit landing form appear in your **Prospects** list in the Partner Portal. See [Prospects](/partner-portal/prospects) for how to follow up.
+
+## Common issues
+
+**The audit page shows white/invisible text.**
+This was a known rendering issue when audit pages were served inside a dark-theme white-label layout. It has been fixed — all four audit pages (landing, analysis, report, thank-you) now use explicit light-theme colours that override any inherited dark styles.
+
+**The audit is taking longer than 3 minutes.**
+The analysis typically completes in 60–180 seconds. If it takes longer, the Google Business Profile URL may be malformed, private, or not indexed. Ask the prospect to verify their GBP listing is publicly visible.
+
+**The 90-Day Plan section doesn't appear.**
+Service packages must be configured in Partner Portal settings. If packages are not set up, the plan section is hidden from the report.
+
+---
+
+> Source: [knotie-ai-pro#599](https://github.com/avijeett007/knotie-ai-pro/pull/599) — _fixed business audit_

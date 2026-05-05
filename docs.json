@@ -72,6 +72,7 @@
               "partner-portal/billing-and-invoices",
               "partner-portal/metered-billing",
               "partner-portal/prospects",
+              "partner-portal/business-audit",
               "partner-portal/auto-deploy",
               "partner-portal/team-management",
               "partner-portal/api-keys",
