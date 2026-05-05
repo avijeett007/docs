@@ -1,0 +1,143 @@
+---
+title: "Business Audit"
+description: "Offer prospects a free local SEO audit of their Google Business Profile — branded as your own agency tool."
+---
+
+## What Business Audit is for
+
+**Business Audit** is a white-label lead generation tool built into your partner portal. You give prospects a link, they enter their business details, and the system automatically scores their Google Business Profile across seven pillars. The prospect receives a branded report — and you get a warm lead ready for follow-up.
+
+It works as a top-of-funnel tripwire: no cold outreach, no manual auditing, and no separate software to manage.
+
+## How a prospect experiences it
+
+The audit flows through four pages, all served from your white-label domain:
+
+1. **Landing page** (`/audit`) — The prospect enters their name, email address, and Google Business Profile listing URL.
+2. **Analysis page** — The system scores their profile. This typically takes 60–180 seconds. A circular progress ring keeps the prospect engaged.
+3. **Report page** — The full audit report is displayed. It shows a pillar-by-pillar score and — if you've configured service packages — a 90-Day Plan section with your pricing and a call-to-action.
+4. **Thank-you page** — Shown after the prospect purchases one of your packages. Confirms the sale and sets expectations for next steps.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Business Audit landing page as it appears on a partner's white-label domain, showing the business name, email, and GMB URL input fields._
+
+> 📷 **Screenshot needed:** _Add a screenshot of the analysis/progress page with the circular progress ring and estimated wait time._
+
+> 📷 **Screenshot needed:** _Add a screenshot of the full audit report page — pillar scores, recommendations, the dark 90-Day Plan card, and the PDF download button._
+
+> 🎬 **Video walkthrough:** _Record a short clip of the complete prospect journey: entering business details → watching the analysis run → reviewing the report → the thank-you page after purchasing._
+
+## The seven audit pillars
+
+The report scores each business across:
+
+| Pillar | What it checks |
+|---|---|
+| Completeness | Are all GBP fields filled in? |
+| Reviews | Volume and average rating |
+| Responses | Whether the business replies to reviews |
+| Categories | Primary and secondary category relevance |
+| Photos | Number and recency of photos |
+| Posts / Q&A | Recent posts and answered questions |
+| Website | Whether a website is linked and loads correctly |
+
+Each pillar is weighted against local ranking benchmarks. The overall score reflects how competitive the business is in local search.
+
+## Prerequisites
+
+Before a prospect can use Business Audit, you need:
+
+1. **White-label domain configured** — The audit pages are served from your white-label subdomain or custom domain. See [White-label subdomain](/customer-management/whitelabel-subdomain) and [Custom domain](/customer-management/custom-domain) for setup.
+2. **Branding settings filled in** — Your business name, logo, and accent colour are pulled from your branding settings and applied to all audit pages. See [Branding settings](/partner-portal/settings/branding-settings).
+3. **Service packages configured** (optional) — If you want the 90-Day Plan section to appear in reports, add your service packages in Partner Portal settings. Without them, the report shows scores and recommendations but omits the pricing CTA.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Partner Portal branding settings page showing where the business name and accent colour are configured — these appear across all four audit pages._
+
+## Sharing the audit link
+
+Once your white-label domain is live, the audit landing page is at:
+
+```
+https://<your-domain>/audit
+```
+
+Share this URL in:
+- Cold outreach emails
+- LinkedIn DMs
+- Agency website CTAs
+- Google Ads or social media campaigns
+
+You can also embed it as a button or link on your agency website.
+
+## The report page in detail
+
+The audit report page is the centrepiece of the flow. Key elements:
+
+### Pillar scores and recommendations
+
+The top of the report shows the business name, overall score, and a breakdown by pillar. Each pillar card shows the score and specific recommendations for improvement.
+
+### The 90-Day Plan card
+
+If you have service packages configured, a dark-styled **90-Day Plan** hero card appears below the recommendations. It includes:
+
+- **Service layers** — A numbered list of services (e.g., "Review Response Management", "GBP Category Optimisation") with their descriptions and projected impact on local rankings.
+- **Monthly investment** — Your configured package price, formatted with currency and billing interval.
+- **The System header** — Labels the total number of layers and the package name.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the dark 90-Day Plan card in the report, showing at least two service layers with their descriptions and the monthly investment amount._
+
+### The CTA card
+
+Immediately below the 90-Day Plan is a dark **Next Step** card. It shows:
+
+- Your package name as the heading.
+- Your package description as body text.
+- An optional highlight label (e.g., "Best value") in amber.
+- A CTA button linking to checkout.
+
+The prospect clicks this to purchase. After payment, they land on the thank-you page.
+
+### Download PDF Report
+
+The **Download PDF Report** button appears at the top of the report page and generates a downloadable PDF of the full audit. The endpoint is:
+
+```
+GET /api/whitelabel/audit/<prospectId>/download-pdf
+```
+
+The button and PDF are available at any time — prospects can share or save the report.
+
+## Tracking who ran an audit
+
+Prospects who complete the Business Audit landing form appear in your **Prospects** list in the Partner Portal. See [Prospects](/partner-portal/prospects) for how to follow up, allocate free AI credits, and track conversion.
+
+## Theme rendering and colour compatibility
+
+All four Business Audit pages (landing, analysis, report, thank-you) are designed for a **light theme**. Because they are served inside the shared white-label layout — which applies a dark-themed container and `text-white` globally — the pages use explicit inline colour values to guarantee correct rendering:
+
+- Outer containers: `background-color: #f8fafc; color: #0f172a` (slate-50 background, slate-900 text).
+- Dark-on-dark sections in the report (90-Day Plan hero, layer cards, CTA card): `background-color: #0f172a; color: #fff` — these sections are intentionally dark, and their text is explicitly white so it remains readable even inside a light-themed page.
+- The PDF download button uses the same dark explicit styling so it remains visible regardless of theme inheritance.
+
+This approach ensures correct rendering regardless of CSS load order, browser cache, or parent layout theme class. If you were previously seeing invisible text on any audit page, updating to the latest version resolves this.
+
+## Common issues
+
+**The audit page shows white or invisible text.**
+This was a known rendering issue in earlier versions. All four audit pages now apply explicit light-theme colours that override any dark styles inherited from the white-label layout. Update to the latest version to resolve this.
+
+**Dark sections in the report (90-Day Plan, CTA) have invisible text.**
+The 90-Day Plan hero card and CTA card are intentionally dark (slate-900 / `#0f172a` backgrounds). If their text appears invisible, a custom white-label CSS override may be removing the explicit `color: #fff` inline styles. Check your custom theme CSS for rules that target `color` on dark containers.
+
+**The audit is taking longer than 3 minutes.**
+The analysis typically completes in 60–180 seconds. If it takes longer, the Google Business Profile URL may be malformed, private, or not indexed. Ask the prospect to verify their GBP listing is publicly visible.
+
+**The 90-Day Plan section doesn't appear.**
+Service packages must be configured in Partner Portal settings. If packages are not set up, the plan section is hidden from the report.
+
+**Form inputs appear dark or unreadable.**
+Form fields on the landing page are explicitly styled with a white background, dark text, and a light placeholder colour. If inputs appear dark, check whether a custom CSS override in your white-label theme is globally targeting form elements.
+
+---
+
+> Source: [knotie-ai-pro#601](https://github.com/avijeett007/knotie-ai-pro/pull/601) — _Business Audit page fix_
