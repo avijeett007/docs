@@ -1,0 +1,145 @@
+---
+title: "Knowledge base embedding backfill"
+description: "Re-embed existing customer knowledge base files and website pages into AnythingLLM, with real-time progress tracking and credit cost preview."
+---
+
+## What this is
+
+The **Knowledge Base Backfill** lets you push a customer's existing KB files and website pages into AnythingLLM for embedding. This is useful when:
+
+- A customer uploaded files before auto-embedding was enabled.
+- Previous embed attempts failed or were skipped due to insufficient credits.
+- You want to recover documents left in a `legacy` or `failed` state.
+
+## Where to find it
+
+1. Open **Customers**.
+2. Select a customer.
+3. Click **Manage**.
+4. Scroll down below the **Auto-Embedding** toggle.
+
+The backfill panel appears only when there are files or website pages that have not yet been embedded.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the backfill panel below the Auto-Embedding toggle inside the Customer Manage modal, showing the file count, estimated credit cost, and the "Start Backfill" button._
+
+## Credit costs
+
+Embedding is charged against your partner credit balance:
+
+| Asset type | Credit cost |
+|---|---|
+| Document (file upload) | **20 credits** |
+| Website page | **50 credits** |
+| KB query (read-only) | 2 credits (unchanged) |
+
+The panel shows the estimated total before you confirm.
+
+## Starting a backfill
+
+1. Open the backfill panel (see above).
+2. Review the number of files and website pages eligible, and the estimated credit cost.
+3. Click **Start Backfill** and confirm.
+4. The panel switches to a progress view and polls for updates automatically.
+
+> 🎬 **Video walkthrough:** _Record a short clip starting from the Customer Manage modal — scroll to the Auto-Embedding toggle, show the backfill panel, confirm the credit cost, and demonstrate the live progress indicator until the run completes._
+
+## Progress tracking
+
+While a backfill is running, the panel shows live counts for:
+
+- **Files** — completed / processing / pending / failed
+- **Website pages** — embedded / pending
+
+Polling stops automatically when the run finishes.
+
+## Common errors
+
+| Error | Cause | Fix |
+|---|---|---|
+| _Insufficient credits. Need X, short by Y._ | Partner credit balance too low | Top up credits in **Partner Settings → Credits**, then retry |
+| _Backfill is already running for this customer._ | Another run is still in progress | Wait for the current run to finish |
+
+## Limits per run
+
+A single backfill run processes up to **500 assets** (files + website pages combined). If the customer has more than 500 eligible assets, trigger another backfill after the first run completes to pick up the remainder.
+
+## API reference (partner token)
+
+<Note>These endpoints require a valid partner JWT (`partner_token` cookie or `Authorization: Bearer <token>` header).</Note>
+
+### Start a backfill
+
+```http
+POST /api/partner/customers/{customerId}/knowledge-base/backfill
+Content-Type: application/json
+Authorization: Bearer <partner_token>
+
+{ "confirm": true }
+```
+
+The `confirm: true` body field is required as an explicit acknowledgement of the credit cost.
+
+**Responses**
+
+| Status | Meaning |
+|---|---|
+| `202` | Backfill started. Body includes `totalFiles`, `totalWebsitePages`, `estimatedCredits`. |
+| `400` | Missing `confirm: true`. |
+| `402` | Insufficient credits. Body includes `shortfallCredits`. |
+| `409` | Backfill already running for this customer. |
+
+**Example 202 response**
+
+```json
+{
+  "started": true,
+  "totalFiles": 14,
+  "totalWebsitePages": 3,
+  "estimatedCredits": 430
+}
+```
+
+### Check backfill status
+
+```http
+GET /api/partner/customers/{customerId}/knowledge-base/backfill/status
+Authorization: Bearer <partner_token>
+```
+
+**Example response**
+
+```json
+{
+  "isRunning": true,
+  "files": {
+    "completed": 6,
+    "pending": 5,
+    "processing": 1,
+    "failed": 0,
+    "skippedNoCredits": 0,
+    "legacy": 2
+  },
+  "websitePages": {
+    "embedded": 1,
+    "pending": 2,
+    "totalEligible": 3
+  },
+  "eligibility": {
+    "totalFiles": 8,
+    "totalWebsitePages": 2,
+    "estimatedCredits": 260
+  }
+}
+```
+
+### Get per-KB embedding status (whitelabel)
+
+```http
+GET /api/whitelabel/knowledge-base/{id}/embed-status
+```
+
+Requires whitelabel customer session auth. Returns per-status file counts and website page counts for a specific knowledge base.
+
+---
+
+> Source: [knotie-ai-pro#619](https://github.com/avijeett007/knotie-ai-pro/pull/619) — _fixing memory processing (feat/auto-embed-toggle-and-backfill)_

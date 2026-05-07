@@ -39,3 +39,19 @@ It also shows your **Current Credit Balance**.
 If a file is larger than your included limit, the portal adds:
 
 - Base cost + (overage MB \* overage cost)
+
+## AnythingLLM embedding credit rates
+
+When files or website pages are pushed to AnythingLLM for embedding (either automatically or via backfill), separate credit costs apply:
+
+| Asset type | Credit cost |
+|---|---|
+| Document embed | **20 credits** |
+| Website page embed | **50 credits** |
+| KB query | 2 credits |
+
+These rates are fixed and separate from the file-size-based processing cost above. Partners are charged from their credit balance at embed time.
+
+For details on triggering embedding for a customer's existing assets, see [Knowledge base embedding backfill](/partner-portal/customers/knowledge-base-backfill).
+
+> Source: [knotie-ai-pro#619](https://github.com/avijeett007/knotie-ai-pro/pull/619) — _fixing memory processing (feat/auto-embed-toggle-and-backfill)_

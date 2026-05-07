@@ -57,6 +57,7 @@
               "partner-portal/customers/phone-numbers-for-a-customer",
               "partner-portal/customers/credits-and-ai-credit-management",
               "partner-portal/customers/ai-credit-management",
+              "partner-portal/customers/knowledge-base-backfill",
               "partner-portal/customers/integration-apps-selection",
               "partner-portal/customers/embed-urls",
               "partner-portal/customers/tool-call-quota",
