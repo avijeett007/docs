@@ -68,6 +68,7 @@
               "partner-portal/telephony-credits",
               "partner-portal/phone-numbers",
               "partner-portal/ai-gateway",
+              "partner-portal/experiences/resell-ai-gateway",
               "partner-portal/agent-analytics",
               "partner-portal/billing-and-invoices",
               "partner-portal/metered-billing",
