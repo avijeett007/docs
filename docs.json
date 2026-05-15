@@ -82,6 +82,7 @@
               "partner-portal/settings/stripe-connect",
               "partner-portal/settings/branding-settings",
               "partner-portal/settings/knowledge-base-processing",
+              "partner-portal/settings/subscription-plans",
               "partner-portal/settings/customer-credit-plans",
               "partner-portal/settings/saas-portal-mode",
               "partner-portal/settings/mcp-tokens",
