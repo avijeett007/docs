@@ -1,203 +1,79 @@
 ---
-title: "VPS App Catalog"
-description: "Browse, filter, and deploy self-hosted applications to your VPS instances — all from the Partner Portal."
+title: "VPS App Catalog & Packages"
+description: "Bundle apps with VPS plans and offer ready-to-go stacks to your customers through the Partner Portal."
 ---
 
-## What the App Catalog is
+## What you can do
 
-The VPS App Catalog is the app picker inside the Partner Portal's **VPS** section. It lets you choose which software stack to install when you provision or reinstall a VPS instance for a customer.
+The VPS section of the Partner Portal lets you:
 
-Each card in the catalog represents a deployable application bundle (e.g., OpenClaw, n8n, Nextcloud). You can install a single app or compose a multi-app **Package** in one click.
-
-> 📷 **Screenshot needed:** _Add a screenshot of the full VPS app catalog picker — showing the grouped category sections (AI Agents, AI Infrastructure, etc.) with badge-labelled cards._
-
----
-
-## Browsing apps
-
-### Category sections
-
-Apps are grouped into sections based on their type. Sections always appear in this order:
-
-| Section | What's in it |
-|---|---|
-| 🤖 AI Agents | AI-powered agent runtimes (OpenClaw, Hermes Agent, n8n-claw, OpenHands, AnythingLLM, Dify, Flowise, Langflow, Agent Zero, Paperclip AI) |
-| 🧠 AI Infrastructure | LLM servers, embeddings, and tools (Ollama, LocalAI, LiteLLM, Open WebUI, ComfyUI, Langfuse, Speaches) |
-| ⚡ Automation & Workflows | Workflow automation platforms (n8n, Activepieces, etc.) |
-| 👥 Productivity & Collaboration | Project management, note-taking, wikis |
-| 📊 Monitoring & Analytics | Grafana, Uptime Kuma, Netdata, Beszel |
-| 🎬 Media & File Storage | Jellyfin, Immich, Navidrome, Syncthing, MinIO, and more |
-| 🔒 Security & Identity | Vaultwarden, Authelia, Authentik, Headscale |
-| 📝 CMS & Publishing | Ghost, BookStack, HedgeDoc, Outline |
-| 🌿 Git & CI/CD | Gitea, Forgejo, Gitlab CE, Drone CI |
-| 🐳 Containers & PaaS | Portainer, Dokploy, Coolify, Dockge |
-| ⚙️ Backend, Databases & Stacks | Appwrite, Supabase, NocoDB, Node.js, LAMP |
-| 📧 Email & Marketing | Mailcow, Listmonk, Chatwoot, Mautic |
-| 💰 Finance | Firefly III, Actual Budget, Ghostfolio, Maybe Finance |
-| 🏠 Home & Utilities | Home Assistant, Mealie, IT Tools, Kutt |
-| 📦 Other | Everything else |
-
-Within each section, apps are sorted: **New** first, then **Popular**, then alphabetically.
-
-### App badges
-
-Each card can display one or more badges:
-
-| Badge | Meaning |
-|---|---|
-| **✨ New** | The upstream project is less than ~1 year old, or it is a Knotie-native bundle released recently |
-| **🔥 Popular** | Widely-deployed in the self-hosted ecosystem (broadly: 100K+ GitHub stars or de-facto brand) |
-| **✅ Verified** | This bundle has been tested end-to-end against the automated VPS matrix runner |
-| **⚒ Under construction** | The app's deploy script has a known issue and is being fixed — install is temporarily disabled |
-| **Platform default** | This bundle (Docker + Portainer) is the default stack Knotie provisions for new VPS instances |
-| **Added** | (Package mode only) This app is already in your package |
-
-> 📷 **Screenshot needed:** _Add a screenshot of individual app cards showing the New, Popular, Verified, and Under Construction badges side-by-side._
+1. **Purchase VPS servers** for your customers (6 plan tiers, $6.98–$75.57/mo)
+2. **Create App Packages** — bundle apps like OpenClaw with a VPS plan and set your own price
+3. **Control visibility** — choose which plans your customers can see
 
 ---
 
-## Install modes
+## Purchasing a VPS
 
-### Single app install
+Navigate to **VPS Servers** from the Infrastructure section of the sidebar.
 
-1. Click any app card to select it. The selected card gets a purple highlight.
-2. Click **Select for Install** in the detail panel, or select directly from the grid.
-3. Confirm the reinstall in the confirmation dialog.
+![VPS Servers main page — plan selection cards](/images/screenshots/vps-servers-main-annotated.png)
 
-**Clean Ubuntu** is always available as the first card in single-app mode — choose it to provision a plain server with no pre-installed software.
+### Available plans
 
-### Package install (multi-app)
+| Plan | vCPU | RAM | NVMe | Speed | Best for |
+|------|------|-----|------|-------|----------|
+| Cloud VPS 10 | 4 | 8 GB | 75 GB | 200 Mbps | Small projects, dev environments |
+| Cloud VPS 20 | 6 | 12 GB | 100 GB | 400 Mbps | Web apps, databases |
+| Cloud VPS 30 | 8 | 24 GB | 200 GB | 600 Mbps | Production workloads |
+| Cloud VPS 40 | 12 | 48 GB | 250 GB | 800 Mbps | High-traffic, CI/CD |
+| Cloud VPS 50 | 16 | 64 GB | 300 GB | 1 Gbps | Enterprise workloads |
+| Cloud VPS 60 | 18 | 96 GB | 350 GB | 1 Gbps | AI workloads, large databases |
 
-1. Switch to **Package** mode using the toggle at the top of the picker.
-2. Click any app card to add it to your package. Added cards show an **Added** badge.
-3. Click a second time to remove an app from the package.
-4. Build the combination you want, then confirm.
-
-The platform validates port conflicts between selected apps before allowing the install. If two apps in your package share a port, a warning is shown listing the conflicting apps.
-
-> 🎬 **Video walkthrough:** _Record a short clip walking through single-app install — selecting an app, viewing the detail panel, and confirming the install._
-
-> 🎬 **Video walkthrough:** _Record a clip showing package mode — toggling into Package mode, adding multiple apps, and triggering the install._
+Click any plan card to purchase. You're billed at the partner price shown.
 
 ---
 
-## App availability states
+## App Packages
 
-Every app in the catalog has one of three availability states. The state controls what you can do with it.
+In **VPS Settings**, scroll to **App Packages** to bundle apps with a VPS plan and sell them as a ready-to-go offering.
 
-| State | Indicator | Can install? | Shows in package settings? |
-|---|---|---|---|
-| **available** | No badge | Yes | Yes |
-| **verified** | Green ✅ Verified badge | Yes | Yes, with a green checkmark |
-| **under_construction** | Amber ⚒ badge, dimmed card | **No** | Yes, but disabled (greyed out, cursor `not-allowed`) |
+![VPS Settings — App Packages section](/images/screenshots/vps-settings-app-packages-annotated.png)
 
-When you try to install an app that is `under_construction`:
-- The **Select for Install** / **Add to Package** buttons are replaced with an amber notice: _"This app is under construction — install is disabled while it's being fixed."_
-- The main **Reinstall** button is disabled as long as any selected or packaged app is under construction.
-- The catalog deploy API returns HTTP `422` with the message: `{app name} is under construction and cannot be installed yet`.
+### Create a package
 
-This state is managed by the Knotie team and clears automatically when the bundle is fixed and re-verified.
+1. Click **New Package**
+2. Give the package a name (e.g. "AI Starter Stack")
+3. Select which apps to include — OpenClaw is automatically configured with a Knotie API key for each customer
+4. Set your price for the bundle
+5. Click **Save**
 
----
-
-## VPS App Catalog API (Partner & White-label)
-
-### List available applications
-
-```
-GET /api/partner/vps/applications
-GET /api/whitelabel/vps/instances/{instanceId}/applications  (white-label variant)
-```
-
-Requires partner authentication. Returns an array of application objects.
-
-**Response shape (per application):**
-
-```json
-{
-  "applicationId": "openclaw",
-  "name": "OpenClaw",
-  "description": "Production AI agent runtime with Knotie Gateway integration",
-  "emoji": "🦀",
-  "category": "ai",
-  "displayCategory": "ai-agents",
-  "isNew": true,
-  "isPopular": false,
-  "isPaid": false,
-  "setupFeeCents": 0,
-  "website": "https://openclaw.dev",
-  "githubUrl": "https://github.com/...",
-  "license": "MIT",
-  "logoUrl": null,
-  "features": ["llm", "memory", "tools"],
-  "tags": ["ai", "agent"],
-  "accessPort": 18789,
-  "ramMb": 2048,
-  "availability": "verified",
-  "catalogAvailability": "available"
-}
-```
-
-**New fields added in this release:**
-
-| Field | Type | Description |
-|---|---|---|
-| `displayCategory` | `string` | Fine-grained UI bucket used for section grouping (e.g. `"ai-agents"`, `"automation"`, `"media"`) |
-| `isNew` | `boolean` | `true` if the upstream project is less than ~1 year old |
-| `isPopular` | `boolean` | `true` if the upstream project is widely deployed |
-| `availability` | `"available" \| "verified" \| "under_construction"` | Controls whether the app can be installed via the **Reinstall** (cloud-init) flow |
-| `catalogAvailability` | `"available" \| "under_construction"` | Controls whether the app can be installed via the **Catalog Deploy** flow |
-
-> **Note:** `availability` and `catalogAvailability` are independent. An app can have a working catalog-deploy script even if its cloud-init runcmd is broken (or vice versa).
-
-### Catalog deploy
-
-```
-POST /api/partner/vps/instances/{instanceId}/catalog/deploy
-POST /api/whitelabel/vps/instances/{instanceId}/catalog/deploy  (white-label variant)
-```
-
-If the target app's `catalogAvailability` is `"under_construction"`, the endpoint returns:
-
-```json
-HTTP 422
-{ "error": "{App name} is under construction and cannot be installed yet" }
-```
-
-### Reinstall (cloud-init)
-
-```
-POST /api/partner/vps/instances/{instanceId}/reinstall
-```
-
-If any app in the requested install set has `availability === "under_construction"`, the endpoint returns:
-
-```json
-HTTP 422
-{ "error": "Package contains apps under construction: {App A}, {App B}" }
-```
+When a customer purchases a package, the platform automatically provisions the apps and configures OpenClaw with their gateway API key — no manual setup needed.
 
 ---
 
-## Package management (Settings page)
+## VPS Settings
 
-In the partner portal **VPS Settings**, when you create or edit an app package, under-construction apps appear in the selector with:
-- An amber ⚒ icon and dimmed styling
-- The `disabled` attribute set — clicks are ignored
-- A tooltip: _"Under construction — cannot be added to a package yet"_
+In **VPS Settings** you can configure how VPS purchases work for you and your customers:
 
-Verified apps (in the available/verified state) show a green checkmark in their unselected state so you can identify the most stable choices at a glance.
+**Enable VPS for Customers** — toggle on to let customers purchase VPS from their whitelabel portal
 
-> 📷 **Screenshot needed:** _Add a screenshot of the VPS Settings package editor showing an under-construction app (amber, disabled) next to a verified app (green checkmark) and a selected app (purple highlight)._
+**Customer Margin (%)** — markup added to your partner cost before showing the price to customers. Example: Cloud VPS 10 costs you $6.98/mo, at 20% margin customers see $8.38/mo. Can be overridden per customer.
+
+**Display Currency** — choose the currency shown to customers (USD, GBP, EUR, AUD, CAD, SGD, INR). Your billing from Knotie is always in USD.
+
+**Plan Visibility** — choose which server plans customers can see. All 6 plans are shown by default.
+
+---
+
+## OpenClaw Auto-Deploy
+
+When OpenClaw is included in a package (or deployed via the server panel), the platform **automatically generates a Knotie API key** for each customer and configures OpenClaw with it. Keys are managed in the customer's gateway settings — no manual configuration required.
 
 ---
 
 ## Related pages
 
 - [OpenClaw Partner Setup](/agents/openclaw-setup) — Full setup guide for deploying OpenClaw on a VPS
-- [VPS Terminal](/partner-portal/customers/vps-terminal) — Give customers browser-based SSH access to their VPS
+- [VPS Terminal](/partner-portal/customers/vps-terminal) — Give customers browser-based SSH access
 - [Auto Deploy](/partner-portal/auto-deploy) — Automated provisioning workflows
-
----
-
-> Source: [knotie-ai-pro#727](https://github.com/avijeett007/knotie-ai-pro/pull/727) — _feat(vps): openclaw catalog deploy + channel chat working end-to-end_
