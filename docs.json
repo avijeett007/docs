@@ -31,7 +31,8 @@
               "account/google-login",
               "account/passkeys",
               "account/mfa",
-              "account/card-verification"
+              "account/card-verification",
+              "account/login-flow"
             ]
           },
           {
