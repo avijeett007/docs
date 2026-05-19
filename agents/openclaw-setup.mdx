@@ -164,6 +164,66 @@ This removes OpenClaw, Tailscale, all config, and the memory/workspace directory
 
 ---
 
+## Channel Chat (portal-to-agent messaging)
+
+When OpenClaw is deployed via the VPS App Catalog, the setup script also configures a **hardened channel endpoint** on port `18790`. This lets the Knotie Partner Portal send chat messages to the OpenClaw agent over the public internet — authenticated with multiple layers of security.
+
+### How it works
+
+```
+Knotie Partner Portal (Next.js)
+         │  HTTPS POST /knotie-channel/chat
+         │  (Bearer token + HMAC-signed nonce)
+         ▼
+  nginx on port 18790 (TLS termination + rate limit + knock header)
+         │
+         ▼
+  OpenClaw Gateway on port 18789 (loopback only)
+         │
+         ▼
+  Knotie AI Gateway → LLM response
+         │
+         ▼
+  KnotieChannelResponse returned to portal
+```
+
+The portal never talks directly to the gateway — nginx acts as a security front-end that enforces:
+1. **TLS** — self-signed 4096-bit RSA certificate, valid for 10 years
+2. **Knock header** — every request must include `X-Knotie-Gateway: <knock-secret>`; missing or wrong header returns `444 No Response` (nginx drops the connection silently)
+3. **Rate limiting** — max 10 requests/minute per IP, max 3 concurrent connections per IP
+4. **Bearer token** — constant-time comparison via `timingSafeEqual`
+5. **HMAC nonce** — timestamp + nonce signed with SHA-256, with a ±5 minute replay window
+
+> 📷 **Screenshot pending** — `/platform/chat` is a whitelabel/customer portal feature. The customer screenshot will be added once available.
+
+> 🎬 **Video walkthrough** — pending customer-facing portal walkthrough recording.
+
+### Channel response shape
+
+Successful chat responses return:
+
+```json
+{
+  "reply": "Hello! How can I help you today?",
+  "sessionId": "sess_abc123",
+  "model": "knotie-provider/claude-opus-4-6"
+}
+```
+
+### Environment variables written during setup
+
+The install script writes a `/root/.openclaw/channel.env` file with these variables:
+
+| Variable | Description |
+|---|---|
+| `KNOTIE_CHANNEL_TOKEN` | Bearer token the portal uses to authenticate requests |
+| `KNOTIE_CHANNEL_KNOCK` | Secret knock header value nginx requires on every request |
+| `KNOTIE_TS_HOSTNAME` | Tailscale hostname for this instance |
+
+A `systemd` drop-in at `/root/.config/systemd/user/openclaw-gateway.service.d/knotie-env.conf` ensures these variables are loaded into the gateway process on every start. Without this drop-in, `process.env.KNOTIE_CHANNEL_TOKEN` is undefined inside the channel plugin, causing every chat call to return `503 misconfigured`.
+
+---
+
 ## Configuration reference
 
 These values are set during install and stored in `~/.openclaw/openclaw.json`:
@@ -199,6 +259,43 @@ jq '.models.providers' ~/.openclaw/openclaw.json
 ```
 Only `knotie-provider` should be present.
 
+**Channel chat returns 503 misconfigured**
+The gateway process is not seeing the channel environment variables. Check whether the systemd drop-in was written:
+```bash
+cat /root/.config/systemd/user/openclaw-gateway.service.d/knotie-env.conf
+```
+If the file is missing, re-run the catalog deploy for OpenClaw. If it exists but the issue persists, reload the service:
+```bash
+XDG_RUNTIME_DIR=/run/user/0 systemctl --user daemon-reload
+XDG_RUNTIME_DIR=/run/user/0 systemctl --user restart openclaw-gateway
+```
+
+**nginx not listening on the channel port after deploy**
+If the channel endpoint is unreachable immediately after install, check whether nginx loaded the new config:
+```bash
+ss -tlnH | awk '{print $4}'    # should include :<channel-port>
+tail -20 /var/log/nginx/error.log
+```
+A common cause is a `limit_conn` directive syntax error. The correct form is `limit_conn knotie_cn 3` (no `zone=` prefix). If you see `zero size shared memory zone` in the error log, run:
+```bash
+nginx -t && systemctl restart nginx
+```
+
+**Catalog deploy fails immediately with apt lock error**
+When you click **Deploy** on a freshly provisioned VPS, cloud-init may still be running its own `apt-get` in the background. The deploy script now waits up to 5 minutes for the lock to release automatically. If you see this error in the deploy log, wait a few minutes and retry the catalog deploy from the portal — no manual intervention is needed.
+
+**Gateway config shows `gateway.token` instead of `gateway.auth`**
+The gateway configuration schema changed in OpenClaw 2026.5.x. The Knotie API key is now stored under `gateway.auth.token` (not the top-level `gateway.token`). The install script migrates the config automatically. To verify:
+```bash
+jq '.gateway.auth' ~/.openclaw/openclaw.json
+# Expected: { "mode": "token", "token": "<your-token>" }
+```
+If `gateway.auth` is missing, re-run the catalog deploy for OpenClaw.
+
 **Support**
 - Email: support@knotie-ai.pro
 - Discord: [discord.gg/AQCdM68BTr](https://discord.gg/AQCdM68BTr)
+
+---
+
+> Source: [knotie-ai-pro#727](https://github.com/avijeett007/knotie-ai-pro/pull/727) — _feat(vps): openclaw catalog deploy + channel chat working end-to-end_

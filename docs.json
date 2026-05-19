@@ -91,6 +91,12 @@
             ]
           },
           {
+            "group": "VPS & App Catalog",
+            "pages": [
+              "partner-portal/vps/app-catalog"
+            ]
+          },
+          {
             "group": "Agents",
             "pages": [
               "agents/retell/import-retell-agent",
