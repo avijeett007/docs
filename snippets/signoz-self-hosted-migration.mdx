@@ -1,0 +1,54 @@
+---
+title: "SigNoz Self-Hosted Migration"
+description: "Migrating observability from SigNoz Cloud to self-hosted infrastructure."
+---
+
+# SigNoz Self-Hosted Migration
+
+PR [#599](https://github.com/avijeett007/knotie-ai-pro/pull/599) migrated all Knotie-AI Pro services from **SigNoz Cloud** (paid, ingestion-key auth) to the **self-hosted SigNoz** at `kno2gether.com` (free, no auth header).
+
+## What Changed
+
+| | SigNoz Cloud (old) | Self-Hosted (new) |
+|---|---|---|
+| **Endpoint** | `https://ingest.eu.signoz.cloud:443/v1/traces` | `https://otel.kno2gether.com/v1/traces` |
+| **Auth** | `signoz-ingestion-key` header required | No auth header |
+| **Cost** | Paid subscription | Free (self-hosted) |
+
+## Feature Flag
+
+The migration is controlled by the `SIGNOZ_MODE` environment variable:
+
+```env
+# Cloud mode (old) — requires ingestion key
+SIGNOZ_MODE=cloud
+SIGNOZ_ENDPOINT=https://ingest.eu.signoz.cloud:443/v1/traces
+SIGNOZ_INGESTION_KEY=<key>
+
+# Self-hosted mode (new) — no key needed
+SIGNOZ_MODE=selfhosted
+SIGNOZ_ENDPOINT=https://otel.kno2gether.com/v1/traces
+```
+
+Rolling back is a one-line env-var change — no code deploy needed.
+
+## Endpoints
+
+| Protocol | URL | Used by |
+|---|---|---|
+| OTLP HTTP | `https://otel.kno2gether.com` | Main app, KnotieManager, Connect Hub |
+| OTLP gRPC | `otel-grpc.kno2gether.com:443` | analytics, LiveKit agent v2 |
+| SigNoz UI | `https://observe.kno2gether.com` | Dashboards |
+
+## Services Updated
+
+- **Main app** (`signoz.config.ts`, `src/lib/otel-init.ts`, `src/lib/otel-metrics.ts`, `src/lib/logger.ts`)
+- **KnotieManager** (`src/lib/telemetry.ts`, `src/utils/logger.ts`, `src/config/index.ts`)
+- **Knotie_Connect_Hub** (`src/tracing.ts`, `src/utils/logger.ts`)
+- **analytics** (`tracing.py`)
+- **LiveKit agent v2** (`ai_receptionist_knova_agent.py`, `observability.py`)
+- **otel-collector** (`config.selfhosted.yaml`, `docker-compose.yml`)
+
+## For Developers
+
+For detailed migration steps, rollback procedures, and local testing instructions, see the [developer guide](/developer_guide/06-Infrastructure/Monitoring/Observability-General/SELFHOSTED_MIGRATION).
