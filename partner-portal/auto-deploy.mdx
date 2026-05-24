@@ -122,10 +122,10 @@ System checks partner credit balance:
 
 KnotieManager processes the job:
 
-1. **Agent creation** – AI agent configured based on onboarding data
-2. **Knowledge base setup** – Customer's uploaded documents processed
-3. **Voice selection** – AI voice assigned based on agent tier
-4. **Integration configuration** – Tools and integrations activated
+1. **Knova agent creation** – A [Knova AI Receptionist](/agents/knova/knova-agent) is created with a dynamic system prompt built from the customer's business profile, knowledge base, and onboarding data
+2. **Knowledge base setup** – Customer's uploaded documents processed and ingested
+3. **Phone number provisioning** – A phone number is purchased and a Twilio Elastic SIP Trunk is created for it, routing inbound calls through LiveKit to the Knova agent
+4. **Integration configuration** – Tools (email, SMS, calendar) and analytics activated
 5. **Final validation** – System checks all components
 
 ### Phase 4: Completion
@@ -322,7 +322,10 @@ This gives you full control over the deployment process.
 
 ## Related pages
 
+- [Knova AI Receptionist agent](/agents/knova/knova-agent) – What gets deployed and how to configure it
 - [SaaS Portal Mode](/partner-portal/settings/saas-portal-mode) – Configure SaaS mode
 - [Prospects](/partner-portal/prospects) – Track onboarding progress
 - [Credits Management](/partner-portal/credits) – Top up credits
 - [Deployment Status Tracking](/partner-portal/customers/deployment-status-tracking) – Monitor deployments
+
+> Source: [knotie-ai-pro#790](https://github.com/avijeett007/knotie-ai-pro/pull/790) — _Knova agent demos v1_
