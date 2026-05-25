@@ -1,49 +1,106 @@
 ---
 title: "Partner Settings overview"
-description: "Configure Stripe Connect, integrations, email sending, branding, and knowledge base processing from the Partner Portal Settings page."
+description: "Configure your whitelabel portal, integrations, billing, and branding from Partner Settings — now with a section navigation rail and guided setup progress."
 ---
 
 ## What Partner Settings is
 
-The **Settings** page in the Partner Portal is where you configure the infrastructure behind your agency account:
+The **Settings** page in the Partner Portal is where you configure everything your agency and whitelabel portal need to operate:
 
-- Billing setup (your subscription)
-- Integrations (provider API keys)
-- Email sending (SMTP or Domain Email Service)
-- Security (password, MFA, passkeys)
-- Stripe Connect (to collect payments)
-- Branding (portal title, slogan, logo, colors)
-- Knowledge base processing costs
+- **Whitelabel portal** — domain, branding, landing page, portal mode
+- **Voice AI Agent** — configure the AI Receptionist on your portal's landing page
+- **Billing and payments** — Stripe Connect, subscription plans, credit packs
+- **Integrations** — provider API keys, SMTP email, AI translation, Sonti CRM
+- **Security** — password, MFA, passkeys
 
 ## Where to find it
 
-In the Partner Portal sidebar, open **Settings**.
+In the Partner Portal sidebar, click **Settings**.
 
-## How Settings is organized
+---
 
-The Settings page is organized into sections such as:
+## Navigating the Whitelabel Settings page
 
-- **Subscription & Billing**
-- **Integration Settings**
-- **Security Settings**
-- **Passkey Authentication**
-- **Email Settings**
-- **Stripe Connect**
-- **Branding Settings**
-- **Knowledge Base Processing Configuration**
+The Whitelabel Settings page has been redesigned with a **Section Navigation Rail** on the left and **collapsible sections** in the main area. This layout lets you jump directly to any part of the configuration without scrolling through a long page.
 
-Use the pages in this section to configure each area safely.
+> 📷 **Screenshot needed:** _Add a screenshot of the redesigned Whitelabel Settings page showing the Section Nav Rail on the left, the Setup Progress Card, and the collapsible sections in the main area with status dots._
 
-## Recommended order
+### Section Nav Rail
 
-If you’re setting up a new partner account:
+The rail on the left lists every configurable section in order. Click any item to jump straight to that section.
 
-1. Configure **Integrations** (provider API keys).
-2. Enable **Security** (MFA + passkeys).
-3. Set up **Email** (SMTP _or_ Domain Email Service).
-4. Configure **Stripe Connect** if you plan to charge customers.
-5. Review **Branding** for your customer portal.
+Each entry shows a **status dot**:
+- **Green dot** — section is complete
+- **Yellow/amber dot** — section is incomplete or has unresolved items
+- No dot — not applicable to your current plan or portal mode
 
-## Screenshots
+### Setup Progress Card
 
-![Group27(1)](/images/Group27(1).png)
+A **Setup Progress Card** at the top of the sidebar shows how many sections are complete and highlights the single most important next step. Use it as a checklist when setting up a new whitelabel portal for the first time.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Setup Progress Card showing completed vs incomplete sections, with the "next up" section highlighted._
+
+### Collapsible sections
+
+Each section in the main area can be expanded or collapsed independently. The page remembers your preference per section between visits.
+
+**Smart defaults on first visit:**
+- Every section starts collapsed.
+- The single "next up" incomplete section opens automatically (the one whose prerequisites are already met).
+- Portal Mode is always expanded because it is a one-click control.
+
+### Section Info Drawer
+
+Every section header has an **[i]** (info) button. Clicking it slides open a help drawer with:
+- What the section does
+- When to visit it
+- Common gotchas
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Section Info Drawer panel open for one section (e.g., Stripe Connect), showing the "What it is", "When to use", and "Gotchas" content._
+
+---
+
+## Sections at a glance
+
+| Section | Column | What you configure |
+|---------|--------|-------------------|
+| **Domain Settings** | Main | Subdomain, custom domain, portal availability |
+| **Voice AI Agent** | Main | Public landing page AI Receptionist (name, voice, language) |
+| **Portal Branding** | Main | Logo, favicon, brand colours |
+| **Landing Page** | Main | Contact info, legal links, footer, testimonials, FAQs |
+| **Stripe Connect** | Main | Connect your Stripe account to charge customers |
+| **Subscription Plans** | Main | Recurring tiers *(requires Stripe Connect)* |
+| **Customer Credit Plans** | Main | Pay-as-you-go credit packs *(requires Stripe Connect)* |
+| **AI Translation** | Main | Multilingual portal content |
+| **Sonti CRM** | Main | Optional CRM integration |
+| **Portal Mode** | Sidebar | Basic vs SaaS portal experience |
+| **SaaS Portal Config** | Sidebar | Onboarding funnel, free trial, auto-deploy, telephony |
+
+### Dependency gating
+
+Some sections require others to be completed first. When a dependency is missing, the section is visually dimmed and shows a gate overlay explaining what needs to happen first.
+
+Example: **Subscription Plans** and **Customer Credit Plans** both require **Stripe Connect** to be completed before they can be configured.
+
+---
+
+## Recommended setup order
+
+1. **Portal Mode** — choose Basic or SaaS (this shapes which other sections matter).
+2. **Domain Settings** — pick your subdomain; optionally point a custom domain.
+3. **Portal Branding** — upload logo, favicon, and set colours.
+4. **Landing Page** — fill in contact info and legal links.
+5. **Stripe Connect** — required before you can sell plans or credit packs.
+6. **Subscription Plans** and/or **Customer Credit Plans** — set your pricing.
+7. **Voice AI Agent** — configure the AI Receptionist if you have SaaS mode or want a live widget.
+8. **Integration Settings** (under the main Settings nav) — add provider API keys.
+
+---
+
+> 📷 **Screenshot needed:** _Add a screenshot of the full Whitelabel Settings page after completing several sections, showing the progress card updated and green dots on completed sections._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the full whitelabel settings setup flow: opening the page, using the nav rail to jump sections, expanding and filling in Domain Settings, checking the Setup Progress Card update._
+
+---
+
+> Source: [knotie-ai-pro#796](https://github.com/avijeett007/knotie-ai-pro/pull/796) — _Improve knova agent_

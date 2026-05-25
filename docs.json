@@ -99,6 +99,7 @@
           {
             "group": "Agents",
             "pages": [
+              "agents/knova/try-agent",
               "agents/retell/import-retell-agent",
               "agents/vapi/import-vapi-agent",
               "agents/ultravox/manage-ultravox-agents",
