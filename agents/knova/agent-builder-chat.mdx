@@ -1,0 +1,136 @@
+---
+title: "AI Agent Builder Chat"
+description: "Use the AI-powered chat builder to design Knova agents from a conversation — no form filling required."
+---
+
+## What the AI Agent Builder Chat is
+
+The **AI Agent Builder Chat** is an in-product AI assistant that helps you create a Knova agent through a conversation. Instead of manually filling out a system prompt and configuring every field, you describe your business and goals in plain language and the AI generates a complete agent proposal — including name, system prompt, greeting message, and tool selection.
+
+Use the Builder Chat when:
+
+- You are creating a new Knova agent from scratch
+- You want to revise an existing agent's system prompt or behavior
+- You have a business website URL and want the agent to reflect that brand
+- You want AI-drafted copy for your system prompt that you can refine
+
+> 📷 **Screenshot needed:** _Add a screenshot of the AI Agent Builder Chat modal — showing the chat interface with a conversation in progress and the proposal panel on the right._
+
+> 🎬 **Video walkthrough:** _Record a short clip of the end-to-end builder flow: opening the modal, describing a business, the AI generating a proposal, applying it to the form, and saving the agent._
+
+## Opening the Builder Chat
+
+1. In the Partner Portal, click **AI Agents** → **Create Agent**.
+2. On the mode-selection screen, choose **AI Builder**.
+3. The Builder Chat modal opens with a fresh conversation.
+
+You can also open the Builder Chat from an **existing agent's edit modal** — click the AI Builder icon (chat bubble) at the top of the form to revise the current agent.
+
+## Describing your business
+
+Start the conversation with anything that gives the AI context:
+
+- _"Create a receptionist for a plumbing company in Ipswich."_
+- _"I need an outbound sales agent for a solar panel company."_
+- _"Here's our website: https://example.com — draft a system prompt from it."_
+
+The AI will ask follow-up questions if it needs more detail. Once it has enough context, it generates a **proposal** visible in the right-hand panel.
+
+## Using Web search to read a website
+
+If you paste or type a URL in your message, the AI Builder automatically enables **Web search** so it can fetch the page content.
+
+**How it works:**
+
+1. Type or paste a URL into the message input (e.g. `Check out https://example.com and create an agent from it`).
+2. A teal pill appears above the input — **"Web search on — URL detected"** — confirming that web search is enabled for your next message.
+3. Click **Send**. The builder fetches the page and uses its content to populate the agent proposal.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the "Web search on — URL detected" teal pill above the message composer._
+
+### Keep Web search on for an entire conversation
+
+By default, Web search resets to **Off** after each message (to avoid unintended credit usage). If you want to keep it active for all messages in the session:
+
+1. Check the **"Keep Web search on for this conversation"** checkbox above the input.
+2. Web search stays enabled for every subsequent message until you uncheck the box or close the modal.
+
+This is useful when you are iterating on an agent based on multiple pages from the same site, or when every follow-up needs web context.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the "Keep Web search on for this conversation" checkbox, checked, with Web search enabled._
+
+### If the AI can't see your URL
+
+If you send a URL but Web search was not active, the builder responds:
+
+> _"I noticed a URL in your message. Toggle the 🌐 Web search button next to Send and resubmit — I'll read the page and fold it into the agent."_
+
+Toggle the Web search button (globe icon, next to the Send button), then resend your message.
+
+## Reviewing and applying the proposal
+
+When the AI has drafted an agent, the right-hand panel shows:
+
+- **Agent Name** – A suggested name
+- **System Prompt** – The full prompt the AI generated
+- **Greeting Message** – What the agent says at the start of a call
+- **Tools** – Suggested capabilities (if any)
+
+Review the proposal and click **Apply** to transfer it to the agent form. From there you can make manual edits before saving.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the proposal panel on the right side of the Builder Chat modal, with an example agent config filled in._
+
+## Resuming a previous session
+
+Builder conversations are saved automatically. When you open the Builder Chat for an existing Knova agent, a list of previous sessions appears at the top:
+
+- Click a session card to **resume** that conversation from where it left off.
+- Each card shows a preview of your first message, the model used, and how long ago the last turn happened.
+- Session cards only appear before you send your first message in the current open; once you start typing, they stay out of the way.
+
+## Understanding "Re-checked context"
+
+Occasionally the AI re-runs its context-loading tools (like reading your business settings or available integrations) on multiple turns. When a turn's tool calls are identical to the previous turn's, they are collapsed into a single line:
+
+> _Re-checked context (3 tools)_
+
+This is intentional noise reduction — the AI knew it already had the information it needed and re-verified silently. It does **not** mean the AI is stuck or confused.
+
+## Rate limiting
+
+The Builder Chat and the **Enhance Prompt** button share a single rate-limit bucket of **60 requests per minute** per partner account. If you hit the limit, you'll see:
+
+> _"Rate limit exceeded — try again in a minute."_
+
+Wait 60 seconds and resend. This limit applies per account, not per session.
+
+## Applying a proposal and saving
+
+When you click **Apply** in the proposal panel:
+
+1. The agent form fields update with the AI's suggestions.
+2. You can edit any field before saving.
+3. Click **Save** on the main agent form. The platform records which builder session produced this agent, which is visible in the [Builder Sessions API](/agents/knova/manage-knova-agents#resumable-builder-sessions).
+
+## Tips
+
+- **Be specific about tone** — "Professional but warm" vs "Casual and friendly" produces noticeably different prompts.
+- **Mention edge cases** — If there are things the agent should never do (e.g., quote prices, discuss competitors), say so in your message.
+- **Iterate freely** — Applying a proposal doesn't lock you in. You can edit the form or open the builder again to regenerate.
+- **Use sticky web search for research** — If you're building an agent for a domain-heavy business, enable sticky web search and walk through several pages from their site.
+
+## Troubleshooting
+
+- **Web search toggle not visible** — Scroll the input area; the globe icon sits to the left of the Send button inside the composer bar.
+- **URL not triggering web search auto-enable** — Make sure the URL starts with `http://` or `https://`. Bare domains (e.g., `example.com`) are not detected automatically.
+- **Proposal panel is empty** — The AI hasn't finished drafting. Wait for the streaming text to complete, then check the panel.
+- **AI keeps asking the same questions** — Click **New conversation** (if available) or close and reopen the modal to start fresh.
+
+## Related pages
+
+- [Manage Knova agents](/agents/knova/manage-knova-agents) – Create, configure, and edit Knova agents
+- [MCP Tokens](/partner-portal/settings/mcp-tokens) – Use MCP tools to manage agents programmatically
+
+---
+
+> Source: [knotie-ai-pro#820](https://github.com/avijeett007/knotie-ai-pro/pull/820) — _fix(knova-builder): URL-in-message handling + tool-event noise reduction_
