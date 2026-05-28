@@ -1,0 +1,173 @@
+---
+title: "Knova AI Agent Builder"
+description: "Build and configure AI voice and web agents using the Knova conversational builder — no form-filling required."
+---
+
+## What is the Knova AI Agent Builder?
+
+The Knova AI Agent Builder is a conversational AI tool inside the Partner Portal that lets you describe what you want an agent to do in plain language, and have it automatically generate a complete agent configuration — including system prompt, greeting message, communication channel, agent mode, and function calls.
+
+Instead of manually filling in every form field, you describe the agent's purpose to the builder in a chat interface, and it proposes a configuration you can review, tweak, and save.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Knova AI Agent Builder chat modal — the chat interface with the welcome message visible._
+
+## Who is it for?
+
+The Knova AI Agent Builder is available to **Partners** (agency owners and team members) in the Knotie AI Pro Partner Portal.
+
+## How to open the Agent Builder
+
+1. In the Partner Portal, navigate to **AI Agents → Knova**.
+2. Click **Create Agent** to open the new agent modal.
+3. In the modal, click **Use AI Builder** to open the builder chat.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Knova agent creation modal showing the "Use AI Builder" button._
+
+---
+
+## Building an agent
+
+### Describe what you want
+
+Tell the builder what the agent should do in natural language. Example prompts:
+
+- "Build an inbound receptionist that answers calls and books appointments with Google Calendar."
+- "Create an outbound reminder bot that calls customers the day before their appointment."
+- "Web chat support agent for a law firm that answers FAQs and escalates complex questions to a human."
+
+The builder checks which integrations (calendars, CRM, phone numbers) are connected and includes them in the configuration.
+
+### Review the proposal
+
+After a few conversation turns, the builder presents a **proposal** — a complete agent configuration with:
+
+- Agent name and type (`inbound` / `outbound` / `web` / `multi_agent`)
+- Communication channel (`telephony` or `web`)
+- Agent mode (`essential` / `moderate` / `premium`)
+- System prompt and greeting message
+- Function calls (tool integrations)
+- Multi-agent personas and routing (if applicable)
+
+Review the proposal in the chat. Give feedback if you want changes — the builder will revise and re-propose.
+
+### Apply and edit
+
+When you are satisfied, click **Apply to form**. The proposal is loaded into the standard agent creation form, where you can make final tweaks before saving.
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the full flow — opening the builder, describing an inbound receptionist, reviewing the proposal, and applying it to the form._
+
+---
+
+## Multi-agent configurations
+
+The builder supports **multi-agent** setups where a triage persona routes callers to specialist personas based on intent.
+
+### Routing modes
+
+| Mode | Description |
+|---|---|
+| `triage_specialist` | A triage persona routes to one of several specialists based on the caller's intent |
+| `linear` | Personas hand off in a fixed sequence |
+| `freeform` | Each persona decides whether to hand off |
+
+### Requirements for multi-agent proposals
+
+- At least **2 personas** defined
+- A **routing** block with a valid mode
+- An **entryPersonaId** pointing to the first persona
+- All persona IDs referenced in routing must exist in the `personas` list
+
+### Editing an existing multi-agent
+
+When you edit an existing multi-agent configuration, the agent form **correctly loads all persona and routing data**. The Personas tab will show the configured personas rather than "No personas yet."
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Knova agent form's Personas tab, showing a loaded multi-agent configuration with personas listed._
+
+---
+
+## AI Analytics gate
+
+Knova agents support **AI Analytics** (call metrics and insights). The Partner Portal reflects your account's AI Analytics status:
+
+- **Enabled**: you can configure and save metrics for any Knova agent.
+- **Disabled**: the Configure Metrics modal shows a warning banner and the **Add / Save** buttons are disabled, so you know the settings won't take effect until AI Analytics is turned on at the partner level.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Configure Metrics modal with the AI Analytics disabled warning banner visible._
+
+---
+
+## Configuration reference (self-hosted)
+
+Partners running their own Knotie AI Pro instance configure the builder LLM via `.env`:
+
+| Variable | Description | Example |
+|---|---|---|
+| `KNOVA_BUILDER_BASE_URL` | API base URL for the LLM provider | `https://api.openai.com/v1` |
+| `KNOVA_BUILDER_API_KEY` | API key for the builder LLM | Your OpenAI or Inworld API key |
+| `KNOVA_BUILDER_AUTH_SCHEME` | Auth header scheme | `Bearer` or `Basic` |
+| `KNOVA_BUILDER_MODEL` | Model ID used by the builder | See below |
+
+### Recommended models for `KNOVA_BUILDER_MODEL`
+
+The builder requires a model with **reliable tool-calling**. Reasoning-heavy models can produce long chains-of-thought without ever calling `propose_agent_config`.
+
+**Confirmed working:**
+
+| Provider | Model ID |
+|---|---|
+| OpenAI (direct) | `openai/gpt-4.1-mini` |
+| OpenAI (via Inworld) | `openai/gpt-4o-mini` |
+| Anthropic (via Inworld) | `anthropic/claude-haiku-4-5` |
+
+**Avoid `inworld/ab-test-models`** — this routes to reasoning-heavy models (e.g. `gpt-oss-120b`) that think at length but fail to call tools, causing the builder to appear stuck.
+
+<Tip>
+For Inworld-hosted deployments, use `openai/gpt-4.1-mini`. It has reliable tool use and is cost-efficient for agent builder sessions.
+</Tip>
+
+---
+
+## Builder reliability
+
+The builder API allows up to **120 seconds** per turn (increased from 60 s) to accommodate complex multi-agent configurations.
+
+- Simple single-agent builds typically complete in under 30 seconds.
+- Complex multi-agent builds with 4–6 tool calls may take 60–90 seconds.
+- If the builder appears stuck for more than 2 minutes, close the modal and try again.
+
+### Proposal validation rules
+
+Every proposal is validated before being presented:
+
+| Rule | Detail |
+|---|---|
+| System prompt length | Max 15,000 characters per persona |
+| Multi-agent: persona count | Minimum 2 personas |
+| Multi-agent: routing | Must include a valid routing block and `entryPersonaId` |
+| Persona references | All IDs in routing must match a defined persona |
+
+If a proposal violates a rule, the builder self-corrects on the next turn rather than surfacing an error to you.
+
+---
+
+## Troubleshooting
+
+**Builder chat shows a spinner for a long time**
+
+The builder LLM is working through a multi-tool turn. Wait up to 2 minutes before closing.
+
+**"No personas yet" when editing an existing multi-agent**
+
+This was a bug in an earlier version. The personas and routing data now load correctly when you open an existing multi-agent agent for editing.
+
+**Applied proposal but form fields are empty**
+
+Click **Apply to form** in the builder chat — the proposal does not populate the form automatically.
+
+**Builder thinks but never produces a proposal**
+
+The configured `KNOVA_BUILDER_MODEL` is likely a reasoning-heavy model that doesn't call tools reliably. Switch to `openai/gpt-4.1-mini` or `anthropic/claude-haiku-4-5`.
+
+---
+
+> Source: [knotie-ai-pro#832](https://github.com/avijeett007/knotie-ai-pro/pull/832) — _Knova builder url handling_
