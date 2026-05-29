@@ -1,0 +1,170 @@
+---
+title: "Knova AI Agent Builder"
+description: "Build voice and chat agents through a conversational interface. Paste a URL, describe your business, and the builder drafts a fully configured agent."
+---
+
+## What is the Knova AI Agent Builder?
+
+The Knova AI Agent Builder is a conversational interface that lets partners and customers create a configured Knova voice or chat agent through natural language — no manual form-filling required. You describe the business, paste a website URL, or explain the use case, and the builder proposes an agent with a system prompt, voice, tools, and configuration already filled in.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Knova Agent modal with the AI Mode / Manual Mode selector visible._
+
+---
+
+## Opening the builder
+
+1. In the Partner Portal, navigate to **Customers** and open a customer record.
+2. Click **Manage Agents** (or the AI Agents section in the customer view).
+3. Click **+ Add Agent**.
+4. On the mode picker, choose **AI Mode** to open the Agent Builder chat panel.
+   - Choose **Manual Mode** if you prefer to fill in all fields yourself.
+
+The builder opens as a full-screen chat panel inside the agent modal. The text input is focused automatically — start typing right away.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the AI Mode / Manual Mode selection screen inside the KnovaAgentModal._
+
+---
+
+## Building an agent
+
+### Basic flow
+
+1. **Describe the business or use case.** For example:
+   > *An inbound receptionist that books cleanings on Calendly and texts confirmations.*
+
+2. **Paste a URL if you have one.** When the builder detects a URL in your message it will read the page automatically and use it to populate the agent.
+   > *Or paste your business URL and I'll read it.*
+
+3. **Review the draft.** The builder streams its reasoning, then presents a proposed agent configuration.
+
+4. **Refine or accept.** Ask for changes in plain English, or click **Accept** to save the agent.
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through creating an agent end-to-end — from opening the AI Mode panel, typing a business description, and accepting the proposed agent configuration._
+
+---
+
+## Autonomous web access — no toggle required
+
+The builder can read web pages and run searches on its own, without any partner-facing toggle:
+
+| Situation | What the builder does |
+|---|---|
+| You paste a URL in your message | Calls `fetch_url` and reads the page content before proposing the agent |
+| You name a website ("their site is ipswich.plumbing") | Calls `fetch_url` with the URL it infers |
+| The business profile has a `businessWebsite` field | Calls `fetch_url` to pull current hours, services, pricing detail |
+| No URL is in scope and the builder needs to find one | Calls `search_web` with a relevant query |
+
+### URL detection indicator
+
+When the builder detects a URL in your input field, a teal badge appears above the text area:
+
+> **URL detected — the builder will read it**
+
+This is informational only — no action is required. The builder will fetch the page as part of its reasoning.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the teal "URL detected — the builder will read it" badge in the Agent Builder input area._
+
+### What happens when a fetch fails?
+
+If a site blocks the crawler, returns a 4xx error, or times out, the builder:
+- Acknowledges the failure briefly in its response
+- Asks you to paste the relevant text in plain English
+- Continues building the best draft it can without blocking
+
+You do not need to retry or toggle anything.
+
+---
+
+## Progress indicators
+
+While the builder is working, phase labels appear above the chat to show what it is doing:
+
+| Phase label | What it means |
+|---|---|
+| *Reading your request* | Parsing your message |
+| *Fetching the web page* | Loading a URL you provided or the business website |
+| *Searching the web* | Running a web search to find a URL |
+| *Reading your business profile* | Loading business context from the customer record |
+| *Understanding the app integrations* | Inspecting available tool integrations |
+| *Drafting the agent* | Composing the system prompt and configuration |
+
+---
+
+## Multi-agent configurations
+
+The builder supports creating multi-agent setups where a routing agent hands off to specialised persona agents (e.g. sales, support, billing). When editing an existing multi-agent setup:
+
+- All personas are loaded correctly into the builder context
+- The `entryPersonaId` (routing agent) is preserved
+- The builder can update individual personas or the routing logic
+
+> 📷 **Screenshot needed:** _Add a screenshot of a multi-agent configuration in the Knova builder showing the persona list and routing logic._
+
+---
+
+## Saving behaviour
+
+- While the agent is being saved (the save operation is in flight), closing the modal does **not** trigger an "unsaved changes" confirmation. The save will complete normally.
+- If you attempt to close the modal before saving, a confirmation dialog asks whether you want to discard your changes.
+- Once the save completes, the modal closes automatically.
+
+---
+
+## Phone number assignment after building
+
+After the builder creates an agent, you can assign a phone number to it from the **Assign Phone Number** step inside the agent modal.
+
+When a phone number is assigned to a Knova agent, the phone numbers listing now correctly shows the associated customer — the number will no longer appear as "Unassigned" after the assignment is saved.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Assign Phone Number modal inside KnovaAgentModal, showing a number being selected and the confirmation state._
+
+---
+
+## Voice selection notes (Inworld)
+
+When the builder proposes an Inworld voice, gender is detected correctly from the voice catalogue. Previously, voices with descriptions containing the word "female" could be incorrectly matched as "male" due to a substring overlap. This is fixed — Ashley, Craig, and other Inworld voices now resolve to the correct gender.
+
+---
+
+## Environment variables (self-hosted)
+
+If you are self-hosting Knotie AI Pro, the builder is configured via:
+
+| Variable | Purpose | Recommended value |
+|---|---|---|
+| `KNOVA_BUILDER_BASE_URL` | LLM provider endpoint | e.g. `https://api.openai.com/v1` |
+| `KNOVA_BUILDER_API_KEY` | API key for the provider | Your OpenAI / provider key |
+| `KNOVA_BUILDER_MODEL` | Model used for the builder | `openai/gpt-4.1-mini` |
+| `KNOVA_BUILDER_AUTH_SCHEME` | `Bearer` (default) or `Basic` (Inworld) | `Bearer` |
+| `KNOVA_BUILDER_TEMPERATURE` | Sampling temperature | `0.7` |
+
+<Warning>
+Avoid `inworld/ab-test-models` as the builder model. That family uses a reasoning-heavy architecture with weak tool-call support, which causes the builder to fail on multi-step tool loops.
+</Warning>
+
+---
+
+## Troubleshooting
+
+**Builder times out before finishing**
+
+The builder route allows up to 120 seconds per turn for reasoning-heavy models. If you see timeout errors:
+- Switch to a faster model (`gpt-4.1-mini`, `claude-haiku-4-5`)
+- Split the request into smaller steps (one persona at a time for multi-agent configs)
+
+**Input field has no cursor when the modal opens**
+
+This was fixed in knotie-ai-pro#848. The input now auto-focuses correctly even when the builder is opened from inside another modal. If you still see this, ensure your browser is up to date.
+
+**Fetch fails on every URL I paste**
+
+- Check that `SERPER_API_KEY` (or equivalent web-search config) is set in your `.env` file (self-hosted only)
+- Some sites block server-side crawlers by design. Paste the relevant text from the page directly into the chat and the builder will use it
+
+**Builder shows "No personas yet" when editing a multi-agent**
+
+This was fixed in knotie-ai-pro#832. If upgrading from an older version, re-open the agent in the builder to reload the persona list.
+
+---
+
+> Source: [knotie-ai-pro#848](https://github.com/avijeett007/knotie-ai-pro/pull/848) — _saving agent builder improvements_
