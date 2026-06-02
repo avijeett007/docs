@@ -1,0 +1,138 @@
+---
+title: "Partner onboarding wizard"
+description: "The guided setup wizard personalizes your Knotie AI Pro experience by capturing your target industries, products, comfort level, and revenue goal on first login."
+---
+
+## Overview
+
+When you log in as a new partner for the first time, Knotie AI Pro opens the **Onboarding Wizard** — a five-step interactive popup that replaces the previous welcome video modal. The wizard takes about 60 seconds and personalizes your dashboard and recommended agent templates.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the onboarding wizard welcome screen showing the two choices: "Tune it" (start the wizard) and "Watch video" (product tour)._
+
+## Starting the wizard
+
+On the welcome screen you have two options:
+
+- **Tune it** — launches the five-step profiling wizard.
+- **Watch video** — plays the embedded product tour. You can still go through the wizard afterward.
+
+## The five steps
+
+### Step 1 — Sectors
+
+**WHO YOU SERVE** — Select **at least 2** industries from 23 options that best describe your customers' businesses.
+
+| Available sectors | |
+|---|---|
+| Real estate | Healthcare |
+| Home services | Legal |
+| Auto dealerships | Restaurants |
+| Fitness & wellness | E-commerce |
+| B2B SaaS | Finance |
+| Insurance | Education |
+| Travel & hospitality | Logistics |
+| Marketing agencies | Recruiting |
+| Nonprofits | Government |
+| Manufacturing | Beauty & salons |
+| Dental practices | Solar & energy |
+| Med spas | |
+
+### Step 2 — Products
+
+**WHAT YOU'LL SELL** — Select **at least 1** AI product type you plan to offer your customers.
+
+| Available products | |
+|---|---|
+| AI voice agents | Chat widgets |
+| SMS receptionist | Email autoresponders |
+| Inbound qualification | Outbound dialers |
+| Meeting summarizer | Knowledge bots |
+| Compliance audit | Hermes content |
+| API gateway | White-label resell |
+| Custom training | Pricing & quotes |
+| Form intake | Recommendation engine |
+
+### Step 3 — Comfort level
+
+Choose the option that best describes your AI experience level. This adjusts the guidance style shown throughout the platform:
+
+| Option | Best for |
+|--------|---------|
+| **Explorer** (New) | First time selling AI — shows templates first |
+| **Operator** (Mid) | Shipped a few projects — surfaces configuration dials |
+| **Builder** (Tech) | Writes code — exposes API endpoints and logs |
+| **Agency lead** (Team) | Multi-client agency — focuses on margins and team seats |
+
+### Step 4 — Goal (TARGET)
+
+Set your monthly revenue target with the slider ($500 – $50,000, default $5,000). Knotie uses this to display a live deals counter on your dashboard calibrated to your goal.
+
+### Step 5 — Ready
+
+A summary of your selections is displayed, along with a personalized "first challenge" suggestion based on your comfort level and chosen products. Click **Finish** to save your profile and enter the portal.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the "Ready" step showing the personalized summary card with selected sectors, products, comfort level, and the suggested first challenge._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through all five wizard steps — from the welcome screen through to the "Ready" summary — and then entering the partner dashboard._
+
+## Closing the wizard without finishing
+
+If you press **✕** or **Escape**, the wizard is dismissed without saving your selections. The wizard is marked as seen and will **not** appear again on future logins. Your dashboard will use default settings.
+
+If you complete all five steps, your selections are saved to your partner profile and the wizard won't reappear.
+
+## What happens after completion
+
+Your answers are persisted to your partner account and used to:
+
+- Display a live deal counter on the dashboard calibrated to your revenue goal.
+- Show a personalized suggested first challenge on the "Ready" step.
+- Store selections in your browser (`localStorage`) for fast access on next load.
+
+## API reference
+
+The wizard calls this endpoint on completion. Third-party integrations or admin scripts can also call it directly.
+
+```http
+POST /api/partner/onboarding/save
+Authorization: Bearer <partner_jwt>
+Content-Type: application/json
+```
+
+**Request body:**
+```json
+{
+  "sectors": ["realestate", "healthcare"],
+  "products": ["voice", "chat"],
+  "comfort": "operator",
+  "agencyName": "Acme AI Agency",
+  "goal": 10000
+}
+```
+
+**`comfort` accepted values:** `explorer`, `operator`, `builder`, `agency`
+
+**`goal` range:** 500–50,000 (integer, increments of 500)
+
+**Response (200):**
+```json
+{ "success": true }
+```
+
+**Error responses:**
+
+| Status | Meaning |
+|--------|---------|
+| 400 | Invalid onboarding profile (failed schema validation) |
+| 401 | Missing or invalid `Authorization: Bearer` header |
+| 413 | Request body exceeds 4 KB |
+| 429 | Rate limit exceeded |
+
+<Note>
+  This endpoint requires an explicit `Authorization: Bearer <token>` header.
+  Cookie-based auth is intentionally not accepted for this mutation to prevent CSRF attacks.
+</Note>
+
+---
+
+> Source: [knotie-ai-pro#874](https://github.com/avijeett007/knotie-ai-pro/pull/874) — _Knoti 130 revamp onboarding_
