@@ -1,0 +1,93 @@
+---
+title: "AI Usage"
+description: "Track AI agent costs, call volumes, duration, and profit margins across VAPI, Retell, Ultravox, and ElevenLabs providers."
+---
+
+## Overview
+
+AI Usage is a single-page analytics dashboard showing usage costs, call volumes, duration, and profit for your agents across every connected AI provider. Everything — period filter, provider tabs, headline metrics, cost pies, top-agent chart, and per-agent tiles — lives on the same page; no modal hop required to read the basics.
+
+![AI Usage Analytics page — period filter, provider tabs, 5 headline metrics, and cost / provider / success-rate pie charts](/images/screenshots/ai-usage-overview.png)
+
+## Where to find it
+
+1. Partner Portal → **AI Usage** in the sidebar
+
+## Supported providers
+
+- **VAPI Agents**
+- **Retell Agents**
+- **Ultravox Agents**
+- **ElevenLabs Agents**
+
+## Metrics tracked
+
+| Metric | Description |
+|--------|-------------|
+| Total Calls | Number of calls made |
+| Failed Calls | Calls that ended with a failed status |
+| Success Rate | Percentage of non-failed calls |
+| Average Duration | Average call length |
+| Total Cost | Actual cost from the provider |
+| Avg Cost/Call | Average cost per call |
+| Billed Cost | Total cost × profit multiplier |
+| Profit | Billed Cost minus Actual Cost |
+
+## Filter by period and provider
+
+The top of the page has two filter rows:
+
+- **Period:** `Day` / `Week` / `Month` — recalculates every metric and chart for the selected window.
+- **Provider:** `All` / `VAPI` / `RETELL` / `ULTRAVOX` / `GHL` / `ElevenLabs` / `Retell Chat` — narrows the page to one provider's agents (or `All` for cross-provider totals).
+
+Changing either filter triggers a refresh of headline metrics, pie charts, the **Top Agents by Cost** chart, and the agent grid below.
+
+## Cost breakdown
+
+Three pie charts sit directly below the headline metrics on the same page:
+
+- **Product Cost Breakdown** — share of cost across product types (LLM / STT / TTS / Provider fees)
+- **Cost by Provider** — share of total spend by upstream provider
+- **Call Success Rate** — successful vs failed call ratio
+
+For a single-agent breakdown of LLM / STT / TTS / Provider costs, open the agent's **View Detailed Analytics** modal from the agent grid (see below).
+
+## Agent tiles and detailed analytics
+
+Below the pies, the page renders a **Top Agents by Cost** bar chart, then a grid of per-agent tiles. Each tile shows the agent's headline numbers (Total Calls, Billable Cost, Actual Cost, Profit, Avg Duration, Success Rate, Cost/Min) and a **View Detailed Analytics** button that opens a deeper modal for that single agent.
+
+![Top Agents by Cost chart and AI Agents grid with View Detailed Analytics buttons](/images/screenshots/ai-usage-agent-tiles.png)
+
+> The provider badge on each tile (`RETELL`, `ElevenLabs`, etc.) reflects the upstream provider; tiles from disabled providers won't appear under the `All` filter.
+
+## Profit analysis
+
+The analytics modal shows a profit analysis bar chart:
+
+- **Actual Cost** — what you pay the provider
+- **Billed Cost** — what you charge the customer
+- **Profit** — difference between billed and actual
+
+## Retell summary
+
+The Retell tab shows a summary row at the top with:
+- Total Cost
+- Total Duration
+- Total Calls
+- Success Rate
+
+Plus a cost breakdown grid of product costs before individual agent tiles.
+
+## Refresh data
+
+Click **Refresh Summary** to reload aggregate data for the Retell tab.
+
+## API key issues
+
+If an API key is missing for a provider, you'll see a red error banner with a button to navigate to Settings to configure the key.
+
+## Next steps
+
+- [Agent Analytics](/partner-portal/agent-analytics) — more usage insights
+- [AI Gateway](/partner-portal/ai-gateway) — manage API keys and budgets
+- [Credits](/partner-portal/credits) — add credits when low

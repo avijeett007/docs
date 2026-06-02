@@ -5,22 +5,24 @@ description: "Automatically deploy AI agents for customers who complete the SaaS
 
 ## What Auto-Deploy is for
 
-**Auto-Deploy** automatically activates AI agents for customers who complete the full 9-step SaaS onboarding process. This eliminates manual deployment work and provides instant activation for self-service customers.
+**Auto-Deploy** automatically activates AI agents for customers who clear the payment gate at Step 9 and click **Deploy** on Step 10 of the SaaS onboarding process. This eliminates manual deployment work and provides instant activation for self-service customers.
 
 Use auto-deploy when:
 - Running a SaaS portal with self-service onboarding
-- You want customers to get instant access after signup
+- You want customers to get instant access after signup (and payment, if applicable)
 - You have sufficient credits to cover deployments
 
 ## How auto-deploy works
 
 ### The deployment flow
 
-1. **Customer completes Step 9** – All onboarding steps finished
-2. **System checks prerequisites** – Validates credits, configuration
-3. **Job queued** – Deployment added to KnotieManager queue
-4. **Agent deployed** – AI Receptionist activated automatically
-5. **Customer notified** – Confirmation email sent (if configured)
+1. **Customer completes Step 9 (Pricing & Payment)** – Stripe Checkout clears (or is skipped for free / pay-as-you-go portals)
+2. **Step 10 (Deploy Agent) gate** – `/api/whitelabel/check-onboarding-payment` confirms the customer credential is `active`; otherwise the user is bounced back to Step 9
+3. **Customer clicks Deploy** – Triggers `/api/whitelabel/save-onboarding-details`
+4. **System checks prerequisites** – Validates credits, configuration
+5. **Job queued** – Deployment added to KnotieManager queue
+6. **Agent deployed** – AI Receptionist activated automatically
+7. **Customer notified** – Setup email sent to customer; deployment notification sent to partner
 
 ### Deployment statuses
 
@@ -100,10 +102,13 @@ Toggle auto-deploy in whitelabel settings:
 
 ### Phase 1: Customer completes onboarding
 
-When a customer finishes Step 9:
-1. Customer data is validated.
-2. AI credits are enabled for the customer.
-3. Deployment status is determined.
+When a customer reaches Step 10 and clicks **Deploy**:
+1. The page first calls `/api/whitelabel/check-onboarding-payment`; if the credential is not `active`, the customer is sent back to Step 9.
+2. Onboarding data (business info, knowledge base, greeting, voice, integrations, billing model) is validated and posted to `/api/whitelabel/save-onboarding-details`.
+3. AI credits are enabled for the customer (only if **Free AI Credits** is configured and > 0).
+4. Deployment status is determined.
+
+> The billing model passed to deployment is derived from `partner.pricingModel`: `subscription` → `subscription`, `fixedprice` → `fixed_price`, `payasyougo` → `pay_as_you_go`, unset → `free_trial`.
 
 ### Phase 2: Credit validation
 
@@ -226,12 +231,12 @@ Customers receive **Free AI Credits** (configured in SaaS settings):
 **Possible causes:**
 - Auto-Deploy toggle is OFF
 - SaaS Onboarding not enabled
-- Customer didn't complete all 9 steps
+- Customer didn't reach Step 10 (still stuck on a previous step — most commonly Step 9 payment)
 - Partner credits below minimum threshold
 
 **Solution:**
 1. Verify auto-deploy is enabled in Settings → Whitelabel.
-2. Check customer completed Step 9 in Prospects list.
+2. Check customer reached Step 10 in Prospects list (Step 9 means payment didn't clear).
 3. Confirm credit balance meets minimums.
 
 ### Deployment stuck in "queued"

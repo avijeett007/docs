@@ -1,0 +1,130 @@
+---
+title: "Retell Chat Agent"
+description: "Text-based chat widget agent powered by Retell — deploy on websites with embeddable code and SMS support."
+---
+
+## Overview
+
+Retell Chat is a **text-based chat widget agent** as opposed to Retell Voice (real-time phone calls). It exposes a Retell chat agent through an embeddable widget on your or your customer's website.
+
+![Retell Agents page with agent cards and Import / Create buttons](/images/screenshots/retell-chat-grid.png)
+
+<Warning>
+Retell Chat is an experimental feature. You'll see an amber warning banner on the page.
+</Warning>
+
+## Where to find it
+
+1. Partner Portal → **Manage AI Agents**
+2. Click **Retell Chat**
+
+## Import chat agents
+
+To import agents from Retell:
+
+1. Click **Import Chat Agents** (green button)
+2. Authenticate with Retell if needed
+3. Select agents to import
+4. Confirm
+
+## Create a widget
+
+Each Retell Chat agent can have one or more embeddable widgets:
+
+1. Open the agent's actions menu
+2. Choose **Widget Management**
+3. Click **+ Create Widget** to add a new widget, or copy an existing widget's snippet from the list
+
+The Widget Management modal lists every widget for the agent with its type (3D Orb / classic), status, view & interaction counts, last-used date, and the allowed domains where it can be embedded.
+
+![Widget Management modal listing embeddable widgets for an agent](/images/screenshots/retell-chat-widget-instructions.png)
+
+### Embed code
+
+```html
+<script src="https://cdn.retellai.com/chat-widget.js"></script>
+<script>
+  RetellChatWidget.init({
+    agentId: "your-agent-id",
+    position: "bottom-right",
+    theme: {}
+  })
+</script>
+```
+
+### Custom variables
+
+Pass dynamic data to your chat agent:
+
+```javascript
+RetellChatWidget.init({
+  agentId: "your-agent-id",
+  retell_llm_dynamic_variables: {
+    customer_name: "John",
+    customer_id: "12345"
+  },
+  metadata: {
+    source: "website"
+  }
+})
+```
+
+## SMS chat
+
+If the agent has SMS enabled, you can send outbound SMS:
+
+1. Open the agent's menu
+2. Select SMS option
+3. Enter recipient phone number
+4. Send
+
+## Webhook configuration
+
+Configure webhooks for chat events:
+
+1. Open **Webhook Settings**
+2. Toggle webhook enabled
+3. Set mode (Manual or Automatic)
+4. Enter your webhook URL
+
+### Register with analytics
+
+Enable analytics tracking for the agent:
+
+1. Open the agent's menu
+2. Click **Register with Analytics**
+
+## Test the agent
+
+Use the **Test Agent** modal to chat with your agent before deploying:
+
+1. Click **Test Agent** in the agent menu
+2. Pick a **Web Call** (browser mic), **Inbound Call**, or **Outbound Call** test method
+3. Send test messages / talk to the agent
+4. Review responses
+
+![Test Agent modal with Web Call / Inbound / Outbound options](/images/screenshots/retell-chat-test-modal.png)
+
+> Inbound and Outbound Call methods require a phone number to be assigned to the agent in the Phone Numbers section.
+
+## Edit or delete
+
+- **Edit Agent** — modify name, description, customer mapping
+- **Map to Customer** — assign to customer with profit multiplier (default 1.2x)
+- **Configure Metrics** — set up analytics (requires customer assignment)
+- **Delete Agent** — remove from portal
+
+### Deletion modes
+
+- **Delete from Portal** — removes from Knotie only
+- **Delete Everywhere** — also deletes from Retell (coming soon)
+
+## Access control
+
+Creation is subject to Free Forever plan limits.
+
+## Next steps
+
+- [AI Gateway](/partner-portal/ai-gateway) — manage API access
+- [AI Usage](/partner-portal/ai-usage) — track costs and usage
+- [Agent Analytics](/partner-portal/agent-analytics) — usage insights

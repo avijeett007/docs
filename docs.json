@@ -85,7 +85,12 @@
               "partner-portal/settings/saas-portal-mode",
               "partner-portal/settings/mcp-tokens",
               "partner-portal/marketing",
-              "partner-portal/tutorials"
+              "partner-portal/tutorials",
+              "partner-portal/nexus/overview",
+              "partner-portal/experiences/overview",
+              "partner-portal/vps/overview",
+              "partner-portal/ai-usage/overview",
+              "partner-portal/number-pools/overview"
             ]
           },
           {
@@ -99,7 +104,10 @@
               "agents/n8n/n8n-automation",
               "agents/n8n/n8n-chat-agents",
               "agents/n8n/n8n-tokens",
-              "agents/migration/agent-migration"
+              "agents/migration/agent-migration",
+              "agents/byo-agent/overview",
+              "agents/knova/overview",
+              "agents/retell-chat/overview"
             ]
           }
         ]

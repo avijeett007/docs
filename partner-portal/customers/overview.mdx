@@ -25,13 +25,14 @@ The **Customer List** page has two main tabs:
 ### How prospects become customers
 
 1. **Prospect creation** – When someone interacts with your AI Receptionist, they are automatically added as a Prospect.
-2. **Onboarding journey begins** – The prospect starts the 9-step onboarding process.
+2. **Onboarding journey begins** – The prospect starts the 10-step onboarding process.
 3. **Conversion at Step 3** – Once a prospect completes **Step 3** of the onboarding journey, they are converted from a **Prospect** into a **Customer**.
-4. **Full activation at Step 9** – When a customer completes all **9 onboarding steps**, their AI Agent/Receptionist is **automatically turned on** and ready to handle calls.
+4. **Payment at Step 9** – The customer reviews the plan and pays via Stripe Checkout (subscription, fixed price, or pay-as-you-go). Free Forever and pay-as-you-go portals skip checkout.
+5. **Full activation at Step 10** – Once payment has cleared, the customer clicks **Deploy** on Step 10. The AI Agent/Receptionist is **automatically turned on** and ready to handle calls.
 
-### The 9 onboarding steps
+### The 10 onboarding steps
 
-> This 9-step flow is available only when your portal is in **SaaS mode**.
+> This 10-step flow is available only when your portal is in **SaaS mode**.
 
 1. Business Info
 2. Website Verification
@@ -41,9 +42,12 @@ The **Customer List** page has two main tabs:
 6. Greeting Setup
 7. Information Collection
 8. Communication Settings
-9. Summary & Deploy
+9. Pricing & Payment
+10. Deploy Agent
 
 ![Onboarding Steps Progress](/images/screenshots/screenshot-2026-03-19-200344.png)
+
+> Step 10 is gated by `/api/whitelabel/check-onboarding-payment`. If the customer arrives at Step 10 without an `active` credential, they're sent back to Step 9 to complete payment.
 
 ## Where to find customer actions
 
