@@ -99,7 +99,8 @@
           {
             "group": "Agents",
             "pages": [
-              "agents/knova/knova-agent-builder",
+              "agents/knova/manage-knova-agents",
+              "agents/knova/agent-builder-chat",
               "agents/retell/import-retell-agent",
               "agents/vapi/import-vapi-agent",
               "agents/ultravox/manage-ultravox-agents",
@@ -190,7 +191,7 @@
      "mcp",
      "cursor",
      "vscode"
-    ]
+   ]
   },
   "footer": {
     "socials": {
