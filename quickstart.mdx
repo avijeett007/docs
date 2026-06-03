@@ -1,80 +1,100 @@
 ---
 title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+description: "Go from signup to your first live AI voice agent in under 30 minutes."
 ---
 
-## Get started in three steps
+## Overview
 
-Get your documentation site running locally and make your first customization.
+This quickstart walks you through the fastest path to getting your first customer set up with a working AI voice agent on Knotie AI Pro.
 
-### Step 1: Set up your local environment
+By the end, you'll have:
+- A partner account with your branding
+- Your first customer onboarded
+- An AI voice agent imported and ready to take calls
 
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
-    
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
-    
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
+## Prerequisites
 
-### Step 2: Deploy your changes
+- A valid email address and phone number
+- A [Retell](https://retell.ai) or [VAPI](https://vapi.ai) account with at least one agent created (or use the built-in Knova agent on the Free plan)
 
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
-    
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
+## Step 1: Create your partner account
 
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
+1. Go to [knotie-ai.pro](https://knotie-ai.pro) and click **Get Started**.
+2. Choose a plan — **Free Forever** is a great way to start.
+3. Enter your business name, email, and phone number.
+4. Click **Create Account** and complete any payment steps if on a paid plan.
+5. Log in via the **Partner Login** button.
 
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
+<Tip>After your first login, set up a **passkey** and enable **MFA** for added security. See [Account & Security](/account/signup) for details.</Tip>
 
-### Step 3: Go live
+## Step 2: Customize your portal branding
 
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
+1. In the Partner Portal sidebar, go to **Settings → Whitelabel**.
+2. Upload your logo, set your brand colors, and configure your portal name.
+3. Your customers will see this branding when they access their portal.
 
-## Next steps
+## Step 3: Onboard your first customer
 
-Now that you have your docs running, explore these key features:
+1. Navigate to **Customers** in the sidebar.
+2. Click **Quick Onboard**.
+3. Fill in your customer's details (name, email, business info).
+4. Choose a portal mode — **Standard** is recommended to start.
+5. Click **Create** to finish onboarding.
+
+Your customer now has their own portal accessible via your whitelabel subdomain.
+
+<Info>On the Free Forever plan, you can onboard up to 2 customers. See [Pricing and Features](/getting-started/pricing-and-features) for plan limits.</Info>
+
+## Step 4: Import or create an AI agent
+
+<Tabs>
+  <Tab title="Knova (built-in)">
+    Knova agents are built into Knotie AI Pro — no external account needed.
+
+    1. Go to **AI Agents** in the sidebar.
+    2. Click **Create Agent** and select **Knova**.
+    3. Configure your agent's name, voice, and instructions.
+    4. Assign it to your customer.
+  </Tab>
+  <Tab title="Retell">
+    1. Go to **AI Agents** in the sidebar.
+    2. Click **Import Agent** and select **Retell**.
+    3. Enter your Retell API key and select the agent to import.
+    4. Assign the imported agent to your customer.
+
+    See the full [Retell import guide](/agents/retell/import-retell-agent) for details.
+  </Tab>
+  <Tab title="VAPI">
+    1. Go to **AI Agents** in the sidebar.
+    2. Click **Import Agent** and select **VAPI**.
+    3. Enter your VAPI API key and select the agent to import.
+    4. Assign the imported agent to your customer.
+
+    See the full [VAPI import guide](/agents/vapi/import-vapi-agent) for details.
+  </Tab>
+</Tabs>
+
+## Step 5: Verify everything works
+
+1. Go to **AI Usage** in the sidebar to confirm data is flowing.
+2. Visit your customer's portal URL (shown in the Customers list) to see their view.
+3. Test your agent by making a call or using the web widget.
+
+## What's next?
+
+You're up and running. Here's where to go from here:
 
 <CardGroup cols={2}>
-
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
-
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
-
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
-
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
-
+  <Card title="Onboarding checklist" icon="list-check" href="/getting-started/onboarding-checklist">
+    Complete all 6 setup steps to unlock your onboarding reward.
+  </Card>
+  <Card title="Phone numbers" icon="phone" href="/partner-portal/phone-numbers">
+    Buy or import phone numbers for your agents.
+  </Card>
+  <Card title="Credits & billing" icon="credit-card" href="/partner-portal/credits">
+    Understand how credits work and manage your balance.
+  </Card>
+  <Card title="Custom domains" icon="globe" href="/customer-management/custom-domain">
+    Set up a custom domain for your whitelabel portal.
+  </Card>
 </CardGroup>
-
-<Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
-</Note>

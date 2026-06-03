@@ -1,0 +1,301 @@
+---
+title: "OpenClaw Partner Setup"
+description: "Deploy a production AI assistant for your customers using OpenClaw and Knotie AI Gateway."
+---
+
+## What is OpenClaw?
+
+OpenClaw is a setup tool that lets Knotie Agency Partners deploy a **production-ready AI assistant** for their customers — on a VPS they control, routed through the Knotie AI Gateway.
+
+Think of it as a "one-click deploy" for an AI agent that:
+- Runs on your customer's own server (Linux VPS)
+- Is accessible only over a private Tailscale network (no public internet exposure)
+- Comes pre-configured with CRM integrations, calendar sync, and memory
+- Lets the partner earn a margin on every AI call their customer makes
+
+## How it works
+
+```
+Customer pays partner for AI agent service
+         │
+         ▼
+   Partner's VPS (OpenClaw)
+         │
+    AI requests routed through
+         │
+         ▼
+   Knotie AI Gateway (partner earns margin)
+         │
+         ▼
+   AI response returned to customer
+```
+
+The partner sets the pricing for their customer — Knotie bills the partner at wholesale rates, and the partner marks up for profit.
+
+---
+
+## Prerequisites
+
+Before running the setup, you need:
+
+| Requirement | Where to get it |
+|---|---|
+| **Knotie API Key** | Partner Portal → Settings → API Keys |
+| **Tailscale Auth Key** | [tailscale.com/admin/settings/keys](https://login.tailscale.com/admin/settings/keys) |
+| **Knotie MCP Token** | Partner Portal → Settings → MCP Tokens |
+| **Linux VPS** | Ubuntu 22.04 or 24.04 (KVM recommended: Hostinger, Contabo) |
+| **Domain (optional)** | For custom branding |
+
+### Setting up Tailscale
+
+1. Create a free account at [tailscale.com](https://tailscale.com)
+2. Go to **Settings → Keys** and create an auth key
+3. Save the key — you'll paste it during the setup script
+
+[SCREENSHOT: Tailscale auth key creation in admin panel]
+
+### Creating Knotie credentials
+
+1. In the Partner Portal, go to **Settings → API Keys**
+2. Create a new key with **AI Gateway** scope
+3. Go to **Settings → MCP Tokens** and create a token for the customer
+4. Keep both ready — you'll need them during setup
+
+---
+
+## Running the setup
+
+Connect to your VPS as root (or with sudo access), then run:
+
+```bash
+curl -fsSL https://setup.knotie.ai/openclaw/install.sh | bash
+```
+
+The script will ask for:
+- **Customer name** — used as the agent's display name and slug
+- **Knotie API Key** — your partner API key
+- **Model ID** — defaults to `claude-opus-4-6`
+- **Tailscale auth key** — from your Tailscale admin panel
+- **Tailscale hostname** — e.g. `openclaw-acme-corp`
+- **Knotie MCP Token** — from the Partner Portal
+
+[SCREENSHOT: OpenClaw install script running in terminal]
+
+---
+
+## What the script installs
+
+The setup script installs and configures:
+
+| Component | Purpose |
+|---|---|
+| **OpenClaw** | The AI agent runtime |
+| **Tailscale** | Encrypted private network so the gateway is accessible only from your devices |
+| **QMD Memory** | Quick Memory Daemon for persistent conversation memory |
+| **Lossless-claw** | Context engine that prevents memory loss during long sessions |
+| **Knotie MCP Server** | Gives the agent tools: CRM (GoHighLevel), calendars (Google, Calendly), SMS/Email |
+| **Agent Browser Skill** | Enables web browsing capabilities |
+| **Knotie Gateway Enforcer** | Hourly cron that ensures the agent only routes through Knotie (not direct to Anthropic/OpenAI) |
+
+---
+
+## Managing deployed agents
+
+### Check gateway status
+
+```bash
+openclaw gateway status
+```
+
+### View agent logs
+
+```bash
+openclaw logs
+```
+
+### Restart the gateway
+
+```bash
+openclaw gateway restart
+```
+
+### Run the health enforcer manually
+
+```bash
+bash /usr/local/bin/knotie-guard.sh
+```
+
+### Access the gateway UI
+
+The gateway is only accessible over Tailscale — not on the public internet. Once Tailscale is connected, access it at:
+
+```
+https://your-hostname.ts.net
+```
+
+On first access, you'll need to approve the device:
+
+```bash
+openclaw devices list
+openclaw devices approve <request-id>
+```
+
+[SCREENSHOT: Agent deployed and visible in Tailscale admin panel]
+
+---
+
+## Updating the agent
+
+To re-run the setup (e.g., to update the model or MCP token):
+
+```bash
+curl -fsSL https://setup.knotie.ai/openclaw/install.sh | bash
+```
+
+The script detects existing installations and skips already-configured steps.
+
+To do a **full reset and clean uninstall**:
+
+```bash
+curl -fsSL https://setup.knotie.ai/openclaw/install.sh | bash -- --reset-clean
+```
+
+This removes OpenClaw, Tailscale, all config, and the memory/workspace directory. A backup archive is saved to `/tmp/openclaw-backup-YYYYMMDD-HHMMSS.tar.gz`.
+
+---
+
+## Channel Chat (portal-to-agent messaging)
+
+When OpenClaw is deployed via the VPS App Catalog, the setup script also configures a **hardened channel endpoint** on port `18790`. This lets the Knotie Partner Portal send chat messages to the OpenClaw agent over the public internet — authenticated with multiple layers of security.
+
+### How it works
+
+```
+Knotie Partner Portal (Next.js)
+         │  HTTPS POST /knotie-channel/chat
+         │  (Bearer token + HMAC-signed nonce)
+         ▼
+  nginx on port 18790 (TLS termination + rate limit + knock header)
+         │
+         ▼
+  OpenClaw Gateway on port 18789 (loopback only)
+         │
+         ▼
+  Knotie AI Gateway → LLM response
+         │
+         ▼
+  KnotieChannelResponse returned to portal
+```
+
+The portal never talks directly to the gateway — nginx acts as a security front-end that enforces:
+1. **TLS** — self-signed 4096-bit RSA certificate, valid for 10 years
+2. **Knock header** — every request must include `X-Knotie-Gateway: <knock-secret>`; missing or wrong header returns `444 No Response` (nginx drops the connection silently)
+3. **Rate limiting** — max 10 requests/minute per IP, max 3 concurrent connections per IP
+4. **Bearer token** — constant-time comparison via `timingSafeEqual`
+5. **HMAC nonce** — timestamp + nonce signed with SHA-256, with a ±5 minute replay window
+
+> 📷 **Screenshot pending** — `/platform/chat` is a whitelabel/customer portal feature. The customer screenshot will be added once available.
+
+> 🎬 **Video walkthrough** — pending customer-facing portal walkthrough recording.
+
+### Channel response shape
+
+Successful chat responses return:
+
+```json
+{
+  "reply": "Hello! How can I help you today?",
+  "sessionId": "sess_abc123",
+  "model": "knotie-provider/claude-opus-4-6"
+}
+```
+
+### Environment variables written during setup
+
+The install script writes a `/root/.openclaw/channel.env` file with these variables:
+
+| Variable | Description |
+|---|---|
+| `KNOTIE_CHANNEL_TOKEN` | Bearer token the portal uses to authenticate requests |
+| `KNOTIE_CHANNEL_KNOCK` | Secret knock header value nginx requires on every request |
+| `KNOTIE_TS_HOSTNAME` | Tailscale hostname for this instance |
+
+A `systemd` drop-in at `/root/.config/systemd/user/openclaw-gateway.service.d/knotie-env.conf` ensures these variables are loaded into the gateway process on every start. Without this drop-in, `process.env.KNOTIE_CHANNEL_TOKEN` is undefined inside the channel plugin, causing every chat call to return `503 misconfigured`.
+
+---
+
+## Configuration reference
+
+These values are set during install and stored in `~/.openclaw/openclaw.json`:
+
+| Setting | Default | Description |
+|---|---|---|
+| `contextWindow` | 200,000 tokens | Maximum context size |
+| `maxTokens` | 16,000 tokens | Maximum response length |
+| `gatewayPort` | 18,789 | Local port the gateway listens on |
+| `heartbeatInterval` | 30 minutes | How often the agent does a health check |
+| `sessionMaxIdleDays` | 7 days | Sessions expire after this long without activity |
+
+---
+
+## Troubleshooting
+
+**Tailscale serve not working**
+- Check that Tailscale Serve is enabled in your tailnet: [login.tailscale.com/admin/settings](https://login.tailscale.com/admin/settings)
+- Look for: **Allow nodes to connect to the Tailnet Service (Serve) and Funnel**
+- Re-run the setup script after enabling
+
+**Gateway not responding**
+```bash
+curl http://127.0.0.1:18789/healthz
+openclaw gateway status
+openclaw doctor
+```
+
+**Agent not using Knotie Gateway**
+The `knotie-guard.sh` cron runs hourly and will restore the correct config automatically. To manually check:
+```bash
+jq '.models.providers' ~/.openclaw/openclaw.json
+```
+Only `knotie-provider` should be present.
+
+**Channel chat returns 503 misconfigured**
+The gateway process is not seeing the channel environment variables. Check whether the systemd drop-in was written:
+```bash
+cat /root/.config/systemd/user/openclaw-gateway.service.d/knotie-env.conf
+```
+If the file is missing, re-run the catalog deploy for OpenClaw. If it exists but the issue persists, reload the service:
+```bash
+XDG_RUNTIME_DIR=/run/user/0 systemctl --user daemon-reload
+XDG_RUNTIME_DIR=/run/user/0 systemctl --user restart openclaw-gateway
+```
+
+**nginx not listening on the channel port after deploy**
+If the channel endpoint is unreachable immediately after install, check whether nginx loaded the new config:
+```bash
+ss -tlnH | awk '{print $4}'    # should include :<channel-port>
+tail -20 /var/log/nginx/error.log
+```
+A common cause is a `limit_conn` directive syntax error. The correct form is `limit_conn knotie_cn 3` (no `zone=` prefix). If you see `zero size shared memory zone` in the error log, run:
+```bash
+nginx -t && systemctl restart nginx
+```
+
+**Catalog deploy fails immediately with apt lock error**
+When you click **Deploy** on a freshly provisioned VPS, cloud-init may still be running its own `apt-get` in the background. The deploy script now waits up to 5 minutes for the lock to release automatically. If you see this error in the deploy log, wait a few minutes and retry the catalog deploy from the portal — no manual intervention is needed.
+
+**Gateway config shows `gateway.token` instead of `gateway.auth`**
+The gateway configuration schema changed in OpenClaw 2026.5.x. The Knotie API key is now stored under `gateway.auth.token` (not the top-level `gateway.token`). The install script migrates the config automatically. To verify:
+```bash
+jq '.gateway.auth' ~/.openclaw/openclaw.json
+# Expected: { "mode": "token", "token": "<your-token>" }
+```
+If `gateway.auth` is missing, re-run the catalog deploy for OpenClaw.
+
+**Support**
+- Email: support@knotie-ai.pro
+- Discord: [discord.gg/AQCdM68BTr](https://discord.gg/AQCdM68BTr)
+
+---
+
+> Source: [knotie-ai-pro#727](https://github.com/avijeett007/knotie-ai-pro/pull/727) — _feat(vps): openclaw catalog deploy + channel chat working end-to-end_
