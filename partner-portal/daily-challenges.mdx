@@ -1,0 +1,122 @@
+---
+title: "Daily challenges & partner levels"
+description: "Complete platform challenges to earn credits and advance through Knotie AI Pro partner levels, which gate access to marketing campaigns and feature unlocks."
+---
+
+## Overview
+
+**Daily Challenges** are milestone tasks published by the Knotie team inside your partner dashboard. Completing a challenge earns **reward credits** deposited directly to your account balance, and can optionally advance your **Partner Level** — a progression metric (0–10) that Knotie uses to power targeted marketing campaigns and future feature unlocks.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Daily Challenges widget visible in the partner dashboard, showing a challenge card with its title, step list, and reward credit amount._
+
+## How challenges work
+
+1. A challenge card appears in your dashboard with a title, description, and ordered list of steps.
+2. Complete each step — steps can include watching a video, connecting a feature, onboarding a customer, or similar actions.
+3. On completion, **reward credits** are deposited to your account balance automatically.
+4. If the challenge carries a **Grants Level** value, your partner level is promoted to at least that level.
+
+> 🎬 **Video walkthrough:** _Record a short clip showing the full flow of completing a daily challenge — from the dashboard card through each step to the credit reward confirmation._
+
+## Partner levels
+
+Each partner account has an associated level (0–10). Levels only ever increase — the platform never decrements a level once set.
+
+**Factors that determine your level:**
+
+| Factor | Description |
+|--------|-------------|
+| Feature adoption | Connecting a voice provider, onboarding customers, configuring white-label, etc. |
+| Completed challenges | Challenges with a **Grants Level** promote you to at least that level |
+
+**What your level affects:**
+
+- Tags in Knotie's internal partner CRM used for targeted email campaigns and support prioritisation.
+- Access to level-gated promotions and announcements sent directly by Knotie.
+- (Future) Unlocked features surfaced automatically on the dashboard.
+
+### Approximate level milestones
+
+| Level | Typical milestone |
+|-------|------------------|
+| 0 | Account created |
+| 1 | Onboarding wizard completed |
+| 2 | First customer onboarded |
+| 3 | AI agent + phone number connected |
+| 4 | White-label portal configured |
+| 5+ | Advanced adoption (Stripe Connect, metered billing, team seats) |
+
+<Note>
+  Exact thresholds are managed by the Knotie platform and may change over time. Contact [support@knotie-ai.pro](mailto:support@knotie-ai.pro) if you believe your level is incorrect.
+</Note>
+
+## Frequently asked questions
+
+**Can my level decrease?**
+No. Partner levels only increase — the platform never decrements a level once set.
+
+**How often do new challenges appear?**
+Challenges may be scheduled for specific dates or run indefinitely. Check the challenge card in your dashboard for any scheduled date indicator.
+
+**Where do earned credits appear?**
+Credits are deposited to your account balance and visible in the **Credits** section of the Partner Portal.
+
+**Can I complete a challenge more than once?**
+No. Each challenge is completed once per partner account.
+
+## For admins: challenge configuration
+
+> 📷 **Screenshot needed:** _Add a screenshot of the admin Daily Challenges Manager showing a challenge creation or edit form with the "Grants Level" field._
+
+Challenge metadata is managed from the Knotie internal admin panel and is not editable by partners. When creating or editing a challenge, admins configure:
+
+| Field | Description |
+|-------|-------------|
+| Title | Challenge display name |
+| Description | What the partner needs to accomplish |
+| Steps | Ordered task list (each step requires `id`, `title`, and `type`) |
+| Reward Credits | Credits deposited on completion (default 50) |
+| Requires Proof | Whether the partner must submit proof before credit is granted |
+| Scheduled Date | Optional date the challenge becomes active |
+| **Grants Level** | Optional integer 0–10: completing this challenge promotes the partner to at least this level |
+
+If **Grants Level** is left blank, the challenge still records a `challenge-{id}-complete` tag against the partner in the internal CRM but does not change their numeric level.
+
+### Admin API
+
+**Create a challenge:**
+```http
+POST /api/admin/challenges
+```
+
+**Update a challenge:**
+```http
+PUT /api/admin/challenges/:challengeId
+```
+
+Both endpoints accept a `grantsLevel` field in the JSON body:
+
+```json
+{
+  "title": "Connect your first voice agent",
+  "steps": [
+    { "id": "step-1", "title": "Go to AI Agents", "type": "navigate" },
+    { "id": "step-2", "title": "Import a Retell or VAPI agent", "type": "action" }
+  ],
+  "rewardCredits": 50,
+  "grantsLevel": 3
+}
+```
+
+`grantsLevel` must be a non-negative integer between **0 and 10**, or `null` to remove a previously set grant.
+
+**Error responses:**
+
+| Status | Meaning |
+|--------|---------|
+| 400 | `grantsLevel` is outside the valid range (0–10) or is not an integer |
+| 401 | Admin authentication required |
+
+---
+
+> Source: [knotie-ai-pro#860](https://github.com/avijeett007/knotie-ai-pro/pull/860) — _Knovaagent modal improvement_
