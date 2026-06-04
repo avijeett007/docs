@@ -108,6 +108,7 @@
               "agents/n8n/n8n-chat-agents",
               "agents/n8n/n8n-tokens",
               "agents/openclaw-setup",
+              "agents/hermes-agent-setup",
               "agents/migration/agent-migration"
             ]
           }
