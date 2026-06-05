@@ -1,6 +1,6 @@
 ---
 title: "Set up credit-based billing for agency clients"
-description: "Configure per-client AI credit management with low-balance alerts, price-per-minute markups, and portal visibility controls."
+description: "Configure per-client AI credit management with low-balance alerts, portal visibility controls, and credit plan management."
 ---
 
 ## Who this is for
@@ -16,9 +16,9 @@ This playbook is for agencies that:
 Without credit controls, a single high-volume client can drain your account. This playbook sets up:
 
 - **Per-client credit balances** so each client pays for what they use
-- **Profit margins** via price-per-minute markups
 - **Low-balance alerts** so neither you nor your client gets surprised
 - **Portal visibility** so clients can self-serve top-ups (optional)
+- **Credit plan controls** to limit which top-up plans each client sees
 
 ## Prerequisites
 
@@ -29,86 +29,94 @@ Without credit controls, a single high-volume client can drain your account. Thi
 ## Step 1 — Enable AI credits for a customer
 
 1. Partner Portal → **Customers**
-2. Open the customer's **Manage** panel
-3. Go to the **Credits & AI Credit Management** section
-4. Toggle **AI Credits Enabled** to on
+2. Click **Manage** on the customer's card to open the customer modal
+3. Go to the **Features & Add-ons** tab
+4. In the **AI Credit Management** section, toggle **AI Credits Enabled** to on
 
 > This activates per-call credit deductions for this customer. Without it, calls use your partner balance directly.
 
-## Step 2 — Set the price per minute
+![Features & Add-ons tab showing AI Credit Management toggle and related settings](/images/screenshots/features-addons-ai-credit-management.png)
 
-In the same section:
+> **Note:** The customer modal has 9 tabs: Customer Info, Deal Management, Features & Add-ons, Billing, Phone Numbers, Credits, Embed URLs, Deployment, and Reports.
 
-1. Set **AI Credit Price Per Minute** — this is what the customer is charged per minute of AI agent usage
-2. Set **Grace Period** (seconds) — allows calls to complete slightly over the credit limit rather than cutting off mid-sentence
+## Step 2 — Configure low-balance alerts
 
-**Pricing example:**
+Still in the customer's **Features & Add-ons** tab:
 
-| Your cost | Customer price | Your margin |
-|---|---|---|
-| $0.08/min | $0.12/min | 50% markup |
-| $0.08/min | $0.15/min | 87.5% markup |
+1. In the **Low Credit Notifications** section, toggle **Enable Notifications**
+2. Set **Low Credit Threshold** — the balance level that triggers a warning (default is 10 credits)
 
-> **Tip**: Use **Agent Analytics** to understand your actual per-minute costs before setting markups.
-
-## Step 3 — Configure low-balance alerts
-
-Still in the customer's credit settings:
-
-1. Set **Low Credit Threshold** — the balance level that triggers a warning (e.g., 100 credits)
-2. Toggle **Low Credit Notifications Enabled** — sends alerts when the threshold is reached
+> The toggle subtext reads: "Send email alerts to customer when credits are low."
 
 This prevents calls from silently failing when a client runs out of credits.
 
-## Step 4 — Add initial credits
+## Step 3 — Add initial credits
 
-1. In the customer **Manage** panel, go to **Credits**
-2. Add credits to the customer's balance
-3. The customer's AI agent calls will now deduct from this balance
+1. In the customer modal, switch to the **Credits** tab
+2. Click **Manage Credits** to open the credit operation modal
+3. Select **Operation Type**: 💰 Add Credits
+4. Enter the **Amount**
+5. Choose **Grant Type**: 🎯 One Time Grant (or 🔄 Monthly Recurring)
+6. Enter a **Reason** (required)
+7. Click **Confirm Operation**
 
-## Step 5 — (Optional) Let clients see their balance
+> The Credits tab also shows the customer's transaction history and a **Credit Check Endpoint** section. This endpoint lets external systems (like n8n/Make/Zapier) check the customer's balance before triggering a call. Generate an API key to reveal the endpoint URL.
 
-Control what the client sees in their portal:
+![Manage Credits modal showing Add/Deduct/Allocate options](/images/screenshots/manage-credits-modal.png)
+
+## Step 4 — Control what the client sees in their portal
+
+Still in the customer's **Features & Add-ons** tab:
 
 | Setting | Effect |
 |---|---|
-| **Show Pricing Information** | Client can see their rate and balance |
+| **Show Pricing Information** | Client can see their rate and balance (auto-enabled when AI Credits is on) |
 | **Customer Portal Enabled** | Client can log in to their portal |
-| **Restrict Credit Plan Visibility** | Limit which top-up plans the client can see |
+| **Credit plan visibility** | Limit which top-up plans the client can see |
 
 To configure:
 
-1. In customer **Manage** panel → **Features & Add-ons**
-2. Toggle portal and pricing visibility as needed
+1. Toggle **Customer Portal** → Enable Customer Portal
+2. In the **Credit plan visibility** section, toggle which plans this customer can see:
+   - Popular Pack (e.g., 1,000 credits)
+   - Double (e.g., 2,000 credits)
+   - Blaze (e.g., 1,000 credits)
+   - Starter Pack (e.g., 1,000 credits)
 
-## Step 6 — (Optional) Set up credit plans for self-serve top-ups
+> The customer's **Pricing Breakdown** (read-only, in the Customer Info tab) shows estimated costs but is computed, not editable.
 
-If you want clients to buy credits themselves:
+## Step 5 — (Optional) Partner-level auto-recharge
 
-1. Partner Portal → **Settings** → **Customer Credit Plans**
-2. Create plans (e.g., "100 minutes — $15", "500 minutes — $60")
-3. Optionally restrict per-customer which plans are visible using **Visible Customer Credit Plan IDs** in the customer settings
+To avoid interruptions, set up auto-recharge for your own partner credits:
+
+1. Partner Portal → **Settings** → **Plans & Billing**
+2. In the **Credit Auto-Recharge** section:
+   - Save a payment method (check "Save card and enable auto-recharge" when buying credits)
+   - Set **Threshold** (minimum 100 credits = $1.00)
+   - Set **Amount** (minimum $20)
+3. Toggle **Auto-Recharge** on
+
+> The threshold is a "soft floor" — auto-recharge fires whenever a business operation needs more credits than the current balance, even above the threshold.
 
 ## Verification checklist
 
-- [ ] AI credits enabled for the customer
-- [ ] Price per minute set with your desired margin
+- [ ] AI credits enabled for the customer (Features & Add-ons tab)
 - [ ] Low credit threshold configured
 - [ ] Notifications enabled
-- [ ] Initial credits added
+- [ ] Initial credits added (Credits tab → Manage Credits)
 - [ ] (Optional) Portal access enabled with pricing visibility
-- [ ] (Optional) Credit plans created for self-serve
+- [ ] (Optional) Credit plan visibility restricted per customer
 
 ## How credits flow
 
 ```
 Partner buys Knotie Credits
        ↓
-Partner allocates credits to Customer
+Partner allocates credits to Customer (via Manage Credits modal)
        ↓
 Customer's AI agent makes/receives calls
        ↓
-Credits deducted at Customer's price-per-minute rate
+Credits deducted from Customer's balance
        ↓
 Low-balance alert fires when threshold is hit
 ```
@@ -117,10 +125,11 @@ Low-balance alert fires when threshold is hit
 
 | Symptom | Likely cause |
 |---|---|
-| Calls fail with "insufficient credits" | Customer balance is zero — add credits or enable grace period |
-| Client doesn't see their balance | **Show Pricing Information** is off in their portal settings |
+| Calls fail with "insufficient credits" | Customer balance is zero — add credits |
+| Client doesn't see their balance | **Show Pricing Information** is off, or Customer Portal is not enabled |
 | No low-balance alerts | Notifications not enabled, or threshold set too low |
 | Credits deducting from partner instead of customer | **AI Credits Enabled** is off for that customer |
+| "Settings → Customer Credit Plans" is a 404 | That page does not exist. Credit plans are read-only in the customer's Features & Add-ons tab. |
 
 ## Next steps
 

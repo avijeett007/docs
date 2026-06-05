@@ -17,6 +17,7 @@
             "group": "Getting started",
             "pages": [
               "index",
+              "quickstart",
               "getting-started/overview",
               "getting-started/onboarding-checklist",
               "getting-started/video-tutorials",
@@ -77,11 +78,11 @@
               "partner-portal/team-management",
               "partner-portal/api-keys",
               "partner-portal/settings/overview",
+              "partner-portal/settings/whitelabel-settings",
               "partner-portal/settings/subscription-and-billing",
               "partner-portal/settings/integration-settings",
               "partner-portal/settings/email-settings",
               "partner-portal/settings/stripe-connect",
-              "partner-portal/settings/branding-settings",
               "partner-portal/settings/knowledge-base-processing",
               "partner-portal/settings/customer-credit-plans",
               "partner-portal/settings/saas-portal-mode",
@@ -116,6 +117,7 @@
               "agents/migration/agent-migration",
               "agents/byo-agent/overview",
               "agents/knova/overview",
+              "agents/hermes/overview",
               "agents/retell-chat/overview"
             ]
           }

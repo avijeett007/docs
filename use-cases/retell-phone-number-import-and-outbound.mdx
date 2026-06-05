@@ -31,15 +31,52 @@ Knotie now supports **Retell phone number import**, enabling:
 - At least one Retell agent
 - A customer onboarded in Knotie
 
+## Important: Import vs. Purchase flow
+
+If your account has no phone numbers yet, the Phone Numbers page shows an empty state with a **"Get Started →"** button.
+
+<Warning>
+**Do NOT click "Get Started →"** if you want to import existing Retell numbers. That button opens the **"Activate Phone Service"** wizard (3-step: Business Info → Documents → Review) for *purchasing* new numbers directly from Knotie's telephony partner.
+
+The actual import flow is via the **Import Numbers** button in the page toolbar (top-right, next to "Number Pool" and "Export").
+</Warning>
+
 ## Step 1 — Import Retell numbers
 
 1. Partner Portal → **Phone Numbers**
-2. Click **Import Numbers**
-3. Choose **Retell** as the provider
-4. Enter Retell API credentials
-5. Select one or more numbers to import
+2. Click **Import Numbers** (toolbar button, top-right)
+3. In the Import Phone Numbers modal, choose **Retell** under the **Agent Provider Numbers** section
+   
+   > The Retell card shows a **"Provider Locked"** badge. Subtext reads: "Import phone numbers purchased directly in your Retell account. These numbers are locked to Retell agents from the same account."
+   
+4. Click **Next**
+5. Enter your **Retell API Key** (`key_...`)
+   
+   > Helper text: "Your Retell API Key (found in Retell Dashboard → Settings → API Keys)"
+   
+   > A notice panel states: "**Credentials Saved Automatically** — Your credentials will be securely encrypted and saved for future imports and managing your voice AI agents."
+   
+6. Click **Validate & Load Numbers**
+7. Select one or more numbers to import
+
+> **Tip:** Once you enter a Retell API key, it is saved permanently for future imports and agent management.
 
 > 📸 _[Screenshot placeholder: Import Numbers wizard → Retell provider selected]_
+
+## Retell Agents page
+
+Retell agents are managed at `/partner/ai-agents/retell` (sidebar: **AI Agents → Voice Agents → Retell Agents**).
+
+The page shows:
+
+- Heading: "Retell Agents"
+- Toolbar: **Import Agents** (green) + **Create New Agent** (blue)
+- Search: "Search by name or voice…"
+- Sort pills: `All` / `Name` / `Voice`
+- Per-card metadata: Voice ID, Language, Active badge, Created date, Last Modified date
+- Per-card actions: **Reassign Customer** (blue) + **Manage Webhook** (text link, green dot indicates live)
+
+> As of 2026-06-05, Retell Agents is the only live voice agent provider without a Premium Feature gate. VAPI, Ultravox, ElevenLabs, and GHL all show Premium Feature badges. Knova shows a NEW badge.
 
 ## Step 2 — Assign the imported number to a customer
 
@@ -95,4 +132,3 @@ Send:
 
 - If you are using Retell-purchased numbers, billing for telephony may remain with Retell.
 - Knotie still provides the partner/customer management layer: assignment, tracking, and quota/credit enforcement.
-

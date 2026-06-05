@@ -1,0 +1,87 @@
+---
+title: "Hermes Agent"
+description: "Deploy Nous Research's autonomous CLI agent on a customer VPS with one click, then chat with it from the partner portal."
+---
+
+## What is Hermes Agent?
+
+**Hermes Agent** is a one-click app in the Knotie AI Pro App Catalog. It runs [Hermes](https://hermes-agent.nousresearch.com) — an autonomous AI agent with tool use, web browsing, code execution, and persistent memory — on a customer's VPS.
+
+Once deployed, you can chat with it directly from the partner portal. All model calls are routed through the Knotie AI Gateway, so usage shows up in your normal AI Usage dashboard.
+
+<Info>
+Hermes Agent is currently in **beta**. Core features (install, chat, memory) work end to end, but the app may not be available in every plan tier yet.
+</Info>
+
+## When to use it
+
+Pick Hermes Agent when your customer needs:
+
+- An **autonomous task runner** that can browse the web, run code, and use tools on its own
+- A **persistent assistant** that remembers previous conversations
+- A **self-hosted** alternative to hosted agent services (data stays on the customer's VPS)
+- A chat surface for ops, research, or coding workflows
+
+If your customer mainly needs a voice or chat agent for inbound or outbound calls, use the [Retell](/agents/retell/import-retell-agent), [VAPI](/agents/vapi/import-vapi-agent), or [Knova](/agents/knova/overview) agents instead.
+
+## How to install it
+
+<Warning>
+**The install path described in earlier versions of this doc is stale.** The `VPS → App Catalog` standalone page (`/partner/vps/app-catalog`) currently returns **404**.
+
+To install Hermes today, try one of these paths:
+
+1. **Reinstall flow on an existing VPS** — Go to **VPS Servers → My Instances**, click **Reinstall** on an active instance, and look for Hermes in the app catalog inside the reinstall modal.
+2. **Per-customer VPS Terminal** — Check the customer's **VPS Terminal** page for catalog access.
+3. **Customer whitelabel portal** — Hermes may now install from the *customer-facing* surface rather than the partner's.
+
+If none of these paths surface Hermes, the install flow may have changed again. Contact Knotie support for the current path.
+</Warning>
+
+<Tip>
+Re-running the deploy is safe — it skips steps that are already complete, so you can use it to reconfigure the agent or recover from a broken install.
+</Tip>
+
+## Chatting with Hermes
+
+### From the partner portal
+
+1. Open **AI Chat** from the partner sidebar (if available).
+2. Pick the customer's instance from the instance selector.
+3. Type a message and press Enter. Hermes replies in the chat window.
+
+The partner portal handles the connection to the VPS for you — there is no public-internet exposure or extra setup required.
+
+### From the VPS terminal (advanced)
+
+If you have SSH access to the customer's VPS, you can chat with Hermes directly:
+
+```bash
+hermes chat
+```
+
+Run `hermes doctor` at any time to verify the install is healthy.
+
+## Use cases
+
+- **Customer support agent** — let Hermes read the knowledge base, look up orders, and draft replies
+- **Operations assistant** — schedule, summarize, and triage incoming items
+- **Research helper** — browse the web, gather sources, and return a summary
+- **Dev-sidekick** — code review, shell tasks, and ad-hoc scripting from a single chat surface
+
+## Troubleshooting
+
+**Deploy is taking longer than expected**
+The first deploy can take up to a few extra minutes while the VPS finishes its own background setup. The portal will keep showing live progress — no action needed from you.
+
+**Portal chat returns an error**
+Run `hermes doctor` on the VPS to confirm the install is healthy, then re-check the instance status in the portal.
+
+**Hermes isn't responding as expected**
+Re-running the catalog deploy will reset the agent to a known-good state. Your customer's saved memory and configuration are preserved.
+
+## Related pages
+
+- [VPS App Catalog](/partner-portal/vps/app-catalog) — browse and deploy other apps
+- [VPS Servers](/partner-portal/vps/overview) — purchase and manage VPS instances
+- [Knova Agent](/agents/knova/overview) — built-in voice + chat agent (no VPS required)

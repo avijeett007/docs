@@ -1,41 +1,65 @@
 ---
 title: "Subscription and billing"
-description: "View your current plan, billing status, and manage payments via the Stripe customer portal link."
+description: "View your current plan, billing status, credit auto-recharge settings, and manage payments."
 ---
 
 ## What Subscription & Billing controls
 
-The **Subscription & Billing** section shows your current plan and billing status.
+The **Plans & Billing** page shows your current plan identity, credit auto-recharge configuration, and customer expansion limits.
 
-It can also provide a link to manage payments in Stripe (if available).
+It does **not** show traditional Stripe customer portal fields such as billing period dates, payment method last-four digits, or upcoming invoices. Credit management and auto-recharge are the primary billing surfaces in Knotie.
 
 ## Where to find it
 
-1. Open **Settings**.
-2. Scroll to **Subscription & Billing**.
+1. Partner Portal → **Settings** → **Plans & Billing** in the sidebar
+
+You'll land on `/partner/settings/billing`.
 
 ## What you can see
 
-Typical fields include:
+### Platform Subscription
 
-- Plan type (example: Free Forever, Starter, Pro, Enterprise)
-- Subscription status (ACTIVE / INACTIVE / CANCELLED / CANCELLING)
-- Current billing period dates (monthly or annual)
-- Payment method (brand, last four digits, expiry) when available
-- Upcoming invoice amount when available
+- **Plan Type** — e.g., Free Forever, Starter, Pro, Ultimate Scaleup Agency
+- **Status** — ACTIVE / INACTIVE / CANCELLED / CANCELLING
+- **Business Name**
+- **Email**
+- **Member Since** date
+
+### Customer Expansion Plan
+
+Shows whether your plan includes expanded customer limits:
+
+- "Free tier only — Included in your plan" (on higher tiers)
+- Or an upgrade prompt to unlock more capacity
+
+### Credit Auto-Recharge
+
+A major feature for preventing service interruptions:
+
+- **Saved Payment Method** — "No card saved. Buy credits with the 'Save card and enable auto-recharge' checkbox to add one."
+- **Auto-Recharge** toggle — disabled until a card is saved
+- **Threshold** (credits) — minimum 100 credits = $1.00
+- **Amount** (USD) — minimum $20
+- **Note:** "The threshold is a soft floor."
+- **Recent auto-recharges** — history list
+
+> **Soft floor behavior:** Auto-recharge fires whenever a business operation needs more credits than the current balance, even if you're above the configured threshold.
 
 ## Refresh subscription data
 
-Use the refresh icon to reload the subscription state.
+Use the **Refresh subscription data** button to reload the current plan state from Stripe.
 
 ## Manage payment details
 
-If the section shows a **Manage Payment** action, it opens Stripe’s customer portal in a new tab.
+There is no "Manage Payment" button linking to Stripe's customer portal. Instead:
+
+- Click **Buy credits** to go to `/partner/credits`
+- Check **"Save card and enable auto-recharge"** during credit purchase to add a payment method
 
 ## Cancellation
 
-If your plan supports cancellation, the portal may show a cancellation workflow.
+No cancellation UI is currently visible in the live Partner Portal. Contact Knotie support if you need to cancel or change your plan.
 
 ## Screenshots
 
-![Group29](/images/Group29.png)
+![Plans & Billing page showing Ultimate Scaleup Agency plan, Customer Expansion Plan, and Credit Auto-Recharge settings](/images/screenshots/plans-billing-overview.png)

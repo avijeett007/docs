@@ -3,39 +3,45 @@ title: "Knowledge base processing configuration"
 description: "Configure how many credits are charged when customers process knowledge base files."
 ---
 
-## What this setting controls
+<Warning>
+This feature is currently **not available** in the live Partner Portal UI. The Knowledge Base Processing Configuration section does not appear on the Settings page, and direct URLs return 404.
 
-The **Knowledge Base Processing Configuration** section lets you configure the credit cost of knowledge base processing.
+Until this feature ships, knowledge base functionality is managed per-customer under **Features & Add-ons** → **Add-on Features**.
+</Warning>
 
-This is useful if you:
+## What this setting controls (when available)
+
+The **Knowledge Base Processing Configuration** section is intended to let partners configure the credit cost of knowledge base processing.
+
+This would be useful if you:
 
 - Want predictable margins
 - Need to enforce file size limits
 - Want to charge overage costs for large files
 
-## Where to find it
+## Where to find it (when available)
 
 1. Open **Settings**.
 2. Scroll to **Knowledge Base Processing Configuration**.
 
-## What you can configure
+## Planned controls
 
-The UI includes controls for:
+When shipped, the UI may include controls for:
 
 - **Base Processing Cost (Credits)**
 - **Included File Size Limit (MB)**
 - **Overage Cost per MB (Credits)**
 
-It also shows your **Current Credit Balance**.
+## Current alternative
 
-## Save and reset
+For now, enable knowledge base access per customer:
 
-- Click **Save** to apply changes.
-- Use **Reset to Defaults** if you want to revert.
-- Use the refresh icon to reload current configuration.
+1. Partner Portal → **Customers**
+2. Click **Manage** on a customer
+3. Go to **Features & Add-ons**
+4. In **Add-on Features**, check for knowledge base related toggles
+5. In **Menu Visibility Options**, ensure **Knowledge Base** is visible
 
-## Example cost calculation
+## Related pages
 
-If a file is larger than your included limit, the portal adds:
-
-- Base cost + (overage MB \* overage cost)
+- [Features, add-ons, and menu visibility](/partner-portal/customers/features-addons-and-menu-visibility)

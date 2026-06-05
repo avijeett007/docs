@@ -1,6 +1,6 @@
 ---
 title: "AI Gateway"
-description: "Create OpenAI-compatible virtual keys, control budgets and model access, and enable customer self-service AI Gateway keys."
+description: "Create OpenAI-compatible virtual keys, control model access, and enable customer self-service AI Gateway keys."
 ---
 
 ## What AI Gateway is
@@ -16,6 +16,8 @@ Use AI Gateway when you want to:
 - Pre-fund usage from **Knotie Credits**
 - Assign a key to a customer and bill usage back to that customer's **AI Credits**
 - Let customers create their own AI Gateway keys from the whitelabel portal
+
+> The page header shows two badges: **OpenAI Compatible** and **🧪 Beta**.
 
 ## Where to find it
 
@@ -45,60 +47,61 @@ All examples use:
 
 Click **Create Key** to open the partner key modal.
 
-The modal supports:
+### Key Type
+
+The modal starts with a **Key Type** radio group:
+
+- **👥 For my customer** (default): Assign this key to one of your customers. Their AI Credits are charged per usage with your profit markup; the partner-side reserve is a fixed $10 deposit.
+- **🛠️ For my internal use**: No customer attached. All usage is deducted from your Knotie Credits balance, after the standard $10 per-key deposit is consumed.
+
+### Key details
 
 - **Key Name**
 - **Description**
-- **Budget (Knotie Credits)**
-- **Allowed Models**
-- **Customer Billing** (optional)
-- **Enable Auto Top-Up**
-- **Allowed Domains** (optional)
+- **Allowed Models** — select one or more from the tier-gated list
 
-Budget behavior:
+### Reserved Deposit (fixed)
 
-- The partner key uses a pre-funded budget from your **Knotie Credit** balance.
+Instead of a configurable budget, the modal shows a read-only **Reserved Deposit** section:
+
+> "$10 (1,000 Knotie Credits) reserved from your balance per key. Once that deposit is consumed, usage continues to draw from your main Knotie Credits balance automatically — there's no per-key spending cap. The key is blocked the moment your Knotie Credits balance reaches zero. To avoid interruption, set up auto-recharge under Settings → Billing."
+
 - `100 credits = $1.00 USD`.
 - If your tier has an admin/platform fee, the modal shows the total credits required before creation.
 
 ![Partner AI Gateway create key modal](/images/screenshots/partner-ai-gateway-create-key.png)
 
-## Model access and plan limits
+### Model access and plan limits
 
 Available models are filtered by the partner's subscription tier.
 
 The UI groups models into categories such as:
 
-- **budget**
-- **mid tier**
-- **premium**
+- **budget** — e.g., Gpt 4.1 Mini, Gemini 2.5 Flash, Gemini 2.5 Flash Lite, MiniMax M2.7 Free
+- **mid tier** — e.g., Grok 4, Gemini 2.5 Pro, Gemini 3.1 Pro Preview, Claude Haiku 4 5, Claude Opus 4 6, Claude Sonnet 4 6, Gpt 5.1 Codex Max
+- **premium** — tier-gated; may be empty depending on your plan
 
 You can select one or more models per key. If a model is not available for your plan tier, it is not offered for selection.
 
-## Customer billing inside a partner key
+### Customer billing (appears after picking a customer)
 
-When you assign a key to a customer, the modal exposes customer-billing controls:
+When you assign a key to a customer, the **Customer Billing** section expands to show:
 
 - **Assign to Customer**
 - **Profit Multiplier**
 - **Price per AI Credit (cents)**
 - **Min Cost Floor per 1M Tokens** (optional)
-- **Billing Preview**
+- **Billing Preview** — live-calculated preview showing your cost, your total cost, and customer charged
+
+> **Note:** The Profit Multiplier, Price per AI Credit, Min Cost Floor, and Billing Preview fields only appear **after** you select a customer from the combobox. Until then, the Customer Billing section shows only "Assign to Customer."
 
 This is used when you want the partner to create and own the key, but charge usage back to a specific customer's **AI Credits** with markup.
 
 ![Partner AI Gateway customer billing](/images/screenshots/partner-ai-gateway-customer-billing.png)
 
-## Auto top-up and allowed domains
+### Allowed Domains (optional)
 
-Optional advanced controls include:
-
-- **Auto Top-Up**
-- **Trigger Threshold (USD)**
-- **Top-Up Amount (USD)**
-- **Allowed Domains**
-
-Use these when you want keys to refill automatically or only work from approved domains.
+Under **Advanced Options**, you can restrict the key to approved domains (comma-separated).
 
 ## Managing existing keys
 
@@ -129,11 +132,14 @@ Expanded rows also show more detail, including:
 - Credits reserved
 - Credits used
 - Credits remaining
+- **Admin Fee** (e.g., 0%)
 - Profit multiplier
 - Credit price
-- Rate limits
+- Rate limits (Daily, Monthly)
 - Expiry
-- Auto top-up configuration
+- **Created** timestamp
+- **Updated** timestamp
+- **Last Synced** timestamp
 
 ## Virtual key handling
 
@@ -150,10 +156,8 @@ The lower section of the page controls whether customers can create their own AI
 The section includes:
 
 - **Master enable/disable** toggle
-- **Apply to New Customers**
-- **Apply to Existing Customers**
-- **Default Profit Multiplier**
-- **AI Credit -> USD Cents Rate**
+
+> When the master toggle is **disabled**, additional controls such as **Apply to New Customers**, **Apply to Existing Customers**, **Default Profit Multiplier**, and **AI Credit → USD Cents Rate** are hidden. Enable the master toggle to reveal these settings.
 
 ![Partner AI Gateway self-service settings](/images/screenshots/partner-ai-gateway-self-service-settings.png)
 
@@ -181,7 +185,7 @@ See [Features, add-ons, and menu visibility](/partner-portal/customers/features-
 
 Important distinctions:
 
-- **Partner-created keys** use a configurable budget entered in the modal.
+- **Partner-created keys** use a fixed $10 reserved deposit (not a configurable budget). Once consumed, usage draws from the partner's main Knotie Credits balance automatically.
 - **Customer-created keys** are **pay-as-you-go** from the customer's AI Credits and do not ask the customer to enter a budget.
 - **API Keys** in the customer portal are different from **AI Gateway**:
   - **API Keys** depend on **API Access**

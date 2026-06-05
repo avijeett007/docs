@@ -32,17 +32,64 @@ An integration that:
 
 ## Prerequisites
 
-- A Partner API key (created in **Settings** > **API Keys**)
+- A Partner API key (created in **Settings** > **Partner API Keys** → **Platform API** tab)
 - At least one imported voice agent (Retell or VAPI)
 - A CRM or automation tool that can send HTTP requests (GHL workflows, Zapier, Make, n8n, or custom code)
 
 ## Step 1 — Generate your Partner API key
 
-1. Partner Portal → **Settings** → **API Keys**
+1. Partner Portal → **Settings** → **Partner API Keys** → **Platform API** tab
 2. Click **Create API Key**
-3. Copy the key (starts with `pkt_`) and store it in your automation tool's secrets
+3. Configure the key (see options below)
+4. Copy the key (starts with `pkt_`) and store it in your automation tool's secrets
 
-> All API requests use the `X-API-Key` header. See the [Authentication guide](/api-reference/mcp/authentication) for details.
+> **Important:** The key is shown **only once** in a reveal modal. Copy it immediately.
+
+### Key configuration options
+
+The creation modal includes:
+
+- **Name** *(required)*
+- **Description**
+- **Expires At** — optional expiration date
+- **Rate Limit** — requests per minute
+- **Daily Limit** — maximum daily requests
+- **Monthly Limit** — maximum monthly requests
+- **Allowed IPs** — restrict to specific server IPs
+- **MCP Gateway Access** — Enable MCP (checked by default), Full access (checked by default)
+
+### What the reveal modal shows
+
+After creation, a one-time modal displays:
+
+- Raw API key (`pkt_...`)
+- Ready-to-copy `Authorization: Bearer pkt_...` header
+- Ready-to-paste curl example
+- Endpoint info: `/api/partner-mcp` (AI agents) and `/api/partner-rest/*` (REST)
+- Legacy Basic-auth header (marked deprecated)
+
+> All API requests use the `Authorization: Bearer pkt_...` header. See the [Authentication guide](/api-reference/mcp/authentication) for details.
+
+### Security best practices
+
+The page includes an expandable **Security Best Practices** section with guidance on:
+
+- Storing API keys in environment variables
+- Rotating keys periodically and revoking unused ones
+- Using IP restrictions for trusted servers
+- Monitoring usage for suspicious activity
+
+### Key management table
+
+The Platform API tab shows a table of all keys with columns:
+
+- Name, Prefix, Status
+- Created, Last Used
+- Usage (Total / Today / Month)
+- MCP Scopes
+- Actions: **Renew** (rotate), **Revoke**
+
+> **Note:** The Partner API Keys page has 4 tabs: AI Gateway Beta, Platform API, MCP Tokens, and n8n Tokens. Make sure you are on the **Platform API** tab for partner automation keys (`pkt_` prefix). AI Gateway keys (`sk-` prefix, for LLM usage) are on the separate AI Gateway Beta tab.
 
 ## Step 2 — Create the customer via API
 
@@ -50,7 +97,7 @@ When your CRM trigger fires (deal closed, form submitted, etc.), send:
 
 ```bash
 curl -X POST "https://YOUR_BASE_URL/api/v1/mcp/customers/onboard" \
-  -H "X-API-Key: pkt_your_key_here" \
+  -H "Authorization: Bearer pkt_your_key_here" \
   -H "Content-Type: application/json" \
   -d '{
     "basic": {
@@ -83,7 +130,7 @@ Once the customer exists, assign your default agent:
 
 ```bash
 curl -X POST "https://YOUR_BASE_URL/api/v1/mcp/retell-agents/AGENT_ID/map-customer" \
-  -H "X-API-Key: pkt_your_key_here" \
+  -H "Authorization: Bearer pkt_your_key_here" \
   -H "Content-Type: application/json" \
   -d '{
     "customerId": "CUSTOMER_ID_FROM_STEP_2",
@@ -101,7 +148,7 @@ If the client needs additional portal users:
 
 ```bash
 curl -X POST "https://YOUR_BASE_URL/api/v1/mcp/customers/CUSTOMER_ID/team-members" \
-  -H "X-API-Key: pkt_your_key_here" \
+  -H "Authorization: Bearer pkt_your_key_here" \
   -H "Content-Type: application/json" \
   -d '{
     "email": "team@clientcorp.com",
@@ -146,6 +193,7 @@ After your first automated onboarding, confirm:
 | `404` — agent not found | Agent ID doesn't match an imported agent in your account |
 | No invite email received | `allowPortalAccess` was `false` or omitted |
 | Agent mapping fails | Customer ID from the onboard response wasn't passed correctly |
+| Can't find "Create API Key" | Make sure you're on the **Platform API** tab, not AI Gateway Beta or MCP Tokens |
 
 ## Next steps
 
