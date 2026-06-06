@@ -14,7 +14,9 @@ VAPI is the most-used third-party voice agent provider among Knotie partners, an
 5. Verify the call lands in **Agent Analytics** with a cost breakdown
 6. Confirm the cost flows through **AI Gateway** and **Credits**
 
-> 📸 _[Screenshot needed: AI Agents page with the active provider cards visible — should show "VAPI AI" in the Voice AI Agents section]_
+<Frame caption="AI Agents page — Voice AI Agents section with VAPI AI card visible">
+<img src="/images/screenshots/vapi-1-ai-agents-via-sidebar-submenu.png" alt="Partner Portal AI Agents page showing the Voice AI Agents section with the VAPI AI card" />
+</Frame>
 
 ## What you'll achieve
 
@@ -44,7 +46,9 @@ VAPI is the most-used third-party voice agent provider among Knotie partners, an
    - **NBN Automation** (1 card: NBN Token Manager)
 4. Scroll to **Voice AI Agents** and find the **VAPI AI** card
 
-> 📸 _[Screenshot needed: VAPI AI card, with surrounding Voice AI Agents cards visible for context]_
+<Frame caption="VAPI AI card in the Voice AI Agents grid (showing an imported agent — Riley)">
+<img src="/images/screenshots/vapi-2b-riley-imported-card.png" alt="VAPI AI card showing an imported agent named Riley in the Voice AI Agents grid" />
+</Frame>
 
 <Info>
 If you don't see the VAPI AI card:
@@ -59,13 +63,17 @@ If you don't see the VAPI AI card:
 1. Click the **VAPI AI** card. You should land on the VAPI sub-page (path is roughly `/partner/ai-agents/vapi`).
 2. On the VAPI agents page, click the **Import Agents** button (typically top-right).
 
-> 📸 _[Screenshot needed: VAPI agents page before import — empty state with "Import Agents" CTA]_
+<Frame caption="VAPI agents page — empty state with Import Agents CTA">
+<img src="/images/screenshots/vapi-3-vapi-empty-state.png" alt="VAPI agents page in its empty state, prompting the user to import agents" />
+</Frame>
 
 3. The import modal opens. It will prompt you for:
    - **VAPI API Key** — paste the key from your VAPI dashboard. Knotie uses this once to fetch your agent list; the key is stored for analytics + webhook plumbing.
 4. Click **Fetch VAPI Agents**.
 
-> 📸 _[Screenshot needed: Import modal with the API key field and "Fetch VAPI Agents" button]_
+<Frame caption="Import modal — VAPI API key field and Fetch VAPI Agents button">
+<img src="/images/screenshots/vapi-4-import-modal-api-key.png" alt="VAPI import modal showing the API key input field and the Fetch VAPI Agents button" />
+</Frame>
 
 5. Knotie calls VAPI and lists the agents available in your account.
 6. Each agent shows:
@@ -75,11 +83,17 @@ If you don't see the VAPI AI card:
 7. Select the agent(s) you want to import. To bring them all in one shot, use **Select All**.
 8. Click **Import**.
 
-> 📸 _[Screenshot needed: Agent list with checkboxes — at least one "Imported" badge and one "Available" row visible]_
+<Frame caption="Agent list with checkboxes — Imported vs Available agents">
+<img src="/images/screenshots/vapi-5-agent-list-riley.png" alt="VAPI agent list with checkboxes, showing the imported Riley agent and other available agents" />
+</Frame>
 
 9. The modal closes and the page shows a success state. Knotie automatically:
    - Registers each agent with **Agent Analytics**
    - Sets up the **webhook configuration** with VAPI so call events are forwarded to Knotie
+
+<Frame caption="Configure Webhook modal — VAPI side of the webhook plumbing">
+<img src="/images/screenshots/vapi-extra-configure-webhook-modal.png" alt="VAPI configure-webhook modal showing the URL and secret fields needed to forward call events into Knotie" />
+</Frame>
 
 This step is documented in detail in [Import a VAPI agent](/agents/vapi/import-vapi-agent).
 
@@ -104,14 +118,14 @@ Imported agents are unassigned by default — they exist in the Partner Portal b
 2. Open the agent's **action menu** (three-dot menu or row-level actions).
 3. Click **Assign Customer** (or **Map to Customer**, depending on the UI version).
 
-> 📸 _[Screenshot needed: VAPI agent row with action menu open — "Assign Customer" highlighted]_
-
 4. The assignment modal opens. Fill in:
    - **Customer** — select from the dropdown of onboarded customers
    - **Profit multiplier** — the markup you charge the customer above Knotie's cost. Default is `1.2x` (i.e. 20% margin).
 5. Click **Save / Assign**.
 
-> 📸 _[Screenshot needed: Assign Customer modal with the profit multiplier field visible]_
+<Frame caption="Assign Customer modal — customer dropdown and profit multiplier field">
+<img src="/images/screenshots/vapi-7-map-modal.png" alt="VAPI agent assign-customer modal showing the customer selector and the profit multiplier input" />
+</Frame>
 
 The agent is now tied to that customer for billing and analytics purposes. The customer will see the agent in their own whitelabel portal under **Conversations**.
 
@@ -129,9 +143,20 @@ The agent can run, but no one can reach it until a phone number is mapped to it.
 2. Find or import a phone number. If you don't have one:
    - Click **Import Numbers** and pull one from VAPI/Twilio/Telnyx
    - Or click **Buy Number** to purchase one through Knotie
+
+<Frame caption="Import Numbers page — VAPI numbers marked as Coming Soon in the current UI">
+<img src="/images/screenshots/vapi-extra-import-numbers-vapi-coming-soon.png" alt="Phone Numbers import page showing VAPI numbers as a Coming Soon option in the current UI" />
+</Frame>
+
 3. For the number you want to use, open its **action menu** and click **Assign Agent**.
 
-> 📸 _[Screenshot needed: Phone Numbers list with the "Assign Agent" action highlighted on a number row]_
+<Frame caption="Phone Numbers page (empty state — numbers must be imported before assignment)">
+<img src="/images/screenshots/vapi-extra-phone-numbers-empty.png" alt="Phone Numbers page showing the empty state when no numbers are available for assignment" />
+</Frame>
+
+<Info>
+The Phone Numbers page above shows the empty state for a partner that has not yet imported or purchased any numbers. Once at least one number exists, the row-level **Assign Agent** action becomes available — see [Phone Numbers](/partner-portal/phone-numbers) for the import/purchase flow and the [Retell phone number import use case](/use-cases/retell-phone-number-import-and-outbound) for a worked example of the assignment action.
+</Info>
 
 4. In the assignment modal:
    - **Agent** — select the VAPI agent you imported
@@ -154,7 +179,9 @@ You have three options for the test, in increasing order of realism:
 3. Click the **Test** button in VAPI's UI
 4. Speak with the agent in your browser
 
-> 📸 _[Screenshot needed: VAPI test panel with a successful test call transcript]_
+<Frame caption="Test call log (failed call shown — the test-call flow itself is initiated from VAPI's dashboard, not the Knotie portal)">
+<img src="/images/screenshots/vapi-9-test-call-failed-log.png" alt="VAPI test call log entry from the Knotie partner portal — a failed test call is shown for reference" />
+</Frame>
 
 This validates the agent's prompt, voice, and tools — but it does **not** generate a Knotie-side record of the call. Skip to Step 6 only if you do an Option B or C call.
 
@@ -182,7 +209,13 @@ Within ~30 seconds of the call ending:
    - **Cost** broken down into LLM / STT / TTS / provider fees
 4. Click into the call for a transcript and per-component cost detail.
 
-> 📸 _[Screenshot needed: Agent Analytics page with the test call visible, cost breakdown expanded]_
+<Frame caption="Agent Analytics — overview with the test call row visible">
+<img src="/images/screenshots/vapi-10-agent-analytics-overview.png" alt="Agent Analytics overview page showing the recent test call in the call list" />
+</Frame>
+
+<Frame caption="Agent Analytics — per-agent drill-down (Riley)">
+<img src="/images/screenshots/vapi-10b-riley-analytics-detail.png" alt="Agent Analytics detail view for the Riley VAPI agent, with per-component cost breakdown" />
+</Frame>
 
 <Warning>
 **The call doesn't show up.**
@@ -199,7 +232,13 @@ Within ~30 seconds of the call ending:
 2. Click **AI Gateway**. The VAPI agent's LLM calls are routed through the AI Gateway, so they should also appear in the AI Gateway spend if you have an active partner-level gateway key.
 3. (If you assigned the customer with a profit multiplier) Open the customer's profile → **Billing** to confirm the per-customer cost ledger reflects `cost × multiplier`.
 
-> 📸 _[Screenshot needed: Credits page showing the test call's debit, and AI Gateway showing the matching spend line]_
+<Frame caption="Credits page — Knotie Credit balance debited by the test call">
+<img src="/images/screenshots/vapi-11a-credits-page.png" alt="Knotie Credits page showing the recent debit from the VAPI test call" />
+</Frame>
+
+<Frame caption="AI Gateway — matching spend line for the VAPI agent's LLM traffic">
+<img src="/images/screenshots/vapi-11b-ai-gateway.png" alt="AI Gateway page showing the matching spend line for the VAPI agent's LLM traffic" />
+</Frame>
 
 ---
 
@@ -218,30 +257,3 @@ Within ~30 seconds of the call ending:
 - [AI Gateway](/partner-portal/ai-gateway) — the metering layer that all LLM traffic routes through
 - [Credits](/partner-portal/credits) — your Knotie Credit balance and top-up flow
 - [Customer onboarding](/customer-management/onboard-customer) — how to create the customer record before assigning the agent
-
----
-
-# Screenshot capture checklist (for the user)
-
-The doc above has 8 `[Screenshot needed: ...]` placeholders. Each one maps to a specific screen state that needs to be captured from a live session. The list, in order of capture:
-
-1. **AI Agents page** (Step 1) — the page with all three sections visible. This is the top-of-funnel page the doc references most.
-2. **VAPI AI card** (Step 1) — close-up of the VAPI card so the user can see the icon, label, and any badge (premium/beta).
-3. **VAPI agents page (empty state)** (Step 2) — before any import, the page should show an empty-state message and a prominent "Import Agents" button.
-4. **Import modal — API key field** (Step 2) — the modal after click, showing the VAPI API Key text field and the "Fetch VAPI Agents" CTA.
-5. **Agent list with checkboxes** (Step 2) — the agent list after Fetch, showing at least one "Imported" agent and one "Available" agent for contrast.
-6. **Action menu — Assign Customer** (Step 3) — the three-dot menu open on an agent row, with "Assign Customer" highlighted.
-7. **Assign Customer modal** (Step 3) — the modal with customer dropdown and profit multiplier field.
-8. **Phone Numbers — Assign Agent** (Step 4) — a number row with the action menu open and "Assign Agent" highlighted.
-9. **VAPI test panel** (Step 5) — VAPI's own test UI with a successful test transcript. Not a Knotie screen, but useful as a reference.
-10. **Agent Analytics with test call** (Step 6) — the Agent Analytics page with the test call row visible, ideally with the cost breakdown expanded.
-11. **Credits + AI Gateway** (Step 7) — the Credits page showing the debit, side by side with the AI Gateway showing the spend line. Two screenshots, one section.
-
-Recommended capture workflow:
-- Use a clean, real-looking customer (or test customer) so screenshots don't leak real PII
-- Crop to ~1280px wide for legibility
-- Annotate directly in the image or in a comment below the screenshot
-- Name files `vapi-{step}-{short-label}.png` and drop into `docs/images/screenshots/`
-- After capturing, the doc can drop the placeholder lines and reference the actual files
-
-If any step reveals a flow that doesn't match the doc (e.g., a button is named differently, a modal is two steps instead of one), note it in `CHANGELOG_DRAFT.md` under a "VAPI journey capture deltas" section so I can fold the corrections into this doc.

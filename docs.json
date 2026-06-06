@@ -130,6 +130,7 @@
             "group": "Overview",
             "pages": [
               "use-cases/index",
+              "use-cases/vapi-end-to-end-journey",
               "use-cases/warm-lead-outbound-calls-ghl",
               "use-cases/retell-phone-number-import-and-outbound",
               "use-cases/agency-outbound-command-center",
