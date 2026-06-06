@@ -73,9 +73,9 @@ Once SaaS mode is selected, the **SaaS Portal Configuration** section appears:
    - Default: Enabled
 
 3. **SaaS Onboarding Enabled**
-   - Toggle ON to enable the 9-step onboarding flow
-   - Prospects fill out business info, connect knowledge base, etc.
-   - Auto-deploys AI agent when complete
+   - Toggle ON to enable the 10-step onboarding flow
+   - Prospects fill out business info, connect knowledge base, complete payment, and then deploy the agent
+   - Step 10 deploys the AI agent — only after Step 9 (Pricing & Payment) has cleared
 
 4. **Free AI Credits**
    - Set initial credits for new signups (e.g., 50, 100, 500)
@@ -127,9 +127,9 @@ Features:
 
 ![AI Receptionist Landing Page](/images/Group12.png)
 
-### 9-step onboarding flow
+### 10-step onboarding flow
 
-> The 9-step onboarding flow is available **only in SaaS portal mode**.
+> The 10-step onboarding flow is available **only in SaaS portal mode**.
 
 Prospects who click "Start Free Trial" go through a guided onboarding:
 
@@ -149,13 +149,28 @@ Prospects who click "Start Free Trial" go through a guided onboarding:
    ![Step 7: Information Collection](/images/screenshots/screenshot-2026-03-19-195016.png)
 8. **Communication Settings** – Email/SMS preferences
    ![Step 8: Communication Settings](/images/screenshots/screenshot-2026-03-19-195043.png)
-9. **Summary & Deploy** – Review and activate
-   ![Step 9: Review and Deploy](/images/screenshots/screenshot-2026-03-19-195117.png)
-   ![Step 9: Pricing Plan and Deploy](/images/screenshots/screenshot-2026-03-19-195145.png)
+9. **Pricing & Payment** – Review the plan summary and complete payment via Stripe Checkout (subscription, fixed price, or pay-as-you-go). Free / pay-as-you-go prospects are forwarded straight through.
+   ![Step 9: Review and Pricing](/images/screenshots/screenshot-2026-03-19-195117.png)
+   ![Step 9: Pricing Plan](/images/screenshots/screenshot-2026-03-19-195145.png)
+10. **Deploy Agent** – Final activation. The page checks that payment has cleared, then provisions the phone number, trains the AI, configures integrations, and enables AI Credits.
 
 **At Step 3:** Prospect converts to Customer (moves from Prospects tab to Customers tab)
 
-**At Step 9:** AI Agent auto-deploys and is ready to handle calls
+**At Step 9:** Customer credential is created in `suspended` state. Stripe Checkout opens in the partner's Connect account. After successful payment the credential is flipped to `active` and the prospect is advanced to Step 10. Free Forever and pay-as-you-go portals skip the payment leg.
+
+**At Step 10:** The Deploy Agent screen runs a server-side payment check (`GET /api/whitelabel/check-onboarding-payment`). If the credential is still suspended (payment cancelled or pending), the user is bounced back to Step 9. Otherwise the **Deploy** button becomes available and one click provisions the AI Receptionist end-to-end.
+
+#### Payment gate — what each pricing model does at Step 9
+
+| Pricing model | Step 9 behavior | When Step 10 deploy unlocks |
+|---|---|---|
+| **Subscription** | Opens a recurring Stripe Checkout session via partner's Connect account | After webhook confirms the subscription is active |
+| **Fixed Price (one-time)** | Opens a one-off Stripe Checkout (mode: `payment`) | After `POST /api/whitelabel/verify-customer-price-payment` activates the credential |
+| **Fixed Price (recurring — month/year)** | Opens a subscription Stripe Checkout with the partner's interval | Same as above — verification flips credential to active |
+| **Pay-as-you-go** | Skips checkout — prospect is moved straight to Step 10 | Immediately on arrival |
+| **Free / no model configured** | Skips checkout — prospect is moved straight to Step 10 | Immediately on arrival |
+
+> If the payment-success page errors or the prospect closes the browser before verification finishes, the Step 10 gate will redirect them back to Step 9 so they can retry without losing onboarding data.
 
 ### Prospect management
 
@@ -192,7 +207,7 @@ Each experience can have its own:
 | **Prospect tracking** | No | Yes (Enterprise) |
 | **Auto-deployment** | No | Yes |
 | **Pricing pages** | No | Yes |
-| **9-step funnel** | No | Yes |
+| **10-step funnel** | No | Yes |
 
 ## Auto-deploy configuration
 
@@ -200,11 +215,13 @@ When SaaS onboarding is enabled, auto-deploy activates AI agents automatically:
 
 ### How auto-deploy works
 
-1. **Prospect completes Step 9** – All onboarding steps finished
-2. **System validates** – Checks for credits, phone number, agent configuration
-3. **Agent deployed** – AI Receptionist is activated
-4. **Customer notified** – Email confirmation sent (if configured)
-5. **Ready for calls** – Agent starts handling calls immediately
+1. **Prospect completes Step 9** – Pricing & Payment cleared (or skipped for free / pay-as-you-go)
+2. **Step 10 gate runs** – `/api/whitelabel/check-onboarding-payment` confirms the credential is `active`
+3. **Prospect clicks Deploy** – `/api/whitelabel/save-onboarding-details` runs the full provision
+4. **System validates** – Checks for credits, phone number, agent configuration
+5. **Agent deployed** – AI Receptionist is activated
+6. **Customer notified** – Deployment notification email sent to the partner; setup email sent to the customer (if configured)
+7. **Ready for calls** – Agent starts handling calls immediately
 
 ### Auto-deploy requirements
 
@@ -237,11 +254,19 @@ For usage-based billing:
 
 ### Fixed price
 
-For one-time setup fees:
+For one-time setup fees or simple recurring access:
 
 1. Set **Pricing Model** to "Fixed Price".
-2. Configure one-time pricing in your billing settings.
-3. Customers pay upfront for setup.
+2. Fill in the three Fixed Price fields:
+   - **Fixed Price** – Amount the customer pays (e.g., `499`)
+   - **Fixed Price Currency** – Three-letter ISO code (default `USD`)
+   - **Fixed Price Period** – `one_time`, `month`, or `year`
+3. Customers checkout at Step 9 via Stripe Checkout running on your Connect account:
+   - `one_time` → Stripe `payment` mode, single charge
+   - `month` / `year` → Stripe `subscription` mode with that interval
+4. After payment succeeds, the customer credential is activated and the prospect lands on Step 10 to deploy.
+
+> The partner must have **Stripe Connect onboarding completed** and **charges enabled** for the Fixed Price checkout to be created. Missing Stripe setup returns `STRIPE_SETUP_INCOMPLETE` and blocks the customer at Step 9.
 
 ![Pricing Model Configuration](/images/screenshots/screenshot-2026-03-19-221530.png)
 
@@ -263,7 +288,7 @@ Enhance your SaaS portal with:
 - **Portal title** – Custom portal name
 - **Portal slogan** – Tagline for landing page
 
-![SaaS Branding Settings](/images/screenshots/screenshot-2026-03-19-221318.png)
+![SaaS Whitelabel Settings](/images/screenshots/screenshot-2026-03-19-221318.png)
 
 ### Testimonials and social proof
 
@@ -281,10 +306,11 @@ Add credibility:
 ### Key metrics to track
 
 1. **Prospect conversion rate** – Prospects → Customers
-2. **Onboarding completion rate** – % reaching Step 9
-3. **Drop-off points** – Where prospects abandon
-4. **Average time to activation** – Days from signup to deployment
-5. **Free trial conversions** – Free → Paid
+2. **Onboarding completion rate** – % reaching Step 10 (deployed)
+3. **Step 9 → Step 10 conversion** – % who pay vs drop at checkout
+4. **Drop-off points** – Where prospects abandon
+5. **Average time to activation** – Days from signup to deployment
+6. **Free trial conversions** – Free → Paid
 
 ### Analytics
 
@@ -308,6 +334,17 @@ Monitor in:
 - **SaaS Onboarding disabled** – Toggle "SaaS Onboarding Enabled" to ON
 - **Missing configuration** – Ensure all SaaS settings are filled in
 - **Free credits not set** – Configure Free AI Credits amount
+
+### Customer stuck on Step 9 (payment loop)
+- **Stripe Connect not configured** – Finish Stripe Connect onboarding under Settings → Stripe Connect, then retry
+- **Charges not enabled** – Stripe is still reviewing the account; checkout cannot be created
+- **Fixed Price missing** – With pricing model set to `fixedprice` but no `fixedPrice` value, the checkout call returns `No fixed price configured`
+- **Payment cancelled** – The cancel URL drops the prospect back at Step 9; their data is preserved
+
+### Customer paid but Step 10 sends them back to Step 9
+- **Verification not run** – The `payment-success` page calls `/api/whitelabel/verify-customer-price-payment`; check the network tab for non-2xx responses
+- **Stripe session not yet `paid`** – Webhooks may lag a few seconds; refresh after 30s
+- **Wrong partner context** – The session is retrieved on the partner's Connect account; mismatched `partnerId` returns a 500
 
 ### Auto-deploy failing
 - **Insufficient credits** – Increase Free AI Credits allocation

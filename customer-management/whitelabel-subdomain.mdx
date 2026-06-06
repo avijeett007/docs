@@ -19,13 +19,19 @@ Most partners use a whitelabel subdomain first, then upgrade to a custom domain 
 
 1. In the Partner Portal, open **Settings**.
 2. Go to **Whitelabel**.
-3. Find the **Subdomain** section.
+3. Find the **Domain Settings** section and expand it.
 4. Enter the subdomain you want customers to use.
 5. Click **Save**.
 6. Open the portal link in a private/incognito window to confirm:
    - The portal loads.
    - The branding looks right.
    - Customers can sign in.
+
+<Warning>
+**Subdomains cannot be changed after registration for security reasons.** Once saved, the subdomain field becomes disabled. Choose your subdomain carefully.
+</Warning>
+
+> The Domain Settings section also includes **Enable Customer Portal** and **Enable Customer Signup** checkboxes. Make sure these are enabled so customers can access and sign up for the portal.
 
 ## Share the login link with customers
 
@@ -38,7 +44,7 @@ Beyond just the subdomain, you can customize the entire portal experience:
 
 ### Branding customization
 
-1. Go to **Settings → Branding Settings**.
+1. Go to **Settings → Whitelabel** and open the **Portal Branding** section.
 2. Configure:
    - **Portal title** – Your company name or product name
    - **Portal slogan** – Tagline or description
@@ -52,7 +58,7 @@ Beyond just the subdomain, you can customize the entire portal experience:
 
 For a fully branded experience, use a custom domain instead of a subdomain:
 
-1. Go to **Settings → Custom Domain**.
+1. Go to **Settings → Whitelabel → Domain Settings**.
 2. Enter your domain (e.g., `portal.yourcompany.com`).
 3. Add the required DNS records to your domain provider.
 4. Verify the domain.
@@ -80,6 +86,8 @@ Ensure emails sent from the portal match your brand:
   - Confirm the customer is active and has portal access.
 - **Customer can't sign in**
   - Make sure they're using the email address you invited.
+- **Subdomain field is disabled**
+  - Subdomains are immutable after registration. Contact support if you need to change it.
 
 ## What customers will see after login
 

@@ -1,0 +1,98 @@
+---
+title: "Whitelabel settings"
+description: "Configure the customer-facing portal — domain, branding, landing page, billing plans, and add-ons — all from one collapsible settings page."
+---
+
+## What Whitelabel Settings controls
+
+The **Whitelabel** page is the main control center for how your customer portal looks and behaves. It bundles everything partner-facing (domain, branding, landing page, billing, add-ons) into a single page organized into collapsible sections.
+
+A **Setup Progress** card at the top shows how many sections you've completed and suggests what to set up next — so you can move through the page one step at a time instead of staring at a wall of options.
+
+## Where to find it
+
+1. Open **Settings** in the Partner Portal sidebar.
+2. Click **Whitelabel**.
+
+You'll land on `/partner/settings/whitelabel`.
+
+## The Setup Progress card
+
+At the very top of the page, a card shows your progress:
+
+- A progress bar with **X / N sections complete**.
+- Up to **3 "Next up" chips** that quick-jump to the next incomplete section (skipping any whose dependencies aren't met yet).
+- When everything is complete, the card shows a **"You're all set"** success state.
+
+Click any chip to scroll straight to that section and have it open automatically.
+
+<Info>
+The card hides sections that are "not applicable" to your current setup (for example, the **SaaS Portal Configuration** section is hidden unless you've chosen the SAAS portal mode).
+</Info>
+
+## Section layout
+
+All sections are collapsible. On first visit every section starts **collapsed**, except the single "next up" incomplete section (which auto-opens so you can act on it). Once you've opened or closed a section, your choice is remembered for next time.
+
+Sections are arranged in two columns:
+
+### Main column
+
+| Section | What it configures | Depends on |
+|---------|-------------------|------------|
+| **Domain** | Subdomain, custom domain, portal availability, and portal enablement toggles | — |
+| **Voice AI Agent** | The interactive voice agent your portal visitors talk to | — |
+| **Portal Branding** | Logo, favicon, and brand colors | — |
+| **Landing Page** | Contact info, legal links, footer, and landing content | — |
+| **Stripe Connect** | Connect Stripe so you can charge your customers | — |
+| **Subscription Plans** | Recurring subscription tiers for your customers | Stripe Connect |
+| **Customer Credit Plans** | Pay-as-you-go credit packs for your customers | Stripe Connect |
+| **AI Translation** | Auto-translate portal content for multilingual customers (add-on) | — |
+| **Sonti CRM** | Optional CRM integration for unified customer records (add-on) | — |
+
+### Sidebar column
+
+| Section | What it configures | Notes |
+|---------|-------------------|-------|
+| **Portal Mode** | Choose your portal experience (Basic / SaaS / Enterprise) | Always open — it's a one-click control |
+| **SaaS Portal Configuration** | Configure your AI receptionist onboarding experience | Only visible when the selected portal mode is **SaaS** |
+
+## Working with collapsible sections
+
+- **Click a section header** to expand or collapse it. Headers are clickable.
+- **Status dot** — each section shows a small teal dot on the right when it's fully configured. The dot is reserved for "set up" status, not for active/selected states.
+- **Info drawer** — every section has a help icon that opens a right-side drawer with extra context, tips, and "what to do next" guidance.
+- **Dependency gating** — if a section depends on another section you haven't completed yet (for example, **Subscription Plans** needs **Stripe Connect**), the section is dimmed and shows a **"Needs Stripe"** badge in the header. Any draft values you typed are preserved — finish the dependency and the gate lifts automatically.
+
+<Tip>
+Your progress is saved continuously, so you can leave mid-edit and return without losing work. Collapsing a section hides it but keeps whatever you've typed, so you can switch between sections without losing focus.
+</Tip>
+
+## When to use which deep-dive page
+
+The Whitelabel page is the **entry point** for most of these settings. For step-by-step setup of a specific area, jump to:
+
+- [Whitelabel subdomain](/customer-management/whitelabel-subdomain) — set up your portal's subdomain (no DNS work)
+- [Custom domain](/customer-management/custom-domain) — bring your own domain
+- [Portal modes](/customer-management/portal-modes) — Basic vs SaaS vs Enterprise
+- [Stripe Connect](/partner-portal/settings/stripe-connect) — billing setup details
+- [Subscription and billing](/partner-portal/settings/subscription-and-billing) — recurring plans
+- [Customer credit plans](/partner-portal/settings/customer-credit-plans) — pay-as-you-go credits
+- [SaaS portal mode](/partner-portal/settings/saas-portal-mode) — SaaS-specific options
+
+## What changed in the recent refactor
+
+The Whitelabel page was reorganized from a single long form into the collapsible, dependency-aware layout above. The key behavioral changes for partners:
+
+- **Voice AI Agent is now its own section** (previously nested under Domain Settings).
+- **Domain Settings** is now purely about domains (subdomain, custom domain, portal availability, plus **Enable Customer Portal** and **Enable Customer Signup** toggles) — it no longer contains the Voice AI Agent.
+- **Subdomain and custom domain are immutable** after registration/verification for security reasons. Choose them carefully.
+- **Subscription Plans and Customer Credit Plans** are dimmed until Stripe Connect is finished.
+- **Everything is collapsible** — the page is much shorter on first load.
+
+## Related pages
+
+- [Whitelabel subdomain](/customer-management/whitelabel-subdomain)
+- [Custom domain](/customer-management/custom-domain)
+- [Portal modes](/customer-management/portal-modes)
+- [Partner portal overview](/partner-portal/overview)

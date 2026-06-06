@@ -6,11 +6,11 @@ description: "Edit customer profile details, track processing status, and manage
 ## Where to find it
 
 1. Open **Customer List**.
-2. Select a customer.
-3. Click **Manage**.
-4. Go to the **Deal Management **tab.
+2. Click **Manage** on a customer's card.
+3. A modal opens with **9 tabs**: Customer Info, Deal Management, Features & Add-ons, Billing, Phone Numbers, Credits, Embed URLs, Deployment, and Reports.
+4. Navigate between tabs to access different settings.
 
-## Customer Info tab (what it’s for)
+## Customer Info tab
 
 Use **Customer Info** to update customer data like:
 
@@ -18,6 +18,7 @@ Use **Customer Info** to update customer data like:
 - Company name
 - Business phone
 - Business details (monthly call volume, primary use case, CRM system, phone system)
+- **Call Complexity** (Simple / Medium / Complex) — a dropdown not previously documented
 - Deployment timeline
 
 ## Account management fields
@@ -25,7 +26,16 @@ Use **Customer Info** to update customer data like:
 The modal includes fields such as:
 
 - **Processing Status**
-  - Examples include “Submitted”, “Processing”, “Under Development”, “Voice AI Agent Live”, and other operational statuses.
+  - Submitted
+  - Processing
+  - Additional Info Requested
+  - Under Review
+  - Regulatory approval submitted
+  - Regulatory approval completed
+  - Business Agreement Established
+  - Under Development
+  - System under review
+  - Voice AI Agent Live
 - **Custom Automation**
   - A notes field for custom automation requirements.
 
@@ -40,7 +50,7 @@ The UI shows a **Pricing Breakdown** panel including:
 - Email Cost
 - SMS Cost
 
-This is useful for internal estimation and margin planning.
+This is useful for internal estimation and margin planning. All values are computed, not editable.
 
 ## Deal Management tab
 
@@ -53,7 +63,8 @@ Use **Deal Management** to control sales-stage fields like:
 - **Billing Type**
   - Monthly Recurring
   - One-time Payment
-- **Agreed Price**
+- **Agreed Price** — your signed pricing field
+- **Estimated Price** — read-only field showing computed $0
 
 Notes:
 
@@ -63,6 +74,7 @@ Notes:
 
 - Treat “Agreed Price” as your signed pricing field.
 - Keep “Processing Status” updated so your team knows where the customer is in the delivery pipeline.
+- Use the full list of 10 Processing Status options for precise workflow automation.
 
 ## Screenshots
 

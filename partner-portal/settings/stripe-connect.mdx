@@ -43,12 +43,22 @@ The Stripe Connect block includes indicators for:
 
 If there are outstanding requirements, click **Complete Requirements**.
 
+## Connected state
+
+When fully connected, the UI shows:
+
+- **Account Type** — e.g., Express
+- **Account ID** — e.g., `acct_...`
+- **Accept Charges**: Enabled
+- **Receive Payouts**: Enabled
+- **Disconnect** button (available if you need to unlink Stripe)
+
 ## Platform fee
 
 The UI shows a **Platform Fee** percentage.
 
-- Standard rate may be **2.5%**
-- Premium subscribers may see **1%** (as shown in the “Premium Benefit” callout)
+- Standard rate is **2.5%**
+- Premium subscribers benefit from **1%** (as shown in the “Premium Benefit” callout)
 
 ## Disconnect Stripe
 
@@ -61,7 +71,9 @@ This prevents collecting _new_ payments, but does not remove historical payment 
 
 ## Security note (MFA requirement)
 
-If Stripe Connect is active, the Partner Portal may require **MFA** and prevent disabling it. This is intentional to protect payment processing.
+If Stripe Connect is active, the Partner Portal requires **MFA** and prevents disabling it. This is intentional to protect payment processing. You can verify this in Security Settings, which shows:
+
+> "MFA cannot be disabled while Stripe Connect is active. This ensures secure payment processing."
 
 ## Screenshots
 

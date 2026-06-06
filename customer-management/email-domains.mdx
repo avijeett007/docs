@@ -9,24 +9,26 @@ Email domain setup lets you send emails from your own domain (instead of a gener
 
 - Brand trust (customers recognize your domain)
 - Better deliverability (fewer spam issues)
-- Consistent “From” name and address
+- Consistent "From" name and address
 
 ## Before you start
 
 - Make sure **Domain Email Service** is enabled for your account.
 - Make sure you (or your customer) can edit DNS records for the domain.
 - Decide what you want your sender to look like:
-  - **From name** (example: `Knotie Support`)
-  - **From email** (example: `support@yourdomain.com`)
+  - **From name** (example: `KnoLabs AI Agency`)
+  - **From email** (example: `noreplyto@yourdomain.com`)
+
+> **Email Domain Management** carries a **Premium Feature** badge in the Partner Portal sidebar.
 
 ## Set up your email domain
 
 1. In the Partner Portal, open **Settings**.
-2. Go to **Email Domain Management**.
+2. Go to **Email Domain Management** (sidebar link under Settings).
 3. In **Setup Your Domain**:
    - Enter **Domain Name** (example: `yourdomain.com`).
-   - Enter **From Email** (example: `support@yourdomain.com`).
-   - Enter **From Name** (example: `Knotie Support`).
+   - Enter **From Email** (example: `noreplyto@yourdomain.com`).
+   - Enter **From Name** (example: `KnoLabs AI Agency`).
 4. Click **Setup Domain**.
 
 Knotie AI Pro will show the DNS records you need to add.
@@ -45,24 +47,28 @@ Tip: If your DNS provider asks for “Host/Name”, it might be `@` for the root
 2. If the status shows **pending**, wait a bit and try again.
 3. Once verified, you’ll see a verified status in the header.
 
+### Post-verification state
+
+After a domain is verified, the Setup fields and DNS copy-paste UI are hidden. Instead, you see:
+
+- Verified domain name
+- Active status badge
+- **Send Test Email** section
+
 ## Send a test email
 
 After your domain is verified:
 
-1. Click **Send Test Email**.
-2. Check your inbox and confirm the sender shows your domain.
+1. Enter a test email address in the textbox
+2. The **Send Test Email** button becomes **enabled** once you type an email address
+3. Click **Send Test Email**
+4. Check your inbox and confirm the sender shows your domain
+
+> **Disabled-then-enabled pattern:** The Send Test Email button is **disabled** when the textbox is empty and becomes **enabled** once you enter an email address.
 
 ## Using custom domains for email accounts
 
 Once your email domain is verified, you can use it for:
-
-### Customer email accounts
-
-Create customer email addresses on your domain:
-
-1. Go to **Customer Portal Management**.
-2. When creating a new customer, use `customer@yourdomain.com` format.
-3. Customers receive emails from your branded domain.
 
 ### Notification emails
 
@@ -78,7 +84,7 @@ All system notifications will be sent from your custom domain:
 Combining email domains with your white-label portal creates a fully branded experience:
 
 - Portal URL: `portal.yourcompany.com`
-- Email sender: `support@yourcompany.com`
+- Email sender: `noreplyto@yourcompany.com`
 - Brand consistency across all touchpoints
 
 ![Email Domain Management - Complete Setup](/images/screenshots/screenshot-2026-03-19-212252.png)

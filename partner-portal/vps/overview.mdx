@@ -1,0 +1,141 @@
+---
+title: "VPS Servers"
+description: "Purchase, provision, and manage cloud VPS instances from Contabo and assign them to your customers."
+---
+
+## Overview
+
+VPS (Virtual Private Server) management lets partners purchase, provision, and manage cloud VPS instances from **Contabo**, then assign them to their customers. It's a self-serve infrastructure layer within the Partner Portal.
+
+> 📷 **Screenshot needed:** *Add a screenshot of the VPS management page showing instance cards and status.*
+
+## Where to find it
+
+1. Partner Portal → **VPS Servers** in the sidebar (under **INFRASTRUCTURE**)
+
+## Purchase a VPS
+
+1. Click **Buy VPS**
+2. Select a **plan** (Cloud VPS 10–60)
+3. Select a **region** (EU, US — more coming soon)
+4. Optionally assign to a **customer**
+5. Optionally set a **display name**
+6. Click **Proceed to Payment**
+
+> 📷 **Screenshot needed:** *Add a screenshot of the plan selection and region picker.*
+
+### Plans available
+
+| Plan | vCPU | RAM | NVMe Storage | Network Port |
+|------|------|-----|--------------|--------------|
+| Cloud VPS 10 | 4 | 8 GB | 75 GB | 200 Mbps |
+| Cloud VPS 20 | 6 | 12 GB | 100 GB | 400 Mbps |
+| Cloud VPS 30 | 8 | 24 GB | 200 GB | 600 Mbps |
+| Cloud VPS 40 | 12 | 48 GB | 250 GB | 800 Mbps |
+| Cloud VPS 50 | 16 | 64 GB | 300 GB | 1 Gbps |
+| Cloud VPS 60 | 18 | 96 GB | 350 GB | 1 Gbps |
+
+> 📷 **Screenshot needed:** *Add a screenshot of the plan details showing specs.*
+
+## Instance states
+
+VPS instances move through these states:
+
+| State | Description |
+|-------|-------------|
+| `pending_payment` | Order placed, awaiting payment |
+| `pending_provisioning` | Payment received, being set up |
+| `active` | Live and operational |
+| `suspended` | Paused due to non-payment or issues |
+| `cancelled` | Terminated |
+
+> 📷 **Screenshot needed:** *Add a screenshot showing instance cards with different status badges.*
+
+## Assign to customer
+
+Each instance can be assigned to a customer:
+
+1. Open the **Assign to Customer** dropdown on the instance card
+2. Select the customer (or "Not assigned")
+3. Confirm
+
+Unassigned instances show "Not assigned to a customer."
+
+## View instance details
+
+Click on an instance card to see:
+- Plan specs
+- Region
+- Partner price
+- Creation date
+- Status badge
+
+> 📷 **Screenshot needed:** *Add a screenshot of an instance details panel.*
+
+## Credentials
+
+For `active` instances, you can request root credentials:
+
+1. Click **Request Credentials**
+2. Credentials are sent to your email and displayed on screen
+3. Password is shown in a monospace box
+
+> 📷 **Screenshot needed:** *Add a screenshot of the credentials reveal panel.*
+
+### Regenerate SSH keys
+
+To regenerate SSH keys for an instance:
+
+1. Click **Regenerate SSH Keys**
+2. Confirms the action
+3. New keys are generated
+
+### Fix credentials
+
+If credentials aren't working, use the **Fix Credentials** modal:
+
+- **Auto-fix**: Platform automatically generates fresh credentials and injects them via SSH
+- **Manual**: Enter your current root password, and the platform SSHs in to install a new key
+
+> 📷 **Screenshot needed:** *Add a screenshot of the Fix Credentials modal with auto/manual options.*
+
+## Reinstall with App
+
+You can reinstall the OS with one-click apps:
+
+### Single App mode
+
+Select one app to install. Options include:
+- Clean Ubuntu OS
+- Docker + Portainer
+- Domain controllers
+- Other curated apps
+
+### Package Builder mode
+
+Select multiple apps to install together as a package:
+
+- **Port conflict detection**: If two apps use the same port, a warning blocks installation
+- **RAM estimation**: Shows total RAM required across selected apps
+- **Badge indicators**: "Verified" (passed testing), "Under construction" (being fixed), "New", "Popular"
+
+> 📷 **Screenshot needed:** *Add a screenshot of the Reinstall with App modal showing Package Builder mode.*
+
+### App categories
+
+| Category | Examples |
+|----------|----------|
+| AI & ML | — |
+| Developer Tools | — |
+| Databases | — |
+| Monitoring | — |
+| Productivity | — |
+| Security | — |
+| Networking | — |
+
+## Next steps
+
+- [VPS App Catalog](/partner-portal/vps/app-catalog) — browse and deploy apps
+- [AI Gateway](/partner-portal/ai-gateway) — manage API keys and budgets
+- [Customer Management](/customer-management/onboard-customer) — assign VPS to customers
+- [Partner Portal Overview](/partner-portal/overview) — explore other features
