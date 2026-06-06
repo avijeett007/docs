@@ -1,0 +1,228 @@
+---
+title: "Auto-Install Experiences"
+description: "Sell one-click AI products — OpenClaw Auto-Install and Hermes Auto-Install — that provision a private VPS, deploy the agent, and fund AI credits automatically when a customer subscribes."
+---
+
+## What are Auto-Install Experiences?
+
+Auto-Install Experiences let your customers buy a fully managed AI product from your branded landing page. When they complete checkout, the platform automatically:
+
+1. Creates their customer account
+2. Provisions a dedicated private VPS (Contabo)
+3. Deploys and configures the AI agent
+4. Funds the account with the plan's AI credits
+5. Enables their portal (AI Chat + Infrastructure dashboard)
+6. Sends a welcome email with login details
+
+No manual steps are required from you or the customer.
+
+Two auto-install experiences are currently in **Beta**:
+
+| Experience | Type constant | What deploys |
+|---|---|---|
+| OpenClaw Auto-Install | `OPENCLAW_AUTOINSTALL` | OpenClaw agent accessible via Telegram; connects Gmail, Google Calendar, Notion and more |
+| Hermes Auto-Install | `HERMES_AUTOINSTALL` | Nous Research Hermes autonomous agent (web browsing, code execution, persistent memory) |
+
+<Info>
+Both experiences are currently **Beta**. Core functionality — provisioning, deployment, billing, credit refill, and portal access — works end to end. Visual polish and per-plan landing page customisation are fast-follows.
+</Info>
+
+---
+
+## Prerequisites
+
+Before enabling either auto-install experience:
+
+1. **Stripe Connect** must be active and fully onboarded. The customer checkout runs on your Stripe Connect account. Go to **Settings → Stripe Connect** to verify.
+2. **Database migration**: this feature adds a new `agent_autoinstall_orders` table. If you self-host, run `npm run db:push` in your deployment environment before enabling.
+3. **VPS quota**: each subscriber gets a dedicated Contabo VPS. Make sure your Contabo account has capacity for the expected subscriber volume.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Stripe Connect settings panel showing a fully connected account (green Accept Charges and Receive Payouts indicators)._
+
+---
+
+## Enable an auto-install experience
+
+1. Go to **Experiences** in the Partner Portal sidebar.
+2. Find the card for **OpenClaw Auto-Install** or **Hermes Auto-Install**.
+3. Click the **Enable** toggle.
+4. The experience is now live at your partner domain at its default alias:
+   - OpenClaw Auto-Install: `/{your-domain}/openclaw-autoinstall`
+   - Hermes Auto-Install: `/{your-domain}/hermes-autoinstall`
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Experiences page showing the OpenClaw Auto-Install and Hermes Auto-Install cards with their Enable toggles._
+
+---
+
+## Configure pricing tiers
+
+Each auto-install experience supports multiple subscription plans ("tiers"). You define the VPS spec and AI credit allowance per tier; the platform syncs a recurring Stripe Price for each one automatically.
+
+### Open the experience settings
+
+1. Click the **Settings** (gear ⚙) icon on the experience card.
+2. Scroll to the **Pricing Tiers** section.
+
+### Add or edit a tier
+
+For each tier, configure:
+
+| Field | Description |
+|---|---|
+| **Plan name** | Displayed to customers on the landing page (e.g. "Starter", "Pro", "Scale") |
+| **Price** | Monthly subscription price in your currency |
+| **VPS Plan** | The Contabo VPS spec to provision (CPU / RAM / storage options shown as a dropdown) |
+| **AI Credits / month** | Number of AI credits included in the monthly subscription |
+| **Enabled** | Toggle the tier on/off without deleting it |
+
+Save the tier to sync a corresponding recurring Stripe Price on your Connect account. Existing subscribers are **not** migrated automatically when you change a tier's price — only new checkouts use the new price.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Pricing Tiers editor in the experience settings, showing a tier with VPS Plan selector and AI Credits/month field._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through enabling an auto-install experience, adding two pricing tiers, and previewing the landing page._
+
+---
+
+## Customer checkout flow
+
+When a customer visits your landing page and picks a plan:
+
+1. They are redirected to a **Stripe Checkout** session on your Connect account.
+2. On successful payment, the platform receives a `checkout.session.completed` webhook.
+3. The fulfillment orchestrator runs:
+   - Account created (Customer + portal credentials)
+   - AI Gateway key minted and funded with the plan's credits
+   - VPS provisioned on Contabo
+   - Agent deployed to the VPS (the gateway key is injected as `KNOTIE_API_KEY`)
+   - Portal features unlocked: AI Chat + Infrastructure / Agency dashboard
+4. A welcome email is sent to the customer with their login details. **No password is ever collected at checkout** — the platform generates a secure temporary password and delivers it by email.
+
+### Checking order status
+
+The platform exposes an order-status endpoint that the landing page polls during setup:
+
+```
+GET /api/whitelabel/agent-autoinstall/order/{orderId}
+```
+
+Customers see a progress indicator while the VPS provisions and the agent deploys (typically 2–5 minutes).
+
+> 📷 **Screenshot needed:** _Add a screenshot of the customer-facing setup progress page showing the provisioning steps (account → VPS → deploy → ready)._
+
+> 🎬 **Video walkthrough:** _Record a short clip of the complete customer checkout flow: landing page → plan selection → Stripe checkout → setup progress → portal ready._
+
+---
+
+## Ongoing billing
+
+### Monthly credit refill
+
+On every successful `invoice.paid` event for an auto-install subscription, the platform automatically tops up the customer's AI credit balance to the plan's included credits. No manual action is needed.
+
+### Cancellation
+
+When a subscription is cancelled or payment lapses:
+
+- The customer's AI Gateway key is **revoked** — the deployed agent can no longer make model calls.
+- The VPS and data are **not** automatically deleted (you can manage the VPS separately under **VPS Servers**).
+- If the customer resubscribes, a new key is minted and the agent is re-funded.
+
+---
+
+## Partner portal visibility
+
+Once a customer completes setup, their record appears in your **Customers** list tagged with the experience type. From their customer page you can:
+
+- View their current credit balance
+- Access the VPS Terminal
+- See the Infrastructure / Agency dashboard
+- Top up credits manually if needed
+
+> 📷 **Screenshot needed:** _Add a screenshot of a customer detail page for an auto-install subscriber, showing the VPS Terminal and credit balance sections._
+
+---
+
+## OpenClaw Auto-Install
+
+OpenClaw Auto-Install deploys a personal AI accessible via **Telegram**. Once setup completes, the customer can message their Telegram bot to:
+
+- Read and draft emails via connected Gmail
+- Manage Google Calendar (schedule meetings, daily briefings)
+- Query and update Notion pages
+- And more via the Knotie AI Gateway
+
+The default alias is `/openclaw-autoinstall`. You can change it under **Experience Settings → General**.
+
+### What the customer sees
+
+Landing page hero: *"Your Personal AI. One Click. No Tech Skills Needed."*
+
+After checkout and setup:
+- A welcome email arrives with portal login credentials.
+- The customer logs in and finds AI Chat enabled in their portal sidebar.
+- Their connected apps (Gmail, Calendar, Notion) are listed in the integration panel.
+
+---
+
+## Hermes Auto-Install
+
+Hermes Auto-Install deploys [Nous Research's Hermes](https://hermes-agent.nousresearch.com) — a fully autonomous AI agent — on a **dedicated private VPS**.
+
+Hermes can:
+- Browse the live web
+- Run shell commands and execute code
+- Use tools through the Knotie AI Gateway
+- Maintain persistent memory across sessions
+
+The default alias is `/hermes-autoinstall`. You can change it under **Experience Settings → General**.
+
+### What the customer sees
+
+Landing page hero: *"Your Own Autonomous AI. On Your Own Private Server. One Click."*
+
+After checkout and setup:
+- A welcome email arrives with portal login credentials.
+- The customer logs in and finds AI Chat + Infrastructure dashboard in their portal sidebar.
+- They can chat with Hermes directly from the portal — no terminal required.
+- The VPS runs Hermes exclusively on dedicated compute (not shared).
+
+<Tip>
+For customers who want to interact with Hermes directly over SSH, they can run `hermes chat` in the VPS terminal. Run `hermes doctor` to verify the install health.
+</Tip>
+
+---
+
+## Troubleshooting
+
+**Checkout completes but the customer's portal isn't set up**
+
+Check the order status:
+1. In the Partner Portal, open the customer record.
+2. Look for a failed or pending auto-install order under their account.
+3. Contact Knotie support with the `orderId` if the order is stuck — the orchestrator is idempotent and can be re-triggered.
+
+**VPS provisioning fails**
+
+This usually means the Contabo quota was exceeded. Verify capacity in your Contabo account, then re-trigger the order.
+
+**AI credits not refilling**
+
+Verify that the `invoice.paid` webhook is reaching the platform. Under **Settings → Stripe Connect**, confirm your connected-account webhooks are registered. The webhook endpoint is `POST /api/whitelabel/billing/webhooks/stripe`.
+
+**Agent not responding (Hermes)**
+
+SSH into the VPS and run `hermes doctor`. If the install is unhealthy, re-run the catalog deploy from **VPS → My Instances → Reinstall** — it is safe to re-run and will not wipe customer data.
+
+---
+
+## Related pages
+
+- [AI Experiences overview](/partner-portal/experiences/overview) — all experience types and how to enable them
+- [Stripe Connect](/partner-portal/settings/stripe-connect) — connect your Stripe account
+- [VPS Servers](/partner-portal/vps/overview) — manage and monitor customer VPS instances
+- [AI Gateway](/partner-portal/ai-gateway) — manage API keys and credit budgets
+- [Hermes Agent](/agents/hermes/overview) — deploy Hermes manually via the App Catalog
+
+---
+
+> Source: [knotie-ai-pro#908](https://github.com/avijeett007/knotie-ai-pro/pull/908) — _feat: OpenClaw + Hermes Auto-Install one-click experiences_
