@@ -33,12 +33,24 @@ If you choose Google signup, you may still be asked for:
 
 After your first login, Knotie AI may prompt you to set up a **passkey** ("Secure Your Account" modal) before you reach the dashboard. You may also be asked to enable **MFA** under Settings → Security.
 
+## Email field behaviour
+
+The **Email address** field automatically strips any whitespace (spaces, tabs, or non-breaking spaces) as you type. This handles trailing spaces that mobile keyboards and browser autofill often append after completing an email address. You do not need to trim the field yourself — the form handles it silently.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the signup modal showing the email address field filled in and the Create Account button._
+
+> 🎬 **Video walkthrough:** _Record a short clip of the full signup flow — opening the modal, filling in fields, and reaching the dashboard for the first time._
+
 ## Screenshots
 
 ![Knotie AI Pro signup modal](/images/screenshots/signup-modal.jpg)
 
 ## Troubleshooting
 
-- If you don't receive a confirmation email, check your spam folder and verify the email address is correct.
+- If you don't receive a confirmation email, check your spam folder and verify the email address is correct. The form automatically removes any trailing or leading spaces from your email address, so the address stored in the system will not have extra spaces.
 - If the signup modal doesn't appear, try disabling browser extensions that block pop-ups.
 - For issues with Google signup, ensure your browser is signed into a Google account.
+
+---
+
+> Source: [knotie-ai-pro#917](https://github.com/avijeett007/knotie-ai-pro/pull/917) — _fixed some UI elements_
