@@ -21,13 +21,13 @@ This playbook is designed around a simple principle:
 
 That timing increases pickup rates and reduces the chance your numbers get flagged as spam.
 
-## What you’ll build
+## What you'll build
 
 A GHL Workflow that:
 
 - Triggers when a lead is created / form submitted
 - Sends a **Webhook** action directly to Knotie
-- Passes structured variables (`dynamicdata_*`) into your voice agent
+- Passes structured variables into your voice agent via a `metadata` object
 
 ## Prerequisites
 
@@ -36,7 +36,11 @@ A GHL Workflow that:
 - An outbound-capable voice agent assigned to that phone number
 - An **Outbound Webhook Key** generated for that phone number (starts with `owk_`)
 
-> 📸 _[Screenshot placeholder: Partner Portal → Phone Numbers list showing imported number, customer assigned, outbound agent assigned]_
+<Tip>
+If you're onboarding a single client, the fastest path is Twilio for the number plus a **Retell** agent — Retell is currently the most reliable provider for the native outbound webhook flow.
+</Tip>
+
+> ![Knotie AI Pro Partner Portal → Phone Numbers list showing imported numbers](/images/screenshots/phone-numbers-2026-06-09.png)
 
 ## Step 1 — Prepare the phone number in Knotie
 
@@ -45,7 +49,19 @@ A GHL Workflow that:
 3. Assign the phone number to the correct customer
 4. Assign an outbound-capable agent to the phone number
 
-> 📸 _[Screenshot placeholder: Import Numbers modal (provider selection)]_
+<Note>
+The Assign Customer picker is a typeahead — start typing the customer's first name, last name, or email. The customer shown in the Phone Numbers list will be the **contact name** (e.g. "Soham Maiti"), not the brand name from your Customers list.
+</Note>
+
+<Warning>
+In the **Assign Agent** modal, switch the **Direction** toggle from **Inbound Only** (the default) to **Outbound Only**. If you leave it on Inbound Only, the next step (generating the outbound webhook key) will not be available.
+</Warning>
+
+<Note>
+The list of agents you can pick from is scoped to the customer you just assigned. If you onboard multiple clients, each one needs its own outbound-capable agent.
+</Note>
+
+> 📸 _[Import Numbers modal — provider selection, see retell-import doc]_
 
 ## Step 2 — Generate an outbound webhook key
 
@@ -54,7 +70,7 @@ A GHL Workflow that:
 3. Click **Generate Key**
 4. Copy the key immediately (shown once)
 
-> 📸 _[Screenshot placeholder: Phone number detail panel → Outbound Webhook section]_
+> 📸 _[Phone number detail panel → Outbound Webhook section — see retell-import doc]_
 
 ## Step 3 — Create the GHL Workflow
 
@@ -73,13 +89,13 @@ Add an action:
 
 - **Action type**: `Webhook`
 - **Method**: `POST`
-- **URL**: `https://automate.knotie-ai.pro/api/outbound-call`
+- **URL**: `https://connecthub.knotie-ai.pro/api/outbound-call`
 
 > 📸 _[Screenshot placeholder: GHL webhook action configuration]_
 
 ## Step 5 — Add required custom data fields
 
-In the webhook’s **Custom Data** section, add:
+In the webhook's body, include:
 
 - `from_number`: your registered Knotie phone number (E.164)
 - `to_number`: lead phone number (GHL merge field)
@@ -93,17 +109,28 @@ Example:
 
 ## Step 6 — Add dynamic conversation variables
 
-To pass variables into your agent, use `dynamicdata_*` fields.
+To pass variables into your agent, group them under a `metadata` object in the body.
 
-Example:
+Example payload:
 
-| Key | Value | Agent variable |
-|---|---|---|
-| `dynamicdata_customer_name` | `{{contact.name}}` | `customer_name` |
-| `dynamicdata_lead_source` | `Facebook Lead Ad` | `lead_source` |
-| `dynamicdata_service_type` | `{{contact.service_type}}` | `service_type` |
+```json
+{
+  "from_number": "+1XXXXXXXXXX",
+  "to_number": "{{contact.phone_raw}}",
+  "metadata": {
+    "campaign": "fb_lead_ads_june",
+    "customer_name": "{{contact.name}}",
+    "lead_source": "Facebook Lead Ad",
+    "service_type": "{{contact.service_type}}"
+  }
+}
+```
 
-> 📸 _[Screenshot placeholder: GHL webhook custom data with dynamicdata_* fields]_
+<Tip>
+The keys inside `metadata` become available to your agent as variables — name them whatever your agent prompt expects.
+</Tip>
+
+> 📸 _[Screenshot placeholder: GHL webhook custom data with metadata object]_
 
 ## Step 7 — Add the Authorization header
 
@@ -129,6 +156,8 @@ In webhook **Headers**:
   - `from_number` does not match the imported/registered number
 - **402 Insufficient credits**
   - Customer needs credits
+- **400 UNSUPPORTED_PROVIDER**
+  - The agent assigned to the number is not compatible with the outbound webhook endpoint. Use a Retell agent for the most reliable path.
 
 ## Recommended agent behavior (anti-spam)
 

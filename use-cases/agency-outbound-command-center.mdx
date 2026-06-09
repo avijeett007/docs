@@ -19,7 +19,7 @@ A common objection to outbound automation stacks is:
 
 With Knotie’s **native GHL webhook support**, you can often remove the “middleware” layer that was previously used only for payload shaping.
 
-## What you’ll build
+## What you'll build
 
 A repeatable client delivery process:
 
@@ -29,7 +29,11 @@ A repeatable client delivery process:
 4. Generate a per-number outbound webhook key (`owk_...`)
 5. Add a GHL workflow webhook step using that key
 
-> 📸 _[Screenshot placeholder: Partner Portal customer list + phone number mapping overview]_
+<Tip>
+For multi-client outbound, plan to import one outbound-capable agent **per client** (Retell is the most reliable). Agents are scoped to a single customer in the assign-agent picker, so a single shared agent won't cover all your clients.
+</Tip>
+
+> ![Knotie AI Pro Partner Portal — Customers list](/images/screenshots/customers-list-2026-06-09.png)
 
 ## Step 1 — Onboard the client as a customer
 
@@ -37,7 +41,7 @@ A repeatable client delivery process:
 2. Create the customer record
 3. (Optional) Enable customer portal access if you want them to see call logs/credits
 
-> 📸 _[Screenshot placeholder: Quick onboard customer modal]_
+> 📸 _[Quick onboard customer modal — opens from Customers page top-right]_
 
 ## Step 2 — Set up credits (so usage is enforceable)
 
@@ -50,7 +54,7 @@ Why credits matter:
 2. Go to **Credits**
 3. Add credits for the customer
 
-> 📸 _[Screenshot placeholder: Customer Manage → Credits tab]_
+> 📸 _[Customer Manage modal — Credits tab is one of the 9 tabs in the modal]_
 
 ## Step 3 — Import and assign a phone number
 
@@ -60,7 +64,11 @@ Why credits matter:
    - **Retell** (purchased inside Retell)
 3. Assign the number to the client/customer
 
-> 📸 _[Screenshot placeholder: Phone number imported and assigned to customer]_
+<Note>
+The Assign Customer picker is a typeahead — type the client's first name, last name, or email. The Phone Numbers list shows the **contact name**, not the brand/company name from your Customers list, so the same client may appear under either name depending on where you're looking.
+</Note>
+
+> ![Knotie AI Pro Partner Portal — Phone Numbers list with assigned customers](/images/screenshots/phone-numbers-2026-06-09.png)
 
 ## Step 4 — Assign the outbound agent
 
@@ -68,31 +76,56 @@ Why credits matter:
 2. Select the correct provider agent
 3. Enable **Outbound**
 
-> 📸 _[Screenshot placeholder: Assign Agent modal with provider-specific agent list]_
+<Warning>
+In the **Assign Agent** modal, switch the **Direction** toggle from **Inbound Only** (the default) to **Outbound Only**. The default is set up for AI-receptionist use, not for outbound campaigns.
+</Warning>
+
+<Note>
+The agent dropdown is scoped to the customer on this number — only agents belonging to that client will appear. If you don't see an agent, you may need to create or import one for that client first.
+</Note>
+
+> 📸 _[Assign Agent modal — opens from Phone Numbers row, agent dropdown scoped to the customer]_
 
 ## Step 5 — Generate a dedicated webhook key
 
-Each phone number has its own key.
+Each outbound-mapped phone number has its own key.
 
 1. Open phone number details
 2. Generate **Outbound Webhook Key**
 3. Store in your agency vault/password manager
 
-> 📸 _[Screenshot placeholder: Outbound key generated for a specific number]_
+<Tip>
+The Outbound Webhook section only appears for numbers with an outbound-capable agent assigned. If you don't see it, double-check the Direction toggle in Step 4 — it must be set to **Outbound Only**.
+</Tip>
 
-## Step 6 — Connect the client’s GHL workflow
+> 📸 _[Outbound key — visible in phone number detail panel after Outbound agent assigned]_
 
-In the client’s GoHighLevel account:
+## Step 6 — Connect the client's GHL workflow
+
+In the client's GoHighLevel account:
 
 - Add a Webhook step:
-  - `POST https://automate.knotie-ai.pro/api/outbound-call`
+  - `POST https://connecthub.knotie-ai.pro/api/outbound-call`
 - Add `Authorization: Bearer owk_...`
 - Add required custom data:
   - `from_number`
   - `to_number`
-- Add `dynamicdata_*` fields for personalization
+- Add a `metadata` object with any personalization variables your agent expects
 
-> 📸 _[Screenshot placeholder: GHL workflow webhook action configured]_
+Example body:
+
+```json
+{
+  "from_number": "+1XXXXXXXXXX",
+  "to_number": "{{contact.phone_raw}}",
+  "metadata": {
+    "client": "client_name",
+    "campaign": "campaign_id"
+  }
+}
+```
+
+> 📸 _[GHL workflow webhook action — see warm-lead-outbound-calls-ghl doc for details]_
 
 ## Delivery checklist (copy/paste)
 

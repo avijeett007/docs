@@ -1,12 +1,17 @@
 /* Mintlify custom CSS */
 
-/* Make the navbar wordmark logo larger without affecting page content */
+/* Make the navbar wordmark logo larger without affecting page content.
+   IMPORTANT: do NOT set `display` here — Mintlify renders both
+   <img class="nav-logo block dark:hidden"> (light) and
+   <img class="nav-logo hidden dark:block"> (dark) inside the same
+   wrapper. If we set `display: flex` (or anything other than the
+   default) on `.nav-logo`, the specificity beats Tailwind's
+   `hidden` / `dark:hidden` utilities and BOTH logos render stacked,
+   which is the "logo appears twice" bug in light mode. */
 header .nav-logo,
 nav .nav-logo,
 .nav-logo {
   height: 44px;
-  display: flex;
-  align-items: center;
 }
 
 header .nav-logo img,
