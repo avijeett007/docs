@@ -51,6 +51,7 @@
             "group": "Partner portal",
             "pages": [
               "partner-portal/overview",
+              "partner-portal/dashboard",
               "partner-portal/customers/overview",
               "partner-portal/customers/customer-info-and-deal-management",
               "partner-portal/customers/features-addons-and-menu-visibility",
@@ -69,6 +70,7 @@
               "partner-portal/credits",
               "partner-portal/telephony-credits",
               "partner-portal/phone-numbers",
+              "partner-portal/ai-agents-overview",
               "partner-portal/ai-gateway",
               "partner-portal/agent-analytics",
               "partner-portal/billing-and-invoices",
