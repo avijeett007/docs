@@ -43,3 +43,23 @@ nav .nav-logo svg,
     max-height: 52px;
   }
 }
+
+/* Tighten the gap when two or more screenshots are stacked
+   directly one after the other in MDX.
+
+   Dev preview renders each `![alt](src)` as `<p><img></p>`, so the
+   original `p > img:only-child + p > img:only-child` selector below
+   matches and the second+ paragraph gets a small top margin.
+
+   Production uses `<picture class="contents">` with `display: contents`
+   wrappers, so any CSS margin we set on those wrappers is ignored.
+   That's why the actual fix for prod is in `screenshot-gap.js` (auto-
+   loaded by Mintlify on every page), which applies the gap via inline
+   style on the real rendered <img>. This stylesheet only handles dev. */
+p > img:only-child + p > img:only-child,
+p > img:only-child + p > picture:only-child > img,
+p > picture:only-child > img + p > img:only-child,
+p > picture:only-child > img + p > picture:only-child > img,
+.mdx-content > span[data-rmiz] + span[data-rmiz] {
+  margin-top: 0.5rem;
+}
