@@ -7,50 +7,70 @@ description: "Learn what each section in the Knotie AI Pro Partner Portal is for
 
 The **Partner Portal** is where you run Knotie AI Pro as an agency: onboard customers, connect AI agent providers, manage phone numbers, track usage, and handle billing.
 
-If you’re new, your goal is simple:
+If you're new, your goal is simple:
 
 1. Get your own account set up.
 2. Onboard your first customer.
-3. Connect an agent provider (Retell, VAPI, Ultravox, ElevenLabs, GHL, or N8N).
+3. Connect an agent provider (Retell, VAPI, Ultravox, ElevenLabs, GHL, Knova, or N8N).
 4. Assign a phone number and test calls.
 5. Track usage and keep credits topped up.
 
 ## Sidebar reference
 
-The sidebar is divided into sections. Items with a **Premium Feature** badge require a paid plan upgrade. Items shown as buttons (not links) indicate features that open a panel or modal rather than navigating to a new page.
+The sidebar is divided into labelled sections. Items with a **Premium Feature** badge require a paid plan upgrade. Items with a chevron expand to reveal sub-items. Items shown as buttons open a panel or modal rather than navigating to a new page.
 
-![Partner Portal sidebar reference](/images/partner-sidebar-reference.png)
+> 📷 **Screenshot needed:** _Add a screenshot of the updated partner portal sidebar showing the CUSTOMERS, AI PLATFORM, INFRASTRUCTURE, GROW, and ACCOUNT sections with their sub-items expanded._
 
-## What each sidebar item is for
+## What each sidebar section is for
 
-**CUSTOMERS**
-- **Customers** — Manage active customers, create accounts, control portal access. Includes **Prospects** tab for eligible plans (Enterprise).
+### Dashboard
 
-**AI PLATFORM**
-- **AI Agents** *(Premium Feature, button)* — Opens the AI agent management panel.
-- **Phone Numbers** *(button)* — Import or manage phone numbers, assign to customers and agents.
-- **AI Gateway NEW** *(link)* — OpenAI-compatible API keys. Create partner-owned keys, manage model access, budgets, and customer self-service keys.
-- **Agent Analytics** *(Premium Feature, link)* — Call counts, duration, cost breakdown per agent.
+The top-level **Dashboard** gives you a live overview of your agency: customer counts, MRR, credit balances, call analytics, and quick actions. See [Dashboard](partner-portal/dashboard) for details.
 
-**INFRASTRUCTURE**
-- **VPS Servers** *(button)* — Provision and manage virtual private servers for customers.
+### CUSTOMERS
 
-**GROW**
-- **One-Click Experiences** *(link)* — Launch prebuilt experiences and growth-focused workflows. Availability depends on plan level.
+- **Customers** — Manage active customers, create accounts, and control portal access. Expands to:
+  - **Active Customers** — Your full customer list.
+  - **Prospects** *(Enterprise)* — Pipeline of leads you're onboarding.
+- **Billing & Invoices** — Stripe invoicing and metered billing. Expands to:
+  - **Invoices & Payments** — View and send invoices.
+  - **Metered Billing** — Configure usage-based billing plans.
+- **Credits** — Top up and monitor your two credit balances. Expands to:
+  - **AI Credits** — Credits consumed by AI agents per call minute.
+  - **Telephony Credits** — Credits consumed by inbound/outbound call minutes and phone number rentals.
 
-**ACCOUNT**
+### AI PLATFORM
+
+- **AI Agents** *(button)* — Opens the AI agent management panel, organised into three sub-groups:
+  - **Voice Agents** — VAPI, Ultravox, Retell, ElevenLabs, GHL, Knova *(NEW)*
+  - **Chat Agents** — Retell Chat, N8N Chat Agents
+  - **Automation & Tokens** — N8N Automation, N8N Tokens, MCP Tokens, Agent Migration
+- **Phone Numbers** — Import and manage phone numbers. Expands to:
+  - **All Numbers** — Every number in your account.
+  - **Number Pool** — Shared pools for automatic number assignment.
+- **AI Gateway** *(NEW)* — OpenAI-compatible API keys. Create partner-owned keys, manage model access, budgets, and customer self-service keys.
+- **Agent Analytics** — Call counts, duration, and cost breakdown per agent.
+
+### INFRASTRUCTURE
+
+- **VPS Servers** — Provision and manage virtual private servers for customers. Expands to:
+  - **My VPS Instances** — All provisioned servers.
+  - **VPS Settings** — Default provisioning config.
+
+### GROW
+
+- **One-Click Experiences** *(Enterprise)* — Launch prebuilt growth-focused workflows.
+- **Marketing** — Marketing assets and resources.
+
+### ACCOUNT
+
 - **Tutorials** — Video tutorials plus the in-app floating video help.
-- **Team Management** *(Premium Feature, link)* — Invite teammates, manage roles, and stay within your plan's team limit.
-- **Settings**
-  - **Profile Settings** — Business info, contact details, integration tokens.
-  - **Partner API Keys** — Manage API keys for programmatic access.
-  - **Email Domain Management** *(Premium Feature)* — Configure custom email domains.
-  - **Plans & Billing** — View and manage your plan and billing.
-  - **White-Label Portal** *(Premium Feature)* — Subdomain and custom domain configuration.
+- **Team Management** *(requires Manage Team permission)* — Invite teammates, manage roles, and stay within your plan's team limit.
+- **Settings** *(requires Manage Settings permission)* — Profile, API keys, email domain, billing, white-label, and more.
 
 ## Pricing Calculator
 
-The **Pricing Calculator** helps you estimate monthly costs before onboarding a customer. Access it by clicking the **Pricing Calculator** button on the Dashboard.
+The **Pricing Calculator** helps you estimate monthly costs before onboarding a customer. Access it from the **Dashboard** by clicking **Pricing Calculator**.
 
 ### How the calculator works
 
@@ -60,17 +80,17 @@ The **Pricing Calculator** helps you estimate monthly costs before onboarding a 
    - Email notification costs
    - SMS notification costs
    - Platform fees
-3. **Compare providers** – See side-by-side cost comparisons across different AI providers to choose the most cost-effective option for your use case.
+3. **Compare providers** – See side-by-side cost comparisons across different AI providers.
 
 ### Why use the Pricing Calculator
 
 - **Accurate quoting** – Give customers realistic pricing before they commit.
 - **Margin planning** – Understand your costs to set profitable markups.
-- **Provider selection** – Compare costs across providers to optimize your stack.
+- **Provider selection** – Compare costs across providers to optimise your stack.
 
 ![Pricing Calculator Modal](/images/screenshots/screenshot-2026-03-19-154232.png)
 
-## A simple “first week” setup checklist
+## A simple "first week" setup checklist
 
 1. Complete **Signup** and enable **Passkeys** and **MFA**.
 2. Add your first customer using **Customer List**.
@@ -81,11 +101,19 @@ The **Pricing Calculator** helps you estimate monthly costs before onboarding a 
 
 ## Tips
 
-- If you see a feature marked **Locked** or “Upgrade required,” it usually means your current plan doesn’t include it.
+- Items marked **Enterprise** are only visible on Enterprise plans.
 - Use the floating video help in the Partner Portal for page-specific walkthroughs.
+- The **Notification Bell** in the dashboard header alerts you to low credit balances and system events.
+- The **Daily Challenge** widget on the Dashboard surfaces quick actions that help grow your agency.
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the updated partner portal sidebar — expanding CUSTOMERS, AI PLATFORM (showing the Voice/Chat/Automation groups), INFRASTRUCTURE, and GROW sections._
 
 ## Screenshots
 
 ![Pricing Calculator - VAPI](/images/screenshots/screenshot-2026-03-19-154232.png)
 
 ![Pricing Calculator - Retell](/images/screenshots/screenshot-2026-03-19-154247.png)
+
+---
+
+> Source: [knotie-ai-pro#930](https://github.com/avijeett007/knotie-ai-pro/pull/930) — _Knotie002 partner dashboard revamp_
