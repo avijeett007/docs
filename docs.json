@@ -118,7 +118,8 @@
               "agents/byo-agent/overview",
               "agents/knova/overview",
               "agents/hermes/overview",
-              "agents/retell-chat/overview"
+              "agents/retell-chat/overview",
+              "agents/connected-app-tools"
             ]
           }
         ]
