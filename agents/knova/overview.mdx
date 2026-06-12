@@ -94,8 +94,64 @@ Use the three-dot menu to:
 
 Knova creation is subject to plan limits. Free Forever partners may see an upgrade modal if limits are reached.
 
+## Connected App Tools
+
+When a Knova agent is **assigned to a customer**, Knotie AI Pro automatically wires in a **live MCP (Model Context Protocol) server** for that customer's connected apps. The Knova LiveKit runtime reads the `advancedConfig.mcpServers` field and registers the server at agent start — so tools from Gmail, Slack, HubSpot, Google Calendar, and any other apps the customer connects are available to the agent **immediately**, without a rebuild.
+
+### How it works
+
+1. On agent create or update, a `scope: all` MCP token is minted for the assigned customer.
+2. The token is injected into `advancedConfig.mcpServers` using `streamable_http` transport:
+   ```json
+   {
+     "mcpServers": [
+       {
+         "name": "knotie_partner_tools",
+         "url": "https://<your-connect-hub>/api/mcp",
+         "transport": "streamable_http",
+         "auth": { "type": "bearer", "token": "<per-customer-token>" },
+         "timeoutMs": 120000
+       }
+     ]
+   }
+   ```
+3. The LiveKit runtime registers this server and exposes connected-app tools to the agent.
+
+> 📷 **Screenshot needed:** _Add a screenshot of a Knova agent's Advanced Config view (or the agent detail) showing the mcpServers entry._
+
+### Customer assignment and token lifecycle
+
+| Event | What happens |
+|---|---|
+| Agent created with a customer | MCP token minted, injected into `advancedConfig` |
+| Agent updated (tools, config, or customer) | New token minted, prior token deactivated, config updated |
+| Customer unassigned | Orphaned MCP server entry is stripped from `advancedConfig` |
+| Customer reassigned to another tenant | Token re-minted scoped to the new customer |
+
+### Prerequisites
+
+- **Connect Hub** must be configured (`CONNECT_HUB_URL` environment variable). Knova MCP wiring is silently skipped when Connect Hub is unavailable — agent creation never fails because of this.
+- **Customer assigned** — agents without a customer do not get MCP wiring.
+
+> 🎬 **Video walkthrough:** _Record a clip showing: (1) a customer connecting a new app, (2) placing a test call via Try Agent (BETA), and (3) the agent using that app's tools automatically._
+
+### Which tools go via MCP vs. static webhooks
+
+Connected-app tools (those with a standard app-slug `appName` like `gmail`, `slack`, `googlecalendar`) are served dynamically through the MCP server. The following tool types still use per-tool webhooks:
+
+- **Custom API integrations** (UUID `appName`) — bespoke wiring not covered by MCP
+- **Tools with pre-filled parameter values** — prefills are baked into the webhook description and would be lost via MCP
+
+For the full cross-provider reference, see [Connected App Tools](/agents/connected-app-tools).
+
 ## Next steps
 
+- [Connected App Tools](/agents/connected-app-tools) — how live MCP server wiring works across all voice providers
+- [Integration Apps Selection](/partner-portal/customers/integration-apps-selection) — control which apps customers can connect
 - [AI Experiences](/partner-portal/experiences) — enable AI Receptionist and other one-click products
 - [AI Gateway](/partner-portal/ai-gateway) — manage API access and budgets
 - [AI Usage](/partner-portal/ai-usage) — track costs and usage
+
+---
+
+> Source: [knotie-ai-pro#965](https://github.com/avijeett007/knotie-ai-pro/pull/965) — _feat(knova-agents): wire live customer MCP server into Knova agents_
