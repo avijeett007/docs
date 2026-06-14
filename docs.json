@@ -48,6 +48,13 @@
             ]
           },
           {
+            "group": "Customer portal features",
+            "pages": [
+              "customer-management/media-library",
+              "customer-management/social-posting"
+            ]
+          },
+          {
             "group": "Partner portal",
             "pages": [
               "partner-portal/overview",
@@ -155,6 +162,7 @@
             "pages": [
               "api-reference/mcp/introduction",
               "api-reference/mcp/authentication",
+              "api-reference/mcp/tool-modes",
               "api-reference/mcp/endpoints"
             ]
           },

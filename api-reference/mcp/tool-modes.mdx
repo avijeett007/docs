@@ -1,0 +1,97 @@
+---
+title: "MCP tool modes"
+description: "Control which tools a voice-agent or partner token exposes — full mode for all ~280+ tools, meta mode for a lightweight 11-tool set with on-demand search."
+---
+
+## Why tool modes exist
+
+A voice-agent token with `scope:'all'` previously gave the LLM access to ~283 tools simultaneously (155 from ElevenLabs alone). This degraded tool-selection accuracy and added latency.
+
+**Meta mode** solves this by giving the agent two gateway tools instead:
+
+- `internal_search_tools` — keyword-ranked search across all available tools (returns name + description)
+- `internal_execute_tool` — generic executor: the agent passes a tool name + arguments and the platform dispatches it
+
+The agent now navigates a catalogue rather than holding 283 simultaneous function definitions.
+
+## Token types and their defaults
+
+| Token minted by | Default mode | Can change? |
+|---|---|---|
+| Voice agent (auto-minted at call start) | `meta` (~11 tools) | Via `VOICE_AGENT_TOOL_MODE` env var |
+| Partner API key / manual token | `full` (~283 tools) | Via `toolMode` JWT claim |
+
+Voice agents default to `meta` to protect LLM context and tool accuracy. Partner-minted tokens (Cursor, Claude Desktop, Windsurf, automation scripts) still receive full tool access by default.
+
+## JWT claims for fine-grained control
+
+When minting a token manually you can include two optional claims:
+
+### `toolMode`
+
+```json
+{
+  "toolMode": "meta"
+}
+```
+
+Values: `"full"` | `"meta"`. Omitting the claim defaults to `"full"` for partner-minted tokens.
+
+### `allowedApps`
+
+```json
+{
+  "allowedApps": ["elevenlabs", "retell"]
+}
+```
+
+When present, the token can only invoke tools belonging to the listed apps. Attempts to call tools from unlisted apps are rejected. Both the legacy tool-list and tool-call endpoints (`/api/mcp/tools/list`, `/api/mcp/tools/call`) enforce this claim.
+
+Omitting `allowedApps` grants access to all apps the token's scope allows.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the "Generate Token" modal in **AI Agents → MCP Tokens** if it exposes tool mode or allowed-apps options in the UI._
+
+## How agents use meta mode
+
+In meta mode the agent workflow changes:
+
+1. **Discover** — call `internal_search_tools` with a keyword (e.g., `"social post"`) to get relevant tool names and descriptions.
+2. **Execute** — call `internal_execute_tool` with the tool name and parameters.
+3. Rate limits, credit charges, scope, and `allowedApps` enforcement all apply inside `internal_execute_tool` exactly as they do for direct tool calls.
+
+> 🎬 **Video walkthrough:** _Record a short clip showing a voice agent using `internal_search_tools` to find the `SOCIAL_POST_SCHEDULE` tool and then calling it via `internal_execute_tool`._
+
+## Revert to full mode for voice agents
+
+If you need a voice agent to receive the full tool list (e.g., for debugging), set the environment variable:
+
+```bash
+VOICE_AGENT_TOOL_MODE=full
+```
+
+This applies globally to all newly minted voice-agent tokens. Existing in-flight tokens are unaffected until the call ends.
+
+## New agent-facing tools (PR #967)
+
+The following tools are now available to agent tokens with appropriate scope:
+
+| Tool | What it does |
+|---|---|
+| `MEDIA_LIST_ASSETS` | List a customer's uploaded media assets |
+| `MEDIA_IMPORT_FROM_URL` | Download an external URL into the customer's media library |
+| `SOCIAL_POST_PUBLISH` | Immediately publish a post to specified social platforms |
+| `SOCIAL_POST_SCHEDULE` | Schedule a post for a future date/time |
+| `SOCIAL_POST_LIST` | List upcoming scheduled social posts |
+
+`MEDIA_IMPORT_FROM_URL` runs the URL through a safe-fetch validator (HTTPS-only, private/loopback IP rejection, ≤3 redirects) before downloading.
+
+## Related pages
+
+- [MCP tokens](/partner-portal/settings/mcp-tokens) — Generate and manage partner MCP tokens
+- [MCP API reference](/api-reference/mcp/introduction) — Full endpoint documentation
+- [Social posting calendar](/customer-management/social-posting) — Schedule social posts via the portal or via agent tools
+- [Docs & Media library](/customer-management/media-library) — Upload and manage media assets
+
+---
+
+> Source: [knotie-ai-pro#967](https://github.com/avijeett007/knotie-ai-pro/pull/967) — _feat: agent-driven marketing — MCP meta-tools, tiered storage, media library, social posting calendar_

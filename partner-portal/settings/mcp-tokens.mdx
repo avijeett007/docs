@@ -58,6 +58,30 @@ Set up MCP for Claude Desktop:
 2. Add the Knotie AI Pro MCP server.
 3. Include your authentication token.
 
+## Tool modes (full vs meta)
+
+Partner-minted tokens default to **full mode** — all ~280+ tools are listed in a single response.
+
+If you are building an integration where you want the LLM to navigate tools on demand rather than receive a massive tool list, you can request **meta mode** by adding the `toolMode` claim when minting:
+
+```json
+{
+  "toolMode": "meta"
+}
+```
+
+In meta mode the token exposes two gateway tools (`internal_search_tools`, `internal_execute_tool`). The LLM searches for the tool it needs and calls it via the executor — all rate limits and credit charges still apply.
+
+You can also restrict which Composio app tools the token can invoke:
+
+```json
+{
+  "allowedApps": ["elevenlabs", "retell"]
+}
+```
+
+See [MCP tool modes](/api-reference/mcp/tool-modes) for the full reference.
+
 ## Token security
 
 - **Never share tokens** – Treat MCP tokens like passwords.
@@ -84,3 +108,8 @@ Once revoked, the token immediately stops working.
 
 - [API Keys](/partner-portal/api-keys) – Partner API keys for general automation
 - [MCP API Reference](/api-reference/mcp/introduction) – Endpoint documentation
+- [MCP tool modes](/api-reference/mcp/tool-modes) – Full vs meta mode, `toolMode` and `allowedApps` JWT claims
+
+---
+
+> Source: [knotie-ai-pro#967](https://github.com/avijeett007/knotie-ai-pro/pull/967) — _feat: agent-driven marketing — MCP meta-tools, tiered storage, media library, social posting calendar_
