@@ -97,6 +97,13 @@
             ]
           },
           {
+            "group": "App Marketplace",
+            "pages": [
+              "partner-portal/marketplace/overview",
+              "partner-portal/marketplace/developer-console"
+            ]
+          },
+          {
             "group": "VPS & App Catalog",
             "pages": [
               "partner-portal/vps/app-catalog"
