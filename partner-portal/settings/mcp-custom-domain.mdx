@@ -1,0 +1,117 @@
+---
+title: "Custom MCP domain"
+description: "Serve the Connect Hub MCP server from your own branded hostname (e.g. mcp.yourcompany.com) with Cloudflare-managed SSL."
+---
+
+## What this feature does
+
+By default, the Knotie AI Pro Connect Hub MCP server is reachable at `mcp.knotie-ai.pro`. With a **custom MCP domain**, partners on paid tiers can resell the MCP server under their own branded hostname — for example, `mcp.yourcompany.com`.
+
+Clients and AI coding assistants that connect to your MCP endpoint use your domain name, not Knotie's. SSL is handled automatically via Cloudflare — you add a CNAME record and Knotie handles the rest.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Custom MCP Domain card in the partner portal (AI Agents → MCP Tokens), showing the domain input field, CNAME instructions, and status indicator (Pending / Active / Verified)._
+
+## Prerequisites
+
+- An active paid-tier subscription with MCP access
+- A domain you control with permission to add DNS records (CNAME)
+- The **Custom MCP Domain** option visible in your portal — if it doesn't appear, contact Knotie support to enable the `MCP_WHITELABEL_ENABLED` flag for your account
+
+## How routing works
+
+Routing is based on the **Bearer token** in the request, not the hostname. Your custom hostname is a vanity CNAME plus a Cloudflare-managed TLS certificate — requests to `mcp.yourcompany.com` are transparently forwarded to `connecthub.knotie-ai.pro`.
+
+This means:
+- **No Connect Hub changes required** — tokens, rate limits, credit charges, and scope enforcement work exactly as before
+- **Existing `mcp.knotie-ai.pro` tokens continue to work** — switching to a custom domain does not invalidate existing tokens
+- **Partner-minted MCP tokens** remain unaffected; only the server URL displayed to customers changes
+
+## Set up your custom MCP domain
+
+### Step 1 — Enter your domain
+
+1. In the Partner Portal, go to **AI Agents → MCP Tokens**.
+2. Find the **Custom MCP Domain** card.
+3. Enter the hostname you want to use (e.g. `mcp.yourcompany.com`).
+4. Click **Save**.
+
+The platform registers your hostname with Cloudflare and begins issuing an SSL certificate. The status changes to **Pending**.
+
+### Step 2 — Add the CNAME record
+
+While status is Pending, the card shows the DNS record you need:
+
+| Type | Name | Value |
+|------|------|-------|
+| CNAME | `mcp` (or your chosen prefix) | `mcp.knotie-ai.pro` |
+
+Add this record at your DNS provider (Cloudflare, GoDaddy, Namecheap, etc.). DNS propagation typically takes a few minutes but can take up to 48 hours.
+
+<Tip>
+If your DNS is managed by Cloudflare, set the CNAME to **DNS-only** (grey cloud) during verification to avoid proxy interference.
+</Tip>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the CNAME record details shown in the Custom MCP Domain card, including the "Verification status: pending" state._
+
+### Step 3 — Verify the domain
+
+Once the CNAME record propagates, click **Verify Domain** in the card. The platform:
+
+1. Confirms that the CNAME resolves to `mcp.knotie-ai.pro`.
+2. Activates routing so traffic for your hostname is forwarded to Connect Hub.
+3. Changes the status to **Verified / Active**.
+
+After verification, the MCP Token snippet shown in the portal updates to use your custom domain.
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the full custom MCP domain setup — entering the hostname, adding the CNAME record, clicking Verify Domain, and then connecting an AI coding assistant (Cursor / Windsurf / Claude Desktop) to confirm the custom URL works._
+
+## Using your custom MCP domain
+
+After verification, use your branded hostname anywhere you previously used `mcp.knotie-ai.pro`. Your MCP Token snippet in the portal already shows the updated URL.
+
+Example config for Cursor, Windsurf, or Claude Desktop:
+
+```json
+{
+  "mcpServers": {
+    "knotie": {
+      "url": "https://mcp.yourcompany.com/sse",
+      "headers": {
+        "Authorization": "Bearer <your-mcp-token>"
+      }
+    }
+  }
+}
+```
+
+Authentication is still Bearer-token-based. The hostname change does not affect how tokens are issued, validated, or scoped.
+
+## Removing a custom MCP domain
+
+1. Go to **AI Agents → MCP Tokens → Custom MCP Domain**.
+2. Click **Remove** (or **Delete Domain**).
+3. The platform removes the Cloudflare routing entry and revokes the certificate.
+4. All traffic reverts to `mcp.knotie-ai.pro` automatically.
+
+<Warning>
+Removing a custom MCP domain immediately breaks any client configurations pointing to that hostname. Inform customers before removing.
+</Warning>
+
+## Troubleshooting
+
+| Symptom | What to check |
+|---------|---------------|
+| Status stuck on **Pending** | Confirm the CNAME was added to the correct DNS zone and the value is exactly `mcp.knotie-ai.pro`. Wait up to 48 hours for propagation. |
+| **Verify Domain** fails | Double-check the CNAME value has no trailing path or extra characters. |
+| Custom domain option not visible | The `MCP_WHITELABEL_ENABLED` flag may not be active. Contact Knotie support. |
+| SSL error immediately after verification | Cloudflare can take up to 15 minutes to finish issuing the certificate. Wait and retry. |
+| 401 / token errors on custom domain | Confirm you are using a valid MCP Bearer token. The custom domain does not change authentication requirements. |
+
+## Related pages
+
+- [MCP Tokens](/partner-portal/settings/mcp-tokens) — Generate and manage MCP bearer tokens
+- [MCP API reference](/api-reference/mcp/introduction) — Endpoint documentation
+- [Whitelabel settings](/partner-portal/settings/whitelabel-settings) — Portal domain and branding configuration
+- [Custom domains (customer portal)](/customer-management/custom-domain) — Setting up a custom domain for a customer's portal
+
+> Source: [knotie-ai-pro#989](https://github.com/avijeett007/knotie-ai-pro/pull/989) — _feat(mcp-whitelabel): partner custom MCP domains (Cloudflare SSL + KV/Worker routing) + customer MCP portal_

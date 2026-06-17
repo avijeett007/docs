@@ -1,6 +1,6 @@
 ---
 title: "AI Experiences"
-description: "Enable and manage one-click AI products like AI Receptionist, AI Business Audit, and Resell AI Gateway for your customers."
+description: "Enable and manage one-click AI products like AI Receptionist, AI Business Audit, Resell AI Gateway, and Auto-Install Experiences for your customers."
 ---
 
 ## Overview
@@ -19,9 +19,14 @@ Each card shows the experience's status badge (`Ready` / `Beta` / `Prototype`), 
 | `AI_PERSONAL_ASSISTANT` | AI Personal Assistant | Prototype | WhatsApp-native personal EA managing calendar, tasks, and knowledge base |
 | `OPENCLAW_WHITELABEL_SERVICE` | OpenClaw Whitelabel | Beta | Full AI Org under the agency brand (marketing, sales, support, ops) |
 | `OPENCLAW_AUTOINSTALL` | OpenClaw Auto-Install | Beta | One-click self-serve install via Telegram, auto-connects Gmail/Calendar/Notion |
+| `HERMES_AUTOINSTALL` | Hermes Auto-Install | Beta | One-click autonomous AI agent (Hermes) on a dedicated private VPS — chat from the portal |
 | `OPENCLAW_SETUP_SERVICE` | OpenClaw Setup Service | Beta | Paid consulting call booking for prospects who need guided setup |
 | `AI_BUSINESS_AUDIT` | AI Business Audit | Beta | 60-second self-serve audit with branded report + Stripe checkout for packages |
 | `RESELL_AI_GATEWAY` | Resell AI Gateway | Beta | Branded API resell — partners sell access to Claude/GPT/Gemini with their own pricing |
+
+<Info>
+**OpenClaw Auto-Install** and **Hermes Auto-Install** are _auto-provisioning_ experiences: when a customer subscribes, the platform automatically provisions a VPS, deploys the agent, and funds AI credits — no manual steps needed. See [Auto-Install Experiences](/partner-portal/experiences/auto-install) for the full setup guide.
+</Info>
 
 ## Enable an experience
 
@@ -52,6 +57,8 @@ If AI Gateway key provisioning fails, you'll see an error banner with a **Retry*
 
 Click the **Settings** (gear) button on any enabled experience card to open the configuration page for that experience type.
 
+For **OpenClaw Auto-Install** and **Hermes Auto-Install**, the settings page includes a **Pricing Tiers** editor where you define the VPS spec and AI credit allowance per subscription plan. See [Auto-Install Experiences](/partner-portal/experiences/auto-install) for details.
+
 ## View landing page
 
 Click **View Landing Page** (the arrow icon next to the gear) to see the experience on your partner domain:
@@ -80,6 +87,8 @@ Each experience shows:
 
 AI Business Audit calls cost approximately **$0.03** in raw model spend per audit. This is billed against your AI Gateway budget at your profit multiplier (default 1.5x).
 
+For Auto-Install Experiences, you set the subscription price per tier. AI credits included in each tier are funded from your gateway budget when a customer subscribes and refilled monthly. See [Auto-Install Experiences → Ongoing billing](/partner-portal/experiences/auto-install#ongoing-billing).
+
 ## Access control
 
 | Plan | Access |
@@ -90,6 +99,7 @@ AI Business Audit calls cost approximately **$0.03** in raw model spend per audi
 
 ## Next steps
 
+- [Auto-Install Experiences](/partner-portal/experiences/auto-install) — full setup guide for OpenClaw Auto-Install and Hermes Auto-Install
 - [AI Receptionist Setup](/agents/knova/knova-agent) — set up the AI Receptionist agent
 - [AI Gateway](/partner-portal/ai-gateway) — manage your API keys and budgets
 - [Partner Portal Overview](/partner-portal/overview) — explore other features

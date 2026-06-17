@@ -1,0 +1,78 @@
+---
+title: "Docs & Media library"
+description: "Upload, organise, and share media assets from the customer portal. Files live in a tenant-scoped bucket and can be referenced directly by agents."
+---
+
+## What the media library is for
+
+The **Docs & Media** section lets your customers (end-users on the whitelabel portal) upload images, documents, and other files that their AI agents can reference. Uploaded assets produce clean, query-parameter-free public URLs — important for platforms like Instagram that reject signed/expiring links.
+
+Use the media library when a customer wants to:
+
+- Store brand images, logos, or product photos for agents to use in social posts
+- Upload PDFs or documents an agent should be able to surface
+- Build a reusable asset bank for marketing or outreach campaigns
+
+> 📷 **Screenshot needed:** _Add a screenshot of the "Docs & Media" section in the customer portal — the card-grid view showing uploaded files with upload/search/delete controls._
+
+## Prerequisites
+
+Before a customer can see the Docs & Media section in their portal:
+
+1. The partner must enable the **Docs & Media** menu toggle in that customer's **Features & Add-ons** panel.
+2. The customer must have an active portal account.
+
+See [Features, add-ons, and menu visibility](/partner-portal/customers/features-addons-and-menu-visibility) for the toggle location.
+
+## Storage quotas per plan
+
+Storage is now enforced per-plan. Each partner account has a pool limit, and each customer gets an individual cap configured by the partner.
+
+| Plan | Partner pool |
+|---|---|
+| Free Forever | 100 MB |
+| Solo Agency / Pro | 1 GB |
+| Ultimate Scaleup Agency | 5 GB |
+
+When a customer hits their individual cap, uploads return an error instead of consuming partner storage. When the partner pool is full, uploads across all customers are blocked until storage is freed.
+
+Partners can adjust a customer's individual cap in **Customers → Manage → Features & Add-ons → Allocated Storage (MB)**.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the storage allocation controls in the customer's Features & Add-ons panel — the usage bar, "Allocated Storage (MB)" field, and "Partner Available" indicator._
+
+## Uploading assets
+
+1. Open the customer portal and navigate to **Docs & Media**.
+2. Click **Upload** and select a file.
+3. The platform checks the file against the customer's allocated storage cap.
+4. On success, the file appears in the card grid with its name and a direct URL.
+
+Accepted file types depend on the upload configuration; images (PNG, JPG, WEBP, GIF) and common documents (PDF) are supported.
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through uploading an image to the media library, copying its URL, and referencing it in a social post._
+
+## Searching and managing assets
+
+- Use the **search bar** to filter assets by name.
+- Each card shows a preview (for images), the file name, and action buttons.
+- Click **Delete** on a card to permanently remove the file from storage.
+
+Deletions are immediate and cannot be undone. Storage is reclaimed after deletion.
+
+## Using assets in agents
+
+Media asset URLs are stable and do not expire. You can paste a URL directly into an agent prompt, a social post template, or any field that accepts a URL.
+
+Agents granted the `MEDIA_LIST_ASSETS` MCP tool can retrieve a customer's asset list programmatically, and agents with `MEDIA_IMPORT_FROM_URL` can pull external images directly into the media library.
+
+See [MCP tool modes](/api-reference/mcp/tool-modes) for how agent-facing tools are scoped.
+
+## Related pages
+
+- [Features, add-ons, and menu visibility](/partner-portal/customers/features-addons-and-menu-visibility) — Enable the Docs & Media menu for a customer
+- [Social posting calendar](/customer-management/social-posting) — Schedule posts that reference media assets
+- [Pricing and features](/getting-started/pricing-and-features) — Storage quotas per plan
+
+---
+
+> Source: [knotie-ai-pro#967](https://github.com/avijeett007/knotie-ai-pro/pull/967) — _feat: agent-driven marketing — MCP meta-tools, tiered storage, media library, social posting calendar_

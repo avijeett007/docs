@@ -1,0 +1,257 @@
+---
+title: "Hermes Agent Setup"
+description: "Deploy a one-click AI agent for your customers using Hermes (by Nous Research) and the Knotie AI Gateway, with portal chat over SSH."
+---
+
+## What is Hermes Agent?
+
+Hermes Agent (by Nous Research) is a **CLI-first AI agent** available as a one-click app in the Knotie VPS App Catalog — mirroring the OpenClaw integration but with a lighter-weight transport.
+
+For the high-level overview, feature comparison, and use cases, see [Hermes Agent overview](/agents/hermes/overview). This page is the **deep-dive setup guide** that walks through the SSH chat transport, the deploy pipeline, the chat API, and configuration.
+
+Key properties:
+- Runs on your customer's VPS, routed through the **Knotie AI Gateway** (partner earns margin on every AI call)
+- **No extra daemon or public port required** — portal chat uses a secure SSH one-shot transport instead of nginx/TLS
+- AI Gateway key is **automatically minted** during deploy — no human ever enters an API key
+- **Multi-turn memory** preserved across chat sessions via Hermes's built-in `memories/` store and the `--continue` flag
+- Optional **Telegram integration** — wire a bot token during deploy to let customers chat via Telegram too
+
+> ⚠️ Hermes Agent is currently in **beta / catalog-deploy-only** mode. Stage-1 reinstall from the VPS catalog is guarded; use the catalog deploy flow described below.
+
+---
+
+## How portal chat works
+
+```
+Browser
+  → Partner Portal  POST /api/whitelabel/vps/instances/:id/hermes-agent/chat  (cookie auth)
+  → SSH into VPS
+  → hermes -z "<prompt>" --continue           (one-shot, resume last session)
+  → stdout (reply text only)
+  → JSON { reply, sessionId, model } back to browser
+```
+
+Compared to OpenClaw, there is **no port 18790, no nginx layer, no knock header** — Hermes has no built-in HTTP chat server, so the portal talks to it via SSH directly. This means:
+- ✅ Smaller attack surface (no new public port on the VPS)
+- ✅ Fewer moving parts (no daemon to manage)
+- ⚠️ Higher first-token latency (~5–40 s, no streaming) — the agent process starts fresh per request
+
+> 📷 **Screenshot needed:** _Add a screenshot of the AI Chat page with Hermes Agent selected (showing the ⚡ icon and the chat interface)._
+
+---
+
+## Prerequisites
+
+| Requirement | Where to get it |
+|---|---|
+| **Active VPS instance** | Partner Portal → VPS Servers → My Instances |
+| **Partner Portal access** | Required to trigger the catalog deploy |
+| **Telegram bot token** _(optional)_ | Create a bot via [@BotFather](https://t.me/BotFather) on Telegram |
+| **Telegram chat ID** _(optional)_ | Use [@userinfobot](https://t.me/userinfobot) to look up the chat/group ID |
+
+No separate API key setup is needed — the platform mints a Knotie AI Gateway key automatically when you deploy.
+
+---
+
+## Deploying Hermes Agent
+
+### Step 1 — Open the App Catalog on your VPS
+
+1. In the Partner Portal, go to **VPS Servers → My Instances**
+2. Find the VPS you want to deploy on and click its card
+3. Click **App Catalog** (or **Reinstall**)
+4. Select **Hermes Agent** from the catalog
+
+> 📷 **Screenshot needed:** _Add a screenshot of the VPS App Catalog with the Hermes Agent catalog card visible (showing the beta badge and the Deploy button)._
+
+### Step 2 — Fill in the deploy form
+
+The pre-deploy form collects:
+
+| Field | Required | Description |
+|---|---|---|
+| **Customer / Business name** | ✅ Yes | Used as the agent's display name and written into `SOUL.md` |
+| **Telegram bot token** | No | Wire the agent to a Telegram bot for out-of-band messaging |
+| **Telegram chat ID** | No | Required if you supply a bot token |
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Hermes Agent pre-deploy form modal showing the fields above._
+
+### Step 3 — Wait for deploy to complete
+
+After you click **Deploy**, the platform:
+
+1. Mints a real Knotie AI Gateway key (`sk-…`) with the partner's entitled models
+2. SSH-runs the two-stage deploy script on the VPS (returns `202` immediately; runs in background)
+3. The deploy script:
+   - Installs Hermes CLI (v0.15.1+) via cloud-init
+   - Wires Hermes's `custom` OpenAI-compatible provider to `https://api.knotie.ai/v1`
+   - Writes the AI key directly into `config.yaml` (under `model.api_key`) — not `.env`
+   - Writes `SOUL.md` with the customer/business name
+   - Best-effort registers the Knotie MCP server
+   - Optionally wires Telegram if a bot token was supplied
+   - Runs `hermes doctor` + a one-shot smoke test to verify the setup
+   - Writes the `/var/lib/hermes-agent/catalog-deploy-complete` marker
+4. Updates the instance status: `deploying:hermes-agent` → `hermes-agent`
+
+The VPS instance card in the portal shows the updated status once deploy completes. If the deploy is still running, the AI Chat button returns a `409 agent_not_ready` — this clears once the marker is written.
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the full deploy flow: selecting Hermes Agent in the catalog, filling the form, waiting for deploy, and sending the first chat message from the AI Chat page._
+
+---
+
+## Chatting with Hermes Agent
+
+1. In the customer's whitelabel portal, go to **AI Chat**
+2. In the agent selector, choose **⚡ Hermes Agent**
+3. Type a message and send
+
+The first reply may take **5–40 seconds** (Hermes starts fresh per request). Subsequent turns in the same browser session use `--continue` to resume the most recent Hermes conversation thread, so the agent remembers context.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the whitelabel portal AI Chat page with Hermes Agent active and a sample conversation showing the agent's reply._
+
+### Session behaviour
+
+- Each VPS instance is single-customer. All browser tabs for that customer share the same Hermes conversation thread — **not** cross-tenant.
+- To start a fresh conversation, have the customer reload the page or use a new browser session (a dedicated session-reset endpoint is a planned follow-up).
+
+---
+
+## Chat API reference
+
+The portal uses this internal route; you can also call it from custom integrations:
+
+```
+POST /api/whitelabel/vps/instances/:instanceId/hermes-agent/chat
+GET  /api/whitelabel/vps/instances/:instanceId/hermes-agent/chat  (health check)
+```
+
+**Auth:** Whitelabel session cookie (customer must be logged in to the partner portal).
+
+**POST request body:**
+
+```json
+{
+  "message": "Hello, what can you help me with?",
+  "sessionId": "optional-session-identifier"
+}
+```
+
+**Success response (`200`):**
+
+```json
+{
+  "reply": "Hi! I'm here to help. What would you like to work on?",
+  "sessionId": "sess_abc123",
+  "model": "knotie-provider/auto"
+}
+```
+
+**Error responses:**
+
+| Status | Code | Meaning |
+|---|---|---|
+| `401` | `unauthorized` | Customer not authenticated |
+| `403` | `forbidden` | Instance belongs to a different customer |
+| `404` | `instance_not_found` | VPS instance not found |
+| `409` | `agent_not_ready` | Deploy script hasn't finished yet (marker not written) |
+| `422` | `invalid_input` | Message body missing or empty |
+| `502` | `agent_error` | Hermes returned an error or empty reply |
+| `503` | `ssh_unavailable` | Could not SSH into the VPS |
+| `504` | `agent_timeout` | Hermes took longer than ~55 s to reply |
+
+---
+
+## Telegram integration
+
+If you supplied a Telegram bot token and chat ID during deploy, the install script registers the Hermes messaging gateway to forward messages from that Telegram conversation to the agent (and vice versa).
+
+This is **separate from portal chat** — both work in parallel:
+- Portal chat: browser → SSH → Hermes
+- Telegram chat: Telegram → Hermes messaging gateway (running as a systemd service)
+
+> 📷 **Screenshot needed:** _Add a screenshot of a Telegram conversation with the Hermes bot showing a sample exchange._
+
+---
+
+## Configuration reference
+
+These values are written to `~/.hermes/config.yaml` during deploy:
+
+| Setting | Value set by deploy | Description |
+|---|---|---|
+| `model.provider` | `custom` | Uses the custom OpenAI-compatible provider |
+| `model.base_url` | `https://api.knotie.ai/v1` | Knotie AI Gateway endpoint |
+| `model.api_key` | Auto-minted `sk-…` key | Written directly into config (not `.env`) — required for Hermes 0.15.1+ |
+| `model.default` | `auto` (or primary model) | LiteLLM router alias — resolves to best available model |
+
+The AI key is stored on the VPS only — it is never persisted in the Knotie database.
+
+---
+
+## Troubleshooting
+
+**Chat returns `409 agent_not_ready`**
+
+The deploy script hasn't finished yet. Check whether the completion marker exists on the VPS:
+
+```bash
+ls /var/lib/hermes-agent/catalog-deploy-complete
+```
+
+If missing, wait a few minutes and retry. If the deploy appears stalled, re-trigger from the portal (Reinstall → Hermes Agent).
+
+**Agent replies with errors or blank responses**
+
+Run the health check on the VPS:
+
+```bash
+hermes doctor
+```
+
+If `hermes doctor` reports an auth error, the API key in `config.yaml` may be incorrect. Re-deploy from the catalog to re-mint and reinject the key.
+
+**Verify the Knotie Gateway is wired correctly:**
+
+```bash
+grep -A5 'provider: custom' ~/.hermes/config.yaml
+# Expected:
+#   base_url: https://api.knotie.ai/v1
+#   api_key: sk-...
+```
+
+**First message times out (504)**
+
+Hermes starts fresh on every request. A 504 means Hermes took more than ~55 s to respond. This can happen on an under-resourced VPS (Cloud VPS 10 at peak load). Try:
+
+```bash
+hermes -z "ping" --continue    # run a warm-up manually
+```
+
+If timeouts are chronic, consider upgrading the VPS plan.
+
+**Portal chat shows ⚡ Hermes Agent but the channel status is stuck on "deploying"**
+
+The `channelReady` flag is set optimistically once the instance shows `installedAppId=hermes-agent`. If the deploy hasn't fully completed, the chat button may appear active but return `409`. Use the health endpoint to confirm:
+
+```bash
+curl -b <session-cookie> https://<partner-domain>/api/whitelabel/vps/instances/<id>/hermes-agent/chat
+# Returns 200 with { status: "ok" } when ready
+```
+
+**Support**
+- Email: support@knotie-ai.pro
+- Discord: [discord.gg/AQCdM68BTr](https://discord.gg/AQCdM68BTr)
+
+---
+
+## Related pages
+
+- [Hermes Agent overview](/agents/hermes/overview) — high-level summary, use cases, when to pick Hermes
+- [OpenClaw Partner Setup](/agents/openclaw-setup) — HTTP-gateway-based agent (alternative to Hermes for synchronous streaming)
+- [VPS App Catalog](/partner-portal/vps/app-catalog) — Overview of all VPS apps and packages
+- [VPS Terminal](/partner-portal/customers/vps-terminal) — Browser-based SSH access to customer VPS
+- [Auto-Install Experiences](/partner-portal/experiences/auto-install) — sell Hermes as a self-serve subscription via Stripe
+
+---
+
+> Source: [knotie-ai-pro#899](https://github.com/avijeett007/knotie-ai-pro/pull/899) — _feat: Hermes Agent one-click catalog app + portal chat_
