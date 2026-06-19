@@ -81,10 +81,24 @@ Configure Metrics is disabled until you assign a customer to the agent.
 2. Configure the agent's name and settings
 3. Save
 
+### Outbound Calling (Phase 1)
+
+Knova agents can now **place outbound calls** — from a portal test button or triggered automatically by GoHighLevel, n8n, or any webhook-capable system.
+
+Key capabilities:
+- **Test call from the portal** — fire a real outbound call to any E.164 number directly from the Knova Agents page
+- **Dynamic variables** — inject `{{lead_name}}`, `{{outreach_topic}}`, or any custom value into the agent's prompt and greeting at call time
+- **Webhook trigger** — connect GoHighLevel, n8n, Zapier, or a Facebook Lead Ad bridge via a simple `POST` request
+
+> 📷 **Screenshot needed:** _Add a screenshot of the "Test Outbound Call" option in the Knova agent three-dot menu._
+
+See the [Outbound Calling guide](/agents/knova/outbound-calling) for full setup instructions.
+
 ## Edit or delete
 
 Use the three-dot menu to:
 - **Try Agent (BETA)** — test in browser
+- **Test Outbound Call** — trigger a live outbound call to any number
 - **Edit Agent** — modify settings
 - **Assign Customer** — map to customer
 - **Configure Metrics** — set up analytics
@@ -96,6 +110,8 @@ Knova creation is subject to plan limits. Free Forever partners may see an upgra
 
 ## Next steps
 
+- [Outbound Calling](/agents/knova/outbound-calling) — set up portal test calls and external webhook triggers
+- [Outbound Webhook API](/agents/knova/outbound-webhook-api) — API reference for GHL, n8n, and custom integrations
 - [AI Experiences](/partner-portal/experiences) — enable AI Receptionist and other one-click products
 - [AI Gateway](/partner-portal/ai-gateway) — manage API access and budgets
 - [AI Usage](/partner-portal/ai-usage) — track costs and usage

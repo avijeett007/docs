@@ -117,6 +117,8 @@
               "agents/migration/agent-migration",
               "agents/byo-agent/overview",
               "agents/knova/overview",
+              "agents/knova/outbound-calling",
+              "agents/knova/outbound-webhook-api",
               "agents/hermes/overview",
               "agents/retell-chat/overview"
             ]
