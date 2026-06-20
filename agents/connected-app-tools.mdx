@@ -33,8 +33,6 @@ When an agent is **created** or **updated** with a customer assigned:
    - **VAPI**: a `type: mcp` tool is created in VAPI and its ID is added to the assistant's `toolIds`.
 3. At call time, the voice agent queries the MCP server's `tools/list` — which returns whichever apps the customer has **currently** connected. No token regeneration needed when apps change.
 
-> 🎬 **Video walkthrough:** _Record a short clip showing: (1) a customer connecting an app in their portal, (2) placing a call to the voice agent, and (3) the agent successfully using that app's tools without any agent rebuild._
-
 ## What tools are served via MCP vs. static webhooks
 
 Not all tool types switch to MCP. The table below explains the routing:

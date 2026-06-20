@@ -9,7 +9,7 @@ By default, the Knotie AI Pro Connect Hub MCP server is reachable at `mcp.knotie
 
 Clients and AI coding assistants that connect to your MCP endpoint use your domain name, not Knotie's. SSL is handled automatically via Cloudflare — you add a CNAME record and Knotie handles the rest.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the Custom MCP Domain card in the partner portal (AI Agents → MCP Tokens), showing the domain input field, CNAME instructions, and status indicator (Pending / Active / Verified)._
+{/* Screenshot needed: Custom MCP Domain card on the MCP Tokens page. Deferred 2026-06-18 — the card is feature-gated behind the `MCP_WHITELABEL_ENABLED` flag for the partner account. The current KnoLabs AI Agency account does not have this flag enabled, so the card is correctly hidden from the UI as the doc describes. */}
 
 ## Prerequisites
 
@@ -51,7 +51,7 @@ Add this record at your DNS provider (Cloudflare, GoDaddy, Namecheap, etc.). DNS
 If your DNS is managed by Cloudflare, set the CNAME to **DNS-only** (grey cloud) during verification to avoid proxy interference.
 </Tip>
 
-> 📷 **Screenshot needed:** _Add a screenshot of the CNAME record details shown in the Custom MCP Domain card, including the "Verification status: pending" state._
+{/* Screenshot needed: CNAME record details in the Custom MCP Domain card with Verification status: pending. Deferred 2026-06-18 — same reason as above: the card is hidden behind the MCP_WHITELABEL_ENABLED flag. */}
 
 ### Step 3 — Verify the domain
 
@@ -62,8 +62,6 @@ Once the CNAME record propagates, click **Verify Domain** in the card. The platf
 3. Changes the status to **Verified / Active**.
 
 After verification, the MCP Token snippet shown in the portal updates to use your custom domain.
-
-> 🎬 **Video walkthrough:** _Record a short clip walking through the full custom MCP domain setup — entering the hostname, adding the CNAME record, clicking Verify Domain, and then connecting an AI coding assistant (Cursor / Windsurf / Claude Desktop) to confirm the custom URL works._
 
 ## Using your custom MCP domain
 

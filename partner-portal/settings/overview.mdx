@@ -15,32 +15,48 @@ The **Settings** page in the Partner Portal is where you configure everything yo
 
 ## Where to find it
 
-In the Partner Portal sidebar, click **Settings**.
+In the Partner Portal sidebar, click **Settings**. The Settings button expands to 5 sub-items: Profile Settings, Partner API Keys, Email Domain Management, Plans & Billing, White-Label Portal.
 
-![Settings overview page with Profile Settings panel (Business Information, Contact Information, Business Address, Phone Number) and Partner Information panel (Partner Code, Account Status, Partnership Type, Area of Expertise) plus Update Profile button](/images/Group27(1).png)
+![Partner Portal — Settings overview page showing the main Settings landing with sectioned sub-areas (Profile Settings, Integration Settings, Security Settings, Email Settings, Branding Settings)](/images/screenshots/partner-settings-overview.png)
+
+> **Note (2026-06-18):** The Settings sub-items described above differ from the doc's caption below — live sidebar has 5 distinct items (Profile Settings / Partner API Keys / Email Domain Management / Plans & Billing / White-Label Portal), not the "Integration Settings / Security Settings / Branding Settings" set shown in the older caption. See [[knotie-doc-gaps|G34]].
 
 ---
 
 ## Navigating the Whitelabel Settings page
 
-The Whitelabel Settings page has been redesigned with a **Section Navigation Rail** on the left and **collapsible sections** in the main area. This layout lets you jump directly to any part of the configuration without scrolling through a long page.
+The Whitelabel Settings page (sidebar link **White-Label Portal**) has been redesigned with a **Section Navigation Rail** on the left and **collapsible sections** in the main area. This layout lets you jump directly to any part of the configuration without scrolling through a long page.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the redesigned Whitelabel Settings page showing the Section Nav Rail on the left, the Setup Progress Card, and the collapsible sections in the main area with status dots._
+![Partner Portal — Whitelabel Settings page redesigned with Section Navigation Rail on the left (Domain, Landing Page, Stripe Connect, etc. with status dots) and collapsible sections in the main area (Setup Progress Card above the rail, Domain Settings, Landing Page, Stripe Connect, etc. with "Set up" / "About X" / "Expand" controls)](/images/screenshots/partner-whitelabel-settings.png)
 
 ### Section Nav Rail
 
 The rail on the left lists every configurable section in order. Click any item to jump straight to that section.
 
-Each entry shows a **status dot**:
-- **Green dot** — section is complete
-- **Yellow/amber dot** — section is incomplete or has unresolved items
-- No dot — not applicable to your current plan or portal mode
+Each entry shows a **status badge**:
+- **Set up** — section is incomplete or has unresolved items
+- **Not yet set up** — section requires explicit setup action
+- No badge — not applicable to your current plan or portal mode (e.g. AI Translation, Sonti CRM)
+
+**Live Section Nav Rail (captured 2026-06-18, 11 sections):**
+
+1. Domain (Set up)
+2. Voice Agent (Set up)
+3. Branding (Set up)
+4. Landing Page (Not yet set up)
+5. Stripe Connect (Set up)
+6. Subscription Plans (Set up)
+7. Credit Plans (Set up)
+8. AI Translation (no badge)
+9. Sonti CRM (no badge)
+10. Portal Mode (Set up)
+11. SaaS Config (Set up, Beta)
 
 ### Setup Progress Card
 
 A **Setup Progress Card** at the top of the sidebar shows how many sections are complete and highlights the single most important next step. Use it as a checklist when setting up a new whitelabel portal for the first time.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the Setup Progress Card showing completed vs incomplete sections, with the "next up" section highlighted._
+![Partner Portal — Whitelabel Settings Setup Progress Card showing the current setup state with completed sections (green dots), incomplete sections (yellow/amber dots), and the highlighted "next up" section to complete. The same full-page screenshot is reused from above; the Setup Progress Card sits at the top of the Section Nav Rail.](/images/screenshots/partner-whitelabel-settings.png)
 
 ### Collapsible sections
 
@@ -58,25 +74,25 @@ Every section header has an **[i]** (info) button. Clicking it slides open a hel
 - When to visit it
 - Common gotchas
 
-> 📷 **Screenshot needed:** _Add a screenshot of the Section Info Drawer panel open for one section (e.g., Stripe Connect), showing the "What it is", "When to use", and "Gotchas" content._
+![Partner Portal — Whitelabel Settings Section Info Drawer opened on the Stripe Connect section. Shows "What it is", "When to use", and "Gotchas" content panels.](/images/screenshots/partner-whitelabel-section-info-drawer.png)
 
 ---
 
 ## Sections at a glance
 
-| Section | Column | What you configure |
-|---------|--------|-------------------|
-| **Domain Settings** | Main | Subdomain, custom domain, portal availability |
-| **Voice AI Agent** | Main | Public landing page AI Receptionist (name, voice, language) |
-| **Portal Branding** | Main | Logo, favicon, brand colours |
-| **Landing Page** | Main | Contact info, legal links, footer, testimonials, FAQs |
-| **Stripe Connect** | Main | Connect your Stripe account to charge customers |
-| **Subscription Plans** | Main | Recurring tiers *(requires Stripe Connect)* |
-| **Customer Credit Plans** | Main | Pay-as-you-go credit packs *(requires Stripe Connect)* |
-| **AI Translation** | Main | Multilingual portal content |
-| **Sonti CRM** | Main | Optional CRM integration |
-| **Portal Mode** | Sidebar | Basic vs SaaS portal experience |
-| **SaaS Portal Config** | Sidebar | Onboarding funnel, free trial, auto-deploy, telephony |
+| Section | What you configure |
+|---------|-------------------|
+| **Domain** | Subdomain, custom domain, portal availability |
+| **Voice Agent** | Public landing page AI Receptionist (name, voice, language) |
+| **Branding** | Logo, favicon, brand colours |
+| **Landing Page** | Contact info, legal links, footer, testimonials, FAQs, landing page style (Classic / NorthBeam) |
+| **Stripe Connect** | Connect your Stripe account to charge customers |
+| **Subscription Plans** | Recurring tiers *(requires Stripe Connect)* |
+| **Credit Plans** | Pay-as-you-go credit packs *(requires Stripe Connect)* |
+| **AI Translation** | Multilingual portal content |
+| **Sonti CRM** | Optional CRM integration |
+| **Portal Mode** | Choose Basic / Professional / SaaS portal experience (Professional marked UPCOMING+PREMIUM, SaaS marked PREMIUM) |
+| **SaaS Portal Config** *(Beta)* | Onboarding funnel, free trial, auto-deploy, telephony |
 
 ### Dependency gating
 
@@ -99,9 +115,7 @@ Example: **Subscription Plans** and **Customer Credit Plans** both require **Str
 
 ---
 
-> 📷 **Screenshot needed:** _Add a screenshot of the full Whitelabel Settings page after completing several sections, showing the progress card updated and green dots on completed sections._
-
-> 🎬 **Video walkthrough:** _Record a short clip walking through the full whitelabel settings setup flow: opening the page, using the nav rail to jump sections, expanding and filling in Domain Settings, checking the Setup Progress Card update._
+{/* Screenshot needed: full Whitelabel Settings page after completing several sections — showing the progress card updated and green dots on completed sections. The full Whitelabel Settings page in this account shows mostly "Not yet set up" / "Set up" states, so a "post-completion" screenshot is not capturable from the current account; the un-completed full-page screenshot above (partner-whitelabel-settings.png) is the closest available equivalent. */}
 
 ---
 

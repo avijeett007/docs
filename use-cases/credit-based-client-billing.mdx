@@ -43,10 +43,11 @@ Without credit controls, a single high-volume client can drain your account. Thi
 
 Still in the customer's **Features & Add-ons** tab:
 
-1. In the **Low Credit Notifications** section, toggle **Enable Notifications**
-2. Set **Low Credit Threshold** — the balance level that triggers a warning (default is 10 credits)
+1. Find the low-credit alerts section (labeled **Low Credit Notifications** at the time of last capture — section names can change without notice, verify against the live modal)
+2. Toggle the **Enable Notifications** switch
+3. Set **Low Credit Threshold** — the balance level that triggers a warning (default is 10 credits)
 
-> The toggle subtext reads: "Send email alerts to customer when credits are low."
+> The toggle's purpose is to send email alerts to the customer when their credits run low. The exact subtext wording may differ in the live UI.
 
 This prevents calls from silently failing when a client runs out of credits.
 
@@ -92,11 +93,11 @@ To avoid interruptions, set up auto-recharge for your own partner credits:
 1. Partner Portal → **Settings** → **Plans & Billing**
 2. In the **Credit Auto-Recharge** section:
    - Save a payment method (check "Save card and enable auto-recharge" when buying credits)
-   - Set **Threshold** (minimum 100 credits = $1.00)
-   - Set **Amount** (minimum $20)
+   - Set **Threshold** — the balance floor that triggers a top-up (the form enforces a minimum; accept whatever the page allows)
+   - Set **Amount** — the top-up amount per recharge event (the form enforces a minimum)
 3. Toggle **Auto-Recharge** on
 
-> The threshold is a "soft floor" — auto-recharge fires whenever a business operation needs more credits than the current balance, even above the threshold.
+> The threshold is a "soft floor" — auto-recharge fires whenever a business operation needs more credits than the current balance, even above the threshold. The page enforces minimums that can change without notice; the 100-credit / $20 minimums from earlier captures have not been re-verified.
 
 ## Verification checklist
 

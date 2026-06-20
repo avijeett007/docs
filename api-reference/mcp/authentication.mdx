@@ -5,17 +5,23 @@ description: "How to authenticate MCP API requests using a Partner API key."
 
 ## Authentication method
 
-All MCP API endpoints require a Partner API key passed via the `X-API-Key` header.
+All MCP API endpoints require a Partner API key passed via the `Authorization: Bearer pkt_...` header.
 
 ```bash
 curl -X GET \
   "https://YOUR_BASE_URL/api/v1/mcp/customers" \
-  -H "X-API-Key: pkt_your_partner_api_key"
+  -H "Authorization: Bearer pkt_your_partner_api_key"
 ```
+
+<Warning>
+  The legacy `X-API-Key` header is deprecated. New keys are issued with the `Authorization: Bearer pkt_...` format shown above. The key-reveal modal in the Partner Portal displays this header as the recommended curl form, and marks the legacy Basic-auth header as deprecated.
+</Warning>
 
 ## Getting an API key
 
-Partner API keys are created in the partner dashboard under **Settings** > **API Keys**.
+Partner API keys are created in the partner dashboard under **Settings** > **Partner API Keys** > **Platform API** tab. The page is titled "API Keys & Integrations" and has 4 tabs: AI Gateway Beta (LLM usage, `sk_` keys), Platform API (partner automation, `pkt_` keys), MCP Tokens, and n8n Tokens.
+
+For the full key-creation flow including the one-time reveal modal, see the [Automated Customer Onboarding](/use-cases/automated-customer-onboarding) use-case guide.
 
 ## Security guidance
 

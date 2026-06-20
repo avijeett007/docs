@@ -11,18 +11,23 @@ This section applies only when your **Pricing Model** is set to **Subscription**
 
 ## Where to find it
 
-1. Go to **Settings**.
-2. Scroll to the **Subscription Plans** section (within the SaaS Portal / Whitelabel settings area).
+1. Open **Settings** in the Partner Portal sidebar.
+2. Click **White-Label Portal**.
+3. In the **Section Nav Rail** on the left, click **Subscription Plans** (under the Main column).
 
-![Subscription Plans — Active toggle and "Display on Landing Page" checkbox per plan](/images/screenshots/subscription-plans-page-annotated.jpg)
+<Note>
+There is **no** top-level **Settings → Subscription Plans** entry. Earlier versions of this doc instructed users to "scroll to the Subscription Plans section" of the main Settings page — that section doesn't exist on the new Settings IA. Subscription Plans now lives in the Whitelabel Settings page under the **Subscription Plans** section in the Section Nav Rail. See [[knotie-doc-gaps|G34]].
+</Note>
+
+{/* Screenshot needed: Subscription Plans list page — Active toggle and "Display on Landing Page" checkbox per plan */}
 
 ## Prerequisites
 
 Before creating subscription plans, you need:
 
 1. **SaaS Portal Mode enabled** – Subscription plans only appear in the whitelabel onboarding flow.
-2. **Pricing Model set to Subscription** – Configure this in **Settings → SaaS Portal Mode**.
-3. **Stripe Connect configured** – Required for recurring billing.
+2. **Pricing Model set to Subscription** – Configure this in **Settings → White-Label Portal → Portal Mode** (Section Nav Rail).
+3. **Stripe Connect configured** – Required for recurring billing. Configure via **Settings → White-Label Portal → Stripe Connect** in the Section Nav Rail (or via the top-level White-Label Portal entry).
 
 ## Create a subscription plan
 
@@ -37,7 +42,7 @@ Before creating subscription plans, you need:
 4. Optionally check **Display on Customer Landing Page** to control visibility (see below).
 5. Click **Create**.
 
-![Create/Edit Subscription Plan form — Name, Price, Billing Interval, Display on Landing Page](/images/screenshots/subscription-plans-page-annotated.jpg)
+{/* Screenshot needed: Create/Edit Subscription Plan form — Name, Price, Billing Interval, Display on Landing Page */}
 
 ## How plan visibility works
 
@@ -47,7 +52,7 @@ When a customer prospect reaches **Step 9 (Summary & Deploy)**, the onboarding w
 
 **All plans with `isActive: true` are shown.** There is no additional client-side filtering — a plan being active is sufficient for it to appear. Activating or deactivating a plan is the primary way to control what customers see.
 
-![Whitelabel onboarding Step 9 — plan selection screen with active subscription plans](/images/screenshots/subscription-plans-page-annotated.jpg)
+{/* Screenshot needed: Whitelabel onboarding Step 9 — plan selection screen with active subscription plans */}
 
 ### "Display on Customer Landing Page" checkbox
 
@@ -56,8 +61,6 @@ The **Display on Customer Landing Page** checkbox controls whether a plan appear
 <Note>
 For subscription-billing partners, at least one plan must remain both active and marked as "Display on Customer Landing Page" at all times. If you try to uncheck this box, deactivate, or delete the last such plan, the system will block the action with an error. This prevents your customer portal from having no plans to display, which would break the self-service onboarding flow.
 </Note>
-
-> 🎬 **Video walkthrough:** _Record a short clip showing: creating two subscription plans, deactivating one, confirming it no longer appears in onboarding Step 9, then attempting to deactivate the last active plan to show the error._
 
 ## Manage existing plans
 

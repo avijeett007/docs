@@ -77,9 +77,11 @@ Configure Metrics is disabled until you assign a customer to the agent.
 
 ## Create an agent
 
-1. Click **Build with AI**
-2. Configure the agent's name and settings
-3. Save
+The Create Agent modal is a **5-tab sequential flow** — Customer → Setup Mode → Basic → Advanced → Functions — each tab gating the next. Picking **Manual** on the Setup Mode tab hides the AI Builder chat for the rest of the flow; picking **AI Builder** replaces the Basic tab with a chat panel that drafts a config you can apply to the form.
+
+1. Click **Build with AI** (top of the Knova agents page) or **+ Create Agent**.
+2. Walk through tabs 1–5 in order.
+3. Click **Save** on the Functions tab.
 
 ## Edit or delete
 
@@ -132,8 +134,6 @@ When a Knova agent is **assigned to a customer**, Knotie AI Pro automatically wi
 
 - **Connect Hub** must be configured (`CONNECT_HUB_URL` environment variable). Knova MCP wiring is silently skipped when Connect Hub is unavailable — agent creation never fails because of this.
 - **Customer assigned** — agents without a customer do not get MCP wiring.
-
-> 🎬 **Video walkthrough:** _Record a clip showing: (1) a customer connecting a new app, (2) placing a test call via Try Agent (BETA), and (3) the agent using that app's tools automatically._
 
 ### Which tools go via MCP vs. static webhooks
 

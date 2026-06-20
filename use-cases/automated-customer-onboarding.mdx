@@ -51,16 +51,21 @@ An integration that:
 
 ### Key configuration options
 
-The creation modal includes:
+The Platform API key creation modal exposes (per the 2026-06-06 audit):
 
 - **Name** *(required)*
 - **Description**
+- **MCP Gateway** — Enable MCP for AI-agent calls *(checked by default)*
+- **Full Access** — full-scoped permission *(checked by default)*
 - **Expires At** — optional expiration date
 - **Rate Limit** — requests per minute
 - **Daily Limit** — maximum daily requests
 - **Monthly Limit** — maximum monthly requests
-- **Allowed IPs** — restrict to specific server IPs
-- **MCP Gateway Access** — Enable MCP (checked by default), Full access (checked by default)
+- **Allowed IPs** — restrict to specific server IPs (one per line)
+
+<Note>
+Live field labels can change without notice — the list above is the verified set as of the last walkthrough. The MCP-related fields (MCP Gateway, Full Access) gate the tool scopes the key can call.
+</Note>
 
 ### What the reveal modal shows
 
@@ -94,6 +99,10 @@ The Platform API tab shows a table of all keys with columns:
 - Actions: **Renew** (rotate), **Revoke**
 
 > **Note:** The Partner API Keys page has 4 tabs: AI Gateway Beta, Platform API, MCP Tokens, and n8n Tokens. Make sure you are on the **Platform API** tab for partner automation keys (`pkt_` prefix). AI Gateway keys (`sk-` prefix, for LLM usage) are on the separate AI Gateway Beta tab.
+
+<Warning>
+**Use only `pkt_` keys from the Platform API tab** for the partner automation flow described in this doc. The **MCP Tokens** tab mints `mt_` tokens that are tool-scoped and MCP-gateway-only — they will NOT work against `/api/v1/mcp/customers/onboard` or the agent map endpoints. The **n8n Tokens** tab is for n8n workflow integration; the **AI Gateway Beta** tab is for LLM-billing keys (`sk-` prefix), not partner automation.
+</Warning>
 
 ## Step 2 — Create the customer via API
 

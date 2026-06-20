@@ -20,15 +20,23 @@ Use the builder when you want to:
 
 ## Opening the builder
 
-1. In the Partner Portal, navigate to **Customers** and open a customer record.
-2. Click **Manage Agents** (or the AI Agents section in the customer view).
-3. Click **+ Add Agent**.
-4. On the mode picker, choose **AI Mode** to open the Agent Builder chat panel.
-   - Choose **Manual Mode** if you prefer to fill in all fields yourself.
+The **Create Agent** modal for Knova is a **5-tab sequential flow**, not a single Basic form:
 
-The builder opens as a full-screen chat panel inside the agent modal. The text input is focused automatically — start typing right away.
+1. **Customer** — pick the customer this agent belongs to.
+2. **Setup Mode** — choose **AI Builder** (chat-driven) or **Manual** (fill fields yourself). If you pick Manual, the AI Builder tab is hidden for the rest of the flow.
+3. **Basic** — agent name, system prompt, greeting, voice (only reached after you choose a Setup Mode).
+4. **Advanced** — tools, knowledge base, advanced config.
+5. **Functions** — function calls / tool wiring.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the AI Mode / Manual Mode selection screen inside the KnovaAgentModal._
+To open it:
+
+1. In the Partner Portal, navigate to **AI Agents** (or open a customer record and click **Manage Agents**).
+2. Click **+ Create Agent** (top right).
+3. Walk through tabs 1–5 in order; each tab gates the next.
+
+If you picked **AI Builder** on the Setup Mode tab, the Basic tab is replaced by a chat panel — describe the business and the builder drafts the system prompt, voice, and config. Click **Apply to form** to load the draft into the standard Basic tab for final tweaks.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the 5-tab Create Agent modal with the Setup Mode selector visible on tab 2._
 
 ---
 
@@ -45,8 +53,6 @@ The builder opens as a full-screen chat panel inside the agent modal. The text i
 3. **Review the draft.** The builder streams its reasoning, then presents a proposed agent configuration.
 
 4. **Refine or accept.** Ask for changes in plain English, or click **Accept** to save the agent.
-
-> 🎬 **Video walkthrough:** _Record a short clip walking through creating an agent end-to-end — from opening the AI Mode panel, typing a business description, and accepting the proposed agent configuration._
 
 ### What's in the proposal
 
@@ -157,13 +163,15 @@ Knova agents support **AI Analytics** (call metrics and insights). The Partner P
 
 ---
 
-## Phone number assignment after building
+## Customer assignment after building
 
-After the builder creates an agent, you can assign a phone number to it from the **Assign Phone Number** step inside the agent modal.
+After the builder creates an agent, you map it to a customer from the agent's three-dot menu using **Assign Customer to Agent** (not a step inside the agent modal itself). The kebab entry opens a modal with a **Customer** dropdown and a **Profit Multiplier** field — no phone-number selection happens here.
+
+Phone-number assignment is a separate step that happens later in the agent's edit flow **under the assigned customer** (not in the Knova agent modal).
 
 When a phone number is assigned to a Knova agent, the phone numbers listing now correctly shows the associated customer — the number will no longer appear as "Unassigned" after the assignment is saved (knotie-ai-pro#848 backfills `PhoneNumber.customerId` if it was previously unset).
 
-> 📷 **Screenshot needed:** _Add a screenshot of the Assign Phone Number modal inside KnovaAgentModal, showing a number being selected and the confirmation state._
+> 📷 **Screenshot needed:** _Add a screenshot of the Assign Customer to Agent modal showing the customer dropdown and profit multiplier field._
 
 ---
 

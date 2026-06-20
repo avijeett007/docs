@@ -50,19 +50,19 @@ You can change the alias at any time from the settings page header. If your land
 
 ## Settings page overview
 
-The Resell AI Gateway settings page (`/partner/experiences/resell_ai_gateway`) is divided into four tabs:
+The Resell AI Gateway settings page (`/partner/experiences/resell_ai_gateway`) is a **flat single-page layout** (not a tabbed IA), arranged top-to-bottom in this order:
 
-| Tab | Purpose |
-|-----|---------|
-| **Packages** | Create and manage subscription tiers |
-| **Landing page** | Customize the hero, features, FAQs, and branding |
-| **Gateway defaults** | Read-only view of your AI Gateway profit multiplier and model access |
-| **Analytics** | Conversion and MRR metrics _(Phase 2 — placeholder in Beta)_ |
+1. **Hero** — experience title, alias, status badge.
+2. **2 advisory banners**:
+   - **Custom-domain advisory** — warns you if your custom domain is not yet verified. Until verified, customer code samples show `api.knotie.ai` instead of your domain. Configure this at **Partner Portal → AI Gateway → Custom Domain**.
+   - **Credit-block advisory** — reminds you that each provisioned customer key reserves ~1,000 credits. Links to your Credits page for top-ups.
+3. **2 KPI cards** — summary metrics for the experience.
+4. **Landing-page branding form** — hero, features, FAQs, branding overrides.
+5. **Packages section** — list of subscription tiers with create / edit / duplicate / delete / enable-disable actions (see [Managing packages](#managing-packages) below).
 
-Two advisory banners appear at the top of the page:
-
-- **Custom-domain advisory** — warns you if your custom domain is not yet verified. Until verified, customer code samples show `api.knotie.ai` instead of your domain. Configure this at **Partner Portal → AI Gateway → Custom Domain**.
-- **Credit-block advisory** — reminds you that each provisioned customer key reserves ~1,000 credits. Links to your Credits page for top-ups.
+<Note>
+  **Gateway defaults** (your AI Gateway profit multiplier and allowed-models list) is **not** a tab on this page — it lives behind a separate sidebar link: **Partner Portal → AI Gateway** (`/partner/ai-gateway`). There is also **no Analytics tab** on the Resell AI Gateway settings page in the current Beta build.
+</Note>
 
 ---
 
@@ -70,7 +70,7 @@ Two advisory banners appear at the top of the page:
 
 ### Creating a package
 
-1. On the **Packages** tab, click **+ New Package**.
+1. Scroll to the **Packages** section (bottom of the settings page) and click **+ New Package**.
 2. Fill in the fields:
 
 | Field | Notes |
@@ -101,7 +101,7 @@ Two advisory banners appear at the top of the page:
 
 ## Customizing the landing page
 
-The **Landing page** tab lets you edit the `landingPageConfig` JSON for this experience:
+The **Landing-page branding form** is a section in the middle of the settings page (between the KPI cards and the Packages section — not a tab). It lets you edit the `landingPageConfig` JSON for this experience:
 
 - Hero title, subtitle, and CTA button text
 - Features section (icon, title, description per card)
@@ -111,8 +111,6 @@ The **Landing page** tab lets you edit the `landingPageConfig` JSON for this exp
 Changes here are reflected immediately on the public landing page.
 
 ![Landing Page tab — JSON editor with sample experience configuration](/images/screenshots/partner-ai-gateway-self-service-settings.png)
-
-> 🎬 **Video walkthrough:** _Record a short clip walking through: enabling the experience, creating a free and a paid package, and previewing the live landing page._
 
 ---
 
@@ -124,7 +122,7 @@ When a customer visits your landing page (e.g., `yourdomain.com/ai-gateway`), th
 
 1. **Hero** — your branding, headline, and a "Get started" CTA
 2. **Supported models strip** — the models you've made available
-3. **Feature highlights** — configurable in the Landing page tab
+3. **Feature highlights** — configurable in the Landing-page branding form (on the partner settings page)
 4. **Pricing grid** — your packages, with trial badges where applicable
 5. **Code snippet** — OpenAI-SDK example that works with their key after signup
 6. **FAQ** — your configured questions and answers
@@ -150,8 +148,6 @@ When a customer clicks **Get started** on a free package:
 4. After successful payment (or trial start), Stripe fires a `checkout.session.completed` webhook.
 5. The webhook provisions the customer account and AI Gateway key automatically.
 6. The customer is redirected to `/whitelabel/ai-gateway` with their key ready.
-
-> 🎬 **Video walkthrough:** _Record a short clip showing the end-to-end paid signup: package selection → Stripe Checkout → redirect to AI Gateway portal with key visible._
 
 ---
 
@@ -183,7 +179,7 @@ Knotie listens to Stripe webhook events and manages subscriptions automatically:
 
 Customers acquired through Resell AI Gateway appear in **Partner Portal → Prospects** with a purple **AI Gateway** badge.
 
-Once converted (payment succeeded or free package claimed), they appear in your standard **Customer List** with:
+Once converted (payment succeeded or free package claimed), they appear in your standard **Customers** list with:
 
 - An **"AI Gateway Customer"** badge in the customer management modal
 - Their package name shown beneath their name
@@ -317,7 +313,7 @@ Returns enabled packages and partner branding for customers loading the landing 
 | Package creation fails | Stripe Connect not configured | Go to **Settings → Stripe Connect** and complete onboarding |
 | "Insufficient credits" on signup | Partner balance below 1,000 credits | Top up at **Partner Portal → Credits** |
 | Customer key not appearing after Stripe Checkout | Webhook not delivered | Check Stripe dashboard for `checkout.session.completed` webhook status; ensure the webhook endpoint is registered |
-| Paid customer still has access after cancellation | Stripe cancellation webhook not delivered | Manually revoke key from **Customer List → AI Gateway section** |
+| Paid customer still has access after cancellation | Stripe cancellation webhook not delivered | Manually revoke key from **Customers → AI Gateway section** |
 | Models not appearing in package modal | Partner's AI Gateway allowed models list is empty | Configure allowed models at **Partner Portal → AI Gateway** first |
 
 ---

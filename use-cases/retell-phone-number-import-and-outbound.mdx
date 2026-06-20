@@ -22,7 +22,7 @@ Knotie now supports **Retell phone number import**, enabling:
 - Assign a Retell agent to the number (Outbound enabled)
 - Generate an outbound webhook key (`owk_...`)
 
-> ![Knotie AI Pro Partner Portal → Phone Numbers page](/images/screenshots/phone-numbers-2026-06-09.png)
+> ![Knotie AI Pro Partner Portal → Phone Numbers page (captured 2026-06-09; the same screenshot is reused in the warm-lead-GHL and agency command center use cases — verify the Retell-import-specific columns and Provider Locked badge against the live page before relying on it for the full Retell import flow)](/images/screenshots/phone-numbers-2026-06-09.png)
 
 ## Prerequisites
 
@@ -47,7 +47,7 @@ The actual import flow is via the **Import Numbers** button in the page toolbar 
 2. Click **Import Numbers** (toolbar button, top-right)
 3. In the Import Phone Numbers modal, choose **Retell** under the **Agent Provider Numbers** section
    
-   > The Retell card shows a **"Provider Locked"** badge. Subtext reads: "Import phone numbers purchased directly in your Retell account. These numbers are locked to Retell agents from the same account."
+   > The Retell card shows a **"Provider Locked"** badge (the wording/subtext can change without notice — verify against the live modal). The intent of the badge is: numbers imported from Retell are scoped to Retell agents in the same Retell account and cannot be re-routed to other providers.
    
 4. Click **Next**
 5. Enter your **Retell API Key** (`key_...`)
@@ -76,7 +76,7 @@ The page shows:
 - Per-card metadata: Voice ID, Language, Active badge, Created date, Last Modified date
 - Per-card actions: **Reassign Customer** (blue) + **Manage Webhook** (text link, green dot indicates live)
 
-> As of 2026-06-05, Retell Agents is the only live voice agent provider without a Premium Feature gate. VAPI, Ultravox, ElevenLabs, and GHL all show Premium Feature badges. Knova shows a NEW badge.
+> The live UI shows **Premium Feature** badges on most voice-agent provider entries (VAPI / Ultravox / ElevenLabs / GHL, plus N8N Chat Agents, N8N Automation, N8N Tokens, Agent Migration). Retell and Knova badges can vary by partner tier — check the live sidebar for the current state on your account.
 
 ## Step 2 — Assign the imported number to a customer
 

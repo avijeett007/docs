@@ -3,6 +3,15 @@ title: "Customer management overview"
 description: "Understand what partners can manage for each customer: portal access, features, billing, phone numbers, credits, embeds, quotas, and deployment."
 ---
 
+## Where to find it
+
+In the Partner Portal sidebar, click **Customers**. The Customers button expands to two sub-items:
+
+- **Active Customers** — your full customer list (the page most partner actions live on).
+- **Prospects** — leads from the AI Receptionist still in the onboarding process (Enterprise feature).
+
+> This page (Customer Management Overview) is not surfaced as a sidebar entry — it appears in search results and as a parent topic page. Use Active Customers for day-to-day management.
+
 ## What customer management is
 
 In Knotie AI PRO, **Customer Management** is everything you can control for a specific customer after they’ve been created.
@@ -25,14 +34,14 @@ The **Customer List** page has two main tabs:
 ### How prospects become customers
 
 1. **Prospect creation** – When someone interacts with your AI Receptionist, they are automatically added as a Prospect.
-2. **Onboarding journey begins** – The prospect starts the 10-step onboarding process.
+2. **Onboarding journey begins** – The prospect starts the 9-step onboarding process.
 3. **Conversion at Step 3** – Once a prospect completes **Step 3** of the onboarding journey, they are converted from a **Prospect** into a **Customer**.
-4. **Payment at Step 9** – The customer reviews the plan and pays via Stripe Checkout (subscription, fixed price, or pay-as-you-go). Free Forever and pay-as-you-go portals skip checkout.
-5. **Full activation at Step 10** – Once payment has cleared, the customer clicks **Deploy** on Step 10. The AI Agent/Receptionist is **automatically turned on** and ready to handle calls.
+4. **Payment at Step 9** – The customer reaches **Summary & Deploy** (step 9/9) and pays via Stripe Checkout (subscription, fixed price, or pay-as-you-go). Free Forever and pay-as-you-go portals skip checkout.
+5. **Full activation at Step 9** – Once payment has cleared, the customer clicks **Deploy** on the Summary & Deploy step. The AI Agent/Receptionist is **automatically turned on** and ready to handle calls.
 
-### The 10 onboarding steps
+### The 9 onboarding steps
 
-> This 10-step flow is available only when your portal is in **SaaS mode**.
+> This 9-step flow is available only when your portal is in **SaaS mode**. (Live UI shows 9 steps — the old "10-step" flow was consolidated; the last step is now **Summary & Deploy** which folds in payment + activation. See [[knotie-doc-gaps|G36]].)
 
 1. Business Info
 2. Website Verification
@@ -42,12 +51,11 @@ The **Customer List** page has two main tabs:
 6. Greeting Setup
 7. Information Collection
 8. Communication Settings
-9. Pricing & Payment
-10. Deploy Agent
+9. **Summary & Deploy** (was "Pricing & Payment" → "Deploy Agent" — now merged)
 
 ![Onboarding Steps Progress](/images/screenshots/screenshot-2026-03-19-200344.png)
 
-> Step 10 is gated by `/api/whitelabel/check-onboarding-payment`. If the customer arrives at Step 10 without an `active` credential, they're sent back to Step 9 to complete payment.
+> Step 9 is gated by `/api/whitelabel/check-onboarding-payment`. If the customer arrives at Step 9 without an `active` credential, they're sent back through the Summary & Deploy step to complete payment.
 
 ## Where to find customer actions
 

@@ -23,7 +23,7 @@ ElevenLabs Agents carries a **Premium Feature** badge in the sidebar. Free Forev
 Before managing ElevenLabs agents you need:
 
 1. An ElevenLabs account with at least one agent created there.
-2. An ElevenLabs API key added under **Partner Portal → Settings → Integration Settings**.
+2. An ElevenLabs API key added under **Partner Portal → Settings → Partner API Keys → Platform API** tab.
 
 ## Where to find it
 
@@ -101,13 +101,11 @@ Connect the agent to external tools (CRMs, booking systems, etc.) via webhook:
 Function calls require a customer to be selected first (the customer's Connect Hub must be set up).
 </Note>
 
-> 🎬 **Video walkthrough:** _Record a short clip walking through creating an ElevenLabs agent end-to-end: import → assign customer → configure settings → add a function call → save._
-
 ## Manage your API key
 
 The API key used to communicate with ElevenLabs is stored encrypted in the portal. To update or re-verify it:
 
-1. Click the **API Key** button on the ElevenLabs agents page.
+1. Open the agent's **three-dot menu** (⋮) — the API Key action lives in the per-agent menu, not as a page-level button. Choose **API Key** from the menu.
 2. Enter your new ElevenLabs API key.
 3. The portal verifies the key and shows one of three statuses:
    - ✅ **Valid** — key is active and verified.
@@ -140,7 +138,7 @@ If you only need to assign an agent without changing other settings:
 
 | Symptom | Fix |
 |---|---|
-| Import returns no agents | Confirm your ElevenLabs API key is valid under Settings → Integration Settings |
+| Import returns no agents | Confirm your ElevenLabs API key is valid under Settings → Partner API Keys |
 | Agent save fails silently | Check the browser console; a function call may reference an unconfigured tool |
 | Knowledge bases don't appear | Select a customer first; knowledge bases are customer-scoped |
 | Upgrade prompt on the page | ElevenLabs may require a higher Knotie plan — contact support |

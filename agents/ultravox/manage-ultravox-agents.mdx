@@ -21,7 +21,7 @@ Ultravox Agents carries a **Premium Feature** badge in the sidebar. Free Forever
 ## Prerequisites
 
 1. An Ultravox account with at least one agent created.
-2. An Ultravox API key added under **Partner Portal → Settings → Integration Settings**.
+2. An Ultravox API key added under **Partner Portal → Settings → Partner API Keys → Platform API** tab.
 
 ## Where to find it
 
@@ -82,7 +82,7 @@ Click the edit icon on any agent to open the agent settings modal:
 
 The API key used to communicate with Ultravox is stored encrypted. To update or re-verify it:
 
-1. Click the **API Key** button on the Ultravox agents page.
+1. Open the agent's **three-dot menu** (⋮) — there is no page-level API Key button on the Ultravox agents page (the page-level button only shows on the empty state for setup, not once agents exist). Choose **API Key** from the menu.
 2. Enter your Ultravox API key.
 3. The portal verifies the key and displays:
    - ✅ **Valid** — key is active.
@@ -106,13 +106,11 @@ Once active, call usage is tracked in **Agent Analytics** and credits are deduct
 Webhook registration in Ultravox is account-level — the same URL handles all agents in your account. Knotie's backend automatically attributes each call to the correct agent.
 </Note>
 
-> 🎬 **Video walkthrough:** _Record a short clip walking through importing an Ultravox agent, mapping it to a customer, and configuring the analytics webhook._
-
 ## Troubleshooting
 
 | Symptom | Fix |
 |---|---|
-| Import fails or returns no agents | Verify your Ultravox API key under Settings → Integration Settings |
+| Import fails or returns no agents | Verify your Ultravox API key under Settings → Partner API Keys |
 | Re-importing a deleted agent fails | This is now handled automatically — if the issue persists, contact support |
 | Upgrade prompt on the page | Ultravox may require a higher Knotie plan |
 | Analytics not recording | Confirm the webhook URL is registered in your Ultravox account |

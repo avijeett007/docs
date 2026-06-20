@@ -1,6 +1,6 @@
 ---
 title: "Partner Login Flow"
-description: "Step-by-step guide to logging into the Knotie AI Pro Partner Portal — from first-time credentials to the 6-step onboarding checklist."
+description: "Step-by-step guide to logging into the Knotie AI Pro Partner Portal — from first-time credentials to the 9-step onboarding checklist."
 ---
 
 ## Overview
@@ -34,7 +34,7 @@ https://knotie-ai.pro/partner/login
 
 Enter the email address and temporary password provided in your welcome email.
 
-- **Email:** your partner email (e.g. `veda@kno2gether.com`)
+- **Email:** your partner email (e.g. `partner@example.com`)
 - **Password:** the temporary password from the welcome email
 
 Click **Sign In**.
@@ -63,14 +63,14 @@ Click **Change Password** to continue.
 After your first password change, you'll see the **"Secure Your Account"** modal offering passkey setup, followed by the **Welcome** screen.
 
 **Choose one of:**
-- **Set Up Later** — skip passkey setup and go to the dashboard *(you can enable it later under Settings → Security)*
+- **Set Up Later** — skip passkey setup and go to the dashboard *(you can enable it later under Settings → Profile Settings → Security)*
 - **Create a Passkey** — follow the browser prompt to register a passkey (FIDO2/WebAuthn)
 
 <Note>
-  The passkey prompt appears *before* the traditional MFA setup. Both are available — passkey is the newer option and works across all your devices via your OS's credential manager.
+  The passkey prompt appears *before* the traditional MFA setup. Both are available — passkey is the newer option and works across all your devices via your OS's credential manager. The live Settings sidebar has 5 sub-items: Profile Settings / Partner API Keys / Email Domain Management / Plans & Billing / White-Label Portal — there is no top-level "Security Settings" sub-page. Password, MFA, and passkey controls live under Profile Settings.
 </Note>
 
-You can enable **MFA** (TOTP authenticator app) separately any time from **Settings → Security**.
+You can enable **MFA** (TOTP authenticator app) separately any time from **Settings → Profile Settings**.
 
 ## Step 5 — Welcome Screen
 
@@ -87,15 +87,15 @@ To go directly to the dashboard, click **Manual**.
 
 ---
 
-## Step 6 — Partner Dashboard & 6-Step Onboarding Checklist
+## Step 6 — Partner Dashboard & 9-Step Onboarding Checklist
 
 You're now on the **Partner Dashboard**:
 
-![Partner Dashboard with 6-step onboarding checklist](/images/screenshots/login-step-6-dashboard-onboarding-annotated.png)
+![Partner Dashboard with 9-step onboarding checklist](/images/screenshots/login-step-6-dashboard-onboarding-annotated.png)
 
 ### Getting Started Widget
 
-The **Getting Started (0/6)** widget is your onboarding guide. Complete all 6 steps to unlock **100 Knotie Credits** as a reward.
+The **Getting Started (0/9)** widget is your onboarding guide. Complete all 9 steps to unlock **100 Knotie Credits** as a reward.
 
 | # | Step | What to do |
 |---|------|------------|
@@ -103,8 +103,14 @@ The **Getting Started (0/6)** widget is your onboarding guide. Complete all 6 st
 | 2 | **Onboard Your First Customer** | Create your first customer account via **Quick Onboard** |
 | 3 | **Import an Agent** | Create or import an AI agent (Retell, VAPI, Ultravox, ElevenLabs, GHL) |
 | 4 | **Review Analytics** | Confirm your customer has accessed their portal |
-| 5 | **Complete Whitelabeling** | Configure email settings (SMTP or SES domain) |
+| 5 | **Complete Whitelabeling** | Configure email delivery under **Settings → Email Domain Management** (SMTP or SES domain) |
 | 6 | **Setup Your Payments** | Integrate your Stripe Connect account |
+| 7–8 | (Summary cards) | Consolidated setup checklist surfaced inside Step 9 |
+| 9 | **Summary & Deploy** | Final review and deploy your customer |
+
+<Note>
+  The live Getting Started widget shows **9 steps**, not 6. Step 9 is "Summary & Deploy" — steps 4–8 (Service Categories / Knowledge Base / Greeting Setup / Information Collection / Communication Settings) are presented as summary cards inside the Summary & Deploy step rather than as standalone steps. See [[knotie-doc-gaps|G36]] for the audit that surfaced this drift.
+</Note>
 
 > **Progress is saved automatically** — you can complete the checklist across multiple sessions.
 > The checklist reappears every 7 days if you haven't completed it.
@@ -128,7 +134,7 @@ The **Getting Started (0/6)** widget is your onboarding guide. Complete all 6 st
 
 | Field | Where to find |
 |-------|--------------|
-| **Partner email** | Your registered partner email (e.g. `veda@kno2gether.com`) |
+| **Partner email** | Your registered partner email (e.g. `partner@example.com`) |
 | **Temporary password** | Sent in the welcome email from `welcome@knotie-ai.pro` |
 | **Dashboard URL** | `https://knotie-ai.pro/partner/dashboard` |
 | **Support** | Click **Get Support** in the sidebar or email `partners@knotie-ai.pro` |
@@ -145,7 +151,7 @@ The **Getting Started (0/6)** widget is your onboarding guide. Complete all 6 st
 **MFA setup failing**
 - Use an authenticator app (Google Authenticator, Authy, etc.)
 - Save the backup codes in a secure location
-- You can skip and enable MFA later from **Settings → Security**
+- You can skip and enable MFA later from **Settings → Profile Settings**
 
 **Dashboard shows "Setting up your command center"**
 - This is a loading screen — wait a few seconds

@@ -9,7 +9,7 @@ Knotie AI Pro is built for partners and agencies.
 
 Plans are designed around how many customers you manage, how many agents you run, and which automation and white-label features you need.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the new Knotie AI Pro pricing page showing the three plan cards (Free Forever, Solo Agency Owner, Ultimate Scaleup Agency) with the monthly/yearly toggle._
+![Knotie AI Pro pricing page — three plan cards (Free Forever, Solo Agency Owner, Ultimate Scaleup Agency) with monthly/yearly toggle](/images/screenshots/pricing-three-plan-cards.png)
 
 ---
 
@@ -29,7 +29,7 @@ Use the **Monthly / Yearly** toggle at the top of the plan cards section to swit
 - The full yearly charge is billed at signup.
 - You can switch between monthly and yearly at any time from your subscription settings.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the billing toggle in the monthly vs yearly positions._
+![Knotie AI Pro pricing page — billing toggle in the yearly position showing −20% discount](/images/screenshots/pricing-toggle-yearly.png)
 
 ---
 
@@ -48,7 +48,7 @@ Best for trying Knotie AI Pro and validating your workflow.
 | Whitelabel portal | Subdomain (e.g. `yourname.knotie-ai.pro`) |
 | Authentication | Passkey + MFA |
 | Concurrency limit | 5 simultaneous calls |
-| Media storage | 100 MB |
+| Media storage | 100 MB partner pool (not surfaced on live pricing card — see storage note below) |
 | Support | Discord and community |
 
 No credit card required to start.
@@ -60,13 +60,13 @@ Best for a growing agency with a handful of active customers.
 | Feature | Included |
 |---|---|
 | Customers | Up to 20 |
-| AI providers | All (VAPI, Ultravox, ElevenLabs, GHL, Retell) |
+| AI providers | VAPI, Ultravox, ElevenLabs (GHL and Retell require **Ultimate Scaleup**) |
 | Knotie Credits | 3,000 per month |
 | Team members | Up to 2 |
 | Whitelabel portal | Custom domain |
 | Phone numbers | Included |
 | Tool call quota | 100 per 15 minutes |
-| Media storage | 1 GB |
+| Media storage | 1 GB partner pool (not surfaced on live pricing card — see storage note below) |
 | Support | Email + Discord |
 
 ### Ultimate Scaleup Agency
@@ -81,7 +81,7 @@ Best for agencies scaling to a large customer base and needing enterprise featur
 | Team members | Up to 5 |
 | Whitelabel portal | Custom domain |
 | Tool call quota | 1,000 per 15 minutes |
-| Media storage | 5 GB |
+| Media storage | 5 GB partner pool (not surfaced on live pricing card — see storage note below) |
 | Saasify mode | Turn your agency into a SaaS product |
 | Support | Priority support + Business Manager |
 | Founder sessions | Monthly |
@@ -92,9 +92,7 @@ Best for agencies scaling to a large customer base and needing enterprise featur
 
 Click **See complete pricing breakdown** on the pricing page to expand the full feature comparison table. The table lists every feature and shows which tiers include it — and for features with limits, the specific limit per tier.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the expanded comparison table ("Feature by feature") showing rows from at least three feature categories._
-
-> 🎬 **Video walkthrough:** _Record a short clip showing how to: open the pricing page, toggle yearly billing, expand the comparison table, and click through to sign up._
+![Knotie AI Pro pricing page — expanded "Feature by feature" comparison table across all three tiers](/images/screenshots/pricing-comparison-table-expanded.png)
 
 ---
 
@@ -108,7 +106,9 @@ Storage for the customer media library is allocated per partner plan and divided
 | Solo Agency / Pro | 1 GB |
 | Ultimate Scaleup Agency | 5 GB |
 
-You control how much of that pool each customer gets in **Customers → Manage → Features & Add-ons → Allocated Storage**. A customer hitting their individual cap gets an upload error; the overall pool cap blocks uploads from all customers until storage is freed.
+> **Note (2026-06-18):** The live `/pricing` page does **not** currently show media storage as a feature bullet on any tier card. The figures above are the platform's per-plan pool sizes (visible in the partner's Account Overview sidebar as `0.0 MB / 5.0 GB`). The per-customer "Allocated Storage" control referenced below is **not** surfaced in the current Features & Add-ons modal — see [[knotie-doc-gaps|G21]].
+
+You control how much of that pool each customer gets in **Customers → Manage → Features & Add-ons** (the modal currently has no per-customer storage field). A customer hitting their individual cap gets an upload error; the overall pool cap blocks uploads from all customers until storage is freed.
 
 See [Docs & Media library](/customer-management/media-library) for the full customer-facing guide.
 
