@@ -1,0 +1,196 @@
+---
+title: "MCP Memory Tools"
+description: "Long-term memory tools available on the Customer MCP and Partner MCP gateway — Remember, Recall, and Ask against a customer's Minds."
+---
+
+## Overview
+
+AI Memory is exposed as MCP tools on both the **Customer MCP** (Connect Hub `/api/mcp`) and the **Partner MCP gateway** (Connect Hub `/api/partner-mcp`). These tools let AI agents and automation workflows read from and write to a customer's long-term memory (Minds) across sessions.
+
+## Customer MCP tools
+
+Customer MCP tools are available to any agent or Claude Code session authenticated with a customer MCP token.
+
+### Connection
+
+```bash
+claude mcp add knotie-memory \
+  --transport http \
+  --url https://<connect-hub>/api/mcp \
+  --header "Authorization: Bearer <customer_mcp_token>"
+```
+
+Replace `<connect-hub>` with your Connect Hub URL and `<customer_mcp_token>` with a valid customer MCP token (obtainable from the customer portal or the partner portal API Keys page).
+
+> 📷 **Screenshot needed:** *Add a screenshot of a Claude Code session after running `tools/list`, showing `internal_memory_remember`, `internal_memory_recall`, and `internal_memory_ask` in the output.*
+
+### Available tools
+
+#### `internal_memory_remember`
+
+Writes a fact or text into the customer's Mind.
+
+**Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `content` | string | Yes | The text to remember (a fact, conversation excerpt, or any context) |
+| `mindId` | string | No | The specific Mind ID to write to. Defaults to the customer's primary Mind |
+
+**Credit cost:** Partner Knotie Credits + Customer AI Credits (if `aiCreditsEnabled`).
+
+**Example usage in Claude Code:**
+```
+Please remember: "The caller prefers WhatsApp. Their callback code is LV-7731."
+```
+
+---
+
+#### `internal_memory_recall`
+
+Retrieves the current state of a Mind — Profile, Snapshot, and recent stored messages.
+
+**Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `mindId` | string | No | The specific Mind ID to recall. Defaults to the customer's primary Mind |
+
+**Credit cost:** **Free** — Recall never charges credits.
+
+**Example response:**
+```json
+{
+  "profile": "Customer prefers WhatsApp. Callback code: LV-7731.",
+  "snapshot": "Last contacted 2026-06-19. Expressed interest in the Premium plan.",
+  "messages": []
+}
+```
+
+---
+
+#### `internal_memory_ask`
+
+Asks a natural-language question that is answered by reasoning over the Mind's stored knowledge.
+
+**Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `question` | string | Yes | The question to ask |
+| `reasoningLevel` | string | No | `"standard"`, `"enhanced"`, or `"deep"`. Defaults to `"standard"` |
+| `mindId` | string | No | The specific Mind ID to query. Defaults to the customer's primary Mind |
+
+**Credit cost:** Partner Knotie Credits + Customer AI Credits. Higher reasoning level = higher cost.
+
+---
+
+### Enablement gate
+
+All three Customer MCP memory tools are gated by:
+1. The **partner** having AI Memory enabled.
+2. The specific **customer** having `enableAiMemory = true`.
+
+If either condition is not met, the tool returns a 403 with a sanitized error message.
+
+---
+
+## Partner MCP gateway tools
+
+Partner MCP tools let you manage customer Minds and operate on them using a partner API key with the correct scopes. This is designed for automation workflows, n8n, Zapier, or custom integrations.
+
+### Authentication and scopes
+
+Create a partner API key at **Partner Portal → API Keys** with the following scopes:
+
+| Scope | Purpose |
+|-------|---------|
+| `memory:read` | Recall, Ask, List Minds |
+| `memory:write` | Remember, Create Mind |
+
+> 📷 **Screenshot needed:** *Add a screenshot of the Partner Portal API Keys page showing an API key with `memory:read` and `memory:write` scopes selected.*
+
+### Connection
+
+```bash
+claude mcp add knotie-partner-memory \
+  --transport http \
+  --url https://<connect-hub>/api/partner-mcp \
+  --header "Authorization: Bearer pkt_<your_api_key>"
+```
+
+### Available tools
+
+All Partner MCP memory tools require a `customerId` parameter. The API key's partner ID enforces tenant isolation — you cannot access another partner's customers.
+
+#### `memory_list_minds`
+
+Lists all Minds for a given customer.
+
+**Scope:** `memory:read` | **Parameters:** `customerId` (string, required)
+
+---
+
+#### `memory_create_mind`
+
+Creates a new Mind for a customer.
+
+**Scope:** `memory:write` | **Parameters:** `customerId` (string, required), `name` (string, required), `description` (string, optional)
+
+---
+
+#### `memory_remember`
+
+Stores a fact into a customer's Mind.
+
+**Scope:** `memory:write` | **Parameters:** `customerId` (string, required), `content` (string, required), `mindId` (string, optional)
+
+**Credit cost:** Partner Knotie Credits + Customer AI Credits.
+
+---
+
+#### `memory_recall`
+
+Retrieves a customer's Mind state (Profile, Snapshot, messages).
+
+**Scope:** `memory:read` | **Parameters:** `customerId` (string, required), `mindId` (string, optional)
+
+**Credit cost:** **Free.**
+
+---
+
+#### `memory_ask`
+
+Poses a question answered from a customer's Mind.
+
+**Scope:** `memory:read` | **Parameters:** `customerId` (string, required), `question` (string, required), `reasoningLevel` (string, optional), `mindId` (string, optional)
+
+**Credit cost:** Partner Knotie Credits + Customer AI Credits.
+
+---
+
+> 🎬 **Video walkthrough:** *Record a short clip using Partner MCP memory tools from Claude Code — showing `memory_list_minds`, `memory_remember`, and `memory_ask` being called with a partner API key, with the partner portal credit balance visible before and after.*
+
+## Error reference
+
+| HTTP status | Meaning |
+|-------------|----------|
+| 403 | Memory is not enabled for this partner or customer |
+| 404 | The specified `mindId` doesn't exist or belongs to a different customer |
+| 503 | Honcho is temporarily unreachable — Recall still works in degraded mode |
+| 429 | Honcho cloud rate limit reached (~600 req/min); retry after the `Retry-After` header |
+
+<Warning>
+Do not surface raw error messages from memory tool calls to end users. Error responses are already sanitized at the gateway — no internal Honcho details appear in client responses.
+</Warning>
+
+## Related
+
+- [AI Memory — Partner Console](/partner-portal/ai-memory)
+- [AI Memory — My Minds (Customer Portal)](/customer-management/ai-memory-my-minds)
+- [MCP Authentication](/api-reference/mcp/authentication)
+- [Partner API Keys](/partner-portal/api-keys)
+
+---
+
+> Source: [knotie-ai-pro#1042](https://github.com/avijeett007/knotie-ai-pro/pull/1042) — _Feature/ai memory honcho_

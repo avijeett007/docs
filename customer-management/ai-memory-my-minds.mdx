@@ -1,0 +1,107 @@
+---
+title: "AI Memory — My Minds (Customer Portal)"
+description: "How customers use the My Minds page in their portal to store and retrieve long-term memory across agent sessions."
+---
+
+## Overview
+
+When AI Memory is enabled for a customer by their partner, the customer gains access to the **My Minds** page in their portal (`/whitelabel/memory`). This page lets customers create and manage their own **Minds** — named long-term memory stores that their AI agents remember across calls and sessions.
+
+> 📷 **Screenshot needed:** *Add a screenshot of the customer portal "My Minds" page at `/whitelabel/memory`, showing the Minds list and the Remember / Recall / Ask tabs.*
+
+## Prerequisites
+
+- The customer's partner must have enabled **AI Memory** on the customer's account (via **Features & Add-ons → Enable AI Memory (Mind)**).
+- The **My Minds** nav item is visible only when memory is enabled for the customer.
+
+<Info>
+If AI Credits are not enabled for this customer, the partner absorbs the full cost of memory operations. Customers will still be able to use memory, but AI credit charges won't appear in their portal billing.
+</Info>
+
+## Navigate to My Minds
+
+1. Log in to the customer portal.
+2. In the left sidebar, click **My Minds**.
+3. You land on `/whitelabel/memory`.
+
+If memory is not enabled, you'll see a friendly message: *"Contact your provider to enable AI Memory."*
+
+## Create a Mind
+
+1. On the My Minds page, click **Create Mind**.
+2. Enter a **Name** (required) and an optional **Description**.
+3. Click **Save**.
+
+The new Mind appears in the list.
+
+> 📷 **Screenshot needed:** *Add a screenshot of the Create Mind modal with name and description fields.*
+
+## Remember a fact
+
+Storing a fact writes it into the Mind's long-term store, so agents can recall it in future sessions.
+
+1. Select a Mind from the list.
+2. Click the **Remember** tab.
+3. Type the fact or context you want to store (e.g., `"My preferred contact number is +1-555-0100 and I prefer morning calls."`).
+4. Click **Remember**.
+
+**AI Credits are consumed** for Remember operations (see your credit balance in the sidebar).
+
+## Recall
+
+Recall fetches everything the Mind currently knows — the derived Profile, a Snapshot, and recent stored messages.
+
+1. Select a Mind.
+2. Click **Recall**.
+3. Review the Profile, Snapshot, and message history sections.
+
+**Recall is always free** — no AI credits are consumed.
+
+<Note>
+The Profile section is derived asynchronously. If it appears empty right after writing a fact, wait a moment and click Recall again.
+</Note>
+
+## Ask
+
+Ask a natural-language question that is answered using everything stored in the Mind.
+
+1. Select a Mind.
+2. Click the **Ask** tab.
+3. Type your question.
+4. Choose a reasoning level (Standard, Enhanced, or Deep — higher levels are more thorough but cost more AI credits).
+5. Click **Ask**.
+
+The answer is drawn from the Mind's stored knowledge.
+
+**AI Credits are consumed** for Ask operations based on the selected reasoning level.
+
+> 🎬 **Video walkthrough:** *Record a short walkthrough of the customer portal My Minds flow: creating a Mind, using Remember to store a fact, then using Ask to query it in a later session — demonstrating cross-session memory persisting between conversations.*
+
+## Credit consumption summary
+
+| Operation | AI Credits consumed? |
+|-----------|---------------------|
+| Remember | Yes |
+| Recall | **No (free)** |
+| Ask — Standard | Yes |
+| Ask — Enhanced | Yes (more than Standard) |
+| Ask — Deep | Yes (highest cost) |
+
+## Troubleshooting
+
+| Symptom | Fix |
+|---------|-----|
+| "My Minds" not visible in sidebar | Contact your provider — AI Memory needs to be enabled on your account |
+| Profile is empty after Remember | Wait a few seconds and click Recall again (profile derivation is async) |
+| Ask returns "temporarily unavailable" | Retry in a moment; Recall still works during this period |
+| Remember or Ask fails with a credit error | Check your AI Credit balance in the sidebar; top up if low |
+
+## Related
+
+- [AI Memory Partner Console](/partner-portal/ai-memory)
+- [AI Credits Management](/partner-portal/customers/ai-credit-management)
+- [MCP Memory Tools](/api-reference/mcp/memory-tools)
+
+---
+
+> Source: [knotie-ai-pro#1042](https://github.com/avijeett007/knotie-ai-pro/pull/1042) — _Feature/ai memory honcho_

@@ -1,0 +1,159 @@
+---
+title: "AI Memory (Minds)"
+description: "Give your agents and customers persistent, reasoning-based long-term memory — backed by Honcho. Manage Minds, store facts, and query them from the Partner Portal."
+---
+
+## Overview
+
+**AI Memory** lets every customer in your portal have a **Mind** — a long-term memory store that your agents can write to, read from, and reason over across sessions. This means your agents remember past conversations, caller preferences, and key facts even after the call ends.
+
+Minds are powered by [Honcho](https://honcho.dev), a hosted long-term memory service. Knotie manages the Honcho integration so you don't need your own Honcho account.
+
+> 📷 **Screenshot needed:** *Add a screenshot of the Partner Portal AI Memory console at `/partner/memory`, showing the customer selector and the Minds list.*
+
+## How AI Memory is charged
+
+AI Memory uses **dual-pool billing**:
+
+| Who | Pool | When charged |
+|-----|------|--------------|
+| Partner | Knotie Credits | On every **Remember** or **Ask** operation |
+| Customer | AI Credits | On every **Remember** or **Ask** operation (requires `aiCreditsEnabled`) |
+
+**Recall** operations are **free** — they never deduct from either pool.
+
+The exact per-operation rate is set in **Mission Control → AI Memory** and can be updated live without a deploy.
+
+<Info>
+If a customer does not have AI Credits enabled, only the partner's Knotie Credits are charged. The partner absorbs the full cost in that case.
+</Info>
+
+## Prerequisites
+
+Before using AI Memory:
+
+1. Your Knotie plan must support AI Memory (check your plan page or contact support).
+2. AI Memory must be enabled at the **partner level** (auto-enabled on supported plans; contact support if absent).
+3. You must enable AI Memory **per customer** — see [Enabling AI Memory for a customer](#enabling-ai-memory-for-a-customer).
+4. Customers who need AI Credits charged must have `aiCreditsEnabled = true` on their account.
+
+## Enabling AI Memory for a customer
+
+To turn on AI Memory for a specific customer:
+
+1. In the Partner Portal sidebar, go to **Customers**.
+2. Open the customer you want to enable.
+3. Click the **Features & Add-ons** tab.
+4. Toggle **Enable AI Memory (Mind)** to ON.
+5. Click **Save**.
+
+> 📷 **Screenshot needed:** *Add a screenshot of the customer Features & Add-ons modal showing the "Enable AI Memory (Mind)" toggle in the ON position.*
+
+Once enabled, that customer can use the `/whitelabel/memory` page in their portal, and their agents can use memory MCP tools.
+
+## Where to find the AI Memory console
+
+In the Partner Portal sidebar, go to **AI Memory** (or navigate to `/partner/memory`).
+
+## Managing Minds
+
+A **Mind** is a named memory space for a customer. A customer can have multiple Minds — for example, one for their business knowledge and one for caller history.
+
+### View a customer's Minds
+
+1. On the AI Memory page, select a customer from the dropdown.
+2. The Minds list shows all Minds for that customer.
+
+> 📷 **Screenshot needed:** *Add a screenshot of the Minds list for a selected customer, showing at least one Mind with its name and description.*
+
+### Create a Mind
+
+1. Select a customer.
+2. Click **Create Mind**.
+3. Enter a name and optional description.
+4. Click **Save**.
+
+<Note>
+If the selected customer does not have AI Memory enabled, you will see a "Enable AI Memory for this customer first" message rather than the Minds list.
+</Note>
+
+## Memory operations
+
+Once you have a Mind selected, you can perform three types of operations:
+
+### Remember
+
+**Remember** stores a fact or conversation excerpt into the Mind.
+
+1. Select a customer and open a Mind.
+2. Type the fact or context in the Remember input (e.g., `"Caller Marco prefers WhatsApp; code LV-7731"`).
+3. Click **Remember**.
+
+Charges: **Partner Knotie Credits** + **Customer AI Credits** (if enabled).
+
+> 📷 **Screenshot needed:** *Add a screenshot of the Remember input with a sample fact entered, before clicking Submit.*
+
+### Recall
+
+**Recall** fetches the current Profile, Snapshot, and recent messages stored in the Mind.
+
+1. Select a customer and open a Mind.
+2. Click **Recall**.
+3. Review the Profile (derived), Snapshot, and message history.
+
+Charges: **Free** — Recall never deducts credits.
+
+<Note>
+The **Profile** section may be empty immediately after writing a new fact. Profile derivation is asynchronous — recall again after a short wait to see the derived profile.
+</Note>
+
+### Ask
+
+**Ask** lets you pose a natural-language question against the Mind using AI reasoning.
+
+1. Select a customer and open a Mind.
+2. Type a question (e.g., `"How does Marco prefer to be contacted?"`).
+3. Select a **reasoning level** (Standard / Enhanced / Deep — higher = more thorough, higher cost).
+4. Click **Ask**.
+
+The answer is drawn from everything stored in the Mind.
+
+Charges: **Partner Knotie Credits** + **Customer AI Credits** (if enabled). Higher reasoning levels cost more.
+
+> 🎬 **Video walkthrough:** *Record a short clip showing the full Remember → Recall → Ask flow for a customer Mind — including how the partner and customer credit balances decrease after Remember and Ask.*
+
+## Mission Control: AI Memory pricing config
+
+Partners with Mission Control access can configure the pricing basis for AI Memory without a code deploy.
+
+1. Go to **Mission Control → AI Memory**.
+2. Edit **Dreaming uplift (Knotie margin)** — the multiplier charged to customers above platform cost. Default: **1.5×**.
+3. Edit per-level query prices for the **Ask** operation.
+4. Click **Save**.
+
+Changes take effect immediately for subsequent operations.
+
+> 📷 **Screenshot needed:** *Add a screenshot of the Mission Control AI Memory config page showing the margin and per-level pricing fields.*
+
+The per-partner usage table on this page shows event counts, credits consumed, tokens used, and query counts — useful for billing audits.
+
+## Troubleshooting
+
+| Symptom | Likely cause | Fix |
+|---------|-------------|-----|
+| "Enable AI Memory for this customer first" message | Customer's `enableAiMemory` is OFF | Toggle the feature ON in the customer's Features & Add-ons tab |
+| Recall returns an empty Profile | Profile derivation hasn't run yet | Wait a few seconds and recall again |
+| Ask returns "temporarily unavailable" | Honcho is unreachable or rate-limited | Wait and retry; Recall still works during degraded periods |
+| No customer credits deducted after Remember | Customer does not have AI Credits enabled | Only partner credits were charged; enable AI Credits if dual-pool billing is required |
+| 403 on memory operations | Memory is disabled at partner or customer level | Verify enablement at both levels |
+
+## Related
+
+- [Customer Portal — My Minds](/customer-management/ai-memory-my-minds)
+- [MCP Memory Tools](/api-reference/mcp/memory-tools)
+- [AI Credits Management](/partner-portal/customers/ai-credit-management)
+- [Credits](/partner-portal/credits)
+
+---
+
+> Source: [knotie-ai-pro#1042](https://github.com/avijeett007/knotie-ai-pro/pull/1042) — _Feature/ai memory honcho_
