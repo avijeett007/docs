@@ -1,0 +1,123 @@
+---
+title: "Subscription plan features"
+description: "Control exactly which platform features each subscription tier unlocks — from team members and knowledge bases to AI Memory, MCP tokens, and VPS access."
+---
+
+## What this page covers
+
+When you create or edit a **Subscription Plan** under Settings → Whitelabel → Subscription Plans, the plan modal includes a **Features & Add-ons** section. This is where you configure which platform capabilities a customer automatically receives when they subscribe to that plan.
+
+This ensures every new subscriber on a given tier gets the right capabilities from day one — without you having to manually toggle them per customer after sign-up.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Subscription Plan creation/edit modal, showing the full Features & Add-ons section with the new toggles visible._
+
+## How it works
+
+When a customer subscribes (or is assigned) to a plan, Knotie copies the plan's feature flags directly onto that customer's account. Updating a plan does **not** retroactively change existing customers — it only affects new subscribers from that point on.
+
+You can always override individual flags later via the per-customer **Features & Add-ons** modal (Customer Management → select a customer).
+
+## Available feature toggles
+
+### Navigation & visibility
+
+| Toggle | What it controls |
+|--------|------------------|
+| **Show Knowledge Base** | Gives the customer access to the KB section in their portal |
+| **Show Docs & Media** | Enables the Docs & Media section |
+| **Show Phone Numbers** | Makes the Phone Numbers section visible |
+| **Show Social Planner** | Enables the Social Planner section |
+| **Show Integrations** | Makes the Integrations hub visible; pair with **Allowed Apps** |
+| **Show Schedule Meeting** | Shows the Schedule Meeting option in the customer menu |
+| **Show Pricing Information** | Shows pricing information to customers (on by default for new accounts) |
+| **Show AI Gateway** | Enables the AI Gateway section (requires partner `customerGatewayEnabled` to be on) |
+| **Show MCP** | Lets the customer mint their own MCP tokens for Claude Code and other MCP clients |
+| **Show Marketplace Solutions** | Shows the "New Solutions" marketplace section |
+| **Show Server Terminal** | Gives access to the BYO-VPS terminal |
+
+### Analytics
+
+| Toggle | What it controls |
+|--------|------------------|
+| **Enable Advanced Analytics** | Turns on the advanced analytics dashboard |
+| **Enable Detailed Call Analysis** | Enables per-call detail breakdowns |
+| **Enable Action Point Analysis** | Enables action-point extraction from calls |
+
+### API access
+
+| Toggle | What it controls |
+|--------|------------------|
+| **Enable API Access** | Grants the customer access to API keys (also controls the `showApiKeys` flag) |
+
+### Team management
+
+| Toggle | What it controls |
+|--------|------------------|
+| **Enable Team Members** | Allows the customer to invite team members |
+| **Max Team Members** | Numeric cap on the number of seats (leave blank for unlimited) |
+
+### Knowledge base processing
+
+| Toggle | What it controls |
+|--------|------------------|
+| **Auto-Embedding** | Enables automatic embedding of new KB content (consumes credits) |
+| **KB Processing** | Master switch for knowledge-base ingestion — set to `enabled` to allow KB uploads |
+| **KB Tier** | Processing quality tier: `essential`, `moderate`, or `premium` (affects credit cost per embedding) |
+
+### Storage
+
+| Toggle | What it controls |
+|--------|------------------|
+| **Storage Allocated (MB)** | How many MB of file storage the customer can use |
+
+### AI Credits
+
+| Toggle | What it controls |
+|--------|------------------|
+| **AI Credits Enabled** | Turns on the AI-credit system for the customer |
+| **Initial AI Credits** | How many AI credits the customer starts with on sign-up |
+| **Low Credit Notifications** | Enables email alerts when AI credits fall below the threshold |
+| **Low Credit Threshold** | Credit level that triggers the low-credit notification |
+
+### AI Memory *(requires partner AI Memory to be enabled)*
+
+| Toggle | What it controls |
+|--------|------------------|
+| **Enable AI Memory** | Lets this customer create Minds and use Remember / Recall / Ask — requires partner `memoryEnabled` to be on first |
+
+See [AI Memory](/partner-portal/ai-memory) for how to enable memory at the partner level and what the billing implications are.
+
+### VPS & Marketplace
+
+| Toggle | What it controls |
+|--------|------------------|
+| **Enable VPS Purchase** | Lets the customer buy a managed VPS through the marketplace |
+| **VPS Margin %** | Your markup on VPS purchases for this customer. Leave blank to inherit the partner-level global margin |
+
+## Setting defaults for all plans
+
+Every plan starts from a sensible default state when you click **Create Plan**:
+
+- **Show Pricing Information** is `true` (customers can see their plan details).
+- All other toggles are `false` / unset.
+
+When you edit an existing plan, the current saved values are loaded into the modal — nothing is reset.
+
+## Tips
+
+<Tip>
+  If you add a new feature toggle to a plan and want existing subscribers to have it, update each customer manually via Customer Management → Features & Add-ons. Editing the plan alone won't back-fill existing accounts.
+</Tip>
+
+<Info>
+  The **AI Gateway** and **AI Memory** toggles are only meaningful if you've enabled those features at the partner level first (Settings → Whitelabel → the relevant add-on section). Flipping a plan toggle for a feature you haven't partner-enabled has no visible effect on the customer portal.
+</Info>
+
+## Related pages
+
+- [Whitelabel settings](/partner-portal/settings/whitelabel-settings) — how to reach the Subscription Plans section
+- [Customer credit plans](/partner-portal/settings/customer-credit-plans) — pay-as-you-go credit packs (separate from subscription plans)
+- [Features & Add-ons per customer](/partner-portal/customers/features-addons-and-menu-visibility) — override plan features for individual customers
+- [AI Memory](/partner-portal/ai-memory) — set up AI Memory at the partner level before enabling it in plans
+
+> Source: [knotie-ai-pro#1052](https://github.com/avijeett007/knotie-ai-pro/pull/1052) — _Improve plan selection mode_

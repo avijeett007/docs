@@ -1,0 +1,97 @@
+---
+title: "AI Memory: Mind Kickoff & agent frameworks"
+description: "Seed a new Mind with initial facts using the Kickoff wizard, and connect Minds to specific AI agent frameworks so agents remember across sessions."
+---
+
+<Info>
+  This page covers **advanced AI Memory features** built on top of the core Minds system. If you haven't set up AI Memory yet, start with [AI Memory overview](/partner-portal/ai-memory).
+</Info>
+
+## Mind Kickoff
+
+A brand-new Mind is empty — Recall and Ask have nothing to work from. **Mind Kickoff** is a short guided wizard that collects a few stable facts about the customer (or agent) and remembers them immediately so the very first interaction is useful.
+
+### Where to find it
+
+In both portals:
+- **Partner portal** — `/partner/memory` → select a customer → select a Mind → click **Kickoff**.
+- **Customer portal** — `/whitelabel/memory` → select a Mind → click **Kickoff**.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Mind Kickoff button on the partner memory console, and a second screenshot showing the first step of the Kickoff wizard (the stepper with Profile / Preferences / Review tabs)._
+
+### How Kickoff works
+
+The wizard is a **3-step stepper**: Profile → Preferences → Review.
+
+1. **Profile step** — answer questions about identity, services, hours, location, and key policies. Questions are tailored to whether it's a **Customer Mind** (who they are, what they do) or an **Agent Mind** (role, boundaries, escalation).
+2. **Preferences step** — pick communication tone (clickable chips), best contact times, language/accessibility notes, and whether the customer should be escalated to a human.
+3. **Review step** — a clean summary of every answer you gave. Remove any you don't want remembered.
+
+Click **Remember all** on the Review step to store all the facts in one operation. Each fact becomes a distinct remembered item in the Mind.
+
+#### Design choices
+- **Entirely optional** — every question can be skipped. The Review step shows only answered questions.
+- **Choice questions** render as clickable chips; no typing required.
+- **Text questions** show a short input with example chips you can click to insert common answers.
+- Facts are formatted as `"<FactLabel>: <answer>"` — e.g., `"Business hours: Mon–Fri 9 am – 6 pm EST"`.
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the full Mind Kickoff wizard — from clicking "Kickoff" on an empty Mind through the Profile → Preferences → Review steps to the final "Remember all" confirmation._
+
+### Kickoff for different scope types
+
+| Scope | Profile questions | Preference questions |
+|-------|------------------|-----------------------|
+| **Customer Mind** | Who they are, services, hours, location, key policies, do's & don'ts | Preferred tone, contact times, language/accessibility, escalation preference |
+| **Agent Mind** | Role & purpose, what it doesn't handle, must-know facts, escalation contacts | Persona & tone, verbosity level, things it should never say or do |
+
+The brand name and product name used in the Kickoff wizard are inherited from your whitelabel branding settings — no extra configuration needed.
+
+---
+
+## Connecting a Mind to an agent framework
+
+**Connect Mind** links a customer's Mind to a specific AI agent framework (e.g., a VAPI agent, a Retell agent, or a custom framework), so the agent can automatically recall that Mind's context on every call.
+
+### Where to find it
+
+In both portals:
+- **Partner portal** — `/partner/memory` → select a customer → select a Mind → click **Connect to agent**.
+- **Customer portal** — `/whitelabel/memory` → select a Mind → click **Connect to agent**.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Connect Mind modal, showing the agent framework selector and the generated connection snippet._
+
+### What it does
+
+1. **Choose a framework** — pick the agent framework you're using (e.g., VAPI, Retell, Ultravox, custom HTTP).
+2. **Copy the connection snippet** — the modal generates a ready-to-paste block for that framework showing how to inject memory recall at the start of each call and how to remember new facts at the end.
+3. **Set a bank key** (optional) — for custom integrations, you can specify a named memory bank so multiple agents can share the same memory pool.
+
+The connection details include the correct Connect Hub endpoint URLs, the customer's memory token, and the Mind ID — you don't need to look these up manually.
+
+### Agent-scoped vs customer-scoped Minds
+
+| Type | Scope | Who can access |
+|------|-------|----------------|
+| **Customer Mind** | Tied to a customer record | Any agent serving that customer |
+| **Agent Mind** | Tied to a specific agent + customer | Only that specific agent + customer combination |
+
+For most use cases, a **Customer Mind** works best — all your voice agents for that customer share the same memory pool, so facts learned by one agent are available to all others.
+
+---
+
+## Troubleshooting
+
+| Symptom | Likely cause | Fix |
+|---------|-------------|-----|
+| Kickoff button is missing | Mind hasn't been created yet | Create a Mind first from the Memory console |
+| Kickoff answers not appearing in Recall | Honcho memory derivation is async (a few seconds) | Wait 10–15 seconds and Recall again |
+| Connect Mind doesn't show my framework | Framework not yet supported | Use the **Custom HTTP** option and follow the generic snippet |
+| Agent not finding memory on calls | Memory not enabled for the customer | Check Features & Add-ons → Enable AI Memory is on |
+
+## Related pages
+
+- [AI Memory overview](/partner-portal/ai-memory) — enable Memory, create Minds, and use Remember / Recall / Ask
+- [Subscription plan features](/partner-portal/settings/subscription-plan-features) — enable AI Memory at the plan tier level
+- [MCP tokens](/partner-portal/settings/mcp-tokens) — connect Claude Code to memory tools
+
+> Source: [knotie-ai-pro#1052](https://github.com/avijeett007/knotie-ai-pro/pull/1052) — _Improve plan selection mode_

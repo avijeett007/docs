@@ -70,6 +70,8 @@
               "partner-portal/telephony-credits",
               "partner-portal/phone-numbers",
               "partner-portal/ai-gateway",
+              "partner-portal/ai-memory",
+              "partner-portal/ai-memory-kickoff",
               "partner-portal/agent-analytics",
               "partner-portal/billing-and-invoices",
               "partner-portal/metered-billing",
@@ -80,6 +82,7 @@
               "partner-portal/settings/overview",
               "partner-portal/settings/whitelabel-settings",
               "partner-portal/settings/subscription-and-billing",
+              "partner-portal/settings/subscription-plan-features",
               "partner-portal/settings/integration-settings",
               "partner-portal/settings/email-settings",
               "partner-portal/settings/stripe-connect",
@@ -155,7 +158,8 @@
             "pages": [
               "api-reference/mcp/introduction",
               "api-reference/mcp/authentication",
-              "api-reference/mcp/endpoints"
+              "api-reference/mcp/endpoints",
+              "api-reference/mcp/memory-tools"
             ]
           },
           {
