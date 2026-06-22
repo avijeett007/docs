@@ -1,0 +1,143 @@
+---
+title: "Landing page & revenue calculators"
+description: "Explore Knotie AI Pro's redesigned homepage — interactive globe, service drawer, and the 'How do you want to sell AI?' decision tree with built-in revenue calculators."
+---
+
+## Overview
+
+The Knotie AI Pro homepage (`knotie-ai.pro`) received a full hero-section revamp. The new design replaces the previous centered headline layout with an interactive split view:
+
+- **Left panel** — value proposition, headline, and calls to action
+- **Right panel** — an animated 3D globe showing every Knotie service as a pinned tile
+
+Clicking any globe tile opens a **Service Drawer** with a live revenue calculator for that service.
+
+Below the hero, the existing decision tree section guides visitors through three paths for selling AI, each with its own calculator.
+
+![Knotie AI Pro landing page hero — split layout with headline on the left and the spinning globe on the right](/images/screenshots/landing-page-hero.png)
+
+---
+
+## Globe hero
+
+The globe renders nine Knotie service tiles as geographic pins distributed across a rotating 3D earth.
+
+| Service tile | Billing model | Globe position |
+|---|---|---|
+| Voice AI | SaaS · per-minute | North America East |
+| AI Receptionist | One-click | North America Central |
+| Chat AI | SaaS · per-message | Middle East / Europe |
+| Hermes Agent | Whitelabel | Asia |
+| API Gateway | SaaS · per-token | East Asia |
+| Business Audit | Lead-gen | Australia |
+| CRM SaaS | 100% margin | Sub-Saharan Africa |
+| VPS Resell | Per-server | Northern Europe |
+| AI Support | One-click · 24/7 | South America |
+
+The globe auto-rotates and responds to pointer drag. On screens narrower than 980 px, the layout stacks vertically (globe below the headline).
+
+![Knotie AI Pro landing page globe — rotating earth with service tiles (Voice AI, AI Receptionist, Chat AI, Hermes Agent, API Gateway, Business Audit, CRM SaaS, VPS Resell, AI Support) pinned to geographic locations](/images/screenshots/landing-globe-with-tile.png)
+
+---
+
+## Service drawer
+
+Clicking any tile on the globe slides in a **Service Drawer** from the right edge of the screen. The drawer:
+
+1. Shows the service name, billing model, and a short description
+2. Exposes sliders for every revenue input relevant to that service
+3. Computes and displays live results as you move each slider
+4. Closes via the **×** button, the Escape key, or clicking the overlay
+
+The drawer locks page scroll while open.
+
+### Example: Voice AI drawer
+
+| Slider | Range | Default |
+|---|---|---|
+| Number of customers | 1 – 200 | 25 |
+| Avg. minutes / customer / month | 50 – 3 000 | 600 |
+| Your resale price | 12 ¢/min – 45 ¢/min | 20 ¢/min |
+
+**Displayed results**
+
+| Metric | Example at defaults |
+|---|---|
+| Total minutes / month | 15 000 min |
+| Monthly revenue | $3 000 |
+| Wholesale (10 ¢/min) | $1 500 |
+| **Annual profit** | **$18 000** |
+
+![Knotie AI Pro landing page — Service Drawer open on the Voice AI tile showing customer count, minutes, resale price sliders, and computed monthly revenue, wholesale cost, and annual profit](/images/screenshots/landing-voice-ai-drawer.png)
+
+---
+
+## "How do you want to sell AI?" — decision tree
+
+Below the globe hero, the **decision tree** section guides visitors through three top-level paths:
+
+### Path 01 — AI as Agency Services
+
+You build, configure, and deliver AI for clients on a project-based or retainer model. Four sub-options:
+
+| Sub-path | Revenue model |
+|---|---|
+| Voice receptionist setup | Setup fee + monthly managed retainer |
+| Chat & support deployment | Setup fee + monthly management |
+| Custom AI workflows | Per-project fee + hosting retainer |
+| CRM setup & ops | Setup fee + monthly retainer (CRM is $0 in your plan) |
+
+### Path 02 — AI as SaaS
+
+You resell AI products under your own brand on a recurring subscription. Five sub-options:
+
+| Product | Billing | Wholesale cost |
+|---|---|---|
+| Voice AI | Per-minute | 10 ¢/min |
+| Chat AI | Per-message | $3 / 1 000 messages |
+| API Gateway | Per-token | Pass-through with margin |
+| CRM-as-a-Service | Subscription | $0 (included in partner plan) |
+| VPS Reselling | Per-server | ~$6/server |
+
+### Path 03 — One-Click Experiences
+
+Ready-made AI products you can enable, white-label, and sell immediately. Each comes with its own landing page, onboarding flow, and agent deployment. Available experiences include AI Receptionist, AI Support, SDR agent, Hermes agent, and Business Audit.
+
+![Knotie AI Pro landing page — "How do you want to sell AI?" decision tree section showing the three top-level paths: 01 Project-based revenue (AI as Agency Services), 02 Recurring revenue (AI as SaaS), 03 White-label · ready in 1 click (One-Click Experiences)](/images/screenshots/landing-decision-tree.png)
+
+---
+
+## Revenue calculators
+
+Every leaf node in the decision tree opens an inline revenue calculator. All calculators follow the same pattern: adjustable sliders → live computed results table.
+
+**Common outputs across all calculators**
+
+- Monthly revenue (or project revenue)
+- Your wholesale cost (what Knotie charges you)
+- Annual profit estimate
+
+**VPS Reselling example**
+
+| Slider | Range | Default |
+|---|---|---|
+| Number of servers | 1 – 200 | 20 |
+| Your resale price | $7 – $30 / server | $12 |
+
+| Metric | Example at defaults |
+|---|---|
+| Monthly revenue | $240 |
+| Wholesale ($6/server) | $120 |
+| **Annual profit** | **$1 440** |
+
+Calculators are illustrative estimates. Actual margins depend on your plan, usage, and retail pricing.
+
+---
+
+## Navigation change
+
+As part of this revamp, the top navigation bar changed from `position: sticky` to `position: fixed`. This means the nav bar stays visible at the top of the viewport while scrolling, rather than leaving the top of the document.
+
+---
+
+> Source: [knotie-ai-pro#781](https://github.com/avijeett007/knotie-ai-pro/pull/781) — _Knotie 03 landing page revamp_

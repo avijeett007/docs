@@ -1,5 +1,4 @@
 {
-  "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "Knotie AI PRO",
   "colors": {
@@ -22,7 +21,8 @@
               "getting-started/onboarding-checklist",
               "getting-started/video-tutorials",
               "getting-started/pricing-and-features",
-              "getting-started/free-forever"
+              "getting-started/free-forever",
+              "getting-started/landing-page-and-revenue-calculators"
             ]
           },
           {
@@ -44,13 +44,22 @@
               "customer-management/whitelabel-subdomain",
               "customer-management/client-portal-navigation-and-ai-gateway",
               "customer-management/custom-domain",
-              "customer-management/email-domains"
+              "customer-management/email-domains",
+              "customer-management/ai-memory-my-minds"
+            ]
+          },
+          {
+            "group": "Customer portal features",
+            "pages": [
+              "customer-management/media-library",
+              "customer-management/social-posting"
             ]
           },
           {
             "group": "Partner portal",
             "pages": [
               "partner-portal/overview",
+              "partner-portal/dashboard",
               "partner-portal/customers/overview",
               "partner-portal/customers/customer-info-and-deal-management",
               "partner-portal/customers/features-addons-and-menu-visibility",
@@ -69,7 +78,10 @@
               "partner-portal/credits",
               "partner-portal/telephony-credits",
               "partner-portal/phone-numbers",
+              "partner-portal/ai-agents-overview",
               "partner-portal/ai-gateway",
+              "partner-portal/ai-agents/mcp/tokens",
+              "partner-portal/experiences/resell-ai-gateway",
               "partner-portal/agent-analytics",
               "partner-portal/billing-and-invoices",
               "partner-portal/metered-billing",
@@ -80,20 +92,37 @@
               "partner-portal/settings/overview",
               "partner-portal/settings/whitelabel-settings",
               "partner-portal/settings/subscription-and-billing",
+              "partner-portal/settings/stage-subscriptions",
               "partner-portal/settings/integration-settings",
               "partner-portal/settings/email-settings",
               "partner-portal/settings/stripe-connect",
+              "partner-portal/knowledge-base-v2",
               "partner-portal/settings/knowledge-base-processing",
+              "partner-portal/settings/subscription-plans",
+              "partner-portal/settings/subscription-plan-features",
               "partner-portal/settings/customer-credit-plans",
               "partner-portal/settings/saas-portal-mode",
-              "partner-portal/settings/mcp-tokens",
+              "partner-portal/settings/support-keyword",
+              "partner-portal/settings/mcp-custom-domain",
+              "partner-portal/settings/notification-preferences",
+              "partner-portal/settings/demo-video",
               "partner-portal/marketing",
               "partner-portal/tutorials",
               "partner-portal/nexus/overview",
               "partner-portal/experiences/overview",
+              "partner-portal/experiences/auto-install",
               "partner-portal/vps/overview",
               "partner-portal/ai-usage/overview",
+              "partner-portal/ai-memory",
+              "partner-portal/ai-memory-kickoff",
               "partner-portal/number-pools/overview"
+            ]
+          },
+          {
+            "group": "App Marketplace",
+            "pages": [
+              "partner-portal/marketplace/overview",
+              "partner-portal/marketplace/developer-console"
             ]
           },
           {
@@ -105,6 +134,13 @@
           {
             "group": "Agents",
             "pages": [
+              "agents/knova/knova-agent",
+              "agents/knova/try-agent",
+              "agents/knova/manage-knova-agents",
+              "agents/knova/outbound-calling",
+              "agents/knova/outbound-webhook-api",
+              "agents/knova/knova-agent-builder",
+              "agents/knova/agent-builder-chat",
               "agents/retell/import-retell-agent",
               "agents/vapi/import-vapi-agent",
               "agents/ultravox/manage-ultravox-agents",
@@ -114,11 +150,13 @@
               "agents/n8n/n8n-chat-agents",
               "agents/n8n/n8n-tokens",
               "agents/openclaw-setup",
+              "agents/hermes-agent-setup",
               "agents/migration/agent-migration",
               "agents/byo-agent/overview",
               "agents/knova/overview",
               "agents/hermes/overview",
-              "agents/retell-chat/overview"
+              "agents/retell-chat/overview",
+              "agents/connected-app-tools"
             ]
           }
         ]
@@ -155,7 +193,9 @@
             "pages": [
               "api-reference/mcp/introduction",
               "api-reference/mcp/authentication",
-              "api-reference/mcp/endpoints"
+              "api-reference/mcp/tool-modes",
+              "api-reference/mcp/endpoints",
+              "api-reference/mcp/memory-tools"
             ]
           },
           {

@@ -1,26 +1,51 @@
 ---
 title: "Login with Google"
-description: "Sign in using Google SSO and understand common login issues."
+description: "Sign in using Google SSO and understand the Google signup and login flows."
 ---
 
 ## Overview
 
-Google login makes it easier to access the Partner Portal without remembering a password.
+Google login lets you access the Partner Portal without a separate password. The same button handles both **first-time signup** and **returning logins**.
 
-Note: Google login may be enabled or disabled depending on your account configuration.
+<Note>
+  Google login may be enabled or disabled depending on your platform configuration. If you don't see the button, use email and password instead.
+</Note>
 
-## Steps
+## Returning login (existing account)
 
-1. Go to **Partner Login**.
+1. Go to **Partner Login** (knotie-ai.pro/partner/login).
 2. Click **Continue with Google**.
-3. Choose the Google account you want to use.
-4. You’ll be redirected back to the Partner Portal automatically.
+3. Choose your Google account.
+4. You're redirected back to the Partner Portal automatically.
 
-## Good to know
+Use the same Google account email you signed up with to avoid creating a duplicate account.
 
-- Use the same email consistently to avoid creating multiple accounts.
-- If you don’t see Google login, it may not be enabled on your environment.
+## First-time signup with Google
+
+1. Open **knotie-ai.pro** and click **Start for free**.
+2. Inside the signup modal, click **Continue with Google**.
+3. Choose your Google account. The modal updates to show a **"Continuing with Google"** panel with your Google profile photo and email.
+
+> ℹ️ The "Continuing with Google" panel renders only inside an active Google OAuth flow, so it can't be screenshot from outside. Once you reach it the panel shows: your Google avatar + name + email at top, then Business Name and Phone Number fields below. If you don't see it, your platform has Google login disabled — fall back to email signup.
+
+4. Fill in:
+   - **Business name** (required)
+   - **Phone number** (required)
+5. (Optional) Enter a **coupon code**.
+6. Click **Complete Google Signup**.
+7. The modal transitions to the **7-Day Free Trial** confirmation view — click **Start 7-Day Free Trial** to add your card in Stripe and activate the trial.
 
 ## Screenshots
 
 ![Google login](/images/screenshots/login-page-2026-06-09.png)
+
+## Troubleshooting
+
+- **"Continue with Google" button not visible** — Google auth may not be enabled on your platform. Contact your platform operator.
+- **Wrong account selected** — click "Switch account" on the Google account picker. Make sure you use the same email for every login.
+- **Redirect loops after Google login** — clear cookies for knotie-ai.pro and try again.
+- **Missing profile photo** — the modal fetches your Google profile at signup time. If the image fails to load, a placeholder icon is shown. This doesn't affect the signup itself.
+
+---
+
+> Source: [knotie-ai-pro#805](https://github.com/avijeett007/knotie-ai-pro/pull/805) — _Knotie 03 UI revamp_

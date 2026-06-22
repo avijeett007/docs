@@ -40,7 +40,7 @@ A GHL Workflow that:
 If you're onboarding a single client, the fastest path is Twilio for the number plus a **Retell** agent — Retell is currently the most reliable provider for the native outbound webhook flow.
 </Tip>
 
-> ![Knotie AI Pro Partner Portal → Phone Numbers list showing imported numbers](/images/screenshots/phone-numbers-2026-06-09.png)
+> ![Knotie AI Pro Partner Portal → Phone Numbers list showing imported numbers (captured 2026-06-09 during a GHL warm-lead flow setup; the same screenshot appears in the Retell import and agency command center use cases with different captions — verify the columns against the live page before relying on it for Retell-specific flows)](/images/screenshots/phone-numbers-2026-06-09.png)
 
 ## Step 1 — Prepare the phone number in Knotie
 
@@ -61,7 +61,7 @@ In the **Assign Agent** modal, switch the **Direction** toggle from **Inbound On
 The list of agents you can pick from is scoped to the customer you just assigned. If you onboard multiple clients, each one needs its own outbound-capable agent.
 </Note>
 
-> 📸 _[Import Numbers modal — provider selection, see retell-import doc]_
+![Import Phone Numbers modal on step 1 of 4 — provider selection cards for Twilio, Telnyx, Retell, and a locked ElevenLabs (Coming Soon), with a disabled Next button](/images/screenshots/ghl-import-numbers-provider-2026-06-22.png)
 
 ## Step 2 — Generate an outbound webhook key
 
@@ -70,7 +70,7 @@ The list of agents you can pick from is scoped to the customer you just assigned
 3. Click **Generate Key**
 4. Copy the key immediately (shown once)
 
-> 📸 _[Phone number detail panel → Outbound Webhook section — see retell-import doc]_
+![Outbound Webhook section in the phone number detail panel — masked owk_ API key with an Active badge, Regenerate Key and Revoke buttons, and a curl usage example posting to connecthub.knotie-ai.pro/api/outbound-call](/images/screenshots/ghl-outbound-webhook-section-2026-06-22.png)
 
 ## Step 3 — Create the GHL Workflow
 
@@ -81,7 +81,7 @@ The list of agents you can pick from is scoped to the customer you just assigned
    - Form Submitted
    - Contact Created
 
-> 📸 _[Screenshot placeholder: GHL workflow trigger selection]_
+> ℹ️ This step happens inside GoHighLevel, not the Knotie portal. In the GHL workflow builder, the trigger picker lists options like **Facebook Lead Form**, **TikTok Lead Gen**, **Form Submitted**, and **Contact Created** — pick the one that guarantees a phone number is present.
 
 ## Step 4 — Add a Webhook action (native)
 
@@ -91,7 +91,7 @@ Add an action:
 - **Method**: `POST`
 - **URL**: `https://connecthub.knotie-ai.pro/api/outbound-call`
 
-> 📸 _[Screenshot placeholder: GHL webhook action configuration]_
+> ℹ️ In the GHL workflow, add a **Webhook** action and set Method to **POST** and the URL to `https://connecthub.knotie-ai.pro/api/outbound-call`. This configuration lives in the GoHighLevel action panel.
 
 ## Step 5 — Add required custom data fields
 
@@ -130,7 +130,7 @@ Example payload:
 The keys inside `metadata` become available to your agent as variables — name them whatever your agent prompt expects.
 </Tip>
 
-> 📸 _[Screenshot placeholder: GHL webhook custom data with metadata object]_
+> ℹ️ In the GHL webhook action's **Custom Data** / body editor, add the `from_number` and `to_number` fields plus a nested `metadata` object with your conversation variables, matching the JSON example above.
 
 ## Step 7 — Add the Authorization header
 
@@ -140,7 +140,7 @@ In webhook **Headers**:
 |---|---|
 | `Authorization` | `Bearer owk_YOUR_KEY_HERE` |
 
-> 📸 _[Screenshot placeholder: GHL webhook headers with Authorization bearer token]_
+> ℹ️ In the GHL webhook action's **Headers** section, add an `Authorization` header with the value `Bearer owk_YOUR_KEY_HERE`, using the outbound webhook key you generated in Step 2.
 
 ## Step 8 — Test
 
@@ -167,5 +167,5 @@ In your agent script/prompt:
 - Ask 1–2 qualifying questions
 - Move to a single CTA (book a call, send a link, confirm availability)
 
-> 📸 _[Screenshot placeholder: Agent prompt showing how dynamic variables are referenced]_
+> ℹ️ In your agent's system prompt, reference each `metadata` key with the `{{key}}` syntax (e.g. `Hi {{customer_name}}, you just submitted our {{service_type}} form…`). The exact prompt is specific to your agent, so capture it from your own agent builder.
 

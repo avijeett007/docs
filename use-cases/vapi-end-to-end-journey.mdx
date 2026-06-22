@@ -36,24 +36,24 @@ VAPI is the most-used third-party voice agent provider among Knotie partners, an
 
 ---
 
-## Step 1 — Open the VAPI card on the AI Agents page
+## Step 1 — Open the VAPI card on the AI Agents panel
 
 1. Sign in to the **Partner Portal** at `https://knotie-ai.pro/partners`
-2. In the main sidebar, click **AI Agents** (a top-level nav item — not a button or sub-menu)
-3. The AI Agents page loads with three sections:
-   - **AI Workflow Systems** (3 platform-native agents: Knotie AI Pro Voice, Knovio AI Voice, Knovio AI BYOVA — all currently Coming Soon)
-   - **Voice AI Agents** (8 active provider cards)
-   - **NBN Automation** (1 card: NBN Token Manager)
-4. Scroll to **Voice AI Agents** and find the **VAPI AI** card
+2. In the main sidebar, expand **AI Agents** (an expandable button under **AI PLATFORM** — click to reveal its sub-groups)
+3. The AI Agents panel organises providers into three sub-groups:
+   - **Voice Agents** — VAPI, Ultravox, Retell, ElevenLabs, GHL, Knova
+   - **Chat Agents** — Retell Chat, N8N Chat Agents
+   - **Automation & Tokens** — N8N Automation, N8N Tokens *(MCP Tokens is now a top-level link, not nested here)*
+4. Under **Voice Agents**, click **VAPI Agents**
 
 <Frame caption="VAPI AI card in the Voice AI Agents grid (showing an imported agent — Riley)">
 <img src="/images/screenshots/vapi-2b-riley-imported-card.png" alt="VAPI AI card showing an imported agent named Riley in the Voice AI Agents grid" />
 </Frame>
 
 <Info>
-If you don't see the VAPI AI card:
-- Your plan may not include VAPI integrations — VAPI is a premium feature on some tiers and the import action will be gated.
-- The card may be hidden behind a feature flag. Check **Settings → Integration Settings** to see if VAPI is enabled for your account.
+If you don't see VAPI Agents in the Voice Agents list:
+- Your plan may not include VAPI integrations — VAPI is a **Premium Feature** on some tiers and the import action will be gated.
+- Check **Settings → Partner API Keys** to confirm your API keys are valid. The live Settings sidebar has 5 items: Profile Settings / Partner API Keys / Email Domain Management / Plans & Billing / White-Label Portal. There is no "Integration Settings" entry.
 </Info>
 
 ---
@@ -99,7 +99,7 @@ This step is documented in detail in [Import a VAPI agent](/agents/vapi/import-v
 
 <Warning>
 **"Please update your VAPI API key in settings"**
-The API key stored on your account is invalid or missing. Go to **Settings → Integration Settings** (or the equivalent in the new IA) and update it, then return to **AI Agents → VAPI AI** and retry.
+The API key stored on your account is invalid or missing. Go to **Settings → Partner API Keys** and confirm your keys are valid, then return to **AI Agents → Voice Agents → VAPI Agents** and retry.
 
 **No agents available for import**
 All your VAPI agents are already imported. To verify, check the VAPI dashboard — the count there should match what you see in Knotie.

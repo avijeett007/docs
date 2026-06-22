@@ -1,6 +1,6 @@
 ---
 title: "Integration apps selection"
-description: "Control which integration apps are available to each customer in their portal."
+description: "Control which integration apps are available to each customer in their portal, including OAuth-based services and API-key apps like ElevenLabs and HeyGen."
 ---
 
 ## What Integration Apps Selection is for
@@ -14,7 +14,7 @@ This gives you granular control over:
 
 ## Where to find it
 
-1. Go to **Customer List**.
+1. Go to **Customers** (sidebar — expands to Active Customers + Prospects).
 2. Select a customer.
 3. Click **Manage**.
 4. Go to the **Features & Add-ons** tab.
@@ -70,13 +70,51 @@ The app selection modal displays apps in categories:
 - N8N
 - Webhooks
 
+**AI & Media**
+- ElevenLabs — text-to-speech, voice cloning, conversational AI tools (~155 tools available)
+- HeyGen — AI video generation and avatar creation
+
 **Other Apps**
 - Google Calendar
 - Google Sheets
 - Airtable
 - And many more...
 
-![App Selection Modal](/images/screenshots/screenshot-2026-03-19-203956.png)
+![App Selection Modal — FREE APPS, PREMIUM APPS, and STANDARD APPS categories in the partner's customer modal](/images/screenshots/screenshot-2026-03-19-203956.png)
+
+> ℹ️ The **App Selection Modal** in the current build groups integrations into three categories — **FREE APPS** (Gmail, Calendar), **PREMIUM APPS** (HubSpot, Salesforce, WhatsApp), and **STANDARD APPS** (Slack, Notion, Airtable, Firecrawl). The doc's "AI & Media / Project Management / Automation / Other Apps" categorisation predates this UI and is being tracked separately. ElevenLabs and HeyGen appear under **PREMIUM APPS** when the customer is on a plan that includes them — capture your own from the customer modal to confirm the latest grouping.
+
+## How connections work: OAuth vs API key
+
+Apps in the Integration section connect in one of two ways depending on the service:
+
+| Connection type | How it works | Example apps |
+|---|---|---|
+| **OAuth** | Customer authorizes access through the provider's login flow | Gmail, Slack, HubSpot, Google Calendar |
+| **API key** | Customer pastes their provider API key directly into the portal | ElevenLabs, HeyGen |
+
+**Both connection types are fully supported.** Once a customer connects an app — whether via OAuth or API key — the app's tools are available to their AI agents during live calls through the Connect Hub MCP server.
+
+For API-key apps, the customer:
+1. Opens **Integration** in their portal.
+2. Selects the app (e.g., ElevenLabs).
+3. Enters their API key from the provider's dashboard.
+4. Saves — the connection is verified and activated.
+
+<Frame>
+  <img src="/images/screenshots/integration-hub-customer-view-2026-06-20.png" alt="Integration Hub — Tool Integrations grid showing the apps available to connect to the customer's AI agents, with category labels (CRM, Communication, Scheduling, etc.) and a Click to connect CTA on each card." />
+</Frame>
+
+## How app tools reach running agents
+
+Once a customer connects an app, its tools flow to their AI agent automatically:
+
+1. Customer connects the app (OAuth or API key) in their portal.
+2. The Connect Hub MCP server resolves the app's available tools (up to 200 per toolkit).
+3. When the agent runs a call, it receives the full tool list — including all tools from the connected app.
+4. The agent can call any of those tools during the conversation.
+
+**Important:** Tools only become available to a running agent after the connection is saved and active. If you add a new app connection, the agent picks up the new tools on its next call without any rebuild required.
 
 ## How app restrictions work
 
@@ -99,8 +137,8 @@ When a customer tries to connect an app:
 
 The system validates app access at multiple levels:
 1. **Client-side** – Only displays allowed apps
-2. **Server-side** – Validates OAuth requests
-3. **API endpoint** – Checks permissions on API key connections
+2. **Server-side** – Validates OAuth requests and API key connections
+3. **MCP server** – Verifies app access before returning tools to the agent
 
 ![Customer Integration Grid - Filtered Apps](/images/screenshots/screenshot-2026-03-19-203956.png)
 
@@ -122,7 +160,7 @@ Create integration packages for different customer tiers:
 - Zapier
 
 **Enterprise Tier**
-- All apps available
+- All apps available (including ElevenLabs, HeyGen, and all AI & Media tools)
 
 ### Custom integration bundles
 
@@ -142,6 +180,10 @@ Offer specialized packages:
 - Zapier
 - Make
 - N8N
+
+**AI Media Bundle**
+- ElevenLabs
+- HeyGen
 
 ![Integration Packages Example](/images/screenshots/screenshot-2026-03-19-203956.png)
 
@@ -191,6 +233,16 @@ If you enable **Show Integration** but don't select any apps:
 - Confirm the app is in the **Allowed Apps** list
 - Check server logs for permission errors
 - Verify OAuth credentials are configured for the app
+- For API-key apps (ElevenLabs, HeyGen): confirm the customer entered their key from the correct provider dashboard section
+
+### API-key app tools not showing when agent runs
+
+If a customer connected ElevenLabs or HeyGen via API key but the agent doesn't seem to call those tools during conversations:
+
+1. Ask the customer to open their portal's **Integration** section and verify the connection shows as **Active**.
+2. Confirm the agent was built with the integration enabled.
+3. Check that the specific tools the agent should use are within the app's available tool list (ElevenLabs alone has ~155 tools — verify the correct tool name is configured in the agent prompt).
+4. If the connection was just added, trigger a test call — the agent picks up new connections automatically.
 
 ### App selection modal doesn't open
 - Ensure **Show Integration** is enabled first
@@ -206,10 +258,15 @@ If you enable **Show Integration** but don't select any apps:
 - **Start conservative** – Begin with fewer apps and add more based on customer needs
 - **Document packages** – Create clear tier definitions (Basic, Pro, Enterprise)
 - **Test restrictions** – Verify blocked apps show appropriate error messages
-- **Monitor usage** – Track which apps customers actually use
+- **Monitor usage** – Track which apps customers actually use via the [Tool Call Quota](/partner-portal/customers/tool-call-quota) tab
 - **Regular reviews** – Quarterly review of app access per customer
 
 ## Related pages
 
 - [Features & Add-ons](/partner-portal/customers/features-addons-and-menu-visibility) – Menu visibility settings
 - [Integration Settings](/partner-portal/settings/integration-settings) – Configure provider API keys
+- [Tool Call Quota](/partner-portal/customers/tool-call-quota) – Monitor and limit integration tool calls
+
+---
+
+> Source: [knotie-ai-pro#964](https://github.com/avijeett007/knotie-ai-pro/pull/964) — _fix(connect-hub): list & call API-key Composio apps (ElevenLabs/HeyGen) in MCP server_

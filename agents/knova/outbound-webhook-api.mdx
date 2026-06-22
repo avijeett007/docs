@@ -1,0 +1,282 @@
+---
+title: "Knova Outbound Webhook API"
+description: "API reference for triggering Knova outbound calls from external systems — GoHighLevel, n8n, Zapier, or any HTTP client."
+---
+
+## Base URL
+
+```
+https://hub.knotie-ai.pro
+```
+
+---
+
+## Endpoints
+
+| Method | Path | Auth | Purpose |
+|--------|------|------|---------|
+| `POST` | `/api/outbound-call` | Per-number webhook token | External systems (GHL, n8n, Zapier, Facebook lead bridge) |
+| `POST` | `/api/outbound-call/internal` | `CONNECT_HUB_API_KEY` | Server-to-server (partner portal test-call, Phase 2 campaign dialer) |
+
+Both endpoints accept the same request body and return the same response envelope. The only difference is authentication.
+
+---
+
+## Authentication
+
+### Public webhook endpoint
+
+Pass the per-number outbound webhook token via one of these headers:
+
+```http
+Authorization: Bearer <token>
+```
+or
+```http
+X-API-Key: <token>
+```
+
+Generate the token in the Partner Portal under the phone number's **Outbound Settings**. Tokens are:
+- Scoped to a **single phone number** — the `from_number` in the request must match the number the token belongs to.
+- Shown once at generation time; only the SHA-256 hash is stored.
+- Revocable at any time from the portal.
+
+**Brute-force protection:** after 10 failed auth attempts from the same IP within 5 minutes, that IP is blocked for 15 minutes.
+
+### Internal endpoint
+
+```http
+Authorization: Bearer <CONNECT_HUB_API_KEY>
+```
+
+The value must match the `CONNECT_HUB_API_KEY` environment variable in Connect Hub. This endpoint is used by the partner portal's test-call feature and is not intended for direct use by partners.
+
+---
+
+## Request body
+
+### Standard format
+
+```json
+{
+  "from_number": "+14155551234",
+  "to_number": "+19876543210",
+  "dynamic_variables": {
+    "lead_name": "Sarah",
+    "outreach_topic": "Q3 renewal",
+    "company": "Acme Corp"
+  },
+  "metadata": {
+    "campaign_id": "camp_abc123",
+    "external_id": "crm_lead_789"
+  }
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `from_number` | string | Yes | E.164 caller number. Must match a phone number registered in Knotie and assigned to a Knova agent. |
+| `to_number` | string | Yes | E.164 number to call. |
+| `dynamic_variables` | object | No | Key-value pairs injected into the agent's prompt and greeting as `{{key}}` placeholders. |
+| `metadata` | object | No | Arbitrary metadata stored with the call record. Not passed to the agent. |
+
+<Tip>
+Phone numbers are auto-normalised to E.164 — a leading `+` is added if missing and non-digit characters are stripped.
+</Tip>
+
+---
+
+### GHL native format (auto-detected)
+
+GoHighLevel workflows send a flat `customData` envelope. Connect Hub detects this automatically — no configuration needed.
+
+```json
+{
+  "contact_id": "abc123",
+  "first_name": "Sarah",
+  "last_name": "Jones",
+  "customData": {
+    "from_number": "+14155551234",
+    "to_number": "+19876543210",
+    "dynamicdata_lead_name": "Sarah Jones",
+    "dynamicdata_outreach_topic": "Q3 renewal",
+    "metadata_campaign_id": "camp_abc123"
+  }
+}
+```
+
+**Normalisation rules:**
+
+| GHL field | Maps to |
+|-----------|---------|
+| `customData.from_number` | `from_number` |
+| `customData.to_number` | `to_number` |
+| `customData.dynamicdata_<name>` | `dynamic_variables.<name>` |
+| `customData.metadata_<name>` | `metadata.<name>` |
+| Other top-level GHL fields | Ignored |
+
+A body is treated as GHL format when it has no top-level `from_number` but has a `customData.from_number`.
+
+---
+
+## Dynamic variables
+
+Any key in `dynamic_variables` (or GHL `dynamicdata_<name>`) becomes a `{{key}}` substitution in the agent's **system prompt** and **greeting message**.
+
+**Example:**
+
+Agent system prompt:
+```
+You are calling {{lead_name}} about {{outreach_topic}}.
+```
+
+Request:
+```json
+{
+  "dynamic_variables": {
+    "lead_name": "Sarah",
+    "outreach_topic": "Q3 renewal"
+  }
+}
+```
+
+Agent receives:
+```
+You are calling Sarah about Q3 renewal.
+```
+
+Keys not present in `dynamic_variables` are left as `{{key}}` — no error is thrown, but the agent will speak the literal placeholder.
+
+---
+
+## Rate limiting
+
+| Limit | Value |
+|-------|-------|
+| Calls per minute per phone number | 60 |
+| Auth failures before IP block | 10 in 5 minutes |
+| IP block duration | 15 minutes |
+
+Rate limit headers are included on every response:
+
+```http
+X-RateLimit-Limit: 60
+X-RateLimit-Remaining: 59
+```
+
+When the limit is exceeded:
+
+```http
+HTTP 429
+Retry-After: 60
+```
+
+---
+
+## Response
+
+### Success (`200 OK`)
+
+```json
+{
+  "success": true,
+  "call_id": "550e8400-e29b-41d4-a716-446655440000",
+  "provider": "knova",
+  "agent_id": "agt_abc123",
+  "from_number": "+14155551234",
+  "to_number": "+19876543210",
+  "provider_response": {
+    "room_name": "knova-out-agt_abc123-550e8400",
+    "trunk_mode": "byo"
+  }
+}
+```
+
+`trunk_mode` is either `"byo"` (partner's own Twilio/Telnyx trunk) or `"shared"` (Knotie's shared trunk).
+
+### Error
+
+```json
+{
+  "success": false,
+  "error": "Human-readable description",
+  "error_code": "ERROR_CODE"
+}
+```
+
+---
+
+## Error codes
+
+| `error_code` | HTTP | Meaning |
+|--------------|------|---------|
+| `VALIDATION_ERROR` | 400 | Missing or invalid fields — a `details` array is included |
+| `UNAUTHORIZED` | 401 | Missing, invalid, or inactive token; or token doesn't match the `from_number` |
+| `INSUFFICIENT_CREDITS` | 402 | Partner or customer does not have enough credits |
+| `NO_AGENT_MAPPING` | 404 | No active Knova agent mapped to the `from_number`, or outbound is disabled |
+| `NO_OUTBOUND_TRUNK` | 422 | Cannot resolve a LiveKit outbound trunk — BYO provisioning failed or shared trunk not configured |
+| `DISPATCH_FAILED` | 422 | LiveKit `createDispatch` call failed |
+| `CALL_REJECTED` | 422 | Callee returned SIP 486 Busy Here or 603 Declined |
+| `CALL_NO_ANSWER` | 422 | Call timed out or returned SIP 408 / 480 |
+| `SIP_TRUNK_FAILURE` | 422 | Carrier returned a SIP 5xx error |
+| `RATE_LIMITED` | 429 | Per-number rate exceeded, or IP blocked after repeated auth failures |
+
+<Note>
+Codes `NO_OUTBOUND_TRUNK`, `DISPATCH_FAILED`, `CALL_REJECTED`, `CALL_NO_ANSWER`, and `SIP_TRUNK_FAILURE` all return HTTP **422** rather than 5xx deliberately — Cloudflare intercepts 502/503/504 and replaces the JSON body with an HTML error page, which breaks API consumers.
+</Note>
+
+---
+
+## Full example — curl
+
+```bash
+curl -X POST https://hub.knotie-ai.pro/api/outbound-call \
+  -H "Authorization: Bearer owt_xxxxxxxxxxxxxxxxxxxx" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "from_number": "+14155551234",
+    "to_number": "+19876543210",
+    "dynamic_variables": {
+      "lead_name": "Sarah",
+      "outreach_topic": "your Q3 renewal"
+    },
+    "metadata": {
+      "source": "ghl_workflow"
+    }
+  }'
+```
+
+**Expected response:**
+
+```json
+{
+  "success": true,
+  "call_id": "550e8400-e29b-41d4-a716-446655440000",
+  "provider": "knova",
+  "agent_id": "agt_abc123",
+  "from_number": "+14155551234",
+  "to_number": "+19876543210",
+  "provider_response": {
+    "room_name": "knova-out-agt_abc123-550e8400",
+    "trunk_mode": "byo"
+  }
+}
+```
+
+---
+
+## Compatibility note
+
+The Knova response envelope is intentionally identical to the Retell outbound response shape. If you already handle Retell outbound call responses in your integration, you do not need to update your response-handling code when switching a number to a Knova agent.
+
+---
+
+## Related
+
+- [Knova Outbound Calling guide](/agents/knova/outbound-calling) — step-by-step setup for portal test, GHL, n8n, and Facebook Lead Ads
+- [Knova Agents overview](/agents/knova/overview) — manage Knova agents
+- [Phone numbers](/partner-portal/phone-numbers) — import and assign numbers
+
+---
+
+> Source: [knotie-ai-pro#1025](https://github.com/avijeett007/knotie-ai-pro/pull/1025) — _feat(knova-outbound): Knova/LiveKit outbound calling — Phase 1_

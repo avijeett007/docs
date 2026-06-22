@@ -33,10 +33,11 @@ If you see a message like “Please update your API keys & onboard Agents first,
 
 Fix:
 
-1. Go to **Settings**.
-2. Add or update your provider API keys.
-3. Return to **AI Agents** and import/create agents.
-4. Come back to **Agent Analytics**.
+1. Go to **Settings → Partner API Keys → Platform API** tab. Create or update your `pkt_` keys here.
+   - The live Settings sidebar has 5 items: Profile Settings / **Partner API Keys** / Email Domain Management / Plans & Billing / White-Label Portal. There is no top-level "Settings" entry.
+   - The Partner API Keys page has 4 tabs: AI Gateway Beta / Platform API / MCP Tokens / n8n Tokens. Platform API is where partner-automation keys (`pkt_`) live. AI Gateway Beta tab holds `sk_` LLM-billing keys.
+2. Return to **AI Agents** (sidebar button under AI PLATFORM) and import/create agents.
+3. Come back to **Agent Analytics**.
 
 ## Choose the time period
 
@@ -55,7 +56,7 @@ You’ll often see costs split into parts like:
 - **LLM**: the AI “brain” behind the conversation
 - **STT**: speech-to-text (turns audio into text)
 - **TTS**: text-to-speech (creates the voice)
-- **Provider costs**: Retell/VAPI/Ultravox/GHL/ElevenLabs
+- **Provider costs**: Retell / VAPI / Ultravox / GHL / ElevenLabs / Knova
 
 If one category grows unusually fast, it’s a signal to review:
 
@@ -77,17 +78,18 @@ This allows you to:
 - **Provider-based cost breakdowns** – Understand costs per provider (Retell, VAPI, Ultravox, etc.).
 - **Troubleshoot specific agents** – Isolate issues to a single agent rather than your entire portfolio.
 
-![Agent Analytics - Overview](/images/screenshots/screenshot-2026-03-19-210259.png)
-
 ![Agent Analytics - Agents List](/images/screenshots/screenshot-2026-03-19-210432.png)
 
 ![Agent Analytics - Detailed Agent View](/images/screenshots/screenshot-2026-03-19-210512.png)
 
-## Metered billing (upcoming feature)
+## Metered billing (partially live)
 
-**Metered billing** is an upcoming feature that will allow you to automatically charge customers based on their actual usage.
+Metered billing is partially live as of the last walkthrough:
 
-Currently, you can use **Agent Analytics** to manually track usage and create invoices accordingly. Once metered billing is released, usage tracking will be automated.
+- **Stripe Connect** (the underlying billing rail) is live — partners can onboard their Stripe account today via **Settings → Partner API Keys** (see the [Metered billing setup guide](/partner-portal/metered-billing)). Confirmed: 2.5% platform fee, Express accounts.
+- **The partner-portal metered-billing page** at `/partner/metered-billing` still shows a "Feature in Development" notice. Some sections (Billing Plans / Customer Billing) are not yet production-ready.
+
+Until the partner-portal surface is fully released, use **Agent Analytics** to manually track usage and create invoices via **Billing & Invoices** (`/partner/billing`).
 
 ## Tips for agencies
 

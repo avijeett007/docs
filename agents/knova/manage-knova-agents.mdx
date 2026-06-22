@@ -1,0 +1,251 @@
+---
+title: "Manage Knova agents"
+description: "Create, configure, and manage Knova AI voice agents — Knotie's built-in agent type that requires no external provider account."
+---
+
+## What Knova agents are
+
+**Knova** is Knotie AI Pro's native agent type. Unlike Retell or VAPI agents, Knova agents run entirely within the platform — no third-party API key is required. They support inbound and outbound phone calls, a configurable system prompt, knowledge bases, and custom tools.
+
+Use Knova agents when:
+
+- You want the fastest onboarding (no external provider setup)
+- You are on the Free Forever plan (Knova agents are included)
+- You want AI-assisted agent creation via the built-in Agent Builder Chat
+
+## Create a Knova agent
+
+<Frame>
+  <img src="/images/screenshots/knova-create-agent-modal-2026-06-20.png" alt="Knova Create Agent modal — Tab 1 (Customer) selected, showing 5-tab sequential flow (Customer, Setup Mode, Basic, Advanced, Functions) and a customer list with 3 customers (Chess Classics, SohamK2G, KnoLabs AI Agency). Tabs gate the next one." />
+</Frame>
+
+The **Create Agent** modal is a **5-tab sequential flow**, not a flat Basic form. Each tab gates the next:
+
+1. **Customer** – Pick the customer this agent belongs to.
+2. **Setup Mode** – Choose **AI Builder** (chat-driven, recommended) or **Manual** (fill fields yourself). If you pick Manual, the AI Builder tab is hidden for the rest of the flow.
+3. **Basic** – Agent name, system prompt, greeting, voice (see [Voice selection](#voice-selection) below). The Basic tab is replaced by the AI Builder chat panel if you chose AI Builder on the Setup Mode tab.
+4. **Advanced** – Tools, knowledge base, advanced config.
+5. **Functions** – Function calls / tool wiring.
+
+To open the modal:
+
+1. In the Partner Portal, open **AI Agents → Knova Agents**.
+2. Click **Create Agent** (top right).
+3. Walk through tabs 1–5 in order; click **Save** on the Functions tab to create the agent.
+
+The Build with AI button (top of the Knova agents page) also opens the modal, defaulting to the AI Builder chat on the Basic tab.
+
+## System prompt guidelines
+
+The system prompt is the core of your agent's behavior. It defines personality, scope, and rules.
+
+**Limits:**
+
+| Field | Maximum |
+|---|---|
+| System prompt length | **15,000 characters** |
+
+If your use case is very broad, consider splitting it into multiple agents rather than one large prompt — each agent handles a focused scope, which improves response quality and makes prompts easier to maintain.
+
+**Tips:**
+
+- Start with the agent's role: _"You are a friendly receptionist for Acme Plumbing..."_
+- Include what it should and should **not** do
+- Specify how to handle transfers and escalations
+- Use the **AI Builder Chat** to generate a first draft from your business context (see [AI Agent Builder Chat](/agents/knova/agent-builder-chat))
+
+## Voice selection
+
+Knova agents use one of two text-to-speech banks:
+
+| Bank | Indicator |
+|---|---|
+| First TTS bank | Blue dot next to the voice name |
+| Second TTS bank | Purple dot next to the voice name |
+
+**Note:** The underlying TTS provider names are not shown in the UI — you pick the voice, not the provider. Existing agent voice configurations are preserved when TTS models are upgraded by the platform.
+
+The platform periodically upgrades default TTS models. The current default for the first TTS bank is **Inworld TTS 1.5 Mini** (replaced the legacy `inworld-tts-1` model), which offers improved voice quality, broader language coverage, and no change to the voice catalog (Ashley, Edward, Olivia, and other named voices continue to work).
+
+<Frame>
+  <img src="/images/screenshots/knova-voice-picker-2026-06-20.png" alt="Knova Edit Agent modal — Basic tab Voice section with a search box and voice list (Abby Female, Alex Male, Anjali Female) each with a coloured dot indicator and a play preview button. First TTS bank voices have blue dots; second TTS bank voices have purple dots." />
+</Frame>
+
+## Resumable builder sessions
+
+When you use the **AI Agent Builder Chat** to create an agent, the conversation is saved automatically as a **Builder Session**. You can resume the conversation later:
+
+1. Open an existing Knova agent in the Partner Portal.
+2. Click the **AI Builder** button (chat icon in the agent modal).
+3. The modal shows a list of recent builder sessions for this agent. Click a session card to resume from where you left off.
+
+Each session card displays:
+- The first message you sent (as a conversation preview)
+- The model used
+- The time of the last turn
+- The current stage (`conversing`, `proposed`, or `applied`)
+
+Sessions from previous conversations are loaded when you open the Agent Builder — you do not need to start fresh every time.
+
+<Info>
+Resume session cards only appear when the AI Builder Chat is opened for an **existing** Knova agent that has previous builder sessions. With a single fresh draft agent, the modal opens with no prior sessions and shows only the welcome message. To capture the resume cards, build an agent via the AI Builder, save it, then re-open the AI Builder for the same agent.
+</Info>
+
+## Assign a phone number
+
+After creating a Knova agent and **assigning it to a customer** (see [Customer assignment](#customer-assignment-and-token-lifecycle) in the knova-agent.mdx overview, or the kebab **Assign Customer to Agent** action), phone-number assignment is done in the customer's own agent edit view — **not** in the Knova agent modal.
+
+1. Open the assigned customer's record.
+2. Edit the agent from the customer's **Manage Agents** view.
+3. Pick a provisioned number from the customer's pool and click **Assign**.
+
+<Note>
+  The Knova agent modal itself does **not** have an "Assign Phone Number" step — that flow was removed in 2026. Phone numbers are bound to the customer + agent pair, not to the Knova agent alone.
+</Note>
+
+Inbound calls to that number will now be handled by this agent.
+
+## Configuration for self-hosted deployments
+
+If you are running a self-hosted Knotie AI Pro instance, set these environment variables to configure the LLM backend used by the Knova Agent Builder Chat:
+
+```env
+# Required — the chat builder LLM endpoint (OpenAI Chat Completions–compatible)
+KNOVA_BUILDER_BASE_URL=https://api.inworld.ai/v1
+KNOVA_BUILDER_API_KEY=<your-api-key>
+KNOVA_BUILDER_AUTH_SCHEME=Basic   # or Bearer (default)
+KNOVA_BUILDER_MODEL=inworld/ab-test-models
+
+# Optional — set to empty string '' to disable (required for some reasoning models)
+# KNOVA_BUILDER_TEMPERATURE=0.4
+```
+
+Any OpenAI Chat Completions–compatible provider works:
+
+| Provider | `KNOVA_BUILDER_BASE_URL` | `KNOVA_BUILDER_AUTH_SCHEME` | Notes |
+|---|---|---|---|
+| **Inworld Router** (recommended) | `https://api.inworld.ai/v1` | `Basic` | Supports native `web_search` |
+| **OpenAI** | `https://api.openai.com/v1` | `Bearer` | — |
+| **OpenRouter** | `https://openrouter.ai/api/v1` | `Bearer` | Broad model selection |
+
+For Inworld, the API key is Base64-encoded `workspace_id:api_key`.
+
+## Builder sessions API
+
+The builder session history is accessible via the partner API for integrations:
+
+### List sessions for a customer
+
+```
+GET /api/partner/knova-agents/builder-sessions?customerId={customerId}
+```
+
+Optional query parameter: `agentId` — filter to sessions that produced a specific agent.
+
+**Response:**
+
+```json
+{
+  "sessions": [
+    {
+      "id": "session_cuid",
+      "currentStage": "applied",
+      "messageCount": 12,
+      "firstUserMessage": "Create a receptionist for an HVAC company...",
+      "modelUsed": "inworld/ab-test-models",
+      "resultingAgentId": "agent_abc123",
+      "createdAt": "2026-05-26T02:00:00.000Z",
+      "lastTurnAt": "2026-05-26T02:08:00.000Z"
+    }
+  ]
+}
+```
+
+Session stages:
+
+| `currentStage` | Meaning |
+|---|---|
+| `conversing` | The conversation is in progress |
+| `proposed` | The AI has drafted an agent config; partner reviewing |
+| `applied` | The partner clicked "Apply" and saved the agent |
+| `abandoned` | Session closed without applying |
+
+### Fetch a single session
+
+```
+GET /api/partner/knova-agents/builder-sessions/{sessionId}
+```
+
+Returns the full message history and draft proposal for that session.
+
+## Telephony credit settings API
+
+Partners can now **read** telephony credit settings via API in addition to writing them:
+
+```
+GET /api/partner/telephony-credits/settings
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "lowCreditThresholdCents": 1000,
+    "lowCreditThresholdDollars": 10.0,
+    "lowCreditNotificationsEnabled": true,
+    "autoTopUpEnabled": false,
+    "autoTopUpThresholdCents": 500,
+    "autoTopUpThresholdDollars": 5.0,
+    "autoTopUpAmountCents": 5000,
+    "autoTopUpAmountDollars": 50.0
+  }
+}
+```
+
+Use `POST /api/partner/telephony-credits/settings` to update these values (see [Telephony Credits](/partner-portal/telephony-credits) for UI instructions).
+
+## MCP tool changes
+
+If you use Knotie's MCP server (Knotie Connect Hub) with AI coding tools like Cursor or Claude, note these updated tool schemas:
+
+**`agents_create`** — field names updated:
+
+| Old field | New field | Notes |
+|---|---|---|
+| `name` | `agentName` | Agent display name |
+| `config` (nested object) | Top-level fields | `systemPrompt`, `voiceId`, `voiceProvider`, `modelProvider`, etc. |
+
+**`invoices_create` / `invoices_update`** — field names updated:
+
+| Old field | New field | Notes |
+|---|---|---|
+| `items` (array) | `title`, `amount` | `amount` is in **cents** (min 50) |
+| `notes` | `description` | — |
+
+**`invoices_recurring_create`** — field names updated: `interval` → `recurringInterval`; `items` → `title`, `amount` (in **dollars** for this route).
+
+**`metered_plans_create`** — schema overhauled: `unit`/`pricePerUnitCents` replaced with `metricType`, `metricName`, `pricingModel`, `pricingTiers` (array), and `billingCycle`.
+
+**`customer_credits_balance`** — now returns balance + recent transactions (additional data in the same call).
+
+If you have existing MCP automations using these tools, update your prompts and tool calls to use the new field names.
+
+## Troubleshooting
+
+- **System prompt exceeds character limit** — Split overly broad scopes into a multi-agent workflow. Each persona or use case should have its own agent.
+- **Voice not loading** — Reload the page. If voices still don't appear, check your internet connection and try a different browser.
+- **Builder session not resuming** — Sessions are listed by `lastTurnAt` (most recent first). If you don't see a session, it may have been created for a different customer or on a different account.
+- **Agent config not updating after edit** — The platform invalidates the Connect Hub agent cache after every save. If the agent's phone number still routes to old config, wait 30 seconds and call the number again. If it persists, contact support.
+
+## Related pages
+
+- [AI Agent Builder Chat](/agents/knova/agent-builder-chat) – How to use the AI-powered chat builder
+- [Telephony Credits](/partner-portal/telephony-credits) – Manage credits for phone calls
+- [MCP Tokens](/partner-portal/ai-agents/mcp/tokens) – Set up MCP access for AI coding tools
+- [Agent Analytics](/partner-portal/agent-analytics) – View call and usage statistics
+
+---
+
+> Source: [knotie-ai-pro#806](https://github.com/avijeett007/knotie-ai-pro/pull/806) — _improve knova agent_

@@ -1,0 +1,108 @@
+---
+title: "Notification Preferences"
+description: "Control which automated notifications Knotie AI Pro sends you — including agent healthcheck alerts — and view in-portal alerts from the bell icon."
+---
+
+## What notification preferences control
+
+Knotie AI Pro sends automated notifications when something needs your attention — such as an AI agent whose provider API key is failing. **Notification Preferences** lets you decide which of those emails you receive and how often.
+
+Key behaviours:
+
+- **Alerts are always recorded** regardless of your email preference. You can view them in-portal via the notification bell even when email is off.
+- **Deduplication:** A persistently broken agent does not email you every night. The platform tracks one open alert per agent and bumps an occurrence counter instead of creating duplicate rows.
+- **Throttle window:** Once an email is sent for a specific agent failure, the next email for the same issue is held back until the throttle window expires (default 24 hours). New failures still appear in the bell immediately.
+- **Auto-resolve:** When a failing agent passes its healthcheck again, the open alert is automatically resolved and disappears from the bell.
+
+## Where to find it
+
+In the Partner Portal sidebar, go to **Settings** → scroll to the **Notification Preferences** card.
+
+![Partner Portal — Settings page Notification Preferences card showing the Agent Healthcheck Alerts toggle in its default ON position (Nightly alerts when one of your voice agents fails its provider API-key healthcheck)](/images/screenshots/partner-notification-preferences-on.png)
+
+## Agent healthcheck toggle
+
+The **Agent Healthcheck** toggle controls whether you receive email when one of your agents' provider API keys fails the nightly healthcheck.
+
+| Toggle state | What happens |
+|---|---|
+| **On** (default) | You receive an email when a key first fails, then again after the throttle window if the issue persists |
+| **Off** | No emails sent — alerts are still recorded and visible in the portal bell |
+
+Turning this off is useful if you are already aware of a long-standing issue and don't want nightly reminders until you fix it.
+
+### Steps to turn off agent healthcheck emails
+
+1. Open **Settings** in the Partner Portal sidebar.
+2. Scroll to **Notification Preferences**.
+3. Toggle **Agent Healthcheck** off.
+4. The change saves immediately — no Save button required.
+
+![Partner Portal — Notification Preferences Agent Healthcheck Alerts toggle in the OFF position. No emails are sent; alerts still surface in the in-portal bell.](/images/screenshots/partner-notification-preferences-off.png)
+
+## In-portal alert bell
+
+Each voice provider page (Retell, VAPI, Ultravox, ElevenLabs) shows a **provider-scoped bell icon** next to the provider name. The bell turns red when there are open healthcheck failures for that provider's agents.
+
+Click the bell to see:
+- Which agents are failing
+- How many times the issue has been seen (`occurrence_count`)
+- When the failure was last detected (`last_seen_at`)
+
+**Viewing an alert dismisses it** (marks it for cleanup). Once dismissed, it will not reappear unless the agent fails again after a successful run.
+
+The **global notification bell** in the top navbar also surfaces these alerts, so you have one place to check all activity across providers.
+
+![Partner Portal — Retell Agents page showing the provider-scoped "Agent health notifications" bell icon in the page header next to the "Import Agents" and "Create New Agent" buttons. Clicking this bell surfaces Retell-scoped healthcheck failure alerts for this provider's agents.](/images/screenshots/partner-retell-provider-bell.png)
+
+> ℹ️ The **global navbar bell** is visible in the partner portal top navbar — see the bell with the badge "2" sitting next to the Pricing Calculator button on the dashboard. Its popover surfaces the same low-credit / agent-health alerts aggregated across providers. No standalone capture is needed; the existing dashboard screenshot already shows the bell.
+
+## Admin: platform-wide notification settings
+
+If you are a platform administrator (Mission Control access), you can manage global master switches that override partner-level preferences.
+
+Go to **Mission Control → Notification Settings**.
+
+The following categories have master switches:
+
+| Category | Status |
+|---|---|
+| Agent Healthcheck | Live — controls the nightly agent healthcheck sender |
+| Low Credit | Master switch (sender coming soon) |
+| Telephony Low Credit | Master switch (sender coming soon) |
+| Weekly Digest | Master switch (sender coming soon) |
+| Product Announcements | Master switch (sender coming soon) |
+
+When the platform master switch for a category is **Off**, no emails are sent for that category regardless of partner preferences.
+
+> ℹ️ **Mission Control → Notification Settings** is platform-admin-only and the route is not surfaced from the partner sidebar. The five toggles are: Agent Healthcheck / Low Credit / Telephony Low Credit / Weekly Digest / Product Announcements. Capture from an account with Mission Control access.
+
+### Notification cleanup
+
+A daily scheduled task removes:
+- Dismissed alerts
+- Resolved alerts
+- Any alert older than 3 months
+
+This keeps the bell and database clean without manual intervention.
+
+## Troubleshooting
+
+**I turned off the toggle but I'm still getting emails.**  
+The throttle window means an email already in the queue for the current window will still send. After the window closes (24 hours by default), no further emails will be sent.
+
+**The bell shows an alert but I already fixed the agent.**  
+The healthcheck runs nightly. The alert will auto-resolve the next time the agent passes. You can also dismiss the alert manually to clear the bell immediately.
+
+**I'm not seeing the Notification Preferences card in Settings.**  
+Scroll down past the security settings — the Notification Preferences card appears below the security section.
+
+## Related pages
+
+- [Integration Settings](/partner-portal/settings/integration-settings) — configure provider API keys that feed healthchecks
+- [Partner Portal Settings Overview](/partner-portal/settings/overview) — all settings sections at a glance
+- [Agent Analytics](/partner-portal/agent-analytics) — monitor agent call performance
+
+---
+
+> Source: [knotie-ai-pro#1021](https://github.com/avijeett007/knotie-ai-pro/pull/1021) — _feat(agent-healthcheck-notifications): partner/admin notification controls_

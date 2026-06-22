@@ -1,0 +1,152 @@
+---
+title: "Developer Console"
+description: "Publish AI solutions to the Knotie AI Pro Marketplace, manage listings, track earnings, and handle buyer requests from a dedicated developer portal."
+---
+
+## What the Developer Console is
+
+The **Developer Console** is a standalone portal for partners who want to build and sell AI solutions to other Knotie AI Pro partners. It is separate from the main Partner Portal — it has its own navigation, terminal-style theme, and role: you are the developer/seller here, not the agency owner.
+
+Access the Developer Console at `/developer` (or via the Partner Portal → **Developer Console** in the sidebar).
+
+<Frame>
+  <img src="/images/screenshots/developer-console-dashboard-2026-06-20.png" alt="Developer Console dashboard — charcoal background with emerald accents, sidebar (Dashboard / My Listings / Requests / Earnings / Settings), and 6 stat cards (Listings / Views / Installs / Avg rating / Open requests / Revenue)." />
+</Frame>
+
+## Prerequisites
+
+Before you can list anything, you must:
+
+1. **Connect Stripe** — Go to [Partner Settings → Stripe Connect](/partner-portal/settings/stripe-connect) and connect your Stripe account. This is required to receive payments for priced listings.
+2. **Accept the Developer Agreement** — The first time you open the Developer Console, a full-screen agreement gate presents the platform terms (including the shared-responsibility model and the requirement that all payments run through the Knotie platform). You must accept to proceed. If the terms are updated, you'll be prompted to re-accept.
+
+<Info>
+The Developer Agreement gate is a server-side gate on `/developer` that appears only for partner accounts that haven't accepted the current terms version. Once accepted, the gate does not reappear unless the terms version is bumped. To capture the gate live, sign in with a freshly-created developer account.
+</Info>
+
+## Creating a listing
+
+1. In the Developer Console sidebar, go to **Listings → New Listing**.
+2. Fill in the listing details:
+   - **Name** — Public-facing title of your solution
+   - **Description** — Markdown-supported description of what it does and why partners should use it
+   - **Category** — Helps buyers find your listing
+3. **Save as draft** before setting a price (required).
+
+<Frame>
+  <img src="/images/screenshots/developer-listing-editor-2026-06-20.png" alt="Developer Console — New listing editor with App name, Tagline, Category (Voice AI Agent), Description, Target customers (multi-select chips), and Business sectors fields." />
+</Frame>
+
+### Setting a price
+
+After saving a draft, the **Pricing** section unlocks (only if your Stripe account has charges enabled):
+
+| Pricing type | How to set it |
+|---|---|
+| **Free** | Select Free — no Stripe setup required |
+| **One-time** | Enter a price; a Stripe Product + Price is created on your connected account |
+| **Recurring** | Enter a price and select monthly or annual; a Stripe Subscription Price is created |
+
+If your Stripe account does not have charges enabled, the pricing controls are hidden and the listing will be free until you complete Stripe setup.
+
+### Adding media
+
+Make your listing stand out with rich media:
+
+- **Product images** — Up to multiple images (partner-scoped, hosted on Knotie's storage)
+- **Logo** — A square logo that appears on listing cards in the marketplace
+- **Video** — Paste a YouTube or Loom URL, or upload a short video clip directly
+
+All media is stored securely and scoped to your partner account. Customers browsing the marketplace see a developer-stripped view — your internal pricing context and account details are never exposed.
+
+<Frame>
+  <img src="/images/screenshots/developer-listing-media-section-2026-06-20.png" alt="Developer Console listing editor — Showcase media section with Logo (Upload logo), Screenshots up to 8 (Add screenshot), and Demo video (YouTube/Loom URL field + Upload video file button for MP4/WebM/MOV)." />
+</Frame>
+
+### Publishing a listing
+
+Once your listing is complete, click **Publish**. Published listings appear in the public marketplace immediately. You can unpublish at any time to take a listing offline.
+
+## Managing your listings
+
+In **Listings**, your dashboard shows:
+- Total active listings
+- Total revenue earned
+- Average rating
+- Per-listing analytics (views, purchases, conversion)
+
+Click any listing to open the **listing detail** panel, which has four tabs:
+
+| Tab | What it shows |
+|---|---|
+| **Overview** | Edit listing details, pricing, and media |
+| **Analytics** | Views, purchases, conversion rate over time |
+| **Requests** | Questions and support requests from buyers |
+| **Reviews** | Buyer ratings and comments |
+
+<Frame>
+  <img src="/images/screenshots/marketplace-listing-detail-analytics-2026-06-20.png" alt="Listing detail panel — Analytics tab selected showing 6 stat cards (Views, Watchlists, Installs, Interest, Avg rating, Reviews). The full set of tabs on a published listing also includes Overview, Requests, Reviews, and Settings." />
+</Frame>
+
+## Handling buyer requests
+
+When a buyer submits a request or question about your listing, it appears in:
+- The **Requests** tab of that listing
+- The **Requests Inbox** in the Developer Console sidebar (shows all pending requests across all listings)
+
+Reply directly from the Requests inbox. Unanswered requests are flagged to prompt timely responses.
+
+<Frame>
+  <img src="/images/screenshots/developer-requests-2026-06-20.png" alt="Developer Console — Requests inbox in empty state (No requests yet. When an agency reaches out about a listing, it lands here.). Capture from an account with an active buyer conversation to refresh." />
+</Frame>
+
+## Earnings
+
+Go to **Earnings** in the Developer Console sidebar to see:
+- Total lifetime revenue
+- Revenue per listing
+- Recent transactions
+
+Payouts follow your Stripe Connect payout schedule. All revenue from marketplace sales is paid directly to your connected Stripe account.
+
+<Frame>
+  <img src="/images/screenshots/developer-earnings-page-2026-06-20.png" alt="Earnings page in its current state — empty-state callout reads 'Per-app payments are coming soon. You publish pricing terms on each listing today. When direct in-marketplace payments ship, your revenue per listing will appear here automatically.' The total revenue / MRR / per-listing breakdown the doc describes will populate this page once marketplace payments ship." />
+</Frame>
+
+## Developer Console settings
+
+In **Settings** (inside the Developer Console), you can:
+- Update your developer display name and bio
+- Review the accepted Terms of Service version
+- Re-accept terms if prompted after an update
+
+## Privacy and buyer data
+
+The Developer Console is designed to protect end-customer privacy:
+- No developer-facing screen exposes the identity of end-customers.
+- Buyer interactions (reviews, requests, purchases) are **partner-to-partner** — you see the buying partner, not their customers.
+- The customer-facing view of any listing is always developer-stripped (no pricing, no developer account details).
+
+## Troubleshooting
+
+**Pricing controls are greyed out.**  
+Your Stripe account does not have charges enabled. Complete Stripe onboarding at [Partner Settings → Stripe Connect](/partner-portal/settings/stripe-connect).
+
+**I can't access the Developer Console.**  
+Make sure you have accepted the Developer Agreement. If the page redirects you back to the agreement gate, read and accept the terms to proceed.
+
+**I updated terms but the agreement gate keeps reappearing.**  
+The platform bumped the terms version. You must re-accept the new version before continuing.
+
+**My listing isn't appearing in the marketplace.**  
+Check that the listing status is **Published** (not Draft or Unpublished) in the Listings panel.
+
+## Related pages
+
+- [App Marketplace (buying)](/partner-portal/marketplace/overview) — Browse and purchase listings as a buyer
+- [Stripe Connect](/partner-portal/settings/stripe-connect) — Required for accepting marketplace payments
+- [New Solutions](/partner-portal/experiences/overview) — How buyers use purchased listings in their portals
+
+---
+
+> Source: [knotie-ai-pro#994](https://github.com/avijeett007/knotie-ai-pro/pull/994) — _feat(marketplace): App Marketplace + standalone Developer Console_

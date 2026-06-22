@@ -1,0 +1,94 @@
+---
+title: "Stage subscriptions"
+description: "Free-tier partners can subscribe to a Stage plan to expand their customer limit and unlock additional agent types or One-Click Experiences."
+---
+
+## What Stage subscriptions are
+
+**Stage subscriptions** are optional monthly add-on plans available exclusively to **Free Forever** partners. Subscribing to a Stage increases the number of customers you can manage and can unlock additional AI agent types or One-Click Experiences.
+
+If you are already on a paid partner plan, the Stage system does not apply to your account — your limits are governed by your plan directly.
+
+## Why your customer limit is enforced
+
+Free Forever accounts include a fixed maximum number of customer slots. When you try to onboard a new customer after reaching that limit, the Partner Portal blocks the action and shows:
+
+> **Customer limit reached** — you have hit your current maximum. Subscribe to a Stage to add more customers.
+
+Subscribing to a Stage immediately raises your customer cap so you can continue onboarding.
+
+## Where to find Stage subscriptions
+
+<Warning>
+**Doc-vs-UI gap (2026-06-19):** The instruction below assumes a free-tier partner on a plan that exposes Stage subscriptions. As of the last walkthrough, the KnoLabs AI Agency account is on Ultimate Scaleup (paid plan) — Stage subscriptions are not surfaced in the live Settings sidebar. Direct routes `/partner/settings/stage-subscriptions`, `/partner/stage-subscriptions`, and `/partner/subscription` all return 404. If you are a free-tier partner, contact Knotie support to confirm whether the Stage system is currently active on your account before following these steps.
+</Warning>
+
+1. Open the **Partner Portal**.
+2. Go to **Settings**.
+3. Look for a **Stage Subscriptions** card (or **Upgrade Plan** button) in the Settings page.
+
+> ℹ️ The **Stage Subscriptions** section surfaces tiered add-ons that increase customer / agent / experience quotas without a full plan upgrade. The Stage system is not active in the current account, so the partner settings page does not render this section — capture from an account that has been migrated to the Stage billing model to refresh.
+
+## What a Stage includes
+
+Each available Stage displays the following information:
+
+| Field | Description |
+|---|---|
+| **Name** | Stage identifier (e.g., Starter, Growth) |
+| **Customer slots** | Maximum number of customers you can manage |
+| **Monthly price** | Billed monthly through Stripe |
+| **Agent limits** | Optional increases to per-provider agent quotas (Vapi, Retell, ElevenLabs, GHL, Knova, Ultravox, BYO) |
+| **Experiences** | One-Click Experiences unlocked (e.g., AI Business Audit) |
+
+Available Stages are configured by the Knotie AI Pro admin team. Contact support if no Stage meets your current needs.
+
+## How to subscribe to a Stage
+
+1. Open **Settings → Stage Subscriptions**.
+2. Review the available Stages and click **Subscribe** on the one that fits your needs.
+3. You are redirected to a Stripe Checkout page — enter your payment details and confirm.
+4. After successful payment you are returned to the Partner Portal. Your new customer limit is applied immediately.
+
+## Upgrading to a higher Stage
+
+If you outgrow your current Stage:
+
+1. Open **Settings → Stage Subscriptions**.
+2. Click **Upgrade** next to the higher Stage you want.
+3. Complete the Stripe Checkout flow.
+
+Your subscription switches to the new Stage and your customer limit updates immediately after payment is confirmed.
+
+> ℹ️ The Stage upgrade prompt opens when a partner tries to enable a feature their current Stage doesn't include — it shows current Stage column vs target Stage column with the incremental quotas unlocked by upgrading. Capture once Stages are active.
+
+## Cancelling your Stage subscription
+
+1. Open **Settings → Stage Subscriptions**.
+2. Click **Cancel subscription**.
+3. Confirm the cancellation in the dialog.
+
+Your Stage subscription remains active until the end of the current billing period. After that, your customer limit reverts to the Free Forever default. Any customers you already have are not deleted, but you will be unable to add new ones beyond the base limit.
+
+> ℹ️ The Stage cancellation dialog asks the partner to confirm the downgrade and lists which quotas will revert at the end of the billing period. Capture once Stages are active.
+
+## What happens when you hit the customer limit
+
+If a customer creation attempt is blocked, you will see an error in the Partner Portal with your current customer count and your current limit. To resolve it:
+
+- **Subscribe to a Stage** (if you have no active Stage) to expand your limit, or
+- **Upgrade to a higher Stage** if your current Stage limit is already reached, or
+- **Contact support** if you believe the limit is incorrect.
+
+## Common issues
+
+| Situation | Cause | Resolution |
+|---|---|---|
+| **Customer limit reached** when creating a customer | You've reached the maximum for your Free Forever base or current Stage | Subscribe to or upgrade a Stage |
+| **Stage upgrades are only available for free tier partners** error | You're on a paid partner plan, which doesn't use the Stage system | Manage your subscription via Settings → Subscription & Billing |
+| Stage cards don't appear | No Stages have been activated by admins yet | Contact support |
+| Checkout redirects to an error page | Stripe configuration issue | Contact support with the Stripe session ID shown in the URL |
+
+---
+
+> Source: [knotie-ai-pro#647](https://github.com/avijeett007/knotie-ai-pro/pull/647) — _Fix/pr645 review fixes_

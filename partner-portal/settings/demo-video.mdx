@@ -1,0 +1,80 @@
+---
+title: "Platform demo video"
+description: "Configure the YouTube demo video shown on the public landing page to help prospects understand the platform before signing up."
+---
+
+## What this is for
+
+When prospects visit your white-label platform's landing page, they see a **demo video section** with a 20-minute platform deep dive. This video plays directly on the page and is designed to convert visitors into signups.
+
+You can configure which YouTube video is displayed by setting the `NEXT_PUBLIC_DEMO_VIDEO_ID` environment variable.
+
+> ℹ️ The **demo video** section renders on the customer's whitelabel portal landing page (above the pricing grid) — outside knotie-ai.pro. There is no UI toggle in the partner portal; the section is configured via the `NEXT_PUBLIC_DEMO_VIDEO_ID` env var and rendered through the `DemoVideoSection` component. Capture from a deployed whitelabel portal where the demo video is configured.
+
+---
+
+## How it works
+
+The landing page includes an animated section titled **"See How Easy It Is to Build Your Voice AI Empire"** that embeds a YouTube video. Visitors can watch it inline without leaving your page. The section also has a **Get Started** button that opens the signup modal.
+
+The "See how it works" link in the platform hero section scrolls down to this video automatically.
+
+---
+
+## Configure the demo video
+
+### Environment variable
+
+Set this in your main app `.env`:
+
+```env
+# YouTube video ID for the platform demo video (from https://youtu.be/VIDEO_ID)
+NEXT_PUBLIC_DEMO_VIDEO_ID=1wgE_3YCCGY
+```
+
+The value is the **YouTube video ID** — the part after `youtu.be/` or `?v=` in a YouTube URL. For example, if your video URL is `https://youtu.be/ABC123xyz`, set:
+
+```env
+NEXT_PUBLIC_DEMO_VIDEO_ID=ABC123xyz
+```
+
+The default value (`1wgE_3YCCGY`) is the official Knotie AI platform overview video. Replace it with your own if you want a custom white-label demo.
+
+### Finding the YouTube video ID
+
+1. Open the YouTube video you want to use.
+2. Copy the URL from the browser address bar.
+3. Extract the ID:
+   - From `https://youtu.be/ABC123xyz` → ID is `ABC123xyz`
+   - From `https://www.youtube.com/watch?v=ABC123xyz` → ID is `ABC123xyz`
+
+---
+
+## After changing the video
+
+Because `NEXT_PUBLIC_DEMO_VIDEO_ID` is a build-time variable (prefixed with `NEXT_PUBLIC_`), you need to **rebuild and redeploy** the main app for the change to take effect. A hot-reload or restart is not sufficient.
+
+---
+
+## Disabling the demo video section
+
+There is no toggle to hide the demo video section from the UI. If you do not want the section to appear, either:
+
+- Point the variable to an unlisted YouTube video that doesn't reveal internal details.
+- Remove the `DemoVideoSection` component from `src/components/KnotieDashboard.tsx` (requires a custom code change).
+
+---
+
+## Troubleshooting
+
+- **Video not showing up**
+  - Confirm the variable is set and the app was rebuilt after the change.
+  - Make sure the YouTube video ID is correct and the video is public (or unlisted).
+- **Wrong video is showing**
+  - Check that the new value was saved and the app was rebuilt. Old values can persist in the build cache.
+- **"Video unavailable" inside the player**
+  - The video owner may have disabled embedding. Open YouTube Studio and ensure **Allow embedding** is turned on for the video.
+
+---
+
+> Source: [knotie-ai-pro#790](https://github.com/avijeett007/knotie-ai-pro/pull/790) — _Knova agent demos v1_

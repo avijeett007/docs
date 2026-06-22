@@ -1,21 +1,33 @@
 ---
 title: "Free Forever tier"
-description: "Learn how the Free Forever tier works and what’s included."
+description: "Learn how the Free Forever tier and the 7-day premium trial work."
 ---
 
 ## Overview
 
-Knotie AI Pro offers a **Free Forever tier** so you can explore the platform and validate your workflow risk-free before committing to a paid plan.
+Knotie AI Pro offers a **Free Forever tier** so you can explore the platform risk-free. Every new account starts on Free Forever and automatically receives a **7-day premium trial** that unlocks all features — no auto-upgrade, no charge after the trial ends.
 
-It's designed for partners who want to test:
+## 7-day premium trial
 
-- Customer onboarding flows
-- Whitelabel portal setup
-- Basic agent management
+When you sign up, you're offered a 7-day trial of all premium features:
 
-## What's Included
+| What's included | Notes |
+|----------------|-------|
+| All AI voice providers (VAPI, Retell, LiveKit, Ultravox) | Access every provider during the trial |
+| Unlimited customers and agents | No tier limits during trial |
+| Advanced integrations and analytics | GHL, N8N, and all integrations |
+| Priority support | |
 
-The Free Forever tier includes essential features with clearly defined limits:
+**How the trial works:**
+- The first signup screen is a Business Name / Email / Phone modal with no card entry. The Stripe card step (if required for verification) happens on a subsequent screen — not captured in the live `Create Account` modal as of 2026-06-18. See [[knotie-doc-gaps|G50]].
+- After 7 days, your account reverts to the Free Forever plan automatically.
+- There is no auto-upgrade and no charge unless you choose to upgrade.
+
+> ℹ️ The 7-Day Free Trial confirmation screen is shown right after Create Account and lists every premium feature unlocked for the trial. Capture it once during your own signup — the layout shows a "Free Forever — 7-day premium trial" summary card with **$0 today** and a "No auto-upgrade" guarantee.
+
+## Free Forever (after trial)
+
+After the trial ends, you remain on the Free Forever plan with these limits:
 
 **Customer & Agent Management**
 
@@ -33,9 +45,19 @@ The Free Forever tier includes essential features with clearly defined limits:
 
 - Concurrency limit: 5 (Knova)
 
-**Note:** Some add-ons, such as phone numbers, may incur separate charges.
+<Note>
+  Some add-ons, such as phone numbers, may incur separate charges even on the Free Forever plan.
+</Note>
 
-## When to Upgrade
+## Expanding your customer limit with Stages
+
+If you need more than 2 customers but aren't ready to move to a full paid plan, you can subscribe to a **Stage** — an optional monthly add-on that increases your customer slot count and can unlock additional agent types or One-Click Experiences.
+
+Stages are billed monthly through Stripe. You can subscribe, upgrade, or cancel at any time from **Settings → Stage Subscriptions**.
+
+See [Stage subscriptions](/partner-portal/settings/stage-subscriptions) for full details.
+
+## When to upgrade
 
 Consider upgrading to a paid plan when you need:
 
@@ -46,12 +68,18 @@ Consider upgrading to a paid plan when you need:
 - Team member access
 - Higher concurrency limits and advanced scaling features
 
-## How to Get Started
+## How to get started
 
-1. Visit the [Knotie AI Pro pricing page](knotie-ai.pro)
-2. Select **Free Forever**
-3. Complete the signup form
-4. Log in to your Partner Portal
-5. Follow the onboarding checklist to set up your first workflow
+1. Visit **knotie-ai.pro** and click **Start for free**.
+2. Fill in your business name, email, and phone number.
+3. Click **Create Account** — no plan selection required.
+4. On the next screen, click **Start 7-Day Free Trial** and complete the Stripe card step.
+5. Log in to your Partner Portal and follow the onboarding checklist.
+
+See [How to sign up](/account/signup) for the detailed signup walkthrough.
 
 ![Knotie AI Pro pricing page showing Free Forever tier with $0 pricing](/images/screenshots/pricing-2026-06-09.png)
+
+---
+
+> Source: [knotie-ai-pro#805](https://github.com/avijeett007/knotie-ai-pro/pull/805) — _Knotie 03 UI revamp_

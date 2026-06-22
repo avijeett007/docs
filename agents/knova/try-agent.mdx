@@ -1,0 +1,120 @@
+---
+title: "Try Knova agent in browser"
+description: "Test your Knova AI Receptionist directly from the Partner Portal using your microphone — no phone call required."
+---
+
+## Overview
+
+The **Try Agent** feature lets you test your Knova AI Receptionist with a live voice conversation, right in your browser. No phone number needed — you speak into your microphone and the agent responds through your speakers in real time.
+
+This is useful for:
+- Verifying the agent's system prompt and voice configuration before going live.
+- Demonstrating the agent to a customer without placing a real phone call.
+- Debugging unexpected agent behaviour in a quick, low-friction test session.
+
+<Note>
+  This feature is currently in **Beta**. It uses LiveKit WebRTC under the hood. You need a microphone and speakers (or headphones) connected to your browser.
+</Note>
+
+---
+
+## Prerequisites
+
+- A Knova agent created and configured in your partner account.
+- Sufficient **Knotie Credits** — test sessions consume credits while the agent is connected. Verify your balance under **Partner Portal → Credits** before testing.
+- A browser with microphone access enabled (Chrome, Edge, or Firefox recommended).
+
+---
+
+## How to open the browser test
+
+1. In the Partner Portal sidebar, go to **AI Agents → Knova**.
+
+<Frame>
+  <img src="/images/screenshots/knova-agents-list-2026-06-20.png" alt="Knova AI (Hosted) Agents list page — shows the AI-Powered Agent Builder banner with 'Try the Builder' CTA, a search box, and one agent card (Knotie, type website, channel web, Active) with a three-dot menu (⋮) at the end. Try Agent is reached from the three-dot menu, not a row-level button." />
+</Frame>
+
+2. Find the Knova agent you want to test and open the agent's **three-dot menu** (⋮) at the end of the row — there is no row-level button. Choose **Try Agent (BETA)** from the menu.
+3. The **Try [Agent Name]** modal opens and immediately starts preparing a secure voice session.
+
+<Frame>
+  <img src="/images/screenshots/knova-try-agent-loading-2026-06-20.png" alt="Try Knotie (BETA) modal in loading/connecting state — purple agent icon, 'Browser-based voice test using your mic and speakers' subtitle, yellow 'Connecting…' status, 'Waiting for the agent to join…', 'Agent Connecting' label, and Mute + End test buttons (disabled while connecting)." />
+</Frame>
+
+---
+
+## During the test session
+
+Once the session is ready, the modal shows a live voice interface:
+
+<Info>
+The active/connected state of the Try Agent modal requires a successful LiveKit session. On the KnoLabs AI Agency account, the current credit balance causes the session to end with a 'Not enough credits' gate (shown in `knova-builder-proposal-2026-06-20.png` for the AI Builder path) before the connected state is reached. To capture, top up credits and retry the test.
+</Info>
+
+### Connection indicator
+
+A coloured dot in the top-left of the session area shows the connection state:
+- **Green** — Connected
+- **Yellow (pulsing)** — Connecting or Reconnecting
+- **Grey** — Disconnected
+
+### Voice visualizer
+
+The purple bar visualizer pulses with the agent's audio when it is speaking. When it is idle, the bars are flat.
+
+The agent state label below the visualizer updates in real time:
+- **Listening** — the agent is waiting for you to speak
+- **Speaking** — the agent is responding
+- **Idle** — waiting for the session to start
+
+### Cold-start hint
+
+If the agent hasn't been used in a while (LiveKit Cloud scales to zero during idle periods), the session may take 10–20 seconds to wake up. The modal shows a yellow amber notice and a timer so you know the agent is starting, not broken.
+
+### Microphone controls
+
+- Click **Mute / Unmute** to toggle your microphone without ending the call.
+- Click **End test** (red button) to disconnect and close the modal.
+
+---
+
+## Credit usage
+
+Test sessions use the same credit pool as live calls. Credits are consumed for the duration of the connection — from the moment you connect until you click **End test** or the session disconnects.
+
+If your balance is too low to start a session, the modal shows a credit gate error:
+
+<Info>
+The "Not enough credits" credit-gate error appears inside the Try Agent modal when the partner's credit balance is too low to start a LiveKit session. On the KnoLabs AI Agency account the same gate appears as the final response in the AI Agent Builder Chat when `KNOVA_BUILDER_MODEL` runs out of credits — visible in `knova-builder-proposal-2026-06-20.png` with the message "Not enough credits. Buy 32K more credits or get in touch with your manager to unlock."
+</Info>
+
+Click **Top up credits →** to go to the Credits page and add more.
+
+---
+
+## Troubleshooting
+
+**"Could not start the test" error**
+
+- Check your internet connection. The modal needs to reach the LiveKit Cloud server.
+- If the error persists, click **Try again** inside the modal.
+
+**No audio from the agent**
+
+- Ensure your browser's volume is not muted.
+- Check your OS audio output device — LiveKit WebRTC uses the browser's default audio output.
+- If the agent state shows "Listening" but nothing happens after you speak, try refreshing the page and opening the modal again.
+
+**Microphone not working**
+
+- Grant microphone permission when the browser prompts you. If you previously denied permission, update it in your browser's site settings for knotie-ai.pro.
+- On macOS, confirm the app (browser) has microphone access in **System Settings → Privacy & Security → Microphone**.
+
+**Session disconnects unexpectedly**
+
+- The agent disconnects automatically if your Knotie Credits reach zero mid-session. Top up and start a new test session.
+- Unstable internet can also cause disconnects — the modal will show "Disconnected" and you can simply close and reopen it.
+
+---
+
+> Source: [knotie-ai-pro#796](https://github.com/avijeett007/knotie-ai-pro/pull/796) — _Improve knova agent_

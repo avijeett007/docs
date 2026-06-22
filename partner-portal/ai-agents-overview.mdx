@@ -1,0 +1,71 @@
+---
+title: "AI Agents panel"
+description: "Understand the grouped AI Agents panel in the Partner Portal — Voice Agents, Chat Agents, and Automation & Tokens."
+---
+
+## What the AI Agents panel is
+
+The **AI Agents** entry in the sidebar (under **AI PLATFORM**) opens an expandable panel rather than navigating to a single page. The panel organises all your agent providers into three sub-groups:
+
+| Group | Providers |
+|---|---|
+| **Voice Agents** | VAPI, Ultravox, Retell, ElevenLabs, GHL, Knova |
+| **Chat Agents** | Retell Chat, N8N Chat Agents |
+| **Automation & Tokens** | N8N Automation, N8N Tokens, MCP Tokens, Agent Migration |
+
+![Partner Portal sidebar — AI Agents panel expanded showing Voice Agents (VAPI, Ultravox, Retell, ElevenLabs, GHL, Knova), Chat Agents (Retell Chat, N8N Chat Agents), and Automation & Tokens sub-groups](/images/screenshots/partner-sidebar-ai-agents-expanded.png)
+
+## Voice Agents
+
+Voice agents handle inbound and outbound phone calls. Each provider has its own management page accessible from this group:
+
+- **VAPI Agents** — Manage agents hosted on the VAPI platform. Import existing VAPI agents or create new ones.
+- **Ultravox Agents** — Manage Ultravox voice agents. Assign phone numbers and configure system prompts.
+- **Retell Agents** — Import and manage Retell agents. Assign numbers and configure call behaviour.
+- **ElevenLabs Agents** — Manage ElevenLabs conversational agents with custom voice selection.
+- **GHL Agents** — Connect GoHighLevel agents for CRM-integrated voice workflows.
+- **Knova Agents** *(NEW)* — Manage Knova voice agents. Knova is a new provider that integrates with the Knotie platform.
+
+![Partner Portal — Retell Agents management page showing the agent card layout (Daela, KnotieAgent) with Active status, voice ID, language, and Reassign Customer / Manage Webhook actions. The ℹ️ Agent details info icon opens the agent-info modal/popover.](/images/screenshots/partner-retell-agents-page.png)
+
+## Chat Agents
+
+Chat agents handle text-based conversations rather than phone calls:
+
+- **Retell Chat** — Deploy Retell-powered chat agents on your customer portals.
+- **N8N Chat Agents** — Create N8N-driven chat automation flows for your customers.
+
+## Automation & Tokens
+
+- **N8N Automation** — Connect N8N workflows to trigger voice agent calls and process results.
+- **N8N Tokens** — Manage API tokens for N8N integration authentication.
+- **MCP Tokens** — Manage Model Context Protocol tokens for advanced AI gateway integrations.
+- **Agent Migration** — Migrate agents between providers or update legacy agent configurations to the current format.
+
+![Partner Portal — MCP Tokens management page (one of the Automation & Tokens sub-group pages), showing the token list, copy/revoke actions, and create-token controls](/images/screenshots/partner-mcp-tokens-page.png)
+
+## Info tooltips on agent cards
+
+Each agent management page displays your agents as cards. Hovering over the **ℹ️ info icon** on a card reveals a popover with contextual details about that agent — such as the assigned phone number, agent ID, or current status — without needing to open a full modal.
+
+## Assigning agents to customers
+
+From any agent management page:
+
+1. Find the agent in the list.
+2. Click **Assign to Customer** (or use the agent's detail modal).
+3. Select the customer from the dropdown.
+4. Save. The agent is now associated with that customer.
+
+## Related pages
+
+- [Import a Retell agent](/agents/retell/import-retell-agent)
+- [Import a VAPI agent](/agents/vapi/import-vapi-agent)
+- [Manage Ultravox agents](/agents/ultravox/manage-ultravox-agents)
+- [Manage ElevenLabs agents](/agents/elevenlabs/manage-elevenlabs-agents)
+- [N8N automation](/agents/n8n/n8n-automation)
+- [Knova agents](/agents/knova/overview)
+
+---
+
+> Source: [knotie-ai-pro#930](https://github.com/avijeett007/knotie-ai-pro/pull/930) — _Knotie002 partner dashboard revamp_

@@ -1,0 +1,291 @@
+---
+title: "Knova AI Agent Builder"
+description: "Build voice and chat agents through a conversational interface. Paste a URL, describe your business, and the builder drafts a fully configured agent."
+---
+
+## What is the Knova AI Agent Builder?
+
+The Knova AI Agent Builder is a conversational interface that lets partners and customers create a configured Knova voice or chat agent through natural language — no manual form-filling required. You describe the business, paste a website URL, or explain the use case, and the builder proposes an agent with a system prompt, voice, tools, and configuration already filled in.
+
+Use the builder when you want to:
+
+- Spin up an agent quickly from a business description
+- Draft a system prompt from a live website (paste a URL)
+- Configure multi-agent routing (triage + specialists)
+- Iterate on a draft in plain English instead of editing fields
+
+<Frame>
+  <img src="/images/screenshots/knova-create-modal-setup-mode-2026-06-20.png" alt="Knova Create Agent modal — Tab 2 (Setup Mode) with two large cards: AI Mode (BETA RECOMMENDED) and Manual Mode. The AI Mode card explains that AI picks tools, attaches the knowledge base, and writes the system prompt. The Manual Mode card explains full control over prompt, tools, and personas." />
+</Frame>
+
+---
+
+## Opening the builder
+
+The **Create Agent** modal for Knova is a **5-tab sequential flow**, not a single Basic form:
+
+1. **Customer** — pick the customer this agent belongs to.
+2. **Setup Mode** — choose **AI Builder** (chat-driven) or **Manual** (fill fields yourself). If you pick Manual, the AI Builder tab is hidden for the rest of the flow.
+3. **Basic** — agent name, system prompt, greeting, voice (only reached after you choose a Setup Mode).
+4. **Advanced** — tools, knowledge base, advanced config.
+5. **Functions** — function calls / tool wiring.
+
+To open it:
+
+1. In the Partner Portal, navigate to **AI Agents** (or open a customer record and click **Manage Agents**).
+2. Click **+ Create Agent** (top right).
+3. Walk through tabs 1–5 in order; each tab gates the next.
+
+If you picked **AI Builder** on the Setup Mode tab, the Basic tab is replaced by a chat panel — describe the business and the builder drafts the system prompt, voice, and config. Click **Apply to form** to load the draft into the standard Basic tab for final tweaks.
+
+<Frame>
+  <img src="/images/screenshots/knova-create-agent-modal-2026-06-20.png" alt="Knova Create Agent modal — 5-tab sequential flow: Customer (active), Setup Mode, Basic, Advanced, Functions. The Customer tab is the first step and shows the 3 available customers with names + emails." />
+</Frame>
+
+---
+
+## Building an agent
+
+### Basic flow
+
+1. **Describe the business or use case.** For example:
+   > *An inbound receptionist that books cleanings on Calendly and texts confirmations.*
+
+2. **Paste a URL if you have one.** When the builder detects a URL in your message it will read the page automatically and use it to populate the agent.
+   > *Or paste your business URL and I'll read it.*
+
+3. **Review the draft.** The builder streams its reasoning, then presents a proposed agent configuration.
+
+4. **Refine or accept.** Ask for changes in plain English, or click **Accept** to save the agent.
+
+### What's in the proposal
+
+The builder produces a complete agent configuration with:
+
+- Agent name and type (`inbound` / `outbound` / `web` / `multi_agent`)
+- Communication channel (`telephony` or `web`)
+- Agent mode (`essential` / `moderate` / `premium`)
+- System prompt and greeting message
+- Function calls (tool integrations)
+- Multi-agent personas and routing (if applicable)
+
+Review the proposal in the chat. Give feedback if you want changes — the builder will revise and re-propose. When you are satisfied, click **Apply to form**. The proposal is loaded into the standard agent creation form, where you can make final tweaks before saving.
+
+---
+
+## Autonomous web access — no toggle required
+
+The builder can read web pages and run searches on its own, without any partner-facing toggle. (Earlier "Web search" / "Keep Web search on" toggles were removed in knotie-ai-pro#848.)
+
+| Situation | What the builder does |
+|---|---|
+| You paste a URL in your message | Calls `fetch_url` and reads the page content before proposing the agent |
+| You name a website ("their site is ipswich.plumbing") | Calls `fetch_url` with the URL it infers |
+| The business profile has a `businessWebsite` field | Calls `fetch_url` to pull current hours, services, pricing detail |
+| No URL is in scope and the builder needs to find one | Calls `search_web` with a relevant query |
+
+### URL detection indicator
+
+When the builder detects a URL in your input field, a teal badge appears above the text area:
+
+> **URL detected — the builder will read it**
+
+This is informational only — no action is required. The builder will fetch the page as part of its reasoning.
+
+<Frame>
+  <img src="/images/screenshots/knova-url-detected-badge-2026-06-20.png" alt="Knova Agent Builder Chat input — the teal 'URL detected — the builder will read it' badge appears above the text area as soon as a URL is typed into the message composer. Informational only; the builder auto-fetches the page as part of its reasoning." />
+</Frame>
+
+### What happens when a fetch fails?
+
+If a site blocks the crawler, returns a 4xx error, or times out, the builder:
+- Acknowledges the failure briefly in its response
+- Asks you to paste the relevant text in plain English
+- Continues building the best draft it can without blocking
+
+You do not need to retry or toggle anything.
+
+---
+
+## Progress indicators
+
+While the builder is working, phase labels appear above the chat to show what it is doing:
+
+| Phase label | What it means |
+|---|---|
+| *Reading your request* | Parsing your message |
+| *Fetching the web page* | Loading a URL you provided or the business website |
+| *Searching the web* | Running a web search to find a URL |
+| *Reading your business profile* | Loading business context from the customer record |
+| *Understanding the app integrations* | Inspecting available tool integrations |
+| *Drafting the agent* | Composing the system prompt and configuration |
+
+---
+
+## Multi-agent configurations
+
+The builder supports creating multi-agent setups where a routing agent hands off to specialised persona agents (e.g. sales, support, billing).
+
+### Routing modes
+
+| Mode | Description |
+|---|---|
+| `triage_specialist` | A triage persona routes to one of several specialists based on the caller's intent |
+| `linear` | Personas hand off in a fixed sequence |
+| `freeform` | Each persona decides whether to hand off |
+
+### Requirements for multi-agent proposals
+
+- At least **2 personas** defined
+- A **routing** block with a valid mode
+- An **entryPersonaId** pointing to the first persona
+- All persona IDs referenced in routing must exist in the `personas` list
+
+When editing an existing multi-agent setup:
+- All personas are loaded correctly into the builder context
+- The `entryPersonaId` (routing agent) is preserved
+- The builder can update individual personas or the routing logic
+
+<Info>
+The Knova multi-agent builder view is only reached by selecting the **Multi-Agent** card on the Agent Type row in the Basic tab. From a fresh Knova agent (no customer assigned, default Inbound), the multi-agent section is hidden. To capture, open the AI Builder for an agent whose Agent Type is set to Multi-Agent, or create a new agent and pick Multi-Agent before opening the builder.
+</Info>
+
+---
+
+## AI Analytics gate
+
+Knova agents support **AI Analytics** (call metrics and insights). The Partner Portal reflects your account's AI Analytics status:
+
+- **Enabled**: you can configure and save metrics for any Knova agent.
+- **Disabled**: the Configure Metrics modal shows a warning banner and the **Add / Save** buttons are disabled, so you know the settings won't take effect until AI Analytics is turned on at the partner level.
+
+<Info>
+The Configure Metrics modal is opened from the agent's three-dot menu. It shows the AI Analytics disabled warning banner only on partner accounts where AI Analytics is off at the account level. The KnoLabs AI Agency account has AI Analytics enabled (toggle is on in Partner Settings → AI Analytics), so the warning banner does not appear in this account. To capture, sign in with a partner account that has AI Analytics disabled.
+</Info>
+
+---
+
+## Saving behaviour
+
+- While the agent is being saved (the save operation is in flight), closing the modal does **not** trigger an "unsaved changes" confirmation. The save will complete normally.
+- If you attempt to close the modal before saving, a confirmation dialog asks whether you want to discard your changes.
+- Once the save completes, the modal closes automatically.
+
+---
+
+## Customer assignment after building
+
+After the builder creates an agent, you map it to a customer from the agent's three-dot menu using **Assign Customer to Agent** (not a step inside the agent modal itself). The kebab entry opens a modal with a **Customer** dropdown and a **Profit Multiplier** field — no phone-number selection happens here.
+
+Phone-number assignment is a separate step that happens later in the agent's edit flow **under the assigned customer** (not in the Knova agent modal).
+
+When a phone number is assigned to a Knova agent, the phone numbers listing now correctly shows the associated customer — the number will no longer appear as "Unassigned" after the assignment is saved (knotie-ai-pro#848 backfills `PhoneNumber.customerId` if it was previously unset).
+
+<Frame>
+  <img src="/images/screenshots/knova-agents-list-try-menu-2026-06-20.png" alt="Knova agent row three-dot menu — Try Agent (BETA), Test Outbound Call, Edit Agent, Assign Customer, Configure Metrics, Delete Agent. The Assign Customer option opens a modal with a customer dropdown and a Profit Multiplier field." />
+</Frame>
+
+---
+
+## Voice selection notes (Inworld)
+
+When the builder proposes an Inworld voice, gender is detected correctly from the voice catalogue. Previously, voices with descriptions containing the word "female" could be incorrectly matched as "male" due to a substring overlap. This is fixed — Ashley, Craig, and other Inworld voices now resolve to the correct gender.
+
+---
+
+## Builder reliability
+
+The builder API allows up to **120 seconds** per turn (increased from 60 s in knotie-ai-pro#832) to accommodate complex multi-agent configurations.
+
+- Simple single-agent builds typically complete in under 30 seconds.
+- Complex multi-agent builds with 4–6 tool calls may take 60–90 seconds.
+- If the builder appears stuck for more than 2 minutes, close the modal and try again.
+
+### Proposal validation rules
+
+Every proposal is validated before being presented:
+
+| Rule | Detail |
+|---|---|
+| System prompt length | Max 15,000 characters per persona |
+| Multi-agent: persona count | Minimum 2 personas |
+| Multi-agent: routing | Must include a valid routing block and `entryPersonaId` |
+| Persona references | All IDs in routing must match a defined persona |
+
+If a proposal violates a rule, the builder self-corrects on the next turn rather than surfacing an error to you.
+
+---
+
+## Configuration reference (self-hosted)
+
+Partners running their own Knotie AI Pro instance configure the builder LLM via `.env`:
+
+| Variable | Purpose | Recommended value |
+|---|---|---|
+| `KNOVA_BUILDER_BASE_URL` | LLM provider endpoint | e.g. `https://api.openai.com/v1` |
+| `KNOVA_BUILDER_API_KEY` | API key for the provider | Your OpenAI / provider key |
+| `KNOVA_BUILDER_MODEL` | Model used for the builder | `openai/gpt-4.1-mini` |
+| `KNOVA_BUILDER_AUTH_SCHEME` | `Bearer` (default) or `Basic` (Inworld) | `Bearer` |
+| `KNOVA_BUILDER_TEMPERATURE` | Sampling temperature | `0.7` |
+
+### Recommended models
+
+The builder requires a model with **reliable tool-calling**. Reasoning-heavy models can produce long chains-of-thought without ever calling `propose_agent_config`.
+
+**Confirmed working:**
+
+| Provider | Model ID |
+|---|---|
+| OpenAI (direct) | `openai/gpt-4.1-mini` |
+| OpenAI (via Inworld) | `openai/gpt-4o-mini` |
+| Anthropic (via Inworld) | `anthropic/claude-haiku-4-5` |
+
+<Warning>
+Avoid `inworld/ab-test-models` as the builder model. That family uses a reasoning-heavy architecture with weak tool-call support, which causes the builder to fail on multi-step tool loops.
+</Warning>
+
+<Tip>
+For Inworld-hosted deployments, use `openai/gpt-4.1-mini`. It has reliable tool use and is cost-efficient for agent builder sessions.
+</Tip>
+
+---
+
+## Troubleshooting
+
+**Builder chat shows a spinner for a long time**
+The builder LLM is working through a multi-tool turn. Wait up to 2 minutes before closing.
+
+**Builder times out before finishing**
+The builder route allows up to 120 seconds per turn for reasoning-heavy models. If you see timeout errors:
+- Switch to a faster model (`gpt-4.1-mini`, `claude-haiku-4-5`)
+- Split the request into smaller steps (one persona at a time for multi-agent configs)
+
+**Input field has no cursor when the modal opens**
+Fixed in knotie-ai-pro#848. The input now auto-focuses correctly even when the builder is opened from inside another modal. If you still see this, ensure your browser is up to date.
+
+**Fetch fails on every URL I paste**
+- Check that `SERPER_API_KEY` (or equivalent web-search config) is set in your `.env` file (self-hosted only)
+- Some sites block server-side crawlers by design. Paste the relevant text from the page directly into the chat and the builder will use it
+
+**"No personas yet" when editing an existing multi-agent**
+This was fixed in knotie-ai-pro#832. If upgrading from an older version, re-open the agent in the builder to reload the persona list.
+
+**Applied proposal but form fields are empty**
+Click **Apply to form** in the builder chat — the proposal does not populate the form automatically.
+
+**Builder thinks but never produces a proposal**
+The configured `KNOVA_BUILDER_MODEL` is likely a reasoning-heavy model that doesn't call tools reliably. Switch to `openai/gpt-4.1-mini` or `anthropic/claude-haiku-4-5`.
+
+---
+
+## Related pages
+
+- [AI Agent Builder Chat](/agents/knova/agent-builder-chat) — Chat UX, session resume, rate limits, and the "Re-checked context" noise-reduction pill
+- [Manage Knova agents](/agents/knova/manage-knova-agents) — Create, configure, and edit Knova agents
+- [Knova AI Receptionist agent](/agents/knova/knova-agent) — How the agent runs in production (SIP routing, tools, credits)
+- [MCP Tokens](/partner-portal/ai-agents/mcp/tokens) — Manage agents programmatically via MCP
+
+---
+
+> Source: [knotie-ai-pro#848](https://github.com/avijeett007/knotie-ai-pro/pull/848) — _saving agent builder improvements_
+> Also covers: [knotie-ai-pro#832](https://github.com/avijeett007/knotie-ai-pro/pull/832) — _Knova builder url handling_

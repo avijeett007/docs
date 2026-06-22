@@ -9,29 +9,62 @@ This guide walks you through creating your Knotie AI partner account.
 
 Signup is a modal on the main website — there is no standalone `/partner/signup` page. You start from the **Knotie AI Pro website** (knotie-ai.pro), not from the partner portal.
 
+<Note>
+  The standalone Pricing page has been removed. You no longer choose a plan before creating your account. Instead, every new signup starts with a **Free Forever** account and is offered a **7-day free trial** of premium features immediately after registration.
+</Note>
+
 ## Steps
 
 1. Open **knotie-ai.pro** and click **Start for free** (or any "Get started" button).
-2. A signup modal opens. Fill in:
+2. A **Create Account** modal opens. Fill in:
    - **Business name**
    - **Email address**
-   - **Phone number**
-3. (Optional) Enter a **coupon code** if you have one. If it unlocks a special offer, you'll see a confirmation in the form.
+   - **Phone number** (used for WhatsApp updates on exclusive offers)
+3. (Optional) Enter a **coupon code** if you have one. The coupon is validated instantly — a green check and description appear when the code is accepted.
 4. Click **Create Account**.
-5. If you selected a paid plan, you'll be redirected to payment to finish setup.
-6. After signup, use **[Partner Login](/partner/login)** to access your dashboard.
+5. After the account is created, you'll see the **7-Day Free Trial** confirmation view with a "Free Forever — 7-day premium trial" summary card showing **$0 today**.
+
+> ℹ️ The 7-Day Free Trial confirmation screen is shown immediately after Create Account is submitted and lists every premium feature unlocked for the trial — no Stripe card is required to view it. See [[how-to-sign-up|step-by-step signup walkthrough]] screenshots in the repo or record your own.
+
+6. Click **Start 7-Day Free Trial**. You'll be redirected to Stripe to add a card for verification — **no charge is made today**.
+7. After the Stripe step, use **[Partner Login](/partner/login)** to access your dashboard.
+
+## What the 7-day trial includes
+
+During the trial you have full access to all premium features:
+
+- All AI voice providers (VAPI, Retell, LiveKit, Ultravox)
+- Unlimited customers and agents
+- Advanced integrations and analytics
+- Priority support
+
+After 7 days your account automatically reverts to the **Free Forever** plan. There is no auto-upgrade and no charge unless you choose to upgrade.
 
 ## Google signup (if enabled)
 
-If your account has Google auth enabled, you'll see a **Continue with Google** button inside the signup modal.
+If your platform has Google auth enabled, you'll see a **Continue with Google** button at the top of the signup modal.
 
-If you choose Google signup, you may still be asked for:
-- Business name
-- Phone number
+After authenticating with Google, the modal shows a completion form with your Google name and photo pre-filled. You still need to provide:
+- **Business name**
+- **Phone number**
+
+> ℹ️ The Google completion form is a post-OAuth view that requires a live Google account to render. Its layout mirrors the standard Create Account modal (Business Name + Phone Number fields) with the user's Google avatar and email shown at the top — capture your own by signing up with a test Google account.
+
+The same **7-day trial** confirmation follows for Google signups that don't have a pre-selected plan.
 
 ## What happens next
 
-After your first login, Knotie AI may prompt you to set up a **passkey** ("Secure Your Account" modal) before you reach the dashboard. You may also be asked to enable **MFA** under Settings → Security.
+After your first login, Knotie AI may prompt you to set up a **passkey** ("Secure Your Account" modal) before you reach the dashboard. You may also be asked to enable **MFA** under Settings → Profile Settings.
+
+## Email field behaviour
+
+The **Email address** field automatically strips any whitespace (spaces, tabs, or non-breaking spaces) as you type. This handles trailing spaces that mobile keyboards and browser autofill often append after completing an email address. You do not need to trim the field yourself — the form handles it silently.
+
+<Frame>
+  <img src="/images/screenshots/signup-modal-email-filled.png" alt="Knotie AI Pro signup modal — Email Address field populated with a typical address, Business Name and Phone Number fields above and below; Create Account button visible at the bottom." />
+</Frame>
+
+See [Partner Login Flow](/account/login-flow) for the full post-signup walkthrough.
 
 ## Screenshots
 
@@ -39,6 +72,13 @@ After your first login, Knotie AI may prompt you to set up a **passkey** ("Secur
 
 ## Troubleshooting
 
-- If you don't receive a confirmation email, check your spam folder and verify the email address is correct.
-- If the signup modal doesn't appear, try disabling browser extensions that block pop-ups.
-- For issues with Google signup, ensure your browser is signed into a Google account.
+- **Signup modal doesn't appear** — try disabling browser extensions that block pop-ups or modals.
+- **No confirmation email** — check your spam folder and verify the email address you entered. The form automatically removes any trailing or leading spaces from your email address, so the address stored in the system will not have extra spaces.
+- **Coupon code not accepted** — ensure the code is entered in uppercase (auto-formatted). If the error persists, the code may be expired or already used.
+- **Stripe card declined** — use a valid card for the $0 verification charge. Prepaid cards may be rejected by Stripe.
+- **For issues with Google signup** — ensure your browser is signed into a Google account and that pop-ups are allowed.
+
+---
+
+> Source: [knotie-ai-pro#805](https://github.com/avijeett007/knotie-ai-pro/pull/805) — _Knotie 03 UI revamp_
+> Updated in: [knotie-ai-pro#917](https://github.com/avijeett007/knotie-ai-pro/pull/917) — _fixed some UI elements_

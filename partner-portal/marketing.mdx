@@ -7,7 +7,7 @@ description: "Use Knotie AI marketing videos, posts, demos, and website previews
 
 The **Marketing** section gives you ready-to-use assets you can share with prospects.
 
-It’s designed for agencies that want to:
+It's designed for agencies that want to:
 
 - Explain voice AI clearly
 - Show examples quickly
@@ -17,6 +17,8 @@ It’s designed for agencies that want to:
 
 In the Partner Portal sidebar, open **Marketing**.
 
+![Partner Portal — Marketing landing page showing the "Demo for Customers" card (Explore). The doc references four cards (Marketing Videos, Marketing Posts, Voice-Enabled Website, and Demo for Customers), but as of 2026-06-18 the landing page only surfaces Demo for Customers — the other three sections are reachable via direct URLs (/partner/marketing/videos, /partner/marketing/posts, /partner/marketing/demo) but are not displayed on the landing card grid.](/images/screenshots/partner-marketing-landing.png)
+
 ## Marketing Videos
 
 Use **Marketing Videos** to:
@@ -25,7 +27,7 @@ Use **Marketing Videos** to:
 - Search by title
 - Filter by category
 
-Some videos may show a **Coming Soon** banner while the library is being finalized.
+![Partner Portal — Marketing Videos gallery showing video tiles and category filter (reachable at /partner/marketing/videos)](/images/screenshots/partner-marketing-videos.png)
 
 ## Marketing Posts
 
@@ -35,28 +37,40 @@ Use **Marketing Posts** to:
 - Filter by category and platform
 - Customize copy for your niche
 
-Tip: Replace generic phrases with your customer’s industry for better conversion.
+Tip: Replace generic phrases with your customer's industry for better conversion.
+
+![Partner Portal — Marketing Posts section with sample post cards and copy buttons (reachable at /partner/marketing/posts)](/images/screenshots/partner-marketing-posts.png)
 
 ## Voice-Enabled Website
 
 Use **Voice-Enabled Website** to:
 
 - Preview a demo site layout
-- Copy an “integration code” snippet
+- Copy an "integration code" snippet that embeds a voice agent on any website
 
-Note: this page currently shows a **Coming Soon** banner and sample code.
+<Warning>
+**Doc-vs-UI gap (2026-06-19):** The three URLs `/partner/marketing/voice-website`, `/partner/marketing/voice-enabled-website`, and `/partner/marketing/voice` all return 404. The Voice-Enabled Website feature is documented here but is not reachable from the Marketing landing page or any direct route in the current build. If you need this feature, contact Knotie support to confirm whether the page is intentionally removed or temporarily offline.
+</Warning>
+
+> ℹ️ The **Voice-Enabled Website** page lives at `/marketing/voice-website` on a customer's whitelabel domain. The route is currently 404 on this partner account — capture once it ships.
 
 ## Demo for Customers
 
 Use **Demo for Customers** to:
 
 - Deploy demos that help you showcase voice AI in a live call
-- Run “test” experiences during sales calls
+- Run "test" experiences during sales calls
 
-This page requires a **Retell API key** to deploy certain demos.
+This page requires a **Retell API key** configured in Settings before you can deploy a demo.
 
-## Screenshots
+![Partner Portal — Demo for Customers page showing available demo options and the deploy button (reachable at /partner/marketing/demo)](/images/screenshots/partner-marketing-demo.png)
 
-![Marketing Resources landing page with Marketing Videos, Marketing Posts, Voice-Enabled Website, and Demo for Customers feature cards](/images/Screenshot2025-12-28at01.57.31.png)
+## Theme-aware interface
 
-![Marketing Videos gallery with Video AI for Customer Service, Sales Automation with Voice AI, and Voice AI ROI Case Study tiles](/images/Screenshot2025-12-28at01.57.45.png)
+All Marketing pages respect your partner portal's **whitelabel theme**. If you have configured custom brand colors in **Settings → Whitelabel**, the Marketing pages will render with those colors automatically — no extra configuration needed.
+
+This means Marketing screenshots will look different on partners with custom themes. When capturing screenshots for your own documentation or customer guides, take them from the same partner account you're documenting.
+
+---
+
+> Source: [knotie-ai-pro#957](https://github.com/avijeett007/knotie-ai-pro/pull/957) — _Knotie002 redesign unfinished dashboard components_

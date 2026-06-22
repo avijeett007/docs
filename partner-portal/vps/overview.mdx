@@ -22,7 +22,7 @@ VPS (Virtual Private Server) management lets partners purchase, provision, and m
 5. Optionally set a **display name**
 6. Click **Proceed to Payment**
 
-> 📷 **Screenshot needed:** *Add a screenshot of the plan selection and region picker.*
+![Partner Portal — VPS purchase view: plan selection cards (Cloud VPS 10–60 with vCPU, RAM, NVMe, network specs and monthly pricing) followed by a region picker (EU/US regions marked "Coming soon — pricing for this region is being finalised") and a "Proceed to Payment" button.](/images/screenshots/partner-vps-plan-region-picker.png)
 
 ### Plans available
 
@@ -35,7 +35,7 @@ VPS (Virtual Private Server) management lets partners purchase, provision, and m
 | Cloud VPS 50 | 16 | 64 GB | 300 GB | 1 Gbps |
 | Cloud VPS 60 | 18 | 96 GB | 350 GB | 1 Gbps |
 
-> 📷 **Screenshot needed:** *Add a screenshot of the plan details showing specs.*
+![Partner Portal — VPS plan cards showing Cloud VPS 10–60 with full specs (vCPU, RAM, NVMe storage, network port), monthly USD pricing, and the "Popular" badge on Cloud VPS 20. Same capture as above.](/images/screenshots/partner-vps-plan-region-picker.png)
 
 ## Instance states
 
@@ -49,7 +49,7 @@ VPS instances move through these states:
 | `suspended` | Paused due to non-payment or issues |
 | `cancelled` | Terminated |
 
-> 📷 **Screenshot needed:** *Add a screenshot showing instance cards with different status badges.*
+> ℹ️ Each provisioned VPS appears as an **instance card** carrying a colored status badge that matches the table above — e.g. amber `pending_provisioning`, green `active`, grey `suspended`. The cards render only once at least one VPS exists on the account; on a fresh account this area reads "No VPS instances yet. Purchase one from the Purchase tab." Capture from an account with a live instance.
 
 ## Assign to customer
 
@@ -70,7 +70,7 @@ Click on an instance card to see:
 - Creation date
 - Status badge
 
-> 📷 **Screenshot needed:** *Add a screenshot of an instance details panel.*
+> ℹ️ Clicking an instance card opens a **details panel** listing the plan specs, region, partner price, creation date, and the current status badge in a single read-only view. It renders only for an existing instance, so capture it from an account that has a provisioned VPS.
 
 ## Credentials
 
@@ -80,7 +80,7 @@ For `active` instances, you can request root credentials:
 2. Credentials are sent to your email and displayed on screen
 3. Password is shown in a monospace box
 
-> 📷 **Screenshot needed:** *Add a screenshot of the credentials reveal panel.*
+> ℹ️ After you click **Request Credentials** on an `active` instance, a **reveal panel** displays the root username and password, with the password shown in a monospace box (and also emailed to you). The panel appears only for a live active instance, so capture it the first time you request credentials on a real VPS.
 
 ### Regenerate SSH keys
 
@@ -97,7 +97,7 @@ If credentials aren't working, use the **Fix Credentials** modal:
 - **Auto-fix**: Platform automatically generates fresh credentials and injects them via SSH
 - **Manual**: Enter your current root password, and the platform SSHs in to install a new key
 
-> 📷 **Screenshot needed:** *Add a screenshot of the Fix Credentials modal with auto/manual options.*
+> ℹ️ The **Fix Credentials** modal offers two tabs: **Auto-fix** (the platform generates fresh credentials and injects them over SSH for you) and **Manual** (you enter your current root password so the platform can SSH in and install a new key). The modal is reachable only from an active instance, so capture it from an account that has one.
 
 ## Reinstall with App
 
@@ -119,7 +119,7 @@ Select multiple apps to install together as a package:
 - **RAM estimation**: Shows total RAM required across selected apps
 - **Badge indicators**: "Verified" (passed testing), "Under construction" (being fixed), "New", "Popular"
 
-> 📷 **Screenshot needed:** *Add a screenshot of the Reinstall with App modal showing Package Builder mode.*
+![Partner Portal — VPS Settings page App Packages section showing "New Package" modal with package name, pricing, customer selection, and Bundled Apps multi-select. This is the closest equivalent to the Reinstall-with-App Package Builder mode accessible in the current account.](/images/screenshots/partner-vps-app-package-builder.png)
 
 ### App categories
 

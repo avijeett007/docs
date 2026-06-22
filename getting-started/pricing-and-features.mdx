@@ -5,9 +5,33 @@ description: "Understand plans, included features, and what changes across tiers
 
 ## Overview
 
-Knotie AI is built for partners and agencies.
+Knotie AI Pro is built for partners and agencies.
 
-Plans are designed around how many customers you manage, how many agents you run, and which automation + whitelabel features you need.
+Plans are designed around how many customers you manage, how many agents you run, and which automation and white-label features you need.
+
+![Knotie AI Pro pricing page — three plan cards (Free Forever, Solo Agency Owner, Ultimate Scaleup Agency) with monthly/yearly toggle](/images/screenshots/pricing-three-plan-cards.png)
+
+---
+
+## Pricing page layout
+
+The pricing page at **knotie-ai.pro/pricing** has three sections:
+
+1. **Plan cards** — headline features for each tier, with a subscribe or sign-up button.
+2. **Detailed comparison table** — full feature-by-feature breakdown across all tiers (expand via _See complete pricing breakdown_).
+3. **FAQ** — answers to common questions about billing, switching plans, and enterprise options.
+
+### Monthly vs yearly billing
+
+Use the **Monthly / Yearly** toggle at the top of the plan cards section to switch between billing intervals.
+
+- Yearly billing shows an estimated per-month cost.
+- The full yearly charge is billed at signup.
+- You can switch between monthly and yearly at any time from your subscription settings.
+
+![Knotie AI Pro pricing page — billing toggle in the yearly position showing −20% discount](/images/screenshots/pricing-toggle-yearly.png)
+
+---
 
 ## Plan options
 
@@ -15,58 +39,116 @@ Plans are designed around how many customers you manage, how many agents you run
 
 Best for trying Knotie AI Pro and validating your workflow.
 
-Highlights:
+| Feature | Included |
+|---|---|
+| Customers | Up to 2 |
+| Knova agents | Unlimited |
+| Retell agents | Up to 2 |
+| N8N Chat agents | Up to 2 |
+| Whitelabel portal | Subdomain (e.g. `yourname.knotie-ai.pro`) |
+| Authentication | Passkey + MFA |
+| Concurrency limit | 5 simultaneous calls |
+| Media storage | 100 MB partner pool (not surfaced on live pricing card — see storage note below) |
+| Support | Discord and community |
 
-- Up to 2 customers
-- Unlimited Knova agents
-- Up to 2 Retell agents (free tier)
-- Subdomain whitelabel portal
-- Passkey + MFA
+No credit card required to start.
 
 ### Solo Agency Owner
 
-Best for a small agency that wants to run multiple customers with full provider access.
+Best for a growing agency with a handful of active customers.
 
-Highlights:
-
-- Up to 20 customers
-- All AI providers supported (Retell, VAPI, Ultravox, ElevenLabs, GHL)
-- Custom domain whitelabel
-- Team management (up to 2 members)
-- Monthly Knotie credits
+| Feature | Included |
+|---|---|
+| Customers | Up to 20 |
+| AI providers | VAPI, Ultravox, ElevenLabs (GHL and Retell require **Ultimate Scaleup**) |
+| Knotie Credits | 3,000 per month |
+| Team members | Up to 2 |
+| Whitelabel portal | Custom domain |
+| Phone numbers | Included |
+| Tool call quota | 100 per 15 minutes |
+| Media storage | 1 GB partner pool (not surfaced on live pricing card — see storage note below) |
+| Support | Email + Discord |
 
 ### Ultimate Scaleup Agency
 
-Best for agencies scaling to a large customer base.
+Best for agencies scaling to a large customer base and needing enterprise features.
 
-Highlights:
+| Feature | Included |
+|---|---|
+| Customers | Unlimited |
+| AI providers | All (including GHL integration) |
+| Knotie Credits | 5,000 per month |
+| Team members | Up to 5 |
+| Whitelabel portal | Custom domain |
+| Tool call quota | 1,000 per 15 minutes |
+| Media storage | 5 GB partner pool (not surfaced on live pricing card — see storage note below) |
+| Saasify mode | Turn your agency into a SaaS product |
+| Support | Priority support + Business Manager |
+| Founder sessions | Monthly |
 
-- Unlimited customers
-- Higher concurrency limits
-- Priority support + business manager
-- SaaS mode (turn your agency into a SaaS)
+---
 
-## Monthly vs yearly billing
+## Detailed feature comparison
 
-On the pricing page you can toggle **Monthly** or **Yearly**.
+Click **See complete pricing breakdown** on the pricing page to expand the full feature comparison table. The table lists every feature and shows which tiers include it — and for features with limits, the specific limit per tier.
 
-- Yearly billing shows an estimated monthly equivalent.
-- If a yearly discount is available, it will be shown next to the toggle.
+![Knotie AI Pro pricing page — expanded "Feature by feature" comparison table across all three tiers](/images/screenshots/pricing-comparison-table-expanded.png)
 
-## “Detailed pricing” view
+---
 
-If you click **See complete pricing breakdown**, Knotie AI Pro opens the detailed view with the full feature list.
+## Storage quotas
 
-## Feature highlights
+Storage for the customer media library is allocated per partner plan and divided across customers.
 
-- Customer onboarding and portal access controls
-- Whitelabel portal setup (subdomain or custom domain)
-- AI agents (Retell and VAPI, plus other providers on paid plans)
-- Integrations and automation
-- Team members and customer portal permissions (paid plans)
+| Plan | Total partner pool |
+|---|---|
+| Free Forever | 100 MB |
+| Solo Agency / Pro | 1 GB |
+| Ultimate Scaleup Agency | 5 GB |
 
-## Screenshots
+> **Note (2026-06-18):** The live `/pricing` page does **not** currently show media storage as a feature bullet on any tier card. The figures above are the platform's per-plan pool sizes (visible in the partner's Account Overview sidebar as `0.0 MB / 5.0 GB`). The per-customer "Allocated Storage" control referenced below is **not** surfaced in the current Features & Add-ons modal — see [[knotie-doc-gaps|G21]].
 
-![Knotie AI Pro pricing tiers — Free Forever, Solo Agency Owner ($149/mo), Ultimate Scaleup Agency ($699/mo)](/images/screenshots/pricing-tiers-2026-06-09.png)
+You control how much of that pool each customer gets in **Customers → Manage → Features & Add-ons** (the modal currently has no per-customer storage field). A customer hitting their individual cap gets an upload error; the overall pool cap blocks uploads from all customers until storage is freed.
 
-![Knotie AI Pro features overview](/images/screenshots/features-2026-06-09.png)
+See [Docs & Media library](/customer-management/media-library) for the full customer-facing guide.
+
+---
+
+## Benefits on all plans
+
+Every Knotie AI Pro plan includes:
+
+- No credit card required to start (Free Forever)
+- Cancel anytime
+- Dedicated support on paid plans
+- White-label ready
+- Migration assistance
+- Regular feature updates
+
+---
+
+## Frequently asked questions
+
+**Can I switch plans anytime?**
+Yes. Upgrade or downgrade at any time from your subscription settings. Changes take effect immediately and are prorated.
+
+**What payment methods are accepted?**
+All major credit cards (Visa, Mastercard, American Express) via Stripe.
+
+**Is there a setup fee?**
+No. You only pay your subscription. Migration assistance on paid plans is free.
+
+**What's included in Free Forever?**
+Up to 2 customers, unlimited Knova agents, subdomain white-label portal, passkey + MFA authentication, and community support.
+
+**Do you offer custom enterprise plans?**
+Yes. For agencies with unique requirements, custom plans are available with dedicated support, custom integrations, and volume discounts. Contact sales from the pricing page.
+
+**What happens if I exceed my customer limit?**
+You receive a notification as you approach the limit and can upgrade in one click. There is no service interruption — live customer sessions are not cut off.
+
+---
+
+> Source: [knotie-ai-pro#837](https://github.com/avijeett007/knotie-ai-pro/pull/837) — _Knotie 03 page revamp_
+> 
+> Updated for [knotie-ai-pro#967](https://github.com/avijeett007/knotie-ai-pro/pull/967) — _feat: agent-driven marketing — MCP meta-tools, tiered storage, media library, social posting calendar_

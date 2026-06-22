@@ -1,23 +1,15 @@
 ---
-title: "Integration settings (provider API keys)"
-description: "Add provider keys (GHL, VAPI, Retell, Ultravox) so you can import agents, run calls, and see analytics."
+title: 'Provider API keys (Settings → Partner API Keys → Platform API)'
+description: 'Add provider keys (GHL, VAPI, Retell, Ultravox) so you can import agents, run calls, and see analytics. Doc refactored 2026-06-19 — the old Settings → Integration Settings page no longer exists.'
 ---
 
-## What Integration Settings controls
+<Warning>
+**Doc-vs-UI gap (2026-06-19):** The **Settings → Integration Settings** page described in earlier versions of this doc **no longer exists in the live Partner Portal.** The Settings sidebar was redesigned in 2026; it now has 5 sub-items (Profile Settings / Partner API Keys / Email Domain Management / Plans & Billing / White-Label Portal) — "Integration Settings" is not one of them. Provider keys now live in **Settings → Partner API Keys → Platform API tab**. See [[knotie-doc-gaps|G34]] and [[knotie-doc-gaps|G60]].
+</Warning>
 
-**Integration Settings** is where you connect provider credentials used by your AI agents.
+## What "Integration Settings" used to be
 
-Without these keys, you may see warnings in other parts of the portal (for example: **Agent Analytics** or import modals).
-
-## Where to find it
-
-1. Open **Settings**.
-2. Find the **Integration Settings** section.
-3. Click **Update Integration**.
-
-## What you can configure
-
-The Settings page displays these integration fields:
+In an older release of the Partner Portal, provider credentials (GHL / VAPI / Retell / Ultravox) were configured in a dedicated **Settings → Integration Settings** page that surfaced a unified form with these fields:
 
 - **GoHighLevel Calendar ID**
 - **GoHighLevel API Key**
@@ -25,31 +17,38 @@ The Settings page displays these integration fields:
 - **Retell API Key**
 - **Ultravox API Key**
 
-## Add or update provider keys
+That single page no longer exists. Each provider's API key is now managed from a different surface.
 
-1. Click **Update Integration**.
-2. Open the **Integration** tab.
-3. Paste your provider key(s).
-4. Save.
+## Where provider keys live today
 
-## Key validation (what to expect)
+| Provider | Where to add the key today |
+|---|---|
+| **Platform API key** (Pakt `pkt_…`) | Settings → **Partner API Keys** → **Platform API** tab — generates a generic Knotie API key, not provider-scoped |
+| **AI Gateway key** (`sk-knot-…`) | Settings → **Partner API Keys** → **AI Gateway Beta** tab — OpenAI-compatible virtual key for LiteLLM-routed models |
+| **MCP token** (`mt_…`) | AI Agents → **MCP Tokens** (top-level sidebar entry) — for MCP-gateway integrations |
+| **VAPI / Retell / Ultravox / ElevenLabs / GHL** provider keys | Entered per-import inside each provider's **Import** modal (VAPI Agents, Retell Agents, Ultravox Agents, ElevenLabs Agents, GHL Agents). The portal validates the key against the provider's API on submit. |
 
-The portal validates some keys before saving:
+### Validation endpoints (used by the live UI)
+
+These were already documented and still apply:
 
 - **VAPI**: validates by calling `https://api.vapi.ai/assistant`
 - **Retell**: validates by calling `https://api.retellai.com/list-agents`
 - **Ultravox**: validates by calling `https://api.ultravox.ai/api/agents` using `X-API-Key`
 
-If validation fails, you’ll see an “invalid API key” message.
+If validation fails, you'll see an "invalid API key" message inside the import modal.
 
 ## Best practices
 
 - Keep keys in a password manager.
 - Rotate keys if a contractor leaves.
 - Use separate provider accounts for production vs testing where possible.
+- Per-provider keys (VAPI/Retell/Ultravox/ElevenLabs/GHL) are scoped to that provider only — they cannot be used to call another provider's API.
 
 ## Screenshots
 
-![Integration Settings Overview](/images/Screenshot2025-12-28at01.42.38.png)
+The two screenshots below show the now-removed **Integration Settings** page. They are retained for historical reference only; do not follow the click-paths in the captions.
 
-![Integration Settings - Provider Keys](/images/screenshots/screenshot-2026-03-19-211315.png)
+![Integration Settings Overview (legacy)](/images/Screenshot2025-12-28at01.42.38.png)
+
+![Integration Settings - Provider Keys (legacy)](/images/screenshots/screenshot-2026-03-19-211315.png)
