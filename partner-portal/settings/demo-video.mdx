@@ -9,7 +9,7 @@ When prospects visit your white-label platform's landing page, they see a **demo
 
 You can configure which YouTube video is displayed by setting the `NEXT_PUBLIC_DEMO_VIDEO_ID` environment variable.
 
-{/* Screenshot needed: Public landing page showing the "See How Easy It Is to Build Your Voice AI Empire" demo video section. Deferred 2026-06-18 — the demo video is rendered on the customer's whitelabel portal (which has its own subdomain), not the partner portal. /partner/demo-video returns 404. The doc explicitly notes there is no UI toggle — the section is configured via the `NEXT_PUBLIC_DEMO_VIDEO_ID` env var and rendered through the `DemoVideoSection` component in `src/components/KnotieDashboard.tsx`. */}
+> ℹ️ The **demo video** section renders on the customer's whitelabel portal landing page (above the pricing grid) — outside knotie-ai.pro. There is no UI toggle in the partner portal; the section is configured via the `NEXT_PUBLIC_DEMO_VIDEO_ID` env var and rendered through the `DemoVideoSection` component. Capture from a deployed whitelabel portal where the demo video is configured.
 
 ---
 

@@ -15,7 +15,9 @@ Use Knova agents when:
 
 ## Create a Knova agent
 
-> 📷 **Screenshot needed:** _Add a screenshot of the "Create Agent" modal with all 5 tabs visible (Customer, Setup Mode, Basic, Advanced, Functions)._
+<Frame>
+  <img src="/images/screenshots/knova-create-agent-modal-2026-06-20.png" alt="Knova Create Agent modal — Tab 1 (Customer) selected, showing 5-tab sequential flow (Customer, Setup Mode, Basic, Advanced, Functions) and a customer list with 3 customers (Chess Classics, SohamK2G, KnoLabs AI Agency). Tabs gate the next one." />
+</Frame>
 
 The **Create Agent** modal is a **5-tab sequential flow**, not a flat Basic form. Each tab gates the next:
 
@@ -65,7 +67,9 @@ Knova agents use one of two text-to-speech banks:
 
 The platform periodically upgrades default TTS models. The current default for the first TTS bank is **Inworld TTS 1.5 Mini** (replaced the legacy `inworld-tts-1` model), which offers improved voice quality, broader language coverage, and no change to the voice catalog (Ashley, Edward, Olivia, and other named voices continue to work).
 
-> 📷 **Screenshot needed:** _Add a screenshot of the voice picker in the Create/Edit Agent modal, showing the blue and purple dot indicators next to voice names._
+<Frame>
+  <img src="/images/screenshots/knova-voice-picker-2026-06-20.png" alt="Knova Edit Agent modal — Basic tab Voice section with a search box and voice list (Abby Female, Alex Male, Anjali Female) each with a coloured dot indicator and a play preview button. First TTS bank voices have blue dots; second TTS bank voices have purple dots." />
+</Frame>
 
 ## Resumable builder sessions
 
@@ -83,7 +87,9 @@ Each session card displays:
 
 Sessions from previous conversations are loaded when you open the Agent Builder — you do not need to start fresh every time.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the "Resume a previous session" cards at the top of the AI Builder Chat modal._
+<Info>
+Resume session cards only appear when the AI Builder Chat is opened for an **existing** Knova agent that has previous builder sessions. With a single fresh draft agent, the modal opens with no prior sessions and shows only the welcome message. To capture the resume cards, build an agent via the AI Builder, save it, then re-open the AI Builder for the same agent.
+</Info>
 
 ## Assign a phone number
 
@@ -237,7 +243,7 @@ If you have existing MCP automations using these tools, update your prompts and 
 
 - [AI Agent Builder Chat](/agents/knova/agent-builder-chat) – How to use the AI-powered chat builder
 - [Telephony Credits](/partner-portal/telephony-credits) – Manage credits for phone calls
-- [MCP Tokens](/partner-portal/settings/mcp-tokens) – Set up MCP access for AI coding tools
+- [MCP Tokens](/partner-portal/ai-agents/mcp/tokens) – Set up MCP access for AI coding tools
 - [Agent Analytics](/partner-portal/agent-analytics) – View call and usage statistics
 
 ---

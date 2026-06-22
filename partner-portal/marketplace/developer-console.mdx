@@ -9,7 +9,9 @@ The **Developer Console** is a standalone portal for partners who want to build 
 
 Access the Developer Console at `/developer` (or via the Partner Portal → **Developer Console** in the sidebar).
 
-> 📷 **Screenshot needed:** _Add a screenshot of the Developer Console dashboard showing the sidebar navigation, dashboard stats, and the charcoal/emerald terminal theme._
+<Frame>
+  <img src="/images/screenshots/developer-console-dashboard-2026-06-20.png" alt="Developer Console dashboard — charcoal background with emerald accents, sidebar (Dashboard / My Listings / Requests / Earnings / Settings), and 6 stat cards (Listings / Views / Installs / Avg rating / Open requests / Revenue)." />
+</Frame>
 
 ## Prerequisites
 
@@ -18,7 +20,9 @@ Before you can list anything, you must:
 1. **Connect Stripe** — Go to [Partner Settings → Stripe Connect](/partner-portal/settings/stripe-connect) and connect your Stripe account. This is required to receive payments for priced listings.
 2. **Accept the Developer Agreement** — The first time you open the Developer Console, a full-screen agreement gate presents the platform terms (including the shared-responsibility model and the requirement that all payments run through the Knotie platform). You must accept to proceed. If the terms are updated, you'll be prompted to re-accept.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the Developer Agreement gate (the full-screen "how it works + Terms" modal)._
+<Info>
+The Developer Agreement gate is a server-side gate on `/developer` that appears only for partner accounts that haven't accepted the current terms version. Once accepted, the gate does not reappear unless the terms version is bumped. To capture the gate live, sign in with a freshly-created developer account.
+</Info>
 
 ## Creating a listing
 
@@ -29,7 +33,9 @@ Before you can list anything, you must:
    - **Category** — Helps buyers find your listing
 3. **Save as draft** before setting a price (required).
 
-> 📷 **Screenshot needed:** _Add a screenshot of the listing editor showing the name, description, and category fields._
+<Frame>
+  <img src="/images/screenshots/developer-listing-editor-2026-06-20.png" alt="Developer Console — New listing editor with App name, Tagline, Category (Voice AI Agent), Description, Target customers (multi-select chips), and Business sectors fields." />
+</Frame>
 
 ### Setting a price
 
@@ -53,7 +59,9 @@ Make your listing stand out with rich media:
 
 All media is stored securely and scoped to your partner account. Customers browsing the marketplace see a developer-stripped view — your internal pricing context and account details are never exposed.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the media upload section in the listing editor showing image grid, logo upload, and video URL field._
+<Frame>
+  <img src="/images/screenshots/developer-listing-media-section-2026-06-20.png" alt="Developer Console listing editor — Showcase media section with Logo (Upload logo), Screenshots up to 8 (Add screenshot), and Demo video (YouTube/Loom URL field + Upload video file button for MP4/WebM/MOV)." />
+</Frame>
 
 ### Publishing a listing
 
@@ -76,7 +84,9 @@ Click any listing to open the **listing detail** panel, which has four tabs:
 | **Requests** | Questions and support requests from buyers |
 | **Reviews** | Buyer ratings and comments |
 
-> 📷 **Screenshot needed:** _Add a screenshot of the listing detail panel showing the four tabs and the Analytics tab with charts._
+<Frame>
+  <img src="/images/screenshots/marketplace-listing-detail-analytics-2026-06-20.png" alt="Listing detail panel — Analytics tab selected showing 6 stat cards (Views, Watchlists, Installs, Interest, Avg rating, Reviews). The full set of tabs on a published listing also includes Overview, Requests, Reviews, and Settings." />
+</Frame>
 
 ## Handling buyer requests
 
@@ -86,7 +96,9 @@ When a buyer submits a request or question about your listing, it appears in:
 
 Reply directly from the Requests inbox. Unanswered requests are flagged to prompt timely responses.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the Requests inbox showing a request from a buyer and the reply field._
+<Frame>
+  <img src="/images/screenshots/developer-requests-2026-06-20.png" alt="Developer Console — Requests inbox in empty state (No requests yet. When an agency reaches out about a listing, it lands here.). Capture from an account with an active buyer conversation to refresh." />
+</Frame>
 
 ## Earnings
 
@@ -97,7 +109,9 @@ Go to **Earnings** in the Developer Console sidebar to see:
 
 Payouts follow your Stripe Connect payout schedule. All revenue from marketplace sales is paid directly to your connected Stripe account.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the Earnings page showing revenue breakdown by listing._
+<Frame>
+  <img src="/images/screenshots/developer-earnings-page-2026-06-20.png" alt="Earnings page in its current state — empty-state callout reads 'Per-app payments are coming soon. You publish pricing terms on each listing today. When direct in-marketplace payments ship, your revenue per listing will appear here automatically.' The total revenue / MRR / per-listing breakdown the doc describes will populate this page once marketplace payments ship." />
+</Frame>
 
 ## Developer Console settings
 

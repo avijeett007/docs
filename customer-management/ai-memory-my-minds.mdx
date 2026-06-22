@@ -1,0 +1,108 @@
+---
+title: "AI Memory — My Minds (Customer Portal)"
+description: "How customers use the My Minds page in their portal to store and retrieve long-term memory across agent sessions."
+---
+
+## Overview
+
+When AI Memory is enabled for a customer by their partner, the customer gains access to the **My Minds** page in their portal (`/whitelabel/memory`). This page lets customers create and manage their own **Minds** — named long-term memory stores that their AI agents remember across calls and sessions.
+
+The page header reads **AI Memory → My Minds**, with a **How Minds work & connecting agents** help link (`/whitelabel/memory/help`) and a **Connect to my agents** card for using Minds in Claude Code, n8n, or any MCP agent.
+
+![Customer portal "My Minds" page at /whitelabel/memory, showing the Your Minds list with a customer Mind and the Recall / Remember / Ask actions on the selected Mind](/images/screenshots/customer-my-minds-page.png)
+
+## Prerequisites
+
+- The customer's partner must have enabled **AI Memory** on the customer's account (via **Features & Add-ons → Enable AI Memory (Mind)**).
+- The **My Minds** nav item is visible only when memory is enabled for the customer.
+
+<Info>
+If AI Credits are not enabled for this customer, the partner absorbs the full cost of memory operations. Customers will still be able to use memory, but AI credit charges won't appear in their portal billing.
+</Info>
+
+## Navigate to My Minds
+
+1. Log in to the customer portal.
+2. In the left sidebar, under the **Management** section, click **My Minds**.
+3. You land on `/whitelabel/memory`.
+
+If memory is not enabled, you'll see an **AI Memory Not Enabled** panel with the message: *"AI Memory isn't enabled on your account — contact your provider to get access."*
+
+## Create a Mind
+
+1. On the My Minds page, click **New Mind** (or **Create your first Mind** when the list is empty).
+2. In the **Create New Mind** modal:
+   - **Name** *(optional)* — give it a distinct name to keep a separate Mind per project or topic. Leave blank to create the default Mind.
+   - **Description** *(optional)* — a note about what this Mind will remember.
+   - **Scope** — choose **customer Mind** (shared across all your agents) or **agent Mind** (scoped to a single agent).
+3. Click **Create Mind**.
+
+The new Mind appears in the **Your Minds** list, and its detail panel opens with the **Recall / Remember / Ask** actions.
+
+![Create New Mind modal with the Name (optional), Description (optional), and Scope (Customer Mind / Agent Mind) fields](/images/screenshots/customer-create-mind-modal.png)
+
+## Remember a fact
+
+Storing a fact writes it into the Mind's long-term store, so agents can recall it in future sessions.
+
+1. Select a Mind from the list.
+2. Click the **Remember** button.
+3. Type the fact or context you want to store (e.g., `"My preferred contact number is +1-555-0100 and I prefer morning calls."`).
+4. Click **Remember**.
+
+**AI Credits are consumed** for Remember operations (see your credit balance in the sidebar).
+
+## Recall
+
+Recall fetches everything the Mind currently knows — its derived **Profile** and a **Snapshot**.
+
+1. Select a Mind.
+2. Click the **Recall** button.
+3. Review the Profile and Snapshot sections.
+
+**Recall is always free** — no AI credits are consumed.
+
+<Note>
+The Profile section is derived asynchronously. If it appears empty right after writing a fact, wait a moment and click Recall again.
+</Note>
+
+## Ask
+
+Ask a natural-language question that is answered using everything stored in the Mind.
+
+1. Select a Mind.
+2. Click the **Ask** button.
+3. Type your question.
+4. Choose a **Reasoning depth** — `minimal`, `low`, `medium`, `high`, or `max`. Higher depths reason more thoroughly but cost more AI credits.
+5. Click **Ask**.
+
+The answer is drawn from the Mind's stored knowledge.
+
+**AI Credits are consumed** for Ask operations based on the selected reasoning depth.
+
+## Credit consumption summary
+
+| Operation | AI Credits consumed? |
+|-----------|---------------------|
+| Remember | Yes |
+| Recall | **No (free)** |
+| Ask | Yes — cost scales with the selected **Reasoning depth** (`minimal` cheapest → `max` highest) |
+
+## Troubleshooting
+
+| Symptom | Fix |
+|---------|-----|
+| "My Minds" not visible in sidebar | Contact your provider — AI Memory needs to be enabled on your account |
+| Profile is empty after Remember | Wait a few seconds and click Recall again (profile derivation is async) |
+| Ask returns "temporarily unavailable" | Retry in a moment; Recall still works during this period |
+| Remember or Ask fails with a credit error | Check your AI Credit balance in the sidebar; top up if low |
+
+## Related
+
+- [AI Memory Partner Console](/partner-portal/ai-memory)
+- [AI Credits Management](/partner-portal/customers/ai-credit-management)
+- [MCP Memory Tools](/api-reference/mcp/memory-tools)
+
+---
+
+> Source: [knotie-ai-pro#1042](https://github.com/avijeett007/knotie-ai-pro/pull/1042) — _Feature/ai memory honcho_

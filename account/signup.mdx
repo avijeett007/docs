@@ -22,9 +22,9 @@ Signup is a modal on the main website — there is no standalone `/partner/signu
    - **Phone number** (used for WhatsApp updates on exclusive offers)
 3. (Optional) Enter a **coupon code** if you have one. The coupon is validated instantly — a green check and description appear when the code is accepted.
 4. Click **Create Account**.
-5. After the account is created, you'll see the **7-Day Free Trial** confirmation view:
+5. After the account is created, you'll see the **7-Day Free Trial** confirmation view with a "Free Forever — 7-day premium trial" summary card showing **$0 today**.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the "7-Day Free Trial" confirmation view showing the "Start 7-Day Free Trial" button and the "Free Forever — 7-day premium trial" summary card with $0 today._
+> ℹ️ The 7-Day Free Trial confirmation screen is shown immediately after Create Account is submitted and lists every premium feature unlocked for the trial — no Stripe card is required to view it. See [[how-to-sign-up|step-by-step signup walkthrough]] screenshots in the repo or record your own.
 
 6. Click **Start 7-Day Free Trial**. You'll be redirected to Stripe to add a card for verification — **no charge is made today**.
 7. After the Stripe step, use **[Partner Login](/partner/login)** to access your dashboard.
@@ -48,7 +48,7 @@ After authenticating with Google, the modal shows a completion form with your Go
 - **Business name**
 - **Phone number**
 
-> 📷 **Screenshot needed:** _Add a screenshot of the Google signup completion form showing the user's Google profile photo and pre-filled email, with Business Name and Phone Number fields._
+> ℹ️ The Google completion form is a post-OAuth view that requires a live Google account to render. Its layout mirrors the standard Create Account modal (Business Name + Phone Number fields) with the user's Google avatar and email shown at the top — capture your own by signing up with a test Google account.
 
 The same **7-day trial** confirmation follows for Google signups that don't have a pre-selected plan.
 
@@ -60,7 +60,9 @@ After your first login, Knotie AI may prompt you to set up a **passkey** ("Secur
 
 The **Email address** field automatically strips any whitespace (spaces, tabs, or non-breaking spaces) as you type. This handles trailing spaces that mobile keyboards and browser autofill often append after completing an email address. You do not need to trim the field yourself — the form handles it silently.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the signup modal showing the email address field filled in and the Create Account button._
+<Frame>
+  <img src="/images/screenshots/signup-modal-email-filled.png" alt="Knotie AI Pro signup modal — Email Address field populated with a typical address, Business Name and Phone Number fields above and below; Create Account button visible at the bottom." />
+</Frame>
 
 See [Partner Login Flow](/account/login-flow) for the full post-signup walkthrough.
 

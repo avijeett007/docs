@@ -36,7 +36,9 @@ Compared to OpenClaw, there is **no port 18790, no nginx layer, no knock header*
 - ✅ Fewer moving parts (no daemon to manage)
 - ⚠️ Higher first-token latency (~5–40 s, no streaming) — the agent process starts fresh per request
 
-> 📷 **Screenshot needed:** _Add a screenshot of the AI Chat page with Hermes Agent selected (showing the ⚡ icon and the chat interface)._
+<Info>
+The AI Chat page with the Hermes Agent ⚡ selector only appears on the whitelabel portal of a customer that has an active VPS instance with Hermes Agent deployed via the VPS App Catalog. The KnoLabs AI Agency account has zero VPS instances, and the App Catalog page (`/partner/vps/app-catalog`) returns 404 on this account (see [Journey #11](/journeys/11-vps) for the App Catalog 404). To capture, provision at least one VPS instance and complete the Hermes Agent catalog deploy.
+</Info>
 
 ---
 
@@ -62,7 +64,9 @@ No separate API key setup is needed — the platform mints a Knotie AI Gateway k
 3. Click **App Catalog** (or **Reinstall**)
 4. Select **Hermes Agent** from the catalog
 
-> 📷 **Screenshot needed:** _Add a screenshot of the VPS App Catalog with the Hermes Agent catalog card visible (showing the beta badge and the Deploy button)._
+<Info>
+The VPS App Catalog is reachable from any active VPS instance's detail page (the **App Catalog** button next to **Reinstall**). With zero VPS instances in the KnoLabs account, the App Catalog cannot be opened. Additionally, the standalone `/partner/vps/app-catalog` URL is currently 404 in this account (see [Journey #11](/journeys/11-vps)). The Hermes Agent card has a `BETA` badge and a **Deploy** button in the catalog grid; capture is blocked until at least one VPS instance is provisioned.
+</Info>
 
 ### Step 2 — Fill in the deploy form
 
@@ -74,7 +78,9 @@ The pre-deploy form collects:
 | **Telegram bot token** | No | Wire the agent to a Telegram bot for out-of-band messaging |
 | **Telegram chat ID** | No | Required if you supply a bot token |
 
-> 📷 **Screenshot needed:** _Add a screenshot of the Hermes Agent pre-deploy form modal showing the fields above._
+<Info>
+The Hermes Agent pre-deploy form modal is opened by clicking **Deploy** on the Hermes Agent card in the VPS App Catalog. Since the App Catalog is unreachable on this account (see the note above), the pre-deploy form is also unreachable.
+</Info>
 
 ### Step 3 — Wait for deploy to complete
 
@@ -105,7 +111,9 @@ The VPS instance card in the portal shows the updated status once deploy complet
 
 The first reply may take **5–40 seconds** (Hermes starts fresh per request). Subsequent turns in the same browser session use `--continue` to resume the most recent Hermes conversation thread, so the agent remembers context.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the whitelabel portal AI Chat page with Hermes Agent active and a sample conversation showing the agent's reply._
+<Info>
+The whitelabel portal AI Chat page with the Hermes Agent ⚡ option and a sample exchange requires an end-customer who has an active VPS instance with the Hermes Agent catalog deploy complete. The KnoLabs account has no VPS instances and no customer with a deployed Hermes Agent, so the AI Chat page is unreachable in a state that shows the ⚡ Hermes Agent selector. To capture, complete the full deploy flow on a test customer's whitelabel portal.
+</Info>
 
 ### Session behaviour
 
@@ -167,7 +175,9 @@ This is **separate from portal chat** — both work in parallel:
 - Portal chat: browser → SSH → Hermes
 - Telegram chat: Telegram → Hermes messaging gateway (running as a systemd service)
 
-> 📷 **Screenshot needed:** _Add a screenshot of a Telegram conversation with the Hermes bot showing a sample exchange._
+<Info>
+The Telegram bot integration requires creating a bot via [@BotFather](https://t.me/BotFather) and supplying the bot token + chat ID during the Hermes Agent pre-deploy form. With no VPS instance and no deployed Hermes Agent, the Telegram messaging gateway is not running and no conversation can be captured. To capture, complete the deploy with a real Telegram bot token and exchange at least one message with the bot.
+</Info>
 
 ---
 

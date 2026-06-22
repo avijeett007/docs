@@ -61,7 +61,7 @@ The actual import flow is via the **Import Numbers** button in the page toolbar 
 
 > **Tip:** Once you enter a Retell API key, it is saved permanently for future imports and agent management.
 
-> 📸 _[Import Numbers wizard — see Phone Numbers page toolbar for the Import Numbers button]_
+![Import Phone Numbers modal on step 2 — Enter Retell Credentials, showing the Retell API Key field with helper text pointing to Retell Dashboard → Settings → API Keys, and a Credentials Saved Automatically notice](/images/screenshots/retell-import-step2-api-key-2026-06-22.png)
 
 ## Retell Agents page
 
@@ -85,7 +85,7 @@ The page shows:
 3. Choose the correct customer
 4. Save
 
-> 📸 _[Assign Customer modal — opens from Phone Numbers row, see Phone Numbers page]_
+![Assign Phone Number modal — shows the number being assigned, a customer search dropdown, and Cancel / Save buttons](/images/screenshots/phone-number-assign-customer-modal-2026-06-22.png)
 
 ## Step 3 — Assign a Retell agent (Outbound)
 
@@ -94,7 +94,7 @@ The page shows:
 3. Enable **Outbound** for the mapping
 4. Save
 
-> 📸 _[Agent assignment modal — opens from Phone Numbers row, Outbound toggle in the modal]_
+![Assign Agent modal opened from the phone number detail panel — agent selector dropdown with Direction toggle (Inbound Only / Outbound Only) and Save button](/images/screenshots/phone-number-assign-agent-modal-2026-06-22.png)
 
 ## Step 4 — Generate an outbound webhook key
 
@@ -103,7 +103,7 @@ The page shows:
 3. Click **Generate Key**
 4. Copy and store it securely
 
-> 📸 _[Outbound Webhook Key — visible in phone number detail panel after Outbound agent assigned]_
+![Outbound Webhook section in the phone number detail panel — masked owk_ API key with an Active badge, Regenerate Key and Revoke buttons, and a curl usage example](/images/screenshots/ghl-outbound-webhook-section-2026-06-22.png)
 
 ## Step 5 — Trigger outbound calls
 
@@ -126,7 +126,7 @@ Send:
 
 - `Authorization: Bearer owk_...`
 
-> 📸 _[Example webhook request payload — JSON body shown in section above]_
+> ℹ️ The full webhook payload structure is shown in the JSON example in Step 5 above. Use the `from_number` (your imported Retell number) and `to_number` (the lead's number), plus an `Authorization: Bearer owk_...` header.
 
 ## Operational notes
 

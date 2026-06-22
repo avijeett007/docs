@@ -15,7 +15,9 @@ Supported platforms:
 - Instagram
 - TikTok
 
-> 📷 **Screenshot needed:** _Add a screenshot of the social posting calendar UI — the month/week view with scheduled posts visible, and the "Create Post" modal._
+<Frame>
+  <img src="/images/screenshots/social-planner-calendar-customer-view-2026-06-20.png" alt="Social Planner — month calendar view in the customer whitelabel portal, with Today navigation and a New Post button in the top-right." />
+</Frame>
 
 ## Prerequisites
 
@@ -35,7 +37,9 @@ Supported platforms:
 
 The post appears on the calendar and will be published automatically at the scheduled time.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the "New Post" or "Create Scheduled Post" modal showing the text editor, platform selector, media picker, and date/time fields._
+<Frame>
+  <img src="/images/screenshots/social-planner-new-post-modal-2026-06-20.png" alt="New Social Post modal — Platform picker, Content textarea (5000 char limit), optional Link URL, Media drop-zone with Choose from library link, and Schedule Date & Time picker." />
+</Frame>
 
 ## Immediate publishing
 
@@ -69,7 +73,7 @@ AI agents that hold a customer-scoped MCP token can also create and schedule pos
 
 These tools are only exposed to agent tokens with social scope. See [MCP tool modes](/api-reference/mcp/tool-modes) for details on how agents discover and call tools.
 
-> 📷 **Screenshot needed:** _Add a screenshot showing an agent interaction where a post is scheduled via MCP tooling (from a chat or voice-agent transcript)._
+> ℹ️ Capturing an MCP-driven post scheduling interaction requires an active voice or chat session where the agent invokes `SOCIAL_POST_SCHEDULE`. A common pattern: a customer asks the agent "post our new product photo on Friday at 9 AM" → agent picks the asset from the media library, fills the schedule, and confirms in the chat. Transcript excerpts land in the Conversations tab — capture from there.
 
 ## Related pages
 

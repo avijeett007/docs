@@ -9,7 +9,9 @@ The **App Marketplace** is a partner-to-partner commerce layer inside Knotie AI 
 
 Think of it as a curated app store where buyers and sellers are all Knotie AI Pro partners.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the App Marketplace browse page showing listing cards with titles, prices, ratings, and category filters._
+<Frame>
+  <img src="/images/screenshots/marketplace-browse-2026-06-20.png" alt="App Marketplace — Browse tab with search, category and trust-tier filters, Browse / Watchlist / My Solutions / Customer Interest tabs, and a New Solutions tile." />
+</Frame>
 
 ## Where to find it
 
@@ -25,7 +27,9 @@ The marketplace shows listings from other partners with:
 - **Ratings** — average star rating and review count
 - **Category** — filter by type (AI agents, integrations, templates, etc.)
 
-> 📷 **Screenshot needed:** _Add a screenshot of a listing detail page showing the description, media gallery, pricing card, and reviews section._
+<Info>
+The listing detail page only renders for published listings on the App Marketplace. The KnoLabs account has no published listings in its catalog at capture time, so a live detail page is not available. The browse screenshot above shows the listing card view; clicking a card opens the detail page (image gallery, full description, pricing, reviews, and the Add as New Solution CTA).
+</Info>
 
 ## Pricing types
 
@@ -45,7 +49,9 @@ Payments for priced listings run through your connected Stripe account on the se
 4. Complete the Stripe checkout (priced listings only).
 5. Once payment is confirmed, you receive **entitlement** to use the listing.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the Stripe checkout modal for a priced listing._
+<Info>
+The Stripe Checkout iframe only appears after clicking **Get started** on a priced (non-free) published listing. The flow is gated by Stripe Connect onboarding and a successful test purchase, so it is not reachable from a marketplace without any published listings. When a priced listing exists, the same Stripe Checkout session that the Partner Portal already uses for experiences and the API Gateway appears here, owned by the seller's connected Stripe account.
+</Info>
 
 ### What "entitlement" means
 
@@ -58,11 +64,13 @@ After a successful purchase:
 
 Once you have entitlement, you can add the listing as a **New Solution** — a white-label offering in your own partner portal for customers.
 
-1. Go to your purchased listing (or find it in **My Purchases**).
+1. Go to your purchased listing (or find it in **My Solutions**).
 2. Click **Add as New Solution**.
 3. The solution appears in your portal under the configured name and branding.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the "Add as New Solution" flow after purchase, showing how the solution appears in the partner portal._
+<Info>
+The post-purchase success state + resulting **My Solutions** tile appear only after a successful marketplace purchase. With no published listings in the KnoLabs account's catalog, the My Solutions tab is empty. To capture this, purchase a free or priced listing from another partner.
+</Info>
 
 ## Leaving a review
 
@@ -77,7 +85,7 @@ Reviews are public and visible to all partners. You cannot review a listing you 
 
 ## Managing your purchases
 
-Go to **Marketplace → My Purchases** to see:
+Go to **Marketplace → My Solutions** to see:
 - All active entitlements
 - Subscription status (active / cancelled)
 - Renewal dates for recurring subscriptions

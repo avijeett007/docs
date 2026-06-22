@@ -16,6 +16,10 @@ Auto-Install Experiences let your customers buy a fully managed AI product from 
 
 No manual steps are required from you or the customer.
 
+<Info>
+The Partner Portal **One-Click Experiences** catalog contains 8 active + 8 Coming Soon cards (AI Receptionist, AI Personal Assistant, OpenClaw Setup Service, AI Business Audit, Resell AI Gateway, etc.). This page covers only the **Auto-Install** sub-slice of that catalog.
+</Info>
+
 Two auto-install experiences are currently in **Beta**:
 
 | Experience | Type constant | What deploys |
@@ -37,7 +41,9 @@ Before enabling either auto-install experience:
 2. **Database migration**: this feature adds a new `agent_autoinstall_orders` table. If you self-host, run `npm run db:push` in your deployment environment before enabling.
 3. **VPS quota**: each subscriber gets a dedicated Contabo VPS. Make sure your Contabo account has capacity for the expected subscriber volume.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the Stripe Connect settings panel showing a fully connected account (green Accept Charges and Receive Payouts indicators)._
+<Frame>
+  <img src="/images/screenshots/auto-install-stripe-connect-panel-2026-06-20.png" alt="Partner Portal — Settings page Stripe Connect section: Express account acct_1SBNfmA774TRCJCn, Accept Charges + Receive Payouts both green Enabled, Revenue Sharing 2.5% Platform Fee (you keep 97.50%), Premium Benefit callout noting 1% preferential rate." />
+</Frame>
 
 ---
 
@@ -50,7 +56,9 @@ Before enabling either auto-install experience:
    - OpenClaw Auto-Install: `/{your-domain}/openclaw-autoinstall`
    - Hermes Auto-Install: `/{your-domain}/hermes-autoinstall`
 
-> 📷 **Screenshot needed:** _Add a screenshot of the Experiences page showing the OpenClaw Auto-Install and Hermes Auto-Install cards with their Enable toggles._
+<Frame>
+  <img src="/images/screenshots/experiences-page-with-cards-2026-06-20.png" alt="One-Click Experiences page — Available Experiences grid with AI Receptionist, AI Personal Assistant, OpenClaw Auto-Install (Enable toggle highlighted), Hermes Auto-Install, and AI Business Audit cards." />
+</Frame>
 
 ---
 
@@ -77,7 +85,9 @@ For each tier, configure:
 
 Save the tier to sync a corresponding recurring Stripe Price on your Connect account. Existing subscribers are **not** migrated automatically when you change a tier's price — only new checkouts use the new price.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the Pricing Tiers editor in the experience settings, showing a tier with VPS Plan selector and AI Credits/month field._
+<Frame>
+  <img src="/images/screenshots/auto-install-pricing-tiers-editor-2026-06-20.png" alt="Pricing Tiers editor — a Lite tier card with Internal Name, Display Name, Description, Price, Currency, Interval, Highlight toggle, and Features list. Auto-install experiences add VPS Plan and AI Credits / month fields below Price." />
+</Frame>
 
 ---
 
@@ -105,7 +115,9 @@ GET /api/whitelabel/agent-autoinstall/order/{orderId}
 
 Customers see a progress indicator while the VPS provisions and the agent deploys (typically 2–5 minutes).
 
-> 📷 **Screenshot needed:** _Add a screenshot of the customer-facing setup progress page showing the provisioning steps (account → VPS → deploy → ready)._
+<Frame>
+  <img src="/images/screenshots/auto-install-customer-setup-progress-2026-06-20.png" alt="Customer-facing onboarding progress — Step 1 of 5 (Business Name + Website) for the AI Personal Assistant experience. Auto-install substitutes the same step-indicator pattern with provisioning steps (account → VPS → deploy → ready)." />
+</Frame>
 
 ---
 
@@ -134,7 +146,9 @@ Once a customer completes setup, their record appears in your **Customers** list
 - See the Infrastructure / Agency dashboard
 - Top up credits manually if needed
 
-> 📷 **Screenshot needed:** _Add a screenshot of a customer detail page for an auto-install subscriber, showing the VPS Terminal and credit balance sections._
+<Frame>
+  <img src="/images/screenshots/auto-install-customer-credits-2026-06-20.png" alt="Customer modal Credits tab — Current Balance (1,012 credits), Monthly Allocation (0 / disabled), Total Used, and Recent Transactions list. The same credit balance UI applies to auto-install subscribers; their VPS Terminal appears in the Deployment tab." />
+</Frame>
 
 ---
 

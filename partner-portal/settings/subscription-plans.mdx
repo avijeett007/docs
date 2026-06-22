@@ -19,7 +19,9 @@ This section applies only when your **Pricing Model** is set to **Subscription**
 There is **no** top-level **Settings → Subscription Plans** entry. Earlier versions of this doc instructed users to "scroll to the Subscription Plans section" of the main Settings page — that section doesn't exist on the new Settings IA. Subscription Plans now lives in the Whitelabel Settings page under the **Subscription Plans** section in the Section Nav Rail. See [[knotie-doc-gaps|G34]].
 </Note>
 
-{/* Screenshot needed: Subscription Plans list page — Active toggle and "Display on Landing Page" checkbox per plan */}
+<Frame>
+  <img src="/images/screenshots/subscription-plans-list-2026-06-20.png" alt="Whitelabel Settings — Subscription Plans section showing the active plans grid with the Edit action per card, Active plans: 2/3 counter, and a Create Plan CTA." />
+</Frame>
 
 ## Prerequisites
 
@@ -42,7 +44,9 @@ Before creating subscription plans, you need:
 4. Optionally check **Display on Customer Landing Page** to control visibility (see below).
 5. Click **Create**.
 
-{/* Screenshot needed: Create/Edit Subscription Plan form — Name, Price, Billing Interval, Display on Landing Page */}
+<Frame>
+  <img src="/images/screenshots/subscription-plan-edit-modal-2026-06-20.png" alt="Edit Plan modal — Plan Name, Description, Price + Currency, Billing Interval (Day / Week / Month / Year), Interval Count, Trial Period (Coming Soon), Display on Customer Landing Page toggle, and add-on service tiles (AI Translation, Sonti CRM)." />
+</Frame>
 
 ## How plan visibility works
 
@@ -52,7 +56,7 @@ When a customer prospect reaches **Step 9 (Summary & Deploy)**, the onboarding w
 
 **All plans with `isActive: true` are shown.** There is no additional client-side filtering — a plan being active is sufficient for it to appear. Activating or deactivating a plan is the primary way to control what customers see.
 
-{/* Screenshot needed: Whitelabel onboarding Step 9 — plan selection screen with active subscription plans */}
+> ℹ️ **Step 9 (Summary & Deploy)** of the whitelabel onboarding flow renders one card per active subscription plan, with price, billing interval, included features, and a Select CTA. Capture from a prospect's live onboarding session at the customer portal — the partner's view (shown above) only displays the plan catalog, not the prospect-facing selection screen.
 
 ### "Display on Customer Landing Page" checkbox
 

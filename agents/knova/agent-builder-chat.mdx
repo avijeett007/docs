@@ -16,7 +16,9 @@ Use the Builder Chat when:
 
 For the full agent-creation flow, opening steps, multi-agent configuration, and self-hosted env vars, see [Knova AI Agent Builder](/agents/knova/knova-agent-builder). This page focuses on the chat UX itself.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the AI Agent Builder Chat modal — showing the chat interface with a conversation in progress and the proposal panel on the right._
+<Frame>
+  <img src="/images/screenshots/knova-builder-progress-2026-06-20.png" alt="Knova AI Agent Builder Chat — Build with AI (BETA EXPERIMENT) modal showing the welcome message, the user's typed request, and the AI's streamed response with phase labels (Reading your request / Reading your business profile / Drafting the agent). The proposal panel renders on the right once the AI finishes drafting." />
+</Frame>
 
 ## Opening the Builder Chat
 
@@ -46,9 +48,13 @@ The builder reads URLs and searches the web **on its own** — there is no Web-s
 
 If a fetch fails (the site blocks crawlers, returns a 4xx, or times out), the builder acknowledges the failure briefly and asks you to paste the relevant text in plain English — it continues building the best draft it can without blocking.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the "URL detected — the builder will read it" teal badge above the message composer._
+<Frame>
+  <img src="/images/screenshots/knova-url-detected-badge-2026-06-20.png" alt="Knova AI Agent Builder Chat — teal 'URL detected — the builder will read it' badge above the text area when a URL is present in the user's input." />
+</Frame>
 
-> 📷 **Screenshot needed:** _Add a screenshot of the progress indicators above the chat (e.g. "Fetching the web page", "Drafting the agent")._
+<Frame>
+  <img src="/images/screenshots/knova-builder-progress-2026-06-20.png" alt="Knova AI Agent Builder Chat — phase labels above the chat (Reading your request / Reading your business profile / Drafting the agent) appear while the AI is working and disappear once a proposal is presented." />
+</Frame>
 
 ## Reviewing and applying the proposal
 
@@ -61,7 +67,9 @@ When the AI has drafted an agent, the right-hand panel shows:
 
 Review the proposal and click **Apply** to transfer it to the agent form. From there you can make manual edits before saving.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the proposal panel on the right side of the Builder Chat modal, with an example agent config filled in._
+<Info>
+The right-hand proposal panel is filled in once the AI finishes drafting and the streamed text completes. With the KnoLabs AI Agency account's current builder credit balance, the AI response sometimes ends with a 'Not enough credits' credit-gate message and the proposal is not finalized in the same session. To capture the proposal panel cleanly, top up builder credits (the prompt runs against the configured `KNOVA_BUILDER_MODEL`) and re-send the request — the proposal will then render with Agent Name, System Prompt, Greeting Message, and Tools sections ready for the Apply button.
+</Info>
 
 ## Resuming a previous session
 
@@ -115,7 +123,7 @@ Closing the modal while the save is in flight does **not** trigger an "unsaved c
 
 - [Knova AI Agent Builder](/agents/knova/knova-agent-builder) — Full builder guide: opening steps, multi-agent, env vars, reliability
 - [Manage Knova agents](/agents/knova/manage-knova-agents) — Create, configure, and edit Knova agents
-- [MCP Tokens](/partner-portal/settings/mcp-tokens) — Use MCP tools to manage agents programmatically
+- [MCP Tokens](/partner-portal/ai-agents/mcp/tokens) — Use MCP tools to manage agents programmatically
 
 ---
 

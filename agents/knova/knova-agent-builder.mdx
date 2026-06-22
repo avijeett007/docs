@@ -14,7 +14,9 @@ Use the builder when you want to:
 - Configure multi-agent routing (triage + specialists)
 - Iterate on a draft in plain English instead of editing fields
 
-> 📷 **Screenshot needed:** _Add a screenshot of the Knova Agent modal with the AI Mode / Manual Mode selector visible._
+<Frame>
+  <img src="/images/screenshots/knova-create-modal-setup-mode-2026-06-20.png" alt="Knova Create Agent modal — Tab 2 (Setup Mode) with two large cards: AI Mode (BETA RECOMMENDED) and Manual Mode. The AI Mode card explains that AI picks tools, attaches the knowledge base, and writes the system prompt. The Manual Mode card explains full control over prompt, tools, and personas." />
+</Frame>
 
 ---
 
@@ -36,7 +38,9 @@ To open it:
 
 If you picked **AI Builder** on the Setup Mode tab, the Basic tab is replaced by a chat panel — describe the business and the builder drafts the system prompt, voice, and config. Click **Apply to form** to load the draft into the standard Basic tab for final tweaks.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the 5-tab Create Agent modal with the Setup Mode selector visible on tab 2._
+<Frame>
+  <img src="/images/screenshots/knova-create-agent-modal-2026-06-20.png" alt="Knova Create Agent modal — 5-tab sequential flow: Customer (active), Setup Mode, Basic, Advanced, Functions. The Customer tab is the first step and shows the 3 available customers with names + emails." />
+</Frame>
 
 ---
 
@@ -88,7 +92,9 @@ When the builder detects a URL in your input field, a teal badge appears above t
 
 This is informational only — no action is required. The builder will fetch the page as part of its reasoning.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the teal "URL detected — the builder will read it" badge in the Agent Builder input area._
+<Frame>
+  <img src="/images/screenshots/knova-url-detected-badge-2026-06-20.png" alt="Knova Agent Builder Chat input — the teal 'URL detected — the builder will read it' badge appears above the text area as soon as a URL is typed into the message composer. Informational only; the builder auto-fetches the page as part of its reasoning." />
+</Frame>
 
 ### What happens when a fetch fails?
 
@@ -140,7 +146,9 @@ When editing an existing multi-agent setup:
 - The `entryPersonaId` (routing agent) is preserved
 - The builder can update individual personas or the routing logic
 
-> 📷 **Screenshot needed:** _Add a screenshot of a multi-agent configuration in the Knova builder showing the persona list and routing logic._
+<Info>
+The Knova multi-agent builder view is only reached by selecting the **Multi-Agent** card on the Agent Type row in the Basic tab. From a fresh Knova agent (no customer assigned, default Inbound), the multi-agent section is hidden. To capture, open the AI Builder for an agent whose Agent Type is set to Multi-Agent, or create a new agent and pick Multi-Agent before opening the builder.
+</Info>
 
 ---
 
@@ -151,7 +159,9 @@ Knova agents support **AI Analytics** (call metrics and insights). The Partner P
 - **Enabled**: you can configure and save metrics for any Knova agent.
 - **Disabled**: the Configure Metrics modal shows a warning banner and the **Add / Save** buttons are disabled, so you know the settings won't take effect until AI Analytics is turned on at the partner level.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the Configure Metrics modal with the AI Analytics disabled warning banner visible._
+<Info>
+The Configure Metrics modal is opened from the agent's three-dot menu. It shows the AI Analytics disabled warning banner only on partner accounts where AI Analytics is off at the account level. The KnoLabs AI Agency account has AI Analytics enabled (toggle is on in Partner Settings → AI Analytics), so the warning banner does not appear in this account. To capture, sign in with a partner account that has AI Analytics disabled.
+</Info>
 
 ---
 
@@ -171,7 +181,9 @@ Phone-number assignment is a separate step that happens later in the agent's edi
 
 When a phone number is assigned to a Knova agent, the phone numbers listing now correctly shows the associated customer — the number will no longer appear as "Unassigned" after the assignment is saved (knotie-ai-pro#848 backfills `PhoneNumber.customerId` if it was previously unset).
 
-> 📷 **Screenshot needed:** _Add a screenshot of the Assign Customer to Agent modal showing the customer dropdown and profit multiplier field._
+<Frame>
+  <img src="/images/screenshots/knova-agents-list-try-menu-2026-06-20.png" alt="Knova agent row three-dot menu — Try Agent (BETA), Test Outbound Call, Edit Agent, Assign Customer, Configure Metrics, Delete Agent. The Assign Customer option opens a modal with a customer dropdown and a Profit Multiplier field." />
+</Frame>
 
 ---
 
@@ -271,7 +283,7 @@ The configured `KNOVA_BUILDER_MODEL` is likely a reasoning-heavy model that does
 - [AI Agent Builder Chat](/agents/knova/agent-builder-chat) — Chat UX, session resume, rate limits, and the "Re-checked context" noise-reduction pill
 - [Manage Knova agents](/agents/knova/manage-knova-agents) — Create, configure, and edit Knova agents
 - [Knova AI Receptionist agent](/agents/knova/knova-agent) — How the agent runs in production (SIP routing, tools, credits)
-- [MCP Tokens](/partner-portal/settings/mcp-tokens) — Manage agents programmatically via MCP
+- [MCP Tokens](/partner-portal/ai-agents/mcp/tokens) — Manage agents programmatically via MCP
 
 ---
 

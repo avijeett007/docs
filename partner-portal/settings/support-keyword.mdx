@@ -3,9 +3,6 @@ title: "Support Keyword & TOTP Verification"
 description: "Generate a unique support keyword and authenticator-backed TOTP code so the Knotie support team can verify your identity without asking for passwords."
 ---
 
-> **Doc source:** knotie-ai-pro#1024 — _feat: partner support keyword system with TOTP verification_ (merged 2026-06-17).
-> **Status:** Draft. Screenshots and the video walkthrough referenced below are **placeholders** — capture and replace before publishing.
-
 ## What Support Keywords are for
 
 When you contact the Knotie support team — by voice, Discord, or any other channel — the team needs to confirm they are speaking with the legitimate account owner before discussing sensitive account details.
@@ -22,13 +19,9 @@ Neither piece is useful alone — a keyword without the live code cannot be used
 1. In the Partner Portal sidebar, click **Get Support**.
 2. In the modal that opens, switch to the **Support Keyword** tab.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the PartnerSupportModal open on the Support Keyword tab, showing the keyword display, QR code area, and Generate button._
-
-{/* TODO [SCREENSHOT]: capture-get-support-modal-support-keyword-tab.png
-     Path to save: docs/images/screenshots/capture-get-support-modal-support-keyword-tab.png
-     View: Partner Portal sidebar → click "Get Support" → switch to "Support Keyword" tab
-     Show: keyword display panel, QR code area (empty before generation), Generate button
-*/}
+<Frame>
+  <img src="/images/screenshots/support-keyword-empty-2026-06-20.png" alt="PartnerSupportModal — Support Keyword tab in empty state, showing the keyword display area, QR code area, and Generate Support Keyword CTA." />
+</Frame>
 
 ## First-time setup
 
@@ -40,13 +33,9 @@ Click **Generate** in the Support Keyword tab. The server creates:
 - An encrypted TOTP secret stored on the server.
 - A QR code you can scan immediately.
 
-> 📷 **Screenshot needed:** _Add a screenshot showing the newly generated keyword string and the QR code displayed in the modal._
-
-{/* TODO [SCREENSHOT]: capture-support-keyword-generated-with-qr.png
-     Path to save: docs/images/screenshots/capture-support-keyword-generated-with-qr.png
-     View: Support Keyword tab after clicking Generate
-     Show: keyword string (e.g. "swift-tiger-42"), QR code, Reveal secret toggle
-*/}
+<Frame>
+  <img src="/images/screenshots/support-keyword-generated-2026-06-20.png" alt="PartnerSupportModal — Support Keyword tab showing a freshly generated keyword (lean-forge-21) plus the QR code for TOTP enrollment and the Auto-rotate toggle." />
+</Frame>
 
 ### Step 2 — Set up your authenticator app
 
@@ -59,14 +48,6 @@ Scan the QR code with any TOTP-compatible authenticator:
 The app will start generating 6-digit codes that change every 30 seconds. Verify the setup by reading the current code before closing the modal.
 
 If you cannot scan the QR code, use the **Reveal secret** option to copy the raw TOTP key and enter it manually in your authenticator app.
-
-> 🎬 **Video walkthrough needed:** _Record a short clip walking through the full setup: opening Get Support → Support Keyword tab → clicking Generate → scanning the QR code in an authenticator app → confirming the code displays correctly._
->
-> {/* TODO [VIDEO]: support-keyword-setup-flow.mp4
->      Target runtime: 30–45 s
->      Scenes: (1) click Get Support, (2) switch to Support Keyword tab, (3) click Generate, (4) scan QR with Google Authenticator, (5) show the 6-digit code populating
->      Save to: docs/images/videos/support-keyword-setup-flow.mp4
-> */}
 
 ### Step 3 — Save your keyword somewhere accessible
 
@@ -92,13 +73,13 @@ This is useful if:
 
 Auto-rotate is off by default — your keyword stays active until you explicitly regenerate or deactivate it.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the Auto-rotate toggle in the Support Keyword tab, both on and off states._
+<Frame>
+  <img src="/images/screenshots/support-keyword-auto-rotate-2026-06-20.png" alt="PartnerSupportModal — Support Keyword tab showing the Auto-rotate toggle in the OFF position, with the explanatory copy Keyword expires after one verified support session. A new one must be generated." />
+</Frame>
 
-{/* TODO [SCREENSHOT]: capture-support-keyword-auto-rotate-toggle.png
-     Path to save: docs/images/screenshots/capture-support-keyword-auto-rotate-toggle.png
-     View: Support Keyword tab with Auto-rotate toggle
-     Show: the toggle in both OFF (default) and ON states — either a single shot with the toggle ON and a "(default: OFF)" annotation, or two stacked captures
-*/}
+<Frame>
+  <img src="/images/screenshots/support-keyword-auto-rotate-on-2026-06-20.png" alt="PartnerSupportModal — Support Keyword tab with Auto-rotate toggle flipped ON." />
+</Frame>
 
 ## Regenerating or deactivating your keyword
 
@@ -122,19 +103,6 @@ After regenerating, remove the old entry from your authenticator app to avoid co
 - Keywords are globally unique across all partners — no two accounts share the same keyword.
 - The verification endpoint is rate-limited and scoped to internal support tooling; it is not exposed as a public API.
 - If you believe your keyword or authenticator entry has been compromised, regenerate immediately from the Support Keyword tab.
-
-## Screenshot / video placeholders (replace before publishing)
-
-The three screenshots and one video referenced above are placeholders. Until they are captured, use this checklist:
-
-| # | Asset | Where to capture | Save to | Status |
-|---|---|---|---|---|
-| 1 | Get Support modal — Support Keyword tab (empty state) | Partner Portal sidebar → Get Support → Support Keyword tab | `docs/images/screenshots/capture-get-support-modal-support-keyword-tab.png` | 📷 placeholder |
-| 2 | Generated keyword + QR code | Same tab after clicking Generate | `docs/images/screenshots/capture-support-keyword-generated-with-qr.png` | 📷 placeholder |
-| 3 | Auto-rotate toggle (off and on) | Same tab, toggle row | `docs/images/screenshots/capture-support-keyword-auto-rotate-toggle.png` | 📷 placeholder |
-| 4 | Full setup walkthrough (30–45 s) | Screen record the flow end-to-end | `docs/images/videos/support-keyword-setup-flow.mp4` | 🎬 placeholder |
-
-Search the file for the `TODO [SCREENSHOT]` / `TODO [VIDEO]` comments above to locate each insertion point.
 
 ---
 

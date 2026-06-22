@@ -1,0 +1,210 @@
+---
+title: "Knova Outbound Calling"
+description: "Place AI-powered outbound calls through your Knova agent — from the portal, from GoHighLevel workflows, or from any webhook-capable system."
+---
+
+## Overview
+
+Knova Outbound Calling lets your Knova (LiveKit) agent initiate outbound calls — calling leads, customers, or prospects on your behalf. The agent speaks first and can address each person by name using **dynamic variables** you inject at call time.
+
+Phase 1 covers:
+
+- **Portal test call** — trigger a one-off call directly from the Knova Agents page
+- **Webhook trigger** — connect GoHighLevel, n8n, Zapier, or Facebook Lead Ads to fire calls automatically
+- **Dynamic variables** — inject lead name, topic, or any custom value into the agent's prompt and greeting at runtime
+
+<Note>
+Outbound calling is available in **Phase 1**. Campaigns, CSV dialing, number-pool rotation, and voicemail-drop are **Phase 2** (coming soon).
+</Note>
+
+---
+
+## Prerequisites
+
+Before placing outbound calls, confirm:
+
+1. You have a **Knova agent** created and published in the Partner Portal.
+2. You have a **voice-capable phone number** imported (Twilio or Telnyx) — or platform ops has configured the shared Knotie trunk for you.
+3. The phone number is **assigned to your Knova agent** (see [Step 1](#step-1--assign-a-phone-number-to-your-knova-agent) below).
+
+<Info>
+If you don't have your own Twilio or Telnyx account, contact support to confirm the shared trunk is set up. Calls via the shared trunk deduct both AI credits and telephony credits.
+</Info>
+
+---
+
+## Step 1 — Assign a phone number to your Knova agent
+
+1. In the Partner Portal, go to **Phone Numbers**.
+2. Find the number you want to use for outbound calls.
+3. Open the actions menu and click **Assign Agent**.
+4. Select your **Knova agent** from the list and click **Save**.
+
+When a Knova agent is assigned to a voice-capable number, outbound is automatically enabled. The platform also pre-provisions the LiveKit SIP trunk in the background so your first call starts immediately without a provisioning delay.
+
+ℹ️ _Screenshot to add: the "Assign Agent" modal on the Phone Numbers page, showing a Knova agent selected in the dropdown._
+
+---
+
+## Step 2 — Run a test call from the portal
+
+Use the built-in portal test to verify end-to-end before wiring any external system.
+
+1. In the Partner Portal, go to **AI Agents → Knova Agents**.
+2. Open the three-dot menu on your agent and click **Test Outbound Call**.
+3. In the modal:
+   - Enter the **destination number** (E.164 format, e.g. `+14155551212`) — use your own mobile first.
+   - Optionally add **dynamic variables** — key/value pairs that replace `{{key}}` placeholders in the agent's prompt and greeting (e.g. `lead_name = "Sarah"`).
+4. Click **Call**.
+
+ℹ️ _Screenshot to add: the "Test Outbound Call" modal on the Knova Agents page, showing the destination number field and dynamic variables section._
+
+**What to expect:**
+- The agent initiates the call and speaks first (outbound agents always greet the callee).
+- If you added dynamic variables, the agent uses those values in the greeting (e.g. "Hi Sarah, I'm calling about your renewal").
+- If the call goes to voicemail, the agent hangs up in Phase 1 (voicemail-drop is Phase 2).
+
+---
+
+## Step 3 — Generate an outbound webhook key
+
+To trigger calls from external systems (GHL, n8n, etc.), generate a webhook key for the phone number.
+
+1. Go to **Phone Numbers** → click on your number → **Outbound Settings**.
+2. Click **Generate Webhook Key**.
+3. **Copy the key immediately** — it is shown only once. Only its SHA-256 hash is stored.
+
+Store this key in your external system as a secret. If you lose it, revoke and regenerate in the portal.
+
+ℹ️ _Screenshot to add: the Outbound Settings panel on the Phone Number detail page, showing the "Generate Webhook Key" button and the key display after generation._
+
+---
+
+## Step 4 — Wire a GoHighLevel workflow
+
+1. In GoHighLevel, create a **Workflow** with a **Webhook** action.
+2. Set the URL to your Connect Hub endpoint:
+   ```
+   https://hub.knotie-ai.pro/api/outbound-call
+   ```
+3. Set the method to `POST` and add the auth header:
+   ```
+   Authorization: Bearer <your-webhook-key>
+   ```
+4. Use GHL's native `customData` format for the body:
+   ```json
+   {
+     "customData": {
+       "from_number": "+14155551234",
+       "to_number": "{{contact.phone}}",
+       "dynamicdata_lead_name": "{{contact.full_name}}",
+       "dynamicdata_outreach_topic": "your recent inquiry",
+       "metadata_source": "ghl_workflow"
+     }
+   }
+   ```
+   Connect Hub auto-detects the GHL format — `dynamicdata_*` keys become dynamic variables passed to your agent.
+5. Test the workflow on a contact. The agent calls the contact and addresses them by name.
+
+ℹ️ _Screenshot to add: a GoHighLevel Workflow with the Webhook action configured, showing the URL and customData body fields._
+
+---
+
+## Step 5 — Wire Facebook Lead Ads (via GHL or n8n)
+
+Facebook Lead Ads don't post webhooks directly to arbitrary URLs, but you can bridge them:
+
+**Via GoHighLevel:**
+1. Connect your Facebook page to GHL (**Settings → Integrations → Facebook**).
+2. Create a GHL Workflow trigger: **Facebook Lead Form Submitted**.
+3. Add a Webhook action pointing to Connect Hub (same as Step 4), mapping lead-form fields to `dynamicdata_*` keys.
+
+**Via n8n:**
+1. Use the **Facebook Lead Ads** trigger node.
+2. Add an **HTTP Request** node: `POST` to `https://hub.knotie-ai.pro/api/outbound-call` with:
+   ```
+   Authorization: Bearer <your-webhook-key>
+   ```
+   Body:
+   ```json
+   {
+     "from_number": "+14155551234",
+     "to_number": "{{ $json.phone_number }}",
+     "dynamic_variables": {
+       "lead_name": "{{ $json.full_name }}",
+       "form_source": "{{ $json.ad_name }}"
+     }
+   }
+   ```
+
+---
+
+## Dynamic variables
+
+Dynamic variables let you personalise each call. Any key in `dynamic_variables` substitutes `{{key}}` placeholders in the agent's **system prompt** and **greeting message**.
+
+**Example:**
+
+If your agent's system prompt contains:
+```
+You are calling {{lead_name}} about {{outreach_topic}}.
+```
+
+And you pass:
+```json
+{
+  "dynamic_variables": {
+    "lead_name": "Sarah",
+    "outreach_topic": "Q3 renewal"
+  }
+}
+```
+
+The agent receives:
+```
+You are calling Sarah about Q3 renewal.
+```
+
+Keys not present in `dynamic_variables` are left as `{{key}}` (no error is thrown).
+
+---
+
+## Phase 1 limits
+
+| Capability | Phase 1 | Phase 2 |
+|------------|---------|---------|
+| Portal test call | Yes | Yes |
+| Webhook-triggered single call | Yes | Yes |
+| Dynamic variables in prompt/greeting | Yes | Yes |
+| Voicemail detection | Hang up | Voicemail-drop (leave message) |
+| Campaigns / CSV dialing | Not available | Yes |
+| Number pool dialing | Not available | Yes |
+| Calling window / DNC / compliance | Not available | Minimal layer |
+
+---
+
+## Troubleshooting
+
+| Symptom | Likely cause | Fix |
+|---------|-------------|-----|
+| Agent does not speak first | Outbound greeting not configured | Confirm agent template has `call_direction: "outbound"` and a greeting message |
+| Dynamic variables not substituted | Key mismatch in prompt | Ensure prompt uses `{{key}}` matching the `dynamic_variables` key exactly |
+| `NO_OUTBOUND_TRUNK` error | BYO trunk not provisioned or shared trunk not configured | Re-assign the agent to the number to trigger provisioning; contact ops if using the shared trunk |
+| `INSUFFICIENT_CREDITS` | Credit balance too low | Top up credits in the Partner Portal |
+| `NO_AGENT_MAPPING` | Agent not assigned to this number | Re-assign the Knova agent to the number and try again |
+| `DISPATCH_FAILED` | LiveKit `createDispatch` failed | Check `KNOVA_AGENT_NAME`, `LIVEKIT_API_KEY`, `LIVEKIT_API_SECRET` env vars in Connect Hub |
+| `CALL_REJECTED` | Callee rejected or busy (SIP 486/603) | Normal — the callee declined the call |
+| `CALL_NO_ANSWER` | No answer / line temporarily unavailable | Retry later; confirm the number is reachable |
+| `SIP_TRUNK_FAILURE` | Carrier SIP 5xx | Check Twilio/Telnyx trunk status and credentials |
+
+---
+
+## Next steps
+
+- [Outbound webhook API reference](/agents/knova/outbound-webhook-api) — full request/response spec for integrating external systems
+- [Knova Agents overview](/agents/knova/overview) — set up and manage Knova agents
+- [Phone numbers](/partner-portal/phone-numbers) — import and manage phone numbers
+
+---
+
+> Source: [knotie-ai-pro#1025](https://github.com/avijeett007/knotie-ai-pro/pull/1025) — _feat(knova-outbound): Knova/LiveKit outbound calling — Phase 1_

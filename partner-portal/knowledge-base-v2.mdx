@@ -18,7 +18,7 @@ The key improvements for partners and their customers:
 | **Reranking** | None | Cohere Rerank v3 (moderate + premium tiers) |
 | **Charging** | Fixed credits per KB processing config | Tier-driven — see credit model below |
 
-{/* Screenshot needed: KB v2 status indicator on the customer detail page showing document status column with "queued", "processing", "completed" states. Deferred 2026-06-18 — per journey #10, the KB Processing feature is fully documented but does NOT exist in the live UI. No status indicator, no document upload UI, no processing tier picker is rendered anywhere in the Partner Portal customer detail page or Settings. This is a major doc-vs-UI gap. */}
+> ℹ️ The KB v2 status indicator was planned to show a per-document status column (queued / processing / completed) in the customer detail page. Per [journey #10](https://github.com/avijeett007/knotie-ai-pro/issues/), the underlying feature is fully documented but does NOT exist in the live UI — no status indicator, no document upload, no processing tier picker is rendered anywhere in the Partner Portal customer detail page or Settings. Capture from a build where KB v2 ships.
 
 ---
 
@@ -62,7 +62,7 @@ openssl rand -hex 32
 
 Keep the output as `MEMORY_INTERNAL_KEY`. Rotate it quarterly.
 
-{/* Screenshot needed: Qdrant Cloud dashboard with healthy cluster and API key creation panel. Deferred 2026-06-18 — this is a third-party SaaS dashboard outside the Knotie app; capture needs to be made by partner's Qdrant account admin. */}
+> ℹ️ **Qdrant Cloud** is the vector store backing KB v2. The dashboard shows the cluster status (Healthy / Degraded), node count, and the API key creation panel. Capture from your own Qdrant Cloud account admin — it lives outside the Knotie app.
 
 ---
 
@@ -134,7 +134,7 @@ npm run start:worker
 
 Use the same Docker image and the same environment variables. This is identical to how `KnotieManager` is deployed.
 
-{/* Screenshot needed: Coolify project with Connect Hub API + sibling memoryIngest worker. Deferred 2026-06-18 — Coolify is the partner's deployment platform; capture requires the partner's Coolify project access. */}
+> ℹ️ **Coolify** is the partner's self-hosted deployment platform. The KB v2 stack runs as two services: **Connect Hub API** (orchestrator) and a sibling **memoryIngest** worker that batches documents into Qdrant. Capture from your own Coolify project to refresh.
 
 ---
 
@@ -158,7 +158,7 @@ When assigning a knowledge base to a customer, you set a **processing tier**. Th
 
 The tier label shown to you never exposes the underlying parser name — that's an implementation detail we can swap without changing your configuration.
 
-{/* Screenshot needed: Customer management modal with "Knowledge base & embedding" section + three processing tier options. Deferred 2026-06-18 — same reason as the first prompt; no KB UI exists in the live partner portal. */}
+> ℹ️ The customer modal was planned to expose a **Knowledge base & embedding** section with three processing tier options (Basic / Standard / Premium) that determine ingestion speed and embedding model. The UI is not in the current build — capture from a release where this section is live.
 
 ---
 

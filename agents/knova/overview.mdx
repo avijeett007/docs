@@ -69,10 +69,12 @@ Once an agent is assigned to a customer, you can configure analytics:
 2. Click **Configure Metrics**
 3. Set up analytics tracking for the agent
 
-> 📷 **Screenshot needed:** *Add a screenshot of the Configure Metrics modal.*
+<Info>
+The Configure Metrics modal is opened from the agent's three-dot menu. To capture it, ensure the agent has a customer assigned first — the kebab entry is disabled (and the Configure Metrics action requires an assigned customer). After assignment, the modal renders the call-metric configuration form. The KnoLabs Knotie agent on the KnoLabs AI Agency account is a website-channel (web) agent with no customer assignment, so Configure Metrics is not accessible in this account's state.
+</Info>
 
 <Warning>
-Configure Metrics is disabled until you assign a customer to the agent.
+Configure Metrics is disabled until you assign a customer to the agent. **Web-channel agents are an exception**: an agent whose Type is `website` / Channel is `web` keeps Configure Metrics disabled even after a customer is assigned — the customer-assignment call returns a 400 for web-type agents, so analytics can't be configured for them. Configure Metrics is intended for phone/voice agents.
 </Warning>
 
 ## Create an agent
@@ -83,10 +85,24 @@ The Create Agent modal is a **5-tab sequential flow** — Customer → Setup Mod
 2. Walk through tabs 1–5 in order.
 3. Click **Save** on the Functions tab.
 
+## Outbound Calling (Phase 1)
+
+Knova agents can now **place outbound calls** — from a portal test button or triggered automatically by GoHighLevel, n8n, or any webhook-capable system.
+
+Key capabilities:
+- **Test call from the portal** — fire a real outbound call to any E.164 number directly from the Knova Agents page
+- **Dynamic variables** — inject `{{lead_name}}`, `{{outreach_topic}}`, or any custom value into the agent's prompt and greeting at call time
+- **Webhook trigger** — connect GoHighLevel, n8n, Zapier, or a Facebook Lead Ad bridge via a simple `POST` request
+
+ℹ️ _Screenshot to add: the "Test Outbound Call" option in the Knova agent three-dot menu._
+
+See the [Outbound Calling guide](/agents/knova/outbound-calling) for full setup instructions.
+
 ## Edit or delete
 
 Use the three-dot menu to:
 - **Try Agent (BETA)** — test in browser
+- **Test Outbound Call** — trigger a live outbound call to any number
 - **Edit Agent** — modify settings
 - **Assign Customer** — map to customer
 - **Configure Metrics** — set up analytics
@@ -119,7 +135,9 @@ When a Knova agent is **assigned to a customer**, Knotie AI Pro automatically wi
    ```
 3. The LiveKit runtime registers this server and exposes connected-app tools to the agent.
 
-> 📷 **Screenshot needed:** _Add a screenshot of a Knova agent's Advanced Config view (or the agent detail) showing the mcpServers entry._
+<Info>
+The `mcpServers` entry in `advancedConfig` only appears for Knova agents that have a customer assigned and Connect Hub configured. The KnoLabs AI Agency account's Knotie agent is a website-channel agent with no customer assignment, so the Advanced Config panel does not include an mcpServers block. To capture, assign a customer to a Knova agent and open the Advanced tab in the edit modal — the JSON config will show the auto-injected `knotie_partner_tools` MCP server with `streamable_http` transport.
+</Info>
 
 ### Customer assignment and token lifecycle
 
@@ -146,6 +164,8 @@ For the full cross-provider reference, see [Connected App Tools](/agents/connect
 
 ## Next steps
 
+- [Outbound Calling](/agents/knova/outbound-calling) — set up portal test calls and external webhook triggers
+- [Outbound Webhook API](/agents/knova/outbound-webhook-api) — API reference for GHL, n8n, and custom integrations
 - [Connected App Tools](/agents/connected-app-tools) — how live MCP server wiring works across all voice providers
 - [Integration Apps Selection](/partner-portal/customers/integration-apps-selection) — control which apps customers can connect
 - [AI Experiences](/partner-portal/experiences) — enable AI Receptionist and other one-click products

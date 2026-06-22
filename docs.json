@@ -44,7 +44,8 @@
               "customer-management/whitelabel-subdomain",
               "customer-management/client-portal-navigation-and-ai-gateway",
               "customer-management/custom-domain",
-              "customer-management/email-domains"
+              "customer-management/email-domains",
+              "customer-management/ai-memory-my-minds"
             ]
           },
           {
@@ -79,6 +80,7 @@
               "partner-portal/phone-numbers",
               "partner-portal/ai-agents-overview",
               "partner-portal/ai-gateway",
+              "partner-portal/ai-agents/mcp/tokens",
               "partner-portal/experiences/resell-ai-gateway",
               "partner-portal/agent-analytics",
               "partner-portal/billing-and-invoices",
@@ -97,9 +99,9 @@
               "partner-portal/knowledge-base-v2",
               "partner-portal/settings/knowledge-base-processing",
               "partner-portal/settings/subscription-plans",
+              "partner-portal/settings/subscription-plan-features",
               "partner-portal/settings/customer-credit-plans",
               "partner-portal/settings/saas-portal-mode",
-              "partner-portal/settings/mcp-tokens",
               "partner-portal/settings/support-keyword",
               "partner-portal/settings/mcp-custom-domain",
               "partner-portal/settings/notification-preferences",
@@ -111,6 +113,8 @@
               "partner-portal/experiences/auto-install",
               "partner-portal/vps/overview",
               "partner-portal/ai-usage/overview",
+              "partner-portal/ai-memory",
+              "partner-portal/ai-memory-kickoff",
               "partner-portal/number-pools/overview"
             ]
           },
@@ -133,6 +137,8 @@
               "agents/knova/knova-agent",
               "agents/knova/try-agent",
               "agents/knova/manage-knova-agents",
+              "agents/knova/outbound-calling",
+              "agents/knova/outbound-webhook-api",
               "agents/knova/knova-agent-builder",
               "agents/knova/agent-builder-chat",
               "agents/retell/import-retell-agent",
@@ -188,7 +194,8 @@
               "api-reference/mcp/introduction",
               "api-reference/mcp/authentication",
               "api-reference/mcp/tool-modes",
-              "api-reference/mcp/endpoints"
+              "api-reference/mcp/endpoints",
+              "api-reference/mcp/memory-tools"
             ]
           },
           {

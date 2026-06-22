@@ -30,12 +30,16 @@ This is useful for:
 
 1. In the Partner Portal sidebar, go to **AI Agents → Knova**.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the Knova AI Agents list page showing the agents table and the "Try Agent" button on one of the agent rows._
+<Frame>
+  <img src="/images/screenshots/knova-agents-list-2026-06-20.png" alt="Knova AI (Hosted) Agents list page — shows the AI-Powered Agent Builder banner with 'Try the Builder' CTA, a search box, and one agent card (Knotie, type website, channel web, Active) with a three-dot menu (⋮) at the end. Try Agent is reached from the three-dot menu, not a row-level button." />
+</Frame>
 
 2. Find the Knova agent you want to test and open the agent's **three-dot menu** (⋮) at the end of the row — there is no row-level button. Choose **Try Agent (BETA)** from the menu.
 3. The **Try [Agent Name]** modal opens and immediately starts preparing a secure voice session.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the "Try Agent" modal in the loading/connecting state — showing the purple agent icon, "Browser-based voice test using your mic and speakers" subtitle, and the spinning loader._
+<Frame>
+  <img src="/images/screenshots/knova-try-agent-loading-2026-06-20.png" alt="Try Knotie (BETA) modal in loading/connecting state — purple agent icon, 'Browser-based voice test using your mic and speakers' subtitle, yellow 'Connecting…' status, 'Waiting for the agent to join…', 'Agent Connecting' label, and Mute + End test buttons (disabled while connecting)." />
+</Frame>
 
 ---
 
@@ -43,7 +47,9 @@ This is useful for:
 
 Once the session is ready, the modal shows a live voice interface:
 
-> 📷 **Screenshot needed:** _Add a screenshot of the "Try Agent" modal in the active/connected state — showing the bar visualizer, agent state ("Listening" / "Speaking"), mic mute button, and red "End test" button._
+<Info>
+The active/connected state of the Try Agent modal requires a successful LiveKit session. On the KnoLabs AI Agency account, the current credit balance causes the session to end with a 'Not enough credits' gate (shown in `knova-builder-proposal-2026-06-20.png` for the AI Builder path) before the connected state is reached. To capture, top up credits and retry the test.
+</Info>
 
 ### Connection indicator
 
@@ -78,7 +84,9 @@ Test sessions use the same credit pool as live calls. Credits are consumed for t
 
 If your balance is too low to start a session, the modal shows a credit gate error:
 
-> 📷 **Screenshot needed:** _Add a screenshot of the "Not enough credits" error state inside the Try Agent modal — showing the yellow alert icon and "Top up credits →" link._
+<Info>
+The "Not enough credits" credit-gate error appears inside the Try Agent modal when the partner's credit balance is too low to start a LiveKit session. On the KnoLabs AI Agency account the same gate appears as the final response in the AI Agent Builder Chat when `KNOVA_BUILDER_MODEL` runs out of credits — visible in `knova-builder-proposal-2026-06-20.png` with the message "Not enough credits. Buy 32K more credits or get in touch with your manager to unlock."
+</Info>
 
 Click **Top up credits →** to go to the Credits page and add more.
 

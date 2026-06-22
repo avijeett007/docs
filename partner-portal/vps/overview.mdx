@@ -49,7 +49,7 @@ VPS instances move through these states:
 | `suspended` | Paused due to non-payment or issues |
 | `cancelled` | Terminated |
 
-{/* Screenshot needed: instance cards with different status badges. Deferred 2026-06-18 — this KnoLabs AI Agency account has 0 VPS instances ("No VPS instances yet. Purchase one from the Purchase tab."); instance-card UI requires a real active instance to capture. Existing `vps-instances-nav-annotated.jpg` covers the related nav-tab view but not specific status badges. */}
+> ℹ️ Each provisioned VPS appears as an **instance card** carrying a colored status badge that matches the table above — e.g. amber `pending_provisioning`, green `active`, grey `suspended`. The cards render only once at least one VPS exists on the account; on a fresh account this area reads "No VPS instances yet. Purchase one from the Purchase tab." Capture from an account with a live instance.
 
 ## Assign to customer
 
@@ -70,7 +70,7 @@ Click on an instance card to see:
 - Creation date
 - Status badge
 
-{/* Screenshot needed: instance details panel. Deferred 2026-06-18 — account has 0 VPS instances; details panel renders only for an existing instance. */}
+> ℹ️ Clicking an instance card opens a **details panel** listing the plan specs, region, partner price, creation date, and the current status badge in a single read-only view. It renders only for an existing instance, so capture it from an account that has a provisioned VPS.
 
 ## Credentials
 
@@ -80,7 +80,7 @@ For `active` instances, you can request root credentials:
 2. Credentials are sent to your email and displayed on screen
 3. Password is shown in a monospace box
 
-{/* Screenshot needed: credentials reveal panel. Deferred 2026-06-18 — requires clicking "Request Credentials" on a live active instance, which the current 0-instance account cannot provide. Existing `vps-instances-nav-annotated.jpg` shows the related nav. */}
+> ℹ️ After you click **Request Credentials** on an `active` instance, a **reveal panel** displays the root username and password, with the password shown in a monospace box (and also emailed to you). The panel appears only for a live active instance, so capture it the first time you request credentials on a real VPS.
 
 ### Regenerate SSH keys
 
@@ -97,7 +97,7 @@ If credentials aren't working, use the **Fix Credentials** modal:
 - **Auto-fix**: Platform automatically generates fresh credentials and injects them via SSH
 - **Manual**: Enter your current root password, and the platform SSHs in to install a new key
 
-{/* Screenshot needed: Fix Credentials modal with auto/manual options. Deferred 2026-06-18 — same reason; requires an active instance. Existing `vps-reinstall-popup-annotated.jpg` covers a related modal. */}
+> ℹ️ The **Fix Credentials** modal offers two tabs: **Auto-fix** (the platform generates fresh credentials and injects them over SSH for you) and **Manual** (you enter your current root password so the platform can SSH in and install a new key). The modal is reachable only from an active instance, so capture it from an account that has one.
 
 ## Reinstall with App
 

@@ -5,7 +5,11 @@ description: "Automatically deploy AI agents for customers who complete the SaaS
 
 ## What Auto-Deploy is for
 
-**Auto-Deploy** automatically activates AI agents for customers who clear the payment gate at Step 9 and click **Deploy** on Step 10 of the SaaS onboarding process. This eliminates manual deployment work and provides instant activation for self-service customers.
+**Auto-Deploy** automatically activates AI agents for customers who clear the payment gate and click **Deploy** on Step 9 (Summary & Deploy) of the SaaS onboarding process. This eliminates manual deployment work and provides instant activation for self-service customers.
+
+<Note>
+The live onboarding flow is **9 steps** total — Step 9 is **Summary & Deploy**, which combines pricing/payment verification with the deploy button. Earlier docs that reference "Step 9 (Pricing & Payment) + Step 10 (Deploy Agent)" describe the older 10-step flow.
+</Note>
 
 Use auto-deploy when:
 - Running a SaaS portal with self-service onboarding
@@ -16,8 +20,8 @@ Use auto-deploy when:
 
 ### The deployment flow
 
-1. **Customer completes Step 9 (Pricing & Payment)** – Stripe Checkout clears (or is skipped for free / pay-as-you-go portals)
-2. **Step 10 (Deploy Agent) gate** – `/api/whitelabel/check-onboarding-payment` confirms the customer credential is `active`; otherwise the user is bounced back to Step 9
+1. **Customer completes Step 9 (Summary & Deploy — pricing/payment verified)** – Stripe Checkout clears (or is skipped for free / pay-as-you-go portals)
+2. **Deploy button enabled** – `/api/whitelabel/check-onboarding-payment` confirms the customer credential is `active`; otherwise the user stays on Step 9 with an error
 3. **Customer clicks Deploy** – Triggers `/api/whitelabel/save-onboarding-details`
 4. **System checks prerequisites** – Validates credits, configuration
 5. **Job queued** – Deployment added to KnotieManager queue
@@ -96,14 +100,12 @@ Toggle auto-deploy in whitelabel settings:
 2. Top up if below minimum thresholds.
 3. Set up low-credit alerts to avoid deployment failures.
 
-![Auto-Deploy Configuration](/images/screenshots/screenshot-2026-03-19-221234.png)
-
 ## What happens during auto-deploy
 
 ### Phase 1: Customer completes onboarding
 
-When a customer reaches Step 10 and clicks **Deploy**:
-1. The page first calls `/api/whitelabel/check-onboarding-payment`; if the credential is not `active`, the customer is sent back to Step 9.
+When a customer reaches Step 9 (Summary & Deploy) and clicks **Deploy**:
+1. The page first calls `/api/whitelabel/check-onboarding-payment`; if the credential is not `active`, the customer stays on Step 9 with an error message.
 2. Onboarding data (business info, knowledge base, greeting, voice, integrations, billing model) is validated and posted to `/api/whitelabel/save-onboarding-details`.
 3. AI credits are enabled for the customer (only if **Free AI Credits** is configured and > 0).
 4. Deployment status is determined.
@@ -153,7 +155,7 @@ KnotieManager processes the job:
 
 View deployment status for each customer:
 
-1. Go to **Customer List**.
+1. Go to **Customers → Active Customers** in the Partner Portal sidebar.
 2. Each customer shows a status badge:
    - **Queued** – Deployment in progress (spinning icon)
    - **Pending Credits** – Waiting for credits (amber)
@@ -166,11 +168,9 @@ View deployment status for each customer:
 If a customer is **pending_credits**, you can resume deployment:
 
 1. Top up your credits.
-2. Find the customer in Customer List.
+2. Find the customer in **Customers → Active Customers**.
 3. Click **Continue Deployment** button.
 4. System re-queues the deployment job.
-
-![Continue Deployment Workflow](/images/screenshots/screenshot-2026-03-19-163428.png)
 
 ## Deployment notifications
 
@@ -192,8 +192,6 @@ If deployment fails for other reasons, support receives notification with:
 - Customer information
 - Error details
 - Troubleshooting steps
-
-![Deployment Notification Context](/images/Screenshot2025-12-28at01.54.56.png)
 
 ## Credit requirements explained
 
@@ -231,12 +229,12 @@ Customers receive **Free AI Credits** (configured in SaaS settings):
 **Possible causes:**
 - Auto-Deploy toggle is OFF
 - SaaS Onboarding not enabled
-- Customer didn't reach Step 10 (still stuck on a previous step — most commonly Step 9 payment)
+- Customer didn't reach Step 9 (Summary & Deploy) — still stuck on a previous step (most commonly the payment verification within Step 9)
 - Partner credits below minimum threshold
 
 **Solution:**
-1. Verify auto-deploy is enabled in Settings → Whitelabel.
-2. Check customer reached Step 10 in Prospects list (Step 9 means payment didn't clear).
+1. Verify auto-deploy is enabled in Settings → White-Label Portal.
+2. Check customer reached Step 9 (Summary & Deploy) in Prospects list — earlier step completion means payment didn't clear.
 3. Confirm credit balance meets minimums.
 
 ### Deployment stuck in "queued"
@@ -248,7 +246,7 @@ Customers receive **Free AI Credits** (configured in SaaS settings):
 
 **Solution:**
 1. Wait 5-10 minutes for queue processing.
-2. Check deployment status in Customer List.
+2. Check deployment status in **Customers → Active Customers**.
 3. Contact support if stuck for >30 minutes.
 
 ### Deployment failed
@@ -263,7 +261,7 @@ Customers receive **Free AI Credits** (configured in SaaS settings):
 1. Review customer's onboarding data for completeness.
 2. Check error message in deployment logs.
 3. Manually configure missing elements.
-4. Retry deployment from Customer List.
+4. Retry deployment from **Customers → Active Customers**.
 
 ### Credits deducted but agent not deployed
 
@@ -289,8 +287,6 @@ If auto-deploy is disabled or fails, you can deploy manually:
 6. Click **Deploy Agent**.
 
 This gives you full control over the deployment process.
-
-![Manual Deployment Tab](/images/screenshots/screenshot-2026-03-19-163428.png)
 
 ## Best practices
 

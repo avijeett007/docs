@@ -41,7 +41,7 @@ For multi-client outbound, plan to import one outbound-capable agent **per clien
 2. Create the customer record
 3. (Optional) Enable customer portal access if you want them to see call logs/credits
 
-> 📸 _[Quick onboard customer modal — opens from Customers page top-right]_
+![Quick Onboard modal — form fields for customer name, email, company, and portal access toggle, with a Save button](/images/screenshots/customers-quick-onboard-modal-2026-06-22.png)
 
 ## Step 2 — Set up credits (so usage is enforceable)
 
@@ -54,7 +54,7 @@ Why credits matter:
 2. Go to **Credits**
 3. Add credits for the customer
 
-> 📸 _[Customer Manage modal — Credits tab is one of the 9 tabs in the modal]_
+![Customer Manage modal — Credits tab showing current credit balance, Add Credits button, and transaction history for the customer](/images/screenshots/customers-manage-credits-tab-2026-06-22.png)
 
 ## Step 3 — Import and assign a phone number
 
@@ -84,7 +84,7 @@ In the **Assign Agent** modal, switch the **Direction** toggle from **Inbound On
 The agent dropdown is scoped to the customer on this number — only agents belonging to that client will appear. If you don't see an agent, you may need to create or import one for that client first.
 </Note>
 
-> 📸 _[Assign Agent modal — opens from Phone Numbers row, agent dropdown scoped to the customer]_
+![Assign Agent modal — agent selector scoped to the assigned customer, with a Direction toggle (Inbound Only / Outbound Only) that must be set to Outbound Only for this flow](/images/screenshots/phone-number-assign-agent-modal-2026-06-22.png)
 
 ## Step 5 — Generate a dedicated webhook key
 
@@ -98,7 +98,7 @@ Each outbound-mapped phone number has its own key.
 The Outbound Webhook section only appears for numbers with an outbound-capable agent assigned. If you don't see it, double-check the Direction toggle in Step 4 — it must be set to **Outbound Only**.
 </Tip>
 
-> 📸 _[Outbound key — visible in phone number detail panel after Outbound agent assigned]_
+![Outbound Webhook section in the phone number detail panel — masked owk_ API key with Active badge, Regenerate Key and Revoke buttons, and a curl usage example](/images/screenshots/ghl-outbound-webhook-section-2026-06-22.png)
 
 ## Step 6 — Connect the client's GHL workflow
 
@@ -125,7 +125,7 @@ Example body:
 }
 ```
 
-> 📸 _[GHL workflow webhook action — see warm-lead-outbound-calls-ghl doc for details]_
+> ℹ️ This step happens inside GoHighLevel. Add a **Webhook** action with Method `POST`, URL `https://connecthub.knotie-ai.pro/api/outbound-call`, an `Authorization: Bearer owk_...` header, and the `from_number` / `to_number` / `metadata` body fields. See the [warm-lead-outbound-calls-ghl](/use-cases/warm-lead-outbound-calls-ghl) playbook for a full GHL webhook walkthrough.
 
 ## Delivery checklist (copy/paste)
 

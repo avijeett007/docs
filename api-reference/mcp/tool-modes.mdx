@@ -49,7 +49,9 @@ When present, the token can only invoke tools belonging to the listed apps. Atte
 
 Omitting `allowedApps` grants access to all apps the token's scope allows.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the "Create Token" modal in **AI Agents → MCP Tokens**._
+<Frame caption="The Create Token modal in AI Agents → MCP Tokens. Modal exposes Customer, Token Name, Description, Tool Scope, Usage Limit, Expires In — no toolMode or allowedApps controls.">
+  <img src="/images/screenshots/mcp-create-token-modal-2026-06-20.png" alt="Create Token modal in AI Agents → MCP Tokens" />
+</Frame>
 
 <Warning>
   The **Create Token** modal in the Partner Portal UI does **not** expose `toolMode` or `allowedApps` controls. The modal fields are: Customer, Token Name, Description, Tool Scope (a disabled dropdown with only "All Tools" / "Specific Tools" — no meta/full selector, no allowedApps field), Usage Limit, Expires In. **`toolMode` and `allowedApps` are JWT-claim-only** — they are honored when present in a token's payload, but cannot be set from this UI. Any partner token minted from the Create Token modal is always **full** mode with **all apps allowed**. To mint a `meta`-mode or app-restricted token, mint it directly via the API / MCP route with the JWT claims set explicitly.
@@ -89,7 +91,7 @@ The following tools are now available to agent tokens with appropriate scope:
 
 ## Related pages
 
-- [MCP tokens](/partner-portal/settings/mcp-tokens) — Generate and manage partner MCP tokens. *Note: the live Partner Portal sidebar entry for MCP Tokens moved to a top-level AI PLATFORM link (URL `/partner/ai-agents/mcp/tokens`). The doc file remains at this URL for now — see [[knotie-doc-gaps|G43]] for the navigation drift.*
+- [MCP tokens](/partner-portal/ai-agents/mcp/tokens) — Generate and manage partner MCP tokens.
 - [MCP API reference](/api-reference/mcp/introduction) — Full endpoint documentation
 - [Social posting calendar](/customer-management/social-posting) — Schedule social posts via the portal or via agent tools
 - [Docs & Media library](/customer-management/media-library) — Upload and manage media assets
