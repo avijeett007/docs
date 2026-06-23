@@ -91,6 +91,7 @@
               "partner-portal/api-keys",
               "partner-portal/settings/overview",
               "partner-portal/settings/whitelabel-settings",
+              "partner-portal/settings/platform-configuration",
               "partner-portal/settings/subscription-and-billing",
               "partner-portal/settings/stage-subscriptions",
               "partner-portal/settings/integration-settings",
