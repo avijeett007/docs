@@ -1,0 +1,153 @@
+---
+title: "Per-Experience Customer Dashboards"
+description: "Give each AI experience its own branded dashboard — call dashboards for AI Receptionist customers, API dashboards for AI Gateway customers, and an orb-centric AI OS for auto-install customers — all auto-branded with your partner colors."
+---
+
+## What this feature does
+
+Per-experience dashboards let you assign a distinct visual dashboard to each AI experience you offer. A customer who signed up through your **AI Receptionist** experience gets a call-centric dashboard showing agents, call volume, outcomes, and recent calls. A customer who signed up for **Resell AI Gateway** gets an API-usage dashboard showing request volume, top models, and credit balance.
+
+All six dashboard templates are automatically branded with your portal’s primary and secondary colors — no design work required.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the new dashboard shell — branded sidebar on the left, glassmorphic sticky topbar, and one of the six dashboard bodies (e.g., the AI Voice body showing the KPI row, call volume chart, and agents list)._
+
+> 🎥 **Video walkthrough:** _Record a short clip walking through: (1) enabling Dashboard Experience V2 in Whitelabel settings, (2) configuring a per-experience template in AI Receptionist settings, (3) a customer portal showing the resulting branded voice dashboard._
+
+## Prerequisites
+
+- At least one [AI Experience](/partner-portal/experiences/overview) must be enabled on your account.
+- The new dashboard UI is **opt-in per partner**. Enable it with the **Dashboard Experience V2** toggle described below.
+
+## The six dashboard experiences
+
+| Template | Label | Default experiences | Key widgets |
+|---|---|---|---|
+| `voice` | AI Voice | AI Receptionist, Personal Assistant, Outbound SDR, Support Agent, Appointment Setter, Lead Qualifier, Survey Agent, Collections Agent, Onboarding Specialist | KPI row (total calls, answer rate, avg duration, outcomes), call volume chart, your agents, call outcomes breakdown, recent calls feed |
+| `ai_gateway` | AI Gateway | Resell AI Gateway | KPI row, API request volume chart, top models by usage, credit balance card, API keys list |
+| `ai_memory` | AI Memory | _(none by default — opt-in per experience)_ | KPI row, memory growth chart, your Minds list, knowledge sources, recent recalls |
+| `vps` | Infrastructure / VPS | _(infra-mode customers)_ | KPI row, one-click app store, resource utilization, installed apps list, upgrade CTA |
+| `ai_os` | AI OS | OpenClaw Auto-Install, Hermes Auto-Install, OpenClaw Setup Service, OpenClaw Whitelabel | Full-screen animated Orb — customers speak or type; onboarding strip at the top |
+| `combination` | Combination | AI Business Audit, agency / multi-product accounts | KPI row, platform activity feed, your agents, credit balance, installed apps, recent calls |
+
+<Info>
+Widgets that require a feature the customer doesn’t have (e.g. the API Keys widget when **Show API Keys** is off) are automatically hidden. The dashboard adapts to each customer’s enabled features.
+</Info>
+
+## Enable the new dashboard
+
+The new dashboard UI is controlled by a per-partner **Dashboard Experience V2** flag. It is off by default — existing customers are not affected until you turn it on.
+
+1. Open **Settings → Whitelabel** in the Partner Portal.
+2. Find the **Dashboard Experience** section.
+3. Toggle **Enable Dashboard Experience V2** to on.
+4. Optionally choose a **Default dashboard experience** from the six templates — this is the fallback used when a customer’s experience type doesn’t have a code default.
+5. Click **Save**.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the “Dashboard Experience” section in Whitelabel Settings showing the V2 toggle in the on position and the six-option default template picker._
+
+<Tip>
+Enabling V2 only affects **new** customers going forward. Existing customers keep the current dashboard until a future backfill. You can safely enable V2 and verify on a test customer before it affects production traffic.
+</Tip>
+
+## Configure a template per experience
+
+You can override the default template for any individual experience. For example, you can send all AI Business Audit customers to the `combination` dashboard, or route AI Memory opt-in customers to the `ai_memory` template.
+
+1. Go to **Experiences** in the Partner Portal sidebar.
+2. Click the **Settings** (gear) icon on the experience card you want to configure.
+3. In the experience settings page, find the **Customer Dashboard** section.
+4. Select a template from the **Dashboard Experience** dropdown.
+5. Click **Save**.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Experience Settings page with the “Customer Dashboard” section visible — showing the template dropdown expanded with the six options._
+
+> 🎥 **Video walkthrough:** _Record a short clip showing how to open an experience’s settings, choose a dashboard template, and save._
+
+Customers who onboard through this experience **after** you save will receive the chosen template. Already-provisioned customers are not retroactively changed.
+
+## How templates are resolved
+
+Every new customer is assigned one template. The system picks from the first match in this order:
+
+| Priority | Source | Where to set it |
+|---|---|---|
+| 1 (highest) | Explicit per-customer override | Support tooling / future admin UI |
+| 2 | Per-experience template (set in experience settings) | Experiences → [Experience] → Settings → Customer Dashboard |
+| 3 | Code default for the experience type | Built-in (see table above) |
+| 4 | Partner global default | Settings → Whitelabel → Default dashboard experience |
+| 5 (lowest) | Dashboard Mode fallback | Automatic: Standard → `voice`, Agency+Infra → `combination`, Infra → `vps`, JARVIS → `ai_os` |
+
+<Info>
+See [Dashboard Experience Templates](/partner-portal/settings/dashboard-experiences) for a full reference on the resolution logic, code defaults per experience type, and the feature flag.
+</Info>
+
+## The branded dashboard shell
+
+All six templates share the same shell:
+
+- **Left sidebar** — your logo, filtered navigation links (only features the customer has access to), and brand-colored active states.
+- **Sticky glassmorphic topbar** — customer name, credit balance, notifications, and account menu.
+- **Accent color** — automatically derived from your portal’s **Primary Color** (`secondaryColor` becomes the highlight/hover accent).
+- **Dark theme** — the default palette is dark. Light-mode is planned.
+- **Brand font** — uses your configured brand font if set; falls back to Plus Jakarta Sans.
+- **RTL** — the shell automatically sets `dir="rtl"` for Arabic, Hebrew, Farsi, and Urdu portals.
+
+No extra setup needed — the dashboard is on-brand on day one.
+
+> 📷 **Screenshot needed:** _Add side-by-side screenshots of two different partners to illustrate auto-branding — the same AI Voice template with two different primary colors (e.g., blue vs. orange), showing the accent reflected in the sidebar highlights and KPI progress bars._
+
+## The AI OS experience (orb-centric dashboard)
+
+The `ai_os` template is unique: instead of a grid of metric widgets, customers see an **animated full-screen Orb** that acts as a conversational AI interface. Customers can speak (with microphone permission) or type into the prompt bar at the bottom.
+
+- The Orb defaults to the **Aurora** visual style (soft animated glow).
+- An **onboarding strip** above the orb guides new users through first steps: connect apps, run a first action, explore capabilities.
+- Used by default for OpenClaw Auto-Install, Hermes Auto-Install, OpenClaw Setup, and OpenClaw Whitelabel customers.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the AI OS dashboard — full-screen orb (aurora style) with the onboarding strip across the top._
+
+## Experience setup progress tracker
+
+The Experience Settings page includes a **Setup Progress** checklist — a step-by-step tracker that guides you through completing the experience’s configuration. Steps vary by experience type and may include:
+
+- Connect a phone number
+- Choose or import an AI agent
+- Set the customer dashboard template
+- Configure subscription pricing tiers (auto-install experiences)
+- Configure the landing page alias and branding
+
+Completed steps are checked off. The card shows overall progress and highlights what’s next.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Experience Setup Progress card in the Experience Settings page, showing a partially-completed checklist with a few steps checked and the next step highlighted._
+
+## Frequently asked questions
+
+<AccordionGroup>
+  <Accordion title="Will enabling V2 change my existing customers' dashboards?">
+    No. The V2 flag only applies to **new** customers provisioned after you enable it. Existing customers keep the current dashboard. A backfill to opt existing customers in is planned for a future release.
+  </Accordion>
+
+  <Accordion title="Can I choose different dashboards for different customers within the same experience?">
+    Not from the partner UI yet — the template is set per experience, not per individual customer. An explicit per-customer override is possible via support tooling. A customer-level override UI is planned.
+  </Accordion>
+
+  <Accordion title="What happens if a customer’s template key becomes invalid?">
+    The system silently skips invalid values and falls through to the next level in the resolution order (experience code default → partner global default → mode fallback). The customer always sees a valid dashboard.
+  </Accordion>
+
+  <Accordion title="Does this affect billing or credit consumption?">
+    No. Dashboard templates are purely a visual change. Credit costs, agent tiers, and billing are unaffected.
+  </Accordion>
+</AccordionGroup>
+
+## Related pages
+
+- [Dashboard Experience Templates](/partner-portal/settings/dashboard-experiences) — concept reference: the six templates, resolution precedence, feature flag, and auto-branding details
+- [AI Experiences](/partner-portal/experiences/overview) — enable and manage your experiences
+- [Whitelabel Settings](/partner-portal/settings/whitelabel-settings) — where to find the global default template and V2 toggle
+- [Platform Configuration](/partner-portal/settings/platform-configuration) — Dashboard Mode (sidebar menu defaults) — separate from experience templates
+- [Auto-Install Experiences](/partner-portal/experiences/auto-install) — setup guide for OpenClaw and Hermes (these default to the AI OS dashboard)
+
+---
+
+> Source: [knotie-ai-pro#1068](https://github.com/avijeett007/knotie-ai-pro/pull/1068) — _Dashboard ux/stage 6 experience picker_
