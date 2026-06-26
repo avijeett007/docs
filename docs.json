@@ -82,6 +82,7 @@
               "partner-portal/ai-gateway",
               "partner-portal/ai-agents/mcp/tokens",
               "partner-portal/experiences/resell-ai-gateway",
+              "partner-portal/experiences/jarvis-ai-os",
               "partner-portal/agent-analytics",
               "partner-portal/billing-and-invoices",
               "partner-portal/metered-billing",
