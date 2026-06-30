@@ -40,7 +40,7 @@ The AI will ask follow-up questions if it needs more detail. Once it has enough 
 
 ## How web pages and search work (autonomous)
 
-The builder reads URLs and searches the web **on its own** — there is no Web-search toggle to flip. (The earlier per-turn "Web search" toggle and "Keep Web search on" checkbox were removed in knotie-ai-pro#848.)
+The builder reads URLs and searches the web **on its own** — there is no Web-search toggle to flip. (The earlier per-turn "Web search" toggle and "Keep Web search on" checkbox have been removed.)
 
 - Type or paste any URL in your message and the builder will fetch and read it.
 - If a URL is detected in your input, a teal badge appears: **"URL detected — the builder will read it"**. This is informational only — no action is required.
@@ -67,9 +67,9 @@ When the AI has drafted an agent, the right-hand panel shows:
 
 Review the proposal and click **Apply** to transfer it to the agent form. From there you can make manual edits before saving.
 
-<Info>
-The right-hand proposal panel is filled in once the AI finishes drafting and the streamed text completes. With the KnoLabs AI Agency account's current builder credit balance, the AI response sometimes ends with a 'Not enough credits' credit-gate message and the proposal is not finalized in the same session. To capture the proposal panel cleanly, top up builder credits (the prompt runs against the configured `KNOVA_BUILDER_MODEL`) and re-send the request — the proposal will then render with Agent Name, System Prompt, Greeting Message, and Tools sections ready for the Apply button.
-</Info>
+{/*
+The right-hand proposal panel is filled in once the AI finishes drafting and the streamed text completes. If the account's builder credit balance is low, the AI response sometimes ends with a 'Not enough credits' credit-gate message and the proposal is not finalized in the same session. To capture the proposal panel cleanly, top up builder credits and re-send the request — the proposal will then render with Agent Name, System Prompt, Greeting Message, and Tools sections ready for the Apply button.
+*/}
 
 ## Resuming a previous session
 
@@ -124,8 +124,3 @@ Closing the modal while the save is in flight does **not** trigger an "unsaved c
 - [Knova AI Agent Builder](/agents/knova/knova-agent-builder) — Full builder guide: opening steps, multi-agent, env vars, reliability
 - [Manage Knova agents](/agents/knova/manage-knova-agents) — Create, configure, and edit Knova agents
 - [MCP Tokens](/partner-portal/ai-agents/mcp/tokens) — Use MCP tools to manage agents programmatically
-
----
-
-> Source: [knotie-ai-pro#820](https://github.com/avijeett007/knotie-ai-pro/pull/820) — _fix(knova-builder): URL-in-message handling + tool-event noise reduction_
-> Updated for: [knotie-ai-pro#848](https://github.com/avijeett007/knotie-ai-pro/pull/848) — autonomous web access (removed per-turn web-search toggles)

@@ -47,9 +47,9 @@ This is useful for:
 
 Once the session is ready, the modal shows a live voice interface:
 
-<Info>
-The active/connected state of the Try Agent modal requires a successful LiveKit session. On the KnoLabs AI Agency account, the current credit balance causes the session to end with a 'Not enough credits' gate (shown in `knova-builder-proposal-2026-06-20.png` for the AI Builder path) before the connected state is reached. To capture, top up credits and retry the test.
-</Info>
+{/*
+The active/connected state of the Try Agent modal requires a successful LiveKit session. If the account credit balance is too low, the session ends with a 'Not enough credits' gate before the connected state is reached. To capture, top up credits and retry the test.
+*/}
 
 ### Connection indicator
 
@@ -84,9 +84,9 @@ Test sessions use the same credit pool as live calls. Credits are consumed for t
 
 If your balance is too low to start a session, the modal shows a credit gate error:
 
-<Info>
-The "Not enough credits" credit-gate error appears inside the Try Agent modal when the partner's credit balance is too low to start a LiveKit session. On the KnoLabs AI Agency account the same gate appears as the final response in the AI Agent Builder Chat when `KNOVA_BUILDER_MODEL` runs out of credits — visible in `knova-builder-proposal-2026-06-20.png` with the message "Not enough credits. Buy 32K more credits or get in touch with your manager to unlock."
-</Info>
+{/*
+The "Not enough credits" credit-gate error appears inside the Try Agent modal when the partner's credit balance is too low to start a LiveKit session. The same gate can appear as the final response in the AI Agent Builder Chat when the builder model runs out of credits, with a message like "Not enough credits. Buy more credits or get in touch with your manager to unlock."
+*/}
 
 Click **Top up credits →** to go to the Credits page and add more.
 
@@ -114,7 +114,3 @@ Click **Top up credits →** to go to the Credits page and add more.
 
 - The agent disconnects automatically if your Knotie Credits reach zero mid-session. Top up and start a new test session.
 - Unstable internet can also cause disconnects — the modal will show "Disconnected" and you can simply close and reopen it.
-
----
-
-> Source: [knotie-ai-pro#796](https://github.com/avijeett007/knotie-ai-pro/pull/796) — _Improve knova agent_

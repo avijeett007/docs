@@ -57,27 +57,7 @@ The **global notification bell** in the top navbar also surfaces these alerts, s
 
 > ℹ️ The **global navbar bell** is visible in the partner portal top navbar — see the bell with the badge "2" sitting next to the Pricing Calculator button on the dashboard. Its popover surfaces the same low-credit / agent-health alerts aggregated across providers. No standalone capture is needed; the existing dashboard screenshot already shows the bell.
 
-## Admin: platform-wide notification settings
-
-If you are a platform administrator (Mission Control access), you can manage global master switches that override partner-level preferences.
-
-Go to **Mission Control → Notification Settings**.
-
-The following categories have master switches:
-
-| Category | Status |
-|---|---|
-| Agent Healthcheck | Live — controls the nightly agent healthcheck sender |
-| Low Credit | Master switch (sender coming soon) |
-| Telephony Low Credit | Master switch (sender coming soon) |
-| Weekly Digest | Master switch (sender coming soon) |
-| Product Announcements | Master switch (sender coming soon) |
-
-When the platform master switch for a category is **Off**, no emails are sent for that category regardless of partner preferences.
-
-> ℹ️ **Mission Control → Notification Settings** is platform-admin-only and the route is not surfaced from the partner sidebar. The five toggles are: Agent Healthcheck / Low Credit / Telephony Low Credit / Weekly Digest / Product Announcements. Capture from an account with Mission Control access.
-
-### Notification cleanup
+## Notification cleanup
 
 A daily scheduled task removes:
 - Dismissed alerts
@@ -102,7 +82,3 @@ Scroll down past the security settings — the Notification Preferences card app
 - [Integration Settings](/partner-portal/settings/integration-settings) — configure provider API keys that feed healthchecks
 - [Partner Portal Settings Overview](/partner-portal/settings/overview) — all settings sections at a glance
 - [Agent Analytics](/partner-portal/agent-analytics) — monitor agent call performance
-
----
-
-> Source: [knotie-ai-pro#1021](https://github.com/avijeett007/knotie-ai-pro/pull/1021) — _feat(agent-healthcheck-notifications): partner/admin notification controls_

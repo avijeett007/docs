@@ -13,7 +13,7 @@ Use the media library when a customer wants to:
 - Upload PDFs or documents an agent should be able to surface
 - Build a reusable asset bank for marketing or outreach campaigns
 
-> ℹ️ The **Docs & Media** section renders in the customer portal at `/whitelabel/<media-route>` once the partner enables the menu item under **Customer → Features & Add-ons → Menu Visibility**. The current whitelabel deployment (`dashboard.viddescriptor.com`) returns 404 on the likely routes (`/media`, `/media-library`, `/files`, `/assets`), so the section is not yet wired up at the customer level. Capture from a build where the route is live.
+{/* > ℹ️ The **Docs & Media** section renders in the customer portal at `/whitelabel/<media-route>` once the partner enables the menu item under **Customer → Features & Add-ons → Menu Visibility**. The current whitelabel deployment returns 404 on the likely routes (`/media`, `/media-library`, `/files`, `/assets`), so the section is not yet wired up at the customer level. Capture from a build where the route is live. */}
 
 ## Prerequisites
 
@@ -38,7 +38,7 @@ When a customer hits their individual cap, uploads return an error instead of co
 
 Partners can adjust a customer's individual cap in **Customers → Manage → Features & Add-ons → Allocated Storage (MB)**.
 
-> ℹ️ **Allocated Storage (MB)** is shipped in [knotie-ai-pro#967](https://github.com/avijeett007/knotie-ai-pro/pull/967) as part of tiered storage. The field is not present in the current Customer modal's Features & Add-ons tab for Chess Classics — only Customer Portal / Add-on Features / Premium Add-ons / AI Credit Management / Low Credit Notifications / Menu Visibility / Pricing / Team Management / Sonti CRM are visible. The partner account is on a build prior to tiered storage, so storage falls back to the partner's pool default. Capture from a build that includes the field.
+{/* > ℹ️ **Allocated Storage (MB)** ships as part of tiered storage. The field is not present in the current Customer modal's Features & Add-ons tab — only Customer Portal / Add-on Features / Premium Add-ons / AI Credit Management / Low Credit Notifications / Menu Visibility / Pricing / Team Management / Sonti CRM are visible. The partner account is on a build prior to tiered storage, so storage falls back to the partner's pool default. Capture from a build that includes the field. */}
 
 ## Uploading assets
 
@@ -70,7 +70,3 @@ See [MCP tool modes](/api-reference/mcp/tool-modes) for how agent-facing tools a
 - [Features, add-ons, and menu visibility](/partner-portal/customers/features-addons-and-menu-visibility) — Enable the Docs & Media menu for a customer
 - [Social posting calendar](/customer-management/social-posting) — Schedule posts that reference media assets
 - [Pricing and features](/getting-started/pricing-and-features) — Storage quotas per plan
-
----
-
-> Source: [knotie-ai-pro#967](https://github.com/avijeett007/knotie-ai-pro/pull/967) — _feat: agent-driven marketing — MCP meta-tools, tiered storage, media library, social posting calendar_

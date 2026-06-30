@@ -9,7 +9,7 @@ By default, the Knotie AI Pro Connect Hub MCP server is reachable at `mcp.knotie
 
 Clients and AI coding assistants that connect to your MCP endpoint use your domain name, not Knotie's. SSL is handled automatically via Cloudflare — you add a CNAME record and Knotie handles the rest.
 
-> ℹ️ The **Custom MCP Domain** card appears on the **MCP Tokens** page once the partner has the `MCP_WHITELABEL_ENABLED` platform flag enabled. The KnoLabs AI Agency account in this audit does not have the flag, so the card is correctly hidden — capture from an account where MCP Whitelabel is live.
+{/* > ℹ️ The **Custom MCP Domain** card appears on the **MCP Tokens** page once the partner has the `MCP_WHITELABEL_ENABLED` platform flag enabled. An account without the flag will not show the card — capture from an account where MCP Whitelabel is live. */}
 
 ## Prerequisites
 
@@ -51,7 +51,7 @@ Add this record at your DNS provider (Cloudflare, GoDaddy, Namecheap, etc.). DNS
 If your DNS is managed by Cloudflare, set the CNAME to **DNS-only** (grey cloud) during verification to avoid proxy interference.
 </Tip>
 
-> ℹ️ The **CNAME record details** panel inside the Custom MCP Domain card shows the host + value to add at the DNS provider, plus a verification status badge (Pending / Verified / Failed). Same deferred reason — capture from an account with MCP Whitelabel enabled.
+{/* > ℹ️ The **CNAME record details** panel inside the Custom MCP Domain card shows the host + value to add at the DNS provider, plus a verification status badge (Pending / Verified / Failed). Same deferred reason — capture from an account with MCP Whitelabel enabled. */}
 
 ### Step 3 — Verify the domain
 
@@ -111,5 +111,3 @@ Removing a custom MCP domain immediately breaks any client configurations pointi
 - [MCP API reference](/api-reference/mcp/introduction) — Endpoint documentation
 - [Whitelabel settings](/partner-portal/settings/whitelabel-settings) — Portal domain and branding configuration
 - [Custom domains (customer portal)](/customer-management/custom-domain) — Setting up a custom domain for a customer's portal
-
-> Source: [knotie-ai-pro#989](https://github.com/avijeett007/knotie-ai-pro/pull/989) — _feat(mcp-whitelabel): partner custom MCP domains (Cloudflare SSL + KV/Worker routing) + customer MCP portal_
