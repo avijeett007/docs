@@ -16,7 +16,7 @@ This section applies only when your **Pricing Model** is set to **Subscription**
 3. In the **Section Nav Rail** on the left, click **Subscription Plans** (under the Main column).
 
 <Note>
-There is **no** top-level **Settings → Subscription Plans** entry. Earlier versions of this doc instructed users to "scroll to the Subscription Plans section" of the main Settings page — that section doesn't exist on the new Settings IA. Subscription Plans now lives in the Whitelabel Settings page under the **Subscription Plans** section in the Section Nav Rail. See [[knotie-doc-gaps|G34]].
+There is **no** top-level **Settings → Subscription Plans** entry. Earlier versions of this doc instructed users to "scroll to the Subscription Plans section" of the main Settings page — that section doesn't exist on the new Settings IA. Subscription Plans now lives in the Whitelabel Settings page under the **Subscription Plans** section in the Section Nav Rail.
 </Note>
 
 <Frame>
@@ -56,7 +56,7 @@ When a customer prospect reaches **Step 9 (Summary & Deploy)**, the onboarding w
 
 **All plans with `isActive: true` are shown.** There is no additional client-side filtering — a plan being active is sufficient for it to appear. Activating or deactivating a plan is the primary way to control what customers see.
 
-> ℹ️ **Step 9 (Summary & Deploy)** of the whitelabel onboarding flow renders one card per active subscription plan, with price, billing interval, included features, and a Select CTA. Capture from a prospect's live onboarding session at the customer portal — the partner's view (shown above) only displays the plan catalog, not the prospect-facing selection screen.
+{/* > ℹ️ **Step 9 (Summary & Deploy)** of the whitelabel onboarding flow renders one card per active subscription plan, with price, billing interval, included features, and a Select CTA. Capture from a prospect's live onboarding session at the customer portal — the partner's view (shown above) only displays the plan catalog, not the prospect-facing selection screen. */}
 
 ### "Display on Customer Landing Page" checkbox
 
@@ -141,7 +141,3 @@ Stripe does not allow modifying the price of an existing Price object. To change
 - [Stripe Connect](/partner-portal/settings/stripe-connect) – Set up Stripe for recurring billing
 - [Customer Credit Plans](/partner-portal/settings/customer-credit-plans) – Credit packages for pay-as-you-go customers
 - [Prospects](/partner-portal/prospects) – Tracking prospects through the onboarding funnel
-
----
-
-> Source: [knotie-ai-pro#699](https://github.com/avijeett007/knotie-ai-pro/pull/699) — _fix the subscription plan display system and added the unit test_

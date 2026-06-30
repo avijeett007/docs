@@ -42,7 +42,7 @@ If you don't have your own Twilio or Telnyx account, contact support to confirm 
 
 When a Knova agent is assigned to a voice-capable number, outbound is automatically enabled. The platform also pre-provisions the LiveKit SIP trunk in the background so your first call starts immediately without a provisioning delay.
 
-ℹ️ _Screenshot to add: the "Assign Agent" modal on the Phone Numbers page, showing a Knova agent selected in the dropdown._
+{/* ℹ️ _Screenshot to add: the "Assign Agent" modal on the Phone Numbers page, showing a Knova agent selected in the dropdown._ */}
 
 ---
 
@@ -57,7 +57,7 @@ Use the built-in portal test to verify end-to-end before wiring any external sys
    - Optionally add **dynamic variables** — key/value pairs that replace `{{key}}` placeholders in the agent's prompt and greeting (e.g. `lead_name = "Sarah"`).
 4. Click **Call**.
 
-ℹ️ _Screenshot to add: the "Test Outbound Call" modal on the Knova Agents page, showing the destination number field and dynamic variables section._
+{/* ℹ️ _Screenshot to add: the "Test Outbound Call" modal on the Knova Agents page, showing the destination number field and dynamic variables section._ */}
 
 **What to expect:**
 - The agent initiates the call and speaks first (outbound agents always greet the callee).
@@ -76,7 +76,7 @@ To trigger calls from external systems (GHL, n8n, etc.), generate a webhook key 
 
 Store this key in your external system as a secret. If you lose it, revoke and regenerate in the portal.
 
-ℹ️ _Screenshot to add: the Outbound Settings panel on the Phone Number detail page, showing the "Generate Webhook Key" button and the key display after generation._
+{/* ℹ️ _Screenshot to add: the Outbound Settings panel on the Phone Number detail page, showing the "Generate Webhook Key" button and the key display after generation._ */}
 
 ---
 
@@ -106,7 +106,7 @@ Store this key in your external system as a secret. If you lose it, revoke and r
    Connect Hub auto-detects the GHL format — `dynamicdata_*` keys become dynamic variables passed to your agent.
 5. Test the workflow on a contact. The agent calls the contact and addresses them by name.
 
-ℹ️ _Screenshot to add: a GoHighLevel Workflow with the Webhook action configured, showing the URL and customData body fields._
+{/* ℹ️ _Screenshot to add: a GoHighLevel Workflow with the Webhook action configured, showing the URL and customData body fields._ */}
 
 ---
 
@@ -204,7 +204,3 @@ Keys not present in `dynamic_variables` are left as `{{key}}` (no error is throw
 - [Outbound webhook API reference](/agents/knova/outbound-webhook-api) — full request/response spec for integrating external systems
 - [Knova Agents overview](/agents/knova/overview) — set up and manage Knova agents
 - [Phone numbers](/partner-portal/phone-numbers) — import and manage phone numbers
-
----
-
-> Source: [knotie-ai-pro#1025](https://github.com/avijeett007/knotie-ai-pro/pull/1025) — _feat(knova-outbound): Knova/LiveKit outbound calling — Phase 1_

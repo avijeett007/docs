@@ -9,7 +9,7 @@ When prospects visit your white-label platform's landing page, they see a **demo
 
 You can configure which YouTube video is displayed by setting the `NEXT_PUBLIC_DEMO_VIDEO_ID` environment variable.
 
-> ℹ️ The **demo video** section renders on the customer's whitelabel portal landing page (above the pricing grid) — outside knotie-ai.pro. There is no UI toggle in the partner portal; the section is configured via the `NEXT_PUBLIC_DEMO_VIDEO_ID` env var and rendered through the `DemoVideoSection` component. Capture from a deployed whitelabel portal where the demo video is configured.
+{/* > ℹ️ The **demo video** section renders on the customer's whitelabel portal landing page (above the pricing grid) — outside knotie-ai.pro. There is no UI toggle in the partner portal; the section is configured via the `NEXT_PUBLIC_DEMO_VIDEO_ID` env var and rendered through the `DemoVideoSection` component. Capture from a deployed whitelabel portal where the demo video is configured. */}
 
 ---
 
@@ -74,7 +74,3 @@ There is no toggle to hide the demo video section from the UI. If you do not wan
   - Check that the new value was saved and the app was rebuilt. Old values can persist in the build cache.
 - **"Video unavailable" inside the player**
   - The video owner may have disabled embedding. Open YouTube Studio and ensure **Allow embedding** is turned on for the video.
-
----
-
-> Source: [knotie-ai-pro#790](https://github.com/avijeett007/knotie-ai-pro/pull/790) — _Knova agent demos v1_

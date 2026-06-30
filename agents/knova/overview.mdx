@@ -69,9 +69,9 @@ Once an agent is assigned to a customer, you can configure analytics:
 2. Click **Configure Metrics**
 3. Set up analytics tracking for the agent
 
-<Info>
-The Configure Metrics modal is opened from the agent's three-dot menu. To capture it, ensure the agent has a customer assigned first — the kebab entry is disabled (and the Configure Metrics action requires an assigned customer). After assignment, the modal renders the call-metric configuration form. The KnoLabs Knotie agent on the KnoLabs AI Agency account is a website-channel (web) agent with no customer assignment, so Configure Metrics is not accessible in this account's state.
-</Info>
+{/*
+The Configure Metrics modal is opened from the agent's three-dot menu. To capture it, ensure the agent has a customer assigned first — the kebab entry is disabled (and the Configure Metrics action requires an assigned customer). After assignment, the modal renders the call-metric configuration form. A website-channel (web) agent with no customer assignment cannot reach Configure Metrics.
+*/}
 
 <Warning>
 Configure Metrics is disabled until you assign a customer to the agent. **Web-channel agents are an exception**: an agent whose Type is `website` / Channel is `web` keeps Configure Metrics disabled even after a customer is assigned — the customer-assignment call returns a 400 for web-type agents, so analytics can't be configured for them. Configure Metrics is intended for phone/voice agents.
@@ -94,7 +94,7 @@ Key capabilities:
 - **Dynamic variables** — inject `{{lead_name}}`, `{{outreach_topic}}`, or any custom value into the agent's prompt and greeting at call time
 - **Webhook trigger** — connect GoHighLevel, n8n, Zapier, or a Facebook Lead Ad bridge via a simple `POST` request
 
-ℹ️ _Screenshot to add: the "Test Outbound Call" option in the Knova agent three-dot menu._
+{/* ℹ️ _Screenshot to add: the "Test Outbound Call" option in the Knova agent three-dot menu._ */}
 
 See the [Outbound Calling guide](/agents/knova/outbound-calling) for full setup instructions.
 
@@ -135,9 +135,9 @@ When a Knova agent is **assigned to a customer**, Knotie AI Pro automatically wi
    ```
 3. The LiveKit runtime registers this server and exposes connected-app tools to the agent.
 
-<Info>
-The `mcpServers` entry in `advancedConfig` only appears for Knova agents that have a customer assigned and Connect Hub configured. The KnoLabs AI Agency account's Knotie agent is a website-channel agent with no customer assignment, so the Advanced Config panel does not include an mcpServers block. To capture, assign a customer to a Knova agent and open the Advanced tab in the edit modal — the JSON config will show the auto-injected `knotie_partner_tools` MCP server with `streamable_http` transport.
-</Info>
+{/*
+The mcpServers entry in advancedConfig only appears for Knova agents that have a customer assigned and Connect Hub configured. A website-channel agent with no customer assignment does not include an mcpServers block in its Advanced Config panel. To capture, assign a customer to a Knova agent and open the Advanced tab in the edit modal — the JSON config will show the auto-injected knotie_partner_tools MCP server with streamable_http transport.
+*/}
 
 ### Customer assignment and token lifecycle
 
@@ -171,7 +171,3 @@ For the full cross-provider reference, see [Connected App Tools](/agents/connect
 - [AI Experiences](/partner-portal/experiences) — enable AI Receptionist and other one-click products
 - [AI Gateway](/partner-portal/ai-gateway) — manage API access and budgets
 - [AI Usage](/partner-portal/ai-usage) — track costs and usage
-
----
-
-> Source: [knotie-ai-pro#965](https://github.com/avijeett007/knotie-ai-pro/pull/965) — _feat(knova-agents): wire live customer MCP server into Knova agents_

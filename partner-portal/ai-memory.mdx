@@ -24,7 +24,7 @@ AI Memory uses **dual-pool billing**:
 
 **Recall** operations are **free** — they never deduct from either pool.
 
-The exact per-operation rate is set in **Mission Control → AI Memory** and can be updated live without a deploy.
+The exact per-operation rate is configured at the platform level and can be updated live without a deploy.
 
 <Info>
 If a customer does not have AI Credits enabled, only the partner's Knotie Credits are charged. The partner absorbs the full cost in that case.
@@ -49,7 +49,7 @@ To turn on AI Memory for a specific customer:
 4. Toggle **Enable AI Memory (Mind)** to ON.
 5. Click **Save**.
 
-ℹ️ _Screenshot to add: the customer Features & Add-ons modal showing the "Enable AI Memory (Mind)" toggle in the ON position._
+{/* ℹ️ _Screenshot to add: the customer Features & Add-ons modal showing the "Enable AI Memory (Mind)" toggle in the ON position._ */}
 
 Once enabled, that customer can use the `/whitelabel/memory` page in their portal, and their agents can use memory MCP tools.
 
@@ -66,7 +66,7 @@ A **Mind** is a named memory space for a customer. A customer can have multiple 
 1. On the AI Memory page, select a customer from the dropdown.
 2. The Minds list shows all Minds for that customer.
 
-ℹ️ _Screenshot to add: the Minds list for a selected customer, showing at least one Mind with its name and description._
+{/* ℹ️ _Screenshot to add: the Minds list for a selected customer, showing at least one Mind with its name and description._ */}
 
 ### Create a Mind
 
@@ -93,7 +93,7 @@ Once you have a Mind selected, you can perform three types of operations:
 
 Charges: **Partner Knotie Credits** + **Customer AI Credits** (if enabled).
 
-ℹ️ _Screenshot to add: the Remember input with a sample fact entered, before clicking Submit._
+{/* ℹ️ _Screenshot to add: the Remember input with a sample fact entered, before clicking Submit._ */}
 
 ### Recall
 
@@ -122,21 +122,6 @@ The answer is drawn from everything stored in the Mind.
 
 Charges: **Partner Knotie Credits** + **Customer AI Credits** (if enabled). Higher reasoning levels cost more.
 
-## Mission Control: AI Memory pricing config
-
-Partners with Mission Control access can configure the pricing basis for AI Memory without a code deploy.
-
-1. Go to **Mission Control → AI Memory**.
-2. Edit **Dreaming uplift (Knotie margin)** — the multiplier charged to customers above platform cost. Default: **1.5×**.
-3. Edit per-level query prices for the **Ask** operation.
-4. Click **Save**.
-
-Changes take effect immediately for subsequent operations.
-
-ℹ️ _Screenshot to add: the Mission Control AI Memory config page showing the margin and per-level pricing fields._
-
-The per-partner usage table on this page shows event counts, credits consumed, tokens used, and query counts — useful for billing audits.
-
 ## Troubleshooting
 
 | Symptom | Likely cause | Fix |
@@ -153,7 +138,3 @@ The per-partner usage table on this page shows event counts, credits consumed, t
 - [MCP Memory Tools](/api-reference/mcp/memory-tools)
 - [AI Credits Management](/partner-portal/customers/ai-credit-management)
 - [Credits](/partner-portal/credits)
-
----
-
-> Source: [knotie-ai-pro#1042](https://github.com/avijeett007/knotie-ai-pro/pull/1042) — _Feature/ai memory honcho_

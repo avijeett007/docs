@@ -52,7 +52,7 @@ Before running the setup, you need:
 2. Go to **Settings → Keys** and create an auth key
 3. Save the key — you'll paste it during the setup script
 
-> ℹ️ Capture from your own Tailscale admin panel: navigate to **Settings → Keys**, click **Generate auth key**, and choose **Reusable** + **Pre-approved** for unattended server provisioning. The screenshot lives outside knotie-ai.pro, so it cannot be auto-captured.
+{/* > ℹ️ Capture from your own Tailscale admin panel: navigate to **Settings → Keys**, click **Generate auth key**, and choose **Reusable** + **Pre-approved** for unattended server provisioning. The screenshot lives outside knotie-ai.pro, so it cannot be auto-captured. */}
 
 ### Creating Knotie credentials
 
@@ -79,7 +79,7 @@ The script will ask for:
 - **Tailscale hostname** — e.g. `openclaw-acme-corp`
 - **Knotie MCP Token** — from the Partner Portal
 
-> ℹ️ Capture from your own VPS terminal after running the install script — it shows the prompts (Customer name, API key, Tailscale auth key, hostname, MCP token) and progress output as it configures OpenClaw, Tailscale, and the memory daemon.
+{/* > ℹ️ Capture from your own VPS terminal after running the install script — it shows the prompts (Customer name, API key, Tailscale auth key, hostname, MCP token) and progress output as it configures OpenClaw, Tailscale, and the memory daemon. */}
 
 ---
 
@@ -140,7 +140,7 @@ openclaw devices list
 openclaw devices approve <request-id>
 ```
 
-> ℹ️ After the install completes, the new Tailscale node appears in your tailnet admin panel at [login.tailscale.com/admin/machines](https://login.tailscale.com/admin/machines) with the hostname you provided (e.g. `openclaw-customer-01`). Capture from there.
+{/* > ℹ️ After the install completes, the new Tailscale node appears in your tailnet admin panel at [login.tailscale.com/admin/machines](https://login.tailscale.com/admin/machines) with the hostname you provided (e.g. `openclaw-customer-01`). Capture from there. */}
 
 ---
 
@@ -194,7 +194,7 @@ The portal never talks directly to the gateway — nginx acts as a security fron
 4. **Bearer token** — constant-time comparison via `timingSafeEqual`
 5. **HMAC nonce** — timestamp + nonce signed with SHA-256, with a ±5 minute replay window
 
-> ℹ️ The `/platform/chat` endpoint is a whitelabel/customer portal feature — capture from a customer portal session that has OpenClaw deployed and the hardened channel endpoint active (port 18790 + nginx). The endpoint accepts JSON requests with HMAC-signed nonces; see [Channel Chat](#channel-chat-portal-to-agent-messaging) for the full request shape.
+{/* > ℹ️ The `/platform/chat` endpoint is a whitelabel/customer portal feature — capture from a customer portal session that has OpenClaw deployed and the hardened channel endpoint active (port 18790 + nginx). The endpoint accepts JSON requests with HMAC-signed nonces; see [Channel Chat](#channel-chat-portal-to-agent-messaging) for the full request shape. */}
 
 ### Channel response shape
 

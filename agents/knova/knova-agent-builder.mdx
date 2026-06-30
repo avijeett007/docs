@@ -75,7 +75,7 @@ Review the proposal in the chat. Give feedback if you want changes — the build
 
 ## Autonomous web access — no toggle required
 
-The builder can read web pages and run searches on its own, without any partner-facing toggle. (Earlier "Web search" / "Keep Web search on" toggles were removed in knotie-ai-pro#848.)
+The builder can read web pages and run searches on its own, without any partner-facing toggle. (Earlier "Web search" / "Keep Web search on" toggles have been removed.)
 
 | Situation | What the builder does |
 |---|---|
@@ -146,9 +146,9 @@ When editing an existing multi-agent setup:
 - The `entryPersonaId` (routing agent) is preserved
 - The builder can update individual personas or the routing logic
 
-<Info>
-The Knova multi-agent builder view is only reached by selecting the **Multi-Agent** card on the Agent Type row in the Basic tab. From a fresh Knova agent (no customer assigned, default Inbound), the multi-agent section is hidden. To capture, open the AI Builder for an agent whose Agent Type is set to Multi-Agent, or create a new agent and pick Multi-Agent before opening the builder.
-</Info>
+{/*
+The Knova multi-agent builder view is only reached by selecting the Multi-Agent card on the Agent Type row in the Basic tab. From a fresh Knova agent (no customer assigned, default Inbound), the multi-agent section is hidden. To capture, open the AI Builder for an agent whose Agent Type is set to Multi-Agent, or create a new agent and pick Multi-Agent before opening the builder.
+*/}
 
 ---
 
@@ -159,9 +159,9 @@ Knova agents support **AI Analytics** (call metrics and insights). The Partner P
 - **Enabled**: you can configure and save metrics for any Knova agent.
 - **Disabled**: the Configure Metrics modal shows a warning banner and the **Add / Save** buttons are disabled, so you know the settings won't take effect until AI Analytics is turned on at the partner level.
 
-<Info>
-The Configure Metrics modal is opened from the agent's three-dot menu. It shows the AI Analytics disabled warning banner only on partner accounts where AI Analytics is off at the account level. The KnoLabs AI Agency account has AI Analytics enabled (toggle is on in Partner Settings → AI Analytics), so the warning banner does not appear in this account. To capture, sign in with a partner account that has AI Analytics disabled.
-</Info>
+{/*
+The Configure Metrics modal is opened from the agent's three-dot menu. It shows the AI Analytics disabled warning banner only on partner accounts where AI Analytics is off at the account level. On an account that has AI Analytics enabled (toggle on in Partner Settings → AI Analytics), the warning banner does not appear. To capture, sign in with a partner account that has AI Analytics disabled.
+*/}
 
 ---
 
@@ -179,7 +179,7 @@ After the builder creates an agent, you map it to a customer from the agent's th
 
 Phone-number assignment is a separate step that happens later in the agent's edit flow **under the assigned customer** (not in the Knova agent modal).
 
-When a phone number is assigned to a Knova agent, the phone numbers listing now correctly shows the associated customer — the number will no longer appear as "Unassigned" after the assignment is saved (knotie-ai-pro#848 backfills `PhoneNumber.customerId` if it was previously unset).
+When a phone number is assigned to a Knova agent, the phone numbers listing now correctly shows the associated customer — the number will no longer appear as "Unassigned" after the assignment is saved (the `PhoneNumber.customerId` is backfilled if it was previously unset).
 
 <Frame>
   <img src="/images/screenshots/knova-agents-list-try-menu-2026-06-20.png" alt="Knova agent row three-dot menu — Try Agent (BETA), Test Outbound Call, Edit Agent, Assign Customer, Configure Metrics, Delete Agent. The Assign Customer option opens a modal with a customer dropdown and a Profit Multiplier field." />
@@ -195,7 +195,7 @@ When the builder proposes an Inworld voice, gender is detected correctly from th
 
 ## Builder reliability
 
-The builder API allows up to **120 seconds** per turn (increased from 60 s in knotie-ai-pro#832) to accommodate complex multi-agent configurations.
+The builder API allows up to **120 seconds** per turn (increased from 60 s) to accommodate complex multi-agent configurations.
 
 - Simple single-agent builds typically complete in under 30 seconds.
 - Complex multi-agent builds with 4–6 tool calls may take 60–90 seconds.
@@ -261,14 +261,14 @@ The builder route allows up to 120 seconds per turn for reasoning-heavy models. 
 - Split the request into smaller steps (one persona at a time for multi-agent configs)
 
 **Input field has no cursor when the modal opens**
-Fixed in knotie-ai-pro#848. The input now auto-focuses correctly even when the builder is opened from inside another modal. If you still see this, ensure your browser is up to date.
+This has been fixed. The input now auto-focuses correctly even when the builder is opened from inside another modal. If you still see this, ensure your browser is up to date.
 
 **Fetch fails on every URL I paste**
 - Check that `SERPER_API_KEY` (or equivalent web-search config) is set in your `.env` file (self-hosted only)
 - Some sites block server-side crawlers by design. Paste the relevant text from the page directly into the chat and the builder will use it
 
 **"No personas yet" when editing an existing multi-agent**
-This was fixed in knotie-ai-pro#832. If upgrading from an older version, re-open the agent in the builder to reload the persona list.
+This has been fixed. If upgrading from an older version, re-open the agent in the builder to reload the persona list.
 
 **Applied proposal but form fields are empty**
 Click **Apply to form** in the builder chat — the proposal does not populate the form automatically.
@@ -284,8 +284,3 @@ The configured `KNOVA_BUILDER_MODEL` is likely a reasoning-heavy model that does
 - [Manage Knova agents](/agents/knova/manage-knova-agents) — Create, configure, and edit Knova agents
 - [Knova AI Receptionist agent](/agents/knova/knova-agent) — How the agent runs in production (SIP routing, tools, credits)
 - [MCP Tokens](/partner-portal/ai-agents/mcp/tokens) — Manage agents programmatically via MCP
-
----
-
-> Source: [knotie-ai-pro#848](https://github.com/avijeett007/knotie-ai-pro/pull/848) — _saving agent builder improvements_
-> Also covers: [knotie-ai-pro#832](https://github.com/avijeett007/knotie-ai-pro/pull/832) — _Knova builder url handling_

@@ -1,0 +1,83 @@
+---
+title: "Dashboard Experience Templates"
+description: "Understand the six dashboard templates that control what your customers see when they log in — and how the template is resolved from experience type, partner defaults, and customer overrides."
+---
+
+## What are dashboard experience templates?
+
+A **dashboard experience template** controls the visual layout and widget set a white-label customer sees when they open their portal. Each template is purpose-built for a specific type of AI product, so customers who signed up for your AI Receptionist get a call-centric dashboard, while customers using the AI Gateway see an API-usage dashboard — all automatically, with no manual setup needed.
+
+This is a separate axis from the **Dashboard Mode** (Standard / Agency + Infra / Infra / JARVIS) that governs which sidebar menus are visible. The template only affects the dashboard body and chrome — menus, billing, and features are unchanged.
+
+The six templates appear as selectable cards in the **Dashboard Experience** _(Beta)_ section of any experience's settings page (**One-Click Experiences → [experience] → Settings**):
+
+![Dashboard Experience picker — Beta-tagged card grid with seven options: Default (selected), AI Voice, AI Gateway, AI Memory, Infrastructure / VPS, AI OS, and Combination, each with a one-line description of the dashboard it produces](/images/screenshots/experience-dashboard-picker-2026-06-25.jpeg)
+
+## The six templates
+
+| Template key | Label | Best for | Widgets shown |
+|---|---|---|---|
+| `voice` | AI Voice | AI Receptionist, Personal Assistant, Outbound SDR, Support, Appointment Setter, Lead Qualifier, Survey, Collections, Onboarding | KPIs, call volume chart, your agents list, call outcomes, recent calls |
+| `ai_gateway` | AI Gateway | Resell AI Gateway | KPIs, API usage volume, top models, credit balance, API keys |
+| `ai_memory` | AI Memory | Customers using AI Memory / Minds | KPIs, memory growth chart, your Minds, knowledge sources, recent recalls |
+| `vps` | Infrastructure / VPS | VPS / infrastructure customers | KPIs, one-click apps, resource utilization, installed apps, upgrade CTA |
+| `ai_os` | AI OS | OpenClaw Auto-Install, Hermes Auto-Install, OpenClaw Setup Service, OpenClaw Whitelabel | Full-screen animated Orb — customers speak or type, with onboarding strip |
+| `combination` | Combination | Agency accounts with multiple products enabled | KPIs, platform activity feed, your agents, credit balance, installed apps, recent calls |
+
+## How the template is resolved
+
+Every customer is assigned exactly one template. The system picks from the highest available source in this order — the first match wins:
+
+| Priority | Source | How to configure |
+|---|---|---|
+| 1 (highest) | Explicit per-customer override (`Customer.dashboardTemplate`) | Support tooling / future customer admin UI |
+| 2 | Partner per-experience override | Experience Settings → Customer Dashboard |
+| 3 | Code default for the experience type | Built-in defaults (see table below) |
+| 4 | Partner global default (`Partner.defaultDashboardTemplate`) | Settings → Whitelabel → Default dashboard experience |
+| 5 (lowest) | Phase-1 Dashboard Mode fallback | Automatic: Standard → `voice`, Agency+Infra → `combination`, Infra → `vps`, JARVIS → `ai_os` |
+
+<Info>
+Invalid or unknown template values are silently skipped so bad data never breaks the dashboard. The system always falls through to the next level in the list above.
+</Info>
+
+### Code defaults by experience type
+
+| Experience | Default template |
+|---|---|
+| AI Receptionist, Personal Assistant, Outbound SDR, Support Agent, Appointment Setter, Lead Qualifier, Survey Agent, Collections Agent, Onboarding Specialist | `voice` |
+| Resell AI Gateway | `ai_gateway` |
+| OpenClaw Auto-Install, Hermes Auto-Install, OpenClaw Setup Service, OpenClaw Whitelabel | `ai_os` |
+| AI Business Audit | `combination` |
+| All other experience types | Falls through to partner global default or mode fallback |
+
+Partners can override any of these defaults per-experience in **Experience Settings → Customer Dashboard**.
+
+## Feature flag and rollout
+
+The new dashboard UI is opt-in per partner via the **Dashboard Experience V2** flag. The flag is **off by default** — no change to existing customers until you enable it.
+
+- **Flag off:** all customers see the existing dashboard. No action needed.
+- **Flag on:** new customers onboarded through an experience with a configured (or code-default) template receive the new branded dashboard automatically.
+- **Existing customers** continue to see the legacy dashboard until a future backfill pass.
+
+Enable the flag in **Settings → Whitelabel → Default dashboard experience**. See [Per-Experience Customer Dashboards](/partner-portal/experiences/experience-dashboards) for the step-by-step walkthrough.
+
+## Auto-branding
+
+All six templates are branded automatically from your partner settings — no extra design work needed:
+
+- **Accent color:** your `primaryColor` becomes the `--accent` CSS variable; `secondaryColor` becomes `--accent2`. If neither is set, a neutral indigo is used.
+- **Theme:** all templates use a dark palette by default (`--bg: #0b0f17`). Light-mode support is planned.
+- **Font:** your configured brand font is applied to the dashboard shell; falls back to Plus Jakarta Sans.
+- **RTL:** the shell automatically sets `dir="rtl"` for Arabic, Hebrew, Farsi, and Urdu portals.
+
+Your customers see a dashboard that matches your brand on day one with zero additional configuration.
+
+{/* SCREENSHOT deferred: the V2 themed dashboard shell needs Dashboard Experience V2 enabled (affects live customers) to render; the demo account currently runs the legacy customer dashboard, so this shot awaits V2 rollout. */}
+
+## Related pages
+
+- [Per-Experience Customer Dashboards](/partner-portal/experiences/experience-dashboards) — step-by-step: how to enable V2, configure templates per experience, and set the global default
+- [Whitelabel Settings](/partner-portal/settings/whitelabel-settings) — where the global default template toggle lives
+- [Platform Configuration](/partner-portal/settings/platform-configuration) — Dashboard Mode (sidebar menu defaults) — separate from templates
+- [AI Experiences](/partner-portal/experiences/overview) — enable and manage your experiences
