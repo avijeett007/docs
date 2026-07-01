@@ -93,7 +93,7 @@ Apps in the Integration section connect in one of two ways depending on the serv
 | **OAuth** | Customer authorizes access through the provider's login flow | Gmail, Slack, HubSpot, Google Calendar |
 | **API key** | Customer pastes their provider API key directly into the portal | ElevenLabs, HeyGen |
 
-**Both connection types are fully supported.** Once a customer connects an app — whether via OAuth or API key — the app's tools are available to their AI agents during live calls through the Connect Hub MCP server.
+**Both connection types are fully supported.** Once a customer connects an app — whether via OAuth or API key — the app's tools are available to their AI agents during live calls through the integration gateway MCP server.
 
 For API-key apps, the customer:
 1. Opens **Integration** in their portal.
@@ -110,7 +110,7 @@ For API-key apps, the customer:
 Once a customer connects an app, its tools flow to their AI agent automatically:
 
 1. Customer connects the app (OAuth or API key) in their portal.
-2. The Connect Hub MCP server resolves the app's available tools (up to 200 per toolkit).
+2. The integration gateway MCP server resolves the app's available tools (up to 200 per toolkit).
 3. When the agent runs a call, it receives the full tool list — including all tools from the connected app.
 4. The agent can call any of those tools during the conversation.
 

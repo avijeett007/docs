@@ -83,7 +83,7 @@ Store this key in your external system as a secret. If you lose it, revoke and r
 ## Step 4 — Wire a GoHighLevel workflow
 
 1. In GoHighLevel, create a **Workflow** with a **Webhook** action.
-2. Set the URL to your Connect Hub endpoint:
+2. Set the URL to your integration gateway endpoint:
    ```
    https://hub.knotie-ai.pro/api/outbound-call
    ```
@@ -103,7 +103,7 @@ Store this key in your external system as a secret. If you lose it, revoke and r
      }
    }
    ```
-   Connect Hub auto-detects the GHL format — `dynamicdata_*` keys become dynamic variables passed to your agent.
+   The integration gateway auto-detects the GHL format — `dynamicdata_*` keys become dynamic variables passed to your agent.
 5. Test the workflow on a contact. The agent calls the contact and addresses them by name.
 
 {/* ℹ️ _Screenshot to add: a GoHighLevel Workflow with the Webhook action configured, showing the URL and customData body fields._ */}
@@ -117,7 +117,7 @@ Facebook Lead Ads don't post webhooks directly to arbitrary URLs, but you can br
 **Via GoHighLevel:**
 1. Connect your Facebook page to GHL (**Settings → Integrations → Facebook**).
 2. Create a GHL Workflow trigger: **Facebook Lead Form Submitted**.
-3. Add a Webhook action pointing to Connect Hub (same as Step 4), mapping lead-form fields to `dynamicdata_*` keys.
+3. Add a Webhook action pointing to the integration gateway (same as Step 4), mapping lead-form fields to `dynamicdata_*` keys.
 
 **Via n8n:**
 1. Use the **Facebook Lead Ads** trigger node.
@@ -192,7 +192,7 @@ Keys not present in `dynamic_variables` are left as `{{key}}` (no error is throw
 | `NO_OUTBOUND_TRUNK` error | BYO trunk not provisioned or shared trunk not configured | Re-assign the agent to the number to trigger provisioning; contact ops if using the shared trunk |
 | `INSUFFICIENT_CREDITS` | Credit balance too low | Top up credits in the Partner Portal |
 | `NO_AGENT_MAPPING` | Agent not assigned to this number | Re-assign the Knova agent to the number and try again |
-| `DISPATCH_FAILED` | LiveKit `createDispatch` failed | Check `KNOVA_AGENT_NAME`, `LIVEKIT_API_KEY`, `LIVEKIT_API_SECRET` env vars in Connect Hub |
+| `DISPATCH_FAILED` | LiveKit `createDispatch` failed | Check `KNOVA_AGENT_NAME`, `LIVEKIT_API_KEY`, `LIVEKIT_API_SECRET` env vars in the integration gateway |
 | `CALL_REJECTED` | Callee rejected or busy (SIP 486/603) | Normal — the callee declined the call |
 | `CALL_NO_ANSWER` | No answer / line temporarily unavailable | Retry later; confirm the number is reachable |
 | `SIP_TRUNK_FAILURE` | Carrier SIP 5xx | Check Twilio/Telnyx trunk status and credentials |

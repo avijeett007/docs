@@ -24,7 +24,7 @@ Use auto-deploy when:
 2. **Deploy button enabled** – `/api/whitelabel/check-onboarding-payment` confirms the customer credential is `active`; otherwise the user stays on Step 9 with an error
 3. **Customer clicks Deploy** – Triggers `/api/whitelabel/save-onboarding-details`
 4. **System checks prerequisites** – Validates credits, configuration
-5. **Job queued** – Deployment added to KnotieManager queue
+5. **Job queued** – Deployment added to the platform manager service queue
 6. **Agent deployed** – AI Receptionist activated automatically
 7. **Customer notified** – Setup email sent to customer; deployment notification sent to partner
 
@@ -118,7 +118,7 @@ System checks partner credit balance:
 
 **If sufficient credits:**
 - Deployment status → `queued`
-- Job sent to KnotieManager
+- Job sent to the platform manager service
 
 **If insufficient credits:**
 - Deployment status → `pending_credits`
@@ -127,7 +127,7 @@ System checks partner credit balance:
 
 ### Phase 3: Deployment execution
 
-KnotieManager processes the job:
+The platform manager service processes the job:
 
 1. **Knova agent creation** – A [Knova AI Receptionist](/agents/knova/knova-agent) is created with a dynamic system prompt built from the customer's business profile, knowledge base, and onboarding data
 2. **Knowledge base setup** – Customer's uploaded documents processed and ingested
@@ -240,7 +240,7 @@ Customers receive **Free AI Credits** (configured in SaaS settings):
 ### Deployment stuck in "queued"
 
 **Possible causes:**
-- KnotieManager queue backlog
+- Platform manager service queue backlog
 - Network issues
 - Configuration errors
 

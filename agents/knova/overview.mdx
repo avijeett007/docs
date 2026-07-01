@@ -136,7 +136,7 @@ When a Knova agent is **assigned to a customer**, Knotie AI Pro automatically wi
 3. The LiveKit runtime registers this server and exposes connected-app tools to the agent.
 
 {/*
-The mcpServers entry in advancedConfig only appears for Knova agents that have a customer assigned and Connect Hub configured. A website-channel agent with no customer assignment does not include an mcpServers block in its Advanced Config panel. To capture, assign a customer to a Knova agent and open the Advanced tab in the edit modal — the JSON config will show the auto-injected knotie_partner_tools MCP server with streamable_http transport.
+The mcpServers entry in advancedConfig only appears for Knova agents that have a customer assigned and the integration gateway configured. A website-channel agent with no customer assignment does not include an mcpServers block in its Advanced Config panel. To capture, assign a customer to a Knova agent and open the Advanced tab in the edit modal — the JSON config will show the auto-injected knotie_partner_tools MCP server with streamable_http transport.
 */}
 
 ### Customer assignment and token lifecycle
@@ -150,7 +150,7 @@ The mcpServers entry in advancedConfig only appears for Knova agents that have a
 
 ### Prerequisites
 
-- **Connect Hub** must be configured (`CONNECT_HUB_URL` environment variable). Knova MCP wiring is silently skipped when Connect Hub is unavailable — agent creation never fails because of this.
+- **Integration gateway** must be configured (`CONNECT_HUB_URL` environment variable). Knova MCP wiring is silently skipped when the integration gateway is unavailable — agent creation never fails because of this.
 - **Customer assigned** — agents without a customer do not get MCP wiring.
 
 ### Which tools go via MCP vs. static webhooks
