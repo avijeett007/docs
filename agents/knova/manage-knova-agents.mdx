@@ -208,7 +208,7 @@ Use `POST /api/partner/telephony-credits/settings` to update these values (see [
 
 ## MCP tool changes
 
-If you use Knotie's MCP server (Knotie Connect Hub) with AI coding tools like Cursor or Claude, note these updated tool schemas:
+If you use Knotie's MCP server (the integration gateway) with AI coding tools like Cursor or Claude, note these updated tool schemas:
 
 **`agents_create`** — field names updated:
 
@@ -237,7 +237,7 @@ If you have existing MCP automations using these tools, update your prompts and 
 - **System prompt exceeds character limit** — Split overly broad scopes into a multi-agent workflow. Each persona or use case should have its own agent.
 - **Voice not loading** — Reload the page. If voices still don't appear, check your internet connection and try a different browser.
 - **Builder session not resuming** — Sessions are listed by `lastTurnAt` (most recent first). If you don't see a session, it may have been created for a different customer or on a different account.
-- **Agent config not updating after edit** — The platform invalidates the Connect Hub agent cache after every save. If the agent's phone number still routes to old config, wait 30 seconds and call the number again. If it persists, contact support.
+- **Agent config not updating after edit** — The platform invalidates the integration gateway agent cache after every save. If the agent's phone number still routes to old config, wait 30 seconds and call the number again. If it persists, contact support.
 
 ## Related pages
 

@@ -2,3 +2,5 @@ src/
 .vscode/
 
 images/_redaction_backup/
+.githooks/
+scripts/

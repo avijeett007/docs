@@ -54,7 +54,7 @@ Every `PhoneNumber` record has a `routingMode` field:
 | Value | Meaning |
 |---|---|
 | `sip_trunk` | Call goes via Twilio Elastic SIP Trunk → LiveKit (default for new numbers) |
-| `webhook` | Legacy Twilio Programmable Voice → Connect Hub TwiML (fallback / older numbers) |
+| `webhook` | Legacy Twilio Programmable Voice → integration gateway TwiML (fallback / older numbers) |
 
 The platform automatically flips a number to `webhook` when a customer's credits reach zero, and can flip it back when credits are restored.
 
@@ -77,7 +77,7 @@ Before enabling Knova for production:
 1. **LiveKit Cloud project** — you need both the WSS URL and the SIP address for your project.
 2. **Twilio account** — the partner's own Twilio account is used for purchasing and managing phone numbers.
 3. **Run the one-time infrastructure setup** (see below).
-4. **Database migration** applied to both the main app schema and `Knotie_Connect_Hub` schema.
+4. **Database migration** applied to both the main application schema and the integration gateway schema.
 
 ---
 
@@ -85,20 +85,19 @@ Before enabling Knova for production:
 
 ### 1. Apply the schema migration
 
-Run in **both** the main app and Connect Hub:
+Run in **both** the main application and the integration gateway:
 
 ```bash
-# Main app
+# Main application — run from your main application directory
 npx prisma migrate dev --name sip_trunk_v2
 npx prisma generate
 
-# Connect Hub
-cd Knotie_Connect_Hub
+# Integration gateway — run from your integration gateway directory
 npx prisma migrate dev --name sip_trunk_v2
 npx prisma generate
 
-# KnotieManager (regenerate client only — uses main app schema)
-cd KnotieManager
+# Platform manager service — run from your platform manager service directory
+# (regenerate client only — uses main application schema)
 npx prisma generate
 ```
 
@@ -116,7 +115,7 @@ New columns added to `phone_numbers`:
 Run once after applying the migration:
 
 ```bash
-cd KnotieManager
+# Run from your platform manager service directory
 npx ts-node scripts/setup-shared-livekit-sip.ts
 ```
 
@@ -132,7 +131,7 @@ LIVEKIT_SHARED_SIP_INBOUND_TRUNK_ID=ST_xxxxxxxxxxxx
 LIVEKIT_SHARED_SIP_DISPATCH_RULE_ID=SDR_xxxxxxxxxxxx
 ```
 
-Copy these values into the `.env` files for KnotieManager, Connect Hub, and the knova-agent service.
+Copy these values into the `.env` files for the platform manager service, the integration gateway, and the knova-agent service.
 
 > **Default security mode**: the trunk is created without SIP auth — the `numbers` allowlist on the trunk controls access. For mutual-auth setup, set `ENABLE_LK_SIP_AUTH=true` before running the script.
 
@@ -142,14 +141,14 @@ Copy these values into the `.env` files for KnotieManager, Connect Hub, and the 
 
 All three services need these variables. Star (★) marks variables introduced by this feature.
 
-### Main app `.env`
+### Main application `.env`
 
 ```env
 KNOVA_SIP_ADDRESS=sip:<your-project-id>.sip.livekit.cloud
 AGENT_VALIDATION_KEY=your-shared-agent-validation-key-here
 ```
 
-### `KnotieManager/.env`
+### Platform manager service `.env`
 
 ```env
 # LiveKit
@@ -172,7 +171,7 @@ CONNECT_HUB_URL=https://<your-connecthub-host>
 MAIN_APP_ENCRYPTION_KEY=...
 ```
 
-### `Knotie_Connect_Hub/.env`
+### Integration gateway `.env`
 
 ```env
 # SIP trunk ★
@@ -204,7 +203,7 @@ KNOVA_SIP_ADDRESS=sip:<your-project-id>.sip.livekit.cloud
 LIVEKIT_SHARED_SIP_INBOUND_TRUNK_ID=ST_xxxxxxxxxxxx
 LIVEKIT_SHARED_SIP_DISPATCH_RULE_ID=SDR_xxxxxxxxxxxx
 
-# Connect Hub ★
+# Integration gateway ★
 CONNECT_HUB_URL=https://<your-connecthub-host>
 AGENT_VALIDATION_KEY=your-shared-agent-validation-key-here
 
@@ -216,7 +215,7 @@ CARTESIA_API_KEY=your-cartesia-key
 DEEPGRAM_API_KEY=your-deepgram-key
 ```
 
-> **Important:** `AGENT_VALIDATION_KEY` must be the same value across Main App, Connect Hub, and knova-agent. Generate a strong random secret and set it identically on all three.
+> **Important:** `AGENT_VALIDATION_KEY` must be the same value across the main application, the integration gateway, and knova-agent. Generate a strong random secret and set it identically on all three.
 
 ---
 
@@ -235,22 +234,22 @@ Verify it registered:
 ✅ "registered worker", "agent_name": "AI_Receptionist_Knova"
 ```
 
-For local development and testing without Connect Hub, the agent falls back to `agent-config.json`.
+For local development and testing without the integration gateway, the agent falls back to `agent-config.json`.
 
 ---
 
 ## Credit circuit breaker
 
-The Knova agent calls Connect Hub's `/agent-inbound-validate` endpoint at the start of every call. If a customer's credit balance is zero:
+The Knova agent calls the integration gateway's `/agent-inbound-validate` endpoint at the start of every call. If a customer's credit balance is zero:
 
 1. The endpoint returns `deny`.
 2. The agent does not engage the LLM — no LiveKit SIP minutes are consumed.
-3. KnotieManager flips the phone number's `routingMode` to `webhook` and restores the Twilio `VoiceUrl` to the legacy Connect Hub endpoint.
+3. The platform manager service flips the phone number's `routingMode` to `webhook` and restores the Twilio `VoiceUrl` to the legacy integration gateway endpoint.
 4. Future calls for that number go through the webhook path instead.
 
 When the customer tops up credits, the number can be re-enabled for SIP trunk routing manually or via a re-provisioning flow.
 
-The endpoint is **fail-open**: if Connect Hub is unreachable, the agent proceeds normally so calls are not dropped during a Connect Hub outage.
+The endpoint is **fail-open**: if the integration gateway is unreachable, the agent proceeds normally so calls are not dropped during an integration gateway outage.
 
 ---
 

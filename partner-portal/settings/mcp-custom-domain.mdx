@@ -1,11 +1,11 @@
 ---
 title: "Custom MCP domain"
-description: "Serve the Connect Hub MCP server from your own branded hostname (e.g. mcp.yourcompany.com) with Cloudflare-managed SSL."
+description: "Serve the integration gateway MCP server from your own branded hostname (e.g. mcp.yourcompany.com) with Cloudflare-managed SSL."
 ---
 
 ## What this feature does
 
-By default, the Knotie AI Pro Connect Hub MCP server is reachable at `mcp.knotie-ai.pro`. With a **custom MCP domain**, partners on paid tiers can resell the MCP server under their own branded hostname — for example, `mcp.yourcompany.com`.
+By default, the Knotie AI Pro integration gateway MCP server is reachable at `mcp.knotie-ai.pro`. With a **custom MCP domain**, partners on paid tiers can resell the MCP server under their own branded hostname — for example, `mcp.yourcompany.com`.
 
 Clients and AI coding assistants that connect to your MCP endpoint use your domain name, not Knotie's. SSL is handled automatically via Cloudflare — you add a CNAME record and Knotie handles the rest.
 
@@ -22,7 +22,7 @@ Clients and AI coding assistants that connect to your MCP endpoint use your doma
 Routing is based on the **Bearer token** in the request, not the hostname. Your custom hostname is a vanity CNAME plus a Cloudflare-managed TLS certificate — requests to `mcp.yourcompany.com` are transparently forwarded to `connecthub.knotie-ai.pro`.
 
 This means:
-- **No Connect Hub changes required** — tokens, rate limits, credit charges, and scope enforcement work exactly as before
+- **No integration gateway changes required** — tokens, rate limits, credit charges, and scope enforcement work exactly as before
 - **Existing `mcp.knotie-ai.pro` tokens continue to work** — switching to a custom domain does not invalidate existing tokens
 - **Partner-minted MCP tokens** remain unaffected; only the server URL displayed to customers changes
 
@@ -58,7 +58,7 @@ If your DNS is managed by Cloudflare, set the CNAME to **DNS-only** (grey cloud)
 Once the CNAME record propagates, click **Verify Domain** in the card. The platform:
 
 1. Confirms that the CNAME resolves to `mcp.knotie-ai.pro`.
-2. Activates routing so traffic for your hostname is forwarded to Connect Hub.
+2. Activates routing so traffic for your hostname is forwarded to the integration gateway.
 3. Changes the status to **Verified / Active**.
 
 After verification, the MCP Token snippet shown in the portal updates to use your custom domain.

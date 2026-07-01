@@ -5,7 +5,7 @@ description: "Set up and use the new KB v2 engine — faster AI answers powered 
 
 ## What is Knowledge Base v2?
 
-Knowledge Base v2 is a complete rebuild of how Knotie AI Pro processes, stores, and queries your customers' documents. It replaces the legacy AnythingLLM backend with a purpose-built **Memory module** running inside the Connect Hub service.
+Knowledge Base v2 is a complete rebuild of how Knotie AI Pro processes, stores, and queries your customers' documents. It replaces the legacy AnythingLLM backend with a purpose-built **Memory module** running inside the integration gateway service.
 
 The key improvements for partners and their customers:
 
@@ -27,7 +27,7 @@ The key improvements for partners and their customers:
 Before enabling KB v2 for any customer you need to:
 
 1. Provision the external services below (one-time per environment).
-2. Add the new environment variables to your Connect Hub and main-app deployments.
+2. Add the new environment variables to your integration gateway and main application deployments.
 3. Run the Prisma database migration.
 
 ---
@@ -47,14 +47,14 @@ Sign up for these services. All are pay-as-you-go; no upfront commitment beyond 
 
 ### Qdrant Cloud setup
 
-1. Create a cluster. Choose the region closest to your Connect Hub hosts (Hetzner Falkenstein → Frankfurt; Azure West Europe → Amsterdam).
+1. Create a cluster. Choose the region closest to your integration gateway hosts (Hetzner Falkenstein → Frankfurt; Azure West Europe → Amsterdam).
 2. Start on the **Free tier** (1 GB / ~150k vectors) for staging.
 3. Upgrade to **Standard ($25/mo)** before enabling KB v2 for production partners.
 4. Copy the cluster URL and create an API key under **Settings → Access Tokens**.
 
 ### Generate the internal service key
 
-The Memory module uses a shared secret to authenticate requests from your main app and Knova workers. Generate one key per environment:
+The Memory module uses a shared secret to authenticate requests from your main application and Knova workers. Generate one key per environment:
 
 ```bash
 openssl rand -hex 32
@@ -68,7 +68,7 @@ Keep the output as `MEMORY_INTERNAL_KEY`. Rotate it quarterly.
 
 ## Step 2 — Environment variables
 
-### Connect Hub (`.env` in `Knotie_Connect_Hub/`)
+### Integration gateway `.env`
 
 Add this block to each environment's `.env` file:
 
@@ -91,12 +91,12 @@ APIFY_TOKEN=""                   # existing token — reuse
 
 The legacy `ANYTHINGLLM_BASE_URL` and `ANYTHINGLLM_API_KEY` variables stay in place during the migration window. Do not remove them until your rollout is fully complete.
 
-### Main app (root `.env`)
+### Main application (root `.env`)
 
 ```dotenv
 # Memory module (KB v2) — dual-write during rollout
-CONNECT_HUB_URL=http://connect-hub:3001  # existing — Memory module uses the same URL
-MEMORY_INTERNAL_KEY=""                   # same value as Connect Hub for this environment
+CONNECT_HUB_URL=http://<integration-gateway-host>:3001  # existing — Memory module uses the same URL
+MEMORY_INTERNAL_KEY=""                   # same value as the integration gateway for this environment
 
 KB_LEGACY_ANYTHINGLLM_DUAL_WRITE=false  # set to true only during cutover shadow window
 ```
@@ -121,20 +121,20 @@ Verify the generated migration SQL contains only `ALTER TABLE … ADD COLUMN …
 
 ## Step 4 — Deploy the ingest worker
 
-KB v2 processes documents asynchronously via a BullMQ worker. You need to run **two processes** per Connect Hub replica:
+KB v2 processes documents asynchronously via a BullMQ worker. You need to run **two processes** per integration gateway replica:
 
 1. **API process** (existing) — no change.
 2. **`memoryIngest` worker** — parses documents, embeds chunks, upserts to Qdrant.
 
-In Coolify, clone your existing Connect Hub application and override the start command:
+In Coolify, clone your existing integration gateway application and override the start command:
 
 ```
 npm run start:worker
 ```
 
-Use the same Docker image and the same environment variables. This is identical to how `KnotieManager` is deployed.
+Use the same Docker image and the same environment variables. This is identical to how the platform manager service is deployed.
 
-{/* > ℹ️ **Coolify** is the partner's self-hosted deployment platform. The KB v2 stack runs as two services: **Connect Hub API** (orchestrator) and a sibling **memoryIngest** worker that batches documents into Qdrant. Capture from your own Coolify project to refresh. */}
+{/* > ℹ️ **Coolify** is the partner's self-hosted deployment platform. The KB v2 stack runs as two services: **integration gateway API** (orchestrator) and a sibling **memoryIngest** worker that batches documents into Qdrant. Capture from your own Coolify project to refresh. */}
 
 ---
 
@@ -242,7 +242,7 @@ You do not need to re-upload any existing documents. The backfill process runs i
 
 ## Verify your setup
 
-Before enabling KB v2 for any partner, run these smoke tests from your Connect Hub host:
+Before enabling KB v2 for any partner, run these smoke tests from your integration gateway host:
 
 ```bash
 # 1 — Memory module health
