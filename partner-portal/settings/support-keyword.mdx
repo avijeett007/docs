@@ -97,9 +97,43 @@ After regenerating, remove the old entry from your authenticator app to avoid co
 | QR code won't scan | Lighting or camera focus | Use the **Reveal secret** option to copy the manual key instead |
 | Modal shows no keyword | No keyword has been generated yet | Click **Generate** |
 
+## Email magic-link verification (v2)
+
+In addition to the TOTP-based keyword flow, the Knotie AI support agent (Katie) can also verify your identity via a **one-time email magic link**. This is the method used when you contact support through multi-channel surfaces such as Discord, Slack, or web chat — any channel where you cannot easily read a 6-digit code aloud.
+
+### How it works
+
+1. During a support conversation, Katie sends a verification request. Knotie emails you a **magic link** at the address registered to your account.
+2. The email also displays a short **confirmation code** that Katie will tell you at the same time — cross-checking the two codes prevents relay attacks.
+3. Click the link in the email. A browser page opens, displays the confirmation code, and asks you to confirm.
+4. Click **Confirm identity**. The page posts the token server-side, which marks your support session as verified. Katie's next response will confirm she can now see your account context.
+
+### Security properties
+
+- The link token is a 256-bit cryptographically random value, stored as a SHA-256 hash. The raw token is never written to disk or logs.
+- The token travels in the URL **fragment** (`#t=…`), not the query string or path. Fragments are never sent to the server by the browser, so the raw token cannot appear in edge/access logs or the `Referer` header.
+- Tokens are single-use and expire after **15 minutes**.
+- The verification endpoint is non-enumerating — it always returns the same shaped response whether the keyword is valid or not, preventing fishing attacks.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the magic-link confirmation page (at `/support/verify`) showing the confirmation code, the "Confirm identity" button, and the success state after the token is consumed._
+
+### When to use which method
+
+| Situation | Recommended method |
+|---|---|
+| Phone / voice call with support | TOTP keyword (read the 6-digit code aloud) |
+| Chat via Discord, Slack, or web widget (Katie) | Email magic link (click the link in your email) |
+| Prefer not to install an authenticator app | Email magic link |
+
+---
+
 ## Security notes
 
 - TOTP secrets are stored **AES-256-GCM encrypted** on the Knotie servers — the raw secret is never written to disk in plain text.
 - Keywords are globally unique across all partners — no two accounts share the same keyword.
 - The verification endpoint is rate-limited and scoped to internal support tooling; it is not exposed as a public API.
 - If you believe your keyword or authenticator entry has been compromised, regenerate immediately from the Support Keyword tab.
+
+---
+
+> Source: [knotie-ai-pro#1093](https://github.com/avijeett007/knotie-ai-pro/pull/1093) — _feat(support): Katie support-chat widget + email magic-link partner verification_

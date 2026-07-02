@@ -1,0 +1,125 @@
+---
+title: "Chat with Katie"
+description: "Get instant AI-powered support from Katie — the Knotie support agent — available as a chat widget on the landing page and in your partner portal."
+---
+
+## What is Katie?
+
+**Katie** is the Knotie AI support agent. She is powered by the Hermes AI framework and is available 24/7 via a floating chat widget on:
+
+- The **Knotie landing page** — visible to visitors and prospects, no login required
+- The **Partner Portal** — available to logged-in partners for context-aware support
+
+Katie can answer questions about the platform, walk you through setup flows, explain billing, and help troubleshoot issues. For complex account-level problems she escalates to the human support team.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Katie chat widget in the open state, showing the glassmorphic chat panel with the Knotie brand header, message bubbles, and the text input + mic button at the bottom._
+
+> 🎬 **Video walkthrough:** _Record a short clip of a user opening the Katie widget on the landing page, typing a question, receiving a streaming response, and then asking a follow-up — end-to-end within 60 seconds._
+
+---
+
+## How to open the chat
+
+The Katie widget is visible as a **floating button** in the bottom-right corner of the page. Click or tap it to open the chat panel.
+
+<Tip>
+If you are logged in to the Partner Portal, Katie has access to a sanitized summary of the current page (path and title) and can give more contextual answers than the public widget.
+</Tip>
+
+---
+
+## Using the chat
+
+### Typing a message
+
+Type your question in the text field at the bottom and press **Enter** or click the send button. Katie streams her reply in real time — you will see the response appear word by word.
+
+### Voice input
+
+Click the **microphone icon** next to the input field to use your browser's built-in speech recognition. Speak your question and it will be transcribed into the text field. Click send when you are ready.
+
+<Note>
+Voice input requires a browser that supports the Web Speech API (Chrome and Edge on desktop work best). Safari and Firefox have limited or no support.
+</Note>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the chat input area showing the mic icon in active (recording) state with the transcribed text partially populated._
+
+### Markdown rendering
+
+Katie renders markdown in her responses — headers, bullet lists, bold text, code blocks, and links all display correctly. All external links open in a new tab and are limited to `https://` URLs.
+
+---
+
+## Rate limits
+
+The chat widget is rate-limited to prevent abuse:
+
+| Surface | Limit |
+|---|---|
+| **Public (unauthenticated)** | Conservative per-IP limit — a few messages per minute |
+| **Partner (authenticated)** | Higher per-session limit |
+
+If you hit the limit, Katie will tell you the cooldown period. Limits reset automatically.
+
+---
+
+## Troubleshooting
+
+| Symptom | Likely cause | Fix |
+|---|---|---|
+| Widget doesn't appear | Browser extension blocking scripts | Disable ad blockers for this page, or try a private/incognito window |
+| Mic icon is missing | Browser lacks Web Speech API | Switch to Chrome or Edge; or just type your question |
+| Response cuts off | Content length limit reached | Break your question into shorter messages |
+| "Support is not available right now" | Support chat is temporarily disabled | Try again in a few minutes or email support@knotie-ai.pro |
+
+---
+
+## For operators: enabling the widget
+
+The Katie chat widget is **on by default** in new deployments. To control it:
+
+### Feature flags
+
+| Variable | Type | Description |
+|---|---|---|
+| `SUPPORT_CHAT_ENABLED` | Server | Set to `false` to disable the widget on the server. Default: enabled. |
+| `NEXT_PUBLIC_SUPPORT_CHAT_ENABLED` | Client | Set to `false` to hide the widget in the browser before it can make a request. |
+
+### Required configuration
+
+These must be set for the widget to work:
+
+| Variable | Description |
+|---|---|
+| `SUPPORT_CHAT_AGENT_API` | Base URL of the Hermes/Katie agent's OpenAI-compatible API (e.g. `https://api.knotie.ai/v1`) |
+| `SUPPORT_CHAT_AGENT_API_KEY` | API key for the support agent |
+
+### Optional configuration
+
+| Variable | Default | Description |
+|---|---|---|
+| `SUPPORT_CHAT_AGENT_MODEL` | `katie` | Model name or alias to use when calling the agent API |
+| `SUPPORT_CHAT_MAX_LEN` | `4000` | Maximum character length for incoming messages (longer messages are rejected) |
+| `SUPPORT_CHAT_TURNSTILE` | `false` | Set to `true` to enable Cloudflare Turnstile CAPTCHA on the public widget |
+
+### Chat API endpoints
+
+| Endpoint | Auth | Description |
+|---|---|---|
+| `POST /api/chat/public` | None | Anonymous chat — available to any visitor |
+| `POST /api/chat/partner` | Partner session | Authenticated chat — includes page context hint in the system prompt |
+| `GET /api/chat/health` | None | Health check — returns `{ status: "ok" }` when the upstream agent is reachable |
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Mission Control / Settings page showing where the SUPPORT_CHAT_ENABLED flag is toggled (if a UI toggle is available), or a snippet of the .env.example block with the SUPPORT_CHAT_ variables highlighted._
+
+---
+
+## Related pages
+
+- [Support Keyword & TOTP Verification](/partner-portal/settings/support-keyword) — How the Knotie support team verifies your identity during a support conversation
+- [Hermes Agent Overview](/agents/hermes/overview) — The AI framework that powers Katie
+- [Hermes Agent Setup](/agents/hermes-agent-setup) — Deploy a Hermes agent for your own customers
+
+---
+
+> Source: [knotie-ai-pro#1093](https://github.com/avijeett007/knotie-ai-pro/pull/1093) — _feat(support): Katie support-chat widget + email magic-link partner verification_
