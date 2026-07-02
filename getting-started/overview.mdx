@@ -1,34 +1,23 @@
 ---
 title: "Overview"
-description: "Learn about Knotie AI Pro and how partners use it to onboard and support customers."
+description: "Learn about Knotie AI Pro and how to use it to set up and support your customers."
 ---
 
-## Who this documentation is for
+## Who this is for
 
-These docs are written for partners and agencies who manage one or more customers on Knotie AI Pro.
+These docs are for partners and agencies managing one or more customers on Knotie AI Pro.
 
 ## What you'll learn
 
 - How to create and secure your account
-- How to onboard customers and configure their portal access
-- How to set up whitelabel and custom domains
-- How to work with agents (Retell and VAPI)
-- How to use partner-facing APIs (MCP)
+- How to onboard customers and set up their portal access
+- How to configure whitelabel and custom domains
+- How to connect and manage AI agents
+- How to use the partner APIs
 
-## Portal types
+## Your two portals
 
-- Customer portal: used by your customers.
-- Whitelabel portal: used by partners/agencies to support customers and manage portal settings.
-
-## Live partner count
-
-The Knotie AI Pro landing page displays a real-time count of active partners using the platform. Two places show this figure:
-
-- **Hero eyebrow** — "Knotie AI Pro · X+ partners selling"
-- **Trust bar** — "X+ partners onboarded"
-
-Both numbers are pulled from the `/api/public/live-stats` endpoint via the page-level `LiveStatsProvider`. The initial value is rendered server-side (SSR), so the count shown on first load is accurate — not a placeholder. The figure then refreshes every **3 minutes** in the background.
-
-Because the counter reflects the actual, current partner base, you can quote it with confidence when presenting the platform to prospects.
+- **Your partner portal** — where you manage everything: customers, agents, settings, and billing.
+- **Your customer's portal** — what your customers see when they log in under your brand.
 
 ![Knotie AI Pro landing page hero — live partner count in eyebrow ("Knotie AI Pro · X+ partners selling") and trust bar below the CTA buttons](/images/screenshots/landing-hero-with-live-counter.png)

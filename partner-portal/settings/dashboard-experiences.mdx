@@ -30,7 +30,7 @@ Every customer is assigned exactly one template. The system picks from the highe
 
 | Priority | Source | How to configure |
 |---|---|---|
-| 1 (highest) | Explicit per-customer override (`Customer.dashboardTemplate`) | Support tooling / future customer admin UI |
+| 1 (highest) | Explicit per-customer override (`Customer.dashboardTemplate`) | Support tooling |
 | 2 | Partner per-experience override | Experience Settings → Customer Dashboard |
 | 3 | Code default for the experience type | Built-in defaults (see table below) |
 | 4 | Partner global default (`Partner.defaultDashboardTemplate`) | Settings → Whitelabel → Default dashboard experience |
@@ -64,14 +64,16 @@ Enable the flag in **Settings → Whitelabel → Default dashboard experience**.
 
 ## Auto-branding
 
-All six templates are branded automatically from your partner settings — no extra design work needed:
+All six templates automatically apply your brand colors and fonts — your customers get a dashboard that looks like yours the moment they log in, with no extra work needed.
 
-- **Accent color:** your `primaryColor` becomes the `--accent` CSS variable; `secondaryColor` becomes `--accent2`. If neither is set, a neutral indigo is used.
-- **Theme:** all templates use a dark palette by default (`--bg: #0b0f17`). Light-mode support is planned.
-- **Font:** your configured brand font is applied to the dashboard shell; falls back to Plus Jakarta Sans.
-- **RTL:** the shell automatically sets `dir="rtl"` for Arabic, Hebrew, Farsi, and Urdu portals.
+Here's what gets branded:
 
-Your customers see a dashboard that matches your brand on day one with zero additional configuration.
+- **Your brand colors:** Your primary and secondary brand colors automatically appear as accent colors throughout the dashboard. If you haven't set custom colors, we use a professional indigo as the default.
+- **Dashboard appearance:** All dashboards use a dark, modern look. Light mode is coming soon.
+- **Your brand font:** If you've configured a brand font, it appears on the dashboard. Otherwise, we use a clean, professional default.
+- **Language support:** For Arabic, Hebrew, Farsi, and Urdu customers, the dashboard automatically flips to right-to-left layout.
+
+That's it — your branding is live across all your customer dashboards without any additional design or configuration.
 
 {/* SCREENSHOT deferred: the V2 themed dashboard shell needs Dashboard Experience V2 enabled (affects live customers) to render; the demo account currently runs the legacy customer dashboard, so this shot awaits V2 rollout. */}
 

@@ -1,6 +1,6 @@
 ---
 title: "Login with Google"
-description: "Sign in using Google SSO and understand the Google signup and login flows."
+description: "Sign in with your Google account and understand the Google signup and login flows."
 ---
 
 ## Overview
@@ -24,10 +24,7 @@ Use the same Google account email you signed up with to avoid creating a duplica
 
 1. Open **knotie-ai.pro** and click **Start for free**.
 2. Inside the signup modal, click **Continue with Google**.
-3. Choose your Google account. The modal updates to show a **"Continuing with Google"** panel with your Google profile photo and email.
-
-> ℹ️ The "Continuing with Google" panel renders only inside an active Google OAuth flow, so it can't be screenshot from outside. Once you reach it the panel shows: your Google avatar + name + email at top, then Business Name and Phone Number fields below. If you don't see it, your platform has Google login disabled — fall back to email signup.
-
+3. Choose your Google account. The form updates to show a **"Continuing with Google"** panel with your Google profile photo and email at the top.
 4. Fill in:
    - **Business name** (required)
    - **Phone number** (required)
@@ -41,7 +38,7 @@ Use the same Google account email you signed up with to avoid creating a duplica
 
 ## Troubleshooting
 
-- **"Continue with Google" button not visible** — Google auth may not be enabled on your platform. Contact your platform operator.
+- **"Continue with Google" button not visible** — Google login may not be enabled on your platform. Use email and password instead, or contact support.
 - **Wrong account selected** — click "Switch account" on the Google account picker. Make sure you use the same email for every login.
 - **Redirect loops after Google login** — clear cookies for knotie-ai.pro and try again.
-- **Missing profile photo** — the modal fetches your Google profile at signup time. If the image fails to load, a placeholder icon is shown. This doesn't affect the signup itself.
+- **Missing profile photo** — if your Google photo doesn't load, a placeholder icon is shown instead. This doesn't affect your signup.
