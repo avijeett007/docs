@@ -1,0 +1,124 @@
+---
+title: "Partner Level System"
+description: "Level up as a partner by completing challenges — earn AI credits, unlock features, and climb the leaderboard."
+---
+
+## Overview
+
+The **Partner Level System** is a progression framework built into the Knotie Partner Portal. As you use the platform, complete onboarding tasks, and grow your agency, you earn experience through **challenges** that raise your partner **level**.
+
+Higher levels unlock:
+- Additional AI credits granted automatically
+- Platform features that are not available at lower tiers
+- Recognition on the live **Engagement Leaderboard**
+
+The system is designed to guide new partners through the most valuable parts of the platform while rewarding experienced partners for continued growth.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Partner Portal dashboard showing the level badge, current XP / level progress bar, and the "Your Challenges" card with 1–2 active challenges listed._
+
+> 🎬 **Video walkthrough:** _Record a short clip showing a partner completing a challenge step, clicking "Mark complete", seeing the XP credited, and watching the level bar advance — end-to-end in under 90 seconds._
+
+---
+
+## Levels
+
+Partners start at **Level 1** and progress through levels by completing challenges. Each level requires a certain amount of experience points (XP) accumulated from challenge completions.
+
+The current level structure and XP thresholds are managed by the Knotie platform team. Your current level and progress are always visible on the partner dashboard.
+
+### What levels unlock
+
+Each level can grant:
+- An automatic **AI credit top-up** deposited to your account
+- One or more **platform features** enabled for your portal (e.g., advanced integrations, higher customer limits)
+- Eligibility for higher-tier challenges
+
+---
+
+## Challenges
+
+Challenges are structured tasks that guide you through platform capabilities. They appear in your **challenge queue** — typically one active challenge at a time, with the next queued up once you complete the current one.
+
+### Viewing your challenges
+
+Open the **Challenges** section from the partner portal sidebar (or the dashboard card) to see:
+- Your **current challenge** with its steps
+- The **challenge queue** showing what comes next
+- Your progress through completed challenges
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Challenges page showing the current challenge card with a step list (some steps checked), the "Next up" queue item, and the XP reward displayed._
+
+### Challenge structure
+
+Each challenge has:
+- A **title** and **description** — what you will do and why it matters
+- One or more **steps** — discrete actions with instructions and a "Mark complete" button
+- An **XP reward** — earned when all steps are marked complete
+- An optional **track** — challenges may be scoped to a specific focus area (e.g., Phone, CRM, VPS) based on the preferences you selected during onboarding
+
+### Completing a challenge step
+
+1. Open your active challenge from the sidebar or dashboard.
+2. Read the step instructions and complete the described action in the portal.
+3. Click **Mark step complete** (or the equivalent button for that step type). Some steps — such as watching a tutorial video — complete automatically.
+4. When all steps are done, the challenge closes and your XP is credited automatically.
+
+<Note>
+Some challenges may include an embedded tutorial video. The video plays directly in the portal — no new window or tab required.
+</Note>
+
+### Credit claim challenges
+
+Some challenges grant **AI credits** as a reward in addition to XP. When you complete such a challenge, the credit balance in your partner account is topped up automatically. The credit amount is shown on the challenge card before you start.
+
+---
+
+## Leaderboard
+
+The **Engagement Leaderboard** shows the top partners by total XP earned. It updates in real time and is visible within the partner portal.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Engagement Leaderboard panel showing ranked partner entries with XP totals and level badges._
+
+The leaderboard is opt-in through your participation in the level system — partners who have not started any challenges do not appear.
+
+---
+
+## Opting in and out
+
+The level system is automatically active for all new partners. If you joined the platform before the level system launched, you can opt in from the **Settings** page or from the onboarding prompt in the partner portal.
+
+To opt out, contact Knotie support. Opting out removes you from the leaderboard and stops the challenge queue, but does not remove credits or features you have already unlocked.
+
+---
+
+## Feature flags (for operators)
+
+If you are running a self-hosted deployment, the level system is controlled by these environment variables:
+
+| Variable | Default | Description |
+|---|---|---|
+| `NEXT_PUBLIC_FEATURE_LEVEL_SYSTEM` | Enabled | Set to `false` to disable the level system for all partners |
+| `FEATURE_LEVEL_SYSTEM_AB_HOLDOUT_PCT` | `0` | Percentage (0–100) of partners randomly excluded for A/B testing |
+| `FEATURE_LEVEL_SYSTEM_PROOF_GATE` | `false` | Set to `true` to require admin review before proof-based challenges grant credits |
+
+### Operator setup steps
+
+Before the level system is usable after a fresh deploy, run these in order:
+
+1. **Apply schema changes**: `npm run db:push` — adds the level-system tables and the `redesign_intro_seen_at` / `selected_track_keys` columns on `Partner`.
+2. **Set the cutover date**: `PROGRESSIVE_ONBOARDING_CUTOVER` — ISO-8601 datetime that separates "new" partners (joined on/after this date, see curated feature set only) from "existing" partners (joined before, see all active features). Example: `2026-06-27T00:00:00Z`.
+3. **Curate the new-partner feature set**: In Mission Control → **What to Sell**, toggle **Show to New Partners** for the features you want visible in the first-login picker.
+4. **Unlock existing partners**: Use the admin **Open all features** button (per-partner, or in bulk) to grant existing partners access to the full active feature set.
+5. **Seed challenges** (optional): Run `node scripts/levelSystem/seedChallenges.js` to load the default challenge catalogue.
+
+---
+
+## Related pages
+
+- [Progressive Onboarding](/getting-started/progressive-onboarding) — How the track-based first-login experience works and how it connects to the level system
+- [Partner Portal Dashboard](/partner-portal/dashboard) — Where your level badge and challenge card live
+- [Credits](/partner-portal/credits) — AI credit balance and how credits are consumed
+
+---
+
+> Source: [knotie-ai-pro#1080](https://github.com/avijeett007/knotie-ai-pro/pull/1080) — _Partner Level System v3 + Progressive Onboarding_
