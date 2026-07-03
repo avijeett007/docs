@@ -15,11 +15,9 @@ Use MCP tokens when you want to:
 
 ## Where to find it
 
-**Primary:** Go to **AI Agents → MCP Tokens** in the sidebar. This is the dedicated MCP tokens page at `/partner/ai-agents/mcp/tokens`.
+**Primary:** Go to **AI Agents → MCP Tokens** in the sidebar.
 
-**Alternative:** Open **Settings → API Keys** → switch to the **MCP Tokens** tab.
-
-The MCP Tokens section is not at the bottom of the general Settings page — it lives under AI Agents as a top-level nav item.
+**Alternative:** Open **Settings → Partner API Keys** and switch to the **MCP Tokens** tab.
 
 ![MCP Tokens Section](/images/screenshots/screenshot-2026-03-19-212021.png)
 
@@ -60,9 +58,9 @@ Set up MCP for Claude Desktop:
 
 ## Tool modes (full vs meta)
 
-Partner-minted tokens default to **full mode** — all ~280+ tools are listed in a single response.
+By default, a token runs in **full mode** — the AI assistant sees the complete list of available tools at once.
 
-If you are building an integration where you want the LLM to navigate tools on demand rather than receive a massive tool list, you can request **meta mode** by adding the `toolMode` claim when minting:
+If you'd rather the assistant look up tools as it needs them (instead of loading the whole list up front), you can switch the token to **meta mode** by adding this option when you create it:
 
 ```json
 {
@@ -70,9 +68,9 @@ If you are building an integration where you want the LLM to navigate tools on d
 }
 ```
 
-In meta mode the token exposes two gateway tools (`internal_search_tools`, `internal_execute_tool`). The LLM searches for the tool it needs and calls it via the executor — all rate limits and credit charges still apply.
+In meta mode the assistant gets two helper tools: one to search for the tool it needs, and one to run it. Rate limits and credit charges work exactly the same either way.
 
-You can also restrict which Composio app tools the token can invoke:
+You can also limit which connected app tools a token is allowed to use:
 
 ```json
 {
@@ -91,7 +89,7 @@ See [MCP tool modes](/api-reference/mcp/tool-modes) for the full reference.
 
 ## Revoking tokens
 
-1. Go to **Settings → MCP Tokens**.
+1. Go to **Settings → Partner API Keys → MCP Tokens** tab.
 2. Find the token you want to revoke.
 3. Click **Delete** or **Revoke**.
 4. Confirm the action.
@@ -102,10 +100,10 @@ Once revoked, the token immediately stops working.
 
 - **Token not working** – Confirm you copied the full token without extra spaces.
 - **Access denied** – Check that your account has API access enabled.
-- **Can't find MCP Tokens section** – Scroll to the bottom of the Settings page.
+- **Can't find the MCP Tokens section** – Look under **AI Agents → MCP Tokens** in the sidebar, or **Settings → Partner API Keys → MCP Tokens** tab.
 
 ## Related pages
 
 - [API Keys](/partner-portal/api-keys) – Partner API keys for general automation
 - [MCP API Reference](/api-reference/mcp/introduction) – Endpoint documentation
-- [MCP tool modes](/api-reference/mcp/tool-modes) – Full vs meta mode, `toolMode` and `allowedApps` JWT claims
+- [MCP tool modes](/api-reference/mcp/tool-modes) – Full vs meta mode, and how to limit which app tools a token can use

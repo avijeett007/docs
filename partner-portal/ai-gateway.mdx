@@ -1,195 +1,124 @@
 ---
 title: "AI Gateway"
-description: "Create OpenAI-compatible virtual keys, control model access, and enable customer self-service AI Gateway keys."
+description: "Create metered, OpenAI-compatible API keys, control which models they can use, and let customers create their own."
 ---
 
 ## What AI Gateway is
 
-**AI Gateway** is the Partner Portal's top-level menu for creating metered LLM API keys.
+**AI Gateway** is where you create metered AI API keys from the Partner Portal.
 
-It is designed as an **OpenAI-compatible** gateway, so partners can use the standard OpenAI SDK pattern and swap the `base_url` to `https://api.knotie.ai`.
+It's OpenAI-compatible, so you can use the standard OpenAI SDK and simply point the `base_url` at `https://api.knotie.ai`. The page is marked as **Beta**.
 
 Use AI Gateway when you want to:
 
-- Create partner-owned virtual LLM keys
-- Restrict each key to specific models
-- Pre-fund usage from **Knotie Credits**
-- Assign a key to a customer and bill usage back to that customer's **AI Credits**
-- Let customers create their own AI Gateway keys from the whitelabel portal
-
-> The page header shows two badges: **OpenAI Compatible** and **🧪 Beta**.
+- Create your own AI API keys
+- Limit each key to specific models
+- Fund usage from your **AI Credits**
+- Assign a key to a customer and bill their usage back to their **AI Credits**
+- Let customers create their own keys from your white-label portal
 
 ## Where to find it
 
 In the Partner Portal sidebar:
 
 1. Open **AI Gateway**.
-2. Use the top section for the SDK quick start.
-3. Use **AI Gateway Keys** to create and manage keys.
-4. Use **Customer Self-Service API Keys** to control client-portal access.
+2. The top of the page has a quick-start guide.
+3. **AI Gateway Keys** is where you create and manage keys.
+4. **Customer Self-Service API Keys** is where you control whether customers can create their own.
 
 ![Partner AI Gateway overview](/images/screenshots/partner-ai-gateway-overview.png)
 
-## Quick start section
+## Quick start
 
-The page includes a built-in quick start with example snippets for:
+The page includes ready-made code snippets for Python, Node.js, and cURL. Each one uses your key and `https://api.knotie.ai` as the base URL, so you can be up and running in a couple of minutes.
 
-- Python
-- Node.js
-- cURL
+## Create a key
 
-All examples use:
+Click **Create Key** to open the key window.
 
-- Your generated virtual key
-- `https://api.knotie.ai` as the gateway base URL
+### Who the key is for
 
-## Create a partner AI Gateway key
+You start by choosing who the key belongs to:
 
-Click **Create Key** to open the partner key modal.
-
-### Key Type
-
-The modal starts with a **Key Type** radio group:
-
-- **👥 For my customer** (default): Assign this key to one of your customers. Their AI Credits are charged per usage with your profit markup; the partner-side reserve is a fixed $10 deposit.
-- **🛠️ For my internal use**: No customer attached. All usage is deducted from your Knotie Credits balance, after the standard $10 per-key deposit is consumed.
+- **For my customer** (the default) — the key is tied to one of your customers, and their AI Credits are charged for usage, with your markup added.
+- **For my internal use** — no customer is attached, and all usage comes out of your own AI Credits.
 
 ### Key details
 
-- **Key Name**
+- **Key name**
 - **Description**
-- **Allowed Models** — select one or more from the tier-gated list
+- **Allowed models** — pick one or more models this key is allowed to use
 
-### Reserved Deposit (fixed)
+### Reserved deposit
 
-Instead of a configurable budget, the modal shows a read-only **Reserved Deposit** section:
-
-> "$10 (1,000 Knotie Credits) reserved from your balance per key. Once that deposit is consumed, usage continues to draw from your main Knotie Credits balance automatically — there's no per-key spending cap. The key is blocked the moment your Knotie Credits balance reaches zero. To avoid interruption, set up auto-recharge under Settings → Billing."
-
-- `100 credits = $1.00 USD`.
-- If your tier has an admin/platform fee, the modal shows the total credits required before creation.
+Each key sets aside a fixed **$10 deposit** (1,000 credits) from your balance. Once that deposit is used up, usage keeps drawing from your main balance automatically — there's no separate per-key cap. The key stops working the moment your balance hits zero, so it's worth setting up auto-recharge in your billing settings to avoid interruptions.
 
 ![Partner AI Gateway create key modal](/images/screenshots/partner-ai-gateway-create-key.png)
 
-### Model access and plan limits
+### Which models you can choose
 
-Available models are filtered by the partner's subscription tier.
+The models on offer depend on your subscription. They're grouped into tiers — such as budget, mid-tier, and premium — and any model your plan doesn't include simply won't appear as an option.
 
-The UI groups models into categories such as:
+### Billing a customer
 
-- **budget** — e.g., Gpt 4.1 Mini, Gemini 2.5 Flash, Gemini 2.5 Flash Lite, MiniMax M2.7 Free
-- **mid tier** — e.g., Grok 4, Gemini 2.5 Pro, Gemini 3.1 Pro Preview, Claude Haiku 4 5, Claude Opus 4 6, Claude Sonnet 4 6, Gpt 5.1 Codex Max
-- **premium** — tier-gated; may be empty depending on your plan
-
-You can select one or more models per key. If a model is not available for your plan tier, it is not offered for selection.
-
-### Customer billing (appears after picking a customer)
-
-When you assign a key to a customer, the **Customer Billing** section expands to show:
-
-- **Assign to Customer**
-- **Profit Multiplier**
-- **Price per AI Credit (cents)**
-- **Min Cost Floor per 1M Tokens** (optional)
-- **Billing Preview** — live-calculated preview showing your cost, your total cost, and customer charged
-
-> **Note:** The Profit Multiplier, Price per AI Credit, Min Cost Floor, and Billing Preview fields only appear **after** you select a customer from the combobox. Until then, the Customer Billing section shows only "Assign to Customer."
-
-This is used when you want the partner to create and own the key, but charge usage back to a specific customer's **AI Credits** with markup.
+When you assign a key to a customer, a billing section appears where you set how their usage is priced — including your profit multiplier and the price per credit — with a live preview showing your cost and what the customer will be charged. These fields only show up once you've picked a customer.
 
 ![Partner AI Gateway customer billing](/images/screenshots/partner-ai-gateway-customer-billing.png)
 
-### Allowed Domains (optional)
+### Restricting to certain domains (optional)
 
-Under **Advanced Options**, you can restrict the key to approved domains (comma-separated).
+Under **Advanced Options**, you can limit a key to a list of approved domains.
 
-## Managing existing keys
+## Managing your keys
 
-The **AI Gateway Keys** table shows:
-
-- Name
-- Key prefix
-- Budget vs spend
-- Allowed models
-- Status
-- Last used
-
-Available actions for active keys:
+The **AI Gateway Keys** table lists each key with its name, prefix, spend against its deposit, allowed models, status, and when it was last used. For each active key you can:
 
 - **Top Up**
 - **Regenerate**
 - **Revoke**
 
-Important behaviors:
+A few things to keep in mind:
 
-- Regenerating a key immediately invalidates the old key.
-- Revoking a key cannot be undone.
-- Revoking refunds the unused reserve back to the partner balance according to the key type.
-- You can optionally show **revoked** keys in the table.
+- Regenerating a key immediately makes the old one stop working.
+- Revoking a key can't be undone.
+- Revoking refunds any unused deposit back to your balance.
+- You can choose to show revoked keys in the table.
 
-Expanded rows also show more detail, including:
+Expanding a row shows more detail, including credits reserved, used, and remaining, any admin fee, the pricing settings, rate limits, and the key's expiry and timestamps.
 
-- Credits reserved
-- Credits used
-- Credits remaining
-- **Admin Fee** (e.g., 0%)
-- Profit multiplier
-- Credit price
-- Rate limits (Daily, Monthly)
-- Expiry
-- **Created** timestamp
-- **Updated** timestamp
-- **Last Synced** timestamp
+## Copying a new key
 
-## Virtual key handling
-
-When a new key is created or regenerated, the virtual key is shown once in a success banner.
-
-Copy it immediately. The app warns that it will not be shown again.
+When you create or regenerate a key, the key is shown once, in a confirmation banner. Copy it right away — for security, it won't be shown again.
 
 ![Partner AI Gateway created key](/images/screenshots/partner-ai-gateway-created-key.png)
 
-## Customer Self-Service API Keys
+## Letting customers create their own keys
 
-The lower section of the page controls whether customers can create their own AI Gateway keys from the whitelabel portal.
+The lower part of the page controls whether your customers can create their own AI Gateway keys from your portal.
 
-The section includes:
-
-- **Master enable/disable** toggle
-
-> When the master toggle is **disabled**, additional controls such as **Apply to New Customers**, **Apply to Existing Customers**, **Default Profit Multiplier**, and **AI Credit → USD Cents Rate** are hidden. Enable the master toggle to reveal these settings.
+There's a master on/off toggle. While it's off, the rest of the settings stay hidden — turn it on to reveal options like applying the setting to new or existing customers, a default profit multiplier, and the credit-to-cost rate.
 
 ![Partner AI Gateway self-service settings](/images/screenshots/partner-ai-gateway-self-service-settings.png)
 
-### Deposit and suspension behavior
+### How the deposit works for customer keys
 
-When customer self-service is enabled:
+When customer self-service is on, each key a customer creates sets aside a deposit of about **$10 (1,000 credits)** from your balance. If your balance drops below that, customer-created keys may be paused until you top up again.
 
-- Each customer-created AI Gateway key reserves **1,000 Knotie Credits** from the partner balance as a deposit.
-- That reserve is approximately **$10**.
-- If the partner balance drops below **1,000 credits**, customer-created keys can be suspended until the partner tops up again.
+### What else a customer needs
 
-### What customers also need
+Turning on the master toggle isn't quite enough on its own. For a customer to see **AI Gateway** in their portal, all of these need to be true:
 
-Turning on the master self-service setting is not enough by itself.
+- Your **Customer Self-Service API Keys** master toggle is on.
+- The customer has **AI Credits** enabled.
+- The customer's **AI Gateway** menu is turned on in **Features & Add-ons**.
 
-For a customer to actually see **AI Gateway** in their portal, all of these must be true:
+See [Features, add-ons, and menu visibility](/partner-portal/customers/features-addons-and-menu-visibility) for that per-customer setting.
 
-- The partner-level **Customer Self-Service API Keys** master toggle is enabled
-- The customer has **AI Credits Enabled**
-- The customer's **AI Gateway** menu visibility toggle is enabled in **Features & Add-ons**
+## Good to know
 
-See [Features, add-ons, and menu visibility](/partner-portal/customers/features-addons-and-menu-visibility) for the per-customer toggle.
-
-## Accuracy notes
-
-Important distinctions:
-
-- **Partner-created keys** use a fixed $10 reserved deposit (not a configurable budget). Once consumed, usage draws from the partner's main Knotie Credits balance automatically.
-- **Customer-created keys** are **pay-as-you-go** from the customer's AI Credits and do not ask the customer to enter a budget.
-- **API Keys** in the customer portal are different from **AI Gateway**:
-  - **API Keys** depend on **API Access**
-  - **AI Gateway** depends on **AI Credits** plus the partner self-service settings
+- **Keys you create** use a fixed $10 deposit, not a budget you set. Once it's used up, usage draws from your main balance automatically.
+- **Keys your customers create** are pay-as-you-go from their own AI Credits — they're never asked to set a budget.
+- **API Keys** in the customer portal are a different thing from **AI Gateway**: API Keys rely on **API Access**, while AI Gateway relies on **AI Credits** plus your self-service settings.
 
 ## Related pages
 

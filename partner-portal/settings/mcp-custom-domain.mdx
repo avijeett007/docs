@@ -7,24 +7,23 @@ description: "Serve the integration gateway MCP server from your own branded hos
 
 By default, the Knotie AI Pro integration gateway MCP server is reachable at `mcp.knotie-ai.pro`. With a **custom MCP domain**, partners on paid tiers can resell the MCP server under their own branded hostname — for example, `mcp.yourcompany.com`.
 
-Clients and AI coding assistants that connect to your MCP endpoint use your domain name, not Knotie's. SSL is handled automatically via Cloudflare — you add a CNAME record and Knotie handles the rest.
+Clients and AI coding assistants that connect to your MCP server use your domain name, not Knotie's. SSL (the padlock in the browser) is handled automatically — you add one DNS record and Knotie takes care of the rest.
 
-{/* > ℹ️ The **Custom MCP Domain** card appears on the **MCP Tokens** page once the partner has the `MCP_WHITELABEL_ENABLED` platform flag enabled. An account without the flag will not show the card — capture from an account where MCP Whitelabel is live. */}
+{/* Screenshot needed: the Custom MCP Domain card on the MCP Tokens page. Capture from an account where the custom MCP domain option is available. */}
 
 ## Prerequisites
 
 - An active paid-tier subscription with MCP access
-- A domain you control with permission to add DNS records (CNAME)
-- The **Custom MCP Domain** option visible in your portal — if it doesn't appear, contact Knotie support to enable the `MCP_WHITELABEL_ENABLED` flag for your account
+- A domain you control, with permission to add DNS records (a CNAME record)
+- The **Custom MCP Domain** option visible in your portal — if it doesn't appear, contact Knotie support to enable it for your account
 
-## How routing works
+## Good to know
 
-Routing is based on the **Bearer token** in the request, not the hostname. Your custom hostname is a vanity CNAME plus a Cloudflare-managed TLS certificate — requests to `mcp.yourcompany.com` are transparently forwarded to `connecthub.knotie-ai.pro`.
+Switching to a custom domain only changes the web address your customers see — nothing else about how MCP works changes:
 
-This means:
-- **No integration gateway changes required** — tokens, rate limits, credit charges, and scope enforcement work exactly as before
-- **Existing `mcp.knotie-ai.pro` tokens continue to work** — switching to a custom domain does not invalidate existing tokens
-- **Partner-minted MCP tokens** remain unaffected; only the server URL displayed to customers changes
+- **Your existing tokens keep working.** Setting up a custom domain doesn't invalidate any tokens you've already created.
+- **Tokens, limits, and credit charges stay the same.** Only the server address shown to customers is different.
+- **Both addresses work.** Requests to your custom domain are handled the same as requests to the default `mcp.knotie-ai.pro`.
 
 ## Set up your custom MCP domain
 
@@ -35,7 +34,7 @@ This means:
 3. Enter the hostname you want to use (e.g. `mcp.yourcompany.com`).
 4. Click **Save**.
 
-The platform registers your hostname with Cloudflare and begins issuing an SSL certificate. The status changes to **Pending**.
+Knotie registers your domain and starts setting up its SSL certificate. The status changes to **Pending**.
 
 ### Step 2 — Add the CNAME record
 
@@ -45,23 +44,23 @@ While status is Pending, the card shows the DNS record you need:
 |------|------|-------|
 | CNAME | `mcp` (or your chosen prefix) | `mcp.knotie-ai.pro` |
 
-Add this record at your DNS provider (Cloudflare, GoDaddy, Namecheap, etc.). DNS propagation typically takes a few minutes but can take up to 48 hours.
+Add this record at your DNS provider (Cloudflare, GoDaddy, Namecheap, etc.). The record usually takes effect within a few minutes but can take up to 48 hours.
 
 <Tip>
-If your DNS is managed by Cloudflare, set the CNAME to **DNS-only** (grey cloud) during verification to avoid proxy interference.
+If your DNS is managed by Cloudflare, set the CNAME to **DNS-only** (grey cloud) while you verify, so Cloudflare's proxy doesn't interfere.
 </Tip>
 
-{/* > ℹ️ The **CNAME record details** panel inside the Custom MCP Domain card shows the host + value to add at the DNS provider, plus a verification status badge (Pending / Verified / Failed). Same deferred reason — capture from an account with MCP Whitelabel enabled. */}
+{/* Screenshot needed: the CNAME record details panel inside the Custom MCP Domain card, showing the host and value to add plus the verification status badge (Pending / Verified / Failed). Capture from an account where the custom MCP domain option is available. */}
 
 ### Step 3 — Verify the domain
 
-Once the CNAME record propagates, click **Verify Domain** in the card. The platform:
+Once the record has taken effect, click **Verify Domain** in the card. Knotie then:
 
-1. Confirms that the CNAME resolves to `mcp.knotie-ai.pro`.
-2. Activates routing so traffic for your hostname is forwarded to the integration gateway.
+1. Confirms your domain points to the right place.
+2. Switches traffic for your domain over to the MCP server.
 3. Changes the status to **Verified / Active**.
 
-After verification, the MCP Token snippet shown in the portal updates to use your custom domain.
+After verification, the MCP connection details shown in the portal update to use your custom domain.
 
 ## Using your custom MCP domain
 
@@ -82,14 +81,14 @@ Example config for Cursor, Windsurf, or Claude Desktop:
 }
 ```
 
-Authentication is still Bearer-token-based. The hostname change does not affect how tokens are issued, validated, or scoped.
+You still connect with the same token as before — changing the domain doesn't change how tokens work.
 
 ## Removing a custom MCP domain
 
 1. Go to **AI Agents → MCP Tokens → Custom MCP Domain**.
 2. Click **Remove** (or **Delete Domain**).
-3. The platform removes the Cloudflare routing entry and revokes the certificate.
-4. All traffic reverts to `mcp.knotie-ai.pro` automatically.
+3. Knotie removes the domain setup for you.
+4. All traffic goes back to `mcp.knotie-ai.pro` automatically.
 
 <Warning>
 Removing a custom MCP domain immediately breaks any client configurations pointing to that hostname. Inform customers before removing.
@@ -99,11 +98,11 @@ Removing a custom MCP domain immediately breaks any client configurations pointi
 
 | Symptom | What to check |
 |---------|---------------|
-| Status stuck on **Pending** | Confirm the CNAME was added to the correct DNS zone and the value is exactly `mcp.knotie-ai.pro`. Wait up to 48 hours for propagation. |
-| **Verify Domain** fails | Double-check the CNAME value has no trailing path or extra characters. |
-| Custom domain option not visible | The `MCP_WHITELABEL_ENABLED` flag may not be active. Contact Knotie support. |
-| SSL error immediately after verification | Cloudflare can take up to 15 minutes to finish issuing the certificate. Wait and retry. |
-| 401 / token errors on custom domain | Confirm you are using a valid MCP Bearer token. The custom domain does not change authentication requirements. |
+| Status stuck on **Pending** | Confirm the CNAME was added in the right place and its value is exactly `mcp.knotie-ai.pro`. Allow up to 48 hours for it to take effect. |
+| **Verify Domain** fails | Double-check the CNAME value has no extra characters or trailing slashes. |
+| Custom domain option not visible | The feature may not be enabled for your account. Contact Knotie support. |
+| SSL / security error right after verifying | It can take up to 15 minutes for the certificate to finish setting up. Wait and try again. |
+| Token errors on the custom domain | Make sure you're using a valid MCP token. Switching domains doesn't change how you sign in. |
 
 ## Related pages
 

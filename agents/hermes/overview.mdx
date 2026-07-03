@@ -26,21 +26,32 @@ If your customer mainly needs a voice or chat agent for inbound or outbound call
 
 ## How to install it
 
-<Warning>
-**The install path described in earlier versions of this doc is stale.** The standalone `VPS → App Catalog` page is still linked from the docs nav and from **Related pages** below, but as of this writing it is not reliably reachable in the live Partner Portal — the canonical path has moved. Treat that page as a fallback rather than the primary entry point.
+Hermes runs on a customer's VPS, so installing it has two parts: provision a VPS (if you don't already have one), then deploy Hermes onto that instance.
 
-To install Hermes today, try one of these paths in order:
+### 1. Provision a VPS
 
-1. **Reinstall flow on an existing VPS** — Go to **VPS Servers → My Instances**, click **Reinstall** on an active instance, and look for Hermes in the app catalog inside the reinstall modal.
-2. **Per-customer VPS Terminal** — Check the customer's **VPS Terminal** page for catalog access.
-3. **Customer whitelabel portal** — Hermes may now install from the *customer-facing* surface rather than the partner's.
+1. In the partner sidebar, open **VPS & Infrastructure → VPS Servers**.
+2. Click **Purchase VPS** and choose a plan. **Cloud VPS 10** is plenty for a single Hermes agent.
+3. Pick a **Region**, and optionally **Assign to Customer** so the instance is tied to their account.
+4. Click **Proceed to Payment**. The VPS is billed to your Knotie account and takes a few minutes to come online.
 
-If none of these paths surface Hermes, the install flow may have changed again. Contact Knotie support for the current path.
-</Warning>
+<Tip>
+Already have a VPS for this customer? Skip to step 2 and deploy Hermes onto the existing instance.
+</Tip>
+
+### 2. Deploy Hermes onto the instance
+
+1. Go to **VPS Servers → My Instances** and open the active instance.
+2. Open its **app catalog** and select **Hermes Agent**.
+3. Confirm the deploy. The portal installs Hermes in the background and shows live progress — the first run can take a few minutes.
 
 <Tip>
 Re-running the deploy is safe — it skips steps that are already complete, so you can use it to reconfigure the agent or recover from a broken install.
 </Tip>
+
+<Note>
+The exact way to open the app catalog can vary by portal version — on some instances it's reached through the **Reinstall** action. If you can't find Hermes on an active instance, contact Knotie support for the current path.
+</Note>
 
 ## Chatting with Hermes
 

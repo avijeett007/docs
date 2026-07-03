@@ -1,100 +1,74 @@
 ---
 title: "Phone numbers"
-description: "Import, assign, and manage phone numbers for customers and AI agents."
+description: "Import, assign, and manage the phone numbers used by your voice agents."
 ---
 
-## What Phone Numbers is for
+## What this is for
 
-The **Phone Numbers** section helps you manage numbers used by voice agents.
-
-You can:
+The **Phone Numbers** section is where you manage the numbers your voice agents use. From here you can:
 
 - Import phone numbers
 - Assign a number to a customer
 - Assign a number to a specific AI agent
-- Control inbound/outbound behavior (based on your provider setup)
+- Control whether a number handles inbound or outbound calls
 
 ## Where to find it
 
-In the Partner Portal sidebar, open **Phone Numbers**.
+Open **Phone Numbers** in the Partner Portal sidebar.
 
-## Understand ownership (partner vs customer)
+## Who owns a number
 
-A phone number can be owned by:
+A number can belong to either:
 
-- **Partner**: the number belongs to you (the agency) and can be assigned to customers.
-- **Customer**: the number belongs to a customer account.
+- **You (the partner)** — your agency owns it, and you can assign it out to customers.
+- **A customer** — it belongs to that customer's account.
 
-This matters for billing, permissions, and what actions you can take.
+Ownership affects billing, permissions, and what you're able to do with the number.
 
 ## Import phone numbers
 
-1. Go to **Phone Numbers**.
-2. Click **Import** (or **Import Numbers**).
-3. Follow the import flow and confirm.
+1. Open **Phone Numbers**.
+2. Click **Import Numbers**.
+3. Follow the steps and confirm.
 
-After import, you’ll see the number in your list.
+Once it's done, the number shows up in your list.
 
-## Assign a phone number to a customer
+## Assign a number to a customer
 
 1. Find the number in the list.
-2. Open the actions menu.
+2. Open its actions menu.
 3. Choose **Assign to Customer**.
 4. Pick the customer and confirm.
 
-## Assign a phone number to an agent
+## Assign a number to an agent
 
-If you want a number to route to a specific agent:
+To route a number to a specific agent:
 
 1. Find the number.
-2. Open the actions menu.
+2. Open its actions menu.
 3. Choose **Assign Agent**.
-4. Select:
-   - Provider (Retell, VAPI, Ultravox, etc.)
-   - The agent
-   - Inbound/outbound preferences (if shown)
+4. Select the provider (Retell, VAPI, Ultravox, and so on), the agent, and whether it's for inbound or outbound calls.
 5. Save.
 
-## Filter and search
+## Find numbers quickly
 
-The Phone Numbers page supports filters such as:
+When you're managing a lot of numbers, the filters and search make it easy to narrow things down — by number, name, or customer, and by provider, status, ownership, or whether a number is assigned yet.
 
-- **Search**: number, friendly name, or customer
-- **Provider**
-- **Status**
-- **Assigned vs unassigned**
-- **Ownership**: partner vs customer
-- **Customer filter**
+## What the list shows
 
-These filters help when you manage large volumes.
+Each number in the list shows its details at a glance: the number itself with a friendly name and country flag, the customer it belongs to, the agent it's assigned to (or an **Assign Agent** button if there isn't one yet), whether it handles inbound or outbound calls, its provider, its status, and what it can do (voice, SMS, MMS).
 
-## Table columns
-
-The numbers table has these columns:
-
-- **Phone Number** — number with country flag and friendly name (e.g. "Willard Number", "Homingly LTD")
-- **Customer** — owning customer name + email
-- **Agent** — assigned agent (or "No Agent" with Assign Agent button)
-- **Assignment** — direction badge (e.g. "Knotie ↓ Inbound", "Riley ↑ Outbound")
-- **Provider** — Knova, Vapi, etc.
-- **Status** — e.g. "Inbound Ready", "Imported - No Charges"
-- **Capabilities** — Voice/SMS/MMS badges + Visible chip (Regulatory status also shown)
-
-The page also shows:
-
-- An **Activate Phone Service** empty-state CTA at the top (when no numbers exist).
-- A **Number Pool** button in the page header (alongside Import Numbers + Export).
-- KPI cards: Partner Owned (count), Customer Owned (count), Unassigned (count), Inbound Ready (count).
+The top of the page also gives you a quick summary — how many numbers you own, how many belong to customers, how many are unassigned, and how many are ready to take calls — along with buttons to import numbers, export your list, and manage number pools.
 
 ## Troubleshooting
 
-- **Calls aren’t reaching the agent**
-  - Confirm the number is assigned to the correct customer.
-  - Confirm the agent assignment exists and is active.
-  - Check inbound/outbound settings.
-- **A number can’t be deleted**
-  - Unassign it from customers/agents first, then try again.
+- **Calls aren't reaching the agent**
+  - Check the number is assigned to the right customer.
+  - Check the agent assignment exists and is active.
+  - Check the inbound/outbound settings.
+- **A number won't delete**
+  - Unassign it from any customers and agents first, then try again.
 
 ## Screenshots
 
-![Phone Numbers list with Import Phone Numbers modal showing Twilio and Telnyx provider options in step 1 of 4](/images/Screenshot2025-12-26at1.22.48AM.png)
+![Phone Numbers list with the Import Phone Numbers modal open, showing provider options in the first step](/images/screenshots/phone-import-2026-07-03.png)

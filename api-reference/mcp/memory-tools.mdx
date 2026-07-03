@@ -16,11 +16,11 @@ Customer MCP tools are available to any agent or Claude Code session authenticat
 ```bash
 claude mcp add knotie-memory \
   --transport http \
-  --url https://<connect-hub>/api/mcp \
+  --url https://<integration-gateway>/api/mcp \
   --header "Authorization: Bearer <customer_mcp_token>"
 ```
 
-Replace `<connect-hub>` with your integration gateway URL and `<customer_mcp_token>` with a valid customer MCP token (obtainable from the customer portal or the partner portal API Keys page).
+Replace `<integration-gateway>` with your integration gateway URL and `<customer_mcp_token>` with a valid customer MCP token (obtainable from the customer portal or the partner portal API Keys page).
 
 {/* ℹ️ _Screenshot to add: a Claude Code session after running `tools/list`, showing `internal_memory_remember`, `internal_memory_recall`, and `internal_memory_ask` in the output._ */}
 
@@ -115,7 +115,7 @@ Create a partner API key at **Partner Portal → API Keys** with the following s
 ```bash
 claude mcp add knotie-partner-memory \
   --transport http \
-  --url https://<connect-hub>/api/partner-mcp \
+  --url https://<integration-gateway>/api/partner-mcp \
   --header "Authorization: Bearer pkt_<your_api_key>"
 ```
 
@@ -175,11 +175,11 @@ Poses a question answered from a customer's Mind.
 |-------------|----------|
 | 403 | Memory is not enabled for this partner or customer |
 | 404 | The specified `mindId` doesn't exist or belongs to a different customer |
-| 503 | Honcho is temporarily unreachable — Recall still works in degraded mode |
-| 429 | Honcho cloud rate limit reached (~600 req/min); retry after the `Retry-After` header |
+| 503 | The memory service is temporarily unreachable — Recall still works in degraded mode |
+| 429 | Memory service rate limit reached; retry after the `Retry-After` header |
 
 <Warning>
-Do not surface raw error messages from memory tool calls to end users. Error responses are already sanitized at the gateway — no internal Honcho details appear in client responses.
+Do not surface raw error messages from memory tool calls to end users. Error responses are already sanitized at the gateway before they reach client responses.
 </Warning>
 
 ## Related

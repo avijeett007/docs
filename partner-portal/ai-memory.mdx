@@ -1,13 +1,13 @@
 ---
 title: "AI Memory (Minds)"
-description: "Give your agents and customers persistent, reasoning-based long-term memory — backed by Honcho. Manage Minds, store facts, and query them from the Partner Portal."
+description: "Give your agents and customers persistent, reasoning-based long-term memory. Manage Minds, store facts, and query them from the Partner Portal."
 ---
 
 ## Overview
 
 **AI Memory** lets every customer in your portal have a **Mind** — a long-term memory store that your agents can write to, read from, and reason over across sessions. This means your agents remember past conversations, caller preferences, and key facts even after the call ends.
 
-Minds are powered by [Honcho](https://honcho.dev), a hosted long-term memory service. Knotie manages the Honcho integration so you don't need your own Honcho account.
+Minds are powered by a hosted long-term memory service that Knotie manages for you — there's nothing extra to set up or sign up for.
 
 <Frame>
   <img src="/images/screenshots/partner-ai-memory-console-2026-06-22.png" alt="Partner Portal AI Memory console at /partner/memory — an 'AI MEMORY · BETA' header titled 'Minds' with the tagline 'Give your AI a Mind of its own…', a Select Customer panel with a searchable customer list, and a 'Select a customer to view their Minds' empty state. AI Memory (NEW) is highlighted in the AI PLATFORM sidebar group." />
@@ -20,11 +20,11 @@ AI Memory uses **dual-pool billing**:
 | Who | Pool | When charged |
 |-----|------|--------------|
 | Partner | Knotie Credits | On every **Remember** or **Ask** operation |
-| Customer | AI Credits | On every **Remember** or **Ask** operation (requires `aiCreditsEnabled`) |
+| Customer | AI Credits | On every **Remember** or **Ask** operation (requires AI Credits enabled) |
 
 **Recall** operations are **free** — they never deduct from either pool.
 
-The exact per-operation rate is configured at the platform level and can be updated live without a deploy.
+The exact per-operation rate is set by Knotie and can be updated at any time.
 
 <Info>
 If a customer does not have AI Credits enabled, only the partner's Knotie Credits are charged. The partner absorbs the full cost in that case.
@@ -37,7 +37,7 @@ Before using AI Memory:
 1. Your Knotie plan must support AI Memory (check your plan page or contact support).
 2. AI Memory must be enabled at the **partner level** (auto-enabled on supported plans; contact support if absent).
 3. You must enable AI Memory **per customer** — see [Enabling AI Memory for a customer](#enabling-ai-memory-for-a-customer).
-4. Customers who need AI Credits charged must have `aiCreditsEnabled = true` on their account.
+4. Customers who need AI Credits charged must have **AI Credits enabled** on their account.
 
 ## Enabling AI Memory for a customer
 
@@ -126,11 +126,11 @@ Charges: **Partner Knotie Credits** + **Customer AI Credits** (if enabled). High
 
 | Symptom | Likely cause | Fix |
 |---------|-------------|-----|
-| "AI Memory is not enabled for this partner" / "Enable AI Memory for _[customer]_" message | Customer's `enableAiMemory` is OFF | Click the **Enable AI Memory for _[customer]_** button on the Minds panel, or toggle the feature ON in the customer's Features & Add-ons tab |
+| "AI Memory is not enabled for this partner" / "Enable AI Memory for _[customer]_" message | AI Memory is OFF for that customer | Click the **Enable AI Memory for _[customer]_** button on the Minds panel, or toggle the feature ON in the customer's Features & Add-ons tab |
 | Recall returns an empty Profile | Profile derivation hasn't run yet | Wait a few seconds and recall again |
-| Ask returns "temporarily unavailable" | Honcho is unreachable or rate-limited | Wait and retry; Recall still works during degraded periods |
+| Ask returns "temporarily unavailable" | The memory service is temporarily unreachable | Wait and retry; Recall still works during those periods |
 | No customer credits deducted after Remember | Customer does not have AI Credits enabled | Only partner credits were charged; enable AI Credits if dual-pool billing is required |
-| 403 on memory operations | Memory is disabled at partner or customer level | Verify enablement at both levels |
+| Memory actions are blocked or denied | Memory is disabled at partner or customer level | Verify the feature is enabled at both levels |
 
 ## Related
 

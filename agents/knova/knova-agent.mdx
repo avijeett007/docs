@@ -1,6 +1,6 @@
 ---
 title: "Knova AI Receptionist agent"
-description: "Deploy and configure the Knova voice agent — an AI Receptionist that handles inbound calls using LiveKit SIP trunk routing, dynamic tools, and automatic credit management."
+description: "Deploy and configure the Knova voice agent — an AI Receptionist that answers inbound calls, uses your knowledge base and tools, and manages credits automatically."
 ---
 
 ## What the Knova agent is
@@ -11,62 +11,42 @@ Knova answers inbound phone calls, fetches business context from your knowledge 
 
 Key capabilities:
 
-- **Inbound voice calls** over SIP via LiveKit Cloud
+- **Inbound voice calls** handled by the platform's built-in voice infrastructure
 - **Dynamic system prompt** generated from your business profile
 - **4 built-in tools**: Email, Knowledge Base, SMS, DateTime
-- **Call transfer** — native SIP REFER with carrier-level caller-ID preservation
-- **LLM fallback chain**: Cerebras → Gemini → GPT-4.1-mini → LiveKit Inference
-- **STT fallback chain**: Deepgram → AssemblyAI → Groq Whisper → Cartesia → LiveKit Inference
-- **Credit circuit breaker**: if a customer's credits hit zero, the number is automatically moved back to webhook routing so no LiveKit SIP minutes burn
+- **Call transfer** — hand a caller to a human while preserving the original caller's number where the carrier allows
+- **Reliable AI backbone** — the agent automatically falls back across multiple AI providers so a single provider outage doesn't drop calls
+- **Automatic credit protection** — if a customer's credits reach zero, the agent stops answering so no further charges are incurred
 
 <Frame>
-  <img src="/images/screenshots/ai-agents-page-overview-2026-06-20.png" alt="Partner Portal — AI Agents page showing the Knova AI Pro Workflows / Knova AI (Knodova) Agents / Knova AI (BYOA) Agents cards under AI Workflow Systems, plus VAPI / Retell under Voice AI Agents." />
+  <img src="/images/screenshots/ai-agents-page-overview-2026-07-03.png" alt="Partner Portal — AI Agents page showing the Knotie AI Pro Workflows / Knova AI (Hosted) Agents / Knova AI (BYOA) Agents cards under AI Workflow Systems, plus VAPI, Ultravox, Retell and other providers under Voice AI Agents." />
+</Frame>
+
+Open **AI Agents → Knova Agents** in the Partner Portal to view your Knova agents, create new ones, or start the AI-Powered Agent Builder:
+
+<Frame>
+  <img src="/images/screenshots/knova-agents-list-2026-07-03.png" alt="Partner Portal — Knova AI (Hosted) Agents page with the Build with AI button, the AI-Powered Agent Builder banner (Try the Builder), a search box, and an agent card (Knotie — type website, channel web, Active) with a Configure action." />
 </Frame>
 
 ---
 
 ## How call routing works
 
-Knova uses a **SIP trunk routing** architecture. This is the new default for every phone number provisioned through auto-deploy or manual provisioning.
+Every phone number provisioned through auto-deploy or manual setup routes inbound calls to your Knova agent automatically — you don't configure anything by hand.
 
-```
-PSTN caller
-    │
-    ▼
-Partner's Twilio account
-    │  (Elastic SIP Trunk — one trunk per phone number)
-    ▼
-LiveKit Cloud shared Inbound SIP Trunk
-    │  (one platform-wide trunk + dispatch rule)
-    ▼
-Knova agent worker
-    │
-    ▼
-Conversation + tools
-```
+The platform pre-provisions the routing in the background when you assign a Knova agent to a number, so your first call connects immediately without a setup delay.
 
-Each phone number gets its own Twilio Elastic SIP Trunk. All trunks point to a single LiveKit Inbound Trunk that dispatches calls to whichever Knova worker is available.
-
-### Routing mode field
-
-Every `PhoneNumber` record has a `routingMode` field:
-
-| Value | Meaning |
-|---|---|
-| `sip_trunk` | Call goes via Twilio Elastic SIP Trunk → LiveKit (default for new numbers) |
-| `webhook` | Legacy Twilio Programmable Voice → integration gateway TwiML (fallback / older numbers) |
-
-The platform automatically flips a number to `webhook` when a customer's credits reach zero, and can flip it back when credits are restored.
+If a customer's credit balance reaches zero, the platform automatically pauses that number so no further charges are incurred, and re-enables it once credits are topped up.
 
 ---
 
 ## Call transfer
 
-When a caller asks to speak to a human, Knova initiates a **native SIP REFER** through the Twilio Elastic SIP Trunk. The trunk's `TransferMode=enable-all` setting propagates the REFER to the carrier, which preserves the original caller's number on the human's phone.
+When a caller asks to speak to a human, Knova transfers the call to the number you've configured.
 
-> **Note:** The human's phone will show the partner's Twilio number as the caller ID, not the customer's number. This is a carrier constraint — Twilio only allows a `callerId` that your Twilio account owns or has verified.
-
-For phone numbers still on `webhook` routing, a conference-based fallback is used: the customer is placed in a Twilio `<Conference>` while a second outbound call dials the human.
+<Note>
+The human's phone shows **your business number** as the caller ID, not the customer's number. This is a carrier requirement — carriers only allow a caller ID that your telephony account owns or has verified.
+</Note>
 
 ---
 
@@ -74,196 +54,36 @@ For phone numbers still on `webhook` routing, a conference-based fallback is use
 
 Before enabling Knova for production:
 
-1. **LiveKit Cloud project** — you need both the WSS URL and the SIP address for your project.
-2. **Twilio account** — the partner's own Twilio account is used for purchasing and managing phone numbers.
-3. **Run the one-time infrastructure setup** (see below).
-4. **Database migration** applied to both the main application schema and the integration gateway schema.
+1. A **voice-capable phone number** — either imported from your own Twilio or Telnyx account, or provisioned on the shared Knotie trunk by support.
+2. The number **assigned to your Knova agent** (see [Manage Knova agents](/agents/knova/manage-knova-agents)).
+3. Enough **Knotie Credits** on the customer's account for calls to connect.
+
+<Info>
+If you don't have your own Twilio or Telnyx account, contact support to confirm the shared Knotie trunk is set up for you. Calls via the shared trunk deduct both AI credits and telephony credits.
+</Info>
 
 ---
 
-## One-time infrastructure setup
+## Credit protection
 
-### 1. Apply the schema migration
+Knova checks the customer's credit balance at the start of every call. If the balance is zero:
 
-Run in **both** the main application and the integration gateway:
+1. The agent does not engage — no AI minutes are consumed.
+2. The phone number is automatically paused so future calls to that number don't incur charges.
 
-```bash
-# Main application — run from your main application directory
-npx prisma migrate dev --name sip_trunk_v2
-npx prisma generate
-
-# Integration gateway — run from your integration gateway directory
-npx prisma migrate dev --name sip_trunk_v2
-npx prisma generate
-
-# Platform manager service — run from your platform manager service directory
-# (regenerate client only — uses main application schema)
-npx prisma generate
-```
-
-New columns added to `phone_numbers`:
-
-| Column | Type | Default | Description |
-|---|---|---|---|
-| `routing_mode` | `String` | `"webhook"` | `"sip_trunk"` or `"webhook"` |
-| `twilio_trunk_sid` | `String?` | `null` | Twilio Elastic SIP Trunk SID for this number |
-| `routing_mode_changed_at` | `DateTime?` | `null` | When routing mode last changed |
-| `routing_mode_changed_reason` | `String?` | `null` | Audit trail: `"provisioned"`, `"credits_zero"`, `"manual_enable"`, etc. |
-
-### 2. Create the shared LiveKit infrastructure
-
-Run once after applying the migration:
-
-```bash
-# Run from your platform manager service directory
-npx ts-node scripts/setup-shared-livekit-sip.ts
-```
-
-The script creates:
-
-1. **Platform-wide Inbound SIP Trunk** — accepts SIP traffic for all Knova numbers
-2. **Dispatch Rule** — routes inbound calls to the Knova agent worker
-
-The script outputs two IDs:
-
-```
-LIVEKIT_SHARED_SIP_INBOUND_TRUNK_ID=ST_xxxxxxxxxxxx
-LIVEKIT_SHARED_SIP_DISPATCH_RULE_ID=SDR_xxxxxxxxxxxx
-```
-
-Copy these values into the `.env` files for the platform manager service, the integration gateway, and the knova-agent service.
-
-> **Default security mode**: the trunk is created without SIP auth — the `numbers` allowlist on the trunk controls access. For mutual-auth setup, set `ENABLE_LK_SIP_AUTH=true` before running the script.
-
----
-
-## Environment variables
-
-All three services need these variables. Star (★) marks variables introduced by this feature.
-
-### Main application `.env`
-
-```env
-KNOVA_SIP_ADDRESS=sip:<your-project-id>.sip.livekit.cloud
-AGENT_VALIDATION_KEY=your-shared-agent-validation-key-here
-```
-
-### Platform manager service `.env`
-
-```env
-# LiveKit
-LIVEKIT_URL=wss://<your-project>.livekit.cloud
-LIVEKIT_API_KEY=API...
-LIVEKIT_API_SECRET=...
-
-# SIP trunk ★
-KNOVA_SIP_ADDRESS=sip:<your-project-id>.sip.livekit.cloud
-LIVEKIT_SHARED_SIP_INBOUND_TRUNK_ID=ST_xxxxxxxxxxxx
-LIVEKIT_SHARED_SIP_DISPATCH_RULE_ID=SDR_xxxxxxxxxxxx
-DEFAULT_INBOUND_ROUTING_MODE=sip_trunk
-KNOVA_AGENT_NAME=AI_Receptionist_Knova
-
-# Existing — required for routing flip on credit-zero
-TWILIO_ACCOUNT_SID=ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-TWILIO_AUTH_TOKEN=your_auth_token_here
-TWILIO_VOICE_WEBHOOK_URL=https://<your-connecthub-host>/twilio/inbound-call
-CONNECT_HUB_URL=https://<your-connecthub-host>
-MAIN_APP_ENCRYPTION_KEY=...
-```
-
-### Integration gateway `.env`
-
-```env
-# SIP trunk ★
-KNOVA_SIP_ADDRESS=sip:<your-project-id>.sip.livekit.cloud
-LIVEKIT_SHARED_SIP_INBOUND_TRUNK_ID=ST_xxxxxxxxxxxx
-LIVEKIT_SHARED_SIP_DISPATCH_RULE_ID=SDR_xxxxxxxxxxxx
-DEFAULT_INBOUND_ROUTING_MODE=sip_trunk
-
-# Agent validation ★
-AGENT_VALIDATION_KEY=your-shared-agent-validation-key-here
-
-# Existing — required for routing flip
-TWILIO_ACCOUNT_SID=ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-TWILIO_AUTH_TOKEN=your_auth_token_here
-TWILIO_VOICE_WEBHOOK_URL=https://<your-connecthub-host>/twilio/inbound-call
-MAIN_APP_ENCRYPTION_KEY=...
-```
-
-### `knova-agent/.env`
-
-```env
-# LiveKit (existing)
-LIVEKIT_URL=wss://<your-project>.livekit.cloud
-LIVEKIT_API_KEY=API...
-LIVEKIT_API_SECRET=...
-
-# SIP trunk ★
-KNOVA_SIP_ADDRESS=sip:<your-project-id>.sip.livekit.cloud
-LIVEKIT_SHARED_SIP_INBOUND_TRUNK_ID=ST_xxxxxxxxxxxx
-LIVEKIT_SHARED_SIP_DISPATCH_RULE_ID=SDR_xxxxxxxxxxxx
-
-# Integration gateway ★
-CONNECT_HUB_URL=https://<your-connecthub-host>
-AGENT_VALIDATION_KEY=your-shared-agent-validation-key-here
-
-# AI providers (at least one LLM + one TTS required)
-CEREBRAS_API_KEY=your-cerebras-key
-OPENAI_API_KEY=your-openai-key
-INWORLD_RUNTIME_BASE64_CREDENTIAL=your-inworld-credential
-CARTESIA_API_KEY=your-cartesia-key
-DEEPGRAM_API_KEY=your-deepgram-key
-```
-
-> **Important:** `AGENT_VALIDATION_KEY` must be the same value across the main application, the integration gateway, and knova-agent. Generate a strong random secret and set it identically on all three.
-
----
-
-## Running the Knova agent worker
-
-The Knova agent is a Python LiveKit Agents worker. In production, deploy it via Docker:
-
-```bash
-cd documentations/livekit_agent_examples
-docker compose -f docker-compose.knova.yaml up -d
-```
-
-Verify it registered:
-
-```
-✅ "registered worker", "agent_name": "AI_Receptionist_Knova"
-```
-
-For local development and testing without the integration gateway, the agent falls back to `agent-config.json`.
-
----
-
-## Credit circuit breaker
-
-The Knova agent calls the integration gateway's `/agent-inbound-validate` endpoint at the start of every call. If a customer's credit balance is zero:
-
-1. The endpoint returns `deny`.
-2. The agent does not engage the LLM — no LiveKit SIP minutes are consumed.
-3. The platform manager service flips the phone number's `routingMode` to `webhook` and restores the Twilio `VoiceUrl` to the legacy integration gateway endpoint.
-4. Future calls for that number go through the webhook path instead.
-
-When the customer tops up credits, the number can be re-enabled for SIP trunk routing manually or via a re-provisioning flow.
-
-The endpoint is **fail-open**: if the integration gateway is unreachable, the agent proceeds normally so calls are not dropped during an integration gateway outage.
+When the customer tops up credits, the number can be re-enabled from the portal. Credit checks are designed to fail safe: if the balance can't be confirmed for a transient reason, the call still connects so callers are never dropped by mistake.
 
 ---
 
 ## Auto-deploy integration
 
-When a prospect completes the 9-step SaaS onboarding flow, the platform's auto-deploy runner:
+When a prospect completes the SaaS onboarding flow, the platform automatically:
 
-1. Purchases a phone number via `PhoneProvisioningService`
-2. Creates a Knova agent record via `KnovaAgentService` (builds system prompt from business profile, configures tools)
-3. Maps the number to the agent via `PhoneAgentMappingService`
-4. Creates the Twilio Elastic SIP Trunk for that number
-5. Adds the number to the shared LiveKit Inbound Trunk
+1. Purchases a phone number
+2. Creates a Knova agent (building the system prompt from the business profile and configuring tools)
+3. Assigns the number to the agent
 
-New numbers default to `sip_trunk` routing.
+New numbers are ready to take calls immediately.
 
 See [Auto-deploy](/partner-portal/auto-deploy) for prerequisites and credit requirements.
 
@@ -271,15 +91,18 @@ See [Auto-deploy](/partner-portal/auto-deploy) for prerequisites and credit requ
 
 ## Troubleshooting
 
-- **Agent worker not registering**
-  - Confirm `LIVEKIT_API_KEY` and `LIVEKIT_API_SECRET` are correct.
-  - Check that `KNOVA_AGENT_NAME` matches what the dispatch rule routes to (default: `AI_Receptionist_Knova`).
 - **Calls go to voicemail / not reaching the agent**
-  - Verify `LIVEKIT_SHARED_SIP_INBOUND_TRUNK_ID` is the same on all three services.
-  - Check the phone number's `routingMode` — if it's `webhook`, it won't reach the Knova worker.
-  - Confirm the Twilio Elastic SIP Trunk's origination URI points to `KNOVA_SIP_ADDRESS`.
+  - Confirm the number is **assigned** to your Knova agent in the portal.
+  - Check the customer's credit balance — a number is paused automatically when credits hit zero.
 - **Call transfer fails**
-  - The Twilio Elastic SIP Trunk must have `TransferMode=enable-all`.
-  - Only numbers provisioned via the SIP trunk path support native REFER. Numbers on `webhook` routing use conference transfer.
-- **`LIVEKIT_SHARED_SIP_INBOUND_TRUNK_ID` is empty**
-  - The one-time setup script hasn't been run, or its output wasn't saved. Re-run `setup-shared-livekit-sip.ts` and copy both IDs.
+  - Confirm you've set a valid transfer number on the agent.
+  - Confirm the destination number is reachable.
+- **Agent not answering after setup**
+  - Assignment can take a moment to take effect — wait 30 seconds and call again.
+  - If it persists, contact support.
+
+## Related pages
+
+- [Manage Knova agents](/agents/knova/manage-knova-agents) — Create, configure, and edit Knova agents
+- [Knova Outbound Calling](/agents/knova/outbound-calling) — Place outbound calls through your Knova agent
+- [Try Knova agent in browser](/agents/knova/try-agent) — Test your agent with your microphone

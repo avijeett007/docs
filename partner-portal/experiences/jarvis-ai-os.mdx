@@ -14,10 +14,10 @@ Use JARVIS AI OS when you want to:
 - Offer a voice-first AI experience without building any backend yourself
 
 <Warning>
-  **Prototype — use for prospecting and demos, not for live sale yet.** JARVIS AI OS is in active development (Beta). The partner settings page shows this banner on every visit. Show it to prospects and let them experience the voice demo, but hold off on positioning it as a finished product until the full launch.
+  **Best for prospecting and demos, not live sale yet.** JARVIS AI OS is still in Beta. Show it to prospects and let them try the voice demo, but hold off on selling it as a finished product until the full launch.
 </Warning>
 
-![JARVIS AI OS experience card on the One-Click Experiences catalog — lightning/aperture icon, the tagline "An autonomous AI business assistant your clients talk to", the operations / 4 onboarding steps / /ai-os meta row, and an Enable button](/images/screenshots/jarvis-ai-os-experience-card-2026-06-30.png)
+![JARVIS AI OS experience card on the Experiences catalog, with its tagline and an Enable button](/images/screenshots/jarvis-ai-os-experience-card-2026-06-30.png)
 
 ---
 
@@ -25,20 +25,20 @@ Use JARVIS AI OS when you want to:
 
 Before enabling JARVIS AI OS:
 
-1. **Knotie Credit balance must be positive.** The provisioning pipeline mints a Knova voice agent (Moderate tier — 7 credits/min). Top up at **Partner Portal → Credits** if needed.
-2. **Knova voice agents must be available** in your partner tier. Contact support if you do not see Knova in your agent list.
-3. **Twilio credentials** (optional — only needed if you want to give customers a phone number). Prefilled from your SaaS-mode white-label settings at **Partner Portal → Settings → White-label**. No extra configuration needed if your Twilio keys are already entered there.
+1. **Your Knotie Credit balance must be positive.** Setting up each customer creates a voice assistant that runs on credits (7 credits per minute). Top up at **Partner Portal → Credits** if needed.
+2. **Voice assistants must be available** in your plan. Contact support if you don't see them in your agent list.
+3. **Phone credentials** (optional — only needed if you want to give customers a phone number). These are pulled from your white-label settings at **Partner Portal → Settings → White-label**, so there's nothing extra to set up if they're already entered there.
 
 ---
 
 ## Enabling the experience
 
 1. Go to **Partner Portal → Experiences**.
-2. Find the **JARVIS AI OS** card (the One-Click Experiences catalog is itself a Beta area).
+2. Find the **JARVIS AI OS** card.
 3. Click **Enable**.
-4. The system registers the experience with the default alias `/ai-os` and takes you to the JARVIS AI OS settings page.
+4. Your experience is created with the default web address ending in `/ai-os`, and you're taken to the JARVIS AI OS settings page.
 
-![One-Click Experiences catalog grid with the JARVIS AI OS card visible alongside other experiences, above the Coming Soon section](/images/screenshots/jarvis-ai-os-experiences-catalog-2026-06-30.png)
+![Experiences catalog grid with the JARVIS AI OS card among the other experiences](/images/screenshots/jarvis-ai-os-experiences-catalog-2026-06-30.png)
 
 You can change the public alias at any time from **General Settings**. If your landing page lives at `yourdomain.com/ai-os`, that is what prospects will visit.
 
@@ -46,15 +46,15 @@ You can change the public alias at any time from **General Settings**. If your l
 
 ## Settings page overview
 
-The JARVIS AI OS settings page lives at `/partner/experiences/jarvis_business_os`. It is a **static, purpose-built page** (not the generic experience settings), composed of these sections top-to-bottom:
+The JARVIS AI OS settings page has these sections, top to bottom:
 
-1. **Prototype banner** — reminds you this is a Beta experience for demos, not live sale.
-2. **Hero** — experience title, alias, status badge (Active / Disabled), prospect and customer counts, and quick links to open the landing page and access general settings.
-3. **Phone provisioning panel** — controls whether converted customers receive a phone number for their JARVIS agent.
-4. **Free-trial credits panel** — sets how many AI credits each free-trial customer receives on signup.
-5. **Customer Portal section** — branding, assistant name, dashboard template, sidebar visibility, and free-trial toggle.
+1. **Beta banner** — a reminder that this is a Beta experience for demos, not live sale.
+2. **Overview** — your experience title, web address, status, and prospect and customer counts, plus quick links to open the landing page and general settings.
+3. **Phone provisioning** — controls whether converted customers get a phone number for their JARVIS assistant.
+4. **Free-trial credits** — sets how many AI credits each free-trial customer receives on signup.
+5. **Customer Portal** — branding, assistant name, dashboard layout, sidebar visibility, and the free-trial toggle.
 
-![JARVIS AI OS settings page — prototype banner, hero with Beta and Active badges, stat cards (Prospects, Customers, Alias /ai-os, Status Enabled), the "Give customers a phone number" panel, the Free-trial credits panel, and the Customer Portal section with Experience Branding, Dashboard Experience, Sidebar & Features, and Free Trial Access](/images/screenshots/jarvis-ai-os-settings-2026-06-30.png)
+![JARVIS AI OS settings page showing the Beta banner, overview stats, the phone panel, the free-trial credits panel, and the Customer Portal section](/images/screenshots/jarvis-ai-os-settings-2026-06-30.png)
 
 ---
 
@@ -64,9 +64,9 @@ The **"Give customers a phone number"** toggle controls whether each converted c
 
 | Toggle | Behaviour |
 |--------|-----------|
-| **Phone off** | Customers interact via the browser ORB only. No Twilio consumption at provisioning. |
-| **Phone on** | Each converted customer gets a phone number. Twilio credentials are drawn from your SaaS white-label settings. |
-| **Phone on + Skip phone for free-trial** | Free-trial customers stay browser-only. Paid customers receive a phone number. Recommended default to control cost during trials. |
+| **Phone off** | Customers talk to their assistant through the browser only. No phone number is set up. |
+| **Phone on** | Each converted customer gets a phone number, set up using the phone credentials from your white-label settings. |
+| **Phone on + Skip phone for free-trial** | Free-trial customers stay browser-only; paying customers get a phone number. A good default for keeping trial costs down. |
 
 To change the setting:
 
@@ -75,9 +75,7 @@ To change the setting:
 3. Click the toggle. The change saves immediately.
 4. If phone is on, a secondary toggle appears: **Skip phone for free-trial customers**. Toggle as needed.
 
-![The "Give customers a phone number" panel on the JARVIS AI OS settings page, shown in the Off state, with the note that Twilio credentials are inherited from your SaaS-mode white-label settings](/images/screenshots/jarvis-ai-os-phone-panel-2026-06-30.png)
-
-{/* The "Skip phone for free-trial" secondary toggle only appears once the phone toggle is switched On; not shown here to avoid changing live provisioning settings. */}
+![The "Give customers a phone number" panel on the JARVIS AI OS settings page, shown in the Off state](/images/screenshots/jarvis-ai-os-phone-panel-2026-06-30.png)
 
 ---
 
@@ -113,7 +111,7 @@ When a prospect visits your landing page (e.g. `yourdomain.com/ai-os`), they see
 
 The page includes a prominent **"Activate [AssistantName]"** call-to-action that opens the 4-step onboarding wizard.
 
-![JARVIS AI OS landing page hero — animated voice ORB, the headline "Talk to your business.", the assistant-name intro copy, and the "Activate my AI OS" call-to-action (partner branding blurred)](/images/screenshots/jarvis-ai-os-landing-2026-06-30.png)
+![JARVIS AI OS landing page with the animated voice orb, a "Talk to your business" headline, and an "Activate my AI OS" button](/images/screenshots/jarvis-ai-os-landing-2026-06-30.png)
 
 ---
 
@@ -132,37 +130,36 @@ On completion the wizard submits a prospect record and triggers provisioning. Th
 
 > *"You're all set — [AssistantName] is being prepared. Check your email for your login. Once your assistant is ready, open your portal and tap the orb to start talking."*
 
-![The four onboarding wizard steps — Step 1 Tell us about your business (business name, website), Step 2 Where should we set up your account (name, email, phone), Step 3 Train your assistant (website to learn from, free-text notes), and Step 4 One last thing (urgent-notifications opt-in) with the Activate my AI OS button](/images/screenshots/jarvis-ai-os-onboarding-wizard-2026-06-30.png)
+![The four onboarding steps: business details, contact details, train your assistant, and an urgent-notifications opt-in, ending with the Activate my AI OS button](/images/screenshots/jarvis-ai-os-onboarding-wizard-2026-06-30.png)
 
 ---
 
 ## What happens after signup — automatic provisioning
 
-After a prospect converts (free-trial or paid via Stripe), the platform automatically provisions the customer's JARVIS assistant. This happens in the background and follows this ordered pipeline:
+After a prospect converts (free-trial or paid), the platform sets up the customer's JARVIS assistant automatically. This all happens in the background:
 
-| Stage | What happens |
+| Step | What happens |
 |-------|-------------|
-| **MCP token** | An all-tools MCP token is minted for the customer. Gives their JARVIS access to all connected tools. |
-| **AI Mind** | A dedicated AI Memory bank is created. JARVIS uses this to remember things across conversations. |
-| **AI Gateway key** | A customer-scoped AI Gateway key is created (reserved for future autonomous features). |
-| **Knowledge Base** | A knowledge base is created. The customer's website is automatically ingested. Any documents they upload after login are added here. |
-| **Knova agent** | A JARVIS Knova voice agent is created at **Moderate tier** (7 credits/min), with the MCP server and knowledge base linked. The assistant name and business context from onboarding are baked into the system prompt. |
-| **Phone number** *(conditional)* | If you enabled phone provisioning and the customer is eligible (paid, or free-trial with phone allowed), a phone number is imported or purchased and assigned to the JARVIS agent. |
-| **Ready notification** | The customer receives a "Your JARVIS is ready" email with a portal login link. |
+| **Tool access** | The assistant is connected to all of your customer's tools. |
+| **Memory** | A private memory is created so the assistant can remember things across conversations. |
+| **Knowledge** | The assistant's knowledge base is created and the customer's website is read in automatically. Any documents they upload after login are added here too. |
+| **Voice assistant** | The JARVIS voice assistant is created and connected to the knowledge base, with the assistant name and business details from onboarding already built in. |
+| **Phone number** *(optional)* | If you turned on phone numbers and the customer is eligible (paying, or a free-trial customer with phone access), a phone number is added to their assistant. |
+| **Ready email** | The customer gets a "Your JARVIS is ready" email with a login link. |
 
-The platform tracks provisioning status, which you can see in the customer's detail view in your partner portal.
+You can follow the setup progress from the customer's details in your partner portal.
 
 <Note>
-  If provisioning fails at any step, the pipeline retries automatically. If it continues to fail, check the customer's deployment status in **Partner Portal → Customers → [Customer] → Deployment Status**.
+  If setup fails at any step, it retries automatically. If it keeps failing, check the customer's **Deployment Status** under **Partner Portal → Customers → [Customer]**.
 </Note>
 
 ---
 
 ## The AI OS dashboard — talking to JARVIS
 
-Once provisioned, the customer logs in and lands on the **AI OS dashboard**. The centrepiece is a voice **ORB**. Tapping the ORB starts a live voice conversation with their JARVIS assistant over a browser-based audio connection (LiveKit).
+Once setup is done, the customer logs in and lands on the **AI OS dashboard**. The centrepiece is a voice **orb**. Tapping the orb starts a live voice conversation with their JARVIS assistant, right in the browser.
 
-The ORB moves through four states:
+The orb moves through four states:
 
 | State | Meaning |
 |-------|---------|
@@ -171,9 +168,9 @@ The ORB moves through four states:
 | **Listening / Thinking / Speaking** | Animated in real-time as the assistant processes and responds. |
 | **Error / Top-up needed** | Shown when there is a connection error or the customer's credit balance is too low. |
 
-The assistant answers from the customer's knowledge base, uses tools via their MCP server, and draws on their AI Mind for persistent memory.
+The assistant answers from the customer's knowledge base, uses their connected tools, and remembers past conversations.
 
-{/* Screenshot deferred: the in-portal AI OS dashboard ORB requires a provisioned JARVIS customer to capture; none exist on the demo account yet. The marketing ORB is visible on the landing page screenshot above. */}
+{/* Screenshot needed: the in-portal AI OS dashboard orb, captured from a live JARVIS customer account. */}
 
 ---
 
@@ -187,8 +184,8 @@ Converted customers appear in **Partner Portal → Customers** and show their JA
 
 ## Known limitations (Beta)
 
-- **Prototype positioning.** The partner settings page permanently displays a warning banner. The banner will be removed when JARVIS AI OS reaches general availability.
-- **Browser voice only (unless phone provisioning is on).** Customers can talk to their JARVIS from the portal browser. Phone access requires you to enable phone provisioning in settings and have Twilio credentials configured.
-- **Website ingestion is asynchronous.** The knowledge base is created at provisioning, but the website crawl and indexing runs in the background. The JARVIS agent may not have full knowledge of the customer's website for a few minutes after the "ready" email arrives.
-- **Urgent notifications are stored but not yet active.** The "notify me about urgent things" preference from onboarding step 4 is saved but not wired to outbound calls yet (Phase 2).
-- **Autonomous task execution is not yet available.** JARVIS can answer questions, use tools interactively during a conversation, and remember things — but the autonomous background work queue is a Phase 2 feature.
+- **Still marked as Beta.** The settings page shows a Beta banner while the experience is in development. It'll be removed at full launch.
+- **Browser voice only, unless you turn on phone numbers.** Customers can talk to their JARVIS in the browser by default. To add phone access, turn on phone numbers in settings and make sure your phone credentials are set up in your white-label settings.
+- **Website learning takes a little time.** The knowledge base is created right away, but reading the customer's website happens in the background. The assistant may not know everything about their website for the first few minutes after the "ready" email.
+- **Urgent notifications aren't active yet.** The "notify me about urgent things" choice from onboarding is saved, but doesn't trigger any calls yet. It's planned for a future update.
+- **No autonomous tasks yet.** JARVIS can answer questions, use tools during a conversation, and remember things. Doing work on its own in the background is planned for a future update.

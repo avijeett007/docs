@@ -63,9 +63,9 @@ Knova agents use one of two text-to-speech banks:
 | First TTS bank | Blue dot next to the voice name |
 | Second TTS bank | Purple dot next to the voice name |
 
-**Note:** The underlying TTS provider names are not shown in the UI — you pick the voice, not the provider. Existing agent voice configurations are preserved when TTS models are upgraded by the platform.
+**Note:** You pick the voice, not the provider behind it. Your existing agent voice settings are preserved when the platform upgrades its underlying voice models.
 
-The platform periodically upgrades default TTS models. The current default for the first TTS bank is **Inworld TTS 1.5 Mini** (replaced the legacy `inworld-tts-1` model), which offers improved voice quality, broader language coverage, and no change to the voice catalog (Ashley, Edward, Olivia, and other named voices continue to work).
+The platform periodically upgrades its default voices for better quality and broader language coverage. These upgrades don't change the voice catalog — Ashley, Edward, Olivia, and other named voices continue to work exactly as before.
 
 <Frame>
   <img src="/images/screenshots/knova-voice-picker-2026-06-20.png" alt="Knova Edit Agent modal — Basic tab Voice section with a search box and voice list (Abby Female, Alex Male, Anjali Female) each with a coloured dot indicator and a play preview button. First TTS bank voices have blue dots; second TTS bank voices have purple dots." />
@@ -105,31 +105,6 @@ After creating a Knova agent and **assigning it to a customer** (see [Customer a
 
 Inbound calls to that number will now be handled by this agent.
 
-## Configuration for self-hosted deployments
-
-If you are running a self-hosted Knotie AI Pro instance, set these environment variables to configure the LLM backend used by the Knova Agent Builder Chat:
-
-```env
-# Required — the chat builder LLM endpoint (OpenAI Chat Completions–compatible)
-KNOVA_BUILDER_BASE_URL=https://api.inworld.ai/v1
-KNOVA_BUILDER_API_KEY=<your-api-key>
-KNOVA_BUILDER_AUTH_SCHEME=Basic   # or Bearer (default)
-KNOVA_BUILDER_MODEL=inworld/ab-test-models
-
-# Optional — set to empty string '' to disable (required for some reasoning models)
-# KNOVA_BUILDER_TEMPERATURE=0.4
-```
-
-Any OpenAI Chat Completions–compatible provider works:
-
-| Provider | `KNOVA_BUILDER_BASE_URL` | `KNOVA_BUILDER_AUTH_SCHEME` | Notes |
-|---|---|---|---|
-| **Inworld Router** (recommended) | `https://api.inworld.ai/v1` | `Basic` | Supports native `web_search` |
-| **OpenAI** | `https://api.openai.com/v1` | `Bearer` | — |
-| **OpenRouter** | `https://openrouter.ai/api/v1` | `Bearer` | Broad model selection |
-
-For Inworld, the API key is Base64-encoded `workspace_id:api_key`.
-
 ## Builder sessions API
 
 The builder session history is accessible via the partner API for integrations:
@@ -152,7 +127,6 @@ Optional query parameter: `agentId` — filter to sessions that produced a speci
       "currentStage": "applied",
       "messageCount": 12,
       "firstUserMessage": "Create a receptionist for an HVAC company...",
-      "modelUsed": "inworld/ab-test-models",
       "resultingAgentId": "agent_abc123",
       "createdAt": "2026-05-26T02:00:00.000Z",
       "lastTurnAt": "2026-05-26T02:08:00.000Z"
@@ -208,7 +182,7 @@ Use `POST /api/partner/telephony-credits/settings` to update these values (see [
 
 ## MCP tool changes
 
-If you use Knotie's MCP server (the integration gateway) with AI coding tools like Cursor or Claude, note these updated tool schemas:
+If you use Knotie's MCP server with AI coding tools like Cursor or Claude, note these updated tool schemas:
 
 **`agents_create`** — field names updated:
 
@@ -237,7 +211,7 @@ If you have existing MCP automations using these tools, update your prompts and 
 - **System prompt exceeds character limit** — Split overly broad scopes into a multi-agent workflow. Each persona or use case should have its own agent.
 - **Voice not loading** — Reload the page. If voices still don't appear, check your internet connection and try a different browser.
 - **Builder session not resuming** — Sessions are listed by `lastTurnAt` (most recent first). If you don't see a session, it may have been created for a different customer or on a different account.
-- **Agent config not updating after edit** — The platform invalidates the integration gateway agent cache after every save. If the agent's phone number still routes to old config, wait 30 seconds and call the number again. If it persists, contact support.
+- **Agent config not updating after edit** — The platform refreshes the agent's live configuration after every save. If the agent's phone number still uses the old settings, wait 30 seconds and call the number again. If it persists, contact support.
 
 ## Related pages
 

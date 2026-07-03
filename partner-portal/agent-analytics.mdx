@@ -33,10 +33,8 @@ If you see a message like “Please update your API keys & onboard Agents first,
 
 Fix:
 
-1. Go to **Settings → Partner API Keys → Platform API** tab. Create or update your `pkt_` keys here.
-   - The live Settings sidebar has 5 items: Profile Settings / **Partner API Keys** / Email Domain Management / Plans & Billing / White-Label Portal. There is no top-level "Settings" entry.
-   - The Partner API Keys page has 4 tabs: AI Gateway Beta / Platform API / MCP Tokens / n8n Tokens. Platform API is where partner-automation keys (`pkt_`) live. AI Gateway Beta tab holds `sk_` LLM-billing keys.
-2. Return to **AI Agents** (sidebar button under AI PLATFORM) and import/create agents.
+1. Go to **Settings → Partner API Keys** and open the **Platform API** tab. Create or update your keys here — these are the keys that let the platform run your agents.
+2. Return to **AI Agents** in the sidebar and import or create your agents.
 3. Come back to **Agent Analytics**.
 
 ## Choose the time period
@@ -82,14 +80,14 @@ This allows you to:
 
 ![Agent Analytics - Detailed Agent View](/images/screenshots/screenshot-2026-03-19-210512.png)
 
-## Metered billing (partially live)
+## Metered billing (still rolling out)
 
-Metered billing is partially live:
+Automatic usage-based billing is being rolled out in stages:
 
-- **Stripe Connect** (the underlying billing rail) is live — partners can onboard their Stripe account today via **Settings → Partner API Keys** (see the [Metered billing setup guide](/partner-portal/metered-billing)). Confirmed: 2.5% platform fee, Express accounts.
-- **The partner-portal metered-billing page** at `/partner/metered-billing` still shows a "Feature in Development" notice. Some sections (Billing Plans / Customer Billing) are not yet production-ready.
+- **Stripe payouts are ready.** You can connect your Stripe account today and start taking payments (see the [Metered billing setup guide](/partner-portal/metered-billing)). Knotie's platform fee is 2.5%.
+- **The automated metered-billing page is still in development.** Some parts, like Billing Plans and Customer Billing, aren't fully live yet.
 
-Until the partner-portal surface is fully released, use **Agent Analytics** to manually track usage and create invoices via **Billing & Invoices** (`/partner/billing`).
+In the meantime, use **Agent Analytics** to track usage, and create invoices from the **Billing & Invoices** page.
 
 ## Tips for agencies
 

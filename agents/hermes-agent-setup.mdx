@@ -190,7 +190,7 @@ These values are written to `~/.hermes/config.yaml` during deploy:
 | `model.provider` | `custom` | Uses the custom OpenAI-compatible provider |
 | `model.base_url` | `https://api.knotie.ai/v1` | Knotie AI Gateway endpoint |
 | `model.api_key` | Auto-minted `sk-…` key | Written directly into config (not `.env`) — required for Hermes 0.15.1+ |
-| `model.default` | `auto` (or primary model) | LiteLLM router alias — resolves to best available model |
+| `model.default` | `auto` (or primary model) | Resolves to the best available model |
 
 The AI key is stored on the VPS only — it is never persisted in the Knotie database.
 
@@ -229,7 +229,7 @@ grep -A5 'provider: custom' ~/.hermes/config.yaml
 
 **First message times out (504)**
 
-Hermes starts fresh on every request. A 504 means Hermes took more than ~55 s to respond. This can happen on an under-resourced VPS (Cloud VPS 10 at peak load). Try:
+Hermes starts fresh on every request. A 504 means Hermes took more than ~55 s to respond. This can happen on an under-resourced VPS (a small entry-tier plan at peak load). Try:
 
 ```bash
 hermes -z "ping" --continue    # run a warm-up manually

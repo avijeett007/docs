@@ -14,7 +14,7 @@ Use the Builder Chat when:
 - You have a business website URL and want the agent to reflect that brand
 - You want AI-drafted copy for your system prompt that you can refine
 
-For the full agent-creation flow, opening steps, multi-agent configuration, and self-hosted env vars, see [Knova AI Agent Builder](/agents/knova/knova-agent-builder). This page focuses on the chat UX itself.
+For the full agent-creation flow, opening steps, and multi-agent configuration, see [Knova AI Agent Builder](/agents/knova/knova-agent-builder). This page focuses on the chat experience itself.
 
 <Frame>
   <img src="/images/screenshots/knova-builder-progress-2026-06-20.png" alt="Knova AI Agent Builder Chat — Build with AI (BETA EXPERIMENT) modal showing the welcome message, the user's typed request, and the AI's streamed response with phase labels (Reading your request / Reading your business profile / Drafting the agent). The proposal panel renders on the right once the AI finishes drafting." />
@@ -44,7 +44,7 @@ The builder reads URLs and searches the web **on its own** — there is no Web-s
 
 - Type or paste any URL in your message and the builder will fetch and read it.
 - If a URL is detected in your input, a teal badge appears: **"URL detected — the builder will read it"**. This is informational only — no action is required.
-- If the builder needs information it can't infer from your message or business profile, it will run its own `search_web` query.
+- If the builder needs information it can't infer from your message or business profile, it will run its own web search.
 
 If a fetch fails (the site blocks crawlers, returns a 4xx, or times out), the builder acknowledges the failure briefly and asks you to paste the relevant text in plain English — it continues building the best draft it can without blocking.
 
@@ -121,6 +121,6 @@ Closing the modal while the save is in flight does **not** trigger an "unsaved c
 
 ## Related pages
 
-- [Knova AI Agent Builder](/agents/knova/knova-agent-builder) — Full builder guide: opening steps, multi-agent, env vars, reliability
+- [Knova AI Agent Builder](/agents/knova/knova-agent-builder) — Full builder guide: opening steps, multi-agent, reliability
 - [Manage Knova agents](/agents/knova/manage-knova-agents) — Create, configure, and edit Knova agents
 - [MCP Tokens](/partner-portal/ai-agents/mcp/tokens) — Use MCP tools to manage agents programmatically

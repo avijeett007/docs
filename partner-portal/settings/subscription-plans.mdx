@@ -16,7 +16,7 @@ This section applies only when your **Pricing Model** is set to **Subscription**
 3. In the **Section Nav Rail** on the left, click **Subscription Plans** (under the Main column).
 
 <Note>
-There is **no** top-level **Settings → Subscription Plans** entry. Earlier versions of this doc instructed users to "scroll to the Subscription Plans section" of the main Settings page — that section doesn't exist on the new Settings IA. Subscription Plans now lives in the Whitelabel Settings page under the **Subscription Plans** section in the Section Nav Rail.
+Subscription Plans lives inside the **White-Label Portal** page, not on the main Settings page. Look for it in the **Section Nav Rail** on the left under the **Subscription Plans** heading.
 </Note>
 
 <Frame>
@@ -52,11 +52,11 @@ Before creating subscription plans, you need:
 
 ### Plans shown in Step 9 of onboarding
 
-When a customer prospect reaches **Step 9 (Summary & Deploy)**, the onboarding wizard fetches all active plans from your portal and displays them for selection.
+When a customer prospect reaches **Step 9 (Summary & Deploy)**, the onboarding flow shows them every plan you've marked as active so they can pick one.
 
-**All plans with `isActive: true` are shown.** There is no additional client-side filtering — a plan being active is sufficient for it to appear. Activating or deactivating a plan is the primary way to control what customers see.
+**Every plan you've set to Active is shown here.** Turning a plan on or off is the main way to control what customers see.
 
-{/* > ℹ️ **Step 9 (Summary & Deploy)** of the whitelabel onboarding flow renders one card per active subscription plan, with price, billing interval, included features, and a Select CTA. Capture from a prospect's live onboarding session at the customer portal — the partner's view (shown above) only displays the plan catalog, not the prospect-facing selection screen. */}
+{/* Screenshot needed: Step 9 (Summary & Deploy) of the onboarding flow, showing one card per active plan with its price, billing interval, and features. Capture from a prospect's live onboarding session — the partner's view above only shows the plan list, not the customer-facing selection screen. */}
 
 ### "Display on Customer Landing Page" checkbox
 
@@ -84,43 +84,33 @@ Editing a plan does not affect customers already subscribed to it — changes ap
 | Toggle **Active → ON** | Plan appears in Step 9 for new prospects |
 | Toggle **Active → OFF** | Plan is hidden from Step 9; existing subscribers are unaffected |
 
-**Constraint for subscription-billing partners:** Deactivating a plan that is both the last active plan AND the last "Display on Customer Landing Page" plan is blocked. You must activate or display another plan first.
-
-If this action is blocked, you will see:
-
-```
-At least one plan must remain active and visible on the landing page while
-your account is on subscription billing. Activate or display another plan
-before hiding this one.
-```
-
-Error code: `LAST_LANDING_PAGE_PLAN` (HTTP 400)
+**If you use subscription billing:** you can't hide your last remaining plan. If a plan is both your only active plan and the only one shown on your landing page, the portal won't let you turn it off — activate or display another plan first, so your customer portal always has something to show.
 
 ### Delete a plan
 
 1. Click the **Delete** button (trash icon) on the plan.
 2. Confirm the deletion.
 
-Deletion archives the associated Stripe Price (Stripe prices cannot be hard-deleted; they are deactivated). The plan record is removed from your portal immediately.
+The plan is removed from your portal right away. On the Stripe side, the matching price is retired rather than fully deleted, so your billing records stay intact.
 
-**Same constraint applies:** If you are on subscription billing and this is the last landing-page-visible active plan, deletion is blocked until you activate or display another plan.
+**Same rule applies:** if you use subscription billing and this is your last active plan shown on the landing page, you'll need to activate or display another plan before you can delete it.
 
 ## Troubleshooting
 
-### "LAST_LANDING_PAGE_PLAN" error when hiding or deleting a plan
+### You can't hide or delete a plan
 
-**Cause:** You're trying to hide (uncheck "Display on Customer Landing Page"), deactivate, or delete the last plan that is both active and marked for the landing page, while your account uses subscription billing.
+**Cause:** You're trying to hide, deactivate, or delete the last plan that's both active and shown on your landing page, while your account uses subscription billing.
 
 **Fix:**
 1. Create a new plan (or reactivate an existing one).
-2. Check **Display on Customer Landing Page** on the alternative plan.
+2. Check **Display on Customer Landing Page** on that other plan.
 3. Then deactivate or delete the original plan.
 
 ### No plans appear in Step 9 for customers
 
-**Cause:** All plans have `isActive` set to OFF.
+**Cause:** Every plan is turned off.
 
-**Fix:** Toggle at least one plan **Active**. Any active plan is automatically shown in Step 9.
+**Fix:** Set at least one plan to **Active**. Any active plan is automatically shown in Step 9.
 
 ### Plan not visible on the landing page
 
@@ -130,10 +120,10 @@ Deletion archives the associated Stripe Price (Stripe prices cannot be hard-dele
 
 ### Cannot edit price on an existing plan
 
-Stripe does not allow modifying the price of an existing Price object. To change a plan's price:
+Stripe doesn't allow changing the price of an existing plan. To change a plan's price:
 1. Create a new plan with the updated price.
 2. Deactivate the old plan.
-3. Existing subscribers on the old price are not automatically migrated — handle this via your Stripe dashboard.
+3. Customers already subscribed at the old price aren't moved over automatically — handle that from your Stripe dashboard.
 
 ## Related pages
 

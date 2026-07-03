@@ -21,7 +21,7 @@ Before you can list anything, you must:
 2. **Accept the Developer Agreement** — The first time you open the Developer Console, a full-screen agreement gate presents the platform terms (including the shared-responsibility model and the requirement that all payments run through the Knotie platform). You must accept to proceed. If the terms are updated, you'll be prompted to re-accept.
 
 <Info>
-The Developer Agreement gate is a server-side gate on `/developer` that appears only for partner accounts that haven't accepted the current terms version. Once accepted, the gate does not reappear unless the terms version is bumped.
+The Developer Agreement only appears if you haven't accepted the current terms. Once you accept, it won't show again unless the terms are later updated.
 </Info>
 
 ## Creating a listing
@@ -44,8 +44,8 @@ After saving a draft, the **Pricing** section unlocks (only if your Stripe accou
 | Pricing type | How to set it |
 |---|---|
 | **Free** | Select Free — no Stripe setup required |
-| **One-time** | Enter a price; a Stripe Product + Price is created on your connected account |
-| **Recurring** | Enter a price and select monthly or annual; a Stripe Subscription Price is created |
+| **One-time** | Enter a price; a matching product is set up on your connected Stripe account |
+| **Recurring** | Enter a price and select monthly or annual; a matching subscription is set up on your Stripe account |
 
 If your Stripe account does not have charges enabled, the pricing controls are hidden and the listing will be free until you complete Stripe setup.
 
@@ -53,11 +53,11 @@ If your Stripe account does not have charges enabled, the pricing controls are h
 
 Make your listing stand out with rich media:
 
-- **Product images** — Up to multiple images (partner-scoped, hosted on Knotie's storage)
+- **Product images** — Add several images to showcase your solution
 - **Logo** — A square logo that appears on listing cards in the marketplace
 - **Video** — Paste a YouTube or Loom URL, or upload a short video clip directly
 
-All media is stored securely and scoped to your partner account. Customers browsing the marketplace see a developer-stripped view — your internal pricing context and account details are never exposed.
+All media is stored securely against your account. Customers browsing the marketplace see only the public listing — your cost, margins, and account details are never exposed.
 
 <Frame>
   <img src="/images/screenshots/developer-listing-media-section-2026-06-20.png" alt="Developer Console listing editor — Showcase media section with Logo (Upload logo), Screenshots up to 8 (Add screenshot), and Demo video (YouTube/Loom URL field + Upload video file button for MP4/WebM/MOV)." />
@@ -125,7 +125,7 @@ In **Settings** (inside the Developer Console), you can:
 The Developer Console is designed to protect end-customer privacy:
 - No developer-facing screen exposes the identity of end-customers.
 - Buyer interactions (reviews, requests, purchases) are **partner-to-partner** — you see the buying partner, not their customers.
-- The customer-facing view of any listing is always developer-stripped (no pricing, no developer account details).
+- The customer-facing view of any listing shows only public details (no cost breakdown, no developer account details).
 
 ## Troubleshooting
 

@@ -13,7 +13,7 @@ This is useful for:
 - Debugging unexpected agent behaviour in a quick, low-friction test session.
 
 <Note>
-  This feature is currently in **Beta**. It uses LiveKit WebRTC under the hood. You need a microphone and speakers (or headphones) connected to your browser.
+  This feature is currently in **Beta**. It runs a live voice session in your browser. You need a microphone and speakers (or headphones) connected to your browser.
 </Note>
 
 ---
@@ -48,7 +48,7 @@ This is useful for:
 Once the session is ready, the modal shows a live voice interface:
 
 {/*
-The active/connected state of the Try Agent modal requires a successful LiveKit session. If the account credit balance is too low, the session ends with a 'Not enough credits' gate before the connected state is reached. To capture, top up credits and retry the test.
+The active/connected state of the Try Agent modal requires a successful voice session. If the account credit balance is too low, the session ends with a 'Not enough credits' gate before the connected state is reached. To capture, top up credits and retry the test.
 */}
 
 ### Connection indicator
@@ -69,7 +69,7 @@ The agent state label below the visualizer updates in real time:
 
 ### Cold-start hint
 
-If the agent hasn't been used in a while (LiveKit Cloud scales to zero during idle periods), the session may take 10–20 seconds to wake up. The modal shows a yellow amber notice and a timer so you know the agent is starting, not broken.
+If the agent hasn't been used in a while, it may take 10–20 seconds to wake up from idle. The modal shows a yellow amber notice and a timer so you know the agent is starting, not broken.
 
 ### Microphone controls
 
@@ -85,7 +85,7 @@ Test sessions use the same credit pool as live calls. Credits are consumed for t
 If your balance is too low to start a session, the modal shows a credit gate error:
 
 {/*
-The "Not enough credits" credit-gate error appears inside the Try Agent modal when the partner's credit balance is too low to start a LiveKit session. The same gate can appear as the final response in the AI Agent Builder Chat when the builder model runs out of credits, with a message like "Not enough credits. Buy more credits or get in touch with your manager to unlock."
+The "Not enough credits" credit-gate error appears inside the Try Agent modal when the partner's credit balance is too low to start a voice session. The same gate can appear as the final response in the AI Agent Builder Chat when the builder model runs out of credits, with a message like "Not enough credits. Buy more credits or get in touch with your manager to unlock."
 */}
 
 Click **Top up credits →** to go to the Credits page and add more.
@@ -96,13 +96,13 @@ Click **Top up credits →** to go to the Credits page and add more.
 
 **"Could not start the test" error**
 
-- Check your internet connection. The modal needs to reach the LiveKit Cloud server.
+- Check your internet connection. The modal needs a stable connection to the voice service.
 - If the error persists, click **Try again** inside the modal.
 
 **No audio from the agent**
 
 - Ensure your browser's volume is not muted.
-- Check your OS audio output device — LiveKit WebRTC uses the browser's default audio output.
+- Check your OS audio output device — the test uses the browser's default audio output.
 - If the agent state shows "Listening" but nothing happens after you speak, try refreshing the page and opening the modal again.
 
 **Microphone not working**

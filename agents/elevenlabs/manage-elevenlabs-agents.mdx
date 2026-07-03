@@ -78,7 +78,7 @@ Configure the agent's core behaviour:
 | Field | Description |
 |---|---|
 | **Agent Name** | Display name in the portal |
-| **System Prompt** | The LLM instruction prompt for the agent |
+| **System Prompt** | The instructions that define how the agent behaves |
 | **First Message** | The opening message the agent says when a call starts |
 | **Language** | Conversation language (e.g. `en`) |
 | **Voice ID** | The ElevenLabs voice to use |
@@ -89,7 +89,7 @@ Configure the agent's core behaviour:
 | Field | Description |
 |---|---|
 | **Temperature** | Response creativity (0–2). Default: 0.7 |
-| **Max Tokens** | Token ceiling per response (`-1` = unlimited) |
+| **Max Tokens** | The longest response the agent will generate (`-1` = no limit) |
 | **Max Duration (seconds)** | Maximum call length. Default: 600 s (10 min), max: 43,200 s (12 h) |
 
 ### Function Calls tab
@@ -102,7 +102,7 @@ Connect the agent to external tools (CRMs, booking systems, etc.) via webhook:
 4. Save the agent — function calls are synced to ElevenLabs automatically.
 
 <Note>
-Function calls require a customer to be selected first (the customer's integration gateway must be set up).
+Function calls require a customer to be selected first (the customer's connected apps must be set up).
 </Note>
 
 ## Manage your API key

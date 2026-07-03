@@ -9,10 +9,10 @@ Knotie AI Pro sends automated notifications when something needs your attention 
 
 Key behaviours:
 
-- **Alerts are always recorded** regardless of your email preference. You can view them in-portal via the notification bell even when email is off.
-- **Deduplication:** A persistently broken agent does not email you every night. The platform tracks one open alert per agent and bumps an occurrence counter instead of creating duplicate rows.
-- **Throttle window:** Once an email is sent for a specific agent failure, the next email for the same issue is held back until the throttle window expires (default 24 hours). New failures still appear in the bell immediately.
-- **Auto-resolve:** When a failing agent passes its healthcheck again, the open alert is automatically resolved and disappears from the bell.
+- **Alerts are always recorded** no matter your email preference. You can see them in the portal via the notification bell even when email is turned off.
+- **No repeat spam:** A repeatedly failing agent won't email you every night. Knotie keeps a single open alert per agent and counts how many times it's happened, instead of sending a new email each time.
+- **Quiet period:** After an email goes out for a specific agent problem, the next email about the same problem is held back for a while (24 hours by default). New problems still appear in the bell right away.
+- **Clears itself:** When a failing agent starts working again, its alert resolves automatically and disappears from the bell.
 
 ## Where to find it
 
@@ -46,25 +46,25 @@ Each voice provider page (Retell, VAPI, Ultravox, ElevenLabs) shows a **provider
 
 Click the bell to see:
 - Which agents are failing
-- How many times the issue has been seen (`occurrence_count`)
-- When the failure was last detected (`last_seen_at`)
+- How many times the problem has happened
+- When it was last detected
 
-**Viewing an alert dismisses it** (marks it for cleanup). Once dismissed, it will not reappear unless the agent fails again after a successful run.
+**Opening an alert dismisses it.** Once dismissed, it won't come back unless the agent fails again after a successful run.
 
-The **global notification bell** in the top navbar also surfaces these alerts, so you have one place to check all activity across providers.
+The **main notification bell** in the top navigation bar also shows these alerts, so you have one place to check activity across all providers.
 
-![Partner Portal — Retell Agents page showing the provider-scoped "Agent health notifications" bell icon in the page header next to the "Import Agents" and "Create New Agent" buttons. Clicking this bell surfaces Retell-scoped healthcheck failure alerts for this provider's agents.](/images/screenshots/partner-retell-provider-bell.png)
+![Partner Portal — Retell Agents page showing the "Agent health notifications" bell icon in the page header next to the "Import Agents" and "Create New Agent" buttons. Clicking this bell shows healthcheck failure alerts for this provider's agents.](/images/screenshots/partner-retell-provider-bell.png)
 
-> ℹ️ The **global navbar bell** is visible in the partner portal top navbar — see the bell with the badge "2" sitting next to the Pricing Calculator button on the dashboard. Its popover surfaces the same low-credit / agent-health alerts aggregated across providers. No standalone capture is needed; the existing dashboard screenshot already shows the bell.
+{/* The main notification bell sits in the top navigation bar next to the Pricing Calculator button on the dashboard, showing a badge count. It gathers the same low-credit and agent-health alerts across all providers. The existing dashboard screenshot already shows the bell, so no separate capture is needed. */}
 
 ## Notification cleanup
 
-A daily scheduled task removes:
+Knotie automatically clears out, each day:
 - Dismissed alerts
 - Resolved alerts
 - Any alert older than 3 months
 
-This keeps the bell and database clean without manual intervention.
+This keeps your bell tidy without any effort on your part.
 
 ## Troubleshooting
 
