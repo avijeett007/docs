@@ -142,8 +142,6 @@ In the whitelabel customer portal:
 4. Completes Stripe checkout.
 5. Credits are automatically added to their account.
 
-![Customer Portal - Credit Plans View](/Screenshot2025-12-19at12.21.22AM.png)
-
 ### Payment flow
 
 1. **Customer selects plan** – Clicks Purchase button
@@ -240,16 +238,14 @@ Avoid:
 - Ensure customer's email domain is verified
 
 ### Purchases not completing
-- Check Stripe account status (charges enabled)
-- Verify webhook configuration
-- Review Stripe logs for errors
-- Confirm credit plan IDs match in database
+- Make sure your Stripe account has charges enabled
+- Review your Stripe dashboard for failed or errored payments
+- If it persists, contact support
 
 ### Credits not added after purchase
-- Check transaction in customer's credit history
-- Verify webhook received from Stripe
-- Manual adjustment may be needed
-- Contact support if persistent
+- Check the transaction in the customer's credit history
+- If the payment went through but credits didn't appear, add them manually from the customer's Credits tab
+- Contact support if it keeps happening
 
 ## Related pages
 

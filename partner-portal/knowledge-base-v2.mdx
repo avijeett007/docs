@@ -1,264 +1,94 @@
 ---
-title: "Knowledge Base v2 (Memory Module)"
-description: "Set up and use the new KB v2 engine — faster AI answers powered by Qdrant, tier-driven document parsing, and async ingestion."
+title: "Knowledge Base v2"
+description: "A faster knowledge base for your customers' documents — quicker AI answers, flexible document processing, and background uploads that don't make you wait."
 ---
 
 ## What is Knowledge Base v2?
 
-Knowledge Base v2 is a complete rebuild of how Knotie AI Pro processes, stores, and queries your customers' documents. It replaces the legacy AnythingLLM backend with a purpose-built **Memory module** running inside the integration gateway service.
+Knowledge Base v2 is a rebuilt engine for how Knotie AI Pro reads, stores, and searches your customers' documents. The result is noticeably faster, more accurate AI answers.
 
-The key improvements for partners and their customers:
+What's better for you and your customers:
 
-| | Legacy (AnythingLLM) | KB v2 (Memory module) |
-|---|---|---|
-| **Query speed (P95)** | 1.5–4 s | 120–700 ms |
-| **Document parsers** | AnythingLLM internal | Pluggable: Native, Mistral DocAI, LlamaParse, Apify |
-| **Ingestion** | Synchronous (blocks upload) | Async queue (returns instantly; processes in background) |
-| **Vector store** | LanceDB (on-VPS) | Qdrant Cloud (managed) |
-| **Reranking** | None | Cohere Rerank v3 (moderate + premium tiers) |
-| **Charging** | Fixed credits per KB processing config | Tier-driven — see credit model below |
+- **Much faster answers** — replies come back in a fraction of the time.
+- **Smarter document reading** — handles complex PDFs (tables, columns, scanned pages) far better.
+- **Uploads don't block you** — documents process in the background, so the upload returns instantly and you can keep working.
+- **More accurate matching** — on higher tiers, results are re-ranked so the best answer rises to the top.
 
-{/* > ℹ️ The KB v2 status indicator was planned to show a per-document status column (queued / processing / completed) in the customer detail page. The underlying feature is fully documented but does NOT exist in the live UI — no status indicator, no document upload, no processing tier picker is rendered anywhere in the Partner Portal customer detail page or Settings. Capture from a build where KB v2 ships. */}
+<Info>
+**Rolling out.** Knowledge Base v2 is being enabled gradually, per customer. If you don't yet see the document-processing options described below in a customer's portal, this upgrade hasn't reached that account. Contact Knotie support if you'd like it turned on for a specific customer.
+</Info>
 
----
-
-## Prerequisites
-
-Before enabling KB v2 for any customer you need to:
-
-1. Provision the external services below (one-time per environment).
-2. Add the new environment variables to your integration gateway and main application deployments.
-3. Run the Prisma database migration.
-
----
-
-## Step 1 — External service accounts
-
-Sign up for these services. All are pay-as-you-go; no upfront commitment beyond the Qdrant Cloud tier you choose.
-
-| Service | Used for | Where to sign up |
-|---|---|---|
-| **Qdrant Cloud** | Vector database for all KB embeddings | https://cloud.qdrant.io |
-| **Mistral AI** | Document AI parser (PDF, DOCX, images) for Balanced + High-Fidelity tiers | https://console.mistral.ai |
-| **Cohere** | Reranker for Balanced + High-Fidelity tiers | https://dashboard.cohere.com |
-| **LlamaParse** _(optional)_ | Premium parser, High-Fidelity tier opt-in only | https://cloud.llamaindex.ai |
-| **Apify** _(likely already active)_ | URL/sitemap scraper | https://console.apify.com |
-| **OpenAI** _(already required)_ | Embedding model (`text-embedding-3-small`) | existing key |
-
-### Qdrant Cloud setup
-
-1. Create a cluster. Choose the region closest to your integration gateway hosts (Hetzner Falkenstein → Frankfurt; Azure West Europe → Amsterdam).
-2. Start on the **Free tier** (1 GB / ~150k vectors) for staging.
-3. Upgrade to **Standard ($25/mo)** before enabling KB v2 for production partners.
-4. Copy the cluster URL and create an API key under **Settings → Access Tokens**.
-
-### Generate the internal service key
-
-The Memory module uses a shared secret to authenticate requests from your main application and Knova workers. Generate one key per environment:
-
-```bash
-openssl rand -hex 32
-```
-
-Keep the output as `MEMORY_INTERNAL_KEY`. Rotate it quarterly.
-
-{/* > ℹ️ **Qdrant Cloud** is the vector store backing KB v2. The dashboard shows the cluster status (Healthy / Degraded), node count, and the API key creation panel. Capture from your own Qdrant Cloud account admin — it lives outside the Knotie app. */}
-
----
-
-## Step 2 — Environment variables
-
-### Integration gateway `.env`
-
-Add this block to each environment's `.env` file:
-
-```dotenv
-# Memory module (KB v2)
-MEMORY_INTERNAL_KEY=""           # openssl rand -hex 32 — different per env
-MEMORY_INTERNAL_KEY_NEXT=""      # leave empty; used during key rotation
-
-QDRANT_URL="https://YOUR-CLUSTER.qdrant.io:6333"
-QDRANT_API_KEY=""
-
-OPENAI_API_KEY=""                # existing key — used for text-embedding-3-small
-COHERE_API_KEY=""                # from Cohere dashboard
-MEMORY_RERANK_ENABLED="true"
-
-MISTRAL_API_KEY=""               # from Mistral console
-LLAMAPARSE_API_KEY=""            # optional; High-Fidelity tier only
-APIFY_TOKEN=""                   # existing token — reuse
-```
-
-The legacy `ANYTHINGLLM_BASE_URL` and `ANYTHINGLLM_API_KEY` variables stay in place during the migration window. Do not remove them until your rollout is fully complete.
-
-### Main application (root `.env`)
-
-```dotenv
-# Memory module (KB v2) — dual-write during rollout
-CONNECT_HUB_URL=http://<integration-gateway-host>:3001  # existing — Memory module uses the same URL
-MEMORY_INTERNAL_KEY=""                   # same value as the integration gateway for this environment
-
-KB_LEGACY_ANYTHINGLLM_DUAL_WRITE=false  # set to true only during cutover shadow window
-```
-
----
-
-## Step 3 — Database migration
-
-KB v2 adds three new columns to the database (`Partner.kbV2Enabled`, `Partner.kbPremiumParserEnabled`, `Customer.kbTier`). These are additive — no data is removed.
-
-```bash
-# Apply locally first
-npx prisma migrate dev --name add_kb_v2_columns
-
-# Push to staging after review
-DATABASE_URL=<staging-url> npx prisma migrate deploy
-```
-
-Verify the generated migration SQL contains only `ALTER TABLE … ADD COLUMN …` statements before deploying to production.
-
----
-
-## Step 4 — Deploy the ingest worker
-
-KB v2 processes documents asynchronously via a BullMQ worker. You need to run **two processes** per integration gateway replica:
-
-1. **API process** (existing) — no change.
-2. **`memoryIngest` worker** — parses documents, embeds chunks, upserts to Qdrant.
-
-In Coolify, clone your existing integration gateway application and override the start command:
-
-```
-npm run start:worker
-```
-
-Use the same Docker image and the same environment variables. This is identical to how the platform manager service is deployed.
-
-{/* > ℹ️ **Coolify** is the partner's self-hosted deployment platform. The KB v2 stack runs as two services: **integration gateway API** (orchestrator) and a sibling **memoryIngest** worker that batches documents into Qdrant. Capture from your own Coolify project to refresh. */}
-
----
-
-## Step 5 — Enable KB v2 for a customer
-
-KB v2 is enabled **per customer** using the `kbV2Enabled` flag. This is controlled by Knotie platform ops — contact support if you need to flip it for a specific customer.
-
-When enabled, new document uploads go through the KB v2 pipeline. Existing AnythingLLM documents remain accessible until the backfill migration runs.
+{/* Screenshot to capture: the customer knowledge base with the processing-tier picker and per-document status, from an account where Knowledge Base v2 is live. */}
 
 ---
 
 ## Document processing tiers
 
-When assigning a knowledge base to a customer, you set a **processing tier**. This controls which document parser is used and how much the ingestion costs.
+When you add a knowledge base to a customer, you pick a **processing tier**. This controls how thoroughly documents are read and how much the upload costs in credits.
 
-| Tier label (partner UI) | What it does | Internally uses |
+| Tier | What it does | Best for |
 |---|---|---|
-| **Quick & Cheap** | Fast text-only ingestion. Best for FAQ/policy PDFs and simple websites. Lowest credit cost. | NativePDF (free), no reranking |
-| **Balanced** | Reads tables, headings, multi-column PDFs. Better answers when documents are complex. | Mistral Document AI, Cohere reranker |
-| **High-Fidelity** | Best-in-class extraction for formatted, scanned, or image-heavy PDFs. | LlamaParse, Cohere reranker |
+| **Quick & Cheap** | Fast, text-only reading. Lowest credit cost. | FAQ and policy PDFs, simple websites |
+| **Balanced** | Reads tables, headings, and multi-column layouts for better answers on complex documents. | Most business documents |
+| **High-Fidelity** | Best-in-class reading for heavily formatted, scanned, or image-heavy PDFs. | Detailed or scanned documents where accuracy matters most |
 
-The tier label shown to you never exposes the underlying parser name — that's an implementation detail we can swap without changing your configuration.
-
-{/* > ℹ️ The customer modal was planned to expose a **Knowledge base & embedding** section with three processing tier options (Basic / Standard / Premium) that determine ingestion speed and embedding model. The UI is not in the current build — capture from a release where this section is live. */}
+You can change the tier per customer depending on the kind of documents they have.
 
 ---
 
 ## Credit model
 
-### Ingestion credits
+### Uploading documents
 
-Document ingestion is always charged to your (partner) credit balance — not to the customer's balance. The cost depends on the tier and file type:
+Document processing is charged to **your** (partner) credit balance, not the customer's. The cost depends on the tier and the size and type of file:
 
-| File | Tier | Approx credits charged |
+| File | Tier | Approx credits |
 |---|---|---|
-| 8-page PDF (text-only) | Quick & Cheap | 0 (free — Native parser) |
-| 8-page PDF (text-only) | Balanced | ~36 credits |
-| 200-page PDF (scanned) | Balanced | ~900 credits |
-| 200-page PDF | High-Fidelity | ~4,500 credits |
-| 100-URL sitemap | Any | ~300 credits |
+| 8-page PDF (text-only) | Quick & Cheap | Free |
+| 8-page PDF (text-only) | Balanced | ~36 |
+| 200-page PDF (scanned) | Balanced | ~900 |
+| 200-page PDF | High-Fidelity | ~4,500 |
+| 100-URL sitemap | Any | ~300 |
 
-The portal shows an **estimated credit cost** before the upload completes. If your credit balance is insufficient, the ingestion is blocked before any parsing fires.
+You'll see an **estimated credit cost** before an upload finishes. If your balance is too low, the upload is stopped before any charge is made.
 
-### Query credits
+### Answering questions
 
-- **External agents** (Retell, VAPI, Ultravox, n8n) using the `KNOWLEDGE_BASE_QUERY` tool are charged **2 credits per query** — unchanged from the legacy system.
-- **Knova voice agents** use an internal fast lane that bypasses per-query charging. KB query cost is absorbed into the existing per-minute agent pricing.
+- **External agents** (Retell, VAPI, Ultravox, n8n) that look something up in the knowledge base are charged **2 credits per query** — unchanged from before.
+- **Knova voice agents** don't get a separate per-query charge; knowledge base lookups are already included in their per-minute pricing.
 
 ---
 
-## How document ingestion works
+## How uploads process
 
-When a customer uploads a document, the platform queues an async job. You can track progress in the knowledge base file list.
+When a customer uploads a document, it's added to a processing queue and handled in the background. You can watch its progress right in the knowledge base file list:
 
-```
-Upload → 202 Accepted + job_id
-         │
-         ▼
-    BullMQ queue
-         │
-         ▼
-  Worker: parse → chunk → embed → upsert to Qdrant
-         │
-         ▼
-  Status: completed   (visible in Partner Portal)
-```
+**Uploaded → Processing → Completed** (or **Failed** if something goes wrong).
 
-Job statuses: `queued` → `processing` → `completed` | `failed`
+You don't have to wait on the upload screen — come back anytime and check the status.
 
-If ingestion fails, check the document's status in the customer's knowledge base. The worker retries once before marking as failed. Common causes:
+If an upload fails, the system retries once before marking it failed. The most common reasons:
 
-| Error | Likely cause | Fix |
+| Message | Likely cause | What to do |
 |---|---|---|
-| `parser_timeout` | Large file or slow Mistral API | Retry; if recurring, switch tier to Quick & Cheap |
-| `insufficient_credits` | Partner credit balance too low | Top up credits in Partner Portal |
-| `qdrant_upsert_failed` | Qdrant cluster down or quota exceeded | Check Qdrant Cloud dashboard; upgrade tier if at free limit |
-| `embedding_failed` | OpenAI API error | Verify `OPENAI_API_KEY` is valid and has access to `text-embedding-3-small` |
+| Processing timed out | Very large or slow-to-read file | Retry; if it keeps happening, switch to the **Quick & Cheap** tier |
+| Not enough credits | Your partner credit balance is too low | Top up credits in the Partner Portal |
+| Couldn't save the document | A temporary storage issue | Retry in a few minutes; contact support if it persists |
 
 ---
 
-## Query performance by agent tier
+## Answer quality by agent tier
 
-The Memory module automatically adjusts query behaviour based on the agent's tier setting:
+Higher agent tiers pull in more supporting material for each answer, so replies are richer:
 
-| Setting | Essential (3p/min) | Moderate (7p/min) | Premium (10p/min) |
-|---|---|---|---|
-| Results returned | 3 chunks | 5 chunks | 8 chunks |
-| Score threshold | 0.70 | 0.65 | 0.60 |
-| Reranking | Off | Cohere v3 | Cohere v3 |
-| Answer P95 latency | ~200 ms | ~450 ms | ~600 ms |
-
----
-
-## Migration from AnythingLLM
-
-KB v2 launches as an **additive dual-write**. During the rollout:
-
-1. New uploads go to both AnythingLLM (fallback) and KB v2.
-2. Each customer is switched to KB v2 individually once their documents have been backfilled.
-3. After your full rollout is stable, `KB_LEGACY_ANYTHINGLLM_DUAL_WRITE` can be set to `false`.
-
-You do not need to re-upload any existing documents. The backfill process runs in the background.
+| Agent tier | Supporting results per answer | Feel |
+|---|---|---|
+| **Essential** | 3 | Fast, concise |
+| **Moderate** | 5 | Balanced, more context |
+| **Premium** | 8 | Most thorough, best matching |
 
 ---
 
-## Verify your setup
+## Moving over from the old knowledge base
 
-Before enabling KB v2 for any partner, run these smoke tests from your integration gateway host:
-
-```bash
-# 1 — Memory module health
-curl http://localhost:3001/v1/memory/health
-
-# 2 — Auth works (should return 400 "Invalid request", not 401)
-curl -X POST http://localhost:3001/v1/memory/kb/search \
-  -H "x-memory-internal-key: $MEMORY_INTERNAL_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{}'
-
-# 3 — Auth blocked without key (should return 401)
-curl -X POST http://localhost:3001/v1/memory/kb/search \
-  -H "Content-Type: application/json" \
-  -d '{}'
-
-# 4 — Qdrant reachable
-curl "$QDRANT_URL/healthz" -H "api-key: $QDRANT_API_KEY"
-```
+You don't need to re-upload anything. Existing documents stay available and are moved over in the background as each customer is switched to Knowledge Base v2. The transition is gradual and happens per customer, so there's nothing you need to do.

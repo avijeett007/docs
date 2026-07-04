@@ -21,7 +21,7 @@ This means:
 
 | Requirement | Details |
 |---|---|
-| **Integration gateway** | Your platform must have the integration gateway configured (`CONNECT_HUB_URL` environment variable set). Contact your platform admin if unsure. |
+| **Integration gateway** | Your platform must have the integration gateway configured. Contact support if unsure. |
 | **Customer assigned** | The agent must be assigned to a specific customer. Agents without a customer assignment do not get live MCP wiring. |
 | **Customer apps** | The customer must have connected at least one integration app via their portal. |
 
@@ -29,11 +29,8 @@ This means:
 
 When an agent is **created** or **updated** with a customer assigned:
 
-1. Knotie AI Pro mints a `scope: all` MCP token for that customer's integration gateway instance.
-2. The token is attached to the agent's configuration at the voice provider level:
-   - **Retell**: token is embedded in the LLM's `mcps` field as a `streamable_http` MCP server entry.
-   - **VAPI**: a `type: mcp` tool is created in VAPI and its ID is added to the assistant's `toolIds`.
-3. At call time, the voice agent queries the MCP server's `tools/list` — which returns whichever apps the customer has **currently** connected. No token regeneration needed when apps change.
+1. Knotie AI Pro mints an MCP token for that customer and attaches it to the agent automatically — for both Retell and VAPI, with no manual wiring on your part.
+2. At call time, the agent looks up whichever apps the customer has **currently** connected. New apps appear automatically — no token regeneration needed when the customer's apps change.
 
 ## What tools are served via MCP vs. static webhooks
 
@@ -42,7 +39,7 @@ Not all tool types switch to MCP. The table below explains the routing:
 | Tool type | Delivery | Why |
 |---|---|---|
 | Connected-app tools (Gmail, Slack, HubSpot, etc.) | **Live MCP server** | Dynamic; new apps appear automatically |
-| Custom API integrations (UUID app name) | **Static webhook** | Custom wiring that MCP doesn't cover |
+| Custom API integrations | **Static webhook** | Custom wiring that MCP doesn't cover |
 | Tools with pre-filled parameter values | **Static webhook** | Pre-fills are baked into the webhook; would be lost via MCP |
 | Built-in tools (`end_call`, etc.) | **Static webhook** | Provider built-ins, not app-specific |
 
@@ -58,9 +55,9 @@ Not all tool types switch to MCP. The table below explains the routing:
 
 ## Token management
 
-- Each agent create/update operation mints a fresh `scope: all` MCP token with a **1-year TTL**.
+- Each agent create/update operation mints a fresh MCP token with a **1-year lifetime**.
 - When an agent is updated, the prior MCP token for that agent is deactivated automatically — stale tokens do not accumulate.
-- Tokens are stored as a SHA-256 hash only (plaintext is never stored in the database).
+- Tokens are stored as a secure hash only — the plaintext token is never stored.
 - You can view and revoke active MCP tokens under **Settings → API Keys → MCP Tokens**.
 
 <Frame>
@@ -71,14 +68,14 @@ Not all tool types switch to MCP. The table below explains the routing:
 
 **The voice agent can't use my customer's connected apps**
 
-1. Confirm the integration gateway is configured — your platform must have `CONNECT_HUB_URL` set. Check with your admin.
+1. Confirm the integration gateway is configured. Check with support if unsure.
 2. Confirm the agent is assigned to the correct customer.
 3. Rebuild the agent (trigger an update) — this re-mints the MCP token and re-attaches the MCP server.
 4. Confirm the customer has connected the relevant app in their portal under **Integrations**.
 
 **I see old per-tool webhooks alongside MCP**
 
-Custom API integrations (those with UUID app names) and tools with pre-filled parameters intentionally keep static webhooks. MCP and static webhooks coexist — there is no conflict.
+Custom API integrations and tools with pre-filled parameters intentionally keep static webhooks. MCP and static webhooks coexist — there is no conflict.
 
 **VAPI agent update shows a warning about stale MCP tools**
 

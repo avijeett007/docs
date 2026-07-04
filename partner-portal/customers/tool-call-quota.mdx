@@ -1,232 +1,62 @@
 ---
 title: "Tool call quota"
-description: "Manage a customer's tool call limits when integrations are enabled."
+description: "Set how many integration actions a customer can use in a given time window."
 ---
 
-## What Tool Call Quota is for
+## What the tool call quota does
 
-**Tool Call Quota** controls how many integration tool calls a customer can make within a specific time window. This prevents abuse, manages costs, and ensures fair usage across customers.
+The **Tool Call Quota** controls how many integration actions a customer can run within a set time window. It keeps usage fair and predictable, and stops a runaway workflow from burning through resources.
 
-Tool calls include:
-- API requests to integrated services (Gmail, Slack, HubSpot, etc.)
-- Automation triggers
-- Webhook executions
-- Third-party service interactions
+"Tool calls" are the actions your customer's integrations take on their behalf — for example, sending an email through a connected Gmail account, posting to Slack, updating a record in a CRM, or firing an automation.
 
 ## Where to find it
 
-The **Tool Call Quota** tab only appears when **Integration** is enabled for the customer.
+The **Tool Call Quota** tab only shows up once integrations are turned on for the customer.
 
-1. Open **Customers** (sidebar — expands to Active Customers + Prospects).
+1. Open **Customers** in the sidebar.
 2. Select a customer.
 3. Click **Manage**.
-4. Go to **Features & Add-ons** tab.
-5. Enable **Show Integration** toggle.
-6. Select which apps the customer can access.
-7. Click on the **Tool Call Quota** tab (now visible).
+4. Go to the **Features & Add-ons** tab.
+5. Turn on the **Show Integration** toggle.
+6. Choose which apps the customer can use.
+7. The **Tool Call Quota** tab now appears — open it.
 
-## Understanding quota tiers
-
-### Basic tier (Default)
-
-When you first enable integrations:
-- **100 tool calls per 15 minutes**
-- Suitable for light integration usage
-- Resets every 15 minutes
-- Free with integration access
-
-### Higher tiers
-
-Depending on your plan and customer needs:
-- **Pro tier** – 500 tool calls per 15 minutes
-- **Enterprise tier** – 2,000 tool calls per 15 minutes  
-- **Custom tier** – Unlimited or custom limits
-
-The screenshot below shows the full Tool Call Quota tab for a customer — the same single screenshot is used as the visual reference for every section on this page:
+## What you'll see
 
 ![Tool Call Quota tab for a customer showing Current Usage progress at 0/100 calls on the Basic plan with a 15-minute reset window, Current Plan Details (Plan, Monthly Cost, Quota Limit, Reset Window, Features list), and an Upgrade Quota Plan button](/images/screenshots/screenshot-2026-03-19-163507.png)
 
-## View current quota
+The tab shows:
 
-In the Tool Call Quota tab, you can see:
+- **Current usage** — how many calls the customer has used so far, shown as a progress bar (for example, 0 of 100).
+- **Current plan details** — the plan name, monthly cost, quota limit, reset window, and the features included.
+- **Upgrade Quota Plan** — a button to move the customer to a higher plan.
 
-- **Current tier** – Which quota tier is active (Basic, Pro, Enterprise)
-- **Quota limit** – Number of calls allowed per time window
-- **Time window** – Duration before quota resets (typically 15 minutes)
-- **Current usage** – How many calls customer has made recently
-- **Remaining quota** – Calls left before hitting limit
+New customers start on the **Basic** plan, which allows 100 tool calls every 15 minutes. The count resets at the end of each window.
 
-## How quota works
+## How the quota works
 
-### Rate limiting mechanism
+Each time a customer's integration runs an action, it adds one to their count for the current window. When they reach the limit, further actions pause until the window resets. Then the count goes back to zero and they can carry on.
 
-1. **Customer makes tool call** – Through integration or API
-2. **Counter increments** – Call is added to usage count
-3. **Quota checked** – System verifies if under limit
-4. **Action taken**:
-   - Under limit: Call proceeds
-   - Over limit: Call is rejected with 429 error
+The window rolls continuously rather than resetting on the clock, and each customer has their own separate quota.
 
-### Quota reset
+## Raising a customer's quota
 
-- **Time-based reset** – Counter resets every 15 minutes (or configured window)
-- **Rolling window** – Not calendar-based, rolls continuously
-- **Per customer** – Each customer has independent quota
-
-### Example quota flow
-
-**Scenario:** Customer has 100 calls/15 min quota
-
-- 10:00 AM - Makes 80 calls → ✅ Allowed (80/100 used)
-- 10:05 AM - Makes 25 calls → ❌ Rejected (would be 105/100)
-- 10:15 AM - Quota resets → 0/100 used
-- 10:16 AM - Makes 100 calls → ✅ Allowed (100/100 used)
-
-## Upgrade quota tier
-
-### When to upgrade
-
-Consider upgrading if customer:
-- Frequently hits quota limits
-- Has automated workflows running
-- Uses multiple integrations simultaneously
-- Requires high-volume API access
-
-### How to upgrade
+If a customer regularly reaches their limit — usually because they run a lot of automations or use several integrations at once — you can move them to a higher plan:
 
 1. Open the **Tool Call Quota** tab for the customer.
-2. Click **Upgrade Tier** or tier selection dropdown.
-3. Choose the desired tier (Pro, Enterprise, Custom).
-4. Confirm upgrade.
-5. New quota takes effect immediately.
+2. Click **Upgrade Quota Plan**.
+3. Choose the plan you want.
+4. Confirm. The new limit takes effect right away.
 
-**Note:** Tier availability depends on your partner plan and customer's subscription.
+The plans available to you depend on your own subscription.
 
-## Monitor quota usage
+## If a customer keeps hitting the limit
 
-### Real-time monitoring
-
-Track customer's quota consumption:
-
-1. View **Current Usage** meter in Tool Call Quota tab.
-2. See percentage of quota consumed.
-3. Watch for approaching limits.
-
-### Usage patterns
-
-Analyze when customer hits limits:
-- **Time of day** – Peak usage hours
-- **Day of week** – Weekday vs weekend patterns
-- **After events** – Spikes following marketing campaigns
-
-### Alerts
-
-Set up notifications for quota events:
-- **90% threshold** – Warning when nearing limit
-- **Limit reached** – Alert when quota exhausted
-- **Repeated limits** – Customer hitting limits frequently
-
-## What happens when quota is exceeded
-
-### For the customer
-
-When quota limit is reached:
-- **API calls fail** – Receive HTTP 429 "Too Many Requests" error
-- **Integrations pause** – Automated workflows stop temporarily
-- **Error message** – "You have exceeded your tool call quota. Please wait or contact your administrator."
-
-### For the partner
-
-You'll see:
-- **Usage spike** in analytics
-- **Failed call logs** in integration logs
-- **Customer support requests** if customer is impacted
-
-### Resolution options
-
-1. **Wait for reset** – Quota automatically resets after time window
-2. **Upgrade tier** – Increase quota limits permanently
-3. **Optimize usage** – Help customer reduce unnecessary calls
-4. **Custom quota** – Set specific limits for this customer
-
-## Custom quota configuration
-
-For special cases, set custom quotas:
-
-1. Open **Tool Call Quota** tab.
-2. Click **Custom Configuration**.
-3. Set:
-   - **Custom limit** – Specific number of calls
-   - **Custom window** – Time period (e.g., 1 hour, 1 day)
-   - **Burst allowance** – Temporary spike tolerance
-4. Save custom quota.
-
-**Use cases for custom quotas:**
-- **Enterprise customers** – Need higher limits
-- **Testing environments** – Require unlimited calls
-- **Seasonal spikes** – Temporary increased limits
-- **Specific integrations** – Different limits per integration type
-
-## Integration quota vs API quota
-
-### Tool Call Quota (Integration)
-- **Applies to:** Third-party service calls
-- **Scope:** Customer's integration usage
-- **Typical limits:** 100-2,000 calls per 15 minutes
-- **Controls:** Gmail, Slack, HubSpot, etc. calls
-
-### API Quota (Partner/Customer API Keys)
-- **Applies to:** Direct API requests to Knotie
-- **Scope:** API key usage
-- **Typical limits:** 1,000 requests per hour
-- **Controls:** Knotie API endpoint access
-
-These are separate quota systems.
-
-## Best practices
-
-### For partners
-
-- **Monitor proactively** – Check usage weekly
-- **Right-size quotas** – Match limits to customer needs
-- **Document limits** – Inform customers of quota in onboarding
-- **Plan for growth** – Upgrade before customers hit limits
-
-### For customers
-
-- **Batch requests** – Combine multiple calls when possible
-- **Cache results** – Store frequently accessed data
-- **Schedule wisely** – Spread automation across time windows
-- **Monitor own usage** – Track calls to stay under limits
-
-### Cost optimization
-
-- **Higher quotas cost more** – Only upgrade when necessary
-- **Review unused quotas** – Downgrade customers with low usage
-- **Analyze ROI** – Ensure integration value justifies quota costs
-
-## Troubleshooting
-
-### Customer reports failed integrations
-- **Check quota status** – Verify if limit was reached
-- **Review error logs** – Look for 429 errors
-- **Check time window** – Quota may have reset already
-- **Upgrade if needed** – Increase limits for frequent users
-
-### Quota seems incorrect
-- **Verify tier** – Confirm correct quota tier is active
-- **Check recent changes** – Was quota recently modified?
-- **Review customer plan** – Ensure plan supports current tier
-- **Contact support** – If quota doesn't match expected values
-
-### Usage spikes unexpectedly
-- **Automation loops** – Customer may have infinite loop in workflow
-- **Webhook storms** – Too many webhook triggers firing
-- **Compromised credentials** – Check for unauthorized access
-- **Help customer debug** – Identify source of excessive calls
+- **Wait for the reset** — the quota clears on its own at the end of the window.
+- **Move them to a higher plan** — the simplest fix for customers who consistently need more room.
+- **Check for runaway usage** — an automation stuck in a loop, or a flood of triggers, can eat through a quota quickly. It's worth confirming the customer's workflows are behaving as expected.
 
 ## Related pages
 
-- [Integration Apps Selection](/partner-portal/customers/integration-apps-selection) – Control which apps customers access
-- [Features & Add-ons](/partner-portal/customers/features-addons-and-menu-visibility) – Enable integrations
-- [API Keys](/partner-portal/api-keys) – Partner API quota management
+- [Integration apps selection](/partner-portal/customers/integration-apps-selection) — Choose which apps a customer can use
+- [Features & add-ons](/partner-portal/customers/features-addons-and-menu-visibility) — Turn integrations on

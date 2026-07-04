@@ -31,11 +31,7 @@ Before managing credits, you must enable AI Credits for the customer:
    - **Enable Notifications** – Toggle whitelabel email alerts on or off
    - **Low Credit Threshold** – Send alerts when balance reaches this amount (in credits remaining)
 
-<Warning>
-The Features & Add-ons modal does **not** expose **Credit price per minute** or **Grace period** fields, even though earlier versions of this doc listed them. The price is derived from your partner-level **Profit Multiplier** on AI Gateway keys; the grace period (if any) is platform-controlled and not customer-configurable. If you need either, contact Knotie support.
-</Warning>
-
-![Enable AI Credits Toggle](/images/screenshots/screenshot-2026-03-19-162244.png)
+![Enable AI Credits Toggle](/images/screenshots/customer-ai-credits-toggle-2026-07-03.png)
 
 ## Add credits to a customer
 
@@ -59,7 +55,7 @@ You can also add credits from the **Billing** tab:
 4. Choose the amount.
 5. Complete the purchase.
 
-![Add Credits Modal](/images/screenshots/screenshot-2026-03-19-201334.png)
+![Add Credits Modal](/images/screenshots/customer-manage-credits-modal-2026-07-03.png)
 
 ## Deduct credits from a customer
 
@@ -91,7 +87,7 @@ Track all credit transactions for a customer:
    - **Note** – Description of transaction
    - **Date** – When it occurred
 
-![Credit History Table](/images/screenshots/screenshot-2026-03-19-163049.png)
+![Credit History Table](/images/screenshots/customer-credit-history-2026-07-03.png)
 
 ## Check customer credit balance
 
@@ -100,7 +96,7 @@ View the current balance at the top of the Credits tab:
 - **Current Balance** – Total credits available
 - **Last Updated** – When balance was last modified
 
-You can also use the **Credit Check Endpoint** to programmatically check balances via API.
+You can also check balances programmatically using the Partner API.
 
 ## Low credit alerts
 
@@ -116,7 +112,7 @@ When enabled, customers receive email notifications when their balance is low.
 
 When the customer's balance reaches or falls below this threshold, they receive an automatic email notification.
 
-![Low Credit Notification Settings](/images/screenshots/screenshot-2026-03-19-162244.png)
+![Low Credit Notification Settings](/images/screenshots/customer-ai-credits-toggle-2026-07-03.png)
 
 ## Credit pricing vs dollar pricing
 
@@ -139,22 +135,21 @@ When the customer's balance reaches or falls below this threshold, they receive 
 Credits are consumed based on:
 - **Call minutes** – Charged per minute according to credit price
 - **AI processing** – LLM, STT, TTS costs converted to credits
-- **Tool calls** – Each API/tool call consumes credits (typically 0.03 credits per call)
+- **Tool calls** – Each integration tool call consumes a small amount of credits
 
 Monitor usage in **Agent Analytics** to understand credit consumption patterns.
 
 ## Best practices
 
 - **Set appropriate thresholds** – Alert customers before they run out completely.
-- **Use grace periods** – Give customers time to top up (e.g., 300 seconds grace).
-- **Document transactions** – Always add notes when adding/deducting credits.
-- **Monitor usage patterns** – Use analytics to identify unusual consumption.
+- **Document transactions** – Always add notes when adding or deducting credits.
+- **Monitor usage patterns** – Use Agent Analytics to spot unusual consumption.
 - **Offer packages** – Bundle credits into packages (e.g., 1000, 5000, 10000).
 
 ## Troubleshooting
 
 - **Cannot add credits** – Ensure AI Credits are enabled for the customer.
-- **Credits not deducted during usage** – Check that credit price per minute is configured.
+- **Credits not deducted during usage** – Verify AI Credits are enabled and your Profit Multiplier is set on the AI Gateway page.
 - **Low credit alerts not sent** – Verify email domain is configured and alerts are enabled.
 - **Balance shows incorrect amount** – Check credit history for unauthorized transactions.
 

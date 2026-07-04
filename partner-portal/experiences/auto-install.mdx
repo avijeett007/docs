@@ -8,7 +8,7 @@ description: "Sell one-click AI products — OpenClaw Auto-Install and Hermes Au
 Auto-Install Experiences let your customers buy a fully managed AI product from your branded landing page. When they complete checkout, the platform automatically:
 
 1. Creates their customer account
-2. Provisions a dedicated private VPS (Contabo)
+2. Provisions a dedicated private server
 3. Deploys and configures the AI agent
 4. Funds the account with the plan's AI credits
 5. Enables their portal (AI Chat + Infrastructure dashboard)
@@ -22,10 +22,10 @@ The Partner Portal **One-Click Experiences** catalog contains 8 active + 8 Comin
 
 Two auto-install experiences are currently in **Beta**:
 
-| Experience | Type constant | What deploys |
-|---|---|---|
-| OpenClaw Auto-Install | `OPENCLAW_AUTOINSTALL` | OpenClaw agent accessible via Telegram; connects Gmail, Google Calendar, Notion and more |
-| Hermes Auto-Install | `HERMES_AUTOINSTALL` | Nous Research Hermes autonomous agent (web browsing, code execution, persistent memory) |
+| Experience | What deploys |
+|---|---|
+| OpenClaw Auto-Install | OpenClaw agent accessible via Telegram; connects Gmail, Google Calendar, Notion and more |
+| Hermes Auto-Install | Nous Research Hermes autonomous agent (web browsing, code execution, persistent memory) |
 
 <Info>
 Both experiences are currently **Beta**. Core functionality — provisioning, deployment, billing, credit refill, and portal access — works end to end. Visual polish and per-plan landing page customisation are fast-follows.
@@ -38,8 +38,7 @@ Both experiences are currently **Beta**. Core functionality — provisioning, de
 Before enabling either auto-install experience:
 
 1. **Stripe Connect** must be active and fully onboarded. The customer checkout runs on your Stripe Connect account. Go to **Settings → Stripe Connect** to verify.
-2. **Database migration**: this feature adds a new `agent_autoinstall_orders` table. If you self-host, run `npm run db:push` in your deployment environment before enabling.
-3. **VPS quota**: each subscriber gets a dedicated Contabo VPS. Make sure your Contabo account has capacity for the expected subscriber volume.
+2. **Server capacity**: each subscriber gets a dedicated private server. Make sure you have capacity for the expected subscriber volume.
 
 <Frame>
   <img src="/images/screenshots/auto-install-stripe-connect-panel-2026-06-20.png" alt="Partner Portal — Settings page Stripe Connect section: connected Express account, Accept Charges + Receive Payouts both green Enabled, Revenue Sharing 2.5% Platform Fee (you keep 97.50%), Premium Benefit callout noting 1% preferential rate." />
@@ -64,7 +63,7 @@ Before enabling either auto-install experience:
 
 ## Configure pricing tiers
 
-Each auto-install experience supports multiple subscription plans ("tiers"). You define the VPS spec and AI credit allowance per tier; the platform syncs a recurring Stripe Price for each one automatically.
+Each auto-install experience supports multiple subscription plans ("tiers"). You define the server spec and AI credit allowance per tier; the platform sets up a recurring subscription price for each one automatically.
 
 ### Open the experience settings
 
@@ -79,11 +78,11 @@ For each tier, configure:
 |---|---|
 | **Plan name** | Displayed to customers on the landing page (e.g. "Starter", "Pro", "Scale") |
 | **Price** | Monthly subscription price in your currency |
-| **VPS Plan** | The Contabo VPS spec to provision (CPU / RAM / storage options shown as a dropdown) |
+| **VPS Plan** | The server spec to provision (CPU / RAM / storage options shown as a dropdown) |
 | **AI Credits / month** | Number of AI credits included in the monthly subscription |
 | **Enabled** | Toggle the tier on/off without deleting it |
 
-Save the tier to sync a corresponding recurring Stripe Price on your Connect account. Existing subscribers are **not** migrated automatically when you change a tier's price — only new checkouts use the new price.
+Save the tier to set up a matching recurring subscription price on your Connect account. Existing subscribers are **not** migrated automatically when you change a tier's price — only new checkouts use the new price.
 
 <Frame>
   <img src="/images/screenshots/auto-install-pricing-tiers-editor-2026-06-20.png" alt="Pricing Tiers editor — a Lite tier card with Internal Name, Display Name, Description, Price, Currency, Interval, Highlight toggle, and Features list. Auto-install experiences add VPS Plan and AI Credits / month fields below Price." />
@@ -95,25 +94,18 @@ Save the tier to sync a corresponding recurring Stripe Price on your Connect acc
 
 When a customer visits your landing page and picks a plan:
 
-1. They are redirected to a **Stripe Checkout** session on your Connect account.
-2. On successful payment, the platform receives a `checkout.session.completed` webhook.
-3. The fulfillment orchestrator runs:
-   - Account created (Customer + portal credentials)
-   - AI Gateway key minted and funded with the plan's credits
-   - VPS provisioned on Contabo
-   - Agent deployed to the VPS (the gateway key is injected as `KNOTIE_API_KEY`)
+1. They are redirected to a **Stripe Checkout** page on your Connect account.
+2. On successful payment, setup begins automatically:
+   - Account created (customer + portal login)
+   - AI credits funded for the plan
+   - A dedicated private server provisioned
+   - Agent deployed to the server
    - Portal features unlocked: AI Chat + Infrastructure / Agency dashboard
-4. A welcome email is sent to the customer with their login details. **No password is ever collected at checkout** — the platform generates a secure temporary password and delivers it by email.
+3. A welcome email is sent to the customer with their login details. **No password is ever collected at checkout** — the platform generates a secure temporary password and delivers it by email.
 
 ### Checking order status
 
-The platform exposes an order-status endpoint that the landing page polls during setup:
-
-```
-GET /api/whitelabel/agent-autoinstall/order/{orderId}
-```
-
-Customers see a progress indicator while the VPS provisions and the agent deploys (typically 2–5 minutes).
+While setup runs, the customer's landing page shows a live progress indicator — the server provisions and the agent deploys (typically 2–5 minutes) before the account is ready.
 
 <Frame>
   <img src="/images/screenshots/auto-install-customer-setup-progress-2026-06-20.png" alt="Customer-facing onboarding progress — Step 1 of 5 (Business Name + Website) for the AI Personal Assistant experience. Auto-install substitutes the same step-indicator pattern with provisioning steps (account → VPS → deploy → ready)." />
@@ -125,15 +117,15 @@ Customers see a progress indicator while the VPS provisions and the agent deploy
 
 ### Monthly credit refill
 
-On every successful `invoice.paid` event for an auto-install subscription, the platform automatically tops up the customer's AI credit balance to the plan's included credits. No manual action is needed.
+Each time an auto-install subscription renews and payment succeeds, the platform automatically tops up the customer's AI credit balance to the plan's included credits. No manual action is needed.
 
 ### Cancellation
 
 When a subscription is cancelled or payment lapses:
 
-- The customer's AI Gateway key is **revoked** — the deployed agent can no longer make model calls.
-- The VPS and data are **not** automatically deleted (you can manage the VPS separately under **VPS Servers**).
-- If the customer resubscribes, a new key is minted and the agent is re-funded.
+- The customer's AI access is **revoked** — the deployed agent can no longer make model calls.
+- The server and its data are **not** automatically deleted (you can manage the server separately under **VPS Servers**).
+- If the customer resubscribes, access is restored and the agent is re-funded.
 
 ---
 
@@ -209,19 +201,19 @@ For customers who want to interact with Hermes directly over SSH, they can run `
 Check the order status:
 1. In the Partner Portal, open the customer record.
 2. Look for a failed or pending auto-install order under their account.
-3. Contact Knotie support with the `orderId` if the order is stuck — the orchestrator is idempotent and can be re-triggered.
+3. If the order is stuck, contact support with the order reference — setup can safely be re-run.
 
-**VPS provisioning fails**
+**Server provisioning fails**
 
-This usually means the Contabo quota was exceeded. Verify capacity in your Contabo account, then re-trigger the order.
+This usually means you've run out of server capacity. Verify you have room for another server, then re-trigger the order.
 
 **AI credits not refilling**
 
-Verify that the `invoice.paid` webhook is reaching the platform. Under **Settings → Stripe Connect**, confirm your connected-account webhooks are registered. The webhook endpoint is `POST /api/whitelabel/billing/webhooks/stripe`.
+Make sure your Stripe Connect account is fully connected under **Settings → Stripe Connect** so renewal payments come through. If credits still don't top up after a successful renewal, contact support.
 
 **Agent not responding (Hermes)**
 
-SSH into the VPS and run `hermes doctor`. If the install is unhealthy, re-run the catalog deploy from **VPS → My Instances → Reinstall** — it is safe to re-run and will not wipe customer data.
+Re-run the install from **VPS → My Instances → Reinstall** — it is safe to re-run and will not wipe customer data.
 
 ---
 

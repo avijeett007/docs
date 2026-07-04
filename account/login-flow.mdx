@@ -1,6 +1,6 @@
 ---
 title: "Partner Login Flow"
-description: "Step-by-step guide to logging into the Knotie AI Pro Partner Portal — from first-time credentials to the 9-step onboarding checklist."
+description: "Step-by-step guide to logging into the Knotie AI Pro Partner Portal — from first-time credentials to your onboarding path."
 ---
 
 ## Overview
@@ -23,9 +23,9 @@ https://knotie-ai.pro/partner/login
 
 **What you'll see:**
 - Email and password fields
-- Sign In button (primary CTA)
-- "Continue with Google" option (SSO)
-- "Login with Passkey" option (FIDO2/WebAuthn)
+- Sign In button
+- "Continue with Google" option
+- "Login with Passkey" option
 - "Forgot password?" link
 
 ---
@@ -63,57 +63,60 @@ Click **Change Password** to continue.
 After your first password change, you'll see the **"Secure Your Account"** modal offering passkey setup, followed by the **Welcome** screen.
 
 **Choose one of:**
-- **Set Up Later** — skip passkey setup and go to the dashboard *(you can enable it later under Settings → Profile Settings → Security)*
-- **Create a Passkey** — follow the browser prompt to register a passkey (FIDO2/WebAuthn)
+- **Set Up Later** — skip passkey setup and go to the dashboard *(you can enable it later under Settings → Profile Settings)*
+- **Create a Passkey** — follow the browser prompt to register a passkey
 
 <Note>
-  The passkey prompt appears *before* the traditional MFA setup. Both are available — passkey is the newer option and works across all your devices via your OS's credential manager. The live Settings sidebar has 5 sub-items: Profile Settings / Partner API Keys / Email Domain Management / Plans & Billing / White-Label Portal — there is no top-level "Security Settings" sub-page. Password, MFA, and passkey controls live under Profile Settings.
+  The passkey prompt appears *before* the extra sign-in security (MFA) setup. Both are available — a passkey is the newer option and works across all your devices. Your password, MFA, and passkey controls all live under **Settings → Profile Settings**.
 </Note>
 
-You can enable **MFA** (TOTP authenticator app) separately any time from **Settings → Profile Settings**.
+You can enable **MFA** (a code from an authenticator app) separately any time from **Settings → Profile Settings**.
 
-## Step 5 — Welcome Screen
+## Step 5 — Choose How You Start
 
-After the security prompt, you'll see a welcome/video overview:
+After the security prompt, you land on your dashboard. A small selector lets you switch how you want to work, and a **Watch Tutorial** button is always available:
 
-![Welcome screen with Manual, Nexus New, and Watch Tutorial buttons](/images/screenshots/login-step-5-welcome-screen-annotated.png)
+- **Manual** — the standard dashboard (this is where you'll spend most of your time).
+- **Nexus** — a preview of a new chat-first way to run your whole agency from one window. Choosing it opens the preview below.
+- **Watch Tutorial** — play a guided tour of the portal.
 
-**Your options:**
-- **Manual** — skip the walkthrough and go straight to the dashboard *(recommended for returning users)*
-- **Nexus New** — explore the Nexus feature (new feature onboarding)
-- **Watch Tutorial** — play an interactive guided tour of the portal
+If you pick **Nexus**, you'll see a preview screen. It's an early look — nothing here touches your real data yet, and you can return to **Manual** at any time.
 
-To go directly to the dashboard, click **Manual**.
+<Frame>
+  <img src="/images/screenshots/login-step-5-welcome-nexus.png" alt="Knotie Nexus Preview dialog explaining it is an early visual mockup of a chat-first way to run your agency, with 'Stay on Manual' and 'Continue to Nexus preview' buttons." />
+</Frame>
+
+For everyday use, stay on **Manual**.
 
 ---
 
-## Step 6 — Partner Dashboard & 9-Step Onboarding Checklist
+## Step 6 — Partner Dashboard & Your Onboarding Path
 
-You're now on the **Partner Dashboard**:
+You're now on the **Partner Dashboard**. Your onboarding is laid out as a series of **levels** — you complete short challenges to move from one level to the next.
 
-![Partner Dashboard with 9-step onboarding checklist](/images/screenshots/login-step-6-dashboard-onboarding-annotated.png)
+![Partner Dashboard onboarding — Level 0 progress bar and the "Make the Platform Yours" challenge with its steps](/images/screenshots/login-step-6-dashboard-onboarding.png)
 
-### Getting Started Widget
+### Your first challenge
 
-The **Getting Started (0/9)** widget is your onboarding guide. Complete all 9 steps to unlock **100 Knotie Credits** as a reward.
+You start at **Level 0**, with your first challenge — **Make the Platform Yours** — front and center. It walks you through a few quick steps to get set up:
 
-| # | Step | What to do |
-|---|------|------------|
-| 1 | **Customize Your Pod** | Set up your whitelabel portal with subdomain or custom domain |
-| 2 | **Onboard Your First Customer** | Create your first customer account via **Quick Onboard** |
-| 3 | **Import an Agent** | Create or import an AI agent (Retell, VAPI, Ultravox, ElevenLabs, GHL) |
-| 4 | **Review Analytics** | Confirm your customer has accessed their portal |
-| 5 | **Complete Whitelabeling** | Configure email delivery under **Settings → Email Domain Management** (SMTP or SES domain) |
-| 6 | **Setup Your Payments** | Integrate your Stripe Connect account |
-| 7–8 | (Summary cards) | Consolidated setup checklist surfaced inside Step 9 |
-| 9 | **Summary & Deploy** | Final review and deploy your customer |
+- **Take a Quick Platform Tour** — a short overview of how the dashboard fits together.
+- **See Why Your Customer Portal Matters** — the value of your white-label portal.
+- **Follow the Portal Setup Guide** — set up your portal.
+- **Create the Right Experience for Every Customer** — tailor what customers see.
+- **Choose Your Default Customer Experience** — pick the default portal experience for new customers.
 
-<Note>
-  The live Getting Started widget shows **9 steps**, not 6. Step 9 is "Summary & Deploy" — steps 4–8 (Service Categories / Knowledge Base / Greeting Setup / Information Collection / Communication Settings) are presented as summary cards inside the Summary & Deploy step rather than as standalone steps.
-</Note>
+As you finish challenges, the progress bar fills and you unlock the next level.
 
-> **Progress is saved automatically** — you can complete the checklist across multiple sessions.
-> The checklist reappears every 7 days if you haven't completed it.
+### What's coming up next
+
+Later levels guide you through the rest of your setup:
+
+- **Onboard Your First Customer**
+- **Launch Your First AI Agent**
+- **Connect Stripe and Start Getting Paid**
+
+> **Progress is saved automatically** — you can pick up where you left off across multiple sessions.
 
 ### Quick Actions (Top of Dashboard)
 

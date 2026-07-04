@@ -13,16 +13,16 @@ Each card shows the experience's status badge (`Ready` / `Beta` / `Prototype`), 
 
 ## Experience types
 
-| Type | Name | Status | Description |
-|------|------|--------|-------------|
-| `AI_RECEPTIONIST` | AI Receptionist | Ready | 24/7 inbound call handling with automatic appointment booking and language routing |
-| `AI_PERSONAL_ASSISTANT` | AI Personal Assistant | Prototype | WhatsApp-native personal EA managing calendar, tasks, and knowledge base |
-| `OPENCLAW_WHITELABEL_SERVICE` | OpenClaw Whitelabel | Beta | Full AI Org under the agency brand (marketing, sales, support, ops) |
-| `OPENCLAW_AUTOINSTALL` | OpenClaw Auto-Install | Beta | One-click self-serve install via Telegram, auto-connects Gmail/Calendar/Notion |
-| `HERMES_AUTOINSTALL` | Hermes Auto-Install | Beta | One-click autonomous AI agent (Hermes) on a dedicated private VPS — chat from the portal |
-| `OPENCLAW_SETUP_SERVICE` | OpenClaw Setup Service | Beta | Paid consulting call booking for prospects who need guided setup |
-| `AI_BUSINESS_AUDIT` | AI Business Audit | Beta | 60-second self-serve audit with branded report + Stripe checkout for packages |
-| `RESELL_AI_GATEWAY` | Resell AI Gateway | Beta | Branded API resell — partners sell access to Claude/GPT/Gemini with their own pricing |
+| Name | Status | Description |
+|------|--------|-------------|
+| AI Receptionist | Ready | 24/7 inbound call handling with automatic appointment booking and language routing |
+| AI Personal Assistant | Prototype | WhatsApp-native personal EA managing calendar, tasks, and knowledge base |
+| OpenClaw Whitelabel | Beta | Full AI Org under the agency brand (marketing, sales, support, ops) |
+| OpenClaw Auto-Install | Beta | One-click self-serve install via Telegram, auto-connects Gmail/Calendar/Notion |
+| Hermes Auto-Install | Beta | One-click autonomous AI agent (Hermes) on a dedicated private server — chat from the portal |
+| OpenClaw Setup Service | Beta | Paid consulting call booking for prospects who need guided setup |
+| AI Business Audit | Beta | 60-second self-serve audit with branded report + checkout for packages |
+| Resell AI Gateway | Beta | Branded API resell — partners sell access to Claude/GPT/Gemini with their own pricing |
 
 <Info>
 **OpenClaw Auto-Install** and **Hermes Auto-Install** are _auto-provisioning_ experiences: when a customer subscribes, the platform automatically provisions a VPS, deploys the agent, and funds AI credits — no manual steps needed. See [Auto-Install Experiences](/partner-portal/experiences/auto-install) for the full setup guide.
@@ -38,7 +38,7 @@ Each card shows the experience's status badge (`Ready` / `Beta` / `Prototype`), 
 ### First-time enable
 
 When you enable an experience for the first time:
-- A `POST` request is sent to create the experience
+- The experience is created and turned on
 - Some experiences auto-enable related features and surface them in the confirmation modal before you commit
 
 For **AI Business Audit**, the confirmation modal explains the two things that turn on:

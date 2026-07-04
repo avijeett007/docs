@@ -43,7 +43,7 @@ Before running the setup, you need:
 | **Knotie API Key** | Partner Portal → Settings → API Keys |
 | **Tailscale Auth Key** | [tailscale.com/admin/settings/keys](https://login.tailscale.com/admin/settings/keys) |
 | **Knotie MCP Token** | Partner Portal → Settings → MCP Tokens |
-| **Linux VPS** | Ubuntu 22.04 or 24.04 (KVM recommended: Hostinger, Contabo) |
+| **Linux VPS** | Ubuntu 22.04 or 24.04 (a KVM-based VPS is recommended) |
 | **Domain (optional)** | For custom branding |
 
 ### Setting up Tailscale
@@ -171,7 +171,7 @@ When OpenClaw is deployed via the VPS App Catalog, the setup script also configu
 ### How it works
 
 ```
-Knotie Partner Portal (Next.js)
+Knotie Partner Portal
          │  HTTPS POST /knotie-channel/chat
          │  (Bearer token + HMAC-signed nonce)
          ▼

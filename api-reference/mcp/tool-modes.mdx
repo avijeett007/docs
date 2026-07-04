@@ -18,7 +18,7 @@ The agent now navigates a catalogue rather than holding 283 simultaneous functio
 
 | Token minted by | Default mode | Can change? |
 |---|---|---|
-| Voice agent (auto-minted at call start) | `meta` (~11 tools) | Via `VOICE_AGENT_TOOL_MODE` env var |
+| Voice agent (auto-minted at call start) | `meta` (~11 tools) | Platform default (managed by Knotie) |
 | Partner API key / manual token | `full` (~283 tools) | Via `toolMode` JWT claim |
 
 Voice agents default to `meta` to protect LLM context and tool accuracy. Partner-minted tokens (Cursor, Claude Desktop, Windsurf, automation scripts) still receive full tool access by default.
@@ -67,13 +67,7 @@ In meta mode the agent workflow changes:
 
 ## Revert to full mode for voice agents
 
-If you need a voice agent to receive the full tool list (e.g., for debugging), set the environment variable:
-
-```bash
-VOICE_AGENT_TOOL_MODE=full
-```
-
-This applies globally to all newly minted voice-agent tokens. Existing in-flight tokens are unaffected until the call ends.
+Voice-agent tool mode is a platform-level default managed by Knotie. If you need your voice agents to receive the full tool list (e.g., for debugging a tool-selection issue), contact Knotie support to have the default changed for your account. The change applies to newly minted voice-agent tokens; in-flight tokens are unaffected until the call ends.
 
 ## New agent-facing tools
 

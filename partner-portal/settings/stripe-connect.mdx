@@ -69,12 +69,12 @@ If needed, you can disconnect Stripe:
 
 This prevents collecting _new_ payments, but does not remove historical payment data.
 
-## Security note (MFA requirement)
+## Security note (two-factor authentication)
 
-If Stripe Connect is active, the Partner Portal requires **MFA** and prevents disabling it. This is intentional to protect payment processing. You can verify this in Security Settings, which shows:
+While Stripe Connect is active, the Partner Portal keeps two-factor authentication on and won't let you turn it off. This is intentional — it protects your payment processing. You'll see this noted in your Security settings:
 
 > "MFA cannot be disabled while Stripe Connect is active. This ensures secure payment processing."
 
 ## Screenshots
 
-![Settings page showing Email Settings panel (Domain Email Service Inactive / Activate, Custom SMTP Server Inactive), Stripe Connect panel (Express account with Accept Charges and Receive Payouts enabled, 2.5% platform fee callout), and Profile Settings sidebar entry highlighted](/images/Group28.png)
+![Stripe Connect panel in Partner Settings — Express account with a masked Account ID, Accept Charges and Receive Payouts both Enabled, and the Revenue Sharing card showing the 2.5% platform fee (you keep 97.50%) with the Premium Benefit 1% callout](/images/screenshots/stripe-connect-2026-07-03.png)

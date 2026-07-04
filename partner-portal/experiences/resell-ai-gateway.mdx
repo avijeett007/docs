@@ -7,7 +7,7 @@ description: "Sell branded AI API access to your customers. One-click setup — 
 
 **Resell AI Gateway** is a Partner Experience that lets you run a branded AI API service on your own domain.
 
-When enabled, your customers can visit a landing page you control, pick a subscription package, pay via Stripe (or claim a free tier), and immediately receive an **OpenAI-compatible API key** routed through Knotie's LiteLLM gateway — all without any manual provisioning on your end.
+When enabled, your customers can visit a landing page you control, pick a subscription package, pay by card (or claim a free tier), and immediately receive an **OpenAI-compatible API key** routed through Knotie's AI gateway — all without any manual setup on your end.
 
 Use Resell AI Gateway when you want to:
 
@@ -21,7 +21,7 @@ Use Resell AI Gateway when you want to:
   Resell AI Gateway is in **Beta**. It requires your partner account to have an active Stripe Connect configuration and sufficient Knotie Credits. See [Prerequisites](#prerequisites) below.
 </Note>
 
-![Resell AI Gateway card on Experiences catalog — purple Beta chip visible](/images/screenshots/partner-ai-gateway-overview.png)
+![Resell AI Gateway card on the Experiences catalog, marked Beta](/images/screenshots/partner-ai-gateway-overview.png)
 
 ---
 
@@ -40,28 +40,28 @@ Before enabling:
 1. Go to **Partner Portal → Experiences**.
 2. Find the **Resell AI Gateway** card (marked **Beta**).
 3. Click **Enable**.
-4. The system creates the experience with the default alias `/ai-gateway` and redirects you to the settings page.
+4. Your experience is created with the default web address ending in `/ai-gateway`, and you're taken to the settings page.
 
-![Experiences catalog page with Resell AI Gateway card visible](/images/screenshots/partner-ai-gateway-overview.png)
+![Experiences catalog page with the Resell AI Gateway card visible](/images/screenshots/partner-ai-gateway-overview.png)
 
-You can change the alias at any time from the settings page header. If your landing page lives at `yourdomain.com/ai-gateway`, that is what customers will visit.
+You can change the web address at any time from the settings page. If your landing page lives at `yourdomain.com/ai-gateway`, that's what customers will visit.
 
 ---
 
 ## Settings page overview
 
-The Resell AI Gateway settings page (`/partner/experiences/resell_ai_gateway`) is a **flat single-page layout** (not a tabbed IA), arranged top-to-bottom in this order:
+The Resell AI Gateway settings page is a single scrolling page, arranged top to bottom like this:
 
-1. **Hero** — experience title, alias, status badge.
-2. **2 advisory banners**:
-   - **Custom-domain advisory** — warns you if your custom domain is not yet verified. Until verified, customer code samples show `api.knotie.ai` instead of your domain. Configure this at **Partner Portal → AI Gateway → Custom Domain**.
-   - **Credit-block advisory** — reminds you that each provisioned customer key reserves ~1,000 credits. Links to your Credits page for top-ups.
-3. **2 KPI cards** — summary metrics for the experience.
-4. **Landing-page branding form** — hero, features, FAQs, branding overrides.
-5. **Packages section** — list of subscription tiers with create / edit / duplicate / delete / enable-disable actions (see [Managing packages](#managing-packages) below).
+1. **Overview** — your experience title, web address, and status.
+2. **Two reminders at the top**:
+   - **Custom domain** — flags if your custom domain isn't verified yet. Until it is, the code samples customers see use Knotie's address instead of yours. Set this up at **Partner Portal → AI Gateway → Custom Domain**.
+   - **Credits** — a reminder that each customer key you provide sets aside about 1,000 credits. Links to your Credits page to top up.
+3. **Two summary cards** — quick metrics for the experience.
+4. **Landing-page branding** — your hero text, features, FAQs, and branding.
+5. **Packages** — your subscription tiers, where you can create, edit, duplicate, delete, and turn packages on or off (see [Managing packages](#managing-packages) below).
 
 <Note>
-  **Gateway defaults** (your AI Gateway profit multiplier and allowed-models list) is **not** a tab on this page — it lives behind a separate sidebar link: **Partner Portal → AI Gateway** (`/partner/ai-gateway`). There is also **no Analytics tab** on the Resell AI Gateway settings page in the current Beta build.
+  Your **gateway defaults** (your profit multiplier and the list of models you allow) aren't on this page — they live under **Partner Portal → AI Gateway** in the sidebar. There's also no Analytics section on this page yet.
 </Note>
 
 ---
@@ -86,31 +86,31 @@ The Resell AI Gateway settings page (`/partner/experiences/resell_ai_gateway`) i
 | **Trial days** | Optional. Adds a Stripe trial period (card still required) |
 | **Trial credits** | Credits granted during the trial (defaults to AI Credits included) |
 
-3. Click **Save**. This automatically creates a **Stripe Product** with monthly/yearly Prices on your Connect account.
+3. Click **Save**. This automatically sets up the matching product and pricing in your Stripe account.
 
-![New Package modal — model multi-select grid and pricing fields](/images/screenshots/partner-ai-gateway-create-key.png)
+![New Package modal with the model picker and pricing fields](/images/screenshots/partner-ai-gateway-create-key.png)
 
 ### Editing and deleting packages
 
-- **Edit** — opens the same modal. Saving propagates the updated allowed-models list to all existing customers' keys automatically.
-- **Duplicate** — copies all fields into a new draft package.
-- **Delete** — archives the Stripe Product and removes the package from the landing page. Existing subscribers are unaffected until their next billing cycle.
+- **Edit** — opens the same form. Saving updates the allowed-models list for all existing customers on that package automatically.
+- **Duplicate** — copies everything into a new draft package.
+- **Delete** — removes the package from your landing page. Existing subscribers keep their access until their next billing cycle.
 - **Enable/disable toggle** — hides or shows the package on the landing page without deleting it.
 
 ---
 
 ## Customizing the landing page
 
-The **Landing-page branding form** is a section in the middle of the settings page (between the KPI cards and the Packages section — not a tab). It lets you edit the `landingPageConfig` JSON for this experience:
+The **Landing-page branding** section sits in the middle of the settings page, between the summary cards and the Packages section. Here you can customize:
 
-- Hero title, subtitle, and CTA button text
-- Features section (icon, title, description per card)
-- FAQ entries (question + answer pairs)
-- Branding overrides (logo URL, primary color, business name)
+- The hero title, subtitle, and button text
+- The features section (an icon, title, and description for each card)
+- FAQ entries (question and answer pairs)
+- Your branding (logo, primary color, business name)
 
-Changes here are reflected immediately on the public landing page.
+Changes show up on your public landing page right away.
 
-![Landing Page tab — JSON editor with sample experience configuration](/images/screenshots/partner-ai-gateway-self-service-settings.png)
+![Landing-page branding editor with a sample configuration](/images/screenshots/partner-ai-gateway-self-service-settings.png)
 
 ---
 
@@ -120,14 +120,14 @@ Changes here are reflected immediately on the public landing page.
 
 When a customer visits your landing page (e.g., `yourdomain.com/ai-gateway`), they see:
 
-1. **Hero** — your branding, headline, and a "Get started" CTA
-2. **Supported models strip** — the models you've made available
-3. **Feature highlights** — configurable in the Landing-page branding form (on the partner settings page)
-4. **Pricing grid** — your packages, with trial badges where applicable
-5. **Code snippet** — OpenAI-SDK example that works with their key after signup
-6. **FAQ** — your configured questions and answers
+1. **Hero** — your branding, headline, and a "Get started" button
+2. **Supported models** — the models you've made available
+3. **Feature highlights** — the ones you set in the Landing-page branding section
+4. **Pricing** — your packages, with trial badges where they apply
+5. **Code sample** — a ready-to-use example that works with their key after signup
+6. **FAQ** — your questions and answers
 
-{/* > ℹ️ The **pricing grid** is rendered from the experience's `packages` config on your landing page (e.g. `https://your-agency.com`). Each package card shows: name, included AI Credits, monthly price, optional trial badge, and a Get started CTA. Capture from your own whitelabel landing page to refresh this placeholder — the partner settings page screenshot above shows the JSON editor where these packages are configured. */}
+{/* Screenshot needed: the public pricing grid, captured from your own white-label landing page. */}
 
 ### Free package path
 
@@ -136,42 +136,39 @@ When a customer clicks **Get started** on a free package:
 1. A signup dialog asks for email, password, full name, and optional company name.
 2. On submit, an API key is provisioned immediately.
 3. The key is shown once in the dialog — the customer must copy it now.
-4. The customer is redirected to `/whitelabel/ai-gateway` where they can view their key and credit balance.
+4. The customer is taken to their gateway portal, where they can view their key and credit balance.
 
-{/* > ℹ️ The **signup dialog** appears on the customer's landing page after they click Get started on a free package. On success, it shows a green check, the provisioned AI Gateway key in a copy-to-clipboard input, and a redirect button to `/whitelabel/ai-gateway`. The dialog lives outside knotie-ai.pro — capture from your own whitelabel landing page after completing a free signup. */}
+{/* Screenshot needed: the customer signup dialog with the provisioned key, captured from your own white-label landing page. */}
 
 ### Paid package path (with optional trial)
 
-1. Customer clicks **Get started** on a paid package and fills in the signup dialog.
-2. They are redirected to a **Stripe Checkout** session hosted on your Connect account.
-3. A credit card is required even if a trial period is configured.
-4. After successful payment (or trial start), Stripe fires a `checkout.session.completed` webhook.
-5. The webhook provisions the customer account and AI Gateway key automatically.
-6. The customer is redirected to `/whitelabel/ai-gateway` with their key ready.
+1. The customer clicks **Get started** on a paid package and fills in the signup form.
+2. They're taken to a secure Stripe checkout page.
+3. A card is required even when a trial is offered.
+4. Once payment goes through (or the trial starts), their account and API key are set up automatically.
+5. The customer is taken to their gateway portal with their key ready.
 
 ---
 
 ## Subscription lifecycle
 
-Knotie listens to Stripe webhook events and manages subscriptions automatically:
+Knotie keeps each customer's subscription in sync with Stripe automatically:
 
-| Stripe event | What happens |
+| When… | What happens |
 |---|---|
-| `invoice.payment_succeeded` | Customer's credit balance is reset to the package's **AI Credits included** amount. Status → `active`. |
-| `invoice.payment_failed` | Status → `past_due`. The key remains active briefly until credits run out. |
-| `subscription.updated` (canceled / unpaid / incomplete_expired) | Status → `cancelled`. Key is **immediately revoked**. No grace period. |
-| `subscription.deleted` | Status → `cancelled`. Key is **immediately revoked**. |
+| A payment succeeds | The customer's credit balance resets to their package's included amount, and their account stays active. |
+| A payment fails | The account is marked past due. The key keeps working briefly until credits run out. |
+| A subscription is cancelled or goes unpaid | The account is cancelled and the key is **turned off right away** — there's no grace period. |
 
 <Warning>
-  Key revocation on cancellation is immediate — there is no grace period. Customers lose access the moment the subscription is cancelled or marked unpaid.
+  When a subscription is cancelled or marked unpaid, the customer's key is turned off immediately — there's no grace period.
 </Warning>
 
-### Trial behavior
+### Trials
 
-- Trial periods use Stripe's `trial_period_days`.
-- The customer's key and credits are provisioned the moment the Stripe Checkout session completes (not when the trial ends).
-- `resellAiGatewaySubscriptionStatus` is set to `trialing` during the trial.
-- When the first real invoice is paid after the trial, credits refresh and status flips to `active`.
+- The customer's key and credits are set up the moment they finish checkout — not when the trial ends.
+- Their account shows as **trialing** during the trial period.
+- When the first real payment goes through after the trial, their credits refresh and the account becomes active.
 
 ---
 
@@ -181,140 +178,21 @@ Customers acquired through Resell AI Gateway appear in **Partner Portal → Pros
 
 Once converted (payment succeeded or free package claimed), they appear in your standard **Customers** list with:
 
-- An **"AI Gateway Customer"** badge in the customer management modal
+- An **"AI Gateway Customer"** badge in their customer details
 - Their package name shown beneath their name
-- AI Gateway and AI Credits pre-enabled
+- AI Gateway and AI Credits already turned on
 
 ---
 
-## API reference — Partner packages CRUD
+## Common problems and fixes
 
-All partner routes require a valid partner JWT.
-
-**Base path:** `/api/partner/experiences/resell-ai-gateway/packages`
-
-| Method | Path | Description |
-|--------|------|-------------|
-| `GET` | `/` | List all packages for this partner |
-| `POST` | `/` | Create a new package (also creates Stripe Product + Prices) |
-| `PATCH` | `/[packageId]` | Update a package (propagates model changes to customer keys) |
-| `DELETE` | `/[packageId]` | Archive the package and its Stripe Products |
-
-**`POST /` — Create package (request body)**
-
-```json
-{
-  "name": "Starter",
-  "description": "Perfect for solo developers",
-  "monthlyPriceCents": 2900,
-  "yearlyPriceCents": 27900,
-  "aiCreditsIncluded": 5000,
-  "allowedModels": ["gpt-4o-mini", "claude-3-5-haiku-20241022"],
-  "rateLimitRpm": 60,
-  "profitMultiplier": 1.5,
-  "trialDays": 14,
-  "trialCreditsIncluded": 1000,
-  "currency": "usd"
-}
-```
-
-**`GET /` — List packages (response)**
-
-```json
-{
-  "packages": [
-    {
-      "id": "pkg_01abc...",
-      "name": "Starter",
-      "monthlyPriceCents": 2900,
-      "yearlyPriceCents": 27900,
-      "aiCreditsIncluded": 5000,
-      "allowedModels": ["gpt-4o-mini", "claude-3-5-haiku-20241022"],
-      "trialDays": 14,
-      "enabled": true,
-      "stripeMonthlyPriceId": "price_...",
-      "stripeYearlyPriceId": "price_..."
-    }
-  ]
-}
-```
-
----
-
-## API reference — Public packages list
-
-**`GET /api/whitelabel/resell-ai-gateway/[alias]/packages`** — No auth required.
-
-Returns enabled packages and partner branding for customers loading the landing page.
-
-```json
-{
-  "partner": {
-    "businessName": "Acme AI",
-    "logo": "https://...",
-    "primaryColor": "#6366f1",
-    "portalSlogan": "Powerful AI for builders"
-  },
-  "experience": {
-    "displayName": "Acme AI Gateway",
-    "landingPageConfig": { "...": "..." }
-  },
-  "packages": [
-    {
-      "id": "pkg_01abc...",
-      "name": "Starter",
-      "monthlyPriceCents": 2900,
-      "aiCreditsIncluded": 5000,
-      "allowedModels": ["gpt-4o-mini"],
-      "highlighted": false
-    }
-  ]
-}
-```
-
----
-
-## API reference — Customer signup
-
-**`POST /api/whitelabel/resell-ai-gateway/signup`** — No auth required (public endpoint).
-
-```json
-{
-  "alias": "/ai-gateway",
-  "packageId": "pkg_01abc...",
-  "email": "user@example.com",
-  "password": "••••••••",
-  "fullName": "Jane Smith",
-  "companyName": "Acme Corp"
-}
-```
-
-**Free package response:**
-```json
-{
-  "virtualKey": "sk-knot-...",
-  "redirectUrl": "/whitelabel/ai-gateway"
-}
-```
-
-**Paid package response:**
-```json
-{
-  "checkoutUrl": "https://checkout.stripe.com/c/pay/..."
-}
-```
-
----
-
-## Common errors and fixes
-
-| Symptom | Likely cause | Fix |
+| Problem | Likely cause | Fix |
 |---------|-------------|-----|
-| Package creation fails | Stripe Connect not configured | Go to **Settings → Stripe Connect** and complete onboarding |
-| "Insufficient credits" on signup | Partner balance below 1,000 credits | Top up at **Partner Portal → Credits** |
-| Customer key not appearing after Stripe Checkout | Webhook not delivered | Check Stripe dashboard for `checkout.session.completed` webhook status; ensure the webhook endpoint is registered |
-| Paid customer still has access after cancellation | Stripe cancellation webhook not delivered | Manually revoke key from **Customers → AI Gateway section** |
-| Models not appearing in package modal | Partner's AI Gateway allowed models list is empty | Configure allowed models at **Partner Portal → AI Gateway** first |
+| Can't create a package | Stripe isn't connected yet | Go to **Settings → Stripe Connect** and finish setup |
+| "Insufficient credits" when a customer signs up | Your balance is below 1,000 credits | Top up at **Partner Portal → Credits** |
+| A customer's key doesn't appear after checkout | Their payment didn't finish syncing | Check the payment status in your Stripe dashboard, then refresh |
+| A cancelled customer still has access | The cancellation didn't sync from Stripe | Turn off their key manually from **Customers → AI Gateway** |
+| No models show up when creating a package | Your allowed-models list is empty | Set your allowed models at **Partner Portal → AI Gateway** first |
 
 ---
 

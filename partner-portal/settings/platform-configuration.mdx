@@ -44,7 +44,7 @@ Only one mode is active at a time. JARVIS is displayed but disabled — selectin
 3. Scroll to (or click) **Platform Configuration** in the Section Navigation Rail.
 4. Click the mode card you want — **Standard**, **Agency + Infra**, or **Infrastructure**.
    - The selected card shows a check-mark (✓) and a blue border.
-   - The change is saved immediately; the two underlying booleans (`infraResellerMode` / `agencyDashboardMode`) update on click.
+   - The change is saved immediately when you click.
 5. The **Default menu** grid below updates automatically to show the features available for the new mode.
 
 ---
@@ -139,7 +139,7 @@ The result is applied to the new customer's portal at creation time. The custome
     Not via Platform Configuration — that page controls defaults for new customers only. To update existing customers in bulk, use the per-customer [Features, Add-ons & Menu Visibility](/partner-portal/customers/features-addons-and-menu-visibility) panel or contact support for a bulk update.
   </Accordion>
   <Accordion title="What happens if I have no saved profile for a mode?">
-    The resolver falls back to the catalog baseline defaults (most features off, Pricing Information on). Your legacy `defaultAiGateway` / `enableVpsPurchase` partner flags are also applied as a fallback, so the system is fully backward-compatible.
+    New customers fall back to the built-in defaults — most features off, with Pricing Information on. Any older AI Gateway or VPS settings on your account are still honored, so nothing breaks if you haven't saved a profile yet.
   </Accordion>
   <Accordion title="JARVIS says 'Upcoming' — when will it be available?">
     JARVIS is a future autonomous-operations tier currently in design. There is no ETA yet. The card is shown so you can see where it fits in the mode lineup.

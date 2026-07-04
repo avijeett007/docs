@@ -5,7 +5,7 @@ description: "Place AI-powered outbound calls through your Knova agent — from 
 
 ## Overview
 
-Knova Outbound Calling lets your Knova (LiveKit) agent initiate outbound calls — calling leads, customers, or prospects on your behalf. The agent speaks first and can address each person by name using **dynamic variables** you inject at call time.
+Knova Outbound Calling lets your Knova agent initiate outbound calls — calling leads, customers, or prospects on your behalf. The agent speaks first and can address each person by name using **dynamic variables** you inject at call time.
 
 Phase 1 covers:
 
@@ -40,7 +40,7 @@ If you don't have your own Twilio or Telnyx account, contact support to confirm 
 3. Open the actions menu and click **Assign Agent**.
 4. Select your **Knova agent** from the list and click **Save**.
 
-When a Knova agent is assigned to a voice-capable number, outbound is automatically enabled. The platform also pre-provisions the LiveKit SIP trunk in the background so your first call starts immediately without a provisioning delay.
+When a Knova agent is assigned to a voice-capable number, outbound is automatically enabled. The platform also pre-provisions the calling route in the background so your first call starts immediately without a setup delay.
 
 {/* ℹ️ _Screenshot to add: the "Assign Agent" modal on the Phone Numbers page, showing a Knova agent selected in the dropdown._ */}
 
@@ -72,7 +72,7 @@ To trigger calls from external systems (GHL, n8n, etc.), generate a webhook key 
 
 1. Go to **Phone Numbers** → click on your number → **Outbound Settings**.
 2. Click **Generate Webhook Key**.
-3. **Copy the key immediately** — it is shown only once. Only its SHA-256 hash is stored.
+3. **Copy the key immediately** — it is shown only once. Only a secure hash of it is stored.
 
 Store this key in your external system as a secret. If you lose it, revoke and regenerate in the portal.
 
@@ -187,15 +187,15 @@ Keys not present in `dynamic_variables` are left as `{{key}}` (no error is throw
 
 | Symptom | Likely cause | Fix |
 |---------|-------------|-----|
-| Agent does not speak first | Outbound greeting not configured | Confirm agent template has `call_direction: "outbound"` and a greeting message |
-| Dynamic variables not substituted | Key mismatch in prompt | Ensure prompt uses `{{key}}` matching the `dynamic_variables` key exactly |
-| `NO_OUTBOUND_TRUNK` error | BYO trunk not provisioned or shared trunk not configured | Re-assign the agent to the number to trigger provisioning; contact ops if using the shared trunk |
+| Agent does not speak first | Outbound greeting not configured | Confirm the agent is set up for outbound and has a greeting message |
+| Dynamic variables not substituted | Key mismatch in prompt | Ensure the prompt uses `{{key}}` matching the `dynamic_variables` key exactly |
+| `NO_OUTBOUND_TRUNK` error | The calling route isn't provisioned yet | Re-assign the agent to the number to trigger setup; contact support if using the shared Knotie trunk |
 | `INSUFFICIENT_CREDITS` | Credit balance too low | Top up credits in the Partner Portal |
 | `NO_AGENT_MAPPING` | Agent not assigned to this number | Re-assign the Knova agent to the number and try again |
-| `DISPATCH_FAILED` | LiveKit `createDispatch` failed | Check `KNOVA_AGENT_NAME`, `LIVEKIT_API_KEY`, `LIVEKIT_API_SECRET` env vars in the integration gateway |
-| `CALL_REJECTED` | Callee rejected or busy (SIP 486/603) | Normal — the callee declined the call |
+| `DISPATCH_FAILED` | The call couldn't be started | Retry; if it persists, contact support |
+| `CALL_REJECTED` | Callee rejected or was busy | Normal — the person you called declined |
 | `CALL_NO_ANSWER` | No answer / line temporarily unavailable | Retry later; confirm the number is reachable |
-| `SIP_TRUNK_FAILURE` | Carrier SIP 5xx | Check Twilio/Telnyx trunk status and credentials |
+| `SIP_TRUNK_FAILURE` | The telephony carrier returned an error | Check your Twilio/Telnyx account status and credentials |
 
 ---
 

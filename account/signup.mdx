@@ -7,7 +7,7 @@ description: "Create your Knotie AI partner account and get access to the partne
 
 This guide walks you through creating your Knotie AI partner account.
 
-Signup is a modal on the main website — there is no standalone `/partner/signup` page. You start from the **Knotie AI Pro website** (knotie-ai.pro), not from the partner portal.
+You sign up from the **Knotie AI Pro website** (knotie-ai.pro). Click any "Get started" button and a signup form opens right on the page.
 
 <Note>
   The standalone Pricing page has been removed. You no longer choose a plan before creating your account. Instead, every new signup starts with a **Free Forever** account and is offered a **7-day free trial** of premium features immediately after registration.
@@ -22,12 +22,9 @@ Signup is a modal on the main website — there is no standalone `/partner/signu
    - **Phone number** (used for WhatsApp updates on exclusive offers)
 3. (Optional) Enter a **coupon code** if you have one. The coupon is validated instantly — a green check and description appear when the code is accepted.
 4. Click **Create Account**.
-5. After the account is created, you'll see the **7-Day Free Trial** confirmation view with a "Free Forever — 7-day premium trial" summary card showing **$0 today**.
-
-> ℹ️ The 7-Day Free Trial confirmation screen is shown immediately after Create Account is submitted and lists every premium feature unlocked for the trial — no Stripe card is required to view it.
-
-6. Click **Start 7-Day Free Trial**. You'll be redirected to Stripe to add a card for verification — **no charge is made today**.
-7. After the Stripe step, use **[Partner Login](/partner/login)** to access your dashboard.
+5. After the account is created, you'll see the **7-Day Free Trial** confirmation showing a "Free Forever — 7-day premium trial" summary and **$0 today**. It lists every premium feature you unlock for the trial.
+6. Click **Start 7-Day Free Trial**. You'll be taken to a secure payment page to add a card for verification — **no charge is made today**.
+7. After adding your card, use **[Partner Login](/partner/login)** to access your dashboard.
 
 ## What the 7-day trial includes
 
@@ -44,21 +41,19 @@ After 7 days your account automatically reverts to the **Free Forever** plan. Th
 
 If your platform has Google auth enabled, you'll see a **Continue with Google** button at the top of the signup modal.
 
-After authenticating with Google, the modal shows a completion form with your Google name and photo pre-filled. You still need to provide:
+After signing in with Google, the form shows your Google name and photo already filled in. You still need to provide:
 - **Business name**
 - **Phone number**
 
-> ℹ️ The Google completion form is a post-OAuth view that requires a live Google account to render. Its layout mirrors the standard Create Account modal (Business Name + Phone Number fields) with the user's Google avatar and email shown at the top — capture your own by signing up with a test Google account.
-
-The same **7-day trial** confirmation follows for Google signups that don't have a pre-selected plan.
+The same **7-day trial** confirmation follows for Google signups.
 
 ## What happens next
 
-After your first login, Knotie AI may prompt you to set up a **passkey** ("Secure Your Account" modal) before you reach the dashboard. You may also be asked to enable **MFA** under Settings → Profile Settings.
+After your first login, Knotie AI may prompt you to set up a **passkey** ("Secure Your Account") before you reach the dashboard. You may also be asked to enable extra sign-in security (**MFA**) under Settings → Profile Settings.
 
-## Email field behaviour
+## A note on the email field
 
-The **Email address** field automatically strips any whitespace (spaces, tabs, or non-breaking spaces) as you type. This handles trailing spaces that mobile keyboards and browser autofill often append after completing an email address. You do not need to trim the field yourself — the form handles it silently.
+You don't need to worry about extra spaces in your email address. If your phone keyboard or browser autofill adds a trailing space, the form removes it for you automatically.
 
 <Frame>
   <img src="/images/screenshots/signup-modal-email-filled.png" alt="Knotie AI Pro signup modal — Email Address field populated with a typical address, Business Name and Phone Number fields above and below; Create Account button visible at the bottom." />
@@ -73,7 +68,7 @@ See [Partner Login Flow](/account/login-flow) for the full post-signup walkthrou
 ## Troubleshooting
 
 - **Signup modal doesn't appear** — try disabling browser extensions that block pop-ups or modals.
-- **No confirmation email** — check your spam folder and verify the email address you entered. The form automatically removes any trailing or leading spaces from your email address, so the address stored in the system will not have extra spaces.
-- **Coupon code not accepted** — ensure the code is entered in uppercase (auto-formatted). If the error persists, the code may be expired or already used.
-- **Stripe card declined** — use a valid card for the $0 verification charge. Prepaid cards may be rejected by Stripe.
+- **No confirmation email** — check your spam folder and verify the email address you entered.
+- **Coupon code not accepted** — the code is entered in uppercase automatically. If the error persists, the code may be expired or already used.
+- **Card declined** — use a valid card for the $0 verification. Prepaid cards may be rejected.
 - **For issues with Google signup** — ensure your browser is signed into a Google account and that pop-ups are allowed.

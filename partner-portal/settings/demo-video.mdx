@@ -7,9 +7,9 @@ description: "Configure the YouTube demo video shown on the public landing page 
 
 When prospects visit your white-label platform's landing page, they see a **demo video section** with a 20-minute platform deep dive. This video plays directly on the page and is designed to convert visitors into signups.
 
-You can configure which YouTube video is displayed by setting the `NEXT_PUBLIC_DEMO_VIDEO_ID` environment variable.
+You choose which YouTube video appears by setting the `NEXT_PUBLIC_DEMO_VIDEO_ID` configuration value. This is a setup-level setting rather than a switch in the portal, so if you're self-hosting you'll set it in your configuration; otherwise ask Knotie support to update it for you.
 
-{/* > ℹ️ The **demo video** section renders on the customer's whitelabel portal landing page (above the pricing grid) — outside knotie-ai.pro. There is no UI toggle in the partner portal; the section is configured via the `NEXT_PUBLIC_DEMO_VIDEO_ID` env var and rendered through the `DemoVideoSection` component. Capture from a deployed whitelabel portal where the demo video is configured. */}
+{/* Screenshot needed: the demo video section on the whitelabel portal landing page (above the pricing grid). Capture from a deployed whitelabel portal where a demo video is configured. */}
 
 ---
 
@@ -23,22 +23,15 @@ The "See how it works" link in the platform hero section scrolls down to this vi
 
 ## Configure the demo video
 
-### Environment variable
+### Set the video
 
-Set this in your main application `.env`:
+The setting to change is `NEXT_PUBLIC_DEMO_VIDEO_ID`, and its value is simply the **YouTube video ID** — the part after `youtu.be/` or `?v=` in a YouTube link. For example, if your video is at `https://youtu.be/ABC123xyz`, the value is `ABC123xyz`:
 
-```env
-# YouTube video ID for the platform demo video (from https://youtu.be/VIDEO_ID)
-NEXT_PUBLIC_DEMO_VIDEO_ID=1wgE_3YCCGY
 ```
-
-The value is the **YouTube video ID** — the part after `youtu.be/` or `?v=` in a YouTube URL. For example, if your video URL is `https://youtu.be/ABC123xyz`, set:
-
-```env
 NEXT_PUBLIC_DEMO_VIDEO_ID=ABC123xyz
 ```
 
-The default value (`1wgE_3YCCGY`) is the official Knotie AI platform overview video. Replace it with your own if you want a custom white-label demo.
+The default is the official Knotie AI platform overview video. Replace it with your own if you want a custom white-label demo. If you're not self-hosting, ask Knotie support to set this for you.
 
 ### Finding the YouTube video ID
 
@@ -52,25 +45,25 @@ The default value (`1wgE_3YCCGY`) is the official Knotie AI platform overview vi
 
 ## After changing the video
 
-Because `NEXT_PUBLIC_DEMO_VIDEO_ID` is a build-time variable (prefixed with `NEXT_PUBLIC_`), you need to **rebuild and redeploy** the main application for the change to take effect. A hot-reload or restart is not sufficient.
+This setting is applied when the application is built, so the change only takes effect after the platform is **rebuilt and redeployed**. Simply restarting isn't enough. If Knotie support manages your hosting, they'll handle this for you.
 
 ---
 
-## Disabling the demo video section
+## Hiding the demo video section
 
-There is no toggle to hide the demo video section from the UI. If you do not want the section to appear, either:
+There's no on/off switch to hide the demo video section. If you'd rather it didn't appear, you can:
 
-- Point the variable to an unlisted YouTube video that doesn't reveal internal details.
-- Remove the `DemoVideoSection` component from `src/components/KnotieDashboard.tsx` (requires a custom code change).
+- Point the setting at an unlisted YouTube video of your choice, or
+- Ask Knotie support to remove the section for you (this needs a code change by a developer).
 
 ---
 
 ## Troubleshooting
 
 - **Video not showing up**
-  - Confirm the variable is set and the app was rebuilt after the change.
+  - Confirm the setting was saved and the platform was rebuilt after the change.
   - Make sure the YouTube video ID is correct and the video is public (or unlisted).
 - **Wrong video is showing**
-  - Check that the new value was saved and the app was rebuilt. Old values can persist in the build cache.
+  - Check that the new value was saved and the platform was rebuilt — the old video can linger until then.
 - **"Video unavailable" inside the player**
-  - The video owner may have disabled embedding. Open YouTube Studio and ensure **Allow embedding** is turned on for the video.
+  - The video owner may have turned off embedding. In YouTube Studio, make sure **Allow embedding** is turned on for the video.

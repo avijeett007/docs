@@ -18,14 +18,14 @@ All six dashboard templates are automatically branded with your portal's primary
 
 ## The six dashboard experiences
 
-| Template | Label | Default experiences | Key widgets |
-|---|---|---|---|
-| `voice` | AI Voice | AI Receptionist, Personal Assistant, Outbound SDR, Support Agent, Appointment Setter, Lead Qualifier, Survey Agent, Collections Agent, Onboarding Specialist | KPI row (total calls, answer rate, avg duration, outcomes), call volume chart, your agents, call outcomes breakdown, recent calls feed |
-| `ai_gateway` | AI Gateway | Resell AI Gateway | KPI row, API request volume chart, top models by usage, credit balance card, API keys list |
-| `ai_memory` | AI Memory | _(none by default — opt-in per experience)_ | KPI row, memory growth chart, your Minds list, knowledge sources, recent recalls |
-| `vps` | Infrastructure / VPS | _(infra-mode customers)_ | KPI row, one-click app store, resource utilization, installed apps list, upgrade CTA |
-| `ai_os` | AI OS | OpenClaw Auto-Install, Hermes Auto-Install, OpenClaw Setup Service, OpenClaw Whitelabel | Full-screen animated Orb — customers speak or type; onboarding strip at the top |
-| `combination` | Combination | AI Business Audit, agency / multi-product accounts | KPI row, platform activity feed, your agents, credit balance, installed apps, recent calls |
+| Template | Default experiences | Key widgets |
+|---|---|---|
+| AI Voice | AI Receptionist, Personal Assistant, Outbound SDR, Support Agent, Appointment Setter, Lead Qualifier, Survey Agent, Collections Agent, Onboarding Specialist | KPI row (total calls, answer rate, avg duration, outcomes), call volume chart, your agents, call outcomes breakdown, recent calls feed |
+| AI Gateway | Resell AI Gateway | KPI row, API request volume chart, top models by usage, credit balance card, API keys list |
+| AI Memory | _(none by default — opt-in per experience)_ | KPI row, memory growth chart, your Minds list, knowledge sources, recent recalls |
+| Infrastructure / VPS | _(infrastructure customers)_ | KPI row, one-click app store, resource utilization, installed apps list, upgrade CTA |
+| AI OS | OpenClaw Auto-Install, Hermes Auto-Install, OpenClaw Setup Service, OpenClaw Whitelabel | Full-screen animated Orb — customers speak or type; onboarding strip at the top |
+| Combination | AI Business Audit, agency / multi-product accounts | KPI row, platform activity feed, your agents, credit balance, installed apps, recent calls |
 
 <Info>
 Widgets that require a feature the customer doesn't have (e.g. the API Keys widget when **Show API Keys** is off) are automatically hidden. The dashboard adapts to each customer's enabled features.
@@ -71,14 +71,14 @@ Every new customer is assigned one template. The system picks from the first mat
 
 | Priority | Source | Where to set it |
 |---|---|---|
-| 1 (highest) | Explicit per-customer override | Support tooling / future admin UI |
+| 1 (highest) | Explicit per-customer override | Contact support to set |
 | 2 | Per-experience template (set in experience settings) | Experiences → [Experience] → Settings → Customer Dashboard |
-| 3 | Code default for the experience type | Built-in (see table above) |
+| 3 | Built-in default for the experience type | Built-in (see table above) |
 | 4 | Partner global default | Settings → Whitelabel → Default dashboard experience |
-| 5 (lowest) | Dashboard Mode fallback | Automatic: Standard → `voice`, Agency+Infra → `combination`, Infra → `vps`, JARVIS → `ai_os` |
+| 5 (lowest) | Dashboard Mode fallback | Automatic: Standard → AI Voice, Agency+Infra → Combination, Infra → Infrastructure / VPS, JARVIS → AI OS |
 
 <Info>
-See [Dashboard Experience Templates](/partner-portal/settings/dashboard-experiences) for a full reference on the resolution logic, code defaults per experience type, and the feature flag.
+See [Dashboard Experience Templates](/partner-portal/settings/dashboard-experiences) for a full reference on how templates are chosen, the built-in default per experience type, and the enable setting.
 </Info>
 
 ## The branded dashboard shell
@@ -87,10 +87,10 @@ All six templates share the same shell:
 
 - **Left sidebar** — your logo, filtered navigation links (only features the customer has access to), and brand-colored active states.
 - **Sticky glassmorphic topbar** — customer name, credit balance, notifications, and account menu.
-- **Accent color** — automatically derived from your portal's **Primary Color** (`secondaryColor` becomes the highlight/hover accent).
+- **Accent color** — automatically derived from your portal's **Primary Color**, with your secondary color used for highlights and hover states.
 - **Dark theme** — the default palette is dark. Light-mode is planned.
 - **Brand font** — uses your configured brand font if set; falls back to Plus Jakarta Sans.
-- **RTL** — the shell automatically sets `dir="rtl"` for Arabic, Hebrew, Farsi, and Urdu portals.
+- **Right-to-left layout** — the shell automatically flips to right-to-left for Arabic, Hebrew, Farsi, and Urdu portals.
 
 No extra setup needed — the dashboard is on-brand on day one.
 
@@ -128,11 +128,11 @@ Completed steps are checked off. The card shows overall progress and highlights 
   </Accordion>
 
   <Accordion title="Can I choose different dashboards for different customers within the same experience?">
-    Not from the partner UI yet — the template is set per experience, not per individual customer. An explicit per-customer override is possible via support tooling. A customer-level override UI is planned.
+    Not from the partner UI yet — the template is set per experience, not per individual customer. A per-customer override can be set by contacting support. A customer-level override UI is planned.
   </Accordion>
 
-  <Accordion title="What happens if a customer's template key becomes invalid?">
-    The system silently skips invalid values and falls through to the next level in the resolution order (experience code default → partner global default → mode fallback). The customer always sees a valid dashboard.
+  <Accordion title="What happens if a customer's template setting is missing or unrecognized?">
+    The system skips it and falls through to the next level in the order above (experience default → partner global default → mode fallback). The customer always sees a valid dashboard.
   </Accordion>
 
   <Accordion title="Does this affect billing or credit consumption?">
@@ -142,7 +142,7 @@ Completed steps are checked off. The card shows overall progress and highlights 
 
 ## Related pages
 
-- [Dashboard Experience Templates](/partner-portal/settings/dashboard-experiences) — concept reference: the six templates, resolution precedence, feature flag, and auto-branding details
+- [Dashboard Experience Templates](/partner-portal/settings/dashboard-experiences) — concept reference: the six templates, how they're chosen, the enable setting, and auto-branding details
 - [AI Experiences](/partner-portal/experiences/overview) — enable and manage your experiences
 - [Whitelabel Settings](/partner-portal/settings/whitelabel-settings) — where to find the global default template and V2 toggle
 - [Platform Configuration](/partner-portal/settings/platform-configuration) — Dashboard Mode (sidebar menu defaults) — separate from experience templates

@@ -5,9 +5,9 @@ description: "View your current plan, billing status, credit auto-recharge setti
 
 ## What Subscription & Billing controls
 
-The **Plans & Billing** page shows your current plan identity, credit auto-recharge configuration, and customer expansion limits.
+The **Plans & Billing** page shows your current plan, your credit auto-recharge settings, and your customer expansion limits.
 
-It does **not** show traditional Stripe customer portal fields such as billing period dates, payment method last-four digits, or upcoming invoices. Credit management and auto-recharge are the primary billing surfaces in Knotie.
+Billing in Knotie is built around credits and auto-recharge, so this page focuses on those rather than on traditional billing details like billing-period dates, saved-card digits, or upcoming invoices.
 
 ## Where to find it
 
@@ -51,15 +51,15 @@ Use the **Refresh subscription data** button to reload the current plan state fr
 
 ## Manage payment details
 
-There is no "Manage Payment" button linking to Stripe's customer portal. Instead:
+To add or update a payment method:
 
-- Click **Buy credits** to go to `/partner/credits`
-- Check **"Save card and enable auto-recharge"** during credit purchase to add a payment method
+- Click **Buy credits** to open the credits page.
+- Check **"Save card and enable auto-recharge"** during your purchase to save a card on file.
 
 ## Cancellation
 
-No cancellation UI is currently visible in the live Partner Portal. Contact Knotie support if you need to cancel or change your plan.
+To cancel or change your plan, contact Knotie support and they'll take care of it for you.
 
 ## Screenshots
 
-![Plans & Billing page showing Ultimate Scaleup Agency plan, Customer Expansion Plan, and Credit Auto-Recharge settings](/images/screenshots/plans-billing-overview-2026-06-09.png)
+![Plans & Billing page showing the Platform Subscription (Ultimate Scaleup Agency, ACTIVE), Customer Expansion Plan (Free tier only — included in your plan), and Credit Auto-Recharge settings (no card saved, threshold and amount fields, soft-floor note, and Recent auto-recharges)](/images/screenshots/plans-billing-overview-2026-07-03.png)

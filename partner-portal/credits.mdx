@@ -1,104 +1,96 @@
 ---
-title: "Credits management"
-description: "Understand Knotie Credits vs Telephony Credits and how to top up, track history, and avoid disruptions."
+title: "Credits"
+description: "Understand the two credit balances, how to top up, and how to avoid running out mid-call."
 ---
 
-## What credits are
+## The two credit balances
 
-Knotie AI uses two separate credit balances to give you clear visibility into your costs:
+Knotie AI keeps two separate credit balances so you always know where your spending is going.
 
-### Knotie Credits
+### AI Credits
 
-**Knotie Credits** are used for platform and AI-related services:
+**AI Credits** cover the platform and AI side of things:
 
-- AI agent processing (LLM, STT, TTS costs)
+- AI agent processing
 - Platform features and add-ons
 - Knowledge base processing
 - Email and SMS notifications
 - API usage
 
-**When Knotie Credits are used:** Every time an AI agent processes a call, generates a response, or uses platform features.
+They're used whenever an AI agent handles a call, generates a response, or uses a platform feature.
 
 ### Telephony Credits
 
-**Telephony Credits** are used specifically for phone and calling costs:
+**Telephony Credits** cover phone and calling costs:
 
 - Inbound call minutes
 - Outbound call minutes
 - Phone number rentals
-- SMS messaging (carrier costs)
+- SMS messaging
 
-**When Telephony Credits are used:** Every time a call is made or received, or when phone numbers are provisioned.
+They're used whenever a call is made or received, or when a phone number is set up.
 
 ### Why two balances?
 
-Separating credits makes it easier to:
-- **Track costs accurately** – Know exactly where your money is going.
-- **Price services correctly** – Set different markups for AI vs telephony.
-- **Manage budgets** – Top up each balance independently based on usage patterns.
+Keeping them separate makes it easier to:
 
-You can view both balances in **Credits** and also in the sidebar **Account Overview** box.
+- **See your costs clearly** — you know exactly what's going to AI versus phone usage.
+- **Price your services** — you can set different markups for each.
+- **Manage your budget** — top up each one on its own, based on how you actually use it.
+
+You can see both balances on the **Credits** page and in the **Account Overview** box in the sidebar.
 
 ## Where to find it
 
-In the Partner Portal sidebar, open **Credits**.
+Open **Credits** in the Partner Portal sidebar.
 
 ## Check your balances
 
-On the Credits page, you’ll typically see:
+The Credits page shows your current AI Credits and Telephony Credits balances. If a balance is running low, the portal warns you so you can top up before any calls are affected.
 
-- Your current **Knotie Credits** balance
-- Your current **Telephony Credits** balance
+## Top up
 
-Tip: If a balance is low, the portal may show warnings so you can top up before calls fail.
-
-## Buy credits (top up)
-
-1. Go to **Credits** (top-level sidebar item — opens **Knotie Credits** at `/partner/ai-credits`).
-2. Click **Purchase Credits** in the page header (not "Buy Credits" — the button was renamed).
-3. Select a credit package.
+1. Open **Credits**.
+2. Click **Purchase Credits** at the top of the page.
+3. Choose a credit package.
 4. Complete payment.
 
-If you return from checkout with a `success=true` message, Knotie AI will try to apply credits immediately.
+Your credits are applied as soon as the payment goes through.
 
-## View transaction history
+## View your history
 
-1. Go to **Credits** (`/partner/ai-credits`).
-2. Click **Show History** in the page header.
-3. Review purchases, usage, and adjustments.
+1. Open **Credits**.
+2. Click **Show History**.
+3. Review your purchases, usage, and any adjustments.
 
-## Credit settings (low-balance alerts)
+## Low-balance alerts
 
-1. Go to **Credits** (`/partner/ai-credits`).
-2. Click **Settings** in the page header.
-3. Configure low-balance alerts so you get warned before a customer is impacted.
+1. Open **Credits**.
+2. Click **Settings**.
+3. Set up low-balance alerts so you're warned before you run low.
 
 ## Common questions
 
 ### Why do I need two balances?
 
-Most agencies want to separate platform usage from telephony usage:
+Most agencies find it clearer to keep platform usage and phone usage apart — it's simpler for accounting, and it makes pricing your own services easier.
 
-- It’s clearer for accounting.
-- It makes it easier to price your services.
+### What happens if I run out?
 
-### What happens if credits run out?
-
-- Low balances can cause calls to fail or stop.
-- Top up early to avoid disruptions.
+A low or empty balance can cause calls to fail or stop. Top up early to avoid any interruption.
 
 ## Troubleshooting
 
-- **Payment succeeded, but credits didn’t update**
+- **Payment went through but credits didn't appear**
   - Refresh the Credits page.
-  - Wait 1–3 minutes and refresh again.
-  - If still missing, contact Support.
-- **Payment was canceled**
-  - No charges were made.
-  - Re-open Credits and try again.
+  - Wait a minute or two and refresh again.
+  - If they're still missing, contact support.
+- **Payment was cancelled**
+  - Nothing was charged.
+  - Reopen Credits and try again.
 
 ## Screenshots
 
-![Knotie Credits dashboard — current balance, Telephony balance, Auto-recharge status, Quick Buy Credits CTA, and Storage widget in the right rail. Same screenshot is reused by `/partner/telephony-credits` as that page's opening dashboard — the dashboards share the same Account Overview panel.](/images/screenshots/screenshot-2026-03-19-202127.png)
+![Credits dashboard showing the current AI Credits balance, Telephony balance, auto-recharge status, a purchase button, and a storage widget in the right rail](/images/screenshots/screenshot-2026-03-19-202127.png)
 
-![Credits transaction history — list of recent credit purchases, deductions, and adjustments. The same image is reused as Telephony Credits → Usage Breakdown on `/partner/telephony-credits`; both views share the transaction-list component.](/images/screenshots/screenshot-2026-03-19-202243.png)
+![Credit transaction history — a list of recent purchases, deductions, and adjustments](/images/screenshots/screenshot-2026-03-19-202243.png)

@@ -53,34 +53,19 @@ The AI credit section includes:
 - **Enable Notifications**
 - **Low Credit Threshold**
 
-Turning on **AI Credits Enabled** changes pricing behavior for that customer.
+When **AI Credits Enabled** is turned on:
 
-When enabled:
+- The customer is billed using AI Credits rather than standard dollar pricing.
+- **Show Pricing Information** is automatically turned off.
+- The **AI Gateway** menu becomes available to enable for that customer.
 
-- The customer is charged using **AI Credits** instead of dollar pricing
-- **Show Pricing Information** is forced off
-- The customer becomes eligible for **AI Gateway** menu visibility
+You can also turn on branded email alerts when the customer's credit balance runs low — set a threshold (in credits remaining) to trigger the alert.
 
-Low-credit notifications:
-
-- Whitelabel email alerts can be enabled
-- The threshold is configured in **credits remaining**
-
-Important dependency:
-
-- If **AI Credits Enabled** is turned off again, **AI Gateway** is also turned off for that customer.
+If you turn **AI Credits Enabled** back off, the **AI Gateway** menu is also removed for that customer.
 
 ## Pricing information visibility
 
-The panel also includes:
-
-- **Show Pricing Information**
-
-This controls whether pricing/cost information is shown in the customer portal.
-
-Rule:
-
-- If **AI Credits Enabled** is on, **Show Pricing Information** is disabled.
+**Show Pricing Information** controls whether cost details appear in the customer portal. When **AI Credits Enabled** is on, this is automatically turned off — you can't run both at the same time.
 
 ## Menu Visibility Options
 
@@ -88,8 +73,8 @@ You can control which sections appear in the customer portal. The modal has 12 m
 
 - Knowledge Base
 - Integration
-- Docs & Media (default: Hidden — requires toggle ON, see [media-library.mdx](/customer-management/media-library))
-- Social Planner (default: Hidden — requires toggle ON + Composio accounts)
+- Docs & Media (hidden by default — toggle on to show; see [Media Library](/customer-management/media-library))
+- Social Planner (hidden by default — toggle on to show; requires Social Planner to be configured)
 - Schedule Meeting
 - Phone Numbers
 - API Keys (requires API Access)
@@ -99,37 +84,19 @@ You can control which sections appear in the customer portal. The modal has 12 m
 - New Solutions
 - Connect Your Server (VPS Access)
 
-### API Keys visibility rule
+### API Keys visibility
 
-The **API Keys** menu can only be enabled when **API Access** is enabled.
+**API Keys** can only be shown when **API Access** is enabled for that customer. If you turn off API Access, the API Keys menu is automatically hidden and its toggle is greyed out until you re-enable API Access.
 
-If **API Access** is turned off:
+### AI Gateway visibility
 
-- The **API Keys** menu is automatically turned off
-- The API Keys visibility toggle stays disabled until API Access is turned back on
+**AI Gateway Beta** is a separate toggle from API Keys. It becomes available only when **AI Credits Enabled** is turned on for the customer. When shown, it lets the customer generate their own AI Gateway API keys, billed through their AI Credits.
 
-### AI Gateway visibility rule
-
-The **AI Gateway** menu is a separate toggle from **API Keys**.
-
-It is shown in the customer modal as **AI Gateway** with a **Beta** badge.
-
-The toggle only becomes available when:
-
-- **AI Credits Enabled** is on for that customer
-
-The menu's purpose is:
-
-- Allow the customer to generate their own AI Gateway API keys
-- Bill that usage through the customer's **AI Credits**
-
-For the customer to actually see AI Gateway in their portal, the partner must also enable **Customer Self-Service API Keys** in the partner-level [AI Gateway](/partner-portal/ai-gateway) page.
+For the customer to see AI Gateway in their portal, you also need to enable **Customer Self-Service API Keys** on the partner-level [AI Gateway](/partner-portal/ai-gateway) page.
 
 ### Billing & Payments visibility
 
-**Billing & Payments** is not controlled by a manual toggle in this panel.
-
-In the customer portal, it appears after the customer has portal credentials / active portal access.
+**Billing & Payments** appears automatically in the customer portal once the customer has active portal access — there's no manual toggle for it.
 
 ## Embed URLs and portal access
 
@@ -167,4 +134,4 @@ If the portal isn’t enabled yet, the UI may show a notice that team members re
 
 ## Screenshots
 
-![Features and Add-ons tab with Customer Portal enable toggle, Add-on Features (Advanced Analytics, Detailed Call Analysis, Action Point Analysis, API Access), and Phone Numbers, API Keys, Team Management controls](/images/Screenshot2025-12-28at01.34.26.png)
+![Features and Add-ons tab with Customer Portal enable toggle, Add-on Features (Advanced Analytics, Detailed Call Analysis, Action Point Analysis, API Access), and Phone Numbers, API Keys, Team Management controls](/images/screenshots/customer-features-addons-tab-2026-07-03.png)

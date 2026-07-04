@@ -15,63 +15,63 @@ The six templates appear as selectable cards in the **Dashboard Experience** _(B
 
 ## The six templates
 
-| Template key | Label | Best for | Widgets shown |
-|---|---|---|---|
-| `voice` | AI Voice | AI Receptionist, Personal Assistant, Outbound SDR, Support, Appointment Setter, Lead Qualifier, Survey, Collections, Onboarding | KPIs, call volume chart, your agents list, call outcomes, recent calls |
-| `ai_gateway` | AI Gateway | Resell AI Gateway | KPIs, API usage volume, top models, credit balance, API keys |
-| `ai_memory` | AI Memory | Customers using AI Memory / Minds | KPIs, memory growth chart, your Minds, knowledge sources, recent recalls |
-| `vps` | Infrastructure / VPS | VPS / infrastructure customers | KPIs, one-click apps, resource utilization, installed apps, upgrade CTA |
-| `ai_os` | AI OS | OpenClaw Auto-Install, Hermes Auto-Install, OpenClaw Setup Service, OpenClaw Whitelabel | Full-screen animated Orb — customers speak or type, with onboarding strip |
-| `combination` | Combination | Agency accounts with multiple products enabled | KPIs, platform activity feed, your agents, credit balance, installed apps, recent calls |
-
-## How the template is resolved
-
-Every customer is assigned exactly one template. The system picks from the highest available source in this order — the first match wins:
-
-| Priority | Source | How to configure |
+| Template | Best for | What the customer sees |
 |---|---|---|
-| 1 (highest) | Explicit per-customer override (`Customer.dashboardTemplate`) | Support tooling / future customer admin UI |
-| 2 | Partner per-experience override | Experience Settings → Customer Dashboard |
-| 3 | Code default for the experience type | Built-in defaults (see table below) |
-| 4 | Partner global default (`Partner.defaultDashboardTemplate`) | Settings → Whitelabel → Default dashboard experience |
-| 5 (lowest) | Phase-1 Dashboard Mode fallback | Automatic: Standard → `voice`, Agency+Infra → `combination`, Infra → `vps`, JARVIS → `ai_os` |
+| **AI Voice** | AI Receptionist, Personal Assistant, Outbound SDR, Support, Appointment Setter, Lead Qualifier, Survey, Collections, Onboarding | Key stats, call volume chart, their agents list, call outcomes, recent calls |
+| **AI Gateway** | Resell AI Gateway | Key stats, API usage volume, top models, credit balance, API keys |
+| **AI Memory** | Customers using AI Memory / Minds | Key stats, memory growth chart, their Minds, knowledge sources, recent recalls |
+| **Infrastructure / VPS** | VPS / infrastructure customers | Key stats, one-click apps, resource usage, installed apps, upgrade prompt |
+| **AI OS** | OpenClaw Auto-Install, Hermes Auto-Install, OpenClaw Setup Service, OpenClaw Whitelabel | Full-screen animated Orb — customers speak or type, with an onboarding strip |
+| **Combination** | Agency accounts with several products enabled | Key stats, activity feed, their agents, credit balance, installed apps, recent calls |
+
+## How a customer gets a template
+
+Every customer is assigned exactly one template automatically. The system looks at the following, in order, and uses the first one that applies:
+
+1. A specific template set for that individual customer (arranged through support).
+2. A template you've chosen for that experience, in **Experience Settings → Customer Dashboard**.
+3. The built-in default for the experience type (see below).
+4. Your account-wide default, set in **Settings → Whitelabel → Default dashboard experience**.
+5. A fallback based on the Dashboard Mode — Standard shows AI Voice, Agency + Infra shows Combination, Infrastructure shows Infrastructure / VPS, and JARVIS shows AI OS.
 
 <Info>
-Invalid or unknown template values are silently skipped so bad data never breaks the dashboard. The system always falls through to the next level in the list above.
+If a template value is ever missing or unrecognized, it's skipped and the system moves to the next option — so a customer always gets a working dashboard.
 </Info>
 
-### Code defaults by experience type
+### Built-in defaults by experience type
 
 | Experience | Default template |
 |---|---|
-| AI Receptionist, Personal Assistant, Outbound SDR, Support Agent, Appointment Setter, Lead Qualifier, Survey Agent, Collections Agent, Onboarding Specialist | `voice` |
-| Resell AI Gateway | `ai_gateway` |
-| OpenClaw Auto-Install, Hermes Auto-Install, OpenClaw Setup Service, OpenClaw Whitelabel | `ai_os` |
-| AI Business Audit | `combination` |
-| All other experience types | Falls through to partner global default or mode fallback |
+| AI Receptionist, Personal Assistant, Outbound SDR, Support Agent, Appointment Setter, Lead Qualifier, Survey Agent, Collections Agent, Onboarding Specialist | AI Voice |
+| Resell AI Gateway | AI Gateway |
+| OpenClaw Auto-Install, Hermes Auto-Install, OpenClaw Setup Service, OpenClaw Whitelabel | AI OS |
+| AI Business Audit | Combination |
+| All other experience types | Uses your account-wide default or the mode fallback |
 
-Partners can override any of these defaults per-experience in **Experience Settings → Customer Dashboard**.
+You can override any of these per experience in **Experience Settings → Customer Dashboard**.
 
-## Feature flag and rollout
+## Turning it on
 
-The new dashboard UI is opt-in per partner via the **Dashboard Experience V2** flag. The flag is **off by default** — no change to existing customers until you enable it.
+The new dashboards are opt-in, and they're **off by default** — nothing changes for your customers until you switch them on.
 
-- **Flag off:** all customers see the existing dashboard. No action needed.
-- **Flag on:** new customers onboarded through an experience with a configured (or code-default) template receive the new branded dashboard automatically.
-- **Existing customers** continue to see the legacy dashboard until a future backfill pass.
+- **Off:** every customer keeps the current dashboard. No action needed.
+- **On:** new customers signing up through an experience that has a template (either one you chose or its built-in default) get the new branded dashboard automatically.
+- **Existing customers** stay on their current dashboard until a later update moves them over.
 
-Enable the flag in **Settings → Whitelabel → Default dashboard experience**. See [Per-Experience Customer Dashboards](/partner-portal/experiences/experience-dashboards) for the step-by-step walkthrough.
+Turn it on in **Settings → Whitelabel → Default dashboard experience**. See [Per-Experience Customer Dashboards](/partner-portal/experiences/experience-dashboards) for the step-by-step walkthrough.
 
 ## Auto-branding
 
-All six templates are branded automatically from your partner settings — no extra design work needed:
+All six templates automatically apply your brand colors and fonts — your customers get a dashboard that looks like yours the moment they log in, with no extra work needed.
 
-- **Accent color:** your `primaryColor` becomes the `--accent` CSS variable; `secondaryColor` becomes `--accent2`. If neither is set, a neutral indigo is used.
-- **Theme:** all templates use a dark palette by default (`--bg: #0b0f17`). Light-mode support is planned.
-- **Font:** your configured brand font is applied to the dashboard shell; falls back to Plus Jakarta Sans.
-- **RTL:** the shell automatically sets `dir="rtl"` for Arabic, Hebrew, Farsi, and Urdu portals.
+Here's what gets branded:
 
-Your customers see a dashboard that matches your brand on day one with zero additional configuration.
+- **Your brand colors:** Your primary and secondary brand colors automatically appear as accent colors throughout the dashboard. If you haven't set custom colors, we use a professional indigo as the default.
+- **Dashboard appearance:** All dashboards use a dark, modern look. Light mode is coming soon.
+- **Your brand font:** If you've configured a brand font, it appears on the dashboard. Otherwise, we use a clean, professional default.
+- **Language support:** For Arabic, Hebrew, Farsi, and Urdu customers, the dashboard automatically flips to right-to-left layout.
+
+That's it — your branding is live across all your customer dashboards without any additional design or configuration.
 
 {/* SCREENSHOT deferred: the V2 themed dashboard shell needs Dashboard Experience V2 enabled (affects live customers) to render; the demo account currently runs the legacy customer dashboard, so this shot awaits V2 rollout. */}
 

@@ -11,20 +11,15 @@ https://hub.knotie-ai.pro
 
 ---
 
-## Endpoints
+## Endpoint
 
 | Method | Path | Auth | Purpose |
 |--------|------|------|---------|
 | `POST` | `/api/outbound-call` | Per-number webhook token | External systems (GHL, n8n, Zapier, Facebook lead bridge) |
-| `POST` | `/api/outbound-call/internal` | `CONNECT_HUB_API_KEY` | Server-to-server (partner portal test-call, Phase 2 campaign dialer) |
-
-Both endpoints accept the same request body and return the same response envelope. The only difference is authentication.
 
 ---
 
 ## Authentication
-
-### Public webhook endpoint
 
 Pass the per-number outbound webhook token via one of these headers:
 
@@ -38,18 +33,10 @@ X-API-Key: <token>
 
 Generate the token in the Partner Portal under the phone number's **Outbound Settings**. Tokens are:
 - Scoped to a **single phone number** — the `from_number` in the request must match the number the token belongs to.
-- Shown once at generation time; only the SHA-256 hash is stored.
+- Shown once at generation time; only a secure hash is stored.
 - Revocable at any time from the portal.
 
 **Brute-force protection:** after 10 failed auth attempts from the same IP within 5 minutes, that IP is blocked for 15 minutes.
-
-### Internal endpoint
-
-```http
-Authorization: Bearer <CONNECT_HUB_API_KEY>
-```
-
-The value must match the `CONNECT_HUB_API_KEY` environment variable in the integration gateway. This endpoint is used by the partner portal's test-call feature and is not intended for direct use by partners.
 
 ---
 
@@ -213,16 +200,16 @@ Retry-After: 60
 | `VALIDATION_ERROR` | 400 | Missing or invalid fields — a `details` array is included |
 | `UNAUTHORIZED` | 401 | Missing, invalid, or inactive token; or token doesn't match the `from_number` |
 | `INSUFFICIENT_CREDITS` | 402 | Partner or customer does not have enough credits |
-| `NO_AGENT_MAPPING` | 404 | No active Knova agent mapped to the `from_number`, or outbound is disabled |
-| `NO_OUTBOUND_TRUNK` | 422 | Cannot resolve a LiveKit outbound trunk — BYO provisioning failed or shared trunk not configured |
-| `DISPATCH_FAILED` | 422 | LiveKit `createDispatch` call failed |
-| `CALL_REJECTED` | 422 | Callee returned SIP 486 Busy Here or 603 Declined |
-| `CALL_NO_ANSWER` | 422 | Call timed out or returned SIP 408 / 480 |
-| `SIP_TRUNK_FAILURE` | 422 | Carrier returned a SIP 5xx error |
+| `NO_AGENT_MAPPING` | 404 | No active Knova agent assigned to the `from_number`, or outbound is disabled |
+| `NO_OUTBOUND_TRUNK` | 422 | The calling route for this number isn't provisioned yet |
+| `DISPATCH_FAILED` | 422 | The call could not be started — retry |
+| `CALL_REJECTED` | 422 | The person you called declined or was busy |
+| `CALL_NO_ANSWER` | 422 | No answer, or the line was temporarily unavailable |
+| `SIP_TRUNK_FAILURE` | 422 | The telephony carrier returned an error |
 | `RATE_LIMITED` | 429 | Per-number rate exceeded, or IP blocked after repeated auth failures |
 
 <Note>
-Codes `NO_OUTBOUND_TRUNK`, `DISPATCH_FAILED`, `CALL_REJECTED`, `CALL_NO_ANSWER`, and `SIP_TRUNK_FAILURE` all return HTTP **422** rather than 5xx deliberately — Cloudflare intercepts 502/503/504 and replaces the JSON body with an HTML error page, which breaks API consumers.
+The call-related failures (`NO_OUTBOUND_TRUNK`, `DISPATCH_FAILED`, `CALL_REJECTED`, `CALL_NO_ANSWER`, `SIP_TRUNK_FAILURE`) all return HTTP **422** with a JSON body — rather than a 5xx status — so your integration always receives a machine-readable error you can act on.
 </Note>
 
 ---

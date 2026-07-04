@@ -5,10 +5,10 @@ description: "Automatically deploy AI agents for customers who complete the SaaS
 
 ## What Auto-Deploy is for
 
-**Auto-Deploy** automatically activates AI agents for customers who clear the payment gate and click **Deploy** on Step 9 (Summary & Deploy) of the SaaS onboarding process. This eliminates manual deployment work and provides instant activation for self-service customers.
+**Auto-Deploy** automatically activates AI agents for customers who complete payment and click **Deploy** on Step 9 (Summary & Deploy) of the SaaS onboarding process. It removes the manual setup work and gives self-service customers instant activation.
 
 <Note>
-The live onboarding flow is **9 steps** total — Step 9 is **Summary & Deploy**, which combines pricing/payment verification with the deploy button. Earlier docs that reference "Step 9 (Pricing & Payment) + Step 10 (Deploy Agent)" describe the older 10-step flow.
+The onboarding flow is **9 steps**. Step 9 — **Summary & Deploy** — is where payment is confirmed and the customer clicks Deploy.
 </Note>
 
 Use auto-deploy when:
@@ -20,24 +20,24 @@ Use auto-deploy when:
 
 ### The deployment flow
 
-1. **Customer completes Step 9 (Summary & Deploy — pricing/payment verified)** – Stripe Checkout clears (or is skipped for free / pay-as-you-go portals)
-2. **Deploy button enabled** – `/api/whitelabel/check-onboarding-payment` confirms the customer credential is `active`; otherwise the user stays on Step 9 with an error
-3. **Customer clicks Deploy** – Triggers `/api/whitelabel/save-onboarding-details`
-4. **System checks prerequisites** – Validates credits, configuration
-5. **Job queued** – Deployment added to the platform manager service queue
-6. **Agent deployed** – AI Receptionist activated automatically
-7. **Customer notified** – Setup email sent to customer; deployment notification sent to partner
+1. **Customer completes Step 9 (Summary & Deploy)** – Their payment goes through (or is skipped for free / pay-as-you-go portals)
+2. **Deploy button unlocks** – Once payment is confirmed as active; otherwise the customer stays on Step 9 with an error
+3. **Customer clicks Deploy** – This kicks off the setup
+4. **Prerequisites are checked** – Credits and configuration are validated
+5. **Deployment is queued** – The job joins the setup queue
+6. **Agent is deployed** – The AI Receptionist is activated automatically
+7. **Everyone's notified** – The customer gets a setup email, and you get a deployment notification
 
 ### Deployment statuses
 
-Customers can have different deployment statuses:
+A customer's deployment can be in one of these states:
 
-- **not_started** – Onboarding not complete
-- **queued** – Deployment job is in queue
-- **pending_credits** – Waiting for sufficient credits
-- **agent_ready** – Agent deployed but awaiting phone number
-- **completed** – Fully deployed and operational
-- **failed** – Deployment encountered an error
+- **Not started** – Onboarding isn't complete yet
+- **Queued** – The deployment is in the queue
+- **Pending credits** – Waiting for enough credits
+- **Agent ready** – The agent is deployed but still needs a phone number
+- **Completed** – Fully deployed and working
+- **Failed** – Something went wrong during deployment
 
 ![Deployment Status Overview](/images/screenshots/screenshot-2026-03-19-163428.png)
 
@@ -63,7 +63,7 @@ Your partner account needs minimum credits:
 - 500 cents ($5) Telephony Credits
 - 200 Knotie Credits
 
-If credits are insufficient, deployment status becomes **pending_credits**.
+If credits are insufficient, the deployment status becomes **Pending credits**.
 
 ### 3. Auto-deploy enabled
 
@@ -105,47 +105,47 @@ Toggle auto-deploy in whitelabel settings:
 ### Phase 1: Customer completes onboarding
 
 When a customer reaches Step 9 (Summary & Deploy) and clicks **Deploy**:
-1. The page first calls `/api/whitelabel/check-onboarding-payment`; if the credential is not `active`, the customer stays on Step 9 with an error message.
-2. Onboarding data (business info, knowledge base, greeting, voice, integrations, billing model) is validated and posted to `/api/whitelabel/save-onboarding-details`.
-3. AI credits are enabled for the customer (only if **Free AI Credits** is configured and > 0).
-4. Deployment status is determined.
+1. The system first confirms their payment is active; if not, they stay on Step 9 with an error message.
+2. Their onboarding details (business info, knowledge base, greeting, voice, integrations, billing model) are checked and saved.
+3. AI credits are turned on for the customer (only if **Free AI Credits** is set to more than 0).
+4. The deployment status is set.
 
-> The billing model passed to deployment is derived from `partner.pricingModel`: `subscription` → `subscription`, `fixedprice` → `fixed_price`, `payasyougo` → `pay_as_you_go`, unset → `free_trial`.
+The billing model used for the deployment matches the pricing model on your account — subscription, fixed price, pay-as-you-go, or a free trial if none is set.
 
 ### Phase 2: Credit validation
 
-System checks partner credit balance:
+The system checks your credit balance:
 
-**If sufficient credits:**
-- Deployment status → `queued`
-- Job sent to the platform manager service
+**If you have enough credits:**
+- Status → **Queued**
+- The setup job starts
 
-**If insufficient credits:**
-- Deployment status → `pending_credits`
-- Email notification sent to partner
-- Customer can still access portal but agent is inactive
+**If you don't have enough:**
+- Status → **Pending credits**
+- You get an email letting you know
+- The customer can still sign in, but their agent stays inactive
 
-### Phase 3: Deployment execution
+### Phase 3: Deployment
 
-The platform manager service processes the job:
+The setup runs automatically:
 
-1. **Knova agent creation** – A [Knova AI Receptionist](/agents/knova/knova-agent) is created with a dynamic system prompt built from the customer's business profile, knowledge base, and onboarding data
-2. **Knowledge base setup** – Customer's uploaded documents processed and ingested
-3. **Phone number provisioning** – A phone number is purchased and a Twilio Elastic SIP Trunk is created for it, routing inbound calls through LiveKit to the Knova agent
-4. **Integration configuration** – Tools (email, SMS, calendar) and analytics activated
-5. **Final validation** – System checks all components
+1. **Agent creation** – A [Knova AI Receptionist](/agents/knova/knova-agent) is created, personalized with the customer's business profile, knowledge base, and onboarding details
+2. **Knowledge base setup** – The customer's uploaded documents are processed and added
+3. **Phone number setup** – A phone number is purchased and connected so the agent can take calls
+4. **Integrations** – Tools (email, SMS, calendar) and analytics are turned on
+5. **Final check** – The system confirms everything is in place
 
 ### Phase 4: Completion
 
 **On success:**
-- Deployment status → `completed`
-- Customer can make/receive calls
-- Confirmation email sent
+- Status → **Completed**
+- The customer can make and receive calls
+- A confirmation email is sent
 
 **On failure:**
-- Deployment status → `failed`
-- Error logged for review
-- Support notification sent
+- Status → **Failed**
+- The error is logged for review
+- Support is notified
 
 ![Auto-Deploy Process Flow](/images/screenshots/screenshot-2026-03-19-195117.png)
 
@@ -165,7 +165,7 @@ View deployment status for each customer:
 
 ### Continue deployment manually
 
-If a customer is **pending_credits**, you can resume deployment:
+If a customer is stuck on **Pending credits**, you can resume deployment:
 
 1. Top up your credits.
 2. Find the customer in **Customers → Active Customers**.
@@ -237,10 +237,10 @@ Customers receive **Free AI Credits** (configured in SaaS settings):
 2. Check customer reached Step 9 (Summary & Deploy) in Prospects list — earlier step completion means payment didn't clear.
 3. Confirm credit balance meets minimums.
 
-### Deployment stuck in "queued"
+### Deployment stuck in "Queued"
 
 **Possible causes:**
-- Platform manager service queue backlog
+- A backlog in the setup queue
 - Network issues
 - Configuration errors
 
@@ -300,7 +300,7 @@ This gives you full control over the deployment process.
 ### Deployment monitoring
 
 - **Check daily** – Review pending deployments each morning
-- **Follow up quickly** – Address pending_credits status within hours
+- **Follow up quickly** – Address Pending credits status within hours
 - **Track success rate** – Monitor deployment success vs failure ratio
 - **Optimize onboarding** – Reduce friction points causing deployment failures
 

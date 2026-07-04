@@ -1,91 +1,64 @@
 ---
-title: "VPS / Server Terminal"
-description: "Give customers secure, browser-based SSH access to their VPS directly from the whitelabel portal."
+title: "Server terminal"
+description: "Give customers secure, browser-based access to their server directly from your white-label portal."
 ---
 
-<Note>
-  The customer-facing sidebar label in the whitelabel portal is **"Server Terminal"** — not "VPS Terminal". The doc uses both names: "VPS Terminal" as the product/feature name, and "Server Terminal" when referring to the actual sidebar item customers see.
-</Note>
+## What it is
 
-## What VPS Terminal is
+The server terminal lets your customers connect to their own server (VPS) straight from your white-label portal, right in the browser. There's nothing for them to install and no keys for them to manage — they open the portal, click connect, and they're in.
 
-VPS Terminal lets your customers connect to their VPS (Virtual Private Server) through a secure, browser-based SSH terminal inside the whitelabel customer portal. No SSH client installation or key management is required on the customer's end — everything runs in the browser using xterm.js.
+In your customer's portal, this feature appears in the sidebar as **Server Terminal**.
 
-Key security properties:
+It's built to be secure: the customer's private access key is stored safely on our side and never sent to their browser, and each connection uses a fresh, short-lived session rather than leaving anything open in the background.
 
-- Private SSH keys are encrypted with AES-256-GCM and stored in PostgreSQL — they are **never sent to the browser**
-- Connections use WebSocket-based tunnels via a dedicated server
-- Session tokens are single-use and expire after 30 seconds
-- Each session requires a fresh token request, preventing replay attacks
+## Turning it on
 
-## How partners enable it
+The server terminal is switched on in two stages.
 
-VPS Terminal must be enabled at two levels before customers can use it.
+### Step 1 — Enable it for your account
 
-### Step 1 — Partner-level feature flag
+This feature needs to be activated for your partner account first. If you don't see the option described below, contact Knotie AI support and ask them to enable it for you.
 
-The feature is controlled by the `ENABLE_VPS_TERMINAL` / `NEXT_PUBLIC_ENABLE_VPS_TERMINAL` environment variables on the platform side. Contact Knotie AI support to enable this flag for your partner account if it is not already active.
+### Step 2 — Turn it on for a customer
 
-### Step 2 — Customer-level toggle
-
-Once the platform flag is enabled:
+Once it's active on your account:
 
 1. Open **Customers**.
 2. Select the customer.
-3. Open **Manage**.
+3. Click **Manage**.
 4. Go to **Features & Add-ons**.
-5. Find **VPS Terminal** and toggle it on.
+5. Find **Server Terminal** and toggle it on.
 
-The toggle only appears if the platform-level feature flag is active.
+The toggle only appears once the feature is active on your account.
 
-## How customers access it
+## How your customer uses it
 
-Once VPS Terminal is enabled for their account, customers find it inside their whitelabel portal:
+After you've turned it on for them, the customer finds it in their portal:
 
 1. Log in to the customer portal.
-2. In the sidebar navigation, click **Server Terminal** (under the customer tools section).
-3. If no VPS credentials are on file yet, they are prompted to add them before connecting.
+2. Click **Server Terminal** in the sidebar.
+3. If they haven't saved their server details yet, they'll be asked to add them before they can connect.
 
-{/* > ℹ️ The whitelabel sidebar shows **Server Terminal** as a leaf item in the customer tools section once enabled. Capture from a customer portal where VPS Terminal is active — the partner-side VPS management page is shown in the screenshot below. */}
+## What your customer needs
 
-## Prerequisites (customer side)
+Before connecting, the customer needs their server details saved in the portal. This is usually:
 
-Before connecting, the customer needs to have their VPS credentials stored in the portal. This typically includes:
+- The server's address (hostname or IP)
+- The connection port (typically 22)
+- A username
+- Their private access key
 
-- **VPS hostname or IP address**
-- **SSH port** (default: 22)
-- **Username**
-- **SSH private key** (uploaded and encrypted by the platform — never exposed to the browser)
+If those aren't saved yet, the terminal will prompt them to add them first.
 
-If credentials are not yet configured, the VPS Terminal UI prompts the customer to add them before a connection can be established.
+## How a connection works
 
-{/* > ℹ️ The **connect form** asks for hostname / port / username / SSH private key in that order, with an inline Test connection button before the customer can submit. Capture from a customer portal with stored credentials to refresh this placeholder. */}
-
-## How the connection works
-
-1. Customer clicks **Connect** in the VPS Terminal view.
-2. The platform generates a single-use session token (valid for 30 seconds).
-3. A WebSocket tunnel is established between the browser and the VPS via the Knotie AI proxy server.
-4. The xterm.js terminal in the browser communicates with the VPS over this tunnel.
-5. The session ends when the customer disconnects or the token expires.
-
-Each connection requires a new session token. There is no persistent tunnel left open between sessions.
-
-## Security notes
-
-- SSH private keys are encrypted at rest using AES-256-GCM. The plaintext key is held only in the proxy server's memory during an active session and is never transmitted to the browser or stored in plain text.
-- Session tokens are short-lived (30 seconds) and single-use.
-- Connections are tunneled through Knotie AI infrastructure — the VPS's SSH port does not need to be publicly accessible if the proxy server can reach it.
-
-## Phase 2 — Integration gateway migration
-
-In a future release, VPS Terminal connectivity will be migrated to the integration gateway infrastructure, which will replace the current custom WebSocket proxy approach. This will not change the customer-facing experience.
+When the customer clicks **Connect**, a secure, temporary session is opened between their browser and their server. The terminal in the browser then talks to the server through that connection. When they disconnect — or after a short time — the session closes, and a new one is created next time they connect. Nothing is left open in between.
 
 ## Related pages
 
-- [Features, add-ons, and menu visibility](/partner-portal/customers/features-addons-and-menu-visibility) — Where to find the VPS Terminal toggle
+- [Features, add-ons, and menu visibility](/partner-portal/customers/features-addons-and-menu-visibility) — Where to find the Server Terminal toggle
 - [Customer portal management](/partner-portal/customers/customer-portal-management) — Managing customer portal access
 
 ## Screenshots
 
-![Knotie AI Pro Partner Portal — VPS management page (the VPS Terminal feature is enabled per-customer under their Features & Add-ons, and shows up in the customer whitelabel portal as "Server Terminal")](/images/screenshots/vps-page-2026-06-09.png)
+![Knotie AI Pro Partner Portal — VPS management page (the server terminal feature is enabled per-customer under their Features & Add-ons, and shows up in the customer's white-label portal as "Server Terminal")](/images/screenshots/vps-page-2026-07-03.png)

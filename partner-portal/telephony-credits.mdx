@@ -1,225 +1,92 @@
 ---
 title: "Telephony credits"
-description: "Manage telephony credits for phone calls, SMS, and phone number services."
+description: "Manage the credits that cover phone calls, SMS, and phone numbers."
 ---
 
-## What Telephony Credits are for
+## What telephony credits are for
 
-**Telephony Credits** are used exclusively for phone and calling-related services, completely separate from AI Credits.
+**Telephony Credits** cover your phone and calling costs, kept completely separate from your AI Credits. They pay for:
 
-Telephony Credits cover:
-- **Inbound call minutes** – Customers receiving calls
-- **Outbound call minutes** – AI agents making calls
-- **Phone number rentals** – Monthly fees for provisioned numbers
-- **SMS messaging** – Carrier costs for text messages
+- **Inbound call minutes** — calls your customers receive
+- **Outbound call minutes** — calls your AI agents make
+- **Phone number rentals** — the monthly cost of the numbers you use
+- **SMS messaging** — text messages
 
-## Key differences: Telephony vs AI Credits
+## Telephony Credits vs AI Credits
 
-| Feature | Telephony Credits | AI Credits |
-|---------|------------------|------------|
+| | Telephony Credits | AI Credits |
+|---|---|---|
 | **Used for** | Calls, SMS, phone numbers | AI processing, platform features |
-| **Pricing** | Cost-based (no markup) | Platform pricing with margin |
-| **Expiration** | Never expires | May expire based on plan |
-| **Balance location** | Separate balance | Separate balance |
-| **Purchase** | Dedicated telephony packages | Standard credit packages |
+| **Pricing** | At cost, no markup | Platform pricing |
+| **Balance** | Separate | Separate |
+
+You keep two balances so it's clear what you're spending on phone usage versus AI usage. Top each one up on its own.
 
 ## Where to find it
 
-1. In the Partner Portal sidebar, go to **Credits** (top-level button — **does not** expand to "Telephony Credits" submenu anymore; the page is at a direct URL).
-2. Direct URL: `/partner/telephony-credits`.
+Open **Credits** in the Partner Portal sidebar, then go to the telephony credits view.
 
-## View telephony credit balance
+## Check your balance
 
-On the Telephony Credits page, you'll see:
+The page shows your current telephony balance, a low-balance warning when you're running low, your recent history, and the packages you can buy.
 
-- **Current Balance** – Your telephony credit balance in dollars/cents
-- **Low Credit Alert** – Warning if below threshold
-- **Transaction History** – Recent purchases and usage
-- **Credit Packages** – Available top-up options
+![Telephony credits dashboard](/images/screenshots/screenshot-2026-03-19-202127.png)
 
-![Telephony Credits Dashboard](/images/screenshots/screenshot-2026-03-19-202127.png)
+## Buy telephony credits
 
-## Purchase telephony credits
+1. Open the telephony credits page.
+2. Click **Purchase Credits** at the top.
+3. Choose a package, or enter your own amount.
+4. Complete checkout.
 
-### Select a package
+Your credits are added as soon as the payment is confirmed, and you'll see a summary of what you bought and your new balance.
 
-1. Go to **Telephony Credits** (`/partner/telephony-credits`).
-2. Click **Purchase Credits** in the page header (not "Purchase" — the button was renamed).
-3. Browse available credit packages.
-4. Packages typically include:
-   - **Small** – $50 (5000 cents)
-   - **Medium** – $100 (10000 cents)
-   - **Large** – $250 (25000 cents)
-   - **Custom** – Enter your own amount
+![Telephony credit purchase modal](/images/screenshots/screenshot-2026-03-19-201349.png)
 
-### Complete purchase
+## Set up low-balance alerts
 
-1. Click **Purchase Credits** on the package.
-2. Review the amount.
-3. Complete Stripe checkout.
-4. Credits are added immediately after payment confirmation.
+Get a heads-up before you run out:
 
-**Redirect URL:** After purchase, you're redirected to a success page showing:
-- Credits added
-- Amount paid
-- New balance
+1. Open the telephony credits page.
+2. Click **Settings**.
+3. Choose the balance that should trigger an alert and how you want to be notified.
 
-![Telephony Credit Purchase Modal](/images/screenshots/screenshot-2026-03-19-201349.png)
+This helps you top up before any calls are affected, so there are no last-minute scrambles.
 
-## Configure low credit alerts
+![Telephony credit settings](/images/Screenshot2025-12-28at01.54.56.png)
 
-Set up notifications before credits run out:
+## View your history
 
-1. Go to **Telephony Credits** (`/partner/telephony-credits`).
-2. Click **Settings** in the page header (gear icon).
-3. Configure:
-   - **Alert Threshold** – Balance amount that triggers alert (e.g., $10 or 1000 cents)
-   - **Email Notifications** – Receive email when threshold is reached
-   - **Dashboard Alerts** – Show warning banner on dashboard
+Click **Show History** to see everything that's happened with your telephony credits — purchases, usage from calls and SMS, and any adjustments, each with a date and the balance afterwards. Some plans also let you export this as a CSV for your accounting.
 
-### Why set alerts
+## How credits are used
 
-- **Prevent service interruptions** – Top up before calls fail
-- **Plan ahead** – Budget for monthly usage
-- **Avoid emergency top-ups** – No last-minute scrambles
+- **Calls** are charged by the minute, based on their length and whether they're inbound or outbound.
+- **Phone numbers** carry a small monthly rental, charged automatically each month.
+- **SMS messages** are charged per message.
 
-![Telephony Credit Settings Overview](/images/Screenshot2025-12-28at01.54.56.png)
+The exact rates depend on your provider and the type of number, and you'll always see the actual usage in your history.
 
-## View transaction history
+## Cost-based pricing
 
-Track all telephony credit activity:
+Telephony credits are priced at cost — you pay what Knotie AI pays the underlying providers, with no markup added. You're free to mark up these services to your own customers in your own billing. Telephony credits also don't expire, so anything you buy stays on your balance until you use it.
 
-1. Go to **Telephony Credits** (`/partner/telephony-credits`) and click **Show History** in the page header.
-2. View transactions including:
-   - **Purchases** – When you bought credits
-   - **Usage** – Credits consumed by calls/SMS
-   - **Adjustments** – Manual changes by support
-   - **Date & Time** – When transaction occurred
-   - **Balance After** – Remaining balance
+## Tips
 
-### Export history
-
-Some plans allow exporting transaction history for accounting:
-- Click **Export** to download CSV
-- Use for billing reconciliation
-- Track monthly spending patterns
-
-## How telephony credits are consumed
-
-### Call minutes
-
-Every call consumes credits based on:
-- **Duration** – Charged per minute
-- **Direction** – Inbound vs outbound
-- **Provider rates** – Twilio or other carrier costs
-
-**Example:**
-- 10-minute call at $0.02/min = $0.20 (20 cents) deducted
-
-### Phone number rentals
-
-Monthly phone number costs:
-- **Local numbers** – ~$1/month
-- **Toll-free numbers** – ~$2/month
-- **International numbers** – Varies by country
-
-Charged automatically at the beginning of each month.
-
-### SMS messages
-
-Per-message costs:
-- **Outbound SMS** – $0.0075 per message (0.75 cents)
-- **Inbound SMS** – Usually free or minimal cost
-- **MMS** – Higher cost, varies by carrier
-
-## Cost-based pricing explained
-
-### No markup policy
-
-Telephony credits are priced **at cost** – you pay exactly what Knotie AI pays providers (Twilio, etc.):
-
-**Why?**
-- **Transparent pricing** – No hidden fees
-- **Competitive rates** – Pass savings to you
-- **Predictable costs** – Same as provider rates
-
-**Your markup:** You can mark up services to your customers in your own billing, while paying provider cost.
-
-### Never expire
-
-Unlike some credit systems:
-- **No expiration date** – Buy once, use anytime
-- **Roll over** – Unused credits carry forward
-- **No waste** – Credits never lost to expiration
-
-## Best practices
-
-### Maintain buffer balance
-
-- **Keep 2-3x monthly usage** – Avoid running out mid-month
-- **Set alerts at 20-30%** – Early warning for top-ups
-- **Review monthly patterns** – Adjust buffer based on growth
-
-### Monitor usage trends
-
-- **Track monthly consumption** – Identify spikes or drops
-- **Seasonal planning** – Prepare for busy periods
-- **Customer-level tracking** – See which customers use most credits
-
-### Budget for growth
-
-As you onboard more customers:
-- **Project future usage** – Estimate credit needs
-- **Bulk purchases** – Buy larger packages for better planning
-- **Set up recurring** – Consider auto-top-up if available
-
-## Telephony vs AI credit top-ups
-
-### When to buy telephony credits
-
-Buy telephony credits when:
-- You're onboarding customers with phone agents
-- Setting up new phone numbers
-- Launching SMS campaigns
-- Scaling call volume
-
-### When to buy AI credits
-
-Buy AI credits when:
-- Enabling AI-powered features
-- Scaling AI agent usage
-- Using platform tools and integrations
-- Adding knowledge base processing
-
-**Both balances are independent** – Top up each separately based on your needs.
+- **Keep a buffer** — hold a bit more than your typical monthly usage so you don't run out mid-month.
+- **Set your alerts early** — a warning while you still have room beats an interruption.
+- **Watch your trends** — as you take on more customers, your usage grows, so review it now and then and top up ahead of demand.
 
 ## Troubleshooting
 
-### Purchase succeeded but balance not updated
-- **Refresh page** – Click the refresh icon or reload browser
-- **Wait 1-2 minutes** – Payment processing may be delayed
-- **Check email** – Stripe sends confirmation to your email
-- **Contact support** – If credits missing after 5 minutes
-
-### Low credit alert not showing
-- **Check settings** – Verify alert threshold is set
-- **Email configuration** – Ensure email notifications enabled
-- **Balance above threshold** – Alert only shows when below limit
-
-### Unable to make calls despite credits
-- **Check AI credits** – You need BOTH telephony AND AI credits for calls
-- **Phone number status** – Verify number is active
-- **Customer configuration** – Ensure customer agent is deployed
-
-### Unexpected credit consumption
-- **Review usage history** – Check what consumed credits
-- **Failed calls** – Some failed calls may still consume minimal credits
-- **Test calls** – Remember test calls consume real credits
-- **Phone number rentals** – Monthly fees deducted automatically
+- **Payment went through but the balance didn't update** — refresh the page, wait a minute or two, and check your email for a receipt. If it's still missing after a few minutes, contact support.
+- **Low-balance alert isn't showing** — check that you've set an alert threshold and that your balance is actually below it.
+- **Can't make calls even though you have telephony credits** — calls need both telephony *and* AI credits, so check your AI balance too, and confirm the number is active and the agent is set up.
+- **Credits went down more than expected** — check your history to see what used them. Remember that test calls use real credits, and phone number rentals are charged automatically each month.
 
 ## Related pages
 
-- [Credits Management](/partner-portal/credits) – Overview of credit system
-- [AI Credit Management](/partner-portal/customers/ai-credit-management) – Customer AI credits
-- [Phone Numbers](/partner-portal/phone-numbers) – Phone number provisioning
-- [Auto-Deploy](/partner-portal/auto-deploy) – Credit requirements for auto-deployment
+- [Credits](/partner-portal/credits) — Overview of the two credit balances
+- [AI credit management](/partner-portal/customers/ai-credit-management) — Customer AI credits
+- [Phone numbers](/partner-portal/phone-numbers) — Setting up phone numbers
+- [Auto-deploy](/partner-portal/auto-deploy) — Credit requirements for auto-deployment

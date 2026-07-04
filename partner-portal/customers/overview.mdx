@@ -10,8 +10,6 @@ In the Partner Portal sidebar, click **Customers**. The Customers button expands
 - **Active Customers** — your full customer list (the page most partner actions live on).
 - **Prospects** — leads from the AI Receptionist still in the onboarding process (Enterprise feature).
 
-> This page (Customer Management Overview) is not surfaced as a sidebar entry — it appears in search results and as a parent topic page. Use Active Customers for day-to-day management.
-
 ## What customer management is
 
 In Knotie AI PRO, **Customer Management** is everything you can control for a specific customer after they’ve been created.
@@ -25,9 +23,9 @@ The **Customer List** page has two main tabs:
 - **Customers** – Active customers who have completed onboarding
 - **Prospects** – Leads from the AI Receptionist who are still in the onboarding process (Enterprise feature)
 
-![Customer List - Customers Tab](/images/screenshots/screenshot-2026-03-19-155900.png)
+![Customer List - Customers Tab](/images/screenshots/customer-list-customers-tab-2026-07-03.png)
 
-![Customer List - Prospects Tab](/images/screenshots/screenshot-2026-03-19-200925.png)
+![Customer List - Prospects Tab](/images/screenshots/customer-list-prospects-tab-2026-07-03.png)
 
 ## Understanding the onboarding flow
 
@@ -41,7 +39,7 @@ The **Customer List** page has two main tabs:
 
 ### The 9 onboarding steps
 
-> This 9-step flow is available only when your portal is in **SaaS mode**. (Live UI shows 9 steps — the old "10-step" flow was consolidated; the last step is now **Summary & Deploy** which folds in payment + activation.)
+> This 9-step flow is available only when your portal is in **SaaS mode**.
 
 1. Business Info
 2. Website Verification
@@ -51,11 +49,9 @@ The **Customer List** page has two main tabs:
 6. Greeting Setup
 7. Information Collection
 8. Communication Settings
-9. **Summary & Deploy** (was "Pricing & Payment" → "Deploy Agent" — now merged)
+9. **Summary & Deploy**
 
 ![Onboarding Steps Progress](/images/screenshots/screenshot-2026-03-19-200344.png)
-
-> Step 9 is gated by `/api/whitelabel/check-onboarding-payment`. If the customer arrives at Step 9 without an `active` credential, they're sent back through the Summary & Deploy step to complete payment.
 
 ## Where to find customer actions
 
@@ -88,7 +84,3 @@ Some features require setup elsewhere:
 - **Billing** inside the customer modal requires **Stripe Connect**.
 - **API Keys menu visibility** requires **API Access** to be enabled for the customer.
 - [Embed URLs](/partner-portal/customers/embed-urls) are typically configured after customer portal access is enabled and the customer is ready for embedded experiences.
-
-## Screenshots
-
-![Customer List page with Active Customers and Prospects tabs, showing rows for a@123.co, Netflix, and Your Client with status badges and Portal Management action buttons](/images/Group23.png)

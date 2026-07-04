@@ -9,11 +9,11 @@ If you are looking for the current OpenAI-compatible API key flow, use the top-l
 
 That is where partners now:
 
-- Create virtual LLM keys
-- Control model access
+- Create AI API keys
+- Control which models can be used
 - Manage budgets and top-ups
 - Regenerate or revoke keys
-- Configure customer self-service AI Gateway access
+- Set up customer self-service AI Gateway access
 
 ## Which option to use
 
@@ -21,9 +21,9 @@ That is where partners now:
 
 Use [AI Gateway](/partner-portal/ai-gateway) when you need:
 
-- OpenAI-compatible virtual keys
-- Model restrictions
-- Metered LLM usage
+- OpenAI-compatible API keys
+- Limits on which models can be used
+- Usage-based AI billing
 - Customer-billed AI Gateway keys
 - Customer self-service key creation from the whitelabel portal
 
@@ -56,16 +56,12 @@ Both the partner-side **Settings → API Keys** page and the customer portal **A
 
 What this means in practice:
 
-- **Primary color** — all call-to-action buttons (Generate, Copy, Delete) use your configured `primaryColor` from [Whitelabel settings](/partner-portal/settings/whitelabel-settings).
-- **Dark theme** — the settings API keys page renders with dark card surfaces and light-colored text to match the partner portal's dark aesthetic.
-- **Branded key reveal modal** — when a new API key is generated and shown one time, the reveal modal is themed with your primary color.
-- **Branded empty state** — when a customer has no API keys yet, the empty-state message references your business name.
+- **Primary color** — the action buttons (Generate, Copy, Delete) use your brand's primary color from [Whitelabel settings](/partner-portal/settings/whitelabel-settings).
+- **Dark theme** — the page matches the partner portal's dark look.
+- **Branded key reveal** — when a new API key is generated and shown once, that pop-up uses your primary color.
+- **Branded empty state** — when a customer has no API keys yet, the message references your business name.
 
-![Customer Portal — API Keys page (a customer's whitelabel portal at dashboard.your-agency.com/whitelabel/settings/api-keys) showing partner-branded buttons and the dark-themed layout. The page is reached via Customers → Preview for any customer with portal access.](/images/screenshots/customer-api-keys-branded.png)
-
-<Info>
-If you previously saw a brief "not available" message when opening the API keys page before access had finished loading, this has been fixed. The page now waits for the access check to complete before displaying any content.
-</Info>
+![Customer portal API Keys page showing partner-branded buttons and the dark-themed layout](/images/screenshots/customer-api-keys-branded-2026-07-03.png)
 
 ## Security reminders
 
@@ -77,7 +73,7 @@ Treat any key or token like a password:
 
 ## Common confusion to avoid
 
-- **AI Gateway** is for metered LLM access.
+- **AI Gateway** is for usage-based AI access.
 - **API Keys** visibility in the client portal depends on **API Access**.
 - **AI Gateway** visibility in the client portal depends on **AI Credits** plus the partner self-service setting.
 - **Embed URLs** are for embedded customer experiences, not server-side partner automation.

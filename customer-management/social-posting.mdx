@@ -5,7 +5,7 @@ description: "Schedule and publish social media posts across Facebook, X (Twitte
 
 ## What the social posting calendar is for
 
-The **Social Posting** section gives customers a GHL-style calendar where they can write posts, pick platforms, attach media, and schedule or immediately publish across major social networks. Posts are dispatched automatically by the platform at the scheduled time — no manual publishing required.
+The **Social Posting** section gives customers a calendar where they can write posts, pick platforms, attach media, and schedule or immediately publish across major social networks. Posts go out automatically at the scheduled time — no manual publishing required.
 
 Supported platforms:
 
@@ -22,7 +22,7 @@ Supported platforms:
 ## Prerequisites
 
 1. The customer must have active portal access.
-2. The partner must have connected at least one social account via the **Integrations** settings (powered by Composio).
+2. The partner must have connected at least one social account via the **Integrations** settings.
 3. The customer's **Docs & Media** feature should be enabled if they want to attach images from the media library.
 
 ## Scheduling a post
@@ -43,7 +43,7 @@ The post appears on the calendar and will be published automatically at the sche
 
 ## Immediate publishing
 
-If you want to publish now rather than schedule, set the date/time to the current moment (or click **Publish now** if available). The dispatcher runs on a frequent cron schedule, so posts set within the next minute or two publish near-instantly.
+If you want to publish now rather than schedule, set the date/time to the current moment (or click **Publish now** if available). The platform checks for due posts every minute or two, so posts set within the next couple of minutes publish near-instantly.
 
 ## Editing and deleting scheduled posts
 
@@ -72,8 +72,6 @@ AI agents that hold a customer-scoped MCP token can also create and schedule pos
 - `SOCIAL_POST_LIST` — list upcoming scheduled posts
 
 These tools are only exposed to agent tokens with social scope. See [MCP tool modes](/api-reference/mcp/tool-modes) for details on how agents discover and call tools.
-
-{/* > ℹ️ Capturing an MCP-driven post scheduling interaction requires an active voice or chat session where the agent invokes `SOCIAL_POST_SCHEDULE`. A common pattern: a customer asks the agent "post our new product photo on Friday at 9 AM" → agent picks the asset from the media library, fills the schedule, and confirms in the chat. Transcript excerpts land in the Conversations tab — capture from there. */}
 
 ## Related pages
 

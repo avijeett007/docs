@@ -57,7 +57,7 @@ Example prompt: *"Rank my top 50 customers by usage this month"*
 
 ### CRM sync
 
-Nexus can upsert customer data to your CRM through the `partner.crm.upsert` operation.
+Nexus can push customer data into your connected CRM, keeping records in sync as it works.
 
 ### Email drafting
 
@@ -65,7 +65,7 @@ When Nexus needs to send emails on your behalf, it pauses for approval — showi
 
 ### Example conversation
 
-A single prompt like *"Onboard a new customer with a voice + chat agent"* triggers Nexus to chain multiple operations and surface intermediate results inline — each tool call (e.g., `partner.customers.search`, `nexus.score_customers`, `partner.crm.upsert`) shows as a check chip with a one-line outcome ("matched 286", "50 ranked", "synced"), followed by any structured data card Nexus produced.
+A single prompt like *"Onboard a new customer with a voice + chat agent"* triggers Nexus to chain several steps and show its progress inline — each step (searching customers, scoring, syncing your CRM) appears as a check chip with a one-line outcome ("matched 286", "50 ranked", "synced"), followed by any result card Nexus produced.
 
 ![Nexus conversation in progress — onboarding a new customer with chained tool calls and a Top Agency Customers result card](/images/screenshots/nexus-conversation.png)
 

@@ -62,9 +62,9 @@ If you picked **AI Builder** on the Setup Mode tab, the Basic tab is replaced by
 
 The builder produces a complete agent configuration with:
 
-- Agent name and type (`inbound` / `outbound` / `web` / `multi_agent`)
-- Communication channel (`telephony` or `web`)
-- Agent mode (`essential` / `moderate` / `premium`)
+- Agent name and type (inbound, outbound, web, or multi-agent)
+- Communication channel (phone or web)
+- Agent mode (essential, moderate, or premium)
 - System prompt and greeting message
 - Function calls (tool integrations)
 - Multi-agent personas and routing (if applicable)
@@ -79,10 +79,10 @@ The builder can read web pages and run searches on its own, without any partner-
 
 | Situation | What the builder does |
 |---|---|
-| You paste a URL in your message | Calls `fetch_url` and reads the page content before proposing the agent |
-| You name a website ("their site is ipswich.plumbing") | Calls `fetch_url` with the URL it infers |
-| The business profile has a `businessWebsite` field | Calls `fetch_url` to pull current hours, services, pricing detail |
-| No URL is in scope and the builder needs to find one | Calls `search_web` with a relevant query |
+| You paste a URL in your message | Reads the page content before proposing the agent |
+| You name a website ("their site is ipswich.plumbing") | Reads the site at the URL it infers |
+| The business profile already has a website on file | Reads it to pull current hours, services, and pricing detail |
+| No URL is in scope and the builder needs to find one | Runs a web search to find the right page |
 
 ### URL detection indicator
 
@@ -137,13 +137,13 @@ The builder supports creating multi-agent setups where a routing agent hands off
 ### Requirements for multi-agent proposals
 
 - At least **2 personas** defined
-- A **routing** block with a valid mode
-- An **entryPersonaId** pointing to the first persona
-- All persona IDs referenced in routing must exist in the `personas` list
+- A **routing** setup with a valid mode
+- An **entry persona** that takes the first turn
+- Every persona named in the routing must exist in the persona list
 
 When editing an existing multi-agent setup:
-- All personas are loaded correctly into the builder context
-- The `entryPersonaId` (routing agent) is preserved
+- All personas are loaded correctly into the builder
+- The entry (routing) persona is preserved
 - The builder can update individual personas or the routing logic
 
 {/*
@@ -187,94 +187,46 @@ When a phone number is assigned to a Knova agent, the phone numbers listing now 
 
 ---
 
-## Voice selection notes (Inworld)
-
-When the builder proposes an Inworld voice, gender is detected correctly from the voice catalogue. Previously, voices with descriptions containing the word "female" could be incorrectly matched as "male" due to a substring overlap. This is fixed — Ashley, Craig, and other Inworld voices now resolve to the correct gender.
-
----
-
 ## Builder reliability
 
-The builder API allows up to **120 seconds** per turn (increased from 60 s) to accommodate complex multi-agent configurations.
-
 - Simple single-agent builds typically complete in under 30 seconds.
-- Complex multi-agent builds with 4–6 tool calls may take 60–90 seconds.
+- Complex multi-agent builds may take 60–90 seconds.
 - If the builder appears stuck for more than 2 minutes, close the modal and try again.
 
-### Proposal validation rules
+### Proposal validation
 
-Every proposal is validated before being presented:
+Every proposal is checked before being presented:
 
 | Rule | Detail |
 |---|---|
 | System prompt length | Max 15,000 characters per persona |
 | Multi-agent: persona count | Minimum 2 personas |
-| Multi-agent: routing | Must include a valid routing block and `entryPersonaId` |
-| Persona references | All IDs in routing must match a defined persona |
+| Multi-agent: routing | Must include a valid routing setup and an entry persona |
+| Persona references | Every persona named in the routing must exist |
 
-If a proposal violates a rule, the builder self-corrects on the next turn rather than surfacing an error to you.
-
----
-
-## Configuration reference (self-hosted)
-
-Partners running their own Knotie AI Pro instance configure the builder LLM via `.env`:
-
-| Variable | Purpose | Recommended value |
-|---|---|---|
-| `KNOVA_BUILDER_BASE_URL` | LLM provider endpoint | e.g. `https://api.openai.com/v1` |
-| `KNOVA_BUILDER_API_KEY` | API key for the provider | Your OpenAI / provider key |
-| `KNOVA_BUILDER_MODEL` | Model used for the builder | `openai/gpt-4.1-mini` |
-| `KNOVA_BUILDER_AUTH_SCHEME` | `Bearer` (default) or `Basic` (Inworld) | `Bearer` |
-| `KNOVA_BUILDER_TEMPERATURE` | Sampling temperature | `0.7` |
-
-### Recommended models
-
-The builder requires a model with **reliable tool-calling**. Reasoning-heavy models can produce long chains-of-thought without ever calling `propose_agent_config`.
-
-**Confirmed working:**
-
-| Provider | Model ID |
-|---|---|
-| OpenAI (direct) | `openai/gpt-4.1-mini` |
-| OpenAI (via Inworld) | `openai/gpt-4o-mini` |
-| Anthropic (via Inworld) | `anthropic/claude-haiku-4-5` |
-
-<Warning>
-Avoid `inworld/ab-test-models` as the builder model. That family uses a reasoning-heavy architecture with weak tool-call support, which causes the builder to fail on multi-step tool loops.
-</Warning>
-
-<Tip>
-For Inworld-hosted deployments, use `openai/gpt-4.1-mini`. It has reliable tool use and is cost-efficient for agent builder sessions.
-</Tip>
+If a proposal doesn't meet a rule, the builder corrects itself on the next turn rather than showing you an error.
 
 ---
 
 ## Troubleshooting
 
 **Builder chat shows a spinner for a long time**
-The builder LLM is working through a multi-tool turn. Wait up to 2 minutes before closing.
+The builder is working through a multi-step turn. Wait up to 2 minutes before closing.
 
 **Builder times out before finishing**
-The builder route allows up to 120 seconds per turn for reasoning-heavy models. If you see timeout errors:
-- Switch to a faster model (`gpt-4.1-mini`, `claude-haiku-4-5`)
-- Split the request into smaller steps (one persona at a time for multi-agent configs)
+Complex multi-agent builds take longer. If you hit repeated timeouts, split the request into smaller steps — build one persona at a time for multi-agent setups.
 
 **Input field has no cursor when the modal opens**
-This has been fixed. The input now auto-focuses correctly even when the builder is opened from inside another modal. If you still see this, ensure your browser is up to date.
+This has been fixed. The input now focuses automatically even when the builder is opened from inside another modal. If you still see this, make sure your browser is up to date.
 
 **Fetch fails on every URL I paste**
-- Check that `SERPER_API_KEY` (or equivalent web-search config) is set in your `.env` file (self-hosted only)
-- Some sites block server-side crawlers by design. Paste the relevant text from the page directly into the chat and the builder will use it
+Some sites block automated readers by design. Paste the relevant text from the page directly into the chat and the builder will use it.
 
 **"No personas yet" when editing an existing multi-agent**
-This has been fixed. If upgrading from an older version, re-open the agent in the builder to reload the persona list.
+This has been fixed. Re-open the agent in the builder to reload the persona list.
 
 **Applied proposal but form fields are empty**
 Click **Apply to form** in the builder chat — the proposal does not populate the form automatically.
-
-**Builder thinks but never produces a proposal**
-The configured `KNOVA_BUILDER_MODEL` is likely a reasoning-heavy model that doesn't call tools reliably. Switch to `openai/gpt-4.1-mini` or `anthropic/claude-haiku-4-5`.
 
 ---
 
@@ -282,5 +234,5 @@ The configured `KNOVA_BUILDER_MODEL` is likely a reasoning-heavy model that does
 
 - [AI Agent Builder Chat](/agents/knova/agent-builder-chat) — Chat UX, session resume, rate limits, and the "Re-checked context" noise-reduction pill
 - [Manage Knova agents](/agents/knova/manage-knova-agents) — Create, configure, and edit Knova agents
-- [Knova AI Receptionist agent](/agents/knova/knova-agent) — How the agent runs in production (SIP routing, tools, credits)
+- [Knova AI Receptionist agent](/agents/knova/knova-agent) — How the agent runs in production (routing, tools, credits)
 - [MCP Tokens](/partner-portal/ai-agents/mcp/tokens) — Manage agents programmatically via MCP
