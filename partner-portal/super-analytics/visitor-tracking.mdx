@@ -1,0 +1,100 @@
+---
+title: "Visitor Tracking"
+description: "How Knotie AI Pro collects first-party visitor signals on your pages — including what is tracked, how privacy is protected, and how to verify tracking is working."
+---
+
+## What visitor tracking does
+
+Knotie AI Pro includes a built-in **first-party visitor tracker** (no third-party scripts, no cookies). It records anonymous page visits on:
+
+- The main Knotie AI Pro landing page
+- Whitelabel partner landing pages and customer portals
+- Partner portal pages
+
+When a visitor later signs up or logs in, their anonymous history is **stitched** to their known identity (partner or customer record, plus email domain → company mapping). This powers the [Visitor Intent engine](/partner-portal/super-analytics/engines#5-visitor-intent) in Super Analytics.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Visitor Intent engine results page — showing the domain-grouped visitor list with visit counts, recency, and the intent score column._
+
+---
+
+## What is tracked
+
+| Signal | Description |
+|--------|-------------|
+| Page path | Which URL was visited (`/`, `/pricing`, `/portal/…`) |
+| Referrer | Where the visitor came from |
+| UTM parameters | Campaign, source, medium if present |
+| CTA clicks | Clicks on tracked call-to-action buttons |
+| Custom events | Named events fired by the page (e.g. "demo_started") |
+| Visitor ID | Anonymous ID stored in localStorage (survives page reloads, not cross-device) |
+| Email domain | Extracted after identity stitching (not from raw tracking) |
+| Session | Visit start time, duration, page count |
+
+### What is NOT tracked
+
+- Raw IP addresses — hashed with a salt before storage, never stored in plaintext
+- Personal identifiers — only captured after an explicit sign-up or login (`identify` event)
+- Cross-site data — the tracker only runs on Knotie-hosted or whitelabel pages
+
+---
+
+## Privacy controls
+
+- **DNT respected:** Visitors who set the browser "Do Not Track" header are not tracked. No data is written for them.
+- **IP hashing:** Every IP address is salted-hashed with `TRACKING_IP_SALT` before storage. Rotating the salt invalidates historical IP correlation.
+- **No third-party scripts:** The tracker is a tiny inline component (`KnotieTracker`) served from the same domain.
+
+---
+
+## Verifying tracking is active
+
+Tracking is on by default for all whitelabel partner pages and the main landing. To confirm:
+
+1. Open your browser's **Network** tab.
+2. Visit your whitelabel landing page.
+3. Look for a `POST /api/public/track` request. A `204 No Content` response means the event was accepted.
+
+If you see no request, check that `SUPER_ANALYTICS_TRACKING_ENABLED` is not set to `"false"` in your environment.
+
+### Platform-domain tracking
+
+Tracking on the platform's own domains (e.g. `knotie-ai.pro` itself, not a partner subdomain) is **off by default**. To enable it, set:
+
+```
+SUPER_ANALYTICS_PLATFORM_TRACKING=true
+```
+
+---
+
+## How identity stitching works
+
+When an anonymous visitor signs up or logs in, the platform fires an `identify` event that links:
+
+- Their anonymous visitor ID (from localStorage)
+- Their new partner or customer record
+- Their email domain → company name mapping
+
+After stitching, the visitor's historical page views are associated with their account, so you can see that "Acme Corp" (email domain `acme.com`) visited the pricing page twice before signing up.
+
+---
+
+## Kill switch
+
+To disable all visitor tracking instantly without a code deploy:
+
+```
+SUPER_ANALYTICS_TRACKING_ENABLED=false
+```
+
+Set this environment variable and restart the app (or wait for the next deploy). No data is written while this is set. Per-partner gating (`Partner.superAnalyticsEnabled`) still applies when tracking is re-enabled — a partner without the flag set is never tracked even when the global switch is on.
+
+---
+
+## Related pages
+
+- [Super Analytics Overview](/partner-portal/super-analytics/overview) — Feature access, configuration, and privacy details
+- [Analytics Engines — Visitor Intent](/partner-portal/super-analytics/engines#5-visitor-intent) — The engine that uses visitor tracking data
+
+---
+
+> Source: [knotie-ai-pro#1106](https://github.com/avijeett007/knotie-ai-pro/pull/1106) — _Super Analytics: production-safety hardening + JARVIS experimental_

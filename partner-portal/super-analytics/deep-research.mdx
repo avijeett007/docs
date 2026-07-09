@@ -1,0 +1,92 @@
+---
+title: "Deep Research"
+description: "AI-powered research reports on any subject — a customer, a company, a website, or a domain — produced by a multi-step research pipeline that searches the web, scrapes public pages, and synthesises findings into a structured report."
+---
+
+<Warning>
+  **Deep Research runs outside the main app by default.** Reports are queued to KnotieManager (the background worker service). If KnotieManager is not configured or is unreachable, up to 2 reports can run in-process concurrently before overflow requests are queued for when KM recovers. This is intentional — it protects the app from being slowed down by research workloads during KM outages.
+</Warning>
+
+## What Deep Research does
+
+The **Deep Research** tab lets you commission an AI research report on any subject. You give it a subject (a customer name, a company URL, a domain) and a brief scope, and it returns a structured report covering:
+
+- What the subject does / who they are
+- Key signals from their public web presence (website, social profiles, news mentions)
+- Relevance to your business (account expansion opportunity, churn signal, competitive intelligence)
+- Recommended next steps
+
+Reports are saved as `ResearchRun` records — you can re-open them later, compare runs over time, and share the link with a teammate.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Deep Research tab — showing the subject input form and a completed research report below it, with the AI narrative and key findings visible._
+
+> 🎬 **Video walkthrough:** _Record a clip commissioning a Deep Research run: entering a subject, clicking Run, watching the status indicator, and reviewing the final report._
+
+---
+
+## Starting a research run
+
+1. Open **Super Analytics → Deep Research**.
+2. In the **Subject** field, enter what you want researched. This can be:
+   - A company name (e.g. "Acme Corp")
+   - A website URL (e.g. `acme.com`)
+   - A customer name from your portal
+3. Optionally add a **focus** (e.g. "expansion opportunity", "churn risk", "competitive positioning").
+4. Click **Run**. The research is queued and you'll see a status indicator.
+5. When the report is ready (usually 1–5 minutes), it appears in the **Runs** list. Click it to read.
+
+---
+
+## What the pipeline does
+
+Behind the scenes, Deep Research runs a multi-step pipeline:
+
+| Step | What happens |
+|------|-------------|
+| Web search | Searches the public web for the subject |
+| Website scrape | Fetches and reads the subject's main website (safely — no internal-network access) |
+| Social discovery | Finds public social profiles linked to the domain |
+| SEO snapshot | Reads public SEO signals (page count, technical health) |
+| Places lookup | Looks up business information from public directories |
+| Synthesis | Combines all findings into a structured narrative report |
+
+<Note>
+  The pipeline only accesses public information. It does not make requests to internal IP ranges, cloud metadata endpoints, or private network addresses. SSRF (server-side request forgery) protections pin DNS lookups to validated addresses before making any HTTP requests.
+</Note>
+
+---
+
+## Research run statuses
+
+| Status | Meaning |
+|--------|---------|
+| `queued` | Waiting for a worker slot |
+| `running` | The pipeline is actively fetching and analysing |
+| `completed` | Report is ready to read |
+| `scheduled` | Queued for KnotieManager to pick up (shown when in-process capacity is full) |
+| `failed` | The pipeline encountered an unrecoverable error. Retry from the run detail page. |
+
+---
+
+## KnotieManager and in-process fallback
+
+Deep Research is designed to run on **KnotieManager** — the platform's background worker service. If KM is configured and reachable, all research runs go there and the main app stays free.
+
+When KM is not available (not configured, or temporarily unreachable):
+
+- The main app will run up to `SUPER_ANALYTICS_INPROCESS_MAX` (default: 2) research pipelines concurrently in-process.
+- Any research request beyond that limit is set to `scheduled` status and will be picked up when KM recovers or cron re-checks.
+
+This means a KM outage degrades research capacity (interactive runs may queue) but does not bring down the app or affect voice agents, billing, or other features.
+
+---
+
+## Related pages
+
+- [Super Analytics Overview](/partner-portal/super-analytics/overview) — Configuration, including `SUPER_ANALYTICS_INPROCESS_MAX`
+- [Analytics Engines](/partner-portal/super-analytics/engines) — Structured playbooks over your database (faster, no external fetches)
+- [Audiences](/partner-portal/super-analytics/audiences) — Save research findings as retargeting lists
+
+---
+
+> Source: [knotie-ai-pro#1106](https://github.com/avijeett007/knotie-ai-pro/pull/1106) — _Super Analytics: production-safety hardening + JARVIS experimental_

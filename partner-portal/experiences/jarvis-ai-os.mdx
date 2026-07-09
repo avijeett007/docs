@@ -1,6 +1,6 @@
 ---
 title: "JARVIS AI OS"
-description: "Give your clients their own branded AI business assistant — voice-first, trained on their business, live in their portal. A prospecting and demo experience in Beta."
+description: "Give your clients their own branded AI business assistant — voice-first, trained on their business, live in their portal. An Experimental experience — for demos and early access, not general sale."
 ---
 
 ## What JARVIS AI OS is
@@ -14,7 +14,7 @@ Use JARVIS AI OS when you want to:
 - Offer a voice-first AI experience without building any backend yourself
 
 <Warning>
-  **Best for prospecting and demos, not live sale yet.** JARVIS AI OS is still in Beta. Show it to prospects and let them try the voice demo, but hold off on selling it as a finished product until the full launch.
+  **JARVIS AI OS is now marked Experimental.** It was previously in Beta; it has been re-classified as Experimental to more accurately reflect its current maturity. Show it to prospects and use it for demos and early pilots, but do not position it as a production-ready product until the Experimental label is removed. The experience card and settings page now display an **Experimental** badge.
 </Warning>
 
 ![JARVIS AI OS experience card on the Experiences catalog, with its tagline and an Enable button](/images/screenshots/jarvis-ai-os-experience-card-2026-06-30.png)
@@ -182,10 +182,41 @@ Converted customers appear in **Partner Portal → Customers** and show their JA
 
 ---
 
-## Known limitations (Beta)
+## Customer-facing JARVIS work page
 
-- **Still marked as Beta.** The settings page shows a Beta banner while the experience is in development. It'll be removed at full launch.
+Once a customer's JARVIS assistant is provisioned, they have a **Work** page in their customer portal in addition to the voice ORB. The Work page gives them a text-based interface to:
+
+- **Chat with JARVIS** — send messages and receive responses without activating voice
+- **Review pending tasks** — JARVIS may propose background tasks (e.g. drafting a document, scheduling follow-ups); the customer sees these as task cards
+- **Approve or reject tasks** — the customer can approve a task to let JARVIS execute it, or reject it to dismiss it
+
+> 📷 **Screenshot needed:** _Add a screenshot of the customer-facing JARVIS Work page — showing the chat interface on the left and a pending task card on the right, with Approve / Reject buttons visible._
+
+> 🎬 **Video walkthrough:** _Record a short clip of a JARVIS customer using the Work page: sending a chat message, receiving a response, and approving a task._
+
+### Task approval flow
+
+When JARVIS proposes a task that requires an action outside the conversation (e.g. sending an email, updating a record), it appears as a **task card** on the Work page. The customer must:
+
+1. Review the task description and what JARVIS plans to do
+2. Click **Approve** to let JARVIS execute it, or **Reject** to dismiss it
+
+JARVIS does not take autonomous background actions without explicit customer approval. This is intentional — the platform is designed for **human-in-the-loop** operation.
+
+<Note>
+  The Work page is available to all customers provisioned via JARVIS AI OS. It does not replace the voice ORB — it adds a text-based interface alongside it.
+</Note>
+
+---
+
+## Known limitations (Experimental)
+
+- **Marked as Experimental** (previously Beta). The experience card and settings page now show an **Experimental** badge. This label will be removed at general availability.
 - **Browser voice only, unless you turn on phone numbers.** Customers can talk to their JARVIS in the browser by default. To add phone access, turn on phone numbers in settings and make sure your phone credentials are set up in your white-label settings.
 - **Website learning takes a little time.** The knowledge base is created right away, but reading the customer's website happens in the background. The assistant may not know everything about their website for the first few minutes after the "ready" email.
 - **Urgent notifications aren't active yet.** The "notify me about urgent things" choice from onboarding is saved, but doesn't trigger any calls yet. It's planned for a future update.
-- **No autonomous tasks yet.** JARVIS can answer questions, use tools during a conversation, and remember things. Doing work on its own in the background is planned for a future update.
+- **Task execution scope.** JARVIS tasks on the Work page require customer approval before execution. Fully autonomous background tasks (without approval) are a planned future update.
+
+---
+
+> Source: [knotie-ai-pro#1106](https://github.com/avijeett007/knotie-ai-pro/pull/1106) — _Super Analytics: production-safety hardening + JARVIS experimental_

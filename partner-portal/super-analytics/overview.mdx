@@ -1,0 +1,104 @@
+---
+title: "Super Analytics"
+description: "Customer discovery, account intelligence, and AI-powered analytics over your partners and their customers — available to platform admins and (when enabled) to individual partners."
+---
+
+<Warning>
+  **Super Analytics is a Level 6 feature.** Reach Level 6 in the Partner Level System to unlock the partner-facing view. Platform admins can also enable it per partner directly from Mission Control.
+</Warning>
+
+## What Super Analytics is
+
+**Super Analytics** is a customer discovery and intelligence engine built into Knotie AI Pro. It runs structured analytics playbooks — called **Engines** — over your real usage data, lets you ask free-form questions in natural language through a built-in **Chat** interface, and lets you save any finding as a named **Audience** (retargeting list) you can export to CSV.
+
+Think of it as an analytics brain that knows your customer data and can answer questions like:
+
+- *"Which of my customers are at risk of churning?"*
+- *"Which companies have multiple users — and aren't on a team plan yet?"*
+- *"Which websites visited my pricing pages this week?"*
+- *"Who are my power users, and which ones should I reach out to first?"*
+
+There are two versions of Super Analytics:
+
+| View | Who sees it | Where |
+|------|-------------|-------|
+| **Mission Control** | Platform owner (admin) | `/mission-control/super-analytics` — analytics across ALL partners |
+| **Partner view** | Partner (when enabled) | Partner Portal → **Super Analytics** — analytics scoped to that partner's own customers |
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Super Analytics landing page in the Partner Portal — showing the Overview tab with the engine result cards and scope selector._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the full Super Analytics flow: opening the Partner Portal, navigating to Super Analytics, running an engine, reviewing the results, and saving an Audience._
+
+---
+
+## Access and availability
+
+### For the platform owner (Mission Control)
+
+The **Super Analytics** entry appears in the Mission Control sidebar automatically. No level requirement, no toggle needed. Use the **Scope picker** at the top of the page to view analytics platform-wide or drill into a single partner.
+
+You can also reach a partner-scoped view directly from any partner's detail page in Mission Control — click the **Super Analytics** button at the top of the page.
+
+### For partners
+
+Partners see Super Analytics in their sidebar only after **both** conditions are met:
+
+1. They have reached **Level 6** in the Partner Level System, or
+2. An admin has enabled `superAnalyticsEnabled` for their account from Mission Control → Partner → toggle.
+
+When enabled, the partner's Super Analytics is hard-scoped to their own customers and data — they cannot see other partners' data.
+
+<Note>
+  `superAnalyticsEnabled` defaults to **OFF**. No partner sees Super Analytics until explicitly unlocked, either by reaching Level 6 or by admin toggle.
+</Note>
+
+---
+
+## What's in Super Analytics
+
+Super Analytics has five tabs:
+
+| Tab | What it does |
+|-----|-------------|
+| **Overview** | Summary cards: last run per engine, audience count, recent chat sessions |
+| **Engines** | Run any of the 6 analytics engines; review saved runs and their AI-written narratives |
+| **Audiences** | View and export saved audience lists created from engine runs or chat findings |
+| **Deep Research** | AI-powered research reports on specific subjects (a customer, a domain, a company) |
+| **Chat** | Ask free-form questions about your data; the AI answers using real-time queries against your database, never hallucinated SQL |
+
+---
+
+## Privacy and data handling
+
+- **Visitor IP addresses are never stored raw.** They are hashed with a stable secret salt (`TRACKING_IP_SALT`) before being written to the database.
+- **DNT (Do Not Track) is respected** — visitors who set the DNT browser header are not tracked.
+- **Tenant isolation is enforced at the query layer**, not the prompt layer. Every tool the Chat AI can call is scoped to the active partner — no prompt can expand the scope.
+
+---
+
+## Configuration (self-hosted / advanced)
+
+The following environment variables control Super Analytics behaviour. None of them are required to run the feature — the defaults are production-safe.
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `SUPER_ANALYTICS_TRACKING_ENABLED` | `true` | Global kill-switch for the public `/api/public/track` ingest endpoint. Set to `"false"` to disable all visitor tracking instantly without a deploy. |
+| `SUPER_ANALYTICS_PLATFORM_TRACKING` | `false` | Whether to record visitor events on the platform's own domains (not whitelabelled partners). Off by default — opt in explicitly. |
+| `TRACKING_IP_SALT` | _(empty)_ | Salt for IP hashing. Set a stable random secret. Rotating it invalidates historical IP hashes (visitors are still tracked; IP correlation across periods is just broken). |
+| `SUPER_ANALYTICS_MODELS` | `claude-sonnet-5,gpt-5.1` | Comma-separated ordered fallback list of LLM model IDs for engine narration and chat. First model that succeeds wins. |
+| `SUPER_ANALYTICS_INPROCESS_MAX` | `2` | Max concurrent in-process Deep Research runs. If KnotieManager is down, overflow is deferred to the scheduled queue rather than blocking the main app. Min: 1. |
+
+---
+
+## Related pages
+
+- [Analytics Engines](/partner-portal/super-analytics/engines) — The 6 built-in engines and what they tell you
+- [Audiences](/partner-portal/super-analytics/audiences) — Save findings as retargeting lists and export to CSV
+- [Chat](/partner-portal/super-analytics/chat) — Ask free-form questions in natural language
+- [Deep Research](/partner-portal/super-analytics/deep-research) — AI-powered research reports on specific subjects
+- [Visitor Tracking](/partner-portal/super-analytics/visitor-tracking) — How visitor data is collected and stitched to known customers
+- [Partner Level System](/partner-portal/level-system) — How to reach Level 6 and unlock the partner-facing view
+
+---
+
+> Source: [knotie-ai-pro#1106](https://github.com/avijeett007/knotie-ai-pro/pull/1106) — _Super Analytics: production-safety hardening + JARVIS experimental_
