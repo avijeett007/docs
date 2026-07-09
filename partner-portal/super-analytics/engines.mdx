@@ -1,0 +1,121 @@
+---
+title: "Analytics Engines"
+description: "Six built-in analytics engines that run saved, repeatable playbooks over your customer data — each producing a narrative summary, recommended actions, and draft outreach messages."
+---
+
+## What engines are
+
+An **Analytics Engine** is a reusable analysis playbook. When you run an engine, it:
+
+1. Queries your live database (scoped to your partner data, or platform-wide for admins)
+2. Passes the aggregated results to an LLM
+3. Returns a **narrative summary** — a plain-English explanation of what the data means
+4. Lists **recommended actions** — what to do next, in priority order
+5. Drafts **outreach messages** — ready-to-review messages for high-value targets
+
+Every run is saved as an `AnalyticsRun` so you can compare results over time and build on previous findings.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Engines tab — showing the six engine cards with their last-run timestamps and a Run button visible on one of them._
+
+> 🎬 **Video walkthrough:** _Record a short clip running one engine end-to-end: clicking Run, watching the progress indicator, and reviewing the narrative + recommended actions that appear._
+
+---
+
+## Running an engine
+
+1. Open **Super Analytics → Engines**.
+2. Find the engine you want to run.
+3. Click **Run**. A progress bar shows while the engine queries your data and the LLM writes the narrative.
+4. When complete, the run appears in the **Runs** list below. Click it to read the full report.
+
+You can run the same engine multiple times — each run is a new snapshot, stamped with the time it ran. Comparing runs over time lets you track whether a situation is improving or getting worse.
+
+<Note>
+  Engines run synchronously for interactive use. If your database has a very large number of customers, the first run of an engine may take 10–30 seconds. Subsequent runs reuse the same aggregation paths and are faster.
+</Note>
+
+---
+
+## The 6 engines
+
+### 1. Power Users & Champions
+
+**What it finds:** Your heaviest users — the customers (or partners, in the admin view) who use the platform the most, with the strongest growth trajectory. Inside each company, it identifies the single most influential user ("champion") who is likely to drive expansion.
+
+**Why it matters:** In B2B, one enthusiastic power user inside a company is often worth more than the company's official admin contact. Finding them lets you personalise outreach and protect the relationship before they leave and take their advocacy with them.
+
+**Output:** Ranked list of power users with usage metrics, champion flag, and a draft "thank you / upsell" message for each.
+
+---
+
+### 2. Account Mapping (Domain Clusters)
+
+**What it finds:** Multiple users from the same company (email domain) — even when those users are on separate individual accounts. Surfaces companies that have organic, un-coordinated adoption but aren't yet on a team or enterprise plan.
+
+**Why it matters:** A company with 5 employees all independently paying is a missed expansion opportunity. Account Mapping finds them before they consolidate with a competitor.
+
+**Output:** List of domain clusters (company → user count → plan comparison), ranked by expansion potential. Draft outreach for the most senior-looking contact in each cluster.
+
+---
+
+### 3. Churn Risk
+
+**What it finds:** Customers showing warning signs — declining usage, credit depletion without top-ups, agents that haven't been called in a while, or login activity that has dropped off.
+
+**Why it matters:** Churn is easiest to prevent before the customer decides to leave. The Churn Risk engine surfaces at-risk accounts while there's still time to intervene.
+
+**Output:** Risk-ranked list of customers with the specific signal that triggered each flag (e.g. "credit balance hit 0, no top-up in 14 days") and a draft check-in message.
+
+---
+
+### 4. Upsell Opportunities
+
+**What it finds:** Customers who are close to a natural upgrade point — heavy call volume but no knowledge base, usage consistently near the top of their plan limits, or partners who use only one product when others would add immediate value.
+
+**Why it matters:** The easiest upsell is a customer who is already getting value and has a clear next step. This engine finds them before they outgrow their current setup and look elsewhere.
+
+**Output:** Ranked list of upsell candidates with the specific gap flagged (e.g. "Heavy call volume, no knowledge base configured — likely improving agent quality") and a draft upsell message.
+
+---
+
+### 5. Visitor Intent
+
+**What it finds:** Website visitors who visited your landing page, pricing page, or customer portal — grouped by company (email domain where available, or raw domain from IP enrichment). Identifies companies with repeat visits and higher-intent signals (e.g. multiple employees, pricing-page visit, long session).
+
+**Why it matters:** Anonymous website visitors are buying signals. This engine surfaces the "6 people from Flipkart visited your pricing page" report — letting you prioritise outbound outreach to companies that are already looking.
+
+**Output:** List of companies by visit count and recency, with intent score and a draft cold outreach message for the most likely decision-maker.
+
+<Note>
+  Visitor Intent requires the **Knotie Tracker** to be active on your pages. See [Visitor Tracking](/partner-portal/super-analytics/visitor-tracking) for setup. If no tracking data exists yet, this engine will return an empty result.
+</Note>
+
+---
+
+### 6. Revenue & Credit Trends
+
+**What it finds:** The spend trajectory of each customer — whether they're consuming more or fewer credits over time, how close they are to billing thresholds, and whether their growth is accelerating or slowing.
+
+**Why it matters:** Usage curves predict future revenue. A customer on an upward curve is worth protecting and potentially upgrading. A customer whose usage has flattened may need re-engagement before they cancel.
+
+**Output:** Trend table per customer (this month vs last month, 3-month trajectory), flagged high-growth accounts and declining accounts, and draft messages for each group.
+
+---
+
+## Saving a run as an audience
+
+After any engine run, click **Save as Audience** to save the result list as a named audience. Audiences are exportable to CSV for use in email campaigns or CRM tools.
+
+See [Audiences](/partner-portal/super-analytics/audiences) for details.
+
+---
+
+## Related pages
+
+- [Super Analytics Overview](/partner-portal/super-analytics/overview)
+- [Audiences](/partner-portal/super-analytics/audiences) — Save engine results as retargeting lists
+- [Chat](/partner-portal/super-analytics/chat) — Ask follow-up questions about your engine results
+
+---
+
+> Source: [knotie-ai-pro#1106](https://github.com/avijeett007/knotie-ai-pro/pull/1106) — _Super Analytics: production-safety hardening + JARVIS experimental_

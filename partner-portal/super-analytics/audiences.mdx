@@ -1,0 +1,76 @@
+---
+title: "Audiences"
+description: "Save engine results and chat findings as named retargeting lists — then export to CSV for use in email campaigns or CRM tools."
+---
+
+## What audiences are
+
+An **Audience** is a saved list of customers, partners, or companies that you want to target. You create audiences from:
+
+- An **Engine run** result (e.g. the Churn Risk engine flagged 12 customers — save them as "July At-Risk List")
+- A **Chat finding** (e.g. the Chat surfaced 5 companies visiting your pricing page — save them as "Hot Prospects Week 28")
+
+Each audience member gets a **reason** (why they were included) and, where the engine wrote one, a **draft outreach message** personalised to their situation.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Audiences tab — showing a list of saved audiences with name, member count, created date, and Export CSV button._
+
+---
+
+## Creating an audience
+
+### From an engine run
+
+1. Go to **Super Analytics → Engines**.
+2. Run an engine (or open a previous run).
+3. In the run results, click **Save as Audience**.
+4. Give the audience a name (e.g. "Churn Risk — July 2026").
+5. Click **Save**. The audience appears in the **Audiences** tab.
+
+### From a Chat finding
+
+1. Go to **Super Analytics → Chat**.
+2. Ask a question that returns a list of customers or companies.
+3. If the AI's answer includes a list, click **Save as Audience** below the response.
+4. Give the audience a name and click **Save**.
+
+---
+
+## Viewing an audience
+
+1. Go to **Super Analytics → Audiences**.
+2. Click any audience to see:
+   - The list of members (customer name, company, the reason they were included)
+   - Draft outreach messages for each member (where the engine generated one)
+   - When the audience was created and from which source
+
+---
+
+## Exporting to CSV
+
+1. Open an audience.
+2. Click **Export CSV**.
+3. The downloaded file includes: member name, email (where available), company, reason, and draft outreach message.
+
+Use the CSV with any email tool, CRM, or ad platform that accepts a contact list upload.
+
+<Warning>
+  **No auto-send in v1.** Super Analytics exports lists but does not send messages automatically. Always review the draft messages before using them — they are AI-generated starting points, not final copy. Automated sending (via bulk email or CRM sequences) is a planned follow-up feature.
+</Warning>
+
+---
+
+## Audience limits
+
+There is no hard limit on the number of audiences you can save. However, audiences are point-in-time snapshots — they don't update automatically as your customer data changes. Re-run the relevant engine and save a new audience when you want a fresh list.
+
+---
+
+## Related pages
+
+- [Super Analytics Overview](/partner-portal/super-analytics/overview)
+- [Analytics Engines](/partner-portal/super-analytics/engines) — Run playbooks to generate audience source data
+- [Chat](/partner-portal/super-analytics/chat) — Ask questions to surface audience candidates
+
+---
+
+> Source: [knotie-ai-pro#1106](https://github.com/avijeett007/knotie-ai-pro/pull/1106) — _Super Analytics: production-safety hardening + JARVIS experimental_

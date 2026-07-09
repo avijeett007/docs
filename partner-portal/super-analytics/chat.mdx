@@ -1,0 +1,65 @@
+---
+title: "Analytics Chat"
+description: "Ask free-form questions about your customers and usage data in natural language. The AI queries your live database and returns grounded answers — no hallucinated SQL, no cross-tenant data leakage."
+---
+
+## What the Chat tab does
+
+**Analytics Chat** is a conversational interface over your customer data. Type a question in plain English, and the AI answers using real-time queries against your actual database.
+
+Examples you can ask as a partner:
+
+- *"Which of my customers had the most calls last month?"*
+- *"Show me customers who signed up in the last 30 days but haven't made any calls yet."*
+- *"Which of my customers are at risk of churning?"*
+- *"Who are my top 5 customers by credit spend this quarter?"*
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Analytics Chat tab — showing an example question typed into the input and a formatted answer below it, with visible source citations or tool-call indicators._
+
+> 🎬 **Video walkthrough:** _Record a short clip asking a question in the Chat tab and reviewing the answer — showing the streaming response, the tool-call list, and the Save as Audience button if relevant._
+
+---
+
+## How it works
+
+When you ask a question, the AI runs a loop of up to **6 tool calls** against an allowlisted set of data queries. Each tool is:
+
+- **Scoped to your tenant** — as a partner, the AI can only see your customers and their data. There is no way for a prompt to expand that scope.
+- **Deterministic** — tools are predefined aggregates (counts, sums, lists), not free-form SQL. The AI picks which tools to call; it doesn't write database queries.
+- **Cited** — the final answer shows which data sources it used, so you can verify the numbers.
+
+Conversations are **persisted** — you can continue a past conversation, or see what questions you've asked before in the session list.
+
+---
+
+## Streaming
+
+Answers stream in word-by-word as the AI writes them. You don't have to wait for the full response before starting to read.
+
+---
+
+## Saving a finding as an Audience
+
+If a Chat answer surfaces a list of customers — for example, "Here are the 8 customers who visited your pricing page twice this week" — you can click **Save as Audience** to turn that list into a named retargeting audience you can export to CSV.
+
+See [Audiences](/partner-portal/super-analytics/audiences) for details.
+
+---
+
+## Limitations
+
+- The AI can query a defined set of aggregates and lists. It cannot answer questions that require data it doesn't have access to (e.g. data from external CRMs, or data outside the 16 allowed query types).
+- Each Chat session is capped at **6 tool-call iterations** per question to keep responses fast and costs bounded.
+- Chat works in the **partner-scoped view** and the **Mission Control platform view**. When using Mission Control Chat, you can use the scope picker to narrow queries to a specific partner.
+
+---
+
+## Related pages
+
+- [Super Analytics Overview](/partner-portal/super-analytics/overview)
+- [Analytics Engines](/partner-portal/super-analytics/engines) — Structured, repeatable analysis playbooks
+- [Audiences](/partner-portal/super-analytics/audiences) — Save chat findings as retargeting lists
+
+---
+
+> Source: [knotie-ai-pro#1106](https://github.com/avijeett007/knotie-ai-pro/pull/1106) — _Super Analytics: production-safety hardening + JARVIS experimental_
