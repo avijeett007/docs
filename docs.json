@@ -96,6 +96,17 @@
             ]
           },
           {
+            "group": "Super Analytics",
+            "pages": [
+              "partner-portal/super-analytics/overview",
+              "partner-portal/super-analytics/engines",
+              "partner-portal/super-analytics/chat",
+              "partner-portal/super-analytics/audiences",
+              "partner-portal/super-analytics/deep-research",
+              "partner-portal/super-analytics/visitor-tracking"
+            ]
+          },
+          {
             "group": "AI Gateway & Experiences",
             "pages": [
               "partner-portal/ai-gateway",
