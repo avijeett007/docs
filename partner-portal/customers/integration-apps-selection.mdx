@@ -84,16 +84,51 @@ The app selection modal displays apps in categories:
 
 > The app selection modal groups integrations into **FREE APPS** (e.g. Gmail, Google Calendar), **PREMIUM APPS** (e.g. HubSpot, Salesforce, WhatsApp, ElevenLabs, HeyGen), and **STANDARD APPS** (e.g. Slack, Notion, Airtable). Which apps appear depends on the customer's plan.
 
+## App stability badges
+
+Some apps in the integration grid carry a **BETA** or **ALPHA** badge next to their name. These match the same labels shown in the partner's App Selection modal, so customers and partners always see the same status.
+
+| Badge | Meaning |
+|---|---|
+| _(no badge)_ | Stable — production-ready, fully verified in this platform |
+| **BETA** | Available to connect but may have rough edges; actively monitored |
+| **ALPHA** | Early access — functionality is limited or subject to change |
+
+**Beta apps** (connectable, some limitations may apply): Google Maps, Google Photos, ClickUp, Cal.com, Calendly, Discord, YouTube, Reddit, Facebook, Google Search Console, Google Forms, LinkedIn Ads, Odoo, Instagram.
+
+**Alpha apps** (early access): HeyGen, Meta Ads, TikTok.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the integration grid showing a BETA badge next to an app name (e.g., Discord or ClickUp) and an ALPHA badge next to HeyGen._
+
+## Coming soon apps
+
+Some apps appear in the grid but are **not yet available to connect**. They are shown with a dimmed tile and a **"Coming soon"** label instead of "Click to connect". These apps require additional setup before they can be activated:
+
+| App | Status | What's needed |
+|---|---|---|
+| Pipedrive | Coming soon | Partner-supplied OAuth app or API key required |
+| Meta Ads | Coming soon | Partner-supplied OAuth app or API key required |
+| Google Forms | Coming soon | Partner-supplied OAuth app or API key required |
+| LinkedIn Ads | Coming soon | Partner-supplied OAuth app or API key required |
+
+Customers cannot interact with coming-soon tiles — clicking them has no effect. Contact Knotie support if you need one of these integrations activated for your tenant.
+
+> 📷 **Screenshot needed:** _Add a screenshot showing a "Coming soon" tile (e.g., Pipedrive) next to a connectable tile to illustrate the visual difference._
+
 ## How connections work: OAuth vs API key
 
 Apps in the Integration section connect in one of two ways depending on the service:
 
 | Connection type | How it works | Example apps |
 |---|---|---|
-| **OAuth** | Customer authorizes access through the provider's login flow | Gmail, Slack, HubSpot, Google Calendar |
-| **API key** | Customer pastes their provider API key directly into the portal | ElevenLabs, HeyGen |
+| **OAuth** | Customer authorizes access through the provider's login flow | Gmail, Slack, HubSpot, Google Calendar, Supabase, Stripe, Cal.com, Google Maps |
+| **API key** | Customer pastes their provider API key directly into the portal | ElevenLabs, HeyGen, Shopify, Firecrawl, Odoo |
 
 **Both connection types are fully supported.** Once a customer connects an app — whether via OAuth or API key — the app's tools are available to their AI agents during live calls.
+
+<Note>
+**Supabase, Stripe, Cal.com, and Google Maps** now connect via **OAuth** (using the platform's managed auth config). If a customer previously connected these via API key and is now prompted for OAuth, they should disconnect and reconnect using the OAuth flow to ensure their tools work correctly.
+</Note>
 
 For API-key apps, the customer:
 1. Opens **Integration** in their portal.
@@ -232,8 +267,18 @@ If you enable **Show Integration** but don't select any apps:
 ### Customer can't connect an app
 - Confirm the app is in the **Allowed Apps** list
 - Verify the app's OAuth credentials are configured correctly
-- For API-key apps (ElevenLabs, HeyGen): confirm the customer entered their key from the correct section of the provider's dashboard
+- For API-key apps (ElevenLabs, HeyGen, Shopify, Firecrawl, Odoo): confirm the customer entered their key from the correct section of the provider's dashboard
+- If the app shows a "Coming soon" tile, it is not yet available — connecting is intentionally blocked
 - If connections continue to fail, contact Knotie support
+
+### Customer is prompted for OAuth on an app that used to ask for an API key
+
+Supabase, Stripe, Cal.com, and Google Maps switched from API-key to OAuth-based connection. If a customer previously used a stored API key for one of these apps:
+
+1. Have the customer open **Integration** in their portal.
+2. Disconnect the existing connection.
+3. Reconnect using the new OAuth flow (they'll be redirected to the provider's login page).
+4. Once reconnected, the agent picks up the refreshed tools automatically on its next call.
 
 ### API-key app tools not showing when agent runs
 
@@ -266,3 +311,9 @@ If a customer connected ElevenLabs or HeyGen via API key but the agent doesn't s
 - [Features & Add-ons](/partner-portal/customers/features-addons-and-menu-visibility) – Menu visibility settings
 - [Integration Settings](/partner-portal/settings/integration-settings) – Configure provider API keys
 - [Tool Call Quota](/partner-portal/customers/tool-call-quota) – Monitor and limit integration tool calls
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the integration apps selection flow — enabling the Integration menu for a customer, opening the App Selection modal, selecting apps with BETA badges, and saving. Show the customer's portal view with the resulting grid including "Coming soon" tiles._
+
+---
+
+> Source: [knotie-ai-pro#1139](https://github.com/avijeett007/knotie-ai-pro/pull/1139) — _fix(integrations): correct Composio auth methods, slug mismatches & beta gating_
