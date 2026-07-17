@@ -1,6 +1,6 @@
 ---
-title: "Import a Retell agent"
-description: "Onboard or import a Retell agent for a customer."
+title: “Import a Retell agent”
+description: “Onboard or import a Retell agent for a customer.”
 ---
 
 ## What “import” means
@@ -28,6 +28,12 @@ This is the fastest path if you already built agents in Retell and want them ava
 
 Knotie AI will import the agents and automatically handle the “plumbing” behind the scenes (analytics registration + webhook configuration).
 
+<Info>
+**Large accounts:** Knotie AI Pro now fetches **all** your Retell voice agents across multiple pages automatically, so accounts with more than 50 agents will see every agent listed — no manual pagination needed.
+</Info>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Import Agents modal showing a large list of agents (more than 50) fully loaded and ready for selection._
+
 ## After import (recommended next step)
 
 - Open an imported agent and map it to a customer if needed (so your customer sees the right agents and usage).
@@ -36,15 +42,28 @@ Knotie AI will import the agents and automatically handle the “plumbing” beh
 Once an agent is assigned to a customer, Knotie AI Pro automatically wires in a live MCP server — the agent can use tools from any app the customer has connected without a rebuild. See [Connected App Tools](/agents/connected-app-tools).
 </Tip>
 
+## Phone numbers and call history
+
+Phone numbers associated with your Retell account are listed under **Phone Numbers** in the Partner Portal. Call history for each Retell agent is available from the agent’s detail page under **Test History**.
+
+Both of these use Retell’s latest API endpoints and will reflect up-to-date data from your Retell account.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Test History tab on a Retell agent detail page showing the call log._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through: connecting your Retell API key, fetching and importing agents, and viewing call history._
+
 ## Troubleshooting
 
-- **“Retell API key is missing” or “Invalid Retell API key”**
+- **”Retell API key is missing” or “Invalid Retell API key”**
   - Go to **Settings** and update your Retell API key.
   - Then come back and try importing again.
 - **You hit the Free Forever limit**
   - Free Forever accounts have a Retell agent limit. If you hit it, you’ll see an upgrade message.
 - **No agents available for import**
   - This usually means all your Retell agents are already imported.
+  - Only **voice agents** are shown in the import list. Chat agents created in Retell are not included.
+- **Missing agents on large accounts**
+  - Knotie AI Pro automatically pages through all your voice agents, but if you have an unusually large number, try re-fetching after a few seconds. If agents are still missing, contact support.
 
 ## Screenshots
 
@@ -53,3 +72,5 @@ Once an agent is assigned to a customer, Knotie AI Pro automatically wires in a 
 ![Import Retell Agents modal with Retell API Key field and Fetch Retell Agents button](/images/Screenshot2025-12-28at02.13.21.png)
 
 ![Create New Agent modal with Work in Progress notice, Setup tab showing Select Customer field, and tabs for Basic Settings, Advanced Settings, and Function Calls](/images/Screenshot2025-12-28at02.13.34.png)
+
+> Source: [knotie-ai-pro#903](https://github.com/avijeett007/knotie-ai-pro/pull/903) — _fix(retell): migrate deprecated list endpoints (calls + phone-numbers)_
