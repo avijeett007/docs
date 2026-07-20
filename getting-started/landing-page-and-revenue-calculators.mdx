@@ -1,131 +1,174 @@
 ---
 title: "Landing page & revenue calculators"
-description: "Explore Knotie AI Pro's redesigned homepage — interactive globe, service drawer, and the 'How do you want to sell AI?' decision tree with built-in revenue calculators."
+description: "Explore the Knotie AI Pro v2 scroll-film homepage — free-first strategy, Partner Journey gamification, the Revenue Playground, and every section of the page."
 ---
 
 ## Overview
 
-The Knotie AI Pro homepage (`knotie-ai.pro`) received a full hero-section revamp. The new design replaces the previous centered headline layout with an interactive split view:
+The Knotie AI Pro homepage (`knotie-ai.pro`) has been redesigned as a full **scroll-film experience** built with GSAP and Lenis. When you scroll, the page plays like a film: the canvas globe on the hero animates through six chapters that tell the platform's story.
 
-- **Left panel** — value proposition, headline, and calls to action
-- **Right panel** — an animated 3D globe showing every Knotie service as a pinned tile
+Below the scroll film, the page continues into a full conversion stack — the Revenue Playground, Dashboard Demo, How-it-works, integrations, testimonials, and a free-first **Start Free** section.
 
-Clicking any globe tile opens a **Service Drawer** with a live revenue calculator for that service.
-
-Below the hero, the existing decision tree section guides visitors through three paths for selling AI, each with its own calculator.
-
-![Knotie AI Pro landing page hero — split layout with headline on the left and the spinning globe on the right](/images/screenshots/landing-page-hero.png)
+> 📷 **Screenshot needed:** _Add a screenshot of the v2 homepage hero — the full-bleed globe film view with the headline overlaid and the "Start Free" + "Watch Demo" CTAs visible._
 
 ---
 
-## Globe hero
+## Scroll-film hero
 
-The globe shows nine Knotie services as tiles you can click to explore.
+The hero section pins to the viewport while you scroll, playing a six-chapter narrative across the globe canvas. Each chapter transitions automatically as you move through the pinned section.
 
-| Service tile | Billing model |
+| Chapter | What you see |
 |---|---|
-| Voice AI | Per minute |
-| AI Receptionist | One-click |
-| Chat AI | Per message |
-| Hermes Agent | Whitelabel |
-| API Gateway | Per token |
-| Business Audit | Lead-gen |
-| CRM SaaS | 100% margin |
-| VPS Resell | Per server |
-| AI Support | One-click · 24/7 |
+| **1 · Hero** | The globe spins with the headline and CTAs front and center |
+| **2 · Vendor chaos** | The globe fragments — animated tiles scatter to represent using a dozen disconnected tools |
+| **3 · One platform** | Category rings snap together — everything converges onto a single globe |
+| **4 · White-label reskin** | The browser chrome updates with your brand, the URL bar types your domain, and the globe sweeps your brand colours |
+| **5 · Margin counter** | A live counter ticks from 15 % → 74 % margin as the globe locks in |
+| **6 · Dashboard dock** | The globe shrinks and docks into the logo slot of a mock dashboard |
 
-The globe rotates automatically and you can drag it around to explore.
+The hero uses pure CSS transforms and opacity mutations — no React re-renders happen during the scroll, so the animation runs at 60 fps even on mid-range hardware.
 
-![Knotie AI Pro landing page globe — rotating earth with service tiles (Voice AI, AI Receptionist, Chat AI, Hermes Agent, API Gateway, Business Audit, CRM SaaS, VPS Resell, AI Support) pinned to geographic locations](/images/screenshots/landing-globe-with-tile.png)
+> 📷 **Screenshot needed:** _Add screenshots of at least two mid-film chapters (e.g. Chapter 3 — one platform rings snapping, and Chapter 4 — white-label browser chrome)._
+
+> 🎬 **Video walkthrough:** _Record a short clip scrolling slowly through all six chapters of the scroll-film hero from top to bottom._
+
+### Accessibility
+
+- **`prefers-reduced-motion`** — if the visitor's OS has reduced motion enabled, the hero renders as a static stacked layout instead of the animated film.
+- **No JavaScript / SSR** — the page ships all copy as server-rendered HTML. If JavaScript is disabled, a static fallback layout is shown.
 
 ---
 
-## Service drawer
+## Free-first strategy — Start Free section
 
-Clicking any tile on the globe slides in a **Service Drawer** from the right edge of the screen. The drawer:
+The v2 homepage adopts a **free-first** model. There is no pricing-tier wall on the homepage. Instead, the primary CTA leads to the **Free Forever** plan so users can start immediately, then expand their usage naturally as they grow.
 
-1. Shows the service name, billing model, and a short description
-2. Exposes sliders for every revenue input relevant to that service
-3. Computes and displays live results as you move each slider
-4. Closes via the **×** button, the Escape key, or clicking the overlay
+> 📷 **Screenshot needed:** _Add a screenshot of the Start Free section showing the Free Forever card, the "never charged" notice, and the Partner Journey rail below it._
 
-### Example: Voice AI drawer
+### Free Forever card
 
-| Slider | Range | Default |
+| What's included | Notes |
+|---|---|
+| Core partner portal access | Full feature set at no charge |
+| Card verification | Required for anti-bot verification only — your card is **never charged** |
+| Usage-based expansion | Pay only for what your customers use as they grow |
+
+The card copy is accurate: a payment method is required for identity verification, but no charge is made on sign-up.
+
+### Partner Journey — Level System
+
+Below the Free Forever card, the **Partner Journey** rail shows a gamified progression path:
+
+| Level | Label | What you unlock |
 |---|---|---|
-| Number of customers | 1 – 200 | 25 |
-| Avg. minutes / customer / month | 50 – 3 000 | 600 |
-| Your resale price | 12 ¢/min – 45 ¢/min | 20 ¢/min |
+| L1 | Getting started | Portal access, basic agent setup |
+| L2 | First customer | Onboard your first paying customer |
+| L3 | Scaling | Team features, more agents, higher limits |
+| L4 | Agency | White-label, custom domains, reseller tools |
+| L5 | Enterprise | Priority support, dedicated resources |
+| L6 | Platinum partner | Custom commercial terms, co-marketing |
 
-**Displayed results**
+Each level has actions, credit/badge rewards, and unlocks. Progress through levels by completing actions in the platform — it's visible in your partner dashboard.
 
-| Metric | Example at defaults |
-|---|---|
-| Total minutes / month | 15 000 min |
-| Monthly revenue | $3 000 |
-| Wholesale (10 ¢/min) | $1 500 |
-| **Annual profit** | **$18 000** |
-
-![Knotie AI Pro landing page — Service Drawer open on the Voice AI tile showing customer count, minutes, resale price sliders, and computed monthly revenue, wholesale cost, and annual profit](/images/screenshots/landing-voice-ai-drawer.png)
+> 🎬 **Video walkthrough:** _Record a short clip of the Partner Journey rail — scroll through L1 to L6 and highlight one example of an action and its unlock._
 
 ---
 
-## "How do you want to sell AI?" — decision tree
+## Revenue Playground
 
-Below the globe hero, the **decision tree** section guides visitors through three top-level paths:
+The **Revenue Playground** section lets visitors model their income before signing up. It contains eight independent calculators, each on its own card.
 
-### Path 01 — AI as Agency Services
-
-You build, configure, and deliver AI for clients on a project-based or retainer model. Four sub-options:
-
-| Sub-path | Revenue model |
+| Calculator | What you model |
 |---|---|
-| Voice receptionist setup | Setup fee + monthly managed retainer |
-| Chat & support deployment | Setup fee + monthly management |
-| Custom AI workflows | Per-project fee + hosting retainer |
-| CRM setup & ops | Setup fee + monthly retainer (CRM is $0 in your plan) |
+| Voice AI | Customers × minutes × resale price |
+| Chat AI | Customers × messages × resale price |
+| API Gateway | Token volume × margin |
+| VPS Reselling | Servers × resale price |
+| CRM SaaS | Customers × subscription price |
+| Business Audit | Audits per month × fee |
+| AI Receptionist | Receptionists × monthly fee |
+| Custom Workflows | Projects × project fee |
 
-### Path 02 — AI as SaaS
+### Deep-links
 
-You resell AI products under your own brand on a recurring subscription. Five sub-options:
+Every calculator has a unique URL hash so you can link directly to it:
 
-| Product | Billing | Wholesale cost |
-|---|---|---|
-| Voice AI | Per-minute | 10 ¢/min |
-| Chat AI | Per-message | $3 / 1 000 messages |
-| API Gateway | Per-token | Pass-through with margin |
-| CRM-as-a-Service | Subscription | $0 (included in partner plan) |
-| VPS Reselling | Per-server | ~$6/server |
+```
+https://knotie-ai.pro/#playground-voice-ai
+https://knotie-ai.pro/#playground-vps-resell
+https://knotie-ai.pro/#playground-chat-ai
+```
 
-### Path 03 — One-Click Experiences
+Replace `voice-ai` with the slug for any calculator to open the page scrolled to that card.
 
-Ready-made AI products you can enable, white-label, and sell immediately. Each comes with its own landing page, onboarding flow, and agent deployment. Available experiences include AI Receptionist, AI Support, SDR agent, Hermes agent, and Business Audit.
-
-![Knotie AI Pro landing page — "How do you want to sell AI?" decision tree section showing the three top-level paths: 01 Project-based revenue (AI as Agency Services), 02 Recurring revenue (AI as SaaS), 03 White-label · ready in 1 click (One-Click Experiences)](/images/screenshots/landing-decision-tree.png)
+> 📷 **Screenshot needed:** _Add a screenshot of the Revenue Playground section showing two or three calculator cards side-by-side with example numbers filled in._
 
 ---
 
-## Revenue calculators
+## How it works
 
-Every leaf node in the decision tree opens an inline revenue calculator. All calculators follow the same pattern: adjustable sliders → live computed results table.
+The **How it works** section explains the three-step partner journey in plain language:
 
-**Common outputs across all calculators**
+1. **Sign up free** — create your partner account with no upfront cost
+2. **Set up your platform** — configure your brand, agents, and customer portal
+3. **Sell and scale** — onboard customers and grow your recurring revenue
 
-- Monthly revenue (or project revenue)
-- Your wholesale cost (what Knotie charges you)
-- Annual profit estimate
+---
 
-**VPS Reselling example**
+## Dashboard demo
 
-| Slider | Range | Default |
-|---|---|---|
-| Number of servers | 1 – 200 | 20 |
-| Your resale price | $7 – $30 / server | $12 |
+The **Dashboard Demo** section shows an interactive preview of the Partner Portal dashboard — live tiles, key metrics, and navigation — so prospects can see what they're signing up for before committing.
 
-| Metric | Example at defaults |
-|---|---|
-| Monthly revenue | $240 |
-| Wholesale ($6/server) | $120 |
-| **Annual profit** | **$1 440** |
+> 📷 **Screenshot needed:** _Add a screenshot of the Dashboard Demo section showing the mock dashboard with sample metrics and sidebar navigation._
 
-Calculators are illustrative estimates. Actual margins depend on your plan, usage, and retail pricing.
+---
+
+## Powered-by section
+
+Lists the technology providers that power the platform:
+
+- Retell AI (official partner)
+- VAPI
+- ElevenLabs
+- LiveKit
+- Twilio / Telnyx
+- Stripe
+- and more
+
+---
+
+## Integrations marquee
+
+An auto-scrolling row of integration logos shows the third-party tools partners can connect to the platform (CRMs, calendars, communication tools, etc.).
+
+---
+
+## Testimonials
+
+Real-world quotes from active partners, including their name, role, and business context. Testimonials rotate or are displayed in a grid depending on screen width.
+
+---
+
+## Navigation & CTAs
+
+Every major section of the page has a call to action that leads to the **Start Free** signup flow. The primary CTA buttons throughout the page are:
+
+- **Start Free** — goes to signup with the Free Forever plan pre-selected
+- **Watch Demo** — opens the demo video or scrolls to the Dashboard Demo section
+
+The footer matches the rest of the site (social links, support email, legal pages).
+
+---
+
+## Rollback
+
+The v2 landing page is controlled by a build-time flag. If a rollback is needed:
+
+1. Set `NEXT_PUBLIC_FEATURE_LANDING_V2=false` in the deployment environment.
+2. Redeploy.
+
+The v1 landing page (globe hero, service drawer, decision tree) is preserved and will be served instead.
+
+---
+
+> Source: [knotie-ai-pro#1145](https://github.com/avijeett007/knotie-ai-pro/pull/1145) — _feat(landing): v2 scroll-film landing page — "One Planet, Your Brand"_
