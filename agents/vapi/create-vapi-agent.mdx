@@ -1,0 +1,95 @@
+---
+title: "Create a VAPI agent"
+description: "Build a new VAPI voice agent from scratch inside the Partner Portal."
+---
+
+## Overview
+
+The **Create VAPI Agent** wizard lets you configure a new VAPI voice agent directly in Knotie AI Pro, without opening the VAPI dashboard. The wizard opens in a tabbed modal that stays above the sidebar and navbar so nothing is obstructed.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the "Create VAPI Agent" modal open on the Customer tab, showing the modal correctly displayed above the sidebar._
+
+---
+
+## Before you start
+
+- You must have a **VAPI API key** configured in **Settings → Integration Settings**.
+- You can also [import existing VAPI agents](/agents/vapi/import-vapi-agent) if you already built them in VAPI.
+
+---
+
+## Open the wizard
+
+1. In the Partner Portal, open **AI Agents → VAPI Agents**.
+2. Click **Create Agent** in the top-right corner.
+3. The wizard panel opens. It displays above the sidebar so all controls are accessible.
+
+---
+
+## Customer tab
+
+Assign the new agent to a customer first.
+
+| Field | What to do |
+|---|---|
+| **Search customers** | Type to filter your customer list |
+| **Customer card** | Click the customer this agent belongs to |
+
+If you skip this step you can assign the agent to a customer later from the agent's detail page.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Customer tab showing the search field and a list of customer cards to pick from._
+
+---
+
+## Settings tab
+
+Configure the agent's voice, prompt, and identity.
+
+| Field | Notes |
+|---|---|
+| **Agent Name** | Internal label shown in your agent list |
+| **First Message** | What the agent says when answering a call |
+| **System Prompt** | Instructions that drive the agent's behaviour |
+| **Voice Provider** | Select the voice provider; the voice list updates automatically |
+| **Voice** | Pick a specific voice. Click **Play** to preview it before saving. |
+| **Enable Call Recording** | Toggle to record all calls for this agent |
+
+The **Voice Provider** dropdown uses the same native-select styling as every other dropdown on this tab, so the interface looks consistent.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Settings tab showing Agent Name, First Message, System Prompt, Voice Provider, Voice picker (with Play button), and the Enable Call Recording toggle._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the Create VAPI Agent wizard — assign a customer, fill in the Settings tab, and save the agent._
+
+---
+
+## Saving the agent
+
+Click **Create Agent** in the footer when you're done. The agent is created in VAPI and registered in Knotie AI Pro.
+
+---
+
+## After creating
+
+- The new agent appears in your **VAPI Agents** list.
+- Open the agent card to assign a phone number, view analytics, or edit any setting.
+- Knotie AI Pro automatically wires in a live MCP server once the agent is assigned to a customer. See [Connected App Tools](/agents/connected-app-tools).
+
+---
+
+## Troubleshooting
+
+- **"Please update your VAPI API key"** — go to **Settings → Integration Settings** and update the key.
+- **The modal was hidden behind the sidebar or navbar** — this was a display bug that has been fixed. Refresh the page if you still see it.
+- **Voice list is empty** — this usually means the selected voice provider has no voices configured, or the API key is invalid.
+
+---
+
+## Related pages
+
+- [Import a VAPI agent](/agents/vapi/import-vapi-agent)
+- [AI Agents panel](/partner-portal/ai-agents-overview)
+- [Connected App Tools](/agents/connected-app-tools)
+
+---
+
+> Source: [knotie-ai-pro#1142](https://github.com/avijeett007/knotie-ai-pro/pull/1142) — _fix: resolve modal overlap issues by adjusting z-index values_
