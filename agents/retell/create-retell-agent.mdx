@@ -1,0 +1,117 @@
+---
+title: "Create a Retell agent"
+description: "Build a new Retell voice agent from scratch inside the Partner Portal using the 4-step wizard."
+---
+
+## Overview
+
+The **Create New Agent** wizard lets you build a Retell voice agent directly in Knotie AI Pro, without leaving the Partner Portal. It walks you through four tabs in order — **Setup**, **Basic Settings**, **Advanced Settings**, and **Function Calls** — with a pinned header and footer throughout.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the "Create New Agent" modal open on the Setup tab, showing the modal correctly displayed above the sidebar (not hidden behind it)._
+
+---
+
+## Before you start
+
+- You must have a **Retell API key** configured in **Settings → Integration Settings**.
+- The agent you create here is a Knotie-managed Retell agent — you can also [import existing Retell agents](/agents/retell/import-retell-agent) you built directly in Retell.
+
+---
+
+## Open the wizard
+
+1. In the Partner Portal, open **AI Agents → Retell Agents**.
+2. Click **Create New Agent** in the top-right corner.
+3. The wizard opens in a modal panel. The modal renders above the sidebar and navbar so nothing is hidden.
+
+---
+
+## Step 1 — Setup
+
+Assign the agent to a customer before configuring anything else.
+
+| Field | What to enter |
+|---|---|
+| **Select Customer** | Pick the customer this agent belongs to. You can reassign it later. |
+
+Click the **Basic Settings** tab (or the **Next** button) when ready.
+
+---
+
+## Step 2 — Basic Settings
+
+Configure the agent's identity, voice, and prompt.
+
+| Field | Notes |
+|---|---|
+| **Agent Name** | Internal label — shown in your agent list |
+| **First Message** | What the agent says when it picks up the call |
+| **System Prompt** | The instructions that drive how the agent responds |
+| **Language** | Call language (default: English) |
+| **Voice Provider** | Choose a voice provider; the voice list updates automatically |
+| **Voice** | Pick a specific voice for this agent. Use the **Play** button to preview. |
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Basic Settings tab showing Agent Name, First Message, System Prompt, Language, Voice Provider, and Voice fields._
+
+---
+
+## Step 3 — Advanced Settings
+
+Fine-tune call behaviour and recording.
+
+| Setting | What it does |
+|---|---|
+| **Background Sound** | Ambient audio played during the call (e.g. office, coffee shop) |
+| **Enable Call Recording** | Toggle to record all calls handled by this agent |
+| **Interruption Sensitivity** | How readily the agent yields when the caller speaks |
+| **Responsiveness** | Speed vs. thoughtfulness trade-off for the agent's replies |
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Advanced Settings tab showing Background Sound, Enable Call Recording, and the sensitivity/responsiveness sliders._
+
+---
+
+## Step 4 — Function Calls
+
+<Warning>
+**Function Calls is currently under development.** The feature is not yet ready for production use. Configure it now if you want to set up the structure, but do not rely on it in live calls until the feature is released.
+</Warning>
+
+The **Function Calls** tab is where you define tool calls the agent can make (e.g. CRM lookups, calendar bookings). The "Work in Progress" notice appears on this tab only and does not affect Setup, Basic Settings, or Advanced Settings.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Function Calls tab showing the Work in Progress banner and any available tool call fields._
+
+---
+
+## Review & Create
+
+Once you've filled in the required fields on each tab, click **Review & Create** in the footer. A summary panel opens showing all your choices. Review them, then click **Create Agent** to save.
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through all four tabs of the Create New Agent wizard — Setup → Basic → Advanced → Function Calls → Review & Create → agent saved._
+
+---
+
+## After creating
+
+- The agent appears in your **Retell Agents** list.
+- Open the agent card to assign a phone number, view analytics, or edit its configuration.
+- Knotie AI Pro wires in a live MCP server automatically once the agent is assigned to a customer. See [Connected App Tools](/agents/connected-app-tools).
+
+---
+
+## Troubleshooting
+
+- **"Please update your Retell API key"** — go to **Settings → Integration Settings** and update the key.
+- **The modal was hidden behind the sidebar** — this was a display bug that has been fixed. If you still see it, refresh the page.
+- **The Function Calls tab shows a Work in Progress notice** — this is expected. The feature is not yet production-ready; other tabs are fully functional.
+
+---
+
+## Related pages
+
+- [Import a Retell agent](/agents/retell/import-retell-agent)
+- [AI Agents panel](/partner-portal/ai-agents-overview)
+- [Connected App Tools](/agents/connected-app-tools)
+
+---
+
+> Source: [knotie-ai-pro#1142](https://github.com/avijeett007/knotie-ai-pro/pull/1142) — _fix: resolve modal overlap issues by adjusting z-index values_

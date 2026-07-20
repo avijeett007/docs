@@ -190,8 +190,10 @@
             "group": "Third-Party Agents",
             "pages": [
               "agents/retell/import-retell-agent",
+              "agents/retell/create-retell-agent",
               "agents/retell-chat/overview",
               "agents/vapi/import-vapi-agent",
+              "agents/vapi/create-vapi-agent",
               "agents/ultravox/manage-ultravox-agents",
               "agents/elevenlabs/manage-elevenlabs-agents",
               "agents/ghl/manage-ghl-agents",
