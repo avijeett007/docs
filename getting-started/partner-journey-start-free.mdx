@@ -1,0 +1,134 @@
+---
+title: "Free Forever & the Partner Journey"
+description: "How the free-first sign-up flow works, what the Partner Journey level rail offers, and how to deep-link prospects to Revenue Playground calculators."
+---
+
+## Overview
+
+The Knotie AI Pro homepage (`knotie-ai.pro`) leads visitors to a **Start Free** section that replaces the traditional pricing-tier wall with a **free-first strategy**: get partners onto Free Forever first, then help them grow and monetise customers from day one.
+
+This page documents that public-facing section — what prospects see before they create an account, and the tools available to you as a partner for sharing and converting your own prospects.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the full Start Free section on knotie-ai.pro, showing the Free Forever card, the Partner Journey level rail (L1–L6), and the sign-up CTA._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the Start Free section from a prospect's perspective — hovering over level milestones, reading the Free Forever card, and clicking Start for Free._
+
+---
+
+## Free Forever card
+
+At the centre of the Start Free section is the **Free Forever card** — a clear statement of what's included at no charge, so prospects know exactly what they're committing to:
+
+| What's included | Notes |
+|---|---|
+| Up to 2 customers | Expand with Stage add-ons |
+| Unlimited Knova agents | Knotie's native voice AI agent |
+| Up to 2 Retell agents | Free-tier Retell integration |
+| Up to 2 N8N chat agents | Automation / chat pipeline |
+| Passkey + MFA security | Passwordless login built in |
+| Subdomain whitelabel portal | Your brand, your subdomain |
+
+### Card verification — compliance note
+
+Sign-up requires a payment card for **identity and anti-bot verification only**.
+
+<Warning>
+  Your card is **never charged** during sign-up or the Free Forever plan. No trial ends in a surprise charge — there is no auto-upgrade.
+</Warning>
+
+This guarantee is enforced in the product code; the card-copy rule is locked by an automated test. If you ever see a charge you didn't authorise, contact [support@knotie-ai.pro](mailto:support@knotie-ai.pro) immediately.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Free Forever card as it appears on the landing page, clearly showing the "$0 forever" headline, the feature list, and the "Card required for verification only — never charged" copy._
+
+---
+
+## Partner Journey — Level System rail
+
+Below the Free Forever card, the **Partner Journey** rail shows a gamified growth path (L1–L6) so prospects can see what their agency journey looks like before they sign up.
+
+| Level | Name | What it represents |
+|---|---|---|
+| L1 | First Steps | Account created, portal explored |
+| L2 | Builder | First agent created and assigned to a customer |
+| L3 | Launcher | First customer live with a working AI agent |
+| L4 | Monetiser | First paid customer billed through the platform |
+| L5 | Scaler | Multiple customers active; white-label branding live |
+| L6 | Partner Pro | Full agency stack — reselling AI, credits, and apps |
+
+Each level is linked to in-product challenges that unlock features, credits, and rewards as you complete them. The rail on the landing page is illustrative; once you log in the challenges adapt to your chosen tracks.
+
+<Tip>
+  Share the landing page with prospects to show them the growth path — it makes the value proposition concrete before they commit to a sign-up.
+</Tip>
+
+See [Partner Level System](/partner-portal/level-system) for the full in-product breakdown of XP, challenges, and rewards.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Partner Journey rail on the landing page, showing at least four of the L1–L6 level milestones with their labels and icons._
+
+> 🎬 **Video walkthrough:** _Record a clip showing a partner explaining the journey rail to a prospect — hover over each level, mention the free start, and click through to sign up._
+
+---
+
+## Pay-as-you-grow model
+
+The Free-first strategy is built around customer-expansion billing rather than upfront plan selection:
+
+1. **Sign up free** — no plan wall, no trial expiry pressure.
+2. **Onboard your first 2 customers** — fully functional on Free Forever.
+3. **Add a Stage** — subscribe to an optional monthly add-on when you need more customer slots or advanced features. Cancel any time.
+4. **Grow into credits** — as your customers use AI agents, you buy credit bundles. Revenue follows your customer success, not your plan level.
+
+See [Stage Subscriptions](/partner-portal/settings/stage-subscriptions) and [Credits](/partner-portal/credits) for billing details.
+
+---
+
+## Revenue Playground — deep-linking for partners
+
+The v2 landing page includes a **Revenue Playground** with 8 interactive calculators. You can share direct links to individual calculators with prospects — each has a stable URL hash:
+
+| Calculator | Hash link |
+|---|---|
+| Voice AI | `knotie-ai.pro/#playground-voice-ai` |
+| AI Receptionist | `knotie-ai.pro/#playground-receptionist` |
+| Chat AI | `knotie-ai.pro/#playground-chat` |
+| CRM-as-a-Service | `knotie-ai.pro/#playground-crm` |
+| VPS Reselling | `knotie-ai.pro/#playground-vps` |
+| Business Audit | `knotie-ai.pro/#playground-audit` |
+| Custom AI Workflows | `knotie-ai.pro/#playground-workflows` |
+| API Gateway | `knotie-ai.pro/#playground-api` |
+
+Each calculator lets prospects set sliders for their own numbers (customers, usage, resale price) and see live revenue, wholesale cost, and profit estimates.
+
+<Tip>
+  When reaching out to a new prospect, link directly to the calculator that matches their use case. A prospect interested in voice AI gets `#playground-voice-ai` — they see their own numbers before you even get on a call.
+</Tip>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Revenue Playground section with at least one calculator open, showing the sliders and live-computed results._
+
+---
+
+## Rollback (for self-hosters)
+
+If you self-host Knotie AI Pro and need to fall back to the v1 landing page while the v2 rolls out:
+
+```bash
+# In your build environment — set before running `npm run build`
+NEXT_PUBLIC_FEATURE_LANDING_V2=false
+```
+
+Then redeploy. The v1 split-globe hero is restored. No database change required.
+
+---
+
+## How to sign up from the landing page
+
+1. Visit **knotie-ai.pro** and scroll to the **Start Free** section (or click **Start for free** in the header).
+2. Review the Free Forever card to confirm what's included.
+3. Click **Start for Free** and fill in your business name, email, and phone number.
+4. Add a card for verification — you will **not** be charged.
+5. Click **Create Account** to complete sign-up.
+6. Follow the [Onboarding Checklist](/getting-started/onboarding-checklist) to get your first customer live.
+
+---
+
+> Source: [knotie-ai-pro#1147](https://github.com/avijeett007/knotie-ai-pro/pull/1147) — _feat(landing): v2 scroll-film landing page — One Planet, Your Brand (default ON, free-first)_
