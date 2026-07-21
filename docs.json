@@ -1,5 +1,4 @@
 {
-  "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "Knotie AI PRO",
   "colors": {
@@ -20,9 +19,12 @@
               "quickstart",
               "getting-started/overview",
               "getting-started/onboarding-checklist",
+              "getting-started/progressive-onboarding",
               "getting-started/video-tutorials",
               "getting-started/pricing-and-features",
-              "getting-started/free-forever"
+              "getting-started/free-forever",
+              "getting-started/partner-journey-start-free",
+              "getting-started/landing-page-and-revenue-calculators"
             ]
           },
           {
@@ -44,13 +46,29 @@
               "customer-management/whitelabel-subdomain",
               "customer-management/client-portal-navigation-and-ai-gateway",
               "customer-management/custom-domain",
-              "customer-management/email-domains"
+              "customer-management/email-domains",
+              "customer-management/ai-memory-my-minds"
             ]
           },
           {
-            "group": "Partner portal",
+            "group": "Customer portal features",
+            "pages": [
+              "customer-management/media-library",
+              "customer-management/social-posting"
+            ]
+          },
+          {
+            "group": "Partner Portal",
             "pages": [
               "partner-portal/overview",
+              "partner-portal/dashboard",
+              "partner-portal/level-system",
+              "partner-portal/tutorials"
+            ]
+          },
+          {
+            "group": "Customer Management",
+            "pages": [
               "partner-portal/customers/overview",
               "partner-portal/customers/customer-info-and-deal-management",
               "partner-portal/customers/features-addons-and-menu-visibility",
@@ -65,61 +83,138 @@
               "partner-portal/customers/deployment-status-tracking",
               "partner-portal/customers/customer-portal-management",
               "partner-portal/customers/vps-terminal",
-              "partner-portal/customers/daily-management",
-              "partner-portal/credits",
-              "partner-portal/telephony-credits",
-              "partner-portal/phone-numbers",
-              "partner-portal/ai-gateway",
-              "partner-portal/agent-analytics",
-              "partner-portal/billing-and-invoices",
-              "partner-portal/metered-billing",
-              "partner-portal/prospects",
-              "partner-portal/auto-deploy",
-              "partner-portal/team-management",
-              "partner-portal/api-keys",
-              "partner-portal/settings/overview",
-              "partner-portal/settings/whitelabel-settings",
-              "partner-portal/settings/subscription-and-billing",
-              "partner-portal/settings/integration-settings",
-              "partner-portal/settings/email-settings",
-              "partner-portal/settings/stripe-connect",
-              "partner-portal/settings/knowledge-base-processing",
-              "partner-portal/settings/customer-credit-plans",
-              "partner-portal/settings/saas-portal-mode",
-              "partner-portal/settings/mcp-tokens",
-              "partner-portal/marketing",
-              "partner-portal/tutorials",
-              "partner-portal/nexus/overview",
-              "partner-portal/experiences/overview",
-              "partner-portal/experiences/auto-install",
-              "partner-portal/vps/overview",
-              "partner-portal/ai-usage/overview",
-              "partner-portal/number-pools/overview"
+              "partner-portal/customers/daily-management"
             ]
           },
           {
-            "group": "VPS & App Catalog",
+            "group": "AI Agents & Analytics",
             "pages": [
+              "partner-portal/ai-agents-overview",
+              "partner-portal/ai-agents/mcp/tokens",
+              "partner-portal/agent-analytics",
+              "partner-portal/ai-usage/overview",
+              "partner-portal/auto-deploy"
+            ]
+          },
+          {
+            "group": "AI Gateway & Experiences",
+            "pages": [
+              "partner-portal/ai-gateway",
+              "partner-portal/experiences/overview",
+              "partner-portal/experiences/resell-ai-gateway",
+              "partner-portal/experiences/experience-dashboards",
+              "partner-portal/experiences/jarvis-ai-os",
+              "partner-portal/experiences/auto-install"
+            ]
+          },
+          {
+            "group": "Credits, Billing & Telephony",
+            "pages": [
+              "partner-portal/credits",
+              "partner-portal/telephony-credits",
+              "partner-portal/phone-numbers",
+              "partner-portal/number-pools/overview",
+              "partner-portal/billing-and-invoices",
+              "partner-portal/metered-billing"
+            ]
+          },
+          {
+            "group": "AI Memory & Knowledge",
+            "pages": [
+              "partner-portal/knowledge-base-v2",
+              "partner-portal/ai-memory",
+              "partner-portal/ai-memory-kickoff"
+            ]
+          },
+          {
+            "group": "Platform Settings",
+            "pages": [
+              "partner-portal/settings/overview",
+              "partner-portal/settings/whitelabel-settings",
+              "partner-portal/settings/platform-configuration",
+              "partner-portal/settings/dashboard-experiences",
+              "partner-portal/settings/integration-settings",
+              "partner-portal/settings/email-settings",
+              "partner-portal/settings/stripe-connect",
+              "partner-portal/settings/subscription-and-billing",
+              "partner-portal/settings/stage-subscriptions",
+              "partner-portal/settings/subscription-plans",
+              "partner-portal/settings/subscription-plan-features",
+              "partner-portal/settings/customer-credit-plans",
+              "partner-portal/settings/saas-portal-mode",
+              "partner-portal/settings/mcp-custom-domain",
+              "partner-portal/settings/notification-preferences",
+              "partner-portal/settings/demo-video",
+              "partner-portal/settings/knowledge-base-processing",
+              "partner-portal/settings/support-keyword"
+            ]
+          },
+          {
+            "group": "Team & Growth",
+            "pages": [
+              "partner-portal/team-management",
+              "partner-portal/api-keys",
+              "partner-portal/prospects",
+              "partner-portal/marketing",
+              "partner-portal/support-chat"
+            ]
+          },
+          {
+            "group": "App Marketplace",
+            "pages": [
+              "partner-portal/marketplace/overview",
+              "partner-portal/marketplace/developer-console"
+            ]
+          },
+          {
+            "group": "Nexus & VPS",
+            "pages": [
+              "partner-portal/nexus/overview",
+              "partner-portal/vps/overview",
               "partner-portal/vps/app-catalog"
             ]
           },
           {
-            "group": "Agents",
+            "group": "Knova Agent",
+            "pages": [
+              "agents/knova/overview",
+              "agents/knova/knova-agent",
+              "agents/knova/try-agent",
+              "agents/knova/manage-knova-agents",
+              "agents/knova/knova-agent-builder",
+              "agents/knova/agent-builder-chat",
+              "agents/knova/outbound-calling",
+              "agents/knova/outbound-webhook-api"
+            ]
+          },
+          {
+            "group": "Third-Party Agents",
             "pages": [
               "agents/retell/import-retell-agent",
+              "agents/retell-chat/overview",
               "agents/vapi/import-vapi-agent",
               "agents/ultravox/manage-ultravox-agents",
               "agents/elevenlabs/manage-elevenlabs-agents",
               "agents/ghl/manage-ghl-agents",
+              "agents/hermes/overview",
+              "agents/hermes-agent-setup"
+            ]
+          },
+          {
+            "group": "n8n Automation",
+            "pages": [
               "agents/n8n/n8n-automation",
               "agents/n8n/n8n-chat-agents",
-              "agents/n8n/n8n-tokens",
-              "agents/openclaw-setup",
-              "agents/migration/agent-migration",
+              "agents/n8n/n8n-tokens"
+            ]
+          },
+          {
+            "group": "Agent Tools & Setup",
+            "pages": [
+              "agents/connected-app-tools",
               "agents/byo-agent/overview",
-              "agents/knova/overview",
-              "agents/hermes/overview",
-              "agents/retell-chat/overview"
+              "agents/openclaw-setup",
+              "agents/migration/agent-migration"
             ]
           }
         ]
@@ -156,7 +251,9 @@
             "pages": [
               "api-reference/mcp/introduction",
               "api-reference/mcp/authentication",
-              "api-reference/mcp/endpoints"
+              "api-reference/mcp/tool-modes",
+              "api-reference/mcp/endpoints",
+              "api-reference/mcp/memory-tools"
             ]
           },
           {
