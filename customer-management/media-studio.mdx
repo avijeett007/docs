@@ -1,0 +1,123 @@
+---
+title: "Generative Media Studio"
+description: "Generate AI images and videos, build cinematic multi-shot sequences, and manage your generated media from the customer portal."
+---
+
+## What Generative Media Studio is
+
+The **Generative Media Studio** lets you create AI-generated images and videos directly from your portal — no separate accounts or tools needed. Everything runs under your partner's branded portal.
+
+You can:
+- Generate a still image from a text prompt
+- Generate a short video from a text prompt
+- Build a **cinematic pipeline** — a multi-shot sequence assembled into a single video
+- Browse, manage, and pin your generated assets in the gallery
+
+Generation costs credits. The exact cost depends on the model and output resolution or duration, and is shown before you confirm each job.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Generative Media Studio landing page — showing the Create tab, the model picker, and the prompt input area._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through a complete image generation — selecting a model, writing a prompt, submitting, and viewing the finished image in the gallery._
+
+## Prerequisites
+
+The **Media Studio** must be enabled by your partner for your account. If you don't see the Studio section in your portal navigation, contact your service provider.
+
+## Generating an image
+
+1. Go to **Media Studio** in the portal navigation.
+2. Select the **Image** tab.
+3. Choose a model from the model picker. The card shows the model's name, a brief description, supported resolutions, and the estimated credit cost per resolution tier.
+4. Write your prompt in the text box. For best results:
+   - Be descriptive about style, lighting, and composition
+   - Avoid prompts that reference real people by name
+5. Choose an output **resolution** (e.g., 512px, 1024px, 2048px). Higher resolutions cost more credits.
+6. Click **Generate**.
+7. Credits are deducted immediately. You are taken to the **Jobs** tab where your generation appears in the queue.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the image generation form — model card selected, prompt typed, resolution chosen, and the Generate button._
+
+## Generating a video
+
+1. Go to **Media Studio** and select the **Video** tab.
+2. Choose a video model (e.g., Seedance 2.0, Veo 3.1, Kling).
+3. Write your prompt describing the scene, motion, and style.
+4. Choose the output **duration** (in seconds). Each model has minimum and maximum duration limits shown on the model card.
+5. Click **Generate**.
+6. Credits are deducted and the job enters the queue. Video generation typically takes longer than images; the status shows **Processing** until complete.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the video generation form — video model selected, prompt written, and duration slider set._
+
+## Cinematic pipeline (multi-shot sequences)
+
+A **cinematic pipeline** lets you assemble multiple shots into one continuous video.
+
+1. Go to **Media Studio → Pipeline** tab.
+2. Click **New Pipeline** and give it a name.
+3. Add shots one at a time — each shot has its own prompt, model, and duration.
+4. Reorder shots by dragging the shot cards.
+5. Click **Assemble** when you're ready. The platform generates each shot in sequence and stitches them into a single output video.
+6. Assembled pipelines appear in the gallery as a single video asset.
+
+<Info>
+  Each individual shot in a pipeline is billed separately at generation time. The assembly step does not cost additional credits.
+</Info>
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through creating a pipeline — adding three shots, reordering them, and watching the assembled video appear in the gallery._
+
+## Job status and the gallery
+
+Every generation job goes through these statuses:
+
+| Status | Meaning |
+|---|---|
+| **Queued** | Job is waiting to be sent to the generation provider |
+| **Processing** | Provider is actively generating the asset |
+| **Completed** | Asset is ready and available in the gallery |
+| **Failed** | Generation failed — credits are automatically refunded |
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Jobs tab / gallery view — showing cards with status badges, thumbnails, and action buttons._
+
+Completed jobs appear in the **Gallery** tab as media cards. You can:
+- **Preview** the image or play the video inline
+- **Download** the asset
+- **Pin** the asset to prevent it from expiring
+- **Delete** the asset (immediate, cannot be undone, credits are not refunded for completed jobs)
+
+## Pinning assets
+
+Unpinned generated assets are automatically deleted after **30 days**. To keep an asset permanently:
+
+1. Find the asset in the gallery.
+2. Click the **Pin** button (pin icon) on the asset card.
+
+Pinned assets are marked with a pin badge and are excluded from the auto-expiry sweep. You can unpin an asset at any time, after which it will be subject to the 30-day expiry from its original creation date.
+
+<Warning>
+  Make sure to pin any assets you want to keep permanently before 30 days have elapsed. After deletion, assets cannot be recovered.
+</Warning>
+
+## Credit costs
+
+Credit costs are shown on each model card and confirmed before you submit a job. Costs vary by:
+
+- **Model** — higher-quality models cost more per generation
+- **Resolution** (images) — 512px < 1024px < 2048px < 4096px
+- **Duration** (videos) — longer clips cost more credits
+
+If a job fails, your credits are fully and automatically refunded. No manual refund request is needed.
+
+## Using the MCP tools for programmatic generation
+
+If you have an MCP token, you can generate images and videos directly from Claude Code, Cursor, or any MCP-compatible client. See [Media generation MCP tools](/api-reference/mcp/media-generation) for the full tool reference.
+
+## Related pages
+
+- [Generative Media Studio (Partner settings)](/partner-portal/media-studio) — How partners enable and configure the studio
+- [Media generation MCP tools](/api-reference/mcp/media-generation) — Programmatic generation via MCP
+- [Docs & Media library](/customer-management/media-library) — Upload and manage your own media assets
+- [Credits and AI credit management](/partner-portal/customers/credits-and-ai-credit-management) — How credits work
+
+---
+
+> Source: [knotie-ai-pro#1170](https://github.com/avijeett007/knotie-ai-pro/pull/1170) — _feat: Generative Media Studio — white-label image/video generation (portal + MCP)_
