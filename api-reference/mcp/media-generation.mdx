@@ -1,0 +1,236 @@
+---
+title: "Media generation MCP tools"
+description: "Programmatically generate images, videos, and cinematic multi-shot pipelines from an MCP client connected to your branded Knotie studio."
+---
+
+## Overview
+
+The Generative Media Studio exposes 8 MCP tools on the customer MCP endpoint. Any MCP-compatible client (Claude Code, Cursor, Windsurf, custom scripts) holding a valid customer token can use these tools to:
+
+- Generate an image or video from a text prompt
+- Check the status of an in-progress job
+- List the available generation models
+- Create and assemble a cinematic multi-shot pipeline
+
+All calls are scoped to the authenticated customer's tenant. One customer cannot see or interact with another customer's jobs.
+
+## Authentication
+
+You need a **customer MCP token** with `scope: 'all'` (or a custom `allowedApps` list that includes the media studio app). Tokens are issued by your partner from the Partner Portal under **AI Agents → MCP Tokens**.
+
+See [MCP authentication](/api-reference/mcp/authentication) for how to include the token in requests.
+
+## Tool reference
+
+### `GENERATE_IMAGE`
+
+Submit a text-to-image generation job. Credits are deducted at submission. If the job fails, credits are automatically refunded.
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `prompt` | string | Yes | Text description of the image to generate |
+| `model` | string | Yes | Model identifier (use `LIST_GENERATION_MODELS` to get available IDs) |
+| `resolution` | string | Yes | Output resolution tier — one of `"512"`, `"1024"`, `"2048"`, `"4096"` |
+
+**Returns** — `jobId` (string) to track the job with `GENERATION_STATUS`.
+
+**Example**
+
+```json
+{
+  "tool": "GENERATE_IMAGE",
+  "arguments": {
+    "prompt": "A futuristic city skyline at dusk, cinematic lighting, 8K photorealism",
+    "model": "nano-banana-pro",
+    "resolution": "1024"
+  }
+}
+```
+
+### `GENERATE_VIDEO`
+
+Submit a text-to-video generation job. Credits are deducted at submission. Full refund on failure.
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `prompt` | string | Yes | Text description of the video scene |
+| `model` | string | Yes | Video model identifier |
+| `duration` | number | Yes | Output duration in seconds (each model has its own min/max) |
+
+**Returns** — `jobId` (string).
+
+**Example**
+
+```json
+{
+  "tool": "GENERATE_VIDEO",
+  "arguments": {
+    "prompt": "Slow-motion water droplet falling onto a still pond, macro lens, golden hour",
+    "model": "seedance-2.0",
+    "duration": 5
+  }
+}
+```
+
+### `GENERATION_STATUS`
+
+Poll the status of an image or video generation job.
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `jobId` | string | Yes | The `jobId` returned by `GENERATE_IMAGE` or `GENERATE_VIDEO` |
+
+**Returns** — A status object:
+
+```json
+{
+  "jobId": "job_abc123",
+  "status": "completed",
+  "outputUrl": "https://cdn.example.com/media/abc123.png",
+  "creditsCharged": 120
+}
+```
+
+Possible `status` values: `"queued"` | `"processing"` | `"completed"` | `"failed"`.
+
+On `"failed"`, `outputUrl` is null and credits are automatically refunded.
+
+### `LIST_GENERATION_MODELS`
+
+List all generation models available to this customer's tenant. The list reflects what the partner has enabled.
+
+**Parameters** — None.
+
+**Returns** — An array of model descriptors:
+
+```json
+[
+  {
+    "id": "nano-banana-pro",
+    "type": "image",
+    "displayName": "Nano Banana Pro",
+    "description": "Higher fidelity image generation",
+    "supportedResolutions": ["512", "1024", "2048"],
+    "estimatedCreditCost": { "512": 30, "1024": 90, "2048": 250 }
+  },
+  {
+    "id": "seedance-2.0",
+    "type": "video",
+    "displayName": "Seedance 2.0",
+    "minDuration": 3,
+    "maxDuration": 10,
+    "estimatedCreditCostPerSecond": 40
+  }
+]
+```
+
+### `PIPELINE_CREATE`
+
+Create a new cinematic pipeline (a named multi-shot video sequence).
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `name` | string | Yes | A display name for the pipeline |
+
+**Returns** — `pipelineId` (string).
+
+### `PIPELINE_ADD_SHOT`
+
+Append a shot to an existing pipeline. Shots are ordered in the sequence they are added.
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `pipelineId` | string | Yes | Pipeline to add the shot to |
+| `prompt` | string | Yes | Text description of this shot |
+| `model` | string | Yes | Video model identifier for this shot |
+| `duration` | number | Yes | Duration of this shot in seconds |
+
+**Returns** — `shotId` (string) for this shot.
+
+### `PIPELINE_STATUS`
+
+Get the assembly status of a pipeline and the status of each of its shots.
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `pipelineId` | string | Yes | The pipeline to check |
+
+**Returns**
+
+```json
+{
+  "pipelineId": "pipe_xyz789",
+  "status": "assembling",
+  "shots": [
+    { "shotId": "shot_1", "status": "completed", "outputUrl": "..." },
+    { "shotId": "shot_2", "status": "processing" }
+  ],
+  "assembledVideoUrl": null
+}
+```
+
+`assembledVideoUrl` is populated once the final ffmpeg assembly step is complete.
+
+### `PIPELINE_ASSEMBLE`
+
+Trigger ffmpeg assembly of all completed shots in the pipeline into a single output video. Call this after all shots have reached `"completed"` status.
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `pipelineId` | string | Yes | The pipeline to assemble |
+
+**Returns** — A status object confirming assembly has started. Poll with `PIPELINE_STATUS` until `assembledVideoUrl` is populated.
+
+## Typical workflow
+
+```
+1. LIST_GENERATION_MODELS        → pick model id
+2. PIPELINE_CREATE               → get pipelineId
+3. PIPELINE_ADD_SHOT × N        → add each shot
+4. Poll PIPELINE_STATUS          → wait for all shots to complete
+5. PIPELINE_ASSEMBLE             → trigger assembly
+6. Poll PIPELINE_STATUS          → wait for assembledVideoUrl
+```
+
+For a single image or video (no pipeline), steps 2–3 are replaced by a single `GENERATE_IMAGE` or `GENERATE_VIDEO` call, and you poll `GENERATION_STATUS` directly.
+
+## Provider opacity
+
+The tool responses never expose the underlying AI provider identity, COGS pricing, or the partner's raw cost. `outputUrl` points to Knotie-controlled storage, not a fal.ai URL.
+
+## Error codes
+
+| Code | Meaning |
+|---|---|
+| `INSUFFICIENT_CREDITS` | Customer does not have enough credits for this job |
+| `MEDIA_STUDIO_DISABLED` | The partner has not enabled Media Studio for this customer |
+| `INVALID_MODEL` | The model ID is not recognised or not available to this tenant |
+| `INVALID_DURATION` | Duration is outside the model's min/max bounds |
+| `INVALID_RESOLUTION` | Resolution tier is not supported by the selected model |
+| `PROMPT_MODERATED` | Prompt was rejected by content moderation |
+| `PIPELINE_NOT_FOUND` | `pipelineId` does not exist or belongs to a different customer |
+
+## Related pages
+
+- [Generative Media Studio (Customer)](/customer-management/media-studio) — Portal UI guide
+- [Generative Media Studio (Partner)](/partner-portal/media-studio) — Enable and configure the feature
+- [MCP authentication](/api-reference/mcp/authentication) — How to authenticate MCP requests
+- [MCP tool modes](/api-reference/mcp/tool-modes) — Full vs meta tool access
+
+---
+
+> Source: [knotie-ai-pro#1170](https://github.com/avijeett007/knotie-ai-pro/pull/1170) — _feat: Generative Media Studio — white-label image/video generation (portal + MCP)_

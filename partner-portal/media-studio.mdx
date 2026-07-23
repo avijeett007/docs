@@ -1,0 +1,120 @@
+---
+title: "Generative Media Studio (Partner)"
+description: "Enable a white-label image and video generation studio for your customers, set your profit margin, and configure the required environment."
+---
+
+## What Generative Media Studio is
+
+**Generative Media Studio** is a fully white-label, partner-resellable AI image and video generation product you can unlock for your customers. Partners enable the studio at the account level, set their own profit margin, and customers access it through the branded portal under your domain — with no Knotie branding visible anywhere.
+
+Generation is metered through the existing dual-pool credit system. Customers spend **customer credits** (at the rate you set via your profit multiplier); you are billed **partner credits** at Knotie's platform cost (COGS × 1.25).
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Generative Media Studio partner settings page — showing the Enable toggle and the profit multiplier slider._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through enabling the Media Studio, setting a profit multiplier, and confirming a customer can see the Studio in their portal._
+
+## Supported AI models
+
+The following generation models are available at launch:
+
+| Model | Type | Description |
+|---|---|---|
+| Nano Banana | Image | Fast, low-cost image generation |
+| Nano Banana Pro | Image | Higher fidelity image generation |
+| Seedance 2.0 | Video | Short video clips from text prompts |
+| Veo 3.1 | Video | High-quality video (Google's Veo via fal.ai) |
+| Kling | Video | Multi-shot cinematic video generation |
+
+The model catalog is managed by Knotie centrally. Partners cannot add or remove individual models.
+
+## Prerequisites
+
+Before enabling Media Studio you need:
+
+- **Environment variables** configured in your deployment (see below).
+- A Knotie partner account with credits available in your partner pool.
+- The `MEDIA_INTERNAL_API_SECRET`, `FAL_AI_API_KEY`, `MEDIA_WEBHOOK_SECRET`, `MEDIA_RUNNER_SECRET`, and `MEDIA_PUBLIC_BASE_URL` env vars set on the platform (see [Required environment variables](#required-environment-variables)).
+
+## Enable and configure Media Studio
+
+### Step 1 — Enable the feature at the partner level
+
+1. In the Partner Portal, go to **Settings → Media Studio** (a new nav entry).
+2. Turn on the **Enable Media Studio** toggle.
+3. Set your **Profit Multiplier** — this is the markup applied to each generation job's COGS before the customer is billed. Default is `1.5×` (50% margin). You can change this at any time; the change affects new jobs immediately.
+4. Save your settings.
+
+When the feature is off at the partner level, the Studio is hidden from all your customers regardless of their individual settings.
+
+### Step 2 — Enable for a specific customer
+
+1. Go to **Customers → [customer] → Features & Add-ons**.
+2. Toggle on **Media Studio** for that customer.
+3. The Studio section appears in the customer's portal navigation immediately.
+
+Partner-level enable is a master switch. Per-customer enable is the per-tenant switch. Both must be ON for a customer to see the Studio.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the customer Features & Add-ons panel with the Media Studio toggle visible._
+
+## How billing works
+
+Generation is **charge-at-submission**:
+
+1. When a customer submits a generation job, credits are deducted from their customer pool immediately.
+2. Your partner pool is charged the COGS amount (at Knotie's platform rate).
+3. If the job **fails or times out**, the system issues a full, automatic refund to both pools — no manual action needed.
+
+The credit amount per job depends on the model and output resolution/duration. Customers see a preview of the credit cost before confirming each generation.
+
+## Required environment variables
+
+These must be set on your production deployment **before** enabling Media Studio. Add them to your `.env` / deployment secrets alongside existing env vars.
+
+| Variable | Purpose |
+|---|---|
+| `FAL_AI_API_KEY` | API key for fal.ai — the provider used for all image and video generation |
+| `MEDIA_INTERNAL_API_SECRET` | Shared secret between the main app and KnotieManager for internal media API calls |
+| `MEDIA_WEBHOOK_SECRET` | Used to verify Ed25519-signed webhooks from fal.ai |
+| `MEDIA_RUNNER_SECRET` | Secret used by the KnotieManager media-runner service |
+| `MEDIA_PUBLIC_BASE_URL` | Public base URL of your deployment (used to build fal.ai callback webhook URLs) |
+
+Additionally, the Supabase media bucket connection strings must be set in your Hub and KnotieManager `.env` files. See the `.env.example` blocks in each sub-project for the exact variable names.
+
+## Production deploy order
+
+<Warning>
+The services must be deployed in the order below. Deploying out of order can result in webhook callbacks failing or the pin UI being unavailable when the expiry cron fires.
+</Warning>
+
+1. **Main app** — ships the Media Studio API routes, webhook receiver, and cron jobs.
+2. **KnotieManager media-runner** — ships the result ingestion and ffmpeg multi-shot assembly service.
+3. **Knotie Connect Hub** — ships the 8 new MCP tools.
+4. **Enable the `sweep-media-generation-jobs` cron** in your platform config (requires `CRON_SECRET`). This reconciliation job catches stuck/timed-out jobs and refunds them.
+5. **Ship the pin UI** (included in Step 1 above) **before** enabling the `expire-generated-media` cron. The 30-day auto-expiry cron permanently deletes unpinned assets; customers must be able to pin assets they want to keep before expiry runs for the first time.
+
+## Database migrations
+
+The Media Studio adds two new models (`MediaGenerationJob`, `MediaPipeline`) and one new column (`mediaProfitMultiplier` on the `Partner` model) to the database schema. These changes are **additive only** — safe to run on a live database.
+
+Run `db push` (or your standard migration command) on all three schemas: main app, KnotieManager, and Connect Hub.
+
+<Info>
+  The `mediaProfitMultiplier` column uses a `Decimal` refinement. If your database provider prompts `--accept-data-loss` for this column, it is safe to accept — the column is new and all rows default to `1.5`.
+</Info>
+
+## Monitoring
+
+The `sweep-media-generation-jobs` cron runs on a configurable schedule and reconciles any jobs stuck in a terminal state (delivered-and-charged, recovered-and-charged, or fully-refunded). If a job has been processing for longer than the hard timeout, the cron issues a full refund and marks it failed.
+
+Monitor via your Signoz dashboard under the `media-generation` service traces.
+
+## Related pages
+
+- [Generative Media Studio (Customer)](/customer-management/media-studio) — End-user guide to generating images and videos
+- [Media generation MCP tools](/api-reference/mcp/media-generation) — Programmatic generation via MCP
+- [Features, add-ons, and menu visibility](/partner-portal/customers/features-addons-and-menu-visibility) — Per-customer feature toggles
+- [Credits and AI credit management](/partner-portal/customers/credits-and-ai-credit-management) — How the credit system works
+
+---
+
+> Source: [knotie-ai-pro#1170](https://github.com/avijeett007/knotie-ai-pro/pull/1170) — _feat: Generative Media Studio — white-label image/video generation (portal + MCP)_
