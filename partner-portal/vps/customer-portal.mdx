@@ -1,0 +1,116 @@
+---
+title: "Customer Portal — VPS Marketplace & My Servers"
+description: "What your customers see when they access VPS features through your white-label portal, including the VPS Marketplace and My Servers pages."
+---
+
+## Overview
+
+When you assign a VPS to a customer and enable VPS features on their account, two dedicated pages appear in their white-label portal:
+
+| Page | URL (within the portal) | What it shows |
+|------|------------------------|---------------|
+| **VPS Marketplace** | `/vps` | Browseable plans, bundled app packages, region picker, and checkout |
+| **My Servers** | `/vps/instances` | All active servers, credentials, one-click app installs, and status |
+
+Both pages adapt to the customer's chosen **light or dark theme** — text, backgrounds, cards, badges, and modals all switch together with the rest of the portal when the customer toggles the theme.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the VPS Marketplace page in both light and dark mode side-by-side so customers can see how the theme adapts._
+
+---
+
+## VPS Marketplace (`/vps`)
+
+The Marketplace is where customers browse what's available and place an order.
+
+### What customers see
+
+- **Plans grid** — each card shows vCPU, RAM, NVMe storage, bandwidth, and the monthly price you set for them
+- **App Packages grid** — bundles you've created appear here with their bundled apps listed
+- **Billing toggle** — if you've enabled yearly billing, customers can switch between monthly and annual pricing
+- **Region picker** — customers select the server region before checkout (EU / US)
+- **Checkout panel** — slides in from the right with the order summary and payment action
+
+### How pricing works
+
+Customers see only the prices you configure in [VPS Settings](/partner-portal/vps/app-catalog#app-packages-vps-settings). Your partner cost and margin are never exposed.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the VPS Marketplace page showing plan cards, the billing toggle, and the checkout panel opened for a selected plan — captured in light mode to show the theme working correctly._
+
+> 🎬 **Video walkthrough:** _Record a short clip of a customer browsing the VPS Marketplace in the customer portal: opening the page, toggling between monthly and yearly billing, selecting a region, and proceeding to checkout._
+
+---
+
+## My Servers (`/vps/instances`)
+
+After a customer has at least one active server, they can manage it here.
+
+### Server cards
+
+Each server appears as a card with:
+
+- **Name** and **IP address**
+- **Status badge** — colour-coded and theme-aware:
+  - `Active` (green)
+  - `Provisioning` (amber)
+  - `Suspended` (grey)
+  - `Cancelled` (red)
+- **Plan details** (vCPU / RAM / NVMe)
+- **Assigned date**
+
+> 📷 **Screenshot needed:** _Add a screenshot of the My Servers page in light mode showing one or more active server cards with status badges visible._
+
+### One-Click Apps
+
+Below the server cards, a catalog of apps is shown that the customer can deploy onto any of their active servers.
+
+Each app card shows an emoji, name, brief description, resource usage (RAM), and access port. Clicking a card opens a detail overlay with the full description, features list, website link, and GitHub link.
+
+Customers can install an app by clicking **Deploy** and selecting a target server. If they already have the app installed, the button changes to **Reinstall**.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the One-Click Apps section and the app detail overlay open for a specific app (e.g. n8n or Ollama)._
+
+### Credentials modal
+
+Customers can request SSH credentials for any active server:
+
+1. Click **Get Credentials** on the server card
+2. A modal appears with the root username, IP address, and password
+3. Each field has a copy-to-clipboard button
+
+> 📷 **Screenshot needed:** _Add a screenshot of the credentials modal with root username and IP visible (password blurred or redacted)._
+
+### Deploy / Reinstall modal
+
+When a customer deploys or reinstalls an app, a modal slides in:
+
+- Shows the app name and icon
+- Prompts them to select the target server
+- Warns that reinstalling overwrites existing data on that server
+- Has a confirmation checkbox before the final action is allowed
+
+> 🎬 **Video walkthrough:** _Record a clip of a customer deploying a one-click app: browsing the catalog, opening the app detail overlay, clicking Deploy, selecting a server, confirming, and watching the status update._
+
+---
+
+## Theme support
+
+Both the VPS Marketplace and My Servers pages are fully theme-aware. All UI elements — plan cards, status badges, modals, text, borders, and the checkout panel — use CSS variables tied to the portal's theme system rather than fixed colours.
+
+Customers can switch between light and dark mode at any time from the portal header, and both VPS pages update immediately without any visual inconsistency.
+
+<Info>
+**For partners:** if you notice VPS pages looking washed out or showing low-contrast text for a customer, confirm that their portal is running an up-to-date version of the platform. Theme support for these pages was introduced in [knotie-ai-pro#1182](https://github.com/avijeett007/knotie-ai-pro/pull/1182).
+</Info>
+
+---
+
+## Related pages
+
+- [VPS Servers (Partner Portal)](/partner-portal/vps/overview) — How you purchase and manage VPS instances as a partner
+- [VPS App Catalog & Packages](/partner-portal/vps/app-catalog) — Creating app bundles and packages to offer customers
+- [Server Terminal](/partner-portal/customers/vps-terminal) — Browser-based SSH terminal for customers
+- [Features, add-ons, and menu visibility](/partner-portal/customers/features-addons-and-menu-visibility) — Enabling VPS features for individual customers
+
+---
+
+> Source: [knotie-ai-pro#1182](https://github.com/avijeett007/knotie-ai-pro/pull/1182) — _Fix Light-Mode Legibility on VPS Marketplace & My Servers_
