@@ -1,0 +1,284 @@
+---
+title: "Website Studio"
+description: "Resell website builds under your own brand. A configurable landing page, packages with Stripe checkout, a 26-site demo showcase, and a delivery board that keeps clients updated end-to-end."
+---
+
+## What Website Studio is
+
+**Website Studio** is a Partner Experience that lets you package, sell, and deliver website builds under your own brand — without writing a line of code or managing a separate platform.
+
+When enabled, you get:
+
+- A branded public landing page that shows your services, packages, and portfolio on your own domain
+- A Stripe-connected checkout so customers pay you directly
+- A partner delivery board to track projects through each build stage
+- A customer-facing delivery tracker so clients can follow their project in real time
+- A 26-site demo showcase to show prospective customers what the finished product looks like
+
+Use Website Studio when you want to:
+
+- Add website-build services to your existing AI/agency offering
+- Sell one-off or packaged website builds at a fixed price with upfront payment
+- Give customers a professional, branded progress-tracker instead of ad-hoc email updates
+- White-label an entire website-reselling business end-to-end
+
+<Note>
+  Website Studio is in **Beta**. Stripe Connect must be configured before you can take paid bookings. Media uploads (landing videos and portfolio screenshots) require Supabase credentials — you can still paste external image URLs if Supabase is not set up.
+</Note>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Website Studio card on the Experiences catalog page, showing the Enable button and Beta badge._
+
+---
+
+## Prerequisites
+
+Before enabling:
+
+1. **Stripe Connect** must be configured in **Partner Portal → Settings → Stripe Connect**. Packages and checkout run on your Connect account.
+2. **Supabase** _(optional, for media uploads)_: Set `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` in your environment. Without these, the portal returns a clear 503 for upload endpoints — you can still paste an external URL for any image or video.
+3. Website Studio must be visible on your partner account's Experiences page. Contact support if the card is missing.
+
+---
+
+## Enabling the experience
+
+1. Go to **Partner Portal → Experiences**.
+2. Find the **Website Studio** card (marked **Beta**).
+3. Click **Enable**.
+4. Your experience is created with the default web address ending in `/websites` and you are taken to the Website Studio console.
+
+You can change the web address at any time under the experience's general settings (**Experiences → Website Studio → Settings → General**).
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Website Studio console immediately after enabling, showing the stat grid at the top and the section tabs below._
+
+---
+
+## Partner console overview
+
+The Website Studio console lives at **Partner Portal → Experiences → Website Studio**. It is one scrolling page arranged top to bottom:
+
+| Section | What it does |
+|---------|-------------|
+| **Stat grid** | Live counts: active packages, portfolio items, projects by stage |
+| **Landing Settings** | Flavor, offer mode, hero copy, trust badges, contact details, booking link |
+| **Services** | High-level service lines displayed on the landing page (e.g., "Brochure site", "E-commerce") |
+| **Packages** | Priced bundles with Stripe checkout |
+| **Portfolio** | Your work showcase — images and metadata for each site |
+| **Videos** | Feature-reel videos embedded on the landing page |
+| **Delivery Board** | All active projects and their current build stage |
+| **Customer Portal** | Shared branding and dashboard template settings (same block as other experiences) |
+
+---
+
+## Landing Settings
+
+### Landing flavor
+
+Choose one of three visual styles. The choice changes typography, card treatment, and layout rhythm — the content is identical in all three, so switching is always lossless.
+
+| Flavor | Best for |
+|--------|----------|
+| **Bold Trades** _(default)_ | Roofers, builders, groundworks, scaffolders, skip hire |
+| **Editorial Premium** | Design-led studios, architects, surveyors, professional services |
+| **Clean Local** | Cleaners, salons, gardeners, fitness, domestic services |
+
+> 📷 **Screenshot needed:** _Add a side-by-side comparison of the three landing flavors on a real partner domain, or three separate screenshots of the hero section in Bold Trades, Editorial Premium, and Clean Local._
+
+### Offer mode
+
+Controls what the landing page asks visitors to do:
+
+| Mode | What it shows |
+|------|---------------|
+| `booking` | A booking link / embedded calendar only — visitors request a call, no immediate payment |
+| `packages` | A Stripe-connected pricing grid — visitors pick a package and pay |
+| `both` | Both: a packages grid plus a booking link or calendar below it |
+
+Set **Offer mode** and your **Booking link** (a Calendly URL, a Google Calendar booking page, or any external link) in the Landing Settings section.
+
+### Hero and content copy
+
+From Landing Settings you can also configure:
+
+- Hero title, subtitle, and CTA button text
+- A trust row (logos or social-proof stats)
+- Contact details (email, phone, region)
+- Whether to show the booking form inline or link out to an external URL
+
+Changes publish to the live landing page immediately on save.
+
+---
+
+## Services
+
+Services are the high-level offering lines displayed near the top of your landing page — a short description of what you build. They appear before the packages pricing grid.
+
+To add a service:
+
+1. In the **Services** section, click **+ Add Service**.
+2. Fill in the name, short description, and optional icon.
+3. Click **Save**.
+
+Services are display-only — they do not create Stripe products. Use Packages for anything with a price attached.
+
+---
+
+## Packages
+
+Packages are your priced builds. Each package creates a matching product and price in your Stripe Connect account.
+
+### Creating a package
+
+1. In the **Packages** section, click **+ New Package**.
+2. Fill in the fields:
+
+| Field | Notes |
+|-------|-------|
+| **Name** | Shown on the pricing card (e.g., "Starter Site", "E-commerce Plus") |
+| **Description** | Short marketing copy for the pricing card |
+| **Price (cents)** | The one-time or monthly amount; set to `0` for a free/inquiry package |
+| **Delivery days** | Advertised turnaround shown on the pricing card |
+| **Included pages** | Number of pages in this package |
+| **Revisions** | Number of revision rounds included |
+| **Features** | Bullet-point list of inclusions |
+
+3. Click **Save**. Knotie creates the product and price in Stripe automatically.
+
+### Managing packages
+
+- **Edit** — opens the same form. Price changes create a new Stripe price; the old one is archived.
+- **Duplicate** — copies into a new draft package.
+- **Delete** — removes the package from the landing page.
+- **Enable/disable toggle** — hides or shows the package without deleting it.
+
+<Warning>
+  Package prices shown on your landing page are resolved from the database at checkout time. If you edit a package's price after a customer has started checkout, the new price applies to new sessions only — in-progress sessions keep the price they started with.
+</Warning>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Packages editor showing a live package card with the edit and enable/disable controls._
+
+> 🎬 **Video walkthrough:** _Record a short clip: creating a new package end-to-end — filling in the form, saving, and confirming the package appears on the live landing page._
+
+---
+
+## Portfolio
+
+The portfolio shows your completed work on the landing page. Your own portfolio items appear before the 26-site demo catalogue, so real work always ranks above examples.
+
+### Adding a portfolio item
+
+1. In the **Portfolio** section, click **+ Add Item**.
+2. Fill in the site name, a short description, and the industry category.
+3. Upload screenshots (four per site) or paste external image URLs.
+   - Uploads go browser → Supabase Storage via a signed URL. Your Next.js server is never in the upload path.
+   - If Supabase is not configured, the upload button is replaced with a URL input.
+4. Click **Save**.
+
+### Reordering portfolio items
+
+Drag and drop items to change their order. The first item in your list becomes the hero item on portfolio-heavy landing flavors.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Portfolio editor showing a completed portfolio item card with its four gallery images._
+
+---
+
+## Videos
+
+Landing videos play in the feature section of your landing page. Uploads go browser → Supabase Storage via a signed URL (same as portfolio images). Paste an external URL if Supabase is not configured.
+
+---
+
+## Delivery board
+
+The delivery board shows every active project and lets you advance each one through the six build stages.
+
+### Delivery stages
+
+```
+SUBMITTED → DISCOVERY → DESIGN → BUILD → REVIEW → DELIVERED
+```
+
+| Stage | What it means |
+|-------|---------------|
+| **Submitted** | Brief received, project is queued |
+| **Discovery** | Gathering content, brand assets, and requirements |
+| **Design** | Layout and visual direction being designed |
+| **Build** | Site being built |
+| **Your review** | Build complete, client review requested |
+| **Delivered** | Project handed over |
+
+- Stages can move forward or backward (a review can send a project back to Design).
+- Stage skipping is allowed.
+- Every transition is logged in an append-only event log on the project (capped at 100 entries).
+
+### Advancing a project
+
+1. Open a project card on the Delivery Board.
+2. Click **Advance to [next stage]** or pick a specific stage from the stage selector.
+3. Add an optional note (max 500 characters) that will appear in the customer's tracker.
+4. Click **Confirm**.
+
+The customer's delivery tracker updates in real time.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Delivery Board with a project card open, showing the stage selector and the stage advance button._
+
+> 🎬 **Video walkthrough:** _Record a short clip: opening a project on the Delivery Board and advancing it from BUILD to REVIEW, then switching to the customer-facing tracker to show the update._
+
+---
+
+## Customer-facing delivery tracker
+
+When a project is created, the customer receives a link to their delivery tracker. The tracker shows:
+
+- The current stage with a progress percentage (5% at Submitted → 100% at Delivered)
+- A timeline of all stage transitions, including any partner notes
+- A review / approval form when the project is in the **Review** stage
+
+The tracker URL is: `https://{your-domain}/website-studio/project/{projectId}/status`
+
+> 📷 **Screenshot needed:** _Add a screenshot of the customer-facing delivery tracker showing a project in the BUILD stage with a two-step timeline below it._
+
+---
+
+## Demo showcase
+
+Website Studio ships with a 26-site demo portfolio covering four visual templates — so your landing page never looks empty even before you have client work to show. Demo sites span industries (trades, professional services, e-commerce, hospitality) and are updated with commissioned photography.
+
+Your own portfolio items always appear before the demo catalogue. Once you have real work uploaded, the demos drop below it automatically.
+
+---
+
+## Environment variables
+
+| Variable | Required | Purpose |
+|----------|----------|---------|
+| `SUPABASE_URL` | Optional | Enables direct-upload for landing videos and portfolio screenshots |
+| `SUPABASE_SERVICE_ROLE_KEY` | Optional | Required alongside `SUPABASE_URL` |
+
+Both variables default to off. If absent, upload endpoints return `503 Service Unavailable` with a clear message, and the UI falls back to URL-paste inputs. No other Website Studio functionality is affected.
+
+---
+
+## Common problems and fixes
+
+| Problem | Likely cause | Fix |
+|---------|-------------|-----|
+| Can't create a package | Stripe Connect not configured | Go to **Settings → Stripe Connect** and finish the Connect setup |
+| Upload button missing / shows URL input | `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` not set | Paste an external image URL, or add the Supabase credentials to your environment |
+| Landing page shows demo sites only, not mine | No portfolio items added yet, or all items disabled | Add at least one enabled portfolio item in the Portfolio section |
+| Customer tracker URL returns 404 | Project was deleted or the alias changed | Re-share the tracker link from the Delivery Board project detail |
+| Booking link not in confirmation email | Booking URL field is empty | Enter your booking URL in **Landing Settings → Booking link** |
+| Flavor reverts to "Bold Trades" | An unsupported flavor key was stored before the feature landed | Re-select your preferred flavor and save |
+
+---
+
+## Related pages
+
+- [AI Experiences overview](/partner-portal/experiences/overview) — enable and manage all experiences
+- [Stripe Connect](/partner-portal/settings/stripe-connect) — required for paid packages
+- [Auto-Install Experiences](/partner-portal/experiences/auto-install) — VPS-provisioned auto-deploy experiences
+- [Resell AI Gateway](/partner-portal/experiences/resell-ai-gateway) — sell branded AI API access
+
+---
+
+> Source: [knotie-ai-pro#1191](https://github.com/avijeett007/knotie-ai-pro/pull/1191) — _feat(website-studio): white-label website-reselling Experience_
