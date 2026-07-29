@@ -1,0 +1,91 @@
+---
+title: "Checkout Security"
+description: "How Knotie AI Pro protects your Stripe checkout flows — post-payment redirect pinning, credit amount validation, and verified domain enforcement."
+---
+
+## Overview
+
+All Stripe Checkout sessions created on your behalf — for experience packages, AI Business Audit, credit top-ups, and Resell AI Gateway subscriptions — include security controls that prevent payment redirect flows from landing your customers on any domain you do not own.
+
+This page explains what those controls are and what they mean for you as a partner and for your customers.
+
+---
+
+## Redirect pinning
+
+After a customer completes (or cancels) a Stripe Checkout, they are redirected back to a URL configured by the platform. Knotie AI Pro enforces that this redirect URL is always on **your own partner domain**.
+
+### What this means
+
+- A customer who pays through your AI Business Audit checkout lands back on your domain (`your-agency.com/audit/thank-you/…`)
+- A customer who buys an Experience package lands on your domain (e.g., `your-agency.com/websites?checkout=success`)
+- A customer who tops up credits is returned to your whitelabel dashboard (`your-agency.com/whitelabel/dashboard?payment=success`)
+
+No post-payment page ever redirects to an external URL, even if one is supplied in the checkout request.
+
+### Your custom domain must be verified
+
+The redirect target is derived from your **verified** custom domain. An unverified custom domain is treated the same as no custom domain — the fallback is your subdomain (`yoursubdomain.knotie-ai.pro`).
+
+This protects your customers: if your custom domain is not yet serving the portal, directing a paying customer there would strand them on a broken page.
+
+To verify your custom domain: **Partner Portal → Settings → Whitelabel Settings → Custom Domain**.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Custom Domain settings panel showing a verified domain (green checkmark or "Verified" badge)._
+
+---
+
+## Email links from lead capture
+
+When a prospect submits an AI Business Audit form or books through an Experience landing page, they receive a confirmation email with a link to the audit running page or booking confirmation.
+
+This link is derived from your partner record's verified domain — it does not use the visitor's browser host. This means:
+
+- The link in the email is always on your own domain
+- Your DKIM/SPF-aligned sender identity and your domain match — the email looks (and is) fully legitimate
+
+> 🎬 **Video walkthrough:** _Show the end-to-end prospect submission flow: form submission, the branded confirmation email the prospect receives, and the link landing on the partner's own domain._
+
+---
+
+## Credit purchase amount validation
+
+When purchasing AI Credits through the whitelabel customer portal or via the API:
+
+- `creditAmount` must be a **whole number**
+- Minimum: **1 credit**
+- Maximum: **1,000,000 credits**
+
+Requests outside this range return an HTTP `400` with a descriptive error message:
+
+```
+creditAmount must be a number between 1 and 1000000
+```
+
+This prevents NaN or out-of-range values from reaching Stripe.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the credit purchase UI (the credit top-up panel in the customer portal), highlighting the credit amount input field._
+
+---
+
+## Affected flows
+
+| Flow | Checkout route | Redirect protected |
+|------|---------------|--------------------|
+| AI Business Audit checkout | `/api/whitelabel/audit/[prospectId]/checkout/[packageId]` | ✅ Pinned to partner domain |
+| Experience package checkout | `/api/whitelabel/experience-checkout/[alias]` | ✅ Pinned to partner domain |
+| AI Credit top-up | `/api/whitelabel/purchase-credits` | ✅ Pinned to partner domain |
+| Resell AI Gateway subscription | `/api/whitelabel/resell-ai-gateway/checkout` | ✅ Pinned to partner domain |
+| AI Business Audit lead email | `/api/whitelabel/experience-leads/[alias]` | ✅ Uses partner record domain |
+
+---
+
+## What to do if redirects land on the wrong domain
+
+1. **Check your custom domain verification status** — go to **Settings → Whitelabel Settings → Custom Domain** and confirm the domain shows as verified.
+2. **Check your subdomain** — if no custom domain is configured, redirects fall back to `yoursubdomain.knotie-ai.pro`. Ensure your subdomain is set in **Settings → Whitelabel Settings**.
+3. If neither is set, the redirect falls back to the platform root (`knotie-ai.pro`). Contact support to review your partner account setup.
+
+---
+
+> Source: [knotie-ai-pro#1193](https://github.com/avijeett007/knotie-ai-pro/pull/1193) — _fix(security): stop caller-controlled hosts reaching partner Stripe redirects and emails_
