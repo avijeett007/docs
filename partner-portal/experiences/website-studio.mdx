@@ -1,0 +1,158 @@
+---
+title: "Website Studio"
+description: "Offer white-label website builds to your customers. Configure your storefront, publish packages, track delivery, and let customers follow progress in real time."
+---
+
+## What Website Studio is
+
+**Website Studio** is a Partner Experience that lets your agency resell website builds under your own brand, without building any of the underlying platform yourself.
+
+When enabled, your customers can visit a branded landing page you control, browse your service packages, pay by card via your Stripe Connect account, and track their project through a customer-facing delivery portal — all on your domain.
+
+Use Website Studio when you want to:
+
+- Sell website builds as a productised service under your own brand
+- Let prospects book a consultation or purchase a package in one step
+- Track project stages (SUBMITTED → DISCOVERY → DESIGN → BUILD → REVIEW → DELIVERED) from a partner delivery board
+- Give customers a self-serve portal to follow progress, request revisions, and approve deliverables
+- Showcase example work via the 26-site demo catalogue while your own portfolio grows
+
+<Note>
+  Website Studio is in **Beta**. It requires an active Stripe Connect account. See [Prerequisites](#prerequisites).
+</Note>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Website Studio card on the Experiences catalog page, showing the Beta badge and the Enable button._
+
+---
+
+## Prerequisites
+
+Before enabling:
+
+1. **Stripe Connect** must be configured in **Partner Portal → Settings → Stripe Connect**. Package checkouts run on your Connect account.
+2. *(Optional)* **Supabase** — if you want to upload landing videos and portfolio screenshots directly to your storage bucket, add `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` to your environment. Without these, the upload endpoints return a `503`; you can still paste an external URL instead.
+
+---
+
+## Enabling Website Studio
+
+1. Go to **Partner Portal → Experiences**.
+2. Find the **Website Studio** card (marked **Beta**).
+3. Click **Enable**.
+
+Clicking Enable does two things simultaneously:
+
+- Creates the experience record and sets its status to **Active**.
+- **Opens your public storefront** at `/websites` on your partner domain (`yoursubdomain.knotie-ai.pro/websites` or your custom domain).
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Website Studio console immediately after enabling — the stat grid at the top, the navigation tabs (Landing, Services, Packages, Portfolio, Delivery Board), and the status badge showing Active._
+
+<Tip>
+  The Enable toggle is the single control for "storefront published". You do not need to take any extra step to make the landing page live — enabling is publishing.
+</Tip>
+
+---
+
+## Disabling and re-enabling
+
+**To close the storefront** without deleting your configuration, disable the experience from the Experiences page. Visitors to `/websites` are redirected away until you re-enable.
+
+**To re-open it**, click Enable again. The storefront re-opens and all your existing configuration (landing copy, packages, portfolio, delivery board) is preserved.
+
+<Warning>
+  **Existing partners (before 29 July 2026):** If you enabled Website Studio before this date, your console may show **Active** but the storefront at `/websites` may redirect visitors to `/platform`. This is because the platform flag that controls public access was not flipped by the original enable action.
+
+  **To fix it:** Disable the experience and re-enable it once from the Experiences page. That's all — your configuration is untouched.
+</Warning>
+
+---
+
+## Configure your landing page
+
+The Website Studio console is divided into tabs, accessible from the gear icon on the experience card or from **Experiences → Website Studio → Settings**:
+
+### Landing
+
+Configure the public-facing storefront. Options include:
+
+- **Flavor** — choose between three visual templates:
+  - **Bold Trades** — high-contrast, trades-industry feel
+  - **Editorial Premium** — clean typographic layout
+  - **Clean Local** — approachable, local-business style
+
+- **Offer mode** — control what the landing page offers visitors:
+  - **Booking only** — direct visitors to a consultation booking
+  - **Packages only** — show your priced packages immediately
+  - **Both** — show packages with a booking option alongside
+
+- **Copy & branding** — hero headline, sub-headline, feature bullets, FAQs, accent colour.
+
+- **Video** — upload a landing video (browser → Supabase signed URL, bytes never transit the server) or paste an external video URL.
+
+> 📷 **Screenshot needed:** _Add a side-by-side comparison of the three landing flavors (Bold Trades, Editorial Premium, Clean Local) as they render on a partner domain._
+
+### Services & Packages
+
+Define the services you offer and group them into purchasable packages.
+
+- A **service** describes a deliverable (e.g., "5-page informational site").
+- A **package** bundles one or more services with a fixed price. Packages connect to Stripe; prices are resolved from the database at checkout time, so updating a package price does not retroactively change what existing customers purchased.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Packages editor showing a live package card with price, included services, and the Stripe Connected badge._
+
+### Portfolio
+
+Upload your own completed work. Each portfolio item takes:
+
+- Up to four gallery images (uploaded via Supabase signed URL or external URL)
+- A job title, client category, and short description
+
+Your own portfolio items rank above the 26-site demo catalogue on the public landing page.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Portfolio editor with a completed portfolio item — four gallery images filled in, title, and description._
+
+### Delivery Board
+
+Manage active client projects. Each project card shows the current stage, allows stage advances, and stores a revision and event log.
+
+Stages in order: **SUBMITTED → DISCOVERY → DESIGN → BUILD → REVIEW → DELIVERED**
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Delivery Board with a project card open and the stage selector visible._
+
+---
+
+## Customer delivery tracker
+
+Once a customer completes checkout, they receive access to a delivery tracker on your partner domain. The tracker shows:
+
+- Current project stage and estimated next step
+- Event log (stage transitions, revision requests, partner notes)
+- An approval / revision request flow at the REVIEW stage
+
+> 📷 **Screenshot needed:** _Add a screenshot of the customer-facing delivery tracker showing a project in the BUILD stage with the event log visible._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through creating a package end-to-end: adding a service, bundling it into a package, setting the price, and previewing the checkout._
+
+> 🎬 **Video walkthrough:** _Record a short clip advancing a project from BUILD to REVIEW and showing the customer tracker update in real time._
+
+---
+
+## Demo showcase
+
+If your portfolio is empty, visitors see a built-in showcase of 26 example websites across the three template flavors — each with a description, four gallery images, and a job record. As you add your own portfolio items, they appear first and the demo items fill the remaining slots.
+
+---
+
+## Troubleshooting
+
+| Symptom | Likely cause | Fix |
+|---------|--------------|-----|
+| `/websites` redirects to `/platform` | Storefront master flag not set (pre-29 Jul 2026 enable) | Disable and re-enable from Experiences |
+| Package checkout redirects to the wrong domain | Custom domain not yet verified | Verify your custom domain in **Settings → Whitelabel** first |
+| Video upload returns 503 | `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` not set | Paste an external video URL, or add the env vars and redeploy |
+| Portfolio images don't appear | Supabase keys missing or upload failed | Check upload response; paste an external image URL as a fallback |
+| Saving landing config re-opens a deliberately-closed storefront | Expected non-behaviour — saving config does NOT re-open the storefront | Only the Enable toggle in Experiences publishes the storefront |
+
+---
+
+> Source: [knotie-ai-pro#1197](https://github.com/avijeett007/knotie-ai-pro/pull/1197) — _fix(website-studio): open the storefront when the partner enables the experience_
