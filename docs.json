@@ -135,6 +135,7 @@
               "partner-portal/settings/integration-settings",
               "partner-portal/settings/email-settings",
               "partner-portal/settings/stripe-connect",
+              "partner-portal/checkout-security",
               "partner-portal/settings/subscription-and-billing",
               "partner-portal/settings/stage-subscriptions",
               "partner-portal/settings/subscription-plans",
