@@ -1,0 +1,136 @@
+---
+title: "Website Studio"
+description: "Create branded showcase sites for your trade-business customers — with a portfolio, service areas map, and a booking call-to-action — all hosted on your custom domain."
+---
+
+## What Website Studio is
+
+Website Studio lets you build and host a complete marketing site for each of your trade-business customers (electricians, builders, decorators, and similar). The resulting site — called a **showcase site** — runs on your partner custom domain and contains:
+
+- A branded hero section with the customer's name, niche, and a short tagline
+- A **portfolio** of completed work (photo, project summary, services delivered)
+- A **"Where we work"** section listing the service areas the business covers, displayed as a real map
+- A packages / pricing section and a booking call-to-action connected to the customer's AI receptionist
+
+Partners control the full content from the **Partner Portal → Website Studio** editor, and customers never need to log in to a CMS.
+
+> 📷 **Screenshot needed:** _Add a screenshot of a live showcase site — hero + portfolio + "Where we work" section visible._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the end-to-end flow: opening Website Studio in the Partner Portal, adding a portfolio item, previewing the site, and publishing._
+
+---
+
+## "Where we work" — real map display
+
+### What changed
+
+Showcase sites now display a real **Google Static Maps image** in the "Where we work" section instead of the abstract hub-and-spoke diagram. The map is fetched server-side through a Knotie proxy route so no API key is ever exposed in the browser; it sets no third-party cookies.
+
+**The feature degrades gracefully.** If no Google API key is configured, or if the Maps Static API is not enabled on the Google Cloud project, the original drawn diagram is shown instead. A misconfiguration can never put a broken image on your storefronts.
+
+> 📷 **Screenshot needed:** _Add a side-by-side of the old diagram fallback (left) and the new real map (right), both from the same showcase site._
+
+### Configuration
+
+To enable real maps you need **both** of the following:
+
+#### 1. Set a Google Maps API key
+
+Add one of these environment variables to your server (in priority order — the first one found is used):
+
+| Variable | Notes |
+|---|---|
+| `GOOGLE_MAPS_STATIC_API_KEY` | Recommended — a key scoped specifically to Static Maps |
+| `GOOGLE_MAPS_API_KEY` | Accepted if already set |
+| `GOOGLE_PLACES_API_KEY` | Accepted if already present (used by Business Lookup) — **only works if the Maps Static API is enabled on the same Google Cloud project** |
+
+<Tip>
+Using your existing `GOOGLE_PLACES_API_KEY` is the fastest path if you've already configured Business Lookup. You only need to enable the **Maps Static API** on the same Google Cloud project — no new key required.
+</Tip>
+
+#### 2. Enable the Maps Static API in Google Cloud
+
+This is the step most often missed. Having a valid API key is not enough — the Maps Static API must be **explicitly enabled** on the Google Cloud project that issued the key.
+
+1. Open the [Google Cloud Console](https://console.cloud.google.com) for the project that owns your key.
+2. Go to **APIs & Services → Library**.
+3. Search for **Maps Static API**.
+4. Click **Enable**.
+
+Without this step your key returns a `403 "This API is not activated on your API project"` error and the showcase site falls back to the diagram.
+
+### Cost and caching
+
+| Detail | Value |
+|---|---|
+| Pricing | ~$2 per 1,000 requests (Google) |
+| Free tier | 10,000 requests/month |
+| Cache lifetime | 1 year (immutable) — real upstream fetches are a few dozen for the life of a deployment |
+| Fallback cache | 1 hour — enabling the Maps Static API starts serving real maps within the hour, no deploy needed |
+
+The demo catalog covers 26 fixed showcase sites. With the aggressive caching in place, actual Google API usage is minimal.
+
+### Fallback behaviour
+
+| Condition | Result |
+|---|---|
+| No API key set | Drawn hub-and-spoke diagram (SVG) |
+| Key set, Maps Static API not enabled on the project | Drawn diagram (logged server-side with remedy text) |
+| Google unreachable | Drawn diagram |
+| Everything configured correctly | Real Google Static Maps image |
+
+---
+
+## Portfolio editor
+
+The portfolio section of a showcase site shows completed projects from your customer's work history. You manage these in the **Website Studio → Portfolio** editor.
+
+### "What you delivered" field fix
+
+The **"What you delivered"** field (services delivered per project, e.g. `Full rewire, Consumer unit replacement`) now correctly accepts spaces and commas. Previously, typing a space would cause the letter before it to disappear; typing a comma would immediately lose the next character. Both were caused by the field splitting and re-joining on every keystroke, which dropped in-progress words.
+
+The field now behaves like a normal comma-separated text input. Type your services separated by commas; the items are saved correctly when you click **Save portfolio**.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the portfolio editor showing the "What you delivered" field with a multi-word service entry (e.g. "Full rewire, Consumer unit replacement, New lighting circuit")._
+
+The same fix applies to the **Knova intent hints** field.
+
+### Other portfolio editor behaviour
+
+| Field | Notes |
+|---|---|
+| **Business name** | Appears as the project heading on the showcase site |
+| **Niche** | Brief trade category (e.g. "Electrician") |
+| **Location** | Town or area where the work was done |
+| **Summary** | Short description of the project |
+| **What you delivered** | Comma-separated list of services — fixed in this release |
+| **Turnaround** | How quickly the work was completed (e.g. "2 days") |
+| **Screenshot** | Upload an image or paste a URL — drag-and-drop supported |
+| **Live URL** | Optional link if the project has a live site |
+
+Partner-uploaded portfolio items always appear **above** the platform demo catalog items on the showcase site. Demo items are a fallback until you add your own work.
+
+---
+
+## Troubleshooting
+
+### The "Where we work" section still shows a diagram
+
+1. Confirm the environment variable is set and the server has been restarted.
+2. Check that the **Maps Static API** is enabled in Google Cloud (step 2 above).
+3. Check server logs for a message containing `This API is not activated on your API project` — if present, the key is valid but the API is not enabled.
+4. Once the API is enabled, the real map appears within one hour (the fallback cache TTL) without a deploy.
+
+### Portfolio upload returns a 500 error
+
+A diagnostic script is available to walk through the storage call chain and print the raw error:
+
+```bash
+npx ts-node scripts/diagnostics/check-website-studio-upload.ts
+```
+
+This script needs valid server environment variables. Run it in an environment that has access to the same `SUPABASE_URL` and `SUPABASE_SERVICE_KEY` your server uses.
+
+---
+
+> Source: [knotie-ai-pro#1202](https://github.com/avijeett007/knotie-ai-pro/pull/1202) — _fix(website-studio): real map in "Where we work", plus four partner-console fixes_
