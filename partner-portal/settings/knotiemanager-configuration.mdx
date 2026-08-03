@@ -1,0 +1,103 @@
+---
+title: "KnotieManager configuration"
+description: "Environment variable setup and deployment notes for the KnotieManager service — the auto-deploy and media-runner orchestrator that partners self-host."
+---
+
+## What KnotieManager is
+
+**KnotieManager** is a companion service that partners who self-host Knotie AI Pro run alongside the main application. It handles:
+
+- Auto-deploying AI agents for customers (the deployment queue)
+- Media generation (the media-runner for Website Studio and Media Studio)
+- Internal API surfaces that the main app calls for storage and build coordination
+
+KnotieManager is packaged as a Docker container and deployed via `docker-compose.production.yml`.
+
+## Environment variables
+
+KnotieManager reads its configuration from `.env.production` in the KnotieManager directory. This is the **single source of truth** — do not duplicate variables as host-level environment variables.
+
+### Why `.env.production` must be the only source
+
+Docker Compose `environment:` blocks take precedence over `env_file:` entries. If the same variable appears in both, the `environment:` block wins — and if that block uses `${VAR}` interpolation, Docker resolves it from the **host shell**, not from `.env.production`. This means an unset host variable produces an empty string that silently overwrites the real value.
+
+The `docker-compose.production.yml` no longer includes an `environment:` block for the sensitive optional vars. Set everything in `.env.production` only.
+
+### Required secrets
+
+These variables must be present and non-empty in `.env.production`:
+
+| Variable | Purpose |
+|---|---|
+| `DATABASE_URL` | PostgreSQL connection string |
+| `ENCRYPTION_KEY` | Symmetric key for secret encryption at rest |
+| `KNOTIE_MANAGER_API_KEY` | Internal API key for calls from the main app |
+
+### Optional secrets (graceful-absent behaviour)
+
+These variables are optional. When absent or empty, KnotieManager boots with the feature disabled rather than crashing:
+
+| Variable | Feature gated |
+|---|---|
+| `MEDIA_RUNNER_SECRET` | Media generation (Media Studio, Website Studio build stages) |
+| `SUPABASE_URL` | Supabase media storage |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase storage writes |
+| `WEBSITE_INTERNAL_API_SECRET` | Website asset API surface (required for Website Studio builds) |
+
+<Warning>
+Prior to the fix in [knotie-ai-pro#1230](https://github.com/avijeett007/knotie-ai-pro/pull/1230), an empty value for `MEDIA_RUNNER_SECRET` (e.g. caused by an `environment:` block resolving to an empty string from the host shell) would crash KnotieManager at startup with `Configuration validation failed: mediaRunnerSecret: String must contain at least 16 character(s)`. After the fix, empty optional secrets are treated as absent and the service boots normally.
+</Warning>
+
+### Optional with defaults
+
+| Variable | Default | Notes |
+|---|---|---|
+| `MEDIA_MAX_VIDEO_MB` | `1024` | Maximum video file size in MB |
+| `WEBSITE_ASSET_MAX_MB` | `25` | Max size of a single website asset |
+| `WEBSITE_BUILD_ESTIMATED_MB` | `40` | Storage reserved per build job at creation time |
+| `WEBSITE_BUILD_LEASE_SECONDS` | `90` | How long an orchestrator holds a build lease before it must renew |
+
+## Deploying after an update
+
+After pulling a new version:
+
+```bash
+# From the KnotieManager directory
+docker compose -f docker-compose.production.yml up --build -d
+```
+
+KnotieManager restarts with the new image. No schema changes are needed for the empty-env fix; the optional-field handling is entirely in the config-validation layer.
+
+If you are enabling Website Studio for the first time, you also need to run a database migration on the main app:
+
+```bash
+# From the main knotie-ai-pro directory
+npm run db:push
+```
+
+And add `WEBSITE_INTERNAL_API_SECRET` to both `.env.production` files (main app and KnotieManager) — the same value in both.
+
+## Verifying the config
+
+After the container starts, check the logs for a clean boot:
+
+```bash
+docker compose -f docker-compose.production.yml logs knotiemanager --tail=30
+```
+
+A healthy start shows no `Configuration validation failed` lines. If you see a validation error, the variable named in the message is either missing or set to an invalid value in `.env.production`.
+
+> 📷 **Screenshot needed:** _Add a screenshot showing a clean KnotieManager boot log with no validation errors — the first 20-30 lines of `docker compose logs knotiemanager`._
+
+> 🎬 **Video walkthrough:** _Record a short walkthrough of updating `.env.production`, running `docker compose up --build -d`, and verifying the service is healthy via `docker compose ps` and `logs`._
+
+## Troubleshooting
+
+| Symptom | Likely cause | Fix |
+|---|---|---|
+| `Configuration validation failed: mediaRunnerSecret` at boot | `MEDIA_RUNNER_SECRET` is empty (host env var override or missing value) | Set `MEDIA_RUNNER_SECRET` in `.env.production`; remove it from any `environment:` block in `docker-compose.production.yml` |
+| Media generation fails silently | `MEDIA_RUNNER_SECRET`, `SUPABASE_URL`, or `SUPABASE_SERVICE_ROLE_KEY` absent from `.env.production` | Add the missing values |
+| Website Studio builds never start | `WEBSITE_INTERNAL_API_SECRET` missing from one or both `.env.production` files | Add the same secret to both services |
+| `docker compose up --build` re-introduces the crash after a git pull | A local `docker-compose.production.yml` override still has an `environment:` block | Review the compose file and remove the conflicting block |
+
+> Source: [knotie-ai-pro#1230](https://github.com/avijeett007/knotie-ai-pro/pull/1230) — _fix(prod): KnotieManager empty-env boot crash + orchestrator first-boot login chicken-and-egg_
