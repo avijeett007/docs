@@ -35,6 +35,27 @@ Notes:
 - **Advanced AI Analytics** can be blocked at the partner level until the partner enables that capability first.
 - **Knowledge Base Processing** is present in the UI but grayed out as coming soon.
 
+## Website Studio
+
+The customer modal now includes a **Website Studio** toggle.
+
+- **Enable Website Studio** — lets this specific customer access Website Studio, the AI-powered website builder experience.
+
+### How the access gate works
+
+Enabling Website Studio for a customer requires two conditions to both be true:
+
+1. **Partner master switch is on.** The partner must enable Website Studio at the platform level first (under **Experiences**). While the master switch is off, the toggle in the customer modal shows an amber badge as a reminder.
+2. **Per-customer toggle is on.** Once the master switch is on, you can flip the per-customer toggle to grant that specific customer access.
+
+If you try to access Website Studio with the per-customer toggle off, the experience returns a `403 — Website Studio is not enabled for your account` response.
+
+<Info>
+This mirrors the Media Studio access pattern. If you already manage Media Studio access per customer, Website Studio works the same way.
+</Info>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Customer Management modal showing the Website Studio toggle in the Features & Add-ons panel, including the amber master-switch badge that appears when the partner-level switch is off._
+
 ## Premium add-ons
 
 The same panel also includes premium add-ons.
@@ -131,6 +152,7 @@ If the portal isn’t enabled yet, the UI may show a notice that team members re
 - [Customer's Portal Access](/partner-portal/customers/customer-portal-access-actions) – Enable and manage customer portal access actions
 - [Embed URLs](/partner-portal/customers/embed-urls) – Generate customer-scoped embed tokens and URLs
 - [API access overview](/partner-portal/api-keys) – High-level API access guidance and where AI Gateway fits
+- [Website Studio](/partner-portal/experiences/website-studio) – Overview of the Website Studio experience and how to enable it at the platform level
 
 ## Screenshots
 
