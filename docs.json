@@ -145,7 +145,8 @@
               "partner-portal/settings/notification-preferences",
               "partner-portal/settings/demo-video",
               "partner-portal/settings/knowledge-base-processing",
-              "partner-portal/settings/support-keyword"
+              "partner-portal/settings/support-keyword",
+              "partner-portal/settings/knotiemanager-configuration"
             ]
           },
           {
