@@ -1,0 +1,124 @@
+---
+title: "Website Studio"
+description: "An AI-powered website builder that turns a customer's brief into a researched, written, reviewed, and deployed website — with the partner approving before it goes live."
+---
+
+## Overview
+
+**Website Studio** is an agentic experience that builds real websites for your customers. A customer fills in a brief through their portal, the platform queues an AI-powered build pipeline, and a finished website is submitted for your review before deployment.
+
+<Note>
+Website Studio is currently in **Beta**. The full build-and-deploy pipeline is rolling out in phases. The intake form and storage layer are live; automated AI generation and Vercel deploy are in active development.
+</Note>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Website Studio experience card in the Experiences page, showing the Beta status badge and the Enable toggle._
+
+> 🎬 **Video walkthrough:** _Record a short clip showing Website Studio from the partner's perspective — enabling the experience, enabling it for a customer, and what the customer sees in their portal._
+
+## How to enable Website Studio
+
+### Step 1 — Enable at the platform level
+
+1. Go to **Experiences** in the Partner Portal sidebar.
+2. Find the **Website Studio** card.
+3. Click **Enable**.
+
+This turns on the experience for your entire portal. Individual customers still need to be enabled separately (Step 2).
+
+### Step 2 — Enable per customer
+
+Once the platform-level switch is on, you grant access per customer:
+
+1. Open **Customers** and select a customer.
+2. Click **Manage**.
+3. Go to **Features & Add-ons**.
+4. Toggle on **Enable Website Studio**.
+
+If the platform-level switch is off, an amber badge appears on the per-customer toggle as a reminder that you need to enable it at the platform level first.
+
+See [Features, add-ons, and menu visibility](/partner-portal/customers/features-addons-and-menu-visibility) for the full features panel reference.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Experiences page with Website Studio enabled (green toggle), and a separate screenshot of the customer modal showing the Website Studio toggle with its amber master-switch badge visible when the platform-level switch is off._
+
+## Customer media and storage
+
+When a customer uses Website Studio, they upload their brand assets — logos, photos, existing content — through their portal. These assets are stored separately from the general [Docs & Media](/customer-management/media-library) library.
+
+### Storage model
+
+Website Studio uses a dedicated **website-assets** bucket. Each website project has its own storage allocation, separate from the customer's general media library.
+
+Website Studio storage is counted toward the **partner's storage pool** alongside other asset types (knowledge base files, media assets, JARVIS artifacts). The unified pool total appears in **Settings → Whitelabel → Storage**.
+
+### Storage reservation
+
+When a website build job is created, the platform pre-checks that enough storage is available for the expected build output before charging any credits. A build that cannot store its own assets will not start, so a partner's credits are never spent on a job that then fails for storage reasons.
+
+### Customer media upload flow
+
+Customers upload their assets through their portal's Website Studio section:
+
+1. The platform generates a secure upload URL scoped to the customer's project.
+2. The customer's browser uploads directly to storage using that URL.
+3. The customer calls **Confirm** to finalise the upload — the platform reads the size and content type from storage (never trusting the browser's claim).
+4. The asset appears in the project's asset list with a stable URL.
+
+SVG files are accepted from the automated build pipeline but **refused from customer uploads** — SVG is executable markup and an uploaded SVG would be served on the partner's own domain.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Website Studio customer portal view showing the asset upload UI — the upload button, the asset grid, and the storage-usage indicator._
+
+## Partner storage pool and plan limits
+
+Website Studio storage counts against the same pool as all other asset types:
+
+| Plan | Partner pool |
+|---|---|
+| Free Forever | 100 MB |
+| Solo Agency / Pro | 1 GB |
+| Ultimate Scaleup Agency | 5 GB |
+
+When the partner pool is full, new website builds cannot start until storage is freed.
+
+## Build queue and status
+
+After a customer submits their website brief, the job enters a build queue. Build jobs are claimed by an orchestrator using a **short-lease, heartbeat-renewed** model — if an orchestrator crashes mid-build, the job is reclaimed within ~2 minutes rather than being locked out for 30+ minutes.
+
+Each build result passes through an **automated quality gate** before reaching the partner for review. The gate inspects the generated HTML for:
+
+- Invented contact details (phone numbers or email addresses not sourced from the brief)
+- Broken image references
+- Missing metadata
+- Placeholder text that was never replaced
+
+If the gate finds a high-severity issue, the job lands in **Needs Review** rather than failing entirely — because the customer paid, a gate result deserves a human decision, not an automatic refund.
+
+### Build job statuses
+
+| Status | Meaning |
+|---|---|
+| `queued` | Waiting for an available orchestrator |
+| `in_progress` | Build is running |
+| `needs_review` | Gate found issues; partner review required |
+| `awaiting_partner_review` | Build passed the gate; waiting for partner approval |
+| `published` | Website is live |
+| `failed` | Build failed after retries |
+
+> 📷 **Screenshot needed:** _Add a screenshot of the partner's Website Studio job queue view, showing a job card in each of the main statuses (in progress, needs review, awaiting review)._
+
+## Self-hosting requirements
+
+If you self-host Knotie AI Pro, enabling Website Studio requires two additional steps after deploying the latest code:
+
+1. **Database migration** — run `npm run db:push` from the main app directory to create the `WebsiteAsset` and `WebsiteBuildJob` tables.
+2. **Shared secret** — add `WEBSITE_INTERNAL_API_SECRET` to `.env.production` in both the main app and KnotieManager. Use the same value in both.
+
+See [KnotieManager configuration](/partner-portal/settings/knotiemanager-configuration) for the full environment variable reference.
+
+## Related pages
+
+- [Website Studio — submitting a brief](/partner-portal/experiences/website-studio-intake) — customer-facing flow for filling in and submitting a website brief
+- [Features, add-ons, and menu visibility](/partner-portal/customers/features-addons-and-menu-visibility) — where the per-customer Website Studio toggle lives
+- [Docs & Media library](/customer-management/media-library) — the general customer media library (separate from Website Studio assets)
+- [KnotieManager configuration](/partner-portal/settings/knotiemanager-configuration) — environment variable setup for self-hosted deployments
+
+> Source: [knotie-ai-pro#1206](https://github.com/avijeett007/knotie-ai-pro/pull/1206) — _feat(website-studio): media + storage layer for the agentic builder (M0)_
