@@ -1,0 +1,112 @@
+---
+title: "Website Studio — submitting a brief"
+description: "How customers fill in and submit a website brief through the portal, what information is required, and what happens once the brief is submitted."
+---
+
+## Overview
+
+After a partner enables Website Studio for a customer, the customer can access the **Website Studio** section in their portal and fill in a website brief. The brief is what the AI pipeline uses to research, write, and build their site — so the more accurate information it contains, the better the result.
+
+<Note>
+Website Studio is currently in **Beta**. The brief submission flow is live. Automated AI generation runs as a background job and the partner reviews the result before it goes live — no site is published without partner approval.
+</Note>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Website Studio section in the customer portal — the initial state showing the "Tell us about your business" brief wizard._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the entire brief submission flow end-to-end — from opening Website Studio in the customer portal to seeing the "Brief submitted" confirmation._
+
+## Accessing Website Studio
+
+From the customer portal sidebar, click **Website Studio** (visible only when the partner has enabled it for this customer).
+
+If the section is missing, ask the partner to enable it under **Customers → Manage → Features & Add-ons → Enable Website Studio**.
+
+## The website brief
+
+The brief is a short multi-step form that captures the information the build pipeline needs to produce an accurate website. No photos or additional files are required to submit — the brief is designed to be completable in a few minutes even if the customer has no visual assets ready yet.
+
+### What the brief asks for
+
+| Section | What to fill in |
+|---|---|
+| Business name | The trading name of the business as it should appear on the site |
+| What the business does | A plain-language description — the more specific, the better |
+| Location | Town, city or region (customers can decline to share a full address) |
+| Contact details | Phone number and email that should appear on the site |
+| Existing website URL | The current site if one exists (used for research only) |
+| Target customers | Who the business serves |
+| Testimonials or social proof | Real quotes or review links — the pipeline never invents these |
+| Key services or products | The things the business most wants to sell or promote |
+
+### Required vs optional fields
+
+The form uses a **lenient draft / strict submit** model:
+
+- **Draft saves** accept any partial state — a customer can close the browser mid-wizard and their progress is saved.
+- **Final submission** requires the fields that a site cannot work without: business name, what the business does, and at least one contact method. Fields that would force the pipeline to invent information (e.g. testimonials without a source) are optional but trigger a warning if left blank.
+
+<Info>
+The brief data is passed to the build pipeline as an allowlist — internal IDs, payment references, and other portal-internal fields never reach the AI pipeline.
+</Info>
+
+### Coherence checks
+
+Before you can submit, the platform runs an automated coherence check to catch inconsistencies the form fields cannot catch individually:
+
+- A founding year set in the future is blocked.
+- An unverified rating (e.g. "5 stars" with no source) produces a warning — the pipeline will omit it from the site rather than invent one.
+- Phone numbers or email addresses that don't look valid trigger a warning.
+
+Coherence warnings don't block submission, but fixing them before submitting leads to a more accurate website.
+
+## Uploading brand assets (optional)
+
+Before or after submitting the brief, customers can upload their brand assets through the Website Studio asset section:
+
+1. Click **Upload assets**.
+2. Select files (logos, photos, existing brand imagery).
+3. Click **Confirm** after each upload to finalise it.
+
+Assets uploaded here are stored in a dedicated project bucket, separate from the general [Docs & Media](/customer-management/media-library) library. They carry stable URLs that the build pipeline uses directly, so images on the finished site are always the customer's own assets — never stock photos.
+
+If no assets are uploaded before the build runs, the pipeline uses demo imagery as placeholders; the partner review step is where those would be flagged for replacement.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Website Studio asset upload panel — the upload button, a list of uploaded files with their preview thumbnails, and the storage-usage indicator._
+
+## After submission
+
+Once the brief is submitted:
+
+1. The job enters the **build queue**.
+2. An orchestrator claims the job and runs the multi-stage AI pipeline (research → write → build → review).
+3. The automated **quality gate** checks the finished HTML for invented contact details, broken references, placeholder text, and other issues.
+4. The job lands in **Awaiting Partner Review** (gate passed) or **Needs Review** (gate found issues for a human to assess).
+5. The **partner** reviews the staged website and approves or requests changes.
+6. On partner approval, the site is deployed.
+
+The customer can check the status of their site from the Website Studio section in their portal. They receive an email notification when the site is ready for partner review and again when it goes live.
+
+<Warning>
+The brief cannot be edited after submission. If a customer needs to make significant changes, contact the partner to reset the job.
+</Warning>
+
+## Frequently asked questions
+
+**Can I upload photos after submitting the brief?**  
+Yes. Asset uploads are independent of the brief submission and can happen before, during, or after the build — the pipeline picks up whatever is in the asset library at the time each relevant stage runs.
+
+**What happens if I don't upload any photos?**  
+The pipeline uses demo placeholder imagery. The partner review step is where those are flagged, and the customer will be asked to upload real photos before the site is approved.
+
+**How long does the build take?**  
+Build times depend on queue depth and pipeline complexity. Typical builds complete in 20–40 minutes. The customer receives an email when the result is ready.
+
+**My Website Studio menu is missing — what do I do?**  
+Contact the partner. Website Studio access is enabled per-customer by the partner under **Customers → Manage → Features & Add-ons**.
+
+## Related pages
+
+- [Website Studio overview](/partner-portal/experiences/website-studio) — what Website Studio is, how to enable it, the storage model, and partner-level controls
+- [Features, add-ons, and menu visibility](/partner-portal/customers/features-addons-and-menu-visibility) — where the partner enables Website Studio for a specific customer
+
+> Source: [knotie-ai-pro#1207](https://github.com/avijeett007/knotie-ai-pro/pull/1207) — _feat(website-studio): M1 intake, M2 queue, M4 gate, M5 orchestrator + packaged CLI container_
