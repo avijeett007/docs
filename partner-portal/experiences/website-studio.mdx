@@ -1,0 +1,161 @@
+---
+title: "Website Studio"
+description: "Sell a fully-managed website build service from your branded portal. Customers complete a brief wizard, the AI orchestrator builds the site, and you review and publish it — no code required."
+---
+
+## What is Website Studio?
+
+**Website Studio** is a productised service experience that lets you sell AI-built websites to your customers. When you enable it:
+
+- A branded public landing page is published on your partner domain at `/experience/WEBSITE_STUDIO`.
+- Customers can purchase a website build package directly from that page via Stripe Checkout.
+- After payment, they log in to their customer portal, complete a structured **brief wizard**, and the platform automatically queues the build for the AI orchestrator to process.
+- You receive the finished site for review before it goes live.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Website Studio experience card on the Experiences page, showing the Enable toggle._
+
+> 🎬 **Video walkthrough:** _Record a short clip showing the end-to-end flow: enabling Website Studio → the public landing page → a customer purchasing a package → completing the brief → the build tracker advancing._
+
+---
+
+## Prerequisites
+
+Before enabling Website Studio:
+
+1. **Stripe Connect** must be active and fully onboarded on your partner account. Website packages are sold through your Stripe Connect account. Go to **Settings → Stripe Connect** to verify status.
+2. **Website Studio feature** must be available on your plan. Contact support if you don't see it in the Experiences catalog.
+
+---
+
+## Enable Website Studio
+
+1. Go to **Experiences** in the Partner Portal sidebar.
+2. Find the **Website Studio** card in the Available Experiences grid.
+3. Click the **Enable** toggle.
+4. Once enabled, the public landing page is live at:
+   - Your custom domain: `https://yourdomain.com/experience/WEBSITE_STUDIO`
+   - Or your Knotie subdomain: `https://yoursubdomain.knotie-ai.pro/experience/WEBSITE_STUDIO`
+
+<Info>
+Enabling Website Studio sets `websiteStudioEnabled` to `true` on your partner account. This controls whether customers see the Website Studio navigation in their portal and whether the brief wizard is accessible after purchase.
+</Info>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Experiences page with the Website Studio card highlighted and the Enable toggle activated._
+
+---
+
+## Customer purchase flow
+
+Once Website Studio is enabled, customers go through the following flow:
+
+### 1. Landing page and checkout
+
+The customer visits your public Website Studio landing page and selects a package. They are taken to a Stripe Checkout session on your Stripe Connect account.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the public Website Studio landing page showing the package options and the "Get Started" / purchase CTA._
+
+### 2. Account creation and portal access
+
+After payment:
+
+- If the customer is new, an account is created and they receive a welcome email.
+- If the customer already has an account with your portal (returning customer), their existing account is linked to the purchase and **Website Studio is unlocked in their portal automatically**.
+
+<Info>
+**Returning customers**: Prior to this update, customers who already had a portal account were locked out of the Website Studio brief wizard with an access error after purchasing. This has been fixed — the platform now unlocks Website Studio on the settled-payment path regardless of whether the customer is new or returning.
+</Info>
+
+### 3. Brief wizard
+
+The customer logs in to the customer portal. The Website Studio tab is now visible in their navigation. They complete the brief wizard, which captures:
+
+- Business details (name, trade, location, service radius, established year)
+- Contact information (phone, email, hours, address preferences)
+- Services offered
+- Credentials and certifications
+- Testimonials
+- Brand voice
+- Colour palette preferences
+
+The brief can be saved as a draft at any time and submitted when complete.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the brief wizard showing one of the multi-step form screens (e.g. the Business Details step)._
+
+> 🎬 **Video walkthrough:** _Record a short clip of a customer completing the brief wizard from start to submission._
+
+### 4. Build queued — the tracker advances
+
+When the customer clicks **Submit Brief**, the platform:
+
+1. Locks the brief to prevent further edits (the brief is the provenance of what gets built).
+2. Enqueues a build job for the AI orchestrator.
+3. Advances the delivery tracker to **In Progress**.
+
+The customer sees a delivery tracker with stages such as Discovery → In Progress → Review → Live. The tracker updates as the orchestrator and your team advance the build.
+
+<Info>
+**Important**: Brief submission now immediately creates a build job in the queue. Previously, submitting a brief showed "Submitted" indefinitely because no job was created for the orchestrator to claim. This has been fixed — the orchestrator will pick up the job and advance the tracker automatically.
+</Info>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the customer portal showing the Website Studio delivery tracker with the build status (e.g. "In Progress" or "Under Review")._
+
+### 5. Partner review
+
+Once the AI orchestrator completes the build, the delivery stage moves to **Needs Review**. You can inspect the built site and either:
+
+- **Approve** it to publish the site live.
+- **Request changes** via the revision path (contact support for the current revision flow).
+
+### 6. Live
+
+After approval, the site goes live and the tracker shows **Live**.
+
+---
+
+## Brief submission rules
+
+| Scenario | Behaviour |
+|---|---|
+| First submission with no existing site | Build job is created and queued immediately. |
+| Resubmit while build is in progress (draft / building) | Brief is refreshed on the existing draft site; existing job payload is updated if not yet claimed by the orchestrator. |
+| Resubmit after build is complete (review / live / done) | **Blocked with an error** — the brief is frozen once a build completes. Use the revision path for changes. |
+| Double-click / duplicate submission | Idempotent — a second concurrent submit within the same brief session does not create a duplicate build job. |
+
+---
+
+## Common issues
+
+### "Your website has already been built from this brief"
+
+If you see this message when trying to resubmit your brief, it means the build already ran from a previous submission. The brief is frozen at that point to preserve what was actually built.
+
+To request changes after the site is built, contact your provider about the revision process.
+
+### Website Studio navigation not showing after purchase (returning customers)
+
+If a customer who already had a portal account purchases Website Studio but cannot see the Website Studio section in their navigation, this was a known issue that has been resolved. The platform now unlocks the Website Studio nav on the settled-payment path.
+
+If the issue persists, ask the customer to log out and log back in, or contact support.
+
+### Build stuck at "Submitted"
+
+If the delivery tracker shows "Submitted" and does not advance, contact support. As of [August 2026](/changelog), the build pipeline is wired end-to-end and submitted briefs are queued automatically. If you're on an older deployment, an upgrade is required.
+
+---
+
+## Security and spend controls
+
+- **One purchase funds one build.** Once a website build is queued, in progress, under review, or completed, the brief submission is blocked to prevent unlimited AI builds off a single payment. Failed or cancelled builds can be retried.
+- **Partner master switch.** Website Studio nav access for customers is only granted if `websiteStudioEnabled` is `true` on your partner account. Disabling Website Studio does not retroactively remove access for existing customers.
+
+---
+
+## Next steps
+
+- [Experiences overview](/partner-portal/experiences/overview) — manage other experience types
+- [Settings → Stripe Connect](/partner-portal/settings/stripe-connect) — verify your payment setup
+- [Customer Management](/partner-portal/customers/overview) — manage customers and their portal access
+
+---
+
+> Source: [knotie-ai-pro#1233](https://github.com/avijeett007/knotie-ai-pro/pull/1233) — _fix(website-studio): wire the missing build-job producer + returning-buyer access; orchestrator kimi fix_
