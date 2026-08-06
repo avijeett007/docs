@@ -1,0 +1,160 @@
+---
+title: "Connect External Agents via MCP"
+description: "Let AI coding tools (Cursor, Claude Code, n8n) build and manage your voice agents programmatically using a scoped MCP token and a downloadable skill."
+---
+
+## What Connect Agents is
+
+**Connect Agents** (accessed via the ⚡ **Connect** button on the AI Agents page) lets you wire an external AI coding assistant to your Voice AI Platform account. Once connected, tools like Cursor, Claude Code, or n8n can create, inspect, and update your agents through the Model Context Protocol — the same operations the in-portal AI Builder performs, enforced by the same guardrails.
+
+Use this when you want to:
+
+- Build or update agents from inside your IDE without switching to the portal
+- Automate agent provisioning as part of a CI/CD or n8n workflow
+- Use Claude Code's AI Builder skill to configure agents conversationally from your terminal
+
+<Note>
+  This feature is part of the **Resell Voice AI Platform** experience. Your partner must have that experience enabled before the ⚡ Connect button is visible on your AI Agents page.
+</Note>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the customer AI Agents page showing the ⚡ Connect button (top-right of the page header)._
+
+---
+
+## How it works
+
+When you generate a Connect token, it is a **scoped MCP token** — it can only:
+
+- List, get, create, and update agents that belong to **your account** (never another customer's)
+- Operate within the agent-slot quota set by your partner
+- Use the same AI-agent-enabled gate as the portal — if your partner turns off agent building, the token stops working too
+
+The token cannot access billing, phone numbers, other customers, or any other portal area. It is narrowed to nine agent-management tools only.
+
+---
+
+## Generating a token
+
+1. On your AI Agents page, click **⚡ Connect**.
+2. The Connect modal opens. Click **Generate Token**.
+3. Copy the token immediately — it is shown **once** and cannot be retrieved again. Store it in a password manager.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the ⚡ Connect modal showing the "Generate Token" step, the token display, and the framework configuration snippets below it._
+
+<Warning>
+  Treat your Connect token like a password. Anyone who has it can create and modify agents on your account. Revoke it from the same modal if it's ever compromised.
+</Warning>
+
+---
+
+## Configuring your tool
+
+After generating a token, the modal shows ready-to-paste configuration snippets for common tools.
+
+### Claude Code / Claude Desktop
+
+Add the MCP server to your `~/.claude/settings.json` (or your project's `.claude/settings.json`):
+
+```json
+{
+  "mcpServers": {
+    "voice-ai-platform": {
+      "type": "http",
+      "url": "https://<your-partner-domain>/api/connect-hub/mcp",
+      "headers": {
+        "Authorization": "Bearer <your-token>"
+      }
+    }
+  }
+}
+```
+
+Replace `<your-partner-domain>` with the domain shown in the modal, and `<your-token>` with the token you just copied.
+
+### Cursor
+
+1. Open Cursor **Settings → MCP**.
+2. Add a new server entry with the URL and token from the modal.
+
+### n8n
+
+Use the **MCP Client** node in n8n. Set the server URL and Bearer token from the modal.
+
+> 🎬 **Video walkthrough:** _Record a clip showing the full connect flow — clicking ⚡ Connect → generating a token → pasting the config into Claude Code → asking Claude Code to create an agent._
+
+---
+
+## Downloading the SKILL.md
+
+For **Claude Code** users, the modal also offers a **Download SKILL.md** button. This file is a Claude Code skill that teaches it the exact agent-building workflow for your platform — voice configuration options, tool selection, common patterns.
+
+To install it:
+
+1. Click **Download SKILL.md** in the Connect modal.
+2. Save the file to your project or `~/.claude/skills/`.
+3. In Claude Code, run `/install-skill <path-to-SKILL.md>` or reference it in your project's `.claude/settings.json`.
+
+Once installed, you can ask Claude Code things like _"create a receptionist agent with the restaurant knowledge base"_ and it will call the MCP tools automatically.
+
+<Note>
+  The SKILL.md file **never embeds your token**. Keep the skill file and the token separate — the file teaches the workflow; the token grants access.
+</Note>
+
+---
+
+## Available MCP tools
+
+Once connected, your coding tool has access to these nine tools scoped to your account:
+
+| Tool | What it does |
+|------|-------------|
+| `KNOVA_CREATE_AGENT` | Create a new agent (counts against your quota) |
+| `KNOVA_LIST_AGENTS` | List all agents on your account |
+| `KNOVA_GET_AGENT` | Get full details of a specific agent |
+| `KNOVA_UPDATE_AGENT` | Update an agent's configuration |
+| _(5 more tools)_ | Additional agent management operations |
+
+<Note>
+  `toolDefinitions` and `advancedConfig.mcpServers` are sanitized on create/update — you cannot provision nested MCP servers or arbitrary tool definitions through the Connect token.
+</Note>
+
+---
+
+## Quota and limits
+
+- Agent creation counts against the self-serve agent limit set by your partner.
+- If you hit the limit, the create tool returns a clear error. Contact your partner to increase the limit.
+- Rate limits are the same as the portal API.
+
+---
+
+## Revoking a token
+
+1. On your AI Agents page, click **⚡ Connect**.
+2. In the modal, find the active token entry and click **Revoke**.
+3. Confirm. The token stops working immediately.
+
+Generate a new token if you need to reconnect.
+
+---
+
+## Troubleshooting
+
+| Symptom | Likely cause |
+|---------|-------------|
+| "Access denied" from MCP tool | Token was revoked, or AI Agents feature was disabled by your partner |
+| "Agent limit reached" on create | You've hit your self-serve quota — contact your partner |
+| Tool list shows fewer than 9 tools | Agent building may be temporarily disabled — check the portal |
+| SKILL.md slash command not found | The skill file may not be installed; re-run `/install-skill` |
+
+---
+
+## Related pages
+
+- [Resell Voice AI Platform](/partner-portal/experiences/resell-voice-ai-platform) — Enable the experience and understand the partner setup
+- [AI Agent Builder](/agents/knova/knova-agent-builder) — Build agents in the portal UI
+- [MCP Tokens (Partner)](/partner-portal/ai-agents/mcp/tokens) — Partner-level MCP tokens for managing the whole account
+
+---
+
+> Source: [knotie-ai-pro#1242](https://github.com/avijeett007/knotie-ai-pro/pull/1242) — _feat: Resell Voice AI Platform — Phase 3 (MCP + skill) + free-to-enter/easy-signup fixes_
