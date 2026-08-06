@@ -1,0 +1,151 @@
+---
+title: "Resell Voice AI Platform"
+description: "Sell a branded, self-serve voice AI SaaS under your own domain — customers sign up, build AI agents, and start taking calls, all inside your white-label portal."
+---
+
+## What Resell Voice AI Platform is
+
+**Resell Voice AI Platform** is a Partner Experience that lets you operate your own white-label voice AI SaaS — your own version of Retell or VAPI, running on your domain, under your brand.
+
+When this experience is enabled, your customers can:
+
+- Visit a branded landing page and sign up without a payment barrier
+- Access a self-serve **AI Agents** section inside their customer portal
+- View, test, and manage AI voice agents you provision for them
+- Connect external coding agents (Cursor, Claude Code, n8n) via MCP to build agents programmatically
+
+Everything runs inside your existing white-label portal — no separate product to deploy.
+
+<Note>
+  Resell Voice AI Platform is in **Beta**. The master switch must be turned on in experience settings before any customer can see the AI Agents section.
+</Note>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Experiences catalog showing the "Resell Voice AI Platform" card (marked Beta, category Sales)._
+
+---
+
+## Prerequisites
+
+- Your partner account must have the **Resell Voice AI Platform** card visible on the Experiences page. Contact support if it's not there.
+- At least one **Knova agent** configured under **AI Agents → Knova Agents** in the Partner Portal — customers can only interact with agents you've provisioned.
+
+No Stripe Connect requirement — customers sign up and log in for free by default; usage is metered per-minute against your credit pool like any other voice agent.
+
+---
+
+## Enabling the experience
+
+1. Go to **Partner Portal → Experiences**.
+2. Find the **Resell Voice AI Platform** card and click **Enable**.
+3. The experience is created and you're taken to the settings page.
+
+Once enabled, four feature pins are automatically seeded for this experience: **AI Agents**, **Integrations**, **Knowledge Base**, and **Phone Numbers**. You can adjust which features are visible to customers from the experience settings.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the experience settings page for Resell Voice AI Platform, showing the master switch and feature pin section._
+
+---
+
+## Settings page overview
+
+Open the settings page from **Experiences → Resell Voice AI Platform → Settings** (gear icon).
+
+| Setting | Description |
+|---------|-------------|
+| **AI Agent Builder** (master switch) | Must be ON for customers to see the AI Agents section in their portal |
+| **Landing page** | Web address alias (e.g. `/voice-ai`) and branding overrides for the public-facing landing page |
+| **Self-serve agent limit** | Maximum number of agents a single customer can create (default: configurable per customer via the partner portal) |
+| **Feature visibility** | Control which sidebar items appear for customers in this experience |
+
+---
+
+## Customer experience
+
+When a customer navigates to your white-label portal with this experience active:
+
+### Sign-up and login
+
+The sign-up flow is **one step** — customers enter their details and are immediately taken to their portal. There is no payment wall at sign-up; usage is billed per-minute as calls are made.
+
+> 🎬 **Video walkthrough:** _Record a short clip of the customer sign-up flow — landing page → single-step sign-up form → customer portal AI Agents page._
+
+### AI Agents page
+
+After logging in, customers see an **AI Agents** section in their portal sidebar. This page shows:
+
+- All Knova agents provisioned for their account
+- Agent name, type, channel, and active status
+- A **Web Test** button to test the agent directly in the browser (uses the existing web test modal)
+
+> 📷 **Screenshot needed:** _Add a screenshot of the customer-facing AI Agents page showing the agent list with the Web Test button._
+
+<Note>
+  The agent list uses a strict serializer — customers see only public fields (name, type, channel, status). Internal fields like system prompt, LLM config, webhook URLs, and pricing margins are never exposed.
+</Note>
+
+### Agent creation
+
+The **Create Agent** button in the customer portal opens the agent creation modal with the **AI Builder** as the primary path. Customers describe the agent they want in plain language and the AI Builder generates a starter configuration.
+
+The manual form is available as a secondary option for customers who prefer to configure details directly.
+
+Self-serve creation counts against the per-customer agent limit set in the partner portal. Attempting to create beyond the limit returns a clear error rather than silently failing.
+
+---
+
+## Managing customer access
+
+From the Partner Portal, open a customer's record and navigate to the **AI Agents** tab to:
+
+- Enable or disable the AI Agents feature for that specific customer
+- Set or override the self-serve agent limit for that customer
+- View agents that customer has created
+
+---
+
+## Landing page
+
+The experience ships with a configurable landing page (URL alias: `/voice-ai` by default). Customers arrive here and sign up directly — no redirect or additional payment step.
+
+Three visual themes are available for the landing page; you can select them from the settings page:
+
+- **Aurora** — gradient/ambient style
+- **Concierge** — professional/enterprise style
+- **Nova** — bold/modern style
+
+> 📷 **Screenshot needed:** _Add a screenshot comparing the three landing page themes (Aurora, Concierge, Nova) — either side-by-side or separate screenshots of each._
+
+---
+
+## Provisioning agents for customers
+
+Partners provision agents for customers the same way they do for any Knova deployment:
+
+1. In the Partner Portal, open the customer's record.
+2. Go to **AI Agents** and create or assign a Knova agent.
+3. The agent immediately appears on the customer's AI Agents page.
+
+Customers cannot provision their own servers or telephony — phone numbers and infrastructure are managed entirely by you.
+
+---
+
+## Troubleshooting
+
+| Symptom | Likely cause |
+|---------|--------------|
+| Customer doesn't see AI Agents in sidebar | The experience master switch is OFF, or `showAiAgents` is disabled for that customer |
+| Customer gets "agent limit reached" error | The per-customer agent limit is set too low — adjust in the customer's portal record |
+| Landing page not showing correct branding | Check the experience settings — hero text, features, and theme are configurable there |
+| Customer login shows "complete payment" | This shouldn't happen — `RESELL_VOICE_AI` is free-to-enter by default. Contact support if this persists |
+
+---
+
+## Related pages
+
+- [AI Experiences overview](/partner-portal/experiences/overview) — Enabling and comparing all experience types
+- [Knova Agent](/agents/knova/knova-agent) — How the underlying Knova agent works
+- [Customer AI Agents & MCP Connect](/agents/knova/customer-mcp-connect) — Letting customers connect coding agents via MCP
+- [Customer Management](/partner-portal/customers/overview) — Managing the per-customer settings
+
+---
+
+> Source: [knotie-ai-pro#1231](https://github.com/avijeett007/knotie-ai-pro/pull/1231) — _feat: Resell Voice AI Platform experience — Phase 1 (foundation + customer AI Agents portal)_
