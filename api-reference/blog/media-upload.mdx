@@ -1,0 +1,205 @@
+---
+title: "Blog Media Upload API"
+description: "Upload post images and videos to the Knotie media bucket using a two-step signed-URL flow, then embed them in blog drafts."
+---
+
+## Overview
+
+The Blog Media Upload API lets the blog automation credential upload images and videos to the Knotie public media bucket, then embed them directly in post content. Uploads go straight to Supabase (never through the app server), keeping large files fast and bandwidth-efficient.
+
+This API is designed to be used alongside the [Blog Automation API](/api-reference/blog/blog-automation):
+
+1. Upload your image or video with this API → receive a `publicUrl`
+2. Embed that URL in your post markdown → submit the post via `POST /api/internal/blog/drafts`
+
+> 📷 **Screenshot needed:** _Add a screenshot showing a blog post in Mission Control with an embedded image that was uploaded via the media API._
+
+---
+
+## Authentication
+
+Uses the same `BLOG_AUTOMATION_API_KEY` as the Blog Automation API.
+
+```http
+Authorization: Bearer <BLOG_AUTOMATION_API_KEY>
+```
+
+**Rate limit**: 30 requests per minute (shared with the drafts endpoint).
+
+**Daily limit**: enforced per `BLOG_MEDIA_DAILY_LIMIT` (default: 50 uploads per day). Exceeding this returns `429`.
+
+---
+
+## How it works (two-step flow)
+
+Large files are uploaded directly to Supabase — the app server is never the upload destination. The two-step flow is:
+
+1. **Step 1 — Request a signed upload URL** (`POST /api/internal/blog/media`) with the file's content type and size
+2. **Step 2 — PUT the file** to Supabase using the signed URL returned in step 1
+3. **Step 3 — Confirm the upload** (`POST /api/internal/blog/media/confirm`) so the server validates the actual bytes and returns the public URL
+
+This keeps the app server out of the data path while still giving the server control over what's allowed.
+
+---
+
+## Step 1: Request a signed upload URL
+
+### POST /api/internal/blog/media
+
+**Request body**
+
+```json
+{
+  "filename": "product-demo.mp4",
+  "contentType": "video/mp4",
+  "size": 8388608
+}
+```
+
+| Field | Type | Required | Notes |
+|-------|------|----------|-------|
+| `filename` | string | Yes | Original filename; the server builds a safe storage key from it (no path traversal possible — the caller never controls the bucket path) |
+| `contentType` | string | Yes | MIME type of the file. See [allowed types](#allowed-file-types). |
+| `size` | number | Yes | File size in bytes. Declared size is fast-fail checked; actual size is verified in step 3. |
+
+**Response (200)**
+
+```json
+{
+  "uploadUrl": "https://supabase-project.supabase.co/storage/v1/object/sign/media/...",
+  "storageKey": "blog-automation/2026-08-07/product-demo-a1b2c3.mp4",
+  "expiresAt": "2026-08-07T15:00:00Z"
+}
+```
+
+| Field | Meaning |
+|-------|---------|
+| `uploadUrl` | Pre-signed Supabase upload URL. PUT your file to this URL directly. |
+| `storageKey` | The storage path your file will occupy. Pass this to the confirm step. |
+| `expiresAt` | When the signed URL expires (typically 15 minutes from issue). |
+
+---
+
+## Step 2: PUT the file to Supabase
+
+Use the `uploadUrl` from step 1 as the request target. Set the `Content-Type` header to match what you declared.
+
+```bash
+curl -X PUT "<uploadUrl>" \
+  -H "Content-Type: video/mp4" \
+  --data-binary @product-demo.mp4
+```
+
+A `200` response from Supabase means the upload succeeded. Keep the `storageKey` for step 3.
+
+---
+
+## Step 3: Confirm the upload
+
+### POST /api/internal/blog/media/confirm
+
+After a successful PUT, call the confirm endpoint. The server re-reads the actual uploaded bytes to verify content type and final size. If the file violates the allowed types or size limits, it is **deleted** and the confirm returns `400`.
+
+**Request body**
+
+```json
+{
+  "storageKey": "blog-automation/2026-08-07/product-demo-a1b2c3.mp4"
+}
+```
+
+**Response (200)**
+
+```json
+{
+  "publicUrl": "https://supabase-project.supabase.co/storage/v1/object/public/media/blog-automation/2026-08-07/product-demo-a1b2c3.mp4",
+  "embedSnippet": "![product-demo](https://supabase-project.supabase.co/storage/v1/object/public/media/blog-automation/2026-08-07/product-demo-a1b2c3.mp4)"
+}
+```
+
+| Field | Use |
+|-------|-----|
+| `publicUrl` | The permanent public URL for this file. Use it in `<img>` tags, metadata, or markdown. |
+| `embedSnippet` | Ready-to-paste markdown for dropping the file into a blog post. |
+
+Paste `embedSnippet` directly into your post `content` field when submitting to `POST /api/internal/blog/drafts`.
+
+---
+
+## Full example
+
+```bash
+# Step 1: request signed URL
+STEP1=$(curl -s -X POST https://knotie-ai.pro/api/internal/blog/media \
+  -H "Authorization: Bearer $BLOG_AUTOMATION_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"filename":"hero.jpg","contentType":"image/jpeg","size":204800}')
+
+UPLOAD_URL=$(echo $STEP1 | python3 -c "import sys,json; print(json.load(sys.stdin)['uploadUrl'])")
+STORAGE_KEY=$(echo $STEP1 | python3 -c "import sys,json; print(json.load(sys.stdin)['storageKey'])")
+
+# Step 2: PUT the file
+curl -X PUT "$UPLOAD_URL" \
+  -H "Content-Type: image/jpeg" \
+  --data-binary @hero.jpg
+
+# Step 3: confirm
+STEP3=$(curl -s -X POST https://knotie-ai.pro/api/internal/blog/media/confirm \
+  -H "Authorization: Bearer $BLOG_AUTOMATION_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d "{\"storageKey\":\"$STORAGE_KEY\"}")
+
+PUBLIC_URL=$(echo $STEP3 | python3 -c "import sys,json; print(json.load(sys.stdin)['publicUrl'])")
+EMBED=$(echo $STEP3 | python3 -c "import sys,json; print(json.load(sys.stdin)['embedSnippet'])")
+
+echo "Public URL: $PUBLIC_URL"
+echo "Embed: $EMBED"
+```
+
+---
+
+## Allowed file types
+
+| Type | MIME type |
+|------|-----------|
+| JPEG image | `image/jpeg` |
+| PNG image | `image/png` |
+| GIF image | `image/gif` |
+| WebP image | `image/webp` |
+| MP4 video | `video/mp4` |
+| WebM video | `video/webm` |
+
+**Not allowed:**
+- `image/svg+xml` (SVG can carry embedded scripts — blocked by design)
+- `application/pdf` (not embeddable in blog markdown)
+- Any other type → `400 Unsupported media type`
+
+---
+
+## Storage namespace
+
+All files land in the existing public `media` Supabase bucket under the `blog-automation/{date}/` prefix. The server builds the full storage key — you never supply a path. This means:
+
+- No path traversal is possible (the caller has no influence over the bucket path)
+- Blog-automation uploads never collide with partner media-library files (which always use `{partnerId}/{customerId}/…`)
+- Keys returned from the confirm step are guaranteed to match the blog markdown embed allowlist
+
+---
+
+## Common errors
+
+| HTTP | Meaning |
+|------|---------|
+| `400` | Invalid content type, declared size exceeded, or actual bytes don't match declared type (file deleted) |
+| `401` | Wrong or missing `BLOG_AUTOMATION_API_KEY` |
+| `403` | Confirm step: the `storageKey` is not in the `blog-automation/` namespace |
+| `404` | Confirm step: the `storageKey` was not found (upload may have failed or expired) |
+| `413` | File exceeds the maximum allowed size |
+| `429` | Rate limit exceeded (30 req/min) or daily upload limit reached |
+| `500` | `BLOG_AUTOMATION_API_KEY` env var not set on the server |
+
+> 📷 **Screenshot needed:** _Add a screenshot of Mission Control showing a published blog post with an image that was uploaded via the media API, with the Supabase URL visible in the post editor._
+
+> 🎬 **Video walkthrough:** _Record a clip of the three-step flow: requesting the signed URL → uploading a file with curl → confirming → pasting the embedSnippet into a draft → submitting and seeing it in Mission Control with the image rendering correctly._
+
+> Source: [knotie-ai-pro#1256](https://github.com/avijeett007/knotie-ai-pro/pull/1256) — _Blog media-upload API: scoped-key uploads to the public media bucket + skill self-serve flow_
