@@ -1,0 +1,228 @@
+---
+title: "Blog Automation API"
+description: "Use a scoped automation key to create and manage blog draft posts programmatically, and embed self-hosted video in posts using Knotie-safe markdown syntax."
+---
+
+## Overview
+
+The Blog Automation API lets any authorized agent or script submit blog draft posts for human review — without requiring portal login. The workflow is AI-drafts, humans-approve: only administrators can publish or archive posts via Mission Control; the API can only create or update drafts.
+
+This reference covers two features shipped together:
+1. **Draft management endpoints** — create/update/list blog drafts via a scoped automation key
+2. **Safe video embeds** — a markdown syntax for embedding self-hosted video in posts
+
+> 📷 **Screenshot needed:** _Add a screenshot of Mission Control showing the blog post review queue with AI-authored drafts in the "In Review" state._
+
+---
+
+## Authentication
+
+All blog automation endpoints use a **dedicated automation key**, separate from partner API keys.
+
+Set the environment variable `BLOG_AUTOMATION_API_KEY` to a long random secret (distinct from `CRON_SECRET`). Keep it in your server environment; never commit it to source control.
+
+```http
+Authorization: Bearer <BLOG_AUTOMATION_API_KEY>
+```
+
+**If the env var is unset**, all routes return `500` (fail-closed). This is intentional — a missing key means the feature is not configured, not open.
+
+**If the key is wrong**, the endpoint returns `401`.
+
+**Rate limit**: 30 requests per minute. Exceeding this returns `429`.
+
+---
+
+## Endpoints
+
+### POST /api/internal/blog/drafts
+
+Create a new blog draft or update an existing one.
+
+**Request body**
+
+```json
+{
+  "title": "How AI Receptionists Are Changing the Dental Industry",
+  "slug": "ai-receptionists-dental-industry",
+  "content": "## Introduction\n\nMarkdown content here...",
+  "excerpt": "A short summary shown on the blog index page.",
+  "tags": ["ai", "receptionist", "dental"],
+  "metaTitle": "AI Receptionists for Dental Clinics | Knotie AI",
+  "metaDescription": "Learn how dental clinics are reducing no-shows with AI voice receptionists."
+}
+```
+
+| Field | Type | Required | Notes |
+|-------|------|----------|-------|
+| `title` | string | Yes | Post display title |
+| `slug` | string | Yes | URL slug; must be unique per actor. Re-submitting an existing slug updates the draft (see idempotency below). |
+| `content` | string | Yes | Full post body in markdown. See [Video embeds](#video-embeds) for embedding self-hosted video. |
+| `excerpt` | string | No | Short description for the index page |
+| `tags` | string[] | No | Comma-separated topic tags |
+| `metaTitle` | string | No | SEO title (absolute — do not append "| Knotie AI", the platform handles de-duplication) |
+| `metaDescription` | string | No | SEO description |
+
+**Slug idempotency rules**
+
+| Current status of existing slug | Result |
+|---------------------------------|--------|
+| `DRAFT` or `CHANGES_REQUESTED` | **200 Updated** — the post is updated with the new content |
+| `IN_REVIEW` (already submitted) | **200 No-op** — response confirms receipt; no changes made |
+| `PUBLISHED`, `SCHEDULED`, or `ARCHIVED` | **409 Conflict** — cannot overwrite published content via automation |
+| No existing slug | **201 Created** |
+
+**Successful response (201 or 200)**
+
+```json
+{
+  "id": "post_abc123",
+  "slug": "ai-receptionists-dental-industry",
+  "status": "DRAFT",
+  "createdAt": "2026-08-07T14:30:00Z"
+}
+```
+
+**Example**
+
+```bash
+curl -X POST https://knotie-ai.pro/api/internal/blog/drafts \
+  -H "Authorization: Bearer $BLOG_AUTOMATION_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "5 Ways Voice AI Saves Receptionists 10 Hours a Week",
+    "slug": "voice-ai-saves-receptionist-time",
+    "content": "## Introduction\n\nVoice AI agents are changing front-desk work...",
+    "tags": ["voice-ai", "receptionist", "productivity"]
+  }'
+```
+
+---
+
+### GET /api/internal/blog/drafts
+
+List all drafts created by the automation actor, for review-state polling.
+
+**Query parameters**
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `status` | string | (all) | Filter by status: `DRAFT`, `IN_REVIEW`, `CHANGES_REQUESTED`, `PUBLISHED` |
+| `page` | number | 1 | Page number |
+| `limit` | number | 20 | Results per page (max 100) |
+
+**Response**
+
+```json
+{
+  "posts": [
+    {
+      "id": "post_abc123",
+      "title": "5 Ways Voice AI Saves Receptionists 10 Hours a Week",
+      "slug": "voice-ai-saves-receptionist-time",
+      "status": "IN_REVIEW",
+      "createdAt": "2026-08-07T14:30:00Z",
+      "updatedAt": "2026-08-07T14:35:00Z"
+    }
+  ],
+  "total": 1,
+  "page": 1,
+  "limit": 20
+}
+```
+
+**Example**
+
+```bash
+# Poll for posts awaiting review
+curl -G https://knotie-ai.pro/api/internal/blog/drafts \
+  -H "Authorization: Bearer $BLOG_AUTOMATION_API_KEY" \
+  --data-urlencode "status=IN_REVIEW"
+```
+
+---
+
+## Post lifecycle
+
+```
+DRAFT → IN_REVIEW → PUBLISHED
+              ↓
+    CHANGES_REQUESTED → (re-submit via POST) → IN_REVIEW
+```
+
+- The API can create and update `DRAFT` posts.
+- Publishing, scheduling, and archiving are **administrator-only** actions in Mission Control.
+- When an administrator requests changes, the status moves to `CHANGES_REQUESTED` — re-POST the same slug with the updated content to re-submit.
+
+<Warning>
+The API cannot set `status` directly. Any `status` field in the request body is rejected with `400`. This is intentional — the authority boundary between automation (draft) and humans (publish) is enforced at the schema level.
+</Warning>
+
+---
+
+## Video embeds
+
+Posts can embed self-hosted video using standard markdown image syntax targeting `.mp4` or `.webm` files:
+
+```markdown
+![Alt text describing the video](https://supabase-project.supabase.co/storage/v1/object/public/media/blog-automation/2026-08-07/product-demo.mp4)
+```
+
+The renderer converts this to an accessible `<video>` element:
+- `controls` and `playsinline` enabled by default
+- Never autoplays
+- `aria-label` set to the alt text
+- Wrapped in a `<figure>` with an optional caption
+
+**Allowed video hosts**
+
+The embed only works for these origins:
+
+| Allowed | Examples |
+|---------|----------|
+| `knotie-ai.pro` (exact) | `https://knotie-ai.pro/...` |
+| `*.knotie-ai.pro` subdomains | `https://cdn.knotie-ai.pro/...` |
+| Your configured Supabase host | Set via `NEXT_PUBLIC_SUPABASE_URL` |
+| Relative URLs | `/videos/demo.mp4` |
+
+**Not allowed** (the embed is dropped entirely, not sanitized):
+- YouTube, Vimeo, or any external video host
+- `javascript:` or `data:` URLs
+- Raw `<video>` HTML (also re-validated by a sanitizer, not passed through)
+
+<Info>
+To upload video for use in posts, use the [Blog Media Upload API](/api-reference/blog/media-upload) (shipped in knotie-ai-pro#1256). That API returns a `publicUrl` you can drop directly into this markdown syntax.
+</Info>
+
+---
+
+## Blog title behaviour
+
+Post `metaTitle` values are treated as **absolute** — the platform no longer appends "| Knotie AI" to post-level titles. If your `metaTitle` already ends with your brand name, it renders exactly as written.
+
+---
+
+## Common errors
+
+| HTTP | Code | Meaning |
+|------|------|---------|
+| `401` | `UNAUTHORIZED` | Wrong or missing `BLOG_AUTOMATION_API_KEY` |
+| `400` | `VALIDATION_ERROR` | Request body failed schema validation (e.g., `status` field present, required field missing) |
+| `409` | `CONFLICT` | Slug already exists for a published/scheduled/archived post |
+| `429` | `RATE_LIMITED` | Exceeded 30 requests per minute |
+| `500` | `CONFIG_ERROR` | `BLOG_AUTOMATION_API_KEY` env var not set on the server |
+
+---
+
+## Setup checklist
+
+1. Generate a long random secret: `openssl rand -hex 32`
+2. Set it as `BLOG_AUTOMATION_API_KEY` in your production environment
+3. Restart the server (or redeploy) so the new env var is picked up
+4. Verify with a GET: `curl -I https://knotie-ai.pro/api/internal/blog/drafts -H "Authorization: Bearer <key>"` — expect `200`, not `401` or `500`
+
+> 📷 **Screenshot needed:** _Add a screenshot of Mission Control showing a newly-created AI draft post with the "AI" badge on the author field._
+
+> 🎬 **Video walkthrough:** _Record a clip of: calling POST to create a draft → opening Mission Control → seeing the draft in the queue → publishing it as an administrator._
+
+> Source: [knotie-ai-pro#1255](https://github.com/avijeett007/knotie-ai-pro/pull/1255) — _Blog draft-ingestion API + portable write-knotie-blog skill + safe video embeds_
