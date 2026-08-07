@@ -256,6 +256,12 @@
             ]
           },
           {
+            "group": "Blog Automation API",
+            "pages": [
+              "api-reference/blog/blog-automation"
+            ]
+          },
+          {
             "group": "More API specs",
             "pages": [
               "api-reference/future-specs"
