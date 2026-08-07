@@ -1,0 +1,141 @@
+---
+title: "Website Studio"
+description: "Build AI-powered, video-enriched websites for local businesses automatically — with a design decider, 7 premium templates, Seedance video generation, and built-in analytics."
+---
+
+## What Website Studio does
+
+Website Studio is an agentic website builder that creates a complete, deployed website for a local business in a single pipeline run. You supply the business details (or a Google Business Profile URL), and the orchestrator handles research, design, asset generation, video production, code build, and Vercel deployment automatically.
+
+The result is a brand-matched, SEO-ready website with embedded AI voice chat — delivered in minutes, not days.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Website Studio launch page in the Partner Portal showing the build form and recent build history._
+
+> 🎬 **Video walkthrough:** _Record a short clip of a full Website Studio run: entering a business name → watching the pipeline stages complete → clicking the deployed Vercel URL to see the live website._
+
+## How a build works
+
+Website Studio runs a **5-stage pipeline**:
+
+| Stage | What happens |
+|-------|-------------|
+| **01 Research** | Pulls business data from Google Business Profile (GBP), DataForSEO keyword data, and Serper search results. SEO-research is budget-capped to avoid overspend. |
+| **02 Content** | Generates page copy, hero text, service listings, and trust-block content grounded in real GBP data. Customer-first rules apply — standards codes (CSCS, NVQ, etc.) translate into plain English or are omitted. |
+| **03 Design** | (**New in v2**) A design-decider agent evaluates the business niche, customer preference, and asset richness, then picks exactly one template with a fact-based justification. The choice is written to `design.json` and is binding for the rest of the build. |
+| **04 Assets** | Generates brand imagery via nano-banana (with correct aspect ratios for quality acceptance), a favicon (logo-derived or palette monogram), and a Seedance video where the budget allows. |
+| **05 Build & Deploy** | Compiles the chosen template with all assets, applies the gate checklist, and deploys to Vercel. A deployed URL is returned. |
+
+## Design templates (v2)
+
+The design-decider agent picks from seven templates. Each reflects a distinct visual grammar:
+
+| Template | Best for |
+|----------|----------|
+| **classic-trade** | Tradespeople, contractors — trustworthy, portfolio-forward |
+| **editorial-pro** | Consultants, professional services — clean editorial look |
+| **scroll-cinematic** | Premium retail or hospitality — bold full-screen scroll |
+| **dimensional** | Tech/SaaS-adjacent SMBs — layered, depth-focused |
+| **story-cinematic** | Brand storytelling — mise-en-scène grammar, character/journey focus |
+| **product-showcase** | Product-first businesses — Apple/watch grammar, focused hero |
+| **scroll-film** | Film-quality scroll experience — 3D-like cinematic scroll with video sequence support |
+
+<Info>
+The design stage is deterministic: given the same `designBrief` (niche, customer preference, asset richness), the decider consistently produces the same template choice. You can influence the outcome by providing richer GBP data or customer preference notes at build time.
+</Info>
+
+## Seedance video generation
+
+When the build budget allows, Website Studio generates a short branded video using **Seedance 2.0** via the FAL queue API:
+
+- Up to **3 muted looping video clips** embedded in the site (background or showcase)
+- One **4–15 second frame-sequence** scrub (canvas-based, no CDN required)
+- Video generation runs in parallel with the asset stage; if it times out or the budget is exhausted, the build falls back to high-quality stills — **a build never fails because video wasn't ready**
+
+Video costs are tracked separately via `WEBSITE_VIDEO_BUDGET_USD`. When that budget is unset or zero, the video stage is skipped.
+
+> 📷 **Screenshot needed:** _Add a screenshot of a deployed website showing the embedded Seedance video player or the frame-sequence scrubber._
+
+## Website analytics
+
+Every website built by Website Studio ships with analytics enabled by default:
+
+### What is tracked
+
+| Event | Trigger |
+|-------|---------|
+| Page views | Automatic (Vercel Web Analytics) |
+| `phone_tap` | Visitor taps the phone number |
+| `email_click` | Visitor clicks the email address |
+| `enquiry_click` | Visitor submits the enquiry/contact form |
+
+### Where to see analytics
+
+Analytics data is surfaced in two places:
+
+1. **Partner dashboard** — aggregate traffic and event totals across all customer websites
+2. **Customer card** — per-customer website analytics (visible when you open a customer record and navigate to their Website Studio deployment)
+
+> 📷 **Screenshot needed:** _Add a screenshot of the partner dashboard analytics cards showing traffic and event counts across customer websites._
+
+> 📷 **Screenshot needed:** _Add a screenshot of the per-customer analytics view in the customer management card._
+
+### Analytics tiers
+
+Each subscription package includes an `analyticsTier` that controls the depth of analytics available:
+
+| Tier | Included data |
+|------|--------------|
+| **traffic** (default) | Page views and basic session counts |
+| **events** | Traffic + custom events (phone_tap, email_click, enquiry_click) |
+| **full** | Events + additional retention and funnel metrics |
+
+<Info>
+Analytics tiers are set per-package at subscription time (snapshot-frozen). Upgrading a customer's plan may change their analytics tier — check **Customer → Subscription** to confirm. The analytics dashboard degrades gracefully if a tier is not fully available (e.g., the Google Analytics per-project toggle is a dashboard-only setting with no public API).
+</Info>
+
+## SEO improvements shipped in this release
+
+Alongside the pipeline upgrade, these SEO foundations were fixed:
+
+- **Sitemap** — auto-generated and submitted for built websites
+- **Robots.txt** — correct directives for crawlers
+- **Schema.org markup** — `LocalBusiness` structured data populated from GBP data (name, address, phone, opening hours)
+- **Blog title de-duplication** — post meta-titles no longer carry the site name twice (the `title.absolute` flag is set so posts title themselves)
+
+These improvements are automatic — no manual action is needed when building a website.
+
+## Prerequisites
+
+| Requirement | Details |
+|-------------|---------|
+| Google Business Profile URL or business name | Used for research; richer GBP data → better design decisions |
+| DataForSEO API key (`DATAFORSEO_LOGIN` / `DATAFORSEO_PASSWORD`) | One Basic token; optional — falls back to Serper-only research |
+| Serper API key (`SERPER_API_KEY`) | Used for supplemental search research |
+| FAL API key (`FAL_KEY`) | Required for Seedance video; omit to skip video |
+| Vercel token (`VERCEL_TOKEN`) | Server-side only; required for deployment |
+| `WEBSITE_VIDEO_BUDGET_USD` | Optional; sets the per-build video spend cap (e.g. `2.00`) |
+
+<Warning>
+After deploying this release, run `npm run db:push` in production to apply the additive schema changes (`analyticsTier` column with default `"traffic"`; blog tables). Existing rows are unaffected.
+</Warning>
+
+## Running a build
+
+> 🎬 **Video walkthrough:** _Record a clip showing the full build flow: opening Website Studio in the partner portal → filling in a business name + GBP URL → watching stages 01–05 complete in the progress panel → viewing the deployed URL._
+
+1. Open **Website Studio** in the Partner Portal sidebar (under Experiences or Marketplace, depending on your plan).
+2. Enter the business name and optionally a Google Business Profile URL.
+3. Set any customer preferences (e.g., "modern and premium" — these influence the design-decider).
+4. Click **Build** — the pipeline runs automatically. The 5 stages update live in the progress panel.
+5. When the build completes, click the **View site** link to open the deployed Vercel URL.
+
+## Common errors
+
+| Error | Likely cause | Fix |
+|-------|-------------|-----|
+| Build fails at stage 03 with no template selected | `design.json` couldn't be written; usually a FAL/asset timeout | Re-run the build; it is idempotent |
+| Video stage skipped | `FAL_KEY` not set, or `WEBSITE_VIDEO_BUDGET_USD` is `0` | Set both env vars and redeploy |
+| SEO research returns empty keywords | DataForSEO credentials missing or quota exceeded | Check `DATAFORSEO_LOGIN` / `_PASSWORD`; Serper is the fallback |
+| Deployment fails: `VERCEL_TOKEN` missing | Token not set in server env | Add `VERCEL_TOKEN` to your deployment secrets |
+
+> Source: [knotie-ai-pro#1248](https://github.com/avijeett007/knotie-ai-pro/pull/1248) — _SEO+AEO P0/P1 + Website Studio pipeline v2: design decider, 7 premium templates, Seedance video, business analytics_
