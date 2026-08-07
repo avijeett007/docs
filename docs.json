@@ -256,6 +256,13 @@
             ]
           },
           {
+            "group": "Blog Automation API",
+            "pages": [
+              "api-reference/blog/blog-automation",
+              "api-reference/blog/media-upload"
+            ]
+          },
+          {
             "group": "More API specs",
             "pages": [
               "api-reference/future-specs"
