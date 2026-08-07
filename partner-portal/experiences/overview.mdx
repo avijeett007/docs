@@ -89,6 +89,36 @@ AI Business Audit calls cost approximately **$0.03** in raw model spend per audi
 
 For Auto-Install Experiences, you set the subscription price per tier. AI credits included in each tier are funded from your gateway budget when a customer subscribes and refilled monthly. See [Auto-Install Experiences → Ongoing billing](/partner-portal/experiences/auto-install#ongoing-billing).
 
+## Set a default experience for your root domain
+
+You can mark one enabled experience as the **default** for your portal's root domain. When a visitor goes to `yourdomain.com/` (or `yoursubdomain.knotie-ai.pro/`), they are taken directly to that experience's landing page instead of the standard SaaS portal.
+
+This is useful when you want a single product — like AI Receptionist or AI Business Audit — to be the first thing prospects see when they land on your domain.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the One-Click Experiences page showing the "Make default" / "On root" toggle on an experience card._
+
+### How to set a default experience
+
+1. Go to **Experiences** in the Partner Portal sidebar.
+2. Enable the experience you want to use as the default (the toggle must be on).
+3. Click **Make default** on the experience card — the label changes to **On root** to confirm it is active.
+
+**Rules:**
+- Only **one** experience can be the root default at a time. Setting a new default automatically clears the previous one.
+- The default applies to your root path (`/`) only — all other routes (`/login`, `/platform`, `/audit`, etc.) are unaffected.
+- If you disable the currently-defaulted experience, its root-default status is automatically cleared so your portal falls back to the standard portal.
+- You can revert at any time by clicking **On root** again — your experience settings are preserved.
+
+<Info>
+**Prerequisite:** your portal's **Enable Customer Portal** toggle must be on (in **Settings → Whitelabel → Domain Settings**) before the root-domain default takes effect. This is a one-time setup step for each partner account.
+</Info>
+
+### Post-domain-registration prompt
+
+After you register a custom domain in **Settings → Whitelabel**, a **"Domain setup done!"** popup appears and points you to the Experiences page. This is the recommended next step — pick your default experience so visitors to your new domain see a branded product immediately.
+
+> 🎬 **Video walkthrough:** _Record a short clip showing: register a custom domain → see the "Domain setup done!" popup → go to Experiences → click "Make default" → visit the root domain to confirm the experience loads._
+
 ## Access control
 
 | Plan | Access |
@@ -103,3 +133,5 @@ For Auto-Install Experiences, you set the subscription price per tier. AI credit
 - [AI Receptionist Setup](/agents/knova/knova-agent) — set up the AI Receptionist agent
 - [AI Gateway](/partner-portal/ai-gateway) — manage your API keys and budgets
 - [Partner Portal Overview](/partner-portal/overview) — explore other features
+
+> Source: [knotie-ai-pro#1236](https://github.com/avijeett007/knotie-ai-pro/pull/1236) — _feat: let partners set a default One-Click Experience for their root domain_
