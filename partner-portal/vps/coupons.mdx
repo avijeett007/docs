@@ -1,0 +1,117 @@
+---
+title: "VPS Coupon Codes"
+description: "Create percentage-off discount codes that customers apply at VPS checkout for servers and app packages."
+---
+
+## Overview
+
+Partners can create **coupon codes** that give customers a percentage discount when they purchase a VPS plan or app package. Coupons are created and managed from **VPS Settings**, and customers enter them at checkout in their whitelabel portal.
+
+---
+
+## How coupons work
+
+- **Discount type**: percentage off (1–90%). For example, a 20% coupon on an $8.38/mo plan gives a final price of $6.71/mo.
+- **What is discounted**: the **final customer price** — i.e. the discounted amount comes out of your partner margin. Knotie's credit cost is never reduced.
+- **Duration**: permanent. The discounted amount becomes the recurring Stripe subscription price, including the monthly phase of yearly packages. Your customer keeps the discounted rate for as long as their subscription is active.
+- **One use per customer**: each customer can redeem a given code only once.
+- **Max redemptions**: you can set an optional cap on total uses across all customers. Once the cap is reached, the code stops working.
+
+---
+
+## Creating a coupon
+
+1. Go to **Partner Portal → VPS Servers → VPS Settings**.
+2. Find the **Coupons** card.
+3. Click **+ New Coupon**.
+4. Fill in the form:
+
+| Field | Description |
+|-------|-------------|
+| **Code** | The string customers type at checkout (e.g. `SAVE20`). Case-insensitive. Must be unique per partner. |
+| **Discount %** | Percentage off the final customer price (1–90). |
+| **Max redemptions** | Optional total cap. Leave blank for unlimited. |
+| **Active** | Toggle off to disable the code without deleting it. |
+
+5. Click **Create**.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Coupons card in VPS Settings, showing the list of existing coupons (with used/max redemption counts and Active toggle) and the inline create form._
+
+<Note>
+A coupon's **code** and **discount percentage** cannot be changed after creation. To offer a different rate, create a new code and deactivate the old one.
+</Note>
+
+---
+
+## Managing coupons
+
+The Coupons card in VPS Settings lists all your codes with:
+
+- **Code** — the discount string
+- **Discount %** — the percentage off applied at checkout
+- **Used / Max** — how many times the code has been redeemed vs the cap (shows "∞" for unlimited)
+- **Active toggle** — instantly disable or re-enable a code
+- **Delete** — permanently remove the code (redemptions already made are not reversed)
+
+You can have up to **50 active coupon codes** per partner account.
+
+---
+
+## Customer experience at checkout
+
+When a customer reaches the checkout for a VPS plan or app package, they see a **"Have a coupon?"** input.
+
+1. The customer types their code and clicks **Apply**.
+2. The platform validates the code instantly:
+   - Valid → the coupon chip appears below the input, and all price displays update to show the original price struck through and the discounted price.
+   - Already used by this customer → an error message is shown.
+   - Code exhausted (all redemptions used) → an error message is shown.
+   - Invalid code → an error message is shown.
+3. The customer completes checkout at the discounted price.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the VPS checkout page with an applied coupon: the coupon chip, the struck-through original price, and the discounted final price on the plan card, order summary, and CTA button._
+
+> 🎬 **Video walkthrough:** _Record a short clip: customer navigates to VPS checkout → enters a coupon code → sees the price update → completes checkout at the discounted rate._
+
+### Price rounding
+
+Discounted prices are **rounded up to the nearest cent** (ceiling). For example, 80% of $8.38 = $6.704 → shown as $6.71.
+
+---
+
+## Discount logic
+
+The discount applies to the **final customer price**, which is already the partner-margin price. Knotie's underlying credit cost is never discounted.
+
+**Example** (monthly plan, 20% off):
+
+| | Amount |
+|---|---|
+| Partner credit cost (Knotie billing) | $6.98/mo |
+| Customer margin (20%) | +$1.40 |
+| Final customer price | $8.38/mo |
+| Coupon (20% off) | −$1.68 |
+| **Customer pays** | **$6.70/mo** |
+| Partner receives | $6.70 − $6.98 credit = net −$0.28 |
+
+<Warning>
+At high discount percentages, the final customer price can fall below your Knotie credit cost. Review your margin settings before offering large discounts.
+</Warning>
+
+---
+
+## Yearly packages and the month-13 phase
+
+Yearly packages include a monthly renewal phase after the annual term ends. The discounted price applies to **both phases** — the annual and the recurring monthly price — so your customer's rate never changes unexpectedly at renewal.
+
+---
+
+## Related pages
+
+- [VPS App Catalog & Packages](/partner-portal/vps/app-catalog) — Create and manage app packages customers can buy
+- [VPS Servers Overview](/partner-portal/vps/overview) — Purchasing and managing VPS instances
+- [Customer Management](/partner-portal/customers/overview) — Manage individual customer settings
+
+---
+
+> Source: [knotie-ai-pro#1263](https://github.com/avijeett007/knotie-ai-pro/pull/1263) — _feat(vps): partner coupon system for VPS plans + app packages (% off final price)_

@@ -170,7 +170,8 @@
             "pages": [
               "partner-portal/nexus/overview",
               "partner-portal/vps/overview",
-              "partner-portal/vps/app-catalog"
+              "partner-portal/vps/app-catalog",
+              "partner-portal/vps/coupons"
             ]
           },
           {
