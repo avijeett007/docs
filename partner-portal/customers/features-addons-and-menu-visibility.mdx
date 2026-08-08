@@ -124,6 +124,38 @@ This section also includes:
 
 If the portal isn’t enabled yet, the UI may show a notice that team members require customer portal access.
 
+## VPS app visibility per customer
+
+When a customer has **Connect Your Server (VPS Access)** enabled, you can also control which VPS apps they are allowed to deploy from the App Catalog.
+
+By default, a customer sees all platform-enabled apps that you haven't restricted. You can narrow this down to a curated set per customer:
+
+1. Open the customer's **Manage** modal.
+2. Go to the **Features & Add-ons** tab.
+3. Find the **VPS App Visibility** section.
+4. Click **Select Apps**.
+5. Choose which apps this customer can see and deploy.
+6. Click **Save**.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the VPS App Visibility section inside the customer Manage modal, showing the app picker with checkboxes for each catalog app._
+
+### How overrides work
+
+| Selection | What the customer sees |
+|-----------|----------------------|
+| No override (default) | All platform-enabled apps from the partner-level catalog |
+| Specific apps selected | Only the chosen apps — enforced both in the customer portal UI and at deploy time |
+
+The restriction is enforced server-side: even if a customer tries to deploy a restricted app through the API, the request is rejected.
+
+### Buzz Relay
+
+**Buzz Relay** is available as a deployable VPS app. It provides relay and messaging infrastructure that can be configured and managed after deployment via the customer's VPS terminal or SSH access.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Buzz Relay app card in the VPS App Catalog, showing its name, description, category tags, and RAM/port details._
+
+---
+
 ## Related pages
 
 - [AI Gateway](/partner-portal/ai-gateway) - Partner-level AI Gateway setup and customer self-service controls
@@ -131,6 +163,9 @@ If the portal isn’t enabled yet, the UI may show a notice that team members re
 - [Customer's Portal Access](/partner-portal/customers/customer-portal-access-actions) – Enable and manage customer portal access actions
 - [Embed URLs](/partner-portal/customers/embed-urls) – Generate customer-scoped embed tokens and URLs
 - [API access overview](/partner-portal/api-keys) – High-level API access guidance and where AI Gateway fits
+- [VPS App Catalog](/partner-portal/vps/app-catalog) – Full app catalog and deploying to active servers
+
+> Source: [knotie-ai-pro#1262](https://github.com/avijeett007/knotie-ai-pro/pull/1262) — _Fix vps applet options_
 
 ## Screenshots
 
