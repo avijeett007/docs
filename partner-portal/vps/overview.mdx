@@ -133,9 +133,51 @@ Select multiple apps to install together as a package:
 | Security | — |
 | Networking | — |
 
+## Restart a server
+
+Customers can restart their VPS from the server card in their portal. Partners can also trigger a restart from the My Instances view:
+
+1. Open **My Instances** and locate the active server.
+2. Click the **Restart** button on the instance card.
+3. Confirm the restart — the server will reboot, typically completing in under a minute.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the instance card showing the Restart button, and the confirmation prompt._
+
+<Note>
+Restart is rate-limited to prevent accidental repeated restarts. If the button is greyed out, wait a moment before trying again.
+</Note>
+
+## Live resource stats
+
+Each active server has a collapsible **Stats** panel that shows real-time resource usage pulled over the platform's SSH channel:
+
+| Metric | Description |
+|--------|-------------|
+| CPU load | Current load average (1-minute) |
+| RAM | Used / total memory |
+| Disk | Used / total NVMe storage |
+| Uptime | Time since last boot |
+
+To view stats:
+
+1. Open the instance card for an active server.
+2. Click **Stats** (or the expand chevron) to open the live panel.
+3. Stats refresh each time you open the panel.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Stats panel open on an active server card, showing CPU load, RAM, disk, and uptime values._
+
+<Note>
+Live stats are retrieved over SSH and are not available for servers in Provisioning, Suspended, or Cancelled states. Contabo's API does not expose resource usage metrics directly.
+</Note>
+
 ## Next steps
 
-- [VPS App Catalog](/partner-portal/vps/app-catalog) — browse and deploy apps
+- [VPS App Catalog](/partner-portal/vps/app-catalog) — browse and deploy apps to active servers
+- [VPS Coupons](/partner-portal/vps/coupons) — create discount codes for customers
 - [AI Gateway](/partner-portal/ai-gateway) — manage API keys and budgets
 - [Customer Management](/customer-management/onboard-customer) — assign VPS to customers
 - [Partner Portal Overview](/partner-portal/overview) — explore other features
+
+---
+
+> Source: [knotie-ai-pro#1264](https://github.com/avijeett007/knotie-ai-pro/pull/1264) — _feat(vps): full one-click App Catalog, multi-app servers, package auto-deploy, restart + live stats_

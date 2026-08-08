@@ -1,6 +1,6 @@
 ---
 title: "VPS App Catalog & Packages"
-description: "Purchase VPS servers, bundle apps, and manage customer deployments through the Partner Portal."
+description: "Browse the full app catalog, deploy to multi-app servers, and build packages that auto-deploy on provisioning."
 ---
 
 ## What you can do
@@ -8,99 +8,114 @@ description: "Purchase VPS servers, bundle apps, and manage customer deployments
 The **VPS** section of the Partner Portal lets you:
 
 1. **Purchase VPS servers** for your customers (6 plan tiers, $6.98–$75.57/mo)
-2. **Create App Packages** — bundle apps with a VPS plan and set your own customer price
-3. **Reinstall instances** — swap the software stack on an existing VPS without destroying customer data
-4. **Control visibility** — choose which plans your customers can see
+2. **Browse the full App Catalog** — ~94 platform-enabled apps, searchable with per-app install badges
+3. **Deploy apps to active servers** without reinstalling — add a second or third app to a running server
+4. **Create App Packages** — bundle apps with a VPS plan; catalog-only apps auto-deploy when the server goes active
+5. **Control visibility** — choose which plans and apps your customers can see
 
 ---
 
-## Purchasing a VPS
+## App Catalog page
 
-Navigate to **VPS Servers** from the Infrastructure section of the sidebar.
+The **App Catalog** is a dedicated sidebar entry (under **INFRASTRUCTURE → App Catalog**) that shows every platform-enabled app in one searchable view — not just the three that were previously curated.
 
-![VPS Servers — all 6 plan tiers with pricing and specs](/images/screenshots/vps-instances-nav.jpg)
+> 📷 **Screenshot needed:** _Add a screenshot of the App Catalog page, showing the searchable grid of app cards with per-app install badges (e.g. "Installed on 2 servers / Installing on 1")._
 
-### Available plans
+### Finding apps
 
-| Plan | vCPU | RAM | NVMe | Speed | Best for |
-|------|------|-----|------|-------|----------|
-| Cloud VPS 10 | 4 | 8 GB | 75 GB | 200 Mbps | Small projects, dev environments |
-| Cloud VPS 20 | 6 | 12 GB | 100 GB | 400 Mbps | Web apps, databases |
-| Cloud VPS 30 | 8 | 24 GB | 200 GB | 600 Mbps | Production workloads |
-| Cloud VPS 40 | 12 | 48 GB | 250 GB | 800 Mbps | High-traffic, CI/CD |
-| Cloud VPS 50 | 16 | 64 GB | 300 GB | 1 Gbps | Enterprise workloads |
-| Cloud VPS 60 | 18 | 96 GB | 350 GB | 1 Gbps | AI workloads, large databases |
+- Use the **search bar** at the top to filter by name, tag, or description.
+- Each app card shows its logo, name, category tags, and live install counts across your servers.
+- Click any app card to open its detail overlay (description, features, RAM estimate, access port, website, GitHub link).
 
-Click any plan card → choose region (EU/US) → assign to a customer (optional) → **Purchase VPS**.
+### Install badges
+
+Each card shows real-time deployment state across all your customers' servers:
+
+| Badge | Meaning |
+|-------|---------|
+| **Installed on N servers** | App is fully installed and running on N of your servers |
+| **Installing on X** | Active deployment in progress on X servers |
+| _(no badge)_ | Not deployed anywhere yet |
 
 ---
 
-## Managing Instances
+## Deploying apps to an active server
 
-Switch to the **My Instances** tab to see your VPS servers.
+You no longer need to reinstall a server to add a new app. From the **App Catalog**, you can deploy any app to a server that is already active:
 
-Each instance card shows: name, IP address, status (Active / Suspended / Cancelled), which customer it's assigned to, and the monthly cost.
+1. Open the **App Catalog** from the sidebar.
+2. Click an app card to open the detail overlay.
+3. Click **Deploy to a server**.
+4. Select the target server from the list of eligible active instances.
+5. Fill in the app's setup form (credentials, port config, or other inputs the app requires).
+6. Click **Deploy**.
 
-### Reinstalling with a new app or stack
+> 📷 **Screenshot needed:** _Add a screenshot of the deploy flow: the app detail overlay showing "Deploy to a server", the server picker list, and the setup form for an app that requires user input._
 
-Click **Reinstall** on any active instance to open the app selection modal.
+> 🎬 **Video walkthrough:** _Record a short clip: open App Catalog → pick an app → choose an existing active server → fill setup form → confirm deploy — showing the app tracked as "Installing" on the server card._
 
-![Reinstall modal — select Single App or Build Package, choose app, confirm](/images/screenshots/vps-reinstall-popup-annotated.jpg)
+<Note>
+Only one app can be deploying on a given server at a time. If a deployment is already in progress, the platform returns a busy error — wait for it to complete before deploying another app.
+</Note>
 
-The modal has two modes — toggle between them at the top:
+### Tracking multi-app installs
 
-### Single App mode
+The **My Servers** view (VPS Servers → My Instances) shows each server's installed apps inline. Each installed app has its own status:
 
-Choose one application to install:
+| App status | Meaning |
+|-----------|---------|
+| Queued | Scheduled, waiting for the server to become ready |
+| Deploying | Currently installing |
+| Installed | Running and accessible |
+| Needs setup | Deployed but requires configuration input from the customer |
+| Failed | Last deploy attempt errored — error message shown |
 
-- **Clean Ubuntu** — bare OS, no software pre-installed. Expert use only.
-- **Docker + Portainer** — the platform default stack. Installed on every new VPS unless you choose something else.
-- Any other app from the catalog (OpenClaw, n8n, Ollama, Nextcloud, etc.)
+If an app shows **Needs setup**, the customer sees a "Finish setup" prompt in their portal.
 
-Click any app card to open the detail overlay — showing description, features, resource usage (RAM), access port, website, and GitHub link.
+---
 
-Then click **Select for Install**.
+## Reinstalling a server
 
-### Build Package mode
+To replace a server's entire software stack (wipes all data):
 
-Build a custom stack of multiple apps that install together. Useful for pre-configured offerings like "AI Agent Stack" (OpenClaw + Ollama + n8n).
+1. Open **My Servers** (VPS Servers → My Instances).
+2. Click **Reinstall** on an active instance.
+3. Select a new app or package from the reinstall modal.
+4. Check the confirmation box: _"I understand this will permanently delete all data on this server and reinstall the OS."_
+5. Click **Reinstall VPS**.
 
-- Click **+ Add to Package** on any app card
-- Port conflicts are detected automatically and shown as a warning — apps sharing the same port cannot be installed together
-- Total estimated RAM is shown based on selected apps
-- Click **Remove (✕)** on a tag to unselect an app
+The reinstall modal still has **Single App** and **Build Package** modes for full-stack replacements.
 
-### Confirm and reinstall
-
-Both modes require you to:
-
-1. Check the confirmation box: *"I understand this will permanently delete all data on this server and reinstall the OS."*
-2. Click **Reinstall VPS**
-
-The instance status changes to **Reinstalling** while the platform sets up the new software on the server.
+> 📷 **Screenshot needed:** _Add a screenshot of the updated reinstall modal, showing both Single App and Build Package modes alongside the now-larger app catalog._
 
 ---
 
 ## App Packages (VPS Settings)
 
-> **Where to find App Packages:** Open **VPS Servers** in the sidebar, then click **VPS Settings**. Scroll past Enable VPS Purchase / Customer Margin / Display Currency / Plan Visibility — **App Packages** sits at the bottom of the same page (not a separate route).
+> **Where to find App Packages:** Open **VPS Servers** in the sidebar, then click **VPS Settings**. Scroll to **App Packages** at the bottom.
 
-In **VPS Settings → App Packages**, create pre-configured bundles you can offer customers as a single product.
-
-![App Packages section — New Package button, package list, OpenClaw Auto-Deploy callout](/images/screenshots/vps-app-packages-list.jpg)
-![New Package sidebar — name, apps, price, plan, visibility, and Save button](/images/screenshots/vps-app-packages-new-package-form.jpg)
+Create pre-configured bundles that pair a VPS plan with a set of apps and a customer-facing price.
 
 ### Create a package
 
-1. Click **New Package** — a sidebar slides in from the right
-2. Enter a **package name** — e.g. "AI Starter Stack", "Automation Pro"
-3. Choose a **base VPS plan** to bundle with (e.g. Cloud VPS 10, 20, 30…)
-4. Toggle which **apps** to include — OpenClaw is automatically provisioned with a Knotie API key for each customer
-5. Set your **monthly/yearly price** — shown to customers in their whitelabel portal
-6. Toggle **visibility** per plan (show on Cloud VPS 20+ but not VPS 10, for example)
-7. Click **Save**
+1. Click **New Package** — a sidebar slides in from the right.
+2. Enter a **package name** — e.g. "AI Starter Stack", "Automation Pro".
+3. Choose a **base VPS plan** (e.g. Cloud VPS 10, 20, 30…).
+4. Select which **apps** to include.
+5. Set your **monthly/yearly price** shown to customers in their whitelabel portal.
+6. Toggle **visibility** per plan tier.
+7. Click **Save**.
 
-When a customer purchases a package from their portal, the platform automatically provisions all the apps and configures OpenClaw — no manual setup needed.
+### Package auto-deploy on provisioning
+
+When a customer purchases a package, the platform handles app deployment automatically based on the app type:
+
+- **One-click apps** (apps that install with no user input, e.g. OpenClaw): deploy automatically via cloud-init as the server provisions. The server arrives fully configured.
+- **Input-required apps** (apps that need credentials or port config): recorded at purchase and surfaced to the customer as **Finish setup** prompts in their portal as soon as the server is active.
+
+OpenClaw is automatically provisioned with a Knotie API key for each customer — no manual setup required.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the customer's portal showing a "Finish setup" prompt for an app in a package that required configuration input._
 
 ---
 
@@ -115,35 +130,26 @@ When a customer purchases a package from their portal, the platform automaticall
 
 ---
 
-## App Catalog (Full List)
+## App status badges (catalog)
 
-When you click any app card in the reinstall modal, you see the full app detail view with:
-
-- **Name + emoji/logo** — unique icon for the app
-- **Description** — one-line summary of what the app does
-- **Features** — key capabilities as bullet points
-- **Tags** — searchable labels (e.g. `#llm`, `#chatbot`, `#automation`)
-- **Resource estimate** — approximate RAM usage
-- **Access port** — primary port the app listens on
-- **License** — open source license (MIT, Apache 2.0, etc.)
-- **Links** — official website and GitHub repository
-
-### App status badges
-
-Only one badge appears in the reinstall modal:
-
-- **Platform default** — shown on the Docker + Portainer card (the default stack on every new VPS)
-
-Other badges you may see in the full app catalog:
-
-- **New** — app added to the platform within the last ~6 months
-- **Popular** — widely used in the self-hosted ecosystem
-- **Beta** — functional but not yet verified on a production VPS
+| Badge | Meaning |
+|-------|---------|
+| **Platform default** | Default stack (Docker + Portainer) installed on every new VPS |
+| **New** | Added to the platform recently |
+| **Popular** | Widely used in the self-hosted ecosystem |
+| **Beta** | Functional but not yet fully verified on production hardware |
 
 ---
 
 ## Related pages
 
+- [VPS Servers Overview](/partner-portal/vps/overview) — purchasing, credentials, restart, and live stats
+- [VPS Coupons](/partner-portal/vps/coupons) — create discount codes for customers
+- [Customer VPS App Visibility](/partner-portal/customers/integration-apps-selection) — per-customer app overrides
 - [OpenClaw Partner Setup](/agents/openclaw-setup) — Full setup guide for deploying OpenClaw on a VPS
 - [VPS Terminal](/partner-portal/customers/vps-terminal) — Give customers browser-based SSH access
 - [Auto Deploy](/partner-portal/auto-deploy) — Automated provisioning workflows
+
+---
+
+> Source: [knotie-ai-pro#1264](https://github.com/avijeett007/knotie-ai-pro/pull/1264) — _feat(vps): full one-click App Catalog, multi-app servers, package auto-deploy, restart + live stats_
