@@ -1,0 +1,98 @@
+---
+title: "Projects & Canvas"
+description: "Organize generated media into named projects, tag assets for reuse in future prompts, and browse your library by project."
+---
+
+## What Projects are for
+
+**Projects** let customers group generated images and videos into named collections — like an album for their AI-generated creative work. Every generation can be filed into a project, and the project filter in My Library makes it easy to find assets from a specific campaign, client, or theme.
+
+Projects are optional — the studio is fully usable without ever creating one. Unfiled assets (those not in a project) are a valid, first-class state.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Projects tab — showing a list of projects with asset counts, an "Active project" chip at the top of the studio, and the "+ New Project" button._
+
+---
+
+## Creating a project
+
+1. Open the **Projects** tab in the Media Studio.
+2. Click **New Project**.
+3. Enter a project name and click **Create**.
+
+The new project becomes the **active project** automatically — indicated by the active project chip at the top of the studio. Any generation run while a project is active is filed into it.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the New Project modal — name field and Create button._
+
+---
+
+## The active project chip
+
+The active project chip appears above the Create and Use Cases tabs when a project is selected. Generations run while a project is active are automatically filed under that project.
+
+To switch projects, click the chip and choose a different one. To go back to unfiled mode, deselect the active project.
+
+---
+
+## Archiving projects
+
+Projects cannot be permanently deleted — they are **archived**. Archiving a project:
+
+- Removes it from the active-project picker
+- **Unfiles** all assets in the project (they remain in My Library as unfiled assets)
+- Does not delete any generated content
+
+Click the **⋯ menu** on any project card → **Archive**.
+
+---
+
+## Tagging assets with `@` aliases
+
+Every asset can be given a **short alias** (an `@tag`) so it can be referenced by name in future prompts. This is useful when a customer wants to reuse a specific asset — like a branded character image — across multiple recipes.
+
+### Creating a tag
+
+1. Open an asset in **My Library** or from a project.
+2. Click **Tag asset** and enter a short, lowercase-kebab-case alias (e.g. `my-logo`, `hero-shot`).
+3. Click **Save alias**.
+
+Aliases must be unique per customer. The alias appears as a chip on the asset card.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Canvas board with an asset tagged — showing the alias chip, the tag field, and the @-autocomplete in the Create prompt box._
+
+### Using a tag in a prompt
+
+In the **Create** tab's prompt field, type `@` followed by the alias name. An autocomplete menu appears with matching tagged assets. Selecting one:
+
+- Substitutes the alias for the asset's name in the prompt text
+- Attaches the asset as a visual reference where the model accepts an image input
+
+This lets customers refer to their own assets by name without copying and pasting URLs.
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the tag-and-reuse flow — tagging an asset in My Library, then using @alias in a Create prompt to reference it in a new generation._
+
+### Tag auto-pin
+
+Tagged assets are automatically **pinned** so they are never expired by the platform's 30-day auto-cleanup sweep. Pinned assets remain in the library indefinitely, regardless of how long ago they were generated.
+
+---
+
+## My Library — project filter
+
+In the **My Library** tab, the **Projects** filter lets you narrow the view to a single project:
+
+1. Click the **Project filter** dropdown.
+2. Select a project name (or "Unfiled" for assets not in any project).
+
+Each group in the library view shows the run that produced it, with a per-run credit breakdown.
+
+> 📷 **Screenshot needed:** _Add a screenshot of My Library with the project filter open — showing a project selected, asset cards grouped by run, and per-run credit amounts._
+
+---
+
+## Related pages
+
+- [Use-Case Studio & Recipes](/customer-management/media-studio/use-case-studio) — How to generate assets using guided recipes
+- [Media Studio overview](/customer-management/media-studio/overview) — Feature overview and credit model
+- [Credits & AI credit management](/partner-portal/customers/credits-and-ai-credit-management) — Managing the customer's credit balance
+
+> Source: [knotie-ai-pro#1266](https://github.com/avijeett007/knotie-ai-pro/pull/1266) — _feat(media-studio): Use-Case Studio — recipe engine, 12 guided recipes, pricing correction (P0+P1)_

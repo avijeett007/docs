@@ -57,6 +57,14 @@
             ]
           },
           {
+            "group": "Generative Media Studio",
+            "pages": [
+              "customer-management/media-studio/overview",
+              "customer-management/media-studio/use-case-studio",
+              "customer-management/media-studio/projects-canvas"
+            ]
+          },
+          {
             "group": "Partner Portal",
             "pages": [
               "partner-portal/overview",
