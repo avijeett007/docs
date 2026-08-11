@@ -53,6 +53,7 @@
             "group": "Customer portal features",
             "pages": [
               "customer-management/media-library",
+              "customer-management/generative-media-studio",
               "customer-management/social-posting"
             ]
           },

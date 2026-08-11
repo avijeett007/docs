@@ -1,0 +1,119 @@
+---
+title: "Generative Media Studio"
+description: "Create, derive, and caption AI-generated videos — all from the customer portal. The studio handles multi-format exports and caption burning automatically."
+---
+
+## What the Generative Media Studio does
+
+The **Generative Media Studio** is the video creation centre inside every customer portal. Partners enable it per-customer via the Features & Add-ons panel. Customers use it to:
+
+- Generate short video clips from prompts using AI models (Seedance, Veo, and others).
+- Automatically produce **multiple aspect-ratio versions** of every clip (landscape 16:9, portrait 9:16, square 1:1) in a single derive job.
+- **Burn styled captions** directly into a clip — synced to a voiceover, with font, colour, and positioning options.
+- Organise assets across projects and keep a searchable library.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Generative Media Studio home screen — the tabs for Home, Recipes, Projects, Library, Characters, and Showcase should all be visible._
+
+---
+
+## Prerequisites
+
+1. The partner must enable the **Generative Media Studio** toggle in **Customers → Manage → Features & Add-ons**.
+2. KnotieManager (the media-processing service) must be running and reachable. Partners self-hosting on a VPS provision this via the **Auto-Install** flow.
+3. The VPS running KnotieManager must have **ffmpeg** installed _and_ compiled with the `drawtext` filter (required for caption burning). The app logs a warning at startup if `drawtext` is absent.
+
+---
+
+## Generating a clip
+
+1. Open the customer portal and navigate to **Media Studio**.
+2. Choose a **Recipe** (a preset that defines prompt structure, model, style, and shot count).
+3. Fill in the recipe fields and click **Generate**.
+4. The job enters the queue. A progress indicator appears in the **Library** tab.
+5. When the job completes, the clip appears in your library with a stable direct URL.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the recipe picker — the card grid with recipe names, thumbnails, and the "Use recipe" button._
+
+---
+
+## Derive jobs — multi-format exports
+
+After generating a clip, the studio automatically creates **derived versions** for the most common ad sizes. Each derive job produces up to four aspect-ratio re-frames from the source clip:
+
+| Format | Dimensions | Common use |
+|---|---|---|
+| Landscape | 16:9 (1920 × 1080) | YouTube, web, desktop |
+| Portrait | 9:16 (1080 × 1920) | TikTok, Instagram Reels, Shorts |
+| Square | 1:1 (1080 × 1080) | Instagram feed, Facebook |
+| Vertical wide | 4:5 (1080 × 1350) | Instagram feed (tall) |
+
+Derived clips appear as siblings of the source in the library, labelled by their format. They share the same title and tags as the original.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the asset card in the Library showing the source clip and its derived-format variants grouped beneath it._
+
+---
+
+## Caption burning
+
+The studio can render styled captions directly onto a video — the text is **composited into the video pixels**, not an overlay — so it looks the same everywhere the clip is shared.
+
+### How it works
+
+1. Generate (or upload) a clip.
+2. Add a **voiceover** to the clip from the Captions panel.
+3. Select a caption **style** (see table below).
+4. Click **Burn captions**. The platform sends the clip and voiceover to the caption engine.
+5. A new captioned version appears in your library alongside the original.
+
+### Caption styles
+
+| Style | Description |
+|---|---|
+| Default | White text, black drop-shadow, centred lower-third |
+| Bold highlight | Thick white text, yellow word highlight on the current cue |
+| Minimal | Small light-grey text, lower-third, no shadow |
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Captions panel — the style picker, the cue timeline, and the voiceover upload control._
+
+> 🎬 **Video walkthrough:** _Record a short clip showing the full caption flow: uploading a voiceover, picking a style, burning captions, and viewing the finished video._
+
+---
+
+## Project filing — organising assets
+
+Every generated or derived asset can be filed into one or more **Projects**, letting customers group clips by campaign, client, or content series.
+
+- From the Library, select an asset and choose **File to project**.
+- An asset can belong to multiple projects at once. Removing it from one project does not delete it.
+- The **Projects** tab shows a gallery view filtered by project.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the "File to project" modal — project name dropdown and the "File asset" button._
+
+---
+
+## Capacity and queue management
+
+The studio processes all video jobs on a shared media-runner service. To protect system stability, the runner caps concurrent ffmpeg jobs and download jobs at fixed limits. When the runner is at capacity:
+
+- Your job is automatically **queued** if there is room in the backlog.
+- If the backlog itself is full, the main app leaves the job row in its current state and the **5-minute cron sweep re-submits it automatically** — no action needed.
+- Jobs are never lost due to capacity. They cost latency, not data.
+
+The partner portal's **KnotieManager status panel** shows current queue depth (lane: `ffmpeg` and lane: `ingest`) and memory usage. If the runner is consistently saturated, adding CPU/RAM on the VPS or provisioning a second runner node is the recommended fix.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the KnotieManager capacity panel (or the `/api/media-runner/capacity` JSON response) showing queue depth and memory usage._
+
+---
+
+## Common errors
+
+| Error | Likely cause | Fix |
+|---|---|---|
+| Job stays in `ingesting` status for >15 min | KnotieManager is unreachable or at capacity | Check KnotieManager logs; the cron sweep retries every 5 minutes |
+| Caption burn fails with "drawtext unavailable" | ffmpeg on the VPS was not compiled with `drawtext` | Reinstall ffmpeg with full codec support (e.g. `ffmpeg-full` on Ubuntu) |
+| Derive job shows `failed` | Source clip URL has expired or is unreachable | Re-generate the source clip, then trigger derive again |
+| "Media runner is at capacity" shown to user | All ffmpeg slots and the queue are full | Wait ~1 minute and retry; or check VPS resources in the KnotieManager panel |
+
+---
+
+> Source: [knotie-ai-pro#1270](https://github.com/avijeett007/knotie-ai-pro/pull/1270) — _New media studio experience_
