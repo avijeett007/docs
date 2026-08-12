@@ -1,0 +1,103 @@
+---
+title: "Media Studio — Agent Connect"
+description: "Mint a media-scoped token so an AI agent can generate images and videos on a customer's behalf via the MCP tool suite."
+---
+
+## What Agent Connect is
+
+**Agent Connect** lets a customer link their AI agents (n8n automations, Knova agents, or any MCP-compatible workflow) directly to their Media Studio. The agent gets a scoped token that allows it to call the 22 Media Studio MCP tools — listing recipes, quoting generation costs, submitting jobs, polling status, reading brand kit values, and more — without ever exposing the customer's full portal session or their broader MCP scope.
+
+A Media Studio agent token is distinct from a general-purpose MCP token:
+
+| | General MCP token | Media Studio token |
+|---|---|---|
+| **Scope** | All connected-app tools | Media generation + media library tools only |
+| **Spend cap** | Not applicable | Configurable per token |
+| **Visibility toggle** | `showMcp` | `showMediaStudio` |
+| **Typical use** | AI memory, knowledge-base query | Automated content generation |
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Agent Connect page in Media Studio — the token list with name, spend cap, and Copy Token button, plus the "Create new token" modal._
+
+> 🎬 **Video walkthrough:** _Record a clip of minting a token, copying it, and pasting it into an n8n workflow's HTTP credential._
+
+## Prerequisites
+
+- **Media Studio** must be enabled for the customer. See [Media Studio overview](/customer-management/media-studio).
+- The customer must have an active portal session with the `showMediaStudio` toggle on.
+
+## Minting a token
+
+1. In the customer portal, navigate to **Media Studio → Connect to my agents**.
+2. Click **New token**.
+3. Fill in:
+   - **Name** — a label that identifies the agent or workflow this token is for (e.g., "n8n content pipeline", "Knova weekly social agent").
+   - **Description** _(optional)_ — any notes about what this token's workflow produces.
+   - **Spend cap** — the maximum credits this token may spend in total, across its lifetime. Set to `0` to allow unlimited spending (you will be asked to confirm this choice explicitly). Defaults to the platform-configured per-token cap.
+4. Click **Create**. The plaintext token is shown **once** — copy it immediately. The platform stores only a hashed reference; the full token cannot be recovered after you leave this page.
+
+<Warning>
+Treat the token as a password. Anyone who holds it can submit generation jobs that spend the customer's credit balance up to the spend cap. Store it in your agent platform's secrets/credentials store, not in plain text.
+</Warning>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the "New token" modal with the Name, Description, and Spend Cap fields, and the one-time token reveal step._
+
+## The spend cap
+
+The spend cap is a safety ceiling on how many credits a single agent connection may consume across its entire lifetime. It is not a per-job limit or a daily limit — it is a running total. Once the token has authorised that many credits in submitted generations (regardless of whether those jobs succeeded), further generation submissions via that token are rejected with a `spend_cap_exceeded` error.
+
+Set a spend cap that reflects the expected monthly throughput of the workflow plus a safety margin. If a workflow generates 50 social images per month at 5 credits each, a cap of 5,000 gives roughly 20 months of headroom while still preventing a runaway loop from draining the customer's entire balance.
+
+## Listing and revoking tokens
+
+The Agent Connect page shows all active tokens for this customer. Each row shows:
+- Token name and description
+- Spend cap and credits used so far
+- Creation date
+
+To revoke a token, click **Delete** on its row. Revocation is immediate — any in-flight generation that already passed quota check will complete, but no new jobs can be submitted with that token.
+
+## Available MCP tools
+
+When an agent presents a valid Media Studio token to the Connect Hub MCP endpoint, the following tools are available:
+
+| Tool | Description |
+|---|---|
+| `RECIPE_LIST` | List all available generation recipes with inputs, estimates, and categories |
+| `RECIPE_QUOTE` | Get a credit cost estimate for a specific recipe + inputs before committing |
+| `RECIPE_RUN_SUBMIT` | Submit a generation job for a recipe |
+| `RECIPE_RUN_STATUS` | Poll the status of a submitted run |
+| `RECIPE_RUN_CHOOSE` | Make a choice in a multi-step recipe that has a gate (e.g., picking a generated option) |
+| `BRAND_KIT_GET` | Read the customer's saved Brand Kit |
+| `BRAND_KIT_UPDATE` | Write a new Brand Kit (useful for onboarding automations) |
+| `MEDIA_LIST_ASSETS` | List the customer's media library |
+| `MEDIA_IMPORT_FROM_URL` | Pull an external image into the customer's media library |
+
+<Info>
+The full tool list and input schemas are exposed to the agent via MCP tool discovery — the agent discovers exactly what is available by calling the Connect Hub endpoint with the token. The table above covers the generation-facing subset; the token also includes the media library tools.
+</Info>
+
+## Connecting to n8n
+
+1. In n8n, create a new **HTTP Request** credential.
+2. Set the base URL to your partner's Connect Hub MCP endpoint (available in **Settings → MCP** in the Partner Portal).
+3. Set the **Authorization** header to `Bearer <your-token>`.
+4. Use the **MCP** node or a plain HTTP Request node to call `POST /mcp` with a JSON-RPC body targeting the tool you want.
+
+See [n8n Automation](/agents/n8n/n8n-automation) for the full n8n ↔ Connect Hub setup guide.
+
+## Estimate disclosure
+
+Before a recipe run is submitted, the agent is required to surface a cost estimate to the end human. The `RECIPE_QUOTE` tool returns both the credit cost and the platform's **estimate disclosure** text — a short note that quotes are estimates and the actual charge matches the quote unless the model changes. The agent skill's contract requires it to repeat this disclosure to the user before calling `RECIPE_RUN_SUBMIT`.
+
+This is a platform invariant; agents that skip the disclosure step and submit directly are still charged, but the user's informed-consent path is violated. Agent workflows should always call `RECIPE_QUOTE` → show result to user → await confirmation → `RECIPE_RUN_SUBMIT`.
+
+## Related pages
+
+- [Media Studio overview](/customer-management/media-studio) — What Media Studio is and how to enable it
+- [Media Studio — Brand Kit](/customer-management/media-studio-brand-kit) — Teach the AI your brand identity
+- [MCP tool modes](/api-reference/mcp/tool-modes) — How agent tools are scoped and discovered
+- [n8n Automation](/agents/n8n/n8n-automation) — Connecting n8n workflows to Knotie
+
+---
+
+> Source: [knotie-ai-pro#1295](https://github.com/avijeett007/knotie-ai-pro/pull/1295) — _Media Studio v3 — the complete wave_

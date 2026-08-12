@@ -1,0 +1,89 @@
+---
+title: "Media Studio — Brand Kit"
+description: "Extract a customer's brand identity from their website and inject it into every AI-generated image and video automatically."
+---
+
+## What the Brand Kit does
+
+The **Brand Kit** is a saved set of brand identity tokens — primary colours, fonts, logo URL, and a brief brand personality description — that the Media Studio's generation engine can read when it builds a prompt. Once a customer sets up their Brand Kit, every recipe that supports brand injection picks up those values automatically: they do not need to re-enter their colours or re-upload their logo each time.
+
+Use the Brand Kit when a customer wants:
+
+- Every AI image and video to match their visual identity without manual re-specification
+- Consistent colour palette and typography references across all their generated content
+- AI-generated UGC ads that are on-brand out of the box
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Brand Kit page in the customer portal — the URL field, the Extract button, and the colour swatches and font tiles that populate after extraction._
+
+> 🎬 **Video walkthrough:** _Record a short clip of the Brand Kit flow: entering a URL, clicking Extract, reviewing the extracted tokens, and then running a recipe that uses the kit._
+
+## Prerequisites
+
+- **Media Studio** must be enabled for the customer. See [Media Studio overview](/customer-management/media-studio).
+- The customer must have an active customer portal account with a session cookie.
+
+## Setting up a Brand Kit
+
+### Automatic extraction from a URL
+
+1. Open the customer portal and navigate to **Media Studio → Brand Kit**.
+2. In the **Extract from URL** field, enter the root URL of the customer's public website (e.g., `https://acme.com`).
+3. Click **Extract**. The platform fetches the page, parses the CSS and meta tags, and returns:
+   - Up to 8 colour swatches (primary, secondary, background, accent, and their dark-mode variants)
+   - Up to 2 detected font families
+   - The page's `<title>` and `<meta name="description">` content as a brand description seed
+   - The favicon or OG image as the logo suggestion
+4. Review the extracted values. Edit any field that the extractor got wrong.
+5. Click **Save** to store the Brand Kit.
+
+<Info>
+The extractor reads publicly accessible CSS and HTML only — it does not log in or execute JavaScript-heavy single-page applications beyond what a standard HTTP request can fetch. Brands hosted entirely behind auth or in a JavaScript-only render may return partial results.
+</Info>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the extraction result — colour palette, font names, and brand description filled in after clicking Extract._
+
+### Manual entry
+
+If the website extractor does not return useful results, the customer can fill in all fields manually:
+
+- **Brand name** — the display name used in generation prompts
+- **Primary colour** — hex code (e.g., `#3B82F6`)
+- **Secondary colour** — hex code
+- **Background colour** — hex code
+- **Logo URL** — a stable public URL to the brand logo (PNG or SVG with a transparent background)
+- **Primary font** — the font family name exactly as it would appear in a CSS `font-family` declaration
+- **Brand description** — 1–3 sentences describing the brand's visual personality (e.g., "Minimalist SaaS brand — clean whites, bold blues, no decoration")
+
+Click **Save** to store the kit.
+
+## Updating a Brand Kit
+
+The customer can edit any saved kit at any time. Changes take effect on the _next_ generation that uses the kit — jobs already queued or in progress use the values captured at submission time.
+
+To delete the kit entirely, open the Brand Kit page and click **Delete**. Deleting a kit does not affect previously generated assets.
+
+## How the Brand Kit is used in recipes
+
+When a recipe supports brand injection (the recipe card shows the **Brand Kit** indicator), the generation engine reads the saved kit and weaves the brand tokens into the generation prompt automatically. The customer does not need to re-enter any brand details at recipe submission time — the kit is applied silently.
+
+Recipes that do _not_ use the Brand Kit (such as Photo Restoration or Character Sheets) are unaffected by whether a kit is saved.
+
+## One kit per customer
+
+Each customer has a single active Brand Kit. Partners who serve customers with multiple brands should advise those customers to update their kit before generating content for a different brand — or to use the **manual override** fields available in individual recipes when a one-off deviation from the saved kit is needed.
+
+## API access (agent-facing)
+
+AI agents connected via a Media Studio agent token can read and update the Brand Kit programmatically through the MCP tool `BRAND_KIT_GET` and `BRAND_KIT_UPDATE`. This allows an agent workflow to extract brand identity from a newly-onboarded customer and store it before running any generation recipes.
+
+See [Media Studio — Agent Connect](/customer-management/media-studio-agent-connect) for how to mint an agent token.
+
+## Related pages
+
+- [Media Studio overview](/customer-management/media-studio) — What Media Studio is and how to enable it
+- [Media Studio — Agent Connect](/customer-management/media-studio-agent-connect) — Connect AI agents to Media Studio
+- [Docs & Media library](/customer-management/media-library) — Where generated assets are saved
+
+---
+
+> Source: [knotie-ai-pro#1295](https://github.com/avijeett007/knotie-ai-pro/pull/1295) — _Media Studio v3 — the complete wave_
