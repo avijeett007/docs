@@ -1,0 +1,147 @@
+---
+title: "Media Studio"
+description: "Generate AI images and videos directly from the customer portal using pre-built recipes, brand kits, and persona templates."
+---
+
+## What Media Studio is
+
+**Media Studio** gives your customers a self-serve AI content production workspace inside their whitelabel portal. From a gallery of pre-built _recipes_ they pick a use case, answer a short questionnaire, and the platform handles the generation — quoting the credit cost upfront, producing the output, and saving it to their media library.
+
+Customers never need to write prompts. Every recipe encodes the prompt engineering; the customer provides only the business-specific details (their brand, their product, their script).
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Media Studio landing page — the recipe gallery showing available generation cards with category tabs (Images, Videos, Ads, Characters, Restoration)._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the end-to-end flow: choosing a recipe, filling the questionnaire, accepting the credit quote, and viewing the finished output in the media library._
+
+## Enabling Media Studio for a customer
+
+Media Studio has two gates:
+
+1. **Partner master switch** — enabled at the partner level in the Partner Portal settings. Contact your Knotie partner onboarding team if you do not see the toggle.
+2. **Per-customer toggle** — once the partner switch is on, navigate to **Customers → [customer name] → Features & Add-ons** and enable **Media Studio**. The feature appears in that customer's portal sidebar immediately.
+
+Only customers with the per-customer toggle on will see Media Studio; other customers on the same partner account are unaffected.
+
+## The recipe gallery
+
+When a customer opens Media Studio they see the recipe gallery — a grid of generation use cases organized into categories:
+
+| Category | Examples |
+|---|---|
+| **Restoration** | Photo Restoration (upscale + repair old or damaged photos) |
+| **Characters** | Character Sheet, Wardrobe Sheet, Feature Sheet, Product Sheet |
+| **Cartoon & Animation** | 32-preset cartoon pack, Cartoon Series (consistent character videos) |
+| **Motion & Video** | Motion posters, image-to-video, voice-seam narrated videos |
+| **Social & Ads** | UGC Ads (when enabled by your partner) |
+| **Storyboard** | Multi-panel storyboard _(Experimental)_ |
+| **Persona / Influencer** | AI persona creation for influencer-style content |
+
+Recipes marked **Coming Soon** show a preview still and cannot be submitted yet.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the recipe gallery with the category filter tabs visible._
+
+## Running a generation
+
+1. Open the customer portal and navigate to **Media Studio**.
+2. Click any available recipe card.
+3. Fill in the recipe's questionnaire (e.g., upload a reference photo, type a script, choose a voice, pick a cartoon style).
+4. Review the **credit estimate** shown before committing. The platform quotes the cost before charging — you can back out at this step.
+5. Accept the estimate to start the generation.
+6. The platform queues the job. Depending on the recipe, output appears in seconds (images) to several minutes (multi-step videos).
+7. Finished assets are saved automatically to the customer's **Docs & Media** library with a stable public URL.
+
+<Info>
+Credit costs vary by recipe type and output length. Image recipes are cheaper than video recipes. Partners can adjust the profit multiplier per their resell margin in **Settings → Media Studio**. The customer always sees the final quoted price, not the underlying model cost.
+</Info>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the estimate disclosure modal — showing the quoted credit cost before a customer commits to a generation._
+
+## Generated media expiry
+
+By default, generated media is stored for **30 days** from creation. After that, the files are automatically removed to free storage. The public URL in the media library becomes invalid after expiry.
+
+Partners can ask the Knotie team to adjust the retention window via the `MEDIA_EXPIRY_DAYS` configuration.
+
+To keep an asset beyond the expiry window, the customer should download it or move it to long-term storage before the deadline.
+
+## Photo Restoration
+
+Photo Restoration is a one-step recipe: upload an old, damaged, or low-resolution photo and the platform returns a cleaned, upscaled version.
+
+Steps:
+1. Choose **Photo Restoration** from the recipe gallery.
+2. Upload the source photo.
+3. Accept the credit estimate.
+4. The restored photo is saved to the media library.
+
+No brand kit or reference character is required — the recipe works from the photo alone.
+
+## Character and product sheets
+
+Sheets are a structured way to teach the AI what your customer's characters, products, or people look like — so that every future generation uses the same visual identity.
+
+Four sheet types:
+
+| Sheet | What it captures |
+|---|---|
+| **Character Sheet** | Face, build, outfit variants for a recurring AI character |
+| **Wardrobe Sheet** | Outfit options separated from the character's face |
+| **Feature Sheet** | Specific visual features (hair, accessories, environment) |
+| **Product Sheet** | A product in multiple poses, backgrounds, and angles |
+
+After submitting a sheet, the platform trains a model (or caches reference embeddings) and the resulting character becomes available as a **choice gate** option in subsequent video and image recipes.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Character Sheet questionnaire — the upload fields and style-choice dropdowns._
+
+## Cartoon pack
+
+The cartoon pack gives customers access to **32 preset cartoon styles** (e.g., flat vector, 3-D animation, watercolour sketch, retro comic). Customers pick a style and supply a reference photo or description; the platform renders the character in that style.
+
+Cartoon Series uses the same style + character definition to produce a **multi-episode video** where the character stays consistent across clips — ideal for social content where a brand mascot must look the same every time.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the cartoon style picker showing the 32 presets as a scrollable grid._
+
+## Motion videos and voice narration
+
+Motion recipes animate a static image (photo or AI-generated still) into a short video clip. The **voice seam** option layers in an AI-narrated voiceover — customers pick a voice and type a script, and the system aligns the motion timing to the speech.
+
+Director controls let the customer choose:
+
+- **Camera move** — pan, zoom, dolly, static
+- **Motion strength** — subtle to dramatic
+
+> 📷 **Screenshot needed:** _Add a screenshot of the motion recipe's director controls — camera move picker and motion strength slider._
+
+## Storyboard _(Experimental)_
+
+Storyboard lets customers lay out a multi-panel visual narrative — each panel is an AI-generated image keyed to a scene description. Panels can be reordered, regenerated individually, or exported as a PDF contact sheet.
+
+<Warning>
+Storyboard is **Experimental**. The panel navigation and export flow are functional but the feature is still under active development. Behaviour may change between releases.
+</Warning>
+
+## Persona and Influencer Studio
+
+Persona Studio lets customers define an AI influencer identity — name, voice, visual style, personality traits — and generate consistent image and video content for that persona. The persona definition is stored and reused across sessions.
+
+The Social Planner bridge lets customers push finished persona content directly to the **Social Posting** calendar from within Media Studio without leaving the page.
+
+## Storage and quotas
+
+Generated assets count toward the customer's allocated storage quota and the partner's overall pool. When a customer hits their individual cap, new generations fail with a quota error rather than silently overwriting old files.
+
+Partners can review storage usage per customer under **Customers → [customer name] → Storage** (requires the storage admin feature to be enabled for the partner account).
+
+See [Docs & Media library](/customer-management/media-library) for quota limits per plan.
+
+## Related pages
+
+- [Docs & Media library](/customer-management/media-library) — Where generated assets are saved and managed
+- [Social posting calendar](/customer-management/social-posting) — Publish generated content to social platforms
+- [Media Studio — Brand Kit](/customer-management/media-studio-brand-kit) — Teach the AI your customer's brand identity
+- [Media Studio — Agent Connect](/customer-management/media-studio-agent-connect) — Let AI agents generate media on the customer's behalf
+- [Features, add-ons, and menu visibility](/partner-portal/customers/features-addons-and-menu-visibility) — Enable Media Studio for a customer
+
+---
+
+> Source: [knotie-ai-pro#1295](https://github.com/avijeett007/knotie-ai-pro/pull/1295) — _Media Studio v3 — the complete wave_

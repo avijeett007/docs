@@ -57,6 +57,14 @@
             ]
           },
           {
+            "group": "Media Studio",
+            "pages": [
+              "customer-management/media-studio",
+              "customer-management/media-studio-brand-kit",
+              "customer-management/media-studio-agent-connect"
+            ]
+          },
+          {
             "group": "Partner Portal",
             "pages": [
               "partner-portal/overview",
