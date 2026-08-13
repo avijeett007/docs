@@ -114,6 +114,17 @@ Turning on the master toggle isn't quite enough on its own. For a customer to se
 
 See [Features, add-ons, and menu visibility](/partner-portal/customers/features-addons-and-menu-visibility) for that per-customer setting.
 
+## Credit balance accuracy
+
+AI Gateway credit balances are tracked using an integer whole-credit field and a separate fractional-remainder field. Both must move together when usage is charged — if they get out of sync, customers can silently lose credits.
+
+A bug in the spend reconciliation endpoint (`POST /api/internal/ai-gateway/sync-spend`) was misreading the fractional field as if it contained the full balance, then writing back a floored value. For example: a customer with 500 credits and a 0.30 fractional remainder, after a 0.10 charge, would end up with 0 credits instead of 500 credits with a 0.20 remainder. This is now fixed.
+
+**If you use the external sync endpoint** (`POST /api/internal/ai-gateway/sync-spend`) in a custom cron job or manual script:
+- No changes to your integration are required.
+- Credit deductions from the sync endpoint are now handled by the same atomic cascade logic used by the real-time spend webhook, so the two paths are consistent.
+- If you noticed customers losing credits unexpectedly on gateway-synced accounts, recheck their current balance — the fix prevents new corruption but does not retroactively restore already-lost credits. Contact support if you need balance corrections.
+
 ## Good to know
 
 - **Keys you create** use a fixed $10 deposit, not a budget you set. Once it's used up, usage draws from your main balance automatically.
@@ -125,3 +136,7 @@ See [Features, add-ons, and menu visibility](/partner-portal/customers/features-
 - [Features, add-ons, and menu visibility](/partner-portal/customers/features-addons-and-menu-visibility)
 - [Client portal navigation, billing, and AI Gateway](/customer-management/client-portal-navigation-and-ai-gateway)
 - [API access overview](/partner-portal/api-keys)
+
+---
+
+> Source: [knotie-ai-pro#1310](https://github.com/avijeett007/knotie-ai-pro/pull/1310) — _fix(billing): sync-spend learns the webhook's fraction-only balance semantics_
