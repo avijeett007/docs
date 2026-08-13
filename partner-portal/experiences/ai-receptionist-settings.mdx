@@ -1,0 +1,111 @@
+---
+title: "AI Receptionist — experience settings"
+description: "Configure agent tier, telephony credentials, business lookup limits, and landing style for your AI Receptionist experience from the Experience Settings page."
+---
+
+## Overview
+
+The **AI Receptionist** experience settings page consolidates all configuration for your AI Receptionist portal into one place. It replaces a set of controls that previously lived scattered across different Whitelabel Settings sections.
+
+To reach it:
+
+1. Partner Portal → **Experiences**
+2. Find the **AI Receptionist** card and click its **Settings** (gear) icon
+
+> 📷 **Screenshot needed:** _Add a screenshot of the AI Receptionist experience settings page, showing all four configuration cards (Agent Tier, Own Telephony, Business Lookup, Landing Style)._
+
+> 🎬 **Video walkthrough:** _Record a short clip covering: opening Experience settings, selecting an agent tier, saving telephony credentials, and adjusting the landing style._
+
+## Agent tier
+
+The **Agent Tier** card controls which AI capability tier your customers get when they sign up through your AI Receptionist portal.
+
+| Tier | Credits/min | Description |
+|------|------------|-------------|
+| **Essentials** | 5 | Basic AI capabilities, suitable for standard inbound support |
+| **Moderate** | 7 | Enhanced capabilities; includes Cartesia voice selector |
+| **Premium** | 10 | Full AI capabilities with priority processing |
+| **BYOA** (Bring Your Own Agent) | — | Uses the partner's own Retell API key; customer credits are not charged per-minute |
+
+### Switching to BYOA
+
+To use BYOA mode, you need an active Retell API key configured in your platform settings. When you select **BYOA**, the tier card shows a modal where you can enter or confirm your Retell key before saving.
+
+<Info>
+  Changing the agent tier takes effect for new customer sign-ups. Existing customers keep the tier they were provisioned on.
+</Info>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Agent Tier card with the tier options visible, and separately the BYOA Retell key modal._
+
+## Own telephony provider
+
+The **Own Telephony** card lets you supply your own Twilio credentials so your AI Receptionist uses your Twilio account for calls instead of the platform's shared pool.
+
+### How to configure
+
+1. Toggle **Use my own telephony provider** to on.
+2. Enter your **Twilio Account SID**.
+3. Enter your **Twilio Auth Token**.
+4. Click **Save**.
+
+<Warning>
+  **Write-only credentials.** Once saved, the Auth Token is encrypted and stored — it is never returned to the browser. If you need to update it, re-enter both fields and save again. Toggling the provider off does not erase stored credentials; they are preserved so you can re-enable without re-entry.
+</Warning>
+
+<Info>
+  The settings page reports `hasTelephonyCredentials: true/false` to indicate whether credentials are on file — it never exposes the token itself.
+</Info>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Own Telephony card in its enabled state, with the SID field filled and the Auth Token field showing a masked placeholder._
+
+## Business lookup limits
+
+The **Business Lookup** card controls how much the platform can spend on Google Business Profile lookups for your AI Business Audit experience and AI Receptionist flows.
+
+| Setting | Range | Description |
+|---------|-------|-------------|
+| **Business Lookup Enabled** | Toggle | Turns lookups on/off globally for your portal |
+| **Daily lookup limit** | 0 – 100,000 | Maximum lookups per calendar day |
+| **Monthly budget (USD)** | $0 – $10,000 | Spend cap reset at the start of each month |
+
+Setting a limit to `0` disables lookups for that dimension. Explicit zeros are honoured — saving with `0` does not reset back to any default.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Business Lookup card with the daily limit and monthly budget fields visible._
+
+## Landing style
+
+The **Landing Style** card lets you choose the visual theme for your AI Receptionist landing page.
+
+| Style | Availability |
+|-------|-------------|
+| **CLASSIC** | All plans |
+| **NORTHBEAM** | Available to partners grandfathered on the NORTHBEAM theme; tier-gated for new enablement |
+
+<Info>
+  If your account previously used the NORTHBEAM style, you will keep it and it will never be silently downgraded. Switching away from NORTHBEAM and then back may require your plan to include NORTHBEAM access.
+</Info>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Landing Style card showing the CLASSIC and NORTHBEAM options with the tier-gate badge visible on NORTHBEAM._
+
+## FREE FOREVER plan behaviour
+
+If your partner account is on the **Free Forever** plan, the AI Receptionist experience is gated:
+
+- You will see an **Upgrade** affordance in place of the settings when you don't have entitlement.
+- If you were granted Free Forever access to the AI Receptionist, the settings cards appear normally.
+
+## Relationship to Whitelabel Settings
+
+These four controls — agent tier, telephony provider, business lookup, and landing style — **have moved from the legacy Whitelabel Settings page to this Experience Settings page**. If you previously configured them under **Settings → Whitelabel**, they are still active; the values migrated automatically. Going forward, make changes here.
+
+The Whitelabel Settings page still handles domain, branding, Stripe Connect, subscription plans, and portal mode — everything that applies to the whole portal rather than a specific experience.
+
+## Related pages
+
+- [AI Experiences overview](/partner-portal/experiences/overview) — enable and manage all experiences
+- [SaaS portal mode](/partner-portal/settings/saas-portal-mode) — configure the portal funnel, onboarding flow, and pricing
+- [Whitelabel settings](/partner-portal/settings/whitelabel-settings) — domain, branding, and portal-level config
+
+---
+
+> Source: [knotie-ai-pro#1313](https://github.com/avijeett007/knotie-ai-pro/pull/1313) — _feat(whitelabel): SaaS portal experiences manager + complete the AI Receptionist config migration_

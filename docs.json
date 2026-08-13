@@ -100,6 +100,7 @@
             "pages": [
               "partner-portal/ai-gateway",
               "partner-portal/experiences/overview",
+              "partner-portal/experiences/ai-receptionist-settings",
               "partner-portal/experiences/resell-ai-gateway",
               "partner-portal/experiences/experience-dashboards",
               "partner-portal/experiences/jarvis-ai-os",
