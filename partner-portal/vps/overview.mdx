@@ -46,8 +46,9 @@ VPS instances move through these states:
 | Pending payment | Order placed, awaiting payment |
 | Provisioning | Payment received, being set up |
 | Active | Live and operational |
-| Suspended | Paused due to non-payment or issues |
-| Cancelled | Terminated |
+| Suspended | Paused due to non-payment or partner suspension |
+| Decommissioned | Released at Contabo; instance no longer runs |
+| Cancelled | Terminated by partner or customer request |
 
 {/* SCREENSHOT deferred: each provisioned VPS appears as an instance card with a colored status badge matching the table above — amber Provisioning, green Active, grey Suspended. Cards render only once at least one VPS exists; a fresh account reads "No VPS instances yet." Capture from an account with a live instance. */}
 
@@ -133,9 +134,96 @@ Select multiple apps to install together as a package:
 | Security | — |
 | Networking | — |
 
+## Billing lifecycle
+
+### Renewal reminders
+
+The platform sends renewal reminder emails to both you (the partner) and your customer **3 days before** the instance's `nextBillingDate`. The email includes a notice that no data is retained or backed up — customers should take their own backups before renewal.
+
+### Non-payment handling
+
+When a customer payment fails on a VPS subscription:
+
+1. **`invoice.payment_failed`** — the instance moves to `past_due`. You and the customer both receive a payment-failed email.
+2. **`subscription → unpaid`** — the instance is suspended. A grace period starts (see below).
+3. **`invoice.paid`** (recovery) — if the customer pays while the instance is suspended for non-payment, it is fully restored and the grace period is cleared.
+
+<Info>
+  The non-payment recovery flow only restores instances that were suspended for non-payment. Instances suspended for partner-fault reasons (partner churn, partner credit failure) are not resurrected by a customer payment.
+</Info>
+
+### Grace periods
+
+Partners can configure a grace period before a suspended instance is permanently decommissioned at Contabo.
+
+**To set your grace period:**
+
+1. Go to **VPS Servers** → **Settings** (gear icon at the top of the page).
+2. Find the **VPS Lifecycle Policy** card.
+3. Set **Grace period (days)** — `0` to `30`. Default is `0` (no grace; instances release immediately on suspension for non-payment or churn).
+4. Set **End-of-grace action** — currently only `Release` is available (`Pool` is coming soon).
+
+> 📷 **Screenshot needed:** _Add a screenshot of the VPS Lifecycle Policy settings card showing the grace period slider and end-of-grace action selector._
+
+When the grace period expires:
+
+- The instance is **decommissioned** at Contabo (the `cancelContaboInstance` call runs).
+- The customer's Stripe subscription is cancelled immediately.
+- You and the customer receive a decommission email.
+
+<Warning>
+  **No data retention.** Knotie AI Pro does not back up VPS data. Once an instance is decommissioned, the data is gone. Customers should be advised to back up their own data before the grace period ends.
+</Warning>
+
+### Yearly billing (12-month reserve)
+
+When a customer purchases a **yearly** VPS plan:
+
+- **12 × the monthly base price** is reserved from your partner credit balance at checkout. Insufficient balance → the checkout is blocked with a "contact support" message.
+- `nextBillingDate` is set to 12 months from purchase (not 1 month).
+- Month-13 onward billing resumes at the standard monthly rate.
+
+<Info>
+  Yearly customers have term protection — they are not penalised for partner plan changes during their 12-month term.
+</Info>
+
+### Auto-installed instances
+
+VPS instances created via **OpenClaw** or **Hermes** auto-install now receive a `nextBillingDate` (set to 1 month from installation). Previously these instances had no billing date and were not billed to anyone.
+
+If you have pre-existing auto-install instances without a billing date, contact support to run the backfill.
+
+### Free Forever partners
+
+If you are on the **Free Forever** plan, the platform applies a **2.5% fee** to customer VPS subscriptions on your Stripe Connect account. All other partner plans have 0% platform fee on VPS.
+
+### Partner account deactivation
+
+If your partner account is deactivated or you cancel your subscription:
+
+- Every active, pooled, or suspended VPS instance under your account is immediately **suspended**.
+- A `partner_churn` grace period starts (using your configured grace days).
+- At grace expiry all instances are **decommissioned** and their Stripe subscriptions cancelled.
+
+### Lifecycle email notifications
+
+The platform automatically sends the following emails when lifecycle events occur:
+
+| Event | Recipients |
+|-------|-----------|
+| Renewal reminder (3 days before billing) | Partner + Customer |
+| Payment failed | Partner + Customer |
+| Grace period started | Partner + Customer |
+| Instance decommissioned | Partner + Customer |
+| Instance pooled _(coming soon)_ | Partner + Customer |
+
 ## Next steps
 
 - [VPS App Catalog](/partner-portal/vps/app-catalog) — browse and deploy apps
 - [AI Gateway](/partner-portal/ai-gateway) — manage API keys and budgets
 - [Customer Management](/customer-management/onboard-customer) — assign VPS to customers
 - [Partner Portal Overview](/partner-portal/overview) — explore other features
+
+---
+
+> Source: [knotie-ai-pro#1298](https://github.com/avijeett007/knotie-ai-pro/pull/1298) — _fix(vps): billing lifecycle — decommission pipeline, non-payment handling, yearly reserve, churn teardown_
