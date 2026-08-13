@@ -1,0 +1,195 @@
+---
+title: "Media Studio Storyboard"
+description: "A director's working canvas for building, pricing, and generating AI-powered media — scenes, cast, AI breakdown, and one-click board export."
+---
+
+<Warning>
+  **Experimental.** The storyboard is live and fully functional but is still being refined. Look for the **Experimental** badge in the UI. Owner sign-off and GA badge removal are tracked in KNOTI-403.
+</Warning>
+
+## What the Storyboard is
+
+The **Storyboard** is Media Studio's main creative canvas — a node-based board where each card represents a scene, a cast member, a piece of media, or an AI generation job. Everything on the board flows through the platform's standard credit system: you see a price before you run anything, the charge equals the quoted price, and refusals before a run cost zero.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Storyboard canvas in its default empty state, showing the toolbar, minimap, and "Add" menu._
+
+> 🎬 **Video walkthrough:** _Record a short clip showing: opening the Storyboard, adding a scene card, dragging a cast member onto the board, and running a Create card from quote to generation._
+
+## Where to find it
+
+1. Partner Portal → **Media Studio** in the sidebar.
+2. Click **Storyboard** (or the board icon at the top of the Media Studio section).
+
+## Board basics
+
+### Canvas controls
+
+| Control | How to use |
+|---------|-----------|
+| Pan | Click and drag on empty canvas |
+| Zoom | Scroll wheel / pinch-to-zoom |
+| Minimap | Bottom-right corner; click to jump to a region |
+| Marquee select | Click and drag to select multiple cards |
+| Nudge | Arrow keys move selected cards 1 px; Shift + arrows move 10 px |
+| Add card | Click the **+** button in the toolbar to open the Add menu |
+
+### Card types
+
+| Card type | Purpose |
+|-----------|---------|
+| **Scene** | A top-level container that organises the board into story beats |
+| **Cast** | A character or person in the production (seeded from AI breakdown) |
+| **World** | A setting, location, or concept referenced across scenes |
+| **Media** | A piece of uploaded or library media (images, audio, video clips) |
+| **Create** | An AI generation job — quote is on screen before the job runs |
+| **Guided / Recipe** | A multi-step recipe that walks through a structured generation flow |
+
+### @references
+
+Type `@` anywhere in a prompt or brief to insert a cast member, world item, or media asset by name. References appear as chips and are also drawn as edges on the canvas. Edges and text are kept in sync: renaming a chip updates the edge, and deleting an edge removes the chip.
+
+> 📷 **Screenshot needed:** _Add a screenshot showing @reference chips in a Create card prompt, with the corresponding edges visible on the canvas._
+
+## Cast rail
+
+The **Cast rail** runs along the left or top edge of the canvas. It lists every cast member on the board. Click a cast entry to jump to their card; drag a cast entry onto the canvas to insert an `@reference` chip in whichever card you drop it on.
+
+## Create cards (AI generation jobs)
+
+Create cards are how you run generation jobs — video, image, audio — directly from the board.
+
+### How a Create card works
+
+1. **Configure** — set the model, prompt, any director controls (style, tone, duration, resolution).
+2. **Quote** — a credit cost appears in the footer. The **Run** button is shown **only when a price is on screen**.
+3. **Run** — confirm. The charge equals the quoted price, no more.
+4. **Monitor** — the card shows a live status badge (Queued → Processing → Done / Failed).
+5. **Review** — the generated asset appears in the card and is linked to the board's media library.
+
+<Info>
+  Refusals (e.g., role-budget exceeded, likeness wall) happen **before** any charge. A failed pre-charge check costs zero credits.
+</Info>
+
+### Director controls
+
+Director controls appear inside Create cards for video models that support them:
+
+- **Audio on/off** — explicit audio generation flag (the price you see is for the audio-on rate when audio is enabled)
+- **Style, tone, duration, resolution** — model-specific parameters
+
+### Reference budgets and the likeness wall
+
+When your prompt references cast members, the system enforces **role budgets** (how many times a cast member can appear) and the **likeness wall** (not all models support likeness generation). If a reference exceeds either limit, the run is refused with a named error — the refusal happens pre-charge.
+
+## Guided / recipe cards
+
+Recipe cards walk you through a structured brief before running.
+
+1. Open the Add menu → **Guided** tab.
+2. Pick a recipe from the picker.
+3. Fill in the brief sheet (questions specific to the recipe).
+4. The recipe funnel generates the asset.
+
+At the brief gate, you confirm your choices before any charge is incurred.
+
+## AI director features
+
+### Story breakdown
+
+**Breakdown** analyses your storyboard and produces an **editable plan** — nothing is committed until you review and accept. The breakdown:
+
+- Proposes cast and world entries in the board's vocabulary (no invented entities — each traces to the story).
+- Renders entity definitions you can edit before accepting.
+- On accept, seeds Cast and World cards automatically.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Breakdown panel showing an editable entity list with the Accept / Reject controls._
+
+### Improve with AI
+
+Select any card and open **Improve with AI** to get AI-suggested improvements. The assistant **proposes** changes and never silently rewrites — preservation rules apply:
+
+- Quoted text, chips, negations, and proper names survive verbatim, or the suggestion is declined.
+- You review the diff and accept or reject.
+
+### AI assistant
+
+The in-board assistant answers questions and helps you plan. It is **free** (no credit charge on assistant paths) but rate-limited:
+
+- **20 requests per minute** per partner.
+- **Daily cap** — default 200 assistant calls per day (configurable via `MEDIA_ASSISTANT_DAILY_CAP` in your environment). When the daily cap is reached the assistant declines with honest copy.
+
+## Brand layer
+
+The brand layer node controls the visual identity applied to Create card generations:
+
+- Attach a **brand kit** to the layer node.
+- Cards that opt in are generated with the brand kit injected.
+- **Price invariant** — the brand kit ID cannot reach pricing math; adding or removing a brand kit does not change the credit cost.
+- Per-card **opt-out** is available for cards that should be unbranded.
+
+## Board export
+
+Click **Export** on the board toolbar to download a ZIP of the board's output.
+
+- **Streaming download** — assets are streamed one at a time; the download starts immediately without waiting for the full archive.
+- **Manifest** — the ZIP includes a manifest listing every job with its **charged** credit cost (never an estimate), excluding refunded takes.
+- **Free** — board export itself costs no credits; rate-limited to **3 exports per minute**.
+- **Privacy** — partner billing legs and internal storage keys are excluded from the manifest.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Export button and the resulting download with the manifest visible._
+
+## Agent skill and library features
+
+### Agent skill surface
+
+The storyboard's agent skill is accessible via `?skill=<skill-name>` in the URL. Use `?bundle=1` to trigger the installer for that skill bundle. A modal picker shows available skills when no skill is specified.
+
+### Library search
+
+Partners can search the shared media library from inside the storyboard using `?q=<query>`. Search is tenant-scoped — you only see assets from your own organisation and your customers.
+
+### Partner COGS readout
+
+The **COGS** (Cost of Goods Sold) table on the board shows per-recipe and per-job cost breakdown:
+
+- Whitelist-projected: only your organisation's data is shown.
+- Costs are actual charged values, not estimates.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the COGS table / partner cost readout on the board._
+
+## Credits and pricing
+
+| Action | Cost |
+|--------|------|
+| **Create card run** | Quoted before run; charge = quote |
+| **Guided / recipe run** | Quoted at brief gate; charge = quote |
+| **Refusal (pre-charge)** | **Free** |
+| **AI assistant** | **Free** (rate-limited; daily cap applies) |
+| **Board export** | **Free** (3/min rate limit) |
+
+Credits are drawn from your AI Credits balance. See [Credits](/partner-portal/credits) for top-up and balance management.
+
+## Environment variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `MEDIA_ASSISTANT_DAILY_CAP` | `200` | Maximum AI assistant calls per day across all partners |
+
+## Deploy notes (for self-hosted instances)
+
+If you run a self-hosted Knotie AI Pro instance, apply these steps after updating:
+
+1. Run `npm run db:push` — two additive columns are added:
+   - `MediaStoryNode.configJson`
+   - `MediaStoryEdge.role`
+2. Optionally set `MEDIA_ASSISTANT_DAILY_CAP` in your environment (defaults to 200 if unset).
+
+## Related pages
+
+- [Media Studio overview](/partner-portal/media-studio/overview) — upload, manage, and organise media assets
+- [Credits](/partner-portal/credits) — manage your AI credit balance
+- [AI Experiences](/partner-portal/experiences/overview) — other AI products on the platform
+
+---
+
+> Source: [knotie-ai-pro#1312](https://github.com/avijeett007/knotie-ai-pro/pull/1312) — _feat(media-studio): storyboard v2 — the board becomes a director's working surface (v4 P1-P4 + wave tail)_
