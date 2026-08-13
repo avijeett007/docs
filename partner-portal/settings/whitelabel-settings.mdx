@@ -80,6 +80,23 @@ The Whitelabel page is the **entry point** for most of these settings. For step-
 - [Customer credit plans](/partner-portal/settings/customer-credit-plans) — pay-as-you-go credits
 - [SaaS portal mode](/partner-portal/settings/saas-portal-mode) — SaaS-specific options
 
+## Sonti CRM integration — callback authentication
+
+If you use the **Sonti CRM** integration, the CRM callback endpoint (`POST /api/partners/crm-callback`) now requires HMAC-SHA256 request signing. Unsigned or tampered requests are rejected with a `401` response.
+
+### What you need to do
+
+1. **Set `CRM_CALLBACK_SECRET`** in your Knotie AI Pro environment. The callback endpoint fails closed (rejects all callbacks) until this variable is set.
+2. **Update your CRM-side webhook sender** to include two headers on every callback request:
+   - `x-crm-timestamp` — the current Unix timestamp (seconds) as a string
+   - `x-crm-signature` — hex-encoded HMAC-SHA256 of `timestamp + raw request body`, signed with the same shared secret
+
+Requests with a timestamp older than 5 minutes are rejected to prevent replay attacks.
+
+<Info>
+  This change closes an unauthenticated endpoint that previously allowed any caller to modify partner approval status and credentials. Contact support if you need help updating your CRM integration.
+</Info>
+
 ## Good to know
 
 - **Voice AI Agent has its own section.** It's no longer part of Domain Settings.
@@ -94,3 +111,7 @@ The Whitelabel page is the **entry point** for most of these settings. For step-
 - [Custom domain](/customer-management/custom-domain)
 - [Portal modes](/customer-management/portal-modes)
 - [Partner portal overview](/partner-portal/overview)
+
+---
+
+> Source: [knotie-ai-pro#1323](https://github.com/avijeett007/knotie-ai-pro/pull/1323) — _fix(auth): close two unauthenticated account-takeover holes — MFA sentinel + CRM callback_
