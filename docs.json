@@ -166,6 +166,12 @@
             ]
           },
           {
+            "group": "Media Studio",
+            "pages": [
+              "partner-portal/media-studio/storyboard"
+            ]
+          },
+          {
             "group": "Nexus & VPS",
             "pages": [
               "partner-portal/nexus/overview",
