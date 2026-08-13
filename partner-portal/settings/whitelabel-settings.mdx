@@ -80,6 +80,20 @@ The Whitelabel page is the **entry point** for most of these settings. For step-
 - [Customer credit plans](/partner-portal/settings/customer-credit-plans) — pay-as-you-go credits
 - [SaaS portal mode](/partner-portal/settings/saas-portal-mode) — SaaS-specific options
 
+## API authentication on white-label domains
+
+All partner API endpoints (`/api/partner/*`) on your custom domain or subdomain now enforce partner JWT authentication uniformly — the same check that applies on the main platform domain.
+
+**What this means in practice:**
+
+- **No change for portal users.** Sign-in, sign-up, OAuth, password reset, and passkey flows are still public routes — they work the same way as before.
+- **API integrations must send a valid partner token.** If you have scripts or automations calling `/api/partner/*` directly on your custom domain (e.g., via `curl` or a custom integration), they must include a `Bearer <partner_token>` header or the `partner_token` cookie. Requests without a valid token receive a `401`.
+- **API-key routes are exempt.** Routes that authenticate via `X-API-Key` (the platform's API key system) are unaffected.
+
+<Info>
+  This is a security hardening change. If your white-label portal integrations were using the partner API correctly before, no changes are needed. If you see unexpected 401 errors on your custom domain after a platform update, verify that your integration includes a valid partner JWT.
+</Info>
+
 ## Good to know
 
 - **Voice AI Agent has its own section.** It's no longer part of Domain Settings.
@@ -94,3 +108,8 @@ The Whitelabel page is the **entry point** for most of these settings. For step-
 - [Custom domain](/customer-management/custom-domain)
 - [Portal modes](/customer-management/portal-modes)
 - [Partner portal overview](/partner-portal/overview)
+- [API Keys](/partner-portal/api-keys) — partner API key authentication
+
+---
+
+> Source: [knotie-ai-pro#1318](https://github.com/avijeett007/knotie-ai-pro/pull/1318) — _fix(security): close white-label bypass of the partner API auth gate_
