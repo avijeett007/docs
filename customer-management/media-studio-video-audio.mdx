@@ -1,0 +1,59 @@
+---
+title: "Video generation with audio"
+description: "Which video models generate audio, how credit pricing reflects it, and why audio now reliably appears in your rendered files."
+---
+
+## Overview
+
+Several video generation models in the Media Studio produce videos **with audio by default** — and their credit prices already reflect the audio-on rate. The platform now explicitly requests audio from the provider for these models, so the audio you pay for is reliably the audio you receive.
+
+## Which models include audio
+
+| Model | Audio included | Notes |
+|---|---|---|
+| veo-3.1 | Yes | Google Veo — priced at audio-on rate |
+| veo-3.1-fast | Yes | Faster variant — priced at audio-on rate |
+| kling-2.6-pro | Yes | Kling Pro — priced at audio-on rate |
+
+Other models in the catalogue do not include audio and are priced lower accordingly.
+
+## What changed
+
+Previously, whether audio appeared in the output depended on the provider's own default setting — a vendor default that could change at any time without any change to Knotie AI. If the vendor had ever silently switched to audio-off, customers would have continued paying audio-on rates while receiving silent video.
+
+The platform now **explicitly sends `generate_audio: true`** to the provider for these three models whenever a video generation job is created. This means:
+
+- The audio you pay for is the audio you receive.
+- The output will always include an audio track when the model supports it.
+- A future vendor default change will not silently affect your generated videos.
+
+## Generating a video with audio
+
+No extra steps are needed. When a customer selects veo-3.1, veo-3.1-fast, or kling-2.6-pro in the Media Studio, audio is requested automatically.
+
+1. Open the **Media Studio** in the customer portal.
+2. Enter a video prompt and select one of the audio-enabled models from the model picker.
+3. Click **Generate** — the delivered file will include an audio track.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Media Studio model selector showing veo-3.1 (or kling-2.6-pro) highlighted, alongside a completed generation card showing the audio waveform or speaker icon indicating audio is present._
+
+> 🎬 **Video walkthrough:** _Record a short clip of the full flow: entering a prompt, selecting kling-2.6-pro, generating the video, then playing back the result to show the audio track is audible._
+
+## Credit costs
+
+Credit costs for audio-on models are unchanged — the pricing already accounted for audio-on generation. No credit adjustment is needed.
+
+For credit rates per model tier, see [Credits and AI credit management](/partner-portal/customers/ai-credit-management).
+
+## Common questions
+
+**Will older video jobs be regenerated?**
+No. This fix applies to new generation jobs only. Existing completed jobs are unaffected.
+
+**What if I don't want audio in the output?**
+The models listed above are configured and priced for audio-on generation. If you need audio-off output, raise a request with support — audio-off pricing is different and must be quoted separately.
+
+**Why is the audio track silent on some jobs?**
+If a delivered video has no audio despite using an audio-enabled model, the most likely causes are: the prompt contained no audible scene elements, or the job was created before this fix was deployed. Regenerate the job to apply the fix.
+
+> Source: [knotie-ai-pro#1311](https://github.com/avijeett007/knotie-ai-pro/pull/1311) — _fix(media-studio): the audio we charge for is the audio we ask for_
