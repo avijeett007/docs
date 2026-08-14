@@ -1,0 +1,78 @@
+---
+title: "Payments API authentication"
+description: "All payment endpoints now require authentication. Learn which credential to use and how ownership is enforced."
+---
+
+## Overview
+
+All `/api/payments/*` endpoints require authentication. Before this security update, these routes were publicly accessible — any caller who knew a PaymentIntent ID could read, confirm, or refund it. They are now fully protected.
+
+## Endpoints at a glance
+
+| Endpoint | Method | Who can call it |
+|---|---|---|
+| `/api/payments/history` | GET | Partner or customer |
+| `/api/payments/[id]` (get) | GET | Partner or customer (must own the payment) |
+| `/api/payments/[id]` (confirm) | POST | Partner or customer (must own the payment) |
+| `/api/payments/create-intent` | POST | Partner or customer |
+| `/api/payments/[id]` (refund) | POST | **Partner only** |
+
+## Authentication methods
+
+### Partner credential
+
+Pass your partner token in **one** of these ways:
+
+```http
+Authorization: Bearer <partner_token>
+```
+
+Or as a cookie named `partner_token` set during your session login.
+
+### Customer credential
+
+Pass the customer session token as a cookie named `customer_token`. This is set automatically when a customer signs in to the white-label customer portal.
+
+### Precedence and fail-closed behaviour
+
+If a `partner_token` is present but **invalid**, the request returns **401** — it does not fall back to the customer credential. This fail-closed behaviour prevents credential confusion attacks.
+
+## Ownership enforcement
+
+Every request checks ownership **before** any Stripe API call is made:
+
+- The authenticated identity (partner or customer) must own the payment record.
+- If the payment belongs to a different partner or customer, the API returns **404** — not 403. This avoids leaking whether a payment ID exists.
+- A `partnerId` or `customerId` in the request body may only restate the credential's own identity. Passing a mismatched ID returns **403**.
+
+## Refunds are partner-only
+
+The refund action (`POST /api/payments/[id]` with `action: "refund"`) is restricted to partners only. Customers receive **403**. This is intentional: a refund moves money out of the partner's Stripe Connect account and is a merchant-level action.
+
+## Payment history scoping
+
+When a partner queries `/api/payments/history`:
+
+- They see their own payment records by default.
+- They can filter by a specific customer (`?customerId=…`), provided that customer belongs to their partner account.
+- Passing a `customerId` that belongs to a different partner returns **403**.
+
+Customer callers see only their own payment history.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the payments history endpoint response in a REST client (e.g., Insomnia or Postman) showing the `Authorization: Bearer` header and the scoped response data._
+
+> 🎬 **Video walkthrough:** _Record a short clip demonstrating: (1) authenticating to the payments API as a partner with a Bearer token, (2) fetching payment history scoped to a customer, and (3) the 401 response when the token is omitted._
+
+## Common errors
+
+| Status | Meaning |
+|---|---|
+| 401 | Missing or invalid credential |
+| 403 | Credential is valid but you lack permission (e.g. customer attempting a refund, or mismatched owner ID in body) |
+| 404 | Payment not found, or belongs to a different account (existence not confirmed) |
+
+<Note>
+  Stripe webhooks do **not** use these endpoints. Webhooks go directly to `/api/webhooks/stripe` and are processed internally. Only direct API integrations (e.g. your own portal frontend or a server-side integration) need to authenticate against `/api/payments/*`.
+</Note>
+
+> Source: [knotie-ai-pro#1317](https://github.com/avijeett007/knotie-ai-pro/pull/1317) — _fix(payments): disable dead /api/payments/* API by default + harden team-invite cookies_

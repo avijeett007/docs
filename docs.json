@@ -256,6 +256,12 @@
             ]
           },
           {
+            "group": "Payments API",
+            "pages": [
+              "api-reference/payments-authentication"
+            ]
+          },
+          {
             "group": "More API specs",
             "pages": [
               "api-reference/future-specs"
