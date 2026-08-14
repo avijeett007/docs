@@ -53,7 +53,8 @@
             "group": "Customer portal features",
             "pages": [
               "customer-management/media-library",
-              "customer-management/social-posting"
+              "customer-management/social-posting",
+              "customer-management/media-studio-video-audio"
             ]
           },
           {
