@@ -1,0 +1,97 @@
+---
+title: "Portal branding"
+description: "Upload your logo, favicon, and brand colours to white-label the customer portal — your branding shows on every page and browser tab."
+---
+
+## What Portal Branding controls
+
+The **Portal Branding** section in Whitelabel Settings lets you apply your own visual identity to the customer portal. Three things live here:
+
+| Setting | What it affects |
+|---|---|
+| **Logo** | The main brand image shown in the portal header and login page |
+| **Favicon** | The icon that appears in the browser tab, bookmarks, and Safari previews |
+| **Brand colours** | Primary and accent colours applied across buttons, links, and UI highlights |
+
+## Where to find it
+
+1. Open **Settings** in the Partner Portal sidebar.
+2. Click **Whitelabel**.
+3. Scroll to the **Portal Branding** section and expand it.
+
+## Uploading a logo
+
+1. Click **Upload Logo** (or drag and drop).
+2. Use an SVG or PNG with a transparent background for best results.
+3. Save the section.
+
+Your logo appears in the customer portal header and on the login/signup pages.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Portal Branding section expanded — showing the logo upload area, favicon upload area, and colour pickers._
+
+## Uploading a favicon
+
+1. Click **Upload Favicon** (or drag and drop).
+2. Use a square image — PNG or ICO, at least 32×32 px. SVG is also accepted.
+3. Save the section.
+
+Your favicon appears in the **browser tab**, the **address bar**, iOS and Android **home screen shortcuts**, and **Safari's reading list and bookmarks**.
+
+<Tip>
+Favicons render at 16×16 or 32×32 px in most browsers. Keep the design simple — a single initial or small icon reads better than a detailed logo at that size.
+</Tip>
+
+> 📷 **Screenshot needed:** _Add a side-by-side screenshot showing the browser tab with the partner's custom favicon (not the Knotie default) on a white-label portal domain._
+
+### How the favicon works
+
+Your favicon is **server-rendered** — it's baked directly into the HTML of every portal page on first load. This means:
+
+- It shows correctly on the very **first page view**, before any JavaScript runs.
+- It appears in **Safari** (which reads icons at page-load time and doesn't update them dynamically).
+- It shows in **bookmarks, home screen shortcuts**, and browser history.
+- It applies across all white-label subdomains and custom domains.
+
+No extra setup is needed once you've uploaded your favicon and saved.
+
+> 🎬 **Video walkthrough:** _Record a short clip setting up portal branding — uploading a logo and favicon, adjusting brand colours, saving, then opening the customer portal in a browser to confirm the favicon and logo appear._
+
+## Setting brand colours
+
+Use the colour pickers to set:
+
+- **Primary colour** — used for buttons, links, and key UI elements.
+- **Accent colour** — used for highlights and secondary elements (if configurable on your plan).
+
+Enter a hex code directly or use the picker. Click **Save** when done.
+
+Changes take effect immediately for all portal visitors.
+
+## Previewing your branding
+
+After saving, open your portal URL (your subdomain or custom domain) in a browser. Check:
+
+- The **browser tab** shows your favicon (not the Knotie logo).
+- The **portal header** shows your logo.
+- **Buttons and links** use your primary colour.
+
+If you don't see your changes, do a hard refresh (`Ctrl+Shift+R` / `Cmd+Shift+R`) to bypass the browser cache.
+
+## Troubleshooting
+
+**Favicon shows as the Knotie logo after uploading**
+- Confirm you clicked **Save** in the Portal Branding section.
+- Do a hard refresh (`Ctrl+Shift+R` / `Cmd+Shift+R`). Browsers aggressively cache favicons.
+- In Safari, clear the cache under **Develop → Empty Caches** (enable the Develop menu first under Safari → Settings → Advanced).
+- If the issue persists more than a few minutes after saving, contact support.
+
+**Favicon doesn't appear on iOS home screen**
+- When a visitor adds your portal to their home screen, iOS reads the `apple-touch-icon`. This is set automatically from your uploaded favicon.
+- Ensure your image is at least 180×180 px for best quality on high-resolution screens.
+
+**Logo appears blurry**
+- Use an SVG for the sharpest result at any resolution. If using PNG, export at 2× or 3× the display size.
+
+---
+
+> Source: [knotie-ai-pro#1347](https://github.com/avijeett007/knotie-ai-pro/pull/1347) — _fix(whitelabel): partner favicon finally shows — data-URL cache-buster corruption + server-rendered icons_
