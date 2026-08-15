@@ -134,6 +134,7 @@
               "partner-portal/settings/dashboard-experiences",
               "partner-portal/settings/integration-settings",
               "partner-portal/settings/email-settings",
+              "partner-portal/settings/email-compatibility",
               "partner-portal/settings/stripe-connect",
               "partner-portal/settings/subscription-and-billing",
               "partner-portal/settings/stage-subscriptions",

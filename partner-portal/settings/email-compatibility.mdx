@@ -1,0 +1,61 @@
+---
+title: "Email rendering & compatibility"
+description: "Knotie AI platform emails are now fully compatible with Gmail and Outlook — all system emails render correctly without extra clicks."
+---
+
+## Overview
+
+All platform emails sent to your customers and team members — portal invites, welcome messages, password resets, credit alerts, and team invitations — now use a **table-based layout with 100% inline styles**. This ensures correct rendering across every major email client, including Gmail, Outlook, Apple Mail, and mobile apps.
+
+## What changed
+
+Previously, some platform emails used `<div>` layouts with embedded CSS `<style>` blocks. Gmail strips `<style>` blocks from email `<head>` sections entirely, which caused those emails to appear as unstyled white text on a white background. Recipients needed to click **"View entire message"** to see any content — meaning most branded emails went unread or appeared broken.
+
+The following email types were updated:
+
+| Email | Trigger |
+|---|---|
+| **Customer portal invite** | Partner invites a customer to their portal |
+| **Welcome email** | Customer completes portal signup |
+| **Partner team invite** | Partner adds a team member |
+| **Customer team invite** | Customer invites a team member to their sub-account |
+| **Marketing welcome** | New partner completes registration |
+| **Customer team password reset** | Team member requests a password reset |
+| **Waitlist confirmation** | New sign-up joins the waitlist |
+| **Insufficient telephony credit** | Customer's telephony credit runs low |
+
+## What partners see
+
+No configuration change is needed. All fixes are applied automatically at the platform level.
+
+Your emails will now:
+
+- Render fully in Gmail, Outlook, Apple Mail, and iOS/Android mail apps on first open — no extra clicks required
+- Show a real **inbox preview line** (preheader text) instead of a blank body in Gmail's inbox list
+- Display the correct branded layout including logos, colours, and buttons
+
+## Inbox preview text
+
+Each email now includes a hidden preheader — a short summary line that appears next to the subject in the inbox before a recipient opens the message. This improves open rates by giving recipients a meaningful preview instead of blank space.
+
+> 📷 **Screenshot needed:** _Add a screenshot showing the email inbox preview in Gmail — subject line + preheader text visible in the inbox list view._
+
+## Verified email types
+
+> 📷 **Screenshot needed:** _Add side-by-side before/after screenshots showing the customer portal invite email rendering correctly in Gmail (full layout visible without "View entire message")._
+
+> 🎬 **Video walkthrough:** _Record a short clip showing the customer onboarding flow end-to-end, including the welcome email arriving and rendering correctly in a Gmail inbox._
+
+## Troubleshooting
+
+**Emails still look plain or unstyled**
+- Check that your custom SMTP or Domain Email Service is correctly configured under **Settings → Email Settings**. Delivery issues (bounces, spam filtering, or SMTP errors) can cause the platform to fall back to a minimal format.
+- If you are using a custom SMTP server, verify your SPF, DKIM, and DMARC records are set correctly. Misconfigured DNS records can cause Gmail to flag your mail and suppress images or formatting as a security precaution.
+
+**Emails land in spam**
+- Authenticate your sending domain (SPF, DKIM, DMARC). See [Email settings](/partner-portal/settings/email-settings) for setup guidance.
+- Avoid spam trigger words in your custom email branding fields.
+
+---
+
+> Source: [knotie-ai-pro#1241](https://github.com/avijeett007/knotie-ai-pro/pull/1241) — _fix(email): table-based inline-style layout for Gmail/Outlook compatibility_
