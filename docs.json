@@ -57,6 +57,15 @@
             ]
           },
           {
+            "group": "Media Studio",
+            "pages": [
+              "customer-management/media-studio/overview",
+              "customer-management/media-studio/storyboard",
+              "customer-management/media-studio/share-storyboard",
+              "customer-management/media-studio/media-credits"
+            ]
+          },
+          {
             "group": "Partner Portal",
             "pages": [
               "partner-portal/overview",
@@ -253,6 +262,12 @@
               "api-reference/mcp/tool-modes",
               "api-reference/mcp/endpoints",
               "api-reference/mcp/memory-tools"
+            ]
+          },
+          {
+            "group": "Partner API",
+            "pages": [
+              "api-reference/partner-api/customer-onboarding"
             ]
           },
           {

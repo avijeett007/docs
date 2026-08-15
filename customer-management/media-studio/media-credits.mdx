@@ -1,0 +1,61 @@
+---
+title: "Media credits"
+description: "How media credits work in the customer portal — checking your balance, understanding costs, and what happens when you run low."
+---
+
+## Overview
+
+Every AI generation run in Media Studio consumes **media credits**. Credits are separate from voice call credits and are managed by the partner for each customer.
+
+Generation is **blocked** if a customer's credit balance reaches zero — no negative balances are allowed.
+
+## Checking your balance
+
+The **credits popover** in the storyboard canvas toolbar shows your current media credit balance in real time. It updates after each generation run.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the credits popover on the storyboard canvas — showing the balance, estimated cost per run, and a "Top up" or "Get more credits" button._
+
+## How credits are charged
+
+Each generation run shows a **quote** (the exact credit cost) before you confirm. The charge only happens when you click **Confirm** and the generation starts.
+
+The quote accounts for:
+
+- The type of content being generated (image, video, etc.)
+- The quality or length settings for the run
+
+## When you run out
+
+When your balance is too low to cover a generation:
+
+- The **Generate** button on the card is **disabled**.
+- The card shows **"Needs N more credits"** where N is the shortfall.
+- The credits popover shows a **top-up prompt** or a message to contact the portal owner.
+
+> 📷 **Screenshot needed:** _Add a screenshot of a Production column card showing the "Needs N more credits" disabled state — to help customers recognize the low-balance state._
+
+## Topping up
+
+Customers contact their partner (the portal owner) to top up media credits. Partners manage credit allocations per customer from the Partner Portal:
+
+1. Go to **Customers**.
+2. Click **Manage** next to the customer.
+3. Open the **Credits & AI Credit Management** tab.
+4. Adjust the customer's media credit allocation.
+
+See [AI credit management](/partner-portal/customers/ai-credit-management) for full partner-side instructions.
+
+## Frequently asked questions
+
+**Do unused credits roll over?**
+Credit rollover depends on the plan your partner has configured. Check with your portal owner for details.
+
+**Can I see a history of what I spent?**
+Generation history is visible in the storyboard's Production column — each completed take shows the credits consumed.
+
+**Why did my generation fail even though I had enough credits?**
+Credits are reserved at the start of a generation. If the run fails part-way through, your credits are automatically refunded to your balance.
+
+---
+
+> Source: [knotie-ai-pro#1333](https://github.com/avijeett007/knotie-ai-pro/pull/1333) — _Media studio v5_
