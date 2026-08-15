@@ -130,6 +130,7 @@
             "pages": [
               "partner-portal/settings/overview",
               "partner-portal/settings/whitelabel-settings",
+              "partner-portal/settings/portal-branding",
               "partner-portal/settings/platform-configuration",
               "partner-portal/settings/dashboard-experiences",
               "partner-portal/settings/integration-settings",
