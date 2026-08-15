@@ -1,0 +1,93 @@
+---
+title: "Team member login & invite acceptance"
+description: "How invited team members accept their invitation, set a password, and sign in to the Partner Portal."
+---
+
+## Overview
+
+When a partner owner invites you to their team, you receive a link by email. This page walks through how to accept that invitation and sign in going forward — including MFA and passkey options.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the team member invite email showing the "Accept Invitation" button._
+
+## Step 1 — Accept the invitation
+
+1. Open the invitation email from `welcome@knotie-ai.pro`.
+2. Click **Accept Invitation**.
+3. You'll land on the **Accept Invite** page on the partner portal.
+
+<Note>
+Invitation links are single-use and expire after a set period. If your link has expired, ask the partner owner to send a new invitation from **Team Management → Invite Team Member**.
+</Note>
+
+## Step 2 — Set your password
+
+On the Accept Invite page:
+
+1. Enter your **name** (if prompted).
+2. Set a **password** for your account.
+3. Click **Accept & Continue**.
+
+You'll be taken to the portal login page once your account is created.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Accept Invite page with the name and password fields._
+
+## Step 3 — Sign in
+
+Go to the partner login page:
+
+```
+https://knotie-ai.pro/partner/login
+```
+
+Enter the email address from your invite and the password you just set. Click **Sign In**.
+
+<Note>
+Team members sign in through the same login page as partner owners. Your access level (Member or Admin) is controlled by the permissions the partner owner set when they invited you.
+</Note>
+
+## Additional sign-in options
+
+### Sign in with a passkey
+
+If you've set up a passkey (recommended for passwordless, phishing-resistant login):
+
+1. On the login page, click **Login with Passkey**.
+2. Approve with your device (Face ID, Touch ID, Windows Hello, or a security key).
+
+See [Passkeys](/account/passkeys) for setup instructions.
+
+### Sign in with MFA
+
+If MFA is enabled on your account, you'll see a **Two-Factor Authentication** step after entering your password. Choose your preferred method:
+
+- **Authenticator app** — enter the 6-digit code.
+- **Email code** — click **Send Email Code**, then enter the code emailed to you.
+- **Backup code** — use one of the 10 backup codes you saved when setting up MFA.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the MFA modal showing the three tabs: Authenticator, Email, and Backup Code._
+
+> 🎬 **Video walkthrough:** _Record a short clip showing the full team member flow: receiving the invite email → accepting → setting a password → signing in with MFA._
+
+See [Multi-factor authentication](/account/mfa) for full MFA setup guidance.
+
+## Troubleshooting
+
+**"Invalid credentials" on login**
+- Use the email address the invitation was sent to.
+- If you've forgotten the password you set, use **"Forgot password?"** to reset it.
+
+**Invite link says "expired" or "invalid"**
+- Invite links are single-use. If yours no longer works, ask the partner owner to send a new invite.
+
+**MFA code not accepted**
+- Check that your device clock is synced (TOTP codes are time-sensitive).
+- Try the **Email** tab for a fresh code, or use a backup code.
+- If you're locked out, contact the partner owner who can reset your access.
+
+**I don't see the features I expect**
+- Your access depends on the role (Member or Admin) assigned by the partner owner.
+- Contact the partner owner to adjust your permissions.
+
+---
+
+> Source: [knotie-ai-pro#1344](https://github.com/avijeett007/knotie-ai-pro/pull/1344) — _fix(auth): admit pre-login partner endpoints through the JWT gate — MFA/team-login/passkey/invites broken by #1318_
