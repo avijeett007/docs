@@ -1,0 +1,125 @@
+---
+title: "Storyboard canvas"
+description: "The full-screen creative canvas for building visual stories — connect scenes, annotate cards, generate takes, and organise your production."
+---
+
+## Overview
+
+The **Storyboard canvas** is a full-screen visual workspace where customers build generative media projects. Cards represent scenes, beats, or shots; connections show how they flow together; and each card can trigger an AI generation run.
+
+> 📷 **Screenshot needed:** _Add a hero screenshot of the full-screen Storyboard v2 canvas — showing the floating toolbar, connected cards, the Production column on the right, and the credits popover._
+
+## Opening a storyboard
+
+1. From the portal, navigate to **Media Studio**.
+2. Click an existing storyboard to open it, or click **New Storyboard** to create one.
+
+The canvas opens in full-screen mode. The portal sidebar hides automatically — use the escape links in the floating chrome to return.
+
+## Canvas layout
+
+The storyboard canvas has three zones:
+
+### Board area (centre)
+
+The main canvas where cards live. Drag cards to reposition them. Connect cards by hovering a card's edge until a port appears, then drag to another card.
+
+One card can connect **to multiple other cards** (one-to-many branching). Use this to model alternate paths, scene variants, or parallel production streams.
+
+> 📷 **Screenshot needed:** _Add a screenshot showing one-to-many card connections on the canvas — one source card with arrows fanning out to three destination cards._
+
+### Floating chrome (top of canvas)
+
+| Control | What it does |
+|---|---|
+| **Board pill** | Shows the storyboard name and lets you rename it |
+| **Assets shelf** | Quick access to uploaded images, clips, and reference files |
+| **Credits popover** | Shows your current media credit balance and estimated cost per run |
+| **Share** | Generates a shareable read-only link (see [Share a storyboard](/customer-management/media-studio/share-storyboard)) |
+| **Zoom controls** | Zoom in/out or fit the whole board to the screen |
+| **Minimap** | Small overview of the full board; click to jump to a region |
+
+### Production column (right panel)
+
+The Production column collects all cards that are ready for output. Move a card to Production when it's approved for generation. Cards in Production show their generation status, cost estimate, and any completed takes.
+
+## Working with cards
+
+### Card types
+
+Use **⌘K** (or the **Make anything** button) to add a new card. The command palette lets you search card kinds:
+
+- **Scene** — a single continuous shot or moment
+- **Beat** — a narrative beat or story point
+- **Shot** — a specific camera framing
+- **Note** — a production annotation (not generated)
+- And more, depending on the plan
+
+### Tool dock
+
+The tool dock (bottom of the canvas) gives quick access to card creation modes:
+
+| Key | Tool |
+|---|---|
+| **V** | Select / move |
+| **H** | Pan the canvas |
+| **D** | Draw a connection |
+| **L** | Add a layout note |
+| **T** | Add a text annotation |
+| **P** | Add a production marker |
+
+### Annotations
+
+Click the annotation icon on a card to open the SVG annotation layer. Draw directly on the card to mark up framing, movement, or reference points. Annotations are stored with the card and visible to anyone viewing the storyboard.
+
+> 📷 **Screenshot needed:** _Add a screenshot of a card with an annotation drawn on it — arrows or shapes indicating camera movement or scene framing._
+
+### Camera move diagrams
+
+When setting a camera move on a card, a visual diagram shows what each move looks like. There are 47 predefined camera moves available (pans, tilts, dolly, zoom, crane, etc.).
+
+> 📷 **Screenshot needed:** _Add a screenshot of the camera move picker showing the motion diagram for a sample move like a dolly shot or crane._
+
+## Generating takes
+
+Once a card is in the Production column:
+
+1. Click **Generate** on the card.
+2. Review the **quote** shown (credit cost for this run).
+3. Click **Confirm** to start generation.
+
+Your credit balance is checked before generation starts. If you don't have enough credits, generation is blocked and the card shows **"Needs N more credits"**. See [Media credits](/customer-management/media-studio/media-credits) to top up.
+
+> 📷 **Screenshot needed:** _Add a screenshot of a card in the Production column showing the credit quote, Confirm button, and a "Needs N more credits" disabled state for comparison._
+
+> 🎬 **Video walkthrough:** _Record a clip building a short 3-card storyboard — adding cards with ⌘K, connecting them, writing a prompt, moving to Production, reviewing the credit quote, and triggering a generation run._
+
+## Keyboard shortcuts
+
+| Shortcut | Action |
+|---|---|
+| **⌘K** | Open the "Make anything" command palette |
+| **V** | Select tool |
+| **H** | Pan tool |
+| **D** | Connect tool |
+| **Space + drag** | Pan the canvas (any tool) |
+| **⌘+** / **⌘−** | Zoom in / out |
+| **⌘0** | Fit board to screen |
+
+## Troubleshooting
+
+**Cards won't connect**
+- Make sure you're dragging from the edge port (a small dot that appears on hover), not the card body.
+- Switch to the Connect tool (**D**) if connections aren't appearing.
+
+**Generation button is disabled**
+- Check your credit balance in the credits popover. Top up from **My Account → Credits** if needed.
+- The card must be in the **Production column** to trigger generation.
+
+**Canvas feels sluggish on a large board**
+- Use the minimap to navigate instead of scrolling.
+- Collapse unused panels (assets shelf, production column) to give the board more space.
+
+---
+
+> Source: [knotie-ai-pro#1333](https://github.com/avijeett007/knotie-ai-pro/pull/1333) — _Media studio v5_

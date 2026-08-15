@@ -1,0 +1,155 @@
+---
+title: "Customer onboarding API"
+description: "Provision a customer in one API call — creates the account, sets defaults and plan overrides, grants initial credits, and sends a branded welcome email."
+---
+
+## Overview
+
+`POST /api/partner/customers/onboard` provisions a fully configured customer account in a single request. Use it to automate onboarding from your CRM, website, or sales workflow.
+
+One call handles:
+- Creating the customer account
+- Applying plan defaults and any overrides you supply
+- Granting an initial AI credit balance with a full audit trail
+- Sending a branded welcome email with login credentials (no passwords sent over the API)
+
+The operation is **idempotent** on `(partnerId, email)` — calling it twice for the same email returns the existing customer without creating a duplicate.
+
+## Authentication
+
+Use a partner API key with `all` scope, or a Partner JWT.
+
+```
+Authorization: Bearer pkt_...
+```
+
+See [API keys](/partner-portal/api-keys) for how to create and scope keys.
+
+## Request
+
+```http
+POST /api/partner/customers/onboard
+Content-Type: application/json
+Authorization: Bearer pkt_...
+```
+
+### Body
+
+```json
+{
+  "email": "customer@example.com",
+  "name": "Acme Corp",
+  "initialAiCredits": 500,
+  "planOverrides": {
+    "mediaStudio": true,
+    "maxAgents": 5
+  }
+}
+```
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `email` | string | ✅ | Customer's email address. Used as the unique identifier — idempotent key with your partner account. |
+| `name` | string | ✅ | Customer's display name (person or company). |
+| `initialAiCredits` | number | — | AI credits to grant on creation. Attributed in the audit log as `[via api-key:name]`. Defaults to 0 if omitted. |
+| `planOverrides` | object | — | Feature flags and limits to apply on top of the default plan. See [Subscription plan features](/partner-portal/settings/subscription-plan-features) for valid keys. |
+| `experienceType` | string | — | Portal experience to assign. Must match one of your configured `PartnerExperience` rows. Defaults to your partner-level default if omitted. |
+
+### Plan overrides
+
+Plan overrides let you control exactly what features the new customer gets, independent of their subscription plan tier. Common keys:
+
+| Key | Type | Effect |
+|---|---|---|
+| `mediaStudio` | boolean | Enable / disable Media Studio access |
+| `maxAgents` | number | Override the maximum number of AI agents |
+| `socialPosting` | boolean | Enable / disable social posting features |
+| `docsAndMedia` | boolean | Enable / disable the Docs & Media library |
+
+Overrides are clamped by master plan gates — a feature disabled at the master level cannot be enabled via an override.
+
+## Response
+
+### 200 OK — customer created or already exists
+
+```json
+{
+  "customerId": "cust_abc123",
+  "email": "customer@example.com",
+  "name": "Acme Corp",
+  "portalUrl": "https://yourdomain.com/portal/login",
+  "created": true
+}
+```
+
+| Field | Description |
+|---|---|
+| `customerId` | Stable ID for the customer — use this in subsequent API calls. |
+| `portalUrl` | The login URL for the customer's portal (your branded domain). |
+| `created` | `true` if a new account was created; `false` if the email already existed and the existing record was returned. |
+
+When `created` is `false`, no changes are made to the existing customer — overrides and credits in the request are ignored for idempotent calls.
+
+### 400 Bad Request
+
+Missing required fields or an invalid `planOverride` key.
+
+```json
+{ "error": "Missing required fields: email, name" }
+```
+
+### 401 Unauthorized
+
+Invalid or expired API key / JWT.
+
+### 409 Conflict
+
+Returned only in exceptional race conditions — two simultaneous onboard calls for the same email. Retry after a short delay; the second call will resolve as an idempotent match.
+
+## Welcome email
+
+The platform sends a branded welcome email to the customer automatically after provisioning. The email:
+
+- Comes from your configured sending domain (not Knotie).
+- Contains the portal login URL and the customer's email address.
+- Does **not** include the customer's password — customers set their password on first login.
+
+If you have Domain Email Service or custom SMTP configured, the email uses those settings. See [Email settings](/partner-portal/settings/email-settings).
+
+## Example: onboard with credits and media access
+
+```bash
+curl -X POST https://knotie-ai.pro/api/partner/customers/onboard \
+  -H "Authorization: Bearer pkt_your_key_here" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "jane@acmecorp.com",
+    "name": "Jane Smith",
+    "initialAiCredits": 250,
+    "planOverrides": {
+      "mediaStudio": true
+    }
+  }'
+```
+
+## Example: minimal onboard (no credits, default plan)
+
+```bash
+curl -X POST https://knotie-ai.pro/api/partner/customers/onboard \
+  -H "Authorization: Bearer pkt_your_key_here" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "jane@acmecorp.com",
+    "name": "Jane Smith"
+  }'
+```
+
+## Idempotency
+
+Sending the same `email` twice returns the existing customer without error. This makes it safe to retry on network failures. The `created: false` flag in the response tells you the call matched an existing account.
+
+If you need to **update** an existing customer's settings, use the Customers update endpoint instead.
+
+---
+
+> Source: [knotie-ai-pro#1333](https://github.com/avijeett007/knotie-ai-pro/pull/1333) — _Media studio v5_
