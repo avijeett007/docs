@@ -1,0 +1,72 @@
+---
+title: "Media Studio"
+description: "AI-powered generative media creation — images, videos, and recipes — built into the customer portal."
+---
+
+## What Media Studio is
+
+**Media Studio** is the generative AI creation tool inside the customer portal. Customers use it to generate images and videos from text prompts, run multi-step creative recipes, and build visual storyboards — all without leaving the portal.
+
+Media Studio is divided into three main areas:
+
+| Area | What it does |
+|---|---|
+| **Home** | Browse curated recipe categories, see platform-made examples, and jump straight into creation |
+| **Storyboard** | A full-screen visual canvas for scripting and generating a complete story shot-by-shot |
+| **Recipes** | Pre-built creative workflows (photo-to-video, product ads, social clips, etc.) that chain generation steps together |
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Media Studio home page showing the HeroWall of looping recipe examples, the "Start with a recipe" category rail (For your business / Ads / Social / Film / Avatars / Product), and the compose bar._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the Media Studio home page and starting a generation from a recipe chip._
+
+## Prerequisites
+
+Before a customer can access Media Studio:
+
+1. The partner must enable the **Media Studio** feature for that customer in **Features & Add-ons**.
+2. The customer must have sufficient **AI credits** in their balance. The studio shows a live credit balance and disables generation cards when the balance is too low.
+3. The partner's account must have credits available to back the generation (credits flow: partner pool → customer generation).
+
+## Navigating the home page
+
+The Media Studio home page has three sections:
+
+### Compose bar
+A text prompt field at the top of the page. Type a prompt and press enter to start a generation directly, or pick a recipe first to guide the output.
+
+### Start with a recipe rail
+Six category chips — **For your business**, **Ads**, **Social**, **Film**, **Avatars**, **Product** — each linked to a set of pre-built recipes. Clicking a chip opens a brief sheet where you fill in a few inputs and the recipe handles the rest.
+
+### Made with Media Studio showcase
+A curated wall of example outputs made with real recipes. Clicking a tile opens the recipe that made it so you can use the same workflow.
+
+## Real-time job updates
+
+As of Phase 6, the studio receives job status updates **as they happen** via a server push (SSE) connection. You no longer need to keep the tab open and wait for a manual refresh — the card updates from "Queued" → "Processing" → "Ready" automatically when your job completes.
+
+If the real-time connection drops (network change, tab backgrounded for a long time), the studio falls back to polling every 10–15 seconds automatically.
+
+> 📷 **Screenshot needed:** _Add a screenshot of an in-progress generation card showing the "Processing" state with the live status indicator._
+
+## Credit costs
+
+Media Studio charges AI credits on a **per-generation** basis. The exact cost depends on the modality (image vs. video), the quality tier chosen, the duration (for video), and the engine.
+
+Every generation card shows a **live credit quote** before you confirm — you will always know the cost before committing.
+
+If your balance is lower than the cost of a generation, that card is shown as disabled with a message like "Needs N more credits". Contact your partner to top up your balance.
+
+For detailed pricing by tier and engine, see [Media Studio recipes and tiers](/customer-management/media-studio/long-form-recipes).
+
+## Enabling Media Studio for a customer (partner action)
+
+As a partner, to turn on Media Studio for one of your customers:
+
+1. In your partner portal, open the customer's record.
+2. Go to **Features & Add-ons**.
+3. Toggle on **Media Studio**.
+4. (Optional) Set a daily or monthly generation cap under **AI Credits** to control spend.
+
+The customer sees the Media Studio section in their portal immediately after the toggle is saved.
+
+> Source: [knotie-ai-pro#1352](https://github.com/avijeett007/knotie-ai-pro/pull/1352) — _Media Studio Phase 6: KM job orchestration (toggle + SSE push), audit store, competitor-class Home/landing, Long-form recipes_

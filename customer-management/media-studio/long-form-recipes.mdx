@@ -1,0 +1,88 @@
+---
+title: "Recipes and generation tiers"
+description: "Choose the right quality tier and duration for your Media Studio generations — from quick drafts to 30-second Long-form videos."
+---
+
+## What are recipes?
+
+**Recipes** are pre-built creative workflows that guide the generation process through a series of inputs (subject, style, duration, motion, etc.) and produce a finished image or video. They remove the guesswork of prompt engineering: you fill in a brief, the recipe produces a structured result.
+
+Recipes are grouped by **audience** and **use case**:
+
+| Category | Examples |
+|---|---|
+| For your business | Brand promo clips, product showcases |
+| Ads | UGC-style direct-response videos, product ad cuts |
+| Social | Short-form clips for Instagram Reels / TikTok |
+| Film | Cinematic shots, storyboard sequences |
+| Avatars | Talking-head videos with AI presenter |
+| Product | Product hero shots, 360° views |
+
+> 📷 **Screenshot needed:** _Add a screenshot of the recipe brief sheet — the modal that opens when you click a recipe chip, showing the input fields (subject, style, duration selector) and the live credit quote._
+
+## Quality tiers
+
+Each recipe offers multiple **quality tiers**. Higher tiers use more capable engines and produce better results — at a higher credit cost.
+
+| Tier | Engine family | Best for |
+|---|---|---|
+| **Everyday** | Standard models | Quick drafts, social clips, exploration |
+| **Studio** | Enhanced models | Client-ready work, product ads |
+| **Best** | Premium models | Hero shots, portfolio-quality output |
+| **Long-form** | Seedance 2.5 (720p) | Extended narrative videos up to 30 s |
+
+> 📷 **Screenshot needed:** _Add a screenshot of the tier selector inside a recipe brief, showing the four tier options with their credit costs._
+
+## Long-form videos (new in Phase 6)
+
+The **Long-form** tier uses **Seedance 2.5 at 720p** and supports durations up to **30 seconds** — significantly longer than the 5–8 second clips available on other tiers.
+
+Long-form is suited for:
+- Narrative brand stories
+- Extended product demonstrations
+- Short-film style creative work
+
+### Duration ladder by tier
+
+The available durations are engine-specific — longer durations only appear for engines that support them.
+
+| Tier | Durations available |
+|---|---|
+| Everyday | 3 s, 5 s, 8 s |
+| Studio | 3 s, 5 s, 8 s |
+| Best | 3 s, 5 s, 8 s |
+| Long-form (Seedance 2.5) | 5 s, 10 s, 15 s, 20 s, 30 s |
+
+### Example credit costs (illustrative)
+
+These are examples at the time of writing. Your partner may have different credit pricing.
+
+| Recipe + tier | Duration | Approx. customer credits |
+|---|---|---|
+| Photo-to-video / Everyday | 5 s | ~69 credits |
+| Photo-to-video / Long-form | 10 s | ~890 credits |
+| Photo-to-video / Long-form | 30 s | ~2,660 credits |
+| Product ad / Everyday | 5 s | ~69 credits |
+
+The live credit quote shown on the brief sheet is always the authoritative number — these are approximations.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the duration selector for the Long-form tier showing the extended options up to 30 s, alongside the live credit quote that updates as you change duration._
+
+> 🎬 **Video walkthrough:** _Record a short clip showing the end-to-end flow of picking a Long-form recipe, selecting a 15 s duration, seeing the quote update, confirming the generation, and watching the card update in real time as the job processes._
+
+## Storyboard and recipe runs
+
+Recipes can also be run from inside the **Storyboard** canvas. A recipe run generates a full beat-by-beat story structure — each card on the board maps to a recipe step. This lets you build, edit, and re-generate individual shots in context.
+
+For a full walkthrough of the Storyboard, see [Storyboard canvas](/customer-management/media-studio/storyboard).
+
+## Common errors
+
+| Error | Likely cause | Fix |
+|---|---|---|
+| "Needs N more credits" | Customer balance too low | Partner tops up credits; customer waits for refresh |
+| Generation stuck on "Processing" | Provider delay | Wait; the studio will push an update when the provider responds. Long-form jobs can take several minutes. |
+| Duration option not showing | Engine doesn't support that length at the selected tier | Switch to Long-form tier, or reduce duration |
+| "Engine not available" | The selected engine is temporarily unavailable | Try a different tier or try again later |
+
+> Source: [knotie-ai-pro#1352](https://github.com/avijeett007/knotie-ai-pro/pull/1352) — _Media Studio Phase 6: KM job orchestration (toggle + SSE push), audit store, competitor-class Home/landing, Long-form recipes_

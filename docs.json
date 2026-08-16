@@ -57,6 +57,13 @@
             ]
           },
           {
+            "group": "Media Studio",
+            "pages": [
+              "customer-management/media-studio/overview",
+              "customer-management/media-studio/long-form-recipes"
+            ]
+          },
+          {
             "group": "Partner Portal",
             "pages": [
               "partner-portal/overview",
