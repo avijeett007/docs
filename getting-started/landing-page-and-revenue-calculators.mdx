@@ -1,6 +1,6 @@
 ---
 title: "Landing page & revenue calculators"
-description: "Explore Knotie AI Pro's redesigned homepage — interactive globe, service drawer, and the 'How do you want to sell AI?' decision tree with built-in revenue calculators."
+description: "Explore Knotie AI Pro's redesigned homepage — interactive globe, service drawer, the 'How do you want to sell AI?' decision tree with revenue calculators, and the Generative Media Studio resell section."
 ---
 
 ## Overview
@@ -129,3 +129,53 @@ Every leaf node in the decision tree opens an inline revenue calculator. All cal
 | **Annual profit** | **$1 440** |
 
 Calculators are illustrative estimates. Actual margins depend on your plan, usage, and retail pricing.
+
+---
+
+## Generative Media Studio section
+
+A new **"05 / Media Studio"** section appears on the landing page below the decision tree. It positions the Generative Media Studio as a product partners can resell under their own brand — as a SaaS offering, a one-click cinema app, or a done-for-you agency service.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the full "05 / Media Studio" landing section — the film loop player, the three-way picker (SaaS on credits · one-click AI Film Studio · agency service), and the "Made with Media Studio" asset strip._
+
+### The film loop
+
+A muted, in-view looping clip plays automatically when the section scrolls into view. The player:
+
+- **Plays** when 50 % or more of the video is visible in the viewport
+- **Pauses** with playback controls shown if the visitor has `prefers-reduced-motion: reduce` set in their OS or browser
+
+> 📷 **Screenshot needed:** _Add a screenshot of the film loop player with the three scene thumbnails visible below it (the three films made through Knotie)._
+
+### Three ways to sell
+
+The section offers a three-way picker letting visitors choose their preferred resell model:
+
+| Mode | What it means | Revenue calculator shown |
+|---|---|---|
+| **SaaS on credits with your markup** | Customers buy credits; partner sets the markup | Generative Media Studio credit-markup calculator |
+| **One-click AI Film Studio (Cinema)** | Deploy a branded Cinema experience | Per-film revenue calculator |
+| **Agency service** | Partner produces media as a service for clients | Project-fee model |
+
+> 🎬 **Video walkthrough:** _Record a short clip demonstrating the three-way picker — switching between modes and showing how each calculator changes._
+
+### Decision tree leaves
+
+Two new leaf nodes appear in the existing "How do you want to sell AI?" decision tree:
+
+- **AI as SaaS → Generative Media Studio** — credit-markup model, links to the SaaS calculator
+- **One-Click Experiences → AI Film Studio (Cinema)** — per-film model, links to the Cinema calculator
+
+### Asset strip
+
+Below the picker, a horizontal strip shows sample outputs from the studio: character sheets, storyboard frames, and contact sheets — all produced through the Knotie platform.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the asset strip with the contact-sheet / storyboard-frame / character-sheet thumbnails visible._
+
+### Hero update
+
+The hero section now lists "19+ templates" to reflect the media studio's recipe library. A MEDIA orbit ring was added to the animated graphic alongside the existing service rings.
+
+---
+
+> Source: [knotie-ai-pro#1363](https://github.com/avijeett007/knotie-ai-pro/pull/1363) — _feat(landing): resell the Generative Media Studio — films section, tree leaves, calculators_
