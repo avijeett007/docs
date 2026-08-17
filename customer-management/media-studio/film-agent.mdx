@@ -1,0 +1,118 @@
+---
+title: "Film Agent"
+description: "Use the built-in AI Film Director in the customer portal chat to plan, quote, and produce complete multi-scene films — all without leaving the browser."
+---
+
+## What the Film Agent is
+
+The **Film Agent** is an AI director built directly into the Generative Media Studio. It appears as a chat panel (the "dock") on the right side of the storyboard canvas. Customers describe what they want, and the agent:
+
+1. Conducts a brief interview to establish genre, mood, and story beats
+2. Creates a project, storyboard, character sheets, and environment plates
+3. Proposes a shot-by-shot plan for each scene with an upfront credit quote
+4. Renders each approved shot and assembles the scenes into a finished film
+
+Every charged step (generation, frame extraction, assembly) requires the customer to approve the quote before credits are deducted. The agent cannot exceed the thread credit ceiling set at connection time.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Film Agent dock panel open inside the storyboard view — showing the chat interface on the right and the storyboard canvas on the left._
+
+---
+
+## Prerequisites
+
+- The **Generative Media Studio** must be enabled for the customer (see [Generative Media Studio overview](/customer-management/media-studio/overview)).
+- The customer must have enough credits to cover at least one scene. The Film Agent shows a running cost ledger and stops at the ceiling.
+- A Studio token with the Film tool grant (40-tool grant) must be active. Partners issue Studio tokens from **Partner Portal → AI Agents → MCP Tokens**.
+
+---
+
+## Starting a film session
+
+1. Open the **Generative Media Studio** from the customer portal sidebar.
+2. Click **New Film** or open an existing storyboard and click **Film Agent** in the top-right toolbar.
+3. The Film Agent dock opens on the right. Start by describing the film you want to make.
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through a full film session from the opening brief through to a finished assembled film — show the interview, the storyboard being built, a shot being approved and rendered, and the final film playing back._
+
+---
+
+## The production workflow
+
+### Step 1 — Brief and story beats
+
+The agent asks a series of short questions about:
+- Genre and visual style
+- Characters and locations
+- Scene structure (how many scenes, approximate length)
+
+Answers become the **story bible** and **beat sheet**, both saved to the storyboard.
+
+### Step 2 — Character and environment assets
+
+Before shooting, the agent creates:
+- **Character sheets** — four-panel reference images at ¾-body crop
+- **Environment plates** — wide-angle establishing images for each location
+
+These become **Elements** on the storyboard (see [Cinema mode](/customer-management/media-studio/cinema-mode)).
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Elements panel in the storyboard showing character-sheet and environment-plate thumbnails organised by category._
+
+### Step 3 — The 480p gate
+
+For each scene, the agent renders a low-resolution **480p test clip** first. This costs roughly 46 % of the full-resolution price. The customer approves or rejects the gate before the 720p render starts.
+
+If the gate is skipped (available at an additional credit cost), the 720p shot runs directly.
+
+### Step 4 — 720p production shots
+
+Approved shots are rendered at **720p**. The storyboard canvas shows each shot as a take card in the **film rail** (a horizontal strip at the bottom of the Canvas view).
+
+### Step 5 — Assembly
+
+When all shots are approved the agent calls **Assemble** to splice scenes together using ffmpeg. Assembled films keep their audio (audio leg per shot or a silent bed merged with cross-fade). The finished film is saved to the customer's **Media Library** and linked on the storyboard.
+
+---
+
+## Credit spend cap
+
+Each Film Agent session has a **thread credit ceiling**. The ceiling is set when the Studio token is minted (default: 6,000 credits). The agent tracks spend in real time and stops accepting new charges when the ceiling is reached.
+
+Spend counting:
+- Blocked renders are refunded and do not count toward the ceiling
+- The ceiling resets per thread (not per session)
+
+Partners can review per-thread spend in **Partner Portal → Credits → AI Credits** and filter by customer.
+
+---
+
+## Supported film lengths
+
+The Film Agent produces films by stitching scenes. Scene lengths depend on the quality tier:
+
+| Quality tier | Scene length |
+|---|---|
+| Everyday | Up to 5 s per shot |
+| Studio / Best | Up to 15 s per shot |
+| Long-form | Up to 30 s per shot |
+
+Multi-scene films assemble into longer pieces. *The Paper Boat*, a 61-second, three-scene film, was produced by the agent in a live proof run.
+
+---
+
+## Exporting the finished film
+
+Finished films are accessible via a signed URL from the media-exports bucket. The signed URL is the only way to read the file (direct public access returns 403). URLs do not expire by default — the day-prefix TTL sweep keeps the bucket clean.
+
+From the storyboard, click **Export** → **Download film** to get the signed URL. You can also share it directly from the export panel.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Export panel on the storyboard showing the Download film button and the signed-URL field._
+
+---
+
+## Related pages
+
+- [Cinema mode](/customer-management/media-studio/cinema-mode) — the storyboard canvas, film rail, and element management
+- [Generative Media Studio overview](/customer-management/media-studio/overview) — credit billing, recipes, quality tiers
+- [MCP Studio tokens](/partner-portal/ai-agents/mcp/tokens) — how partners mint the Studio token for the Film Agent
+
+> Source: [knotie-ai-pro#1362](https://github.com/avijeett007/knotie-ai-pro/pull/1362) — _feat(media-studio): Phase 7 roll-up — film system over MCP, full film pipeline, in-platform Film Agent, Cinema mode_

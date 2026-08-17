@@ -1,0 +1,86 @@
+---
+title: "Generative Media Studio"
+description: "Create AI-generated images, videos, and full films from the customer portal. The studio lets customers produce branded content, build storyboards, and collaborate with an AI film director — all billed through your credit plans."
+---
+
+## What the Generative Media Studio is
+
+The **Generative Media Studio** is a full creative suite inside the customer portal. Customers can generate images and videos from text prompts using AI rendering engines, arrange shots into storyboards, and — with the Phase 7 upgrade — produce complete multi-scene films end-to-end using an AI Film Director.
+
+The studio has two main creative paths:
+
+| Path | Best for | How it works |
+|---|---|---|
+| **Recipes** | Single assets, branded images, short clips | Pick a recipe, fill in the brief, generate and flip takes |
+| **Cinema mode** | Full films, multi-scene productions | Build a storyboard, assign elements, run the Film Agent or an external AI director |
+
+Every generation deducts credits. Partners set credit plans per customer; the studio shows an upfront quote before any charge.
+
+---
+
+## Prerequisites
+
+To enable the Generative Media Studio for a customer:
+
+1. Open **Partner Portal → Customers → Manage → Features & Add-ons**.
+2. Toggle **Generative Media Studio** on.
+3. Assign a credit plan that includes media-studio credits or use the partner's shared pool.
+
+The Studio menu item appears in the customer portal immediately after enabling.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Features & Add-ons panel with the Generative Media Studio toggle highlighted._
+
+---
+
+## Studio layout
+
+When a customer opens the Studio, they see:
+
+- **Compose bar** — a text prompt input at the top with a recipe shortcut picker
+- **Hero Wall** — a four-column mosaic of muted recipe loops (sample outputs) to inspire generation
+- **"Start with a recipe" rail** — category chips (For your business · Ads · Social · Film · Avatars · Product). One tap loads a recipe brief form.
+- **"Made with Media Studio" showcase** — a curated wall of real outputs organised by recipe type
+
+> 📷 **Screenshot needed:** _Add a screenshot of the full Media Studio home view — compose bar, hero wall, recipe rail, and showcase wall._
+
+---
+
+## Recipes
+
+A **recipe** is a structured generation workflow. Each recipe has:
+
+- A brief form with labelled inputs (subject, style, colour, etc.)
+- A **quality tier** selector: Everyday · Studio · Best · Long-form
+- An upfront **credit quote** before any generation starts
+- A **take** system — generate multiple variations and flip between them, paying only for the takes you keep
+
+### Quality tiers and duration
+
+| Tier | Engine family | Max duration |
+|---|---|---|
+| Everyday | Standard | 5 s |
+| Studio | Premium | 8–15 s |
+| Best | Best-available | 8–15 s |
+| Long-form | Seedance 2.5 / 720p | Up to 30 s |
+
+> 📷 **Screenshot needed:** _Add a screenshot of a recipe brief form with the quality tier selector and the credit quote displayed before generation._
+
+---
+
+## Credit billing
+
+- Every generation shows a **quote** before the credit charge. Customers see exactly how many credits a take will cost.
+- Blocked generations (content policy, copyright) are **refunded** automatically.
+- Partners track usage in **Partner Portal → Credits → AI Credits** and in the customer billing panel.
+
+For plan configuration see [Customer credit plans](/partner-portal/settings/customer-credit-plans).
+
+---
+
+## Related pages
+
+- [Film Agent](/customer-management/media-studio/film-agent) — build full multi-scene films in the portal chat
+- [Cinema mode](/customer-management/media-studio/cinema-mode) — the storyboard canvas and film rail
+- [Docs & Media library](/customer-management/media-library) — the asset bank used by the studio
+
+> Source: [knotie-ai-pro#1362](https://github.com/avijeett007/knotie-ai-pro/pull/1362) — _feat(media-studio): Phase 7 roll-up — film system over MCP, full film pipeline, in-platform Film Agent, Cinema mode_
