@@ -1,0 +1,167 @@
+---
+title: "Film skills over MCP"
+description: "Use the Knotie film skill pack with Claude Code, Codex, or any MCP-compatible AI client to plan, quote, and produce films through your Connect Hub Studio token."
+---
+
+## Overview
+
+The **film skill pack** is a set of four AI skills served through the Knotie Connect Hub that lets an AI agent — running in Claude Code, Codex, or any MCP-compatible client — direct a full film production entirely through the MCP tool surface. The agent interviews the human, builds a storyboard, generates character sheets and environment plates, quotes every paid generation upfront, and files finished shots to the storyboard for human review.
+
+A live proof run produced a 30-second 720p film in 13 autonomous turns through Claude Code, with every paid step quoted and gated, and COGS of 3,712 partner credits / 5,568 customer credits.
+
+---
+
+## Prerequisites
+
+- A Knotie partner account with the Generative Media Studio enabled
+- A **Studio token** with the film tool grant (40 tools). See [MCP Tokens](/partner-portal/ai-agents/mcp/tokens).
+- An MCP-compatible client: Claude Code, Codex, OpenCode, or any client that supports the MCP tool protocol
+- The Connect Hub URL for your partner account (shown in the Connect Hub panel)
+
+---
+
+## Installing the film skill pack
+
+### Via Claude Code / MCP client
+
+1. Open the Connect Hub in your Partner Portal.
+2. Click **Connect** and select the **Film** spend-cap preset (default: 6,000 credits per thread).
+3. Copy the generated connection command (includes your Studio token).
+4. In your MCP client, run the connection command to mount the Connect Hub as an MCP server.
+5. Install the film skill bundle: in Claude Code, run `/mcp install-bundle film` or pass `?bundle=1` to the skill installer. This writes 14 skill files to your client.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Connect Hub modal with the Film spend-cap preset selected and the connection command visible._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the Connect Hub connection flow, selecting the Film preset, and running the skill installer in Claude Code — end with the four film skills listed as available._
+
+### Skill files installed
+
+| Skill file | Role |
+|---|---|
+| `film-doctrine` | Doctrine and rules for the AI director — "capability words only", no vendor names, human-approval gates |
+| `film-director` | The director loop: interview → story bible → beats → shots |
+| `film-asset` | Character sheet and environment plate creation, @alias management |
+| `film-scene` | Per-scene generation, 480p gate, 720p render, assemble |
+
+All four skills are provider-opaque — they reference engines by capability, never by vendor name.
+
+---
+
+## Key MCP tools available
+
+The Studio token grants access to **40 tools** through the Connect Hub. The most important for film production are:
+
+### Generation tools
+
+| Tool | What it does |
+|---|---|
+| `GENERATION_QUOTE` | Get an upfront credit quote for a generation without charging. Quote shape is guaranteed to equal the eventual charge. |
+| `GENERATE_IMAGE` | Generate a still image. Inline wait up to 36 seconds. |
+| `GENERATE_VIDEO` | Generate a video clip. |
+| `GENERATION_STATUS` | Poll status for one or more job IDs (`jobIds[]`). |
+| `JOBS_WAIT` | Block until all specified jobs in `jobIds[]` complete or fail. Prefer this over polling `GENERATION_STATUS` in a loop. |
+
+### Element (reference asset) tools
+
+| Tool | What it does |
+|---|---|
+| `ELEMENT_LIST` | List elements (character sheets, environment plates, uploaded refs) scoped to the current project. |
+| `ELEMENT_CREATE` | Register a generated asset as a named element with a `@alias`. |
+| `MEDIA_LIST_ASSETS` | List media assets with alias and category filters. |
+
+### Storyboard tools
+
+| Tool | What it does |
+|---|---|
+| `STORYBOARD_CREATE` | Create a new storyboard for a project. |
+| `STORYBOARD_NODE_RUN` | Run a generation tied to a specific storyboard node (spend-capped, rate-limited). |
+| `STORYBOARD_LINK` | Generate a deep link to the storyboard canvas in the portal. |
+| `STORYBOARD_EXPORT` | Export the storyboard as a structured archive (rate-limited to 3/min per project). |
+
+### Spend and credit tools
+
+| Tool | What it does |
+|---|---|
+| `GENERATION_QUOTE` | Quote any generation before committing. Always call this before `GENERATE_*`. |
+| `CREDIT_CHECK` | Check available credits on the Studio token's thread budget. |
+
+---
+
+## @alias positional references
+
+When a generation prompt uses `@CharacterName` or `@EnvironmentName`, the system resolves the alias to the element's stored image and injects it as a positional reference (`@Image1`, `@Image2`, …) in the provider request.
+
+**Rules:**
+- A maximum of **14 references** per generation. Prompts with more than 14 are refused with a typed error before any credit charge.
+- Aliases are per-project. Set them with `ELEMENT_CREATE` after generating the reference asset.
+- The `references[]` array is echoed back in every generation response so the agent can confirm resolution.
+
+```
+Example prompt with alias:
+"A close-up of @Elena in a rain-soaked alley. @CityNight in the background."
+```
+
+---
+
+## Spend cap
+
+The **Film** Connect Hub preset sets a thread-level spend ceiling of **6,000 credits** when you connect. The cap applies to all charged tools in that thread:
+
+- Blocked or refused generations are refunded and do not count toward the cap
+- The agent stops accepting new charges when the cap is reached (returns a `SPEND_CAP_REACHED` error)
+- To reset, disconnect and reconnect with a new thread (a new connection mints a new cap)
+
+The cap is advisory on the JWT claim but enforced server-side through rate limits and the spend accounting service.
+
+---
+
+## Cinema recipes
+
+Two dedicated cinema recipes are available in the studio for creating reference assets:
+
+| Recipe | Output | Use |
+|---|---|---|
+| `cinema-character-sheet` | 4-panel image at ¾-body crop (4K) | Character continuity reference across shots |
+| `environment-plate` | Wide-angle environment image | Location/mood reference for a scene |
+
+Run these recipes through `GENERATE_IMAGE` with the `recipeId` parameter. Both recipes produce assets at 4K resolution (the stills engine has no 2K tier). After generation, register the output with `ELEMENT_CREATE` so subsequent shots can reference it via @alias.
+
+---
+
+## The production loop
+
+A typical film production through the skill pack follows this sequence:
+
+1. **Interview** — the `film-director` skill interviews the human (genre, characters, scenes, style)
+2. **Story bible** — the agent creates a project + storyboard via `STORYBOARD_CREATE` and writes the bible and beats to the canvas
+3. **Character sheets** — `film-asset` calls `GENERATION_QUOTE`, then `GENERATE_IMAGE` with `cinema-character-sheet`, then `ELEMENT_CREATE` with the @alias
+4. **Environment plates** — same flow with `environment-plate`
+5. **480p gate** — `film-scene` calls `GENERATION_QUOTE`, generates the 480p test clip, and waits for human approval before proceeding
+6. **720p shot** — after gate approval, generates the full-resolution take
+7. **Assemble** — after all scenes are shot, assembles into the final film (audio is preserved per shot)
+8. **Storyboard link** — `film-scene` calls `STORYBOARD_LINK` to give the human a direct URL to review the canvas
+
+> 🎬 **Video walkthrough:** _Record a short clip showing an AI agent running a film session through Claude Code — show the interview exchange, a GENERATION_QUOTE response, a shot being rendered, and the final storyboard link._
+
+---
+
+## Error types
+
+| Error | Cause | Action |
+|---|---|---|
+| `SPEND_CAP_REACHED` | Thread budget exhausted | Reconnect with a new thread |
+| `PIPELINE_FROZEN` | Attempted to adopt a shot into a finalised cut | Cannot adopt after assembly; use a new scene |
+| `ALIAS_LIMIT_EXCEEDED` | More than 14 @alias references in one prompt | Reduce references before generation |
+| `likeness` / `copyright` / `content` | Provider blocked the render | Generation is refunded automatically; revise the prompt |
+| `ENGINE_NOT_AVAILABLE` | Requested engine + resolution combination is not supported | Use a different quality tier or engine |
+
+---
+
+## Related pages
+
+- [MCP Authentication](/api-reference/mcp/authentication) — how to authenticate with a Studio token
+- [MCP Tool Modes](/api-reference/mcp/tool-modes) — tool grant levels and what each tier includes
+- [Film Agent](/customer-management/media-studio/film-agent) — the in-portal version of the same film production flow (no external client needed)
+- [Cinema mode](/customer-management/media-studio/cinema-mode) — reviewing shots and elements on the storyboard canvas
+
+> Source: [knotie-ai-pro#1357](https://github.com/avijeett007/knotie-ai-pro/pull/1357) — _feat(media-studio): Phase 7 Wave 0 — film system over MCP (elements, storyboard tools, cinema recipes, film skill pack, GENERATION_QUOTE) + autonomous 30s film proof_
