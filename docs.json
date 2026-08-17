@@ -57,6 +57,14 @@
             ]
           },
           {
+            "group": "Generative Media Studio",
+            "pages": [
+              "customer-management/media-studio/overview",
+              "customer-management/media-studio/film-agent",
+              "customer-management/media-studio/cinema-mode"
+            ]
+          },
+          {
             "group": "Partner Portal",
             "pages": [
               "partner-portal/overview",

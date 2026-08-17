@@ -1,0 +1,114 @@
+---
+title: "Cinema mode"
+description: "The storyboard canvas in Cinema mode — manage shot cards, the film rail, character and environment elements, and export a complete film."
+---
+
+## What Cinema mode is
+
+**Cinema mode** is the storyboard view optimised for full-film production. It extends the standard storyboard canvas with:
+
+- A **film rail** — a horizontal strip of shot cards at the bottom, one per shot across all scenes
+- **4K shot cards** — high-resolution take thumbnails with take-chip selectors
+- **Elements panel** — assets (character sheets, environment plates, uploaded media) organised by category
+- **Storyboard Export** — download the entire storyboard as a structured archive (nodes, edges, assets, and the cinema manifest)
+
+Cinema mode is available on any project storyboard when the customer's account has the Media Studio enabled with the film tool grant (40 tools).
+
+> 📷 **Screenshot needed:** _Add a screenshot of the full Cinema mode view — the canvas in the centre, the film rail at the bottom, and the Elements panel on the left side._
+
+---
+
+## The film rail
+
+The film rail appears at the bottom of the storyboard canvas. Each card in the rail represents one shot in the current cut, in scene order.
+
+### Take chips
+
+Each shot card shows a row of **take chips** — thumbnails of every rendered take for that shot. Click a chip to switch the active take. The active take is what gets assembled into the film.
+
+> 📷 **Screenshot needed:** _Add a close-up screenshot of a shot card with take chips — show at least three takes and the active take highlighted._
+
+### Shot card actions
+
+| Action | What it does |
+|---|---|
+| **Regenerate** | Request a new take for this shot (charges credits) |
+| **Adopt** | Import a shot from another project or pipeline |
+| **Delete** | Remove the shot from the cut (no refund) |
+| **Mark as hero** | Pin the take as the default for assembly |
+
+---
+
+## Elements
+
+**Elements** are reusable reference assets tied to the project. They appear in the Elements panel and can be attached to any shot node on the canvas.
+
+### Element types
+
+| Type | How it's created | Use |
+|---|---|---|
+| Character sheet | Four-panel image recipe (`cinema-character-sheet`) | Reference for character continuity across shots |
+| Environment plate | Wide-angle image recipe (`environment-plate`) | Establishing location reference |
+| Uploaded asset | Direct upload from the media library | Any custom reference (logo, prop, costume) |
+
+Elements are created automatically by the [Film Agent](/customer-management/media-studio/film-agent) or manually via the **+ Element** button in the Elements panel.
+
+### @alias references
+
+When a generation prompt uses `@CharacterName` or `@LocationName`, the system resolves the alias to the element's image and includes it as a positional reference in the generation request. Up to 14 references are supported per generation; over-limit prompts are refused before any credit charge.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Elements panel showing elements organised into "Characters" and "Environments" categories, with a prompt field showing an @alias reference._
+
+---
+
+## Storyboard Export
+
+The **Storyboard Export** tool packages the entire project into a downloadable archive:
+
+- All shot nodes and their metadata (prompts, takes, active take selection)
+- The cinema manifest (scene structure, beat sheet, character bible)
+- Character sheets and environment plates
+- Edge connections (the shot order graph)
+
+### How to export
+
+1. Open the storyboard in Cinema mode.
+2. Click **Export** in the toolbar → **Storyboard Export**.
+3. The system packages the archive (rate-limited to 3 exports per minute per project).
+4. A signed download URL appears. Click to save the `.zip` file.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Export menu with Storyboard Export highlighted and the download URL visible._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through Cinema mode from opening the storyboard through switching takes in the film rail, managing elements, and triggering a storyboard export._
+
+---
+
+## Cinema manifest
+
+Every project with Cinema mode active has a **cinema manifest** — a JSON document attached to the storyboard that describes the film structure. It stores:
+
+- Scene list with shot assignments
+- Beat-sheet outline
+- Character and environment element IDs and aliases
+- Director notes added during the Film Agent session
+
+The manifest is included in every Storyboard Export. External tools that consume the export can read the manifest to reconstruct the shot graph.
+
+---
+
+## Orphan asset filing
+
+When the Film Agent generates an asset that does not match any existing storyboard node (for example, a test render for a shot that was later deleted), the system files it as an **orphan asset**. Orphan assets appear in the Elements panel under an **Orphans** category and can be:
+
+- Dragged onto an existing shot node to adopt them
+- Deleted from the panel (no refund — the credit was already spent)
+
+---
+
+## Related pages
+
+- [Film Agent](/customer-management/media-studio/film-agent) — the in-portal AI director that populates Cinema mode
+- [Generative Media Studio overview](/customer-management/media-studio/overview) — recipes, quality tiers, credit billing
+- [Docs & Media library](/customer-management/media-library) — where finished films are saved
+
+> Source: [knotie-ai-pro#1362](https://github.com/avijeett007/knotie-ai-pro/pull/1362) — _feat(media-studio): Phase 7 roll-up — film system over MCP, full film pipeline, in-platform Film Agent, Cinema mode_
