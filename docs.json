@@ -46,7 +46,8 @@
               "customer-management/client-portal-navigation-and-ai-gateway",
               "customer-management/custom-domain",
               "customer-management/email-domains",
-              "customer-management/ai-memory-my-minds"
+              "customer-management/ai-memory-my-minds",
+              "customer-management/experience-aware-welcome-email"
             ]
           },
           {

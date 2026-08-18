@@ -1,0 +1,79 @@
+---
+title: "Experience-aware welcome emails"
+description: "Customers now receive a welcome email that matches their specific product experience — Media Studio, AI Voice Agent, or any other experience type — instead of a generic message."
+---
+
+## What changed
+
+When a customer is onboarded through any channel — the partner dashboard Quick Onboard, a payment link, a Stripe checkout, or the MCP `customers_onboard` tool — they receive a welcome email that reflects the specific product they signed up for.
+
+Previously every customer received the same generic **"Your AI voice assistant account is ready"** email regardless of the experience they were signing up for. A Media Studio customer, for example, would receive copy that talked about voice assistants instead of their actual product.
+
+## How it works
+
+The platform reads the customer's **experience type** at onboarding time and looks up the partner's matching Experience settings (display name, branding, logo, colours). The welcome email then uses:
+
+- **Subject and heading** — "Your \<Product Name\> account has been created" instead of the generic voice-assistant copy
+- **Product name** — derived from the experience's `displayName` setting
+- **Branding** — the experience's logo and primary colour, merged over the partner's portal branding
+
+If no experience-specific branding is found, the email falls back gracefully to the partner's standard branding — credential delivery is never blocked.
+
+> 📷 **Screenshot needed:** _Add a side-by-side comparison of the generic welcome email versus an experience-specific one (e.g. a Media Studio welcome email with the studio branding)._
+
+## Default experience for API and MCP signups
+
+When a customer is onboarded via the partner API or the MCP `customers_onboard` tool **without** an `experienceType` field, the platform now automatically selects the partner's **default experience**.
+
+### What is the default experience?
+
+You can mark one experience as the default in **Settings → Experiences**. When set, any signup that does not explicitly pass an experience type will be associated with that experience — and will receive its matching welcome email.
+
+If no default experience is configured, signups without an explicit `experienceType` remain unbound to an experience and receive the standard partner-branded welcome email.
+
+### Passing experienceType explicitly
+
+To sign up a customer for a specific, non-default experience via the MCP tool:
+
+```json
+{
+  "tool": "customers_onboard",
+  "arguments": {
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "email": "jane@example.com",
+    "experienceType": "media-studio"
+  }
+}
+```
+
+If `experienceType` is omitted the platform uses the partner's default. If you pass a type that does not belong to your partner account, the signup proceeds but the type is ignored (the MCP tool description now documents this constraint).
+
+> 🎬 **Video walkthrough:** _Record a short clip showing: (1) setting a default experience in Settings → Experiences, (2) onboarding a customer via the MCP tool without specifying experienceType, and (3) the customer receiving a correctly branded welcome email._
+
+## Setting your default experience
+
+1. In the Partner Portal sidebar, go to **Settings → Experiences** (or **AI Gateway & Experiences → Experiences**).
+2. Find the experience you want as the default.
+3. Toggle **Set as default** and save.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Experiences settings page with the "Set as default" toggle highlighted._
+
+## Channels that send experience-aware emails
+
+| Channel | Experience source |
+|---------|------------------|
+| Dashboard Quick Onboard | Experience selected in the form (or partner default) |
+| Payment link checkout | Experience bound to the payment link |
+| Experience slug portal | Experience derived from the portal slug |
+| Partner API `POST /api/partner/customers/onboard` | `experienceType` field, or partner default |
+| MCP `customers_onboard` tool | `experienceType` argument, or partner default |
+| Agent auto-install | Experience passed by the orchestrator |
+
+## Related pages
+
+- [How to onboard a customer](/customer-management/onboard-customer)
+- [Portal modes](/customer-management/portal-modes)
+- [AI Gateway & Experiences overview](/partner-portal/experiences/overview)
+
+> Source: [knotie-ai-pro#1373](https://github.com/avijeett007/knotie-ai-pro/pull/1373) — _fix(onboarding): experience-aware welcome email + default-experience binding for API/MCP signups_
