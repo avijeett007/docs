@@ -1,0 +1,127 @@
+---
+title: "Mission Control — Cost Tracking"
+description: "See exactly what the platform costs you across Media Studio, AI Gateway, internal LLM calls, and VPS — broken down by feature, provider, model, partner, and customer."
+---
+
+## What Cost Tracking is
+
+The **Cost Tracking** section of Mission Control (navigate to **Mission Control → Costs**) gives you a real-time view of your platform's operating costs — what you spend to deliver the service — and how those costs relate to the credits you charge partners and customers.
+
+Access requires admin login with MFA.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Mission Control → Costs overview page showing the cross-domain cost summary table and the stacked time series chart._
+
+## Domains covered
+
+Cost Tracking is organised into five views:
+
+### Overview
+
+A cross-domain summary showing:
+
+- Total platform COGS (Cost of Goods Sold) vs credits charged, with margin
+- Per-domain breakdown in a table (Media Studio, Director LLM, AI Gateway, VPS)
+- Stacked time-series chart of costs over time
+- Top partners across all domains
+- Data freshness indicator
+
+### Media Studio
+
+Generation costs for the Generative Media Studio:
+
+- **COGS vs credits charged** — quoted generation cost (`cogsUsd`) versus partner and customer credits
+- **By provider / model / modality / status / surface** — filter spend by provider, model type (image, video, audio), generation status, and where the job came from (portal, MCP, agent)
+- **Refunds and net** — refunded credit amount subtracted from totals
+- **Refusal reasons** — breakdown of why jobs were blocked (likeness, copyright, content policy)
+- **Top partners and customers by spend**
+- **Paginated job drill-down** with CSV export
+
+<Note>
+Media Studio COGS figures are **quoted cost** (what the provider quoted at submission time), not reconciled actuals. Figures are labelled accordingly.
+</Note>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Media Studio cost view showing the COGS vs credits chart and the provider/model breakdown._
+
+### Director LLM
+
+Internal platform LLM usage — every call the platform makes using its own AI keys (film agent director, storyboard assistant, script breakdown, shot composer, brand kit, persona planning, super-analytics, and others):
+
+- **Tokens and USD** — prompt tokens, completion tokens, and estimated cost per feature
+- **By feature / model / provider / partner** — filter by which platform feature drove the spend
+- **Cost source** — whether the cost was derived from the provider's response header, the model registry, or a static fallback (labelled "est." when a fallback is used)
+
+<Note>
+This meter tracks LLM calls made with the **platform's own keys** (e.g. `LITELLM_MASTER_KEY`). Customer AI Gateway usage appears in the AI Gateway view, not here.
+</Note>
+
+### AI Gateway
+
+Vendor spend for customer-facing AI Gateway keys:
+
+- **Vendor spend vs credits charged** — what was paid to the AI provider vs what was billed to partners and customers
+- **Margin** — difference between credits charged and vendor cost
+- **Tokens** — by model, provider, and source
+- **Top partners / customers / keys by spend**
+- **Spend drill-down** — per-request detail with model, provider, token counts, latency, partner, and customer
+- CSV export
+
+### VPS
+
+VPS fleet costs:
+
+- **Fleet overview** — active instances, total vendor monthly run-rate, platform and partner margin
+- **By plan / region / interval / status**
+- **Monthly charges** — billing events over time
+- **Lifecycle time series** — provisioning, termination, and renewal events
+- **Top partners and customers by VPS spend**
+- **Instance drill-down** — per-instance detail
+- Coupon and discount tracking
+
+<Note>
+VPS vendor cost is based on the Contabo catalog snapshot at provisioning time, not prorated actuals.
+</Note>
+
+## Filtering and date ranges
+
+Every domain view shares:
+
+- **Date range presets** — Today, Last 7 days, Last 30 days, Last 90 days, custom range
+- **Partner search** — combobox that searches partners by name or ID
+- **Customer search** — combobox that searches customers by name or ID
+- **URL-persisted filters** — share a filtered view with a teammate via a direct link
+
+> 🎬 **Video walkthrough:** _Record a short clip showing how to use the date range picker and partner/customer filter comboboxes, then export a CSV from the Media Studio drill-down._
+
+## CSV export
+
+Most drill-down tables have a **Download CSV** button. The export respects the current date range and filter selection.
+
+## Partner detail shortcut
+
+On the partner detail page in Mission Control, a **Costs** button opens the Cost Tracking view pre-filtered to that partner across all domains.
+
+## Access and rate limiting
+
+- Requires admin session with MFA (Mission Control login).
+- Cost API routes are protected by a dedicated 120 requests/minute rate limit bucket.
+- All query results are bounded to prevent runaway queries.
+
+## Honesty labels
+
+The dashboard surfaces several estimates and approximations. Where a figure is not exact, it carries an explicit label:
+
+| Label | Meaning |
+|-------|---------|
+| Quoted COGS | Provider's quoted cost at job submission; not reconciled against actual invoice |
+| est. | USD cost estimated from the model registry or a static fallback (not from the provider's response) |
+| Run-rate | Monthly cost extrapolated from the current fleet, not a prorated invoice amount |
+
+## Related pages
+
+- [Partner Portal overview](/partner-portal/overview)
+- [Credits](/partner-portal/credits)
+- [Billing and invoices](/partner-portal/billing-and-invoices)
+- [AI Gateway](/partner-portal/ai-gateway)
+- [VPS overview](/partner-portal/vps/overview)
+
+> Source: [knotie-ai-pro#1368](https://github.com/avijeett007/knotie-ai-pro/pull/1368) — _feat(mission-control): Cost Tracking section — Media Studio + director LLM meter, AI Gateway, VPS costs by partner/customer_
