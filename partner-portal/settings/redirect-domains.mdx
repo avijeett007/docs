@@ -1,0 +1,50 @@
+---
+title: "Payment redirect domains"
+description: "Control which domains Stripe is allowed to redirect buyers to after a successful or cancelled payment."
+---
+
+## What redirect domains are
+
+When a customer or prospect completes (or abandons) a Stripe Checkout session, Stripe redirects them to a URL you specify. For security, Stripe only allows redirects to domains you have pre-approved.
+
+The **Payment redirect domains** widget in **Settings → Partner API Keys** lets you manage that allowlist directly from the Partner Portal without logging in to Stripe.
+
+## Where to find it
+
+1. In the Partner Portal sidebar, click **Settings**.
+2. Open **Partner API Keys**.
+3. Scroll to the **Payment redirect domains** section.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Payment redirect domains widget on the Settings → Partner API Keys page, showing the domain list and the Add Domain button._
+
+## Adding a domain
+
+1. Click **Add domain** (or **+**) in the widget.
+2. Enter the domain you want to allow — e.g. `youragency.com`.
+3. Click **Save**.
+
+Once saved, Stripe Checkout sessions on your account can redirect to any path under that domain (e.g. `https://youragency.com/thank-you`).
+
+## Removing a domain
+
+Click the **×** next to any listed domain to remove it. Save your changes.
+
+<Warning>
+Removing a domain that an active payment link uses will cause Stripe to reject the redirect after checkout. Always verify no live payment links point to a domain before removing it.
+</Warning>
+
+## Common issues
+
+| Symptom | Fix |
+|---------|-----|
+| Redirect goes to a Stripe error page after payment | The redirect URL's domain is not in the allowlist — add it here |
+| Widget shows "Unauthorised" when loading or saving | Log out and back in to the Partner Portal to refresh your session token, then try again |
+| Domain added but still rejected by Stripe | Allow a minute for propagation; Stripe sometimes caches the allowlist briefly |
+
+## Related pages
+
+- [API access overview](/partner-portal/api-keys)
+- [Stripe Connect](/partner-portal/settings/stripe-connect)
+- [Subscription plans](/partner-portal/settings/subscription-plans)
+
+> Source: [knotie-ai-pro#1374](https://github.com/avijeett007/knotie-ai-pro/pull/1374) — _fix(partner): redirect-domains settings widget sends no auth header_
