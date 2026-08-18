@@ -1,0 +1,89 @@
+---
+title: "Storyboard canvas — live updates, resizable dock, and conversations"
+description: "The storyboard canvas now updates live while the Film Agent works, the Film Agent dock is resizable, and conversations are kept per storyboard so you can pick up exactly where you left off."
+---
+
+## Overview
+
+Three improvements shipped to the Generative Media Studio storyboard canvas:
+
+1. **Live board** — the canvas refreshes automatically while the Film Agent (or any MCP agent) creates or edits cards. You no longer need to reload the page to see changes.
+2. **Resizable dock** — the Film Agent chat dock can be dragged to any width between 20 rem and 60 % of the viewport.
+3. **Conversations per storyboard** — each storyboard keeps its own conversation history. Switching boards loads the right thread; refreshing or opening a new session resumes from where you left off.
+
+> 🎬 **Video walkthrough:** _Record a short clip showing: (1) an agent creating cards while the canvas updates live, (2) dragging the dock handle to resize it, and (3) switching between two storyboards and seeing different conversation histories load._
+
+## Live board updates
+
+### What updates automatically
+
+While the Film Agent is working — or while an MCP agent edits the board through the Connect Hub — the canvas picks up every card change without a page reload. This includes:
+
+- New storyboard cards added by the agent
+- Card status changes (generating, ready, failed)
+- Cards added or updated by an external MCP agent session
+
+The live stream stays active for the entire time you have the storyboard open, not only during an active agent run. This means the board stays current even when the Film Agent director is working between turns.
+
+### Update coalescing
+
+If many changes arrive in a short burst (common when an agent runs several tool calls in quick succession), the canvas coalesces them into a single refresh per 400 ms. This prevents flickering while still keeping the board visually up to date.
+
+### No action needed
+
+Live updates are on by default. There is no toggle to enable them. If you want to force a manual refresh, use your browser's reload button — but this should rarely be necessary.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the storyboard canvas with a card actively updating (showing a "generating" status indicator) while other cards are already ready._
+
+## Resizable dock
+
+The Film Agent chat dock sits on the right side of the storyboard canvas. You can resize it:
+
+- **Drag** — grab the vertical resize handle (the separator bar on the left edge of the dock) and drag left or right.
+- **Keyboard** — with focus on the handle, press the left/right arrow keys to move it 16 px at a time. Press **Home** or **double-click the handle** to reset to the default width.
+- **Range** — minimum 20 rem, maximum 60 % of the viewport width.
+- **Persistent** — your chosen width is remembered across page loads and sessions.
+
+On mobile, the dock stacks vertically and the resize handle is hidden.
+
+> 📷 **Screenshot needed:** _Add a screenshot showing the dock at a wider-than-default width, with the resize handle visible on its left edge._
+
+## Conversations per storyboard
+
+### How it works
+
+Each storyboard has its own conversation thread with the Film Agent. When you open a storyboard:
+
+- The canvas automatically resumes the most recent conversation on that board, including its full transcript and credit meter.
+- The credit meter shows both "Spent in this conversation" and "On this board so far" (total across all conversations on the board).
+
+### Switching conversations
+
+A **Conversations on this board** picker in the dock lets you select any previous conversation thread for the current board. You can also start a **New conversation** while staying linked to the same storyboard.
+
+Conversations from other storyboards never appear in the picker for the current board.
+
+### Cross-session continuity
+
+When you close and reopen a storyboard — or open it in a new browser session — the most recent conversation loads automatically. The Film Agent resumes with the full transcript and spend context, so you do not need to re-explain which storyboard you are working on.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the "Conversations on this board" picker showing two or more conversation entries, with the newest one selected._
+
+## Credit meter
+
+The dock shows two credit figures for the current storyboard:
+
+| Meter | What it shows |
+|-------|--------------|
+| Spent in this conversation | Credits used in the current open conversation thread |
+| On this board so far — N cr · K conversations | Total credits across all conversation threads on this storyboard, plus the number of separate conversations |
+
+Both figures persist across page reloads and new sessions — they are recorded server-side, not in your browser.
+
+## Related pages
+
+- [Generative Media Studio (Phase 7)](/partner-portal/media-studio/film-agent) *(see PR docs PR #126)*
+- [MCP tokens](/partner-portal/ai-agents/mcp/tokens)
+- [AI agents overview](/partner-portal/ai-agents-overview)
+
+> Source: [knotie-ai-pro#1365](https://github.com/avijeett007/knotie-ai-pro/pull/1365) — _feat(media-studio): live board while the director works, resizable dock, conversations kept per storyboard_
