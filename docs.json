@@ -34,7 +34,8 @@
               "account/passkeys",
               "account/mfa",
               "account/card-verification",
-              "account/login-flow"
+              "account/login-flow",
+              "account/terms-and-privacy"
             ]
           },
           {
