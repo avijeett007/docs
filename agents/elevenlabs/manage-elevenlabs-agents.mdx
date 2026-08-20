@@ -140,6 +140,40 @@ If you only need to assign an agent without changing other settings:
 3. Select the customer and profit multiplier.
 4. Save.
 
+## Test an agent
+
+Before assigning an agent to a customer, you can run a live test call directly from the Partner Portal. The test modal opens a real WebRTC or WebSocket connection to your ElevenLabs agent using a short-lived signed URL — no phone number or Twilio account needed.
+
+### Start a test call
+
+1. Find the agent you want to test in the ElevenLabs Agents list.
+2. Open the agent's action menu (⋮) and click **Test Agent**, or click the play icon on the agent card.
+3. The test modal opens and requests microphone access. Allow it when the browser prompts.
+4. Click **Start Test Call**. The modal connects to your ElevenLabs agent and shows **Connected** when ready.
+5. Speak normally — the agent hears you and responds through your speakers.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the test modal in the "Connected" state showing the call timer, Mute button, and End Call button._
+
+### During the call
+
+| Control | What it does |
+|---------|-------------|
+| **Mute / Unmute** | Silences your microphone while keeping the call active. The agent will not hear you while muted. |
+| **End Call** | Ends the session and shows a call-ended summary. |
+| **Call timer** | Shows elapsed time in `MM:SS` format, starting from when the connection is established. |
+| **Transcript panel** | Shows a live transcript of what you and the agent said, labelled by speaker. |
+
+> 🎬 **Video walkthrough:** _Record a short clip showing the full test-call flow: clicking Test Agent, granting microphone access, starting the call, speaking with the agent, muting, then ending the call._
+
+### Troubleshooting a failed test call
+
+| Symptom | Likely cause | Fix |
+|---------|-------------|-----|
+| Modal opens but call never connects | ElevenLabs API key invalid or expired | Update the key under the agent's ⋮ → **API Key** menu |
+| "Connection failed" error in transcript | Agent ID or signed URL misconfigured | Confirm the agent exists in your ElevenLabs dashboard and re-import |
+| Microphone prompt never appears | Browser blocked mic access | Allow microphone access in browser site settings and reload |
+| Agent responds but you hear nothing | Browser speaker permissions or agent voice not configured | Check the ElevenLabs Voice ID in Basic Settings |
+
 ## Troubleshooting
 
 | Symptom | Fix |
@@ -148,3 +182,7 @@ If you only need to assign an agent without changing other settings:
 | Agent save fails silently | Check the browser console; a function call may reference an unconfigured tool |
 | Knowledge bases don't appear | Select a customer first; knowledge bases are customer-scoped |
 | Upgrade prompt on the page | ElevenLabs may require a higher Knotie plan — contact support |
+
+---
+
+> Source: [knotie-ai-pro#1335](https://github.com/avijeett007/knotie-ai-pro/pull/1335) — _Fix ElevenLabs SDK integration_
