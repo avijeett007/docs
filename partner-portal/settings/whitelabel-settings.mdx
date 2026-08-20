@@ -80,6 +80,34 @@ The Whitelabel page is the **entry point** for most of these settings. For step-
 - [Customer credit plans](/partner-portal/settings/customer-credit-plans) — pay-as-you-go credits
 - [SaaS portal mode](/partner-portal/settings/saas-portal-mode) — SaaS-specific options
 
+## What happens when Enable Customer Portal is off
+
+The **Domain** section in Whitelabel Settings contains two portal toggles:
+
+- **Enable Customer Portal** — controls whether your custom domain (or subdomain) serves the portal at all.
+- **Enable Customer Signup** — controls whether new customers can self-register.
+
+When **Enable Customer Portal** is unchecked and you save, two things happen:
+
+1. **Visitors to your domain see a service-unavailable notice** — a neutral "Something went wrong / Please contact the support team for assistance" page, with no Knotie AI branding. The URL stays the same (it is not a redirect), the page is marked `noindex` so search engines do not index it, and API calls to your domain return a `403` status.
+2. **You receive an email reminder** — Knotie AI sends a notification to your registered email address explaining which setting to flip. This email is rate-limited to once every 24 hours so you won't be spammed if you save the settings page multiple times.
+
+<Warning>
+While the portal is disabled, any customer who visits your custom domain — including active customers who have a login — will see the service-unavailable notice and will not be able to sign in. Re-enable the portal before sharing the link with customers.
+</Warning>
+
+To re-enable:
+
+1. Open **Settings → Whitelabel → Domain**.
+2. Check **Enable Customer Portal**.
+3. Click **Save**.
+
+The portal is live again immediately after saving.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Domain Settings section showing the "Enable Customer Portal" toggle in the off state, and a separate screenshot of the service-unavailable notice page visitors see._
+
+> 🎬 **Video walkthrough:** _Record a short clip showing the complete flow: unchecking the toggle, saving, navigating to the custom domain to see the notice, then re-enabling the portal._
+
 ## Good to know
 
 - **Voice AI Agent has its own section.** It's no longer part of Domain Settings.
@@ -87,6 +115,7 @@ The Whitelabel page is the **entry point** for most of these settings. For step-
 - **Your subdomain and custom domain can't be changed** once they're registered and verified, so choose them carefully.
 - **Subscription Plans and Customer Credit Plans stay locked** until you finish Stripe Connect.
 - **Every section collapses**, so the page stays short and easy to scan on first load.
+- **New partners start with Enable Customer Portal off.** The toggle defaults to unchecked when a partner account is created. Turn it on once your domain and branding are ready.
 
 ## Related pages
 
@@ -94,3 +123,7 @@ The Whitelabel page is the **entry point** for most of these settings. For step-
 - [Custom domain](/customer-management/custom-domain)
 - [Portal modes](/customer-management/portal-modes)
 - [Partner portal overview](/partner-portal/overview)
+
+---
+
+> Source: [knotie-ai-pro#1376](https://github.com/avijeett007/knotie-ai-pro/pull/1376) — _fix(whitelabel): serve a portal-disabled notice and email the partner_
