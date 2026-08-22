@@ -89,6 +89,45 @@ See [Auto-deploy](/partner-portal/auto-deploy) for prerequisites and credit requ
 
 ---
 
+## AI model routing (inference-first)
+
+Knova agents route all AI model calls through **LiveKit Inference as the primary provider**, with your chosen direct-provider plugins as a fallback. This means:
+
+- **Reliability** — if a primary provider is unavailable, the agent falls back to your configured direct provider without dropping the call.
+- **Voice consistency** — if you selected a Cartesia voice, the agent keeps that voice even when served through Inference (model identity is derived from your stored agent config, not the routing layer).
+- **Instant revert** — the `INFERENCE_FIRST` flag (on by default) lets the platform roll back to direct-provider routing at the infrastructure level if a systemic Inference issue is detected.
+
+Models that are not available through LiveKit Inference (Anthropic, Groq-Llama, Azure, xAI, Whisper) continue to use the direct provider as primary — they are unaffected by this routing change.
+
+### Per-tier default models
+
+| Tier | LLM (Inference) | STT | TTS |
+|------|-----------------|-----|-----|
+| **Essentials** | Gemma 4 31B | AssemblyAI | Inworld TTS 1.5 Mini |
+| **Moderate** | Gemini 3.5 Flash | Nova-3 | Inworld TTS 2 (expressive) |
+| **Premium** | GPT-5.1 | Flux | Cartesia Sonic 3.5 |
+
+<Note>
+JARVIS / AI-OS instances use a dedicated profile: Gemini 2.5 Flash / AssemblyAI Universal-Streaming-Multilingual / Inworld TTS 2.0, forced to the Moderate tier. This profile applies only when the agent is dispatched through the JARVIS ORB path — it does not affect regular web or phone agents.
+</Note>
+
+---
+
+## Natural voice and conversation style
+
+Knova agents are tuned to sound human rather than robotic. The voice-realism prompt block ("Sounding human") guides the agent to:
+
+- Rotate natural acknowledgements instead of repeating "I see" or "Got it"
+- Use light discourse markers ("right", "actually", "you know")
+- Start sentences conversationally ("So", "And", "But")
+- Self-correct naturally when it makes a mistake
+
+The agent uses **plain words only** — no SSML tags. SSML tags would be spoken literally by Inworld TTS, which would confuse callers.
+
+You can tune the backchannel behavior by setting `backchannelConfig.enabled` and `backchannelConfig.words` in the agent's advanced configuration.
+
+---
+
 ## Troubleshooting
 
 - **Calls go to voicemail / not reaching the agent**
@@ -100,6 +139,11 @@ See [Auto-deploy](/partner-portal/auto-deploy) for prerequisites and credit requ
 - **Agent not answering after setup**
   - Assignment can take a moment to take effect — wait 30 seconds and call again.
   - If it persists, contact support.
+- **Agent's voice or model changed unexpectedly**
+  - Confirm `INFERENCE_FIRST` is set to `true` (default). If you set it to `false` to revert and want to re-enable inference routing, set it back to `true` and redeploy the agent.
+  - If a specific voice is missing, check that it is serviceable by LiveKit Inference for your tier.
+
+> Source: [knotie-ai-pro#1375](https://github.com/avijeett007/knotie-ai-pro/pull/1375) — _fix(knova-agent): rescue stranded inference-first routing + voice-realism commits_
 
 ## Related pages
 
