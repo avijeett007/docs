@@ -206,12 +206,74 @@ If you use Knotie's MCP server with AI coding tools like Cursor or Claude, note 
 
 If you have existing MCP automations using these tools, update your prompts and tool calls to use the new field names.
 
+## AI Receptionist settings
+
+When an AI Receptionist agent is deployed via the Experiences flow, a **Settings** section appears on the agent's page in the Partner Portal. It includes:
+
+- **Site-wide voice agent** — toggles whether this agent is the partner's site-wide voice agent shown on the public Voice AI landing page. Saving this setting no longer accidentally reassigns the chosen agent; the bug that caused every settings save to replace the previously bound agent is fixed.
+- **Legacy voice block** — the old, free-text voice configuration is preserved as a hidden fallback. It is visible only when no site-wide agent is currently bound, so existing configurations remain intact.
+- **Agent name field** — the Agent Name field in the settings page has been removed for AI Receptionist agents; the persona name (set during onboarding) is used everywhere instead.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the AI Receptionist Settings page in the Partner Portal showing the Site-wide voice agent toggle and the section below it._
+
+## Thinking / typing sounds
+
+AI Receptionist and Knova agents can play a subtle filler sound while the model is generating a response. This is **off by default** and opt-in.
+
+To enable thinking sounds on an agent:
+
+1. Open the agent in the Knova Agents list (click **Configure** or the agent name).
+2. In the agent modal, go to the **Advanced** tab.
+3. Toggle **Thinking sounds** on.
+4. Save.
+
+<Warning>
+Thinking sounds are not available on the **Premium** tier (GPT-5.1 / Cartesia Sonic 3.5). Enabling the toggle on a Premium-tier agent has no effect.
+</Warning>
+
+The sound plays while the agent is processing — callers hear a soft filler instead of silence. Keep this setting enabled only if your callers prefer audible processing feedback; many prefer silence.
+
+## Repair a live AI Receptionist's knowledge base
+
+If a live AI Receptionist agent is answering calls without access to your business facts or website content (common with agents deployed before August 2026), you can repair the knowledge base without a full redeploy:
+
+```
+POST /api/auto-deploy/refresh-knowledge
+Authorization: x-internal-api-key: <your internal API key>
+
+{
+  "partnerId": "<your partner ID>",
+  "customerId": "<customer ID>"
+}
+```
+
+The response includes `kbSafetyNet: "created"` if a new knowledge base was created and attached, or `kbSafetyNet: "exists"` if one was already present. After this call, the agent's prompt is rebuilt with the business facts and, if a website URL is on the prospect, the crawl is queued.
+
+After a successful repair, run the live call verification script to confirm the agent answers questions about address, phone hours, and services correctly.
+
+## Persona name vs. business name
+
+Knova AI Receptionist agents use a **persona name** (the character name the receptionist introduces itself as) in all customer-facing contexts:
+
+| Where persona name is used | Where legal business name is used |
+|---|---|
+| Onboarding headings | Terms of service / Privacy policy |
+| Storefront hero and subtitle | Payment pages |
+| Portal shell | Invoices |
+| Authentication pages | — |
+| Customer emails | — |
+
+The persona name is set in Step 2 of the AI Receptionist onboarding. To change it after deployment, re-open the Experiences settings for the AI Receptionist and update Step 2.
+
 ## Troubleshooting
 
 - **System prompt exceeds character limit** — Split overly broad scopes into a multi-agent workflow. Each persona or use case should have its own agent.
 - **Voice not loading** — Reload the page. If voices still don't appear, check your internet connection and try a different browser.
 - **Builder session not resuming** — Sessions are listed by `lastTurnAt` (most recent first). If you don't see a session, it may have been created for a different customer or on a different account.
 - **Agent config not updating after edit** — The platform refreshes the agent's live configuration after every save. If the agent's phone number still uses the old settings, wait 30 seconds and call the number again. If it persists, contact support.
+- **Agent answers but gives no business info** — Knowledge base not attached at deploy. Run `POST /api/auto-deploy/refresh-knowledge` (see above).
+- **Storefront shows business name instead of persona name** — Redeploy the agent from the Experiences settings; the persona name resolver now applies in all hero contexts.
+- **Thinking sounds toggle not working** — Confirm the agent is not on the Premium tier; thinking sounds are disabled on Premium.
 
 ## Related pages
 
@@ -219,3 +281,6 @@ If you have existing MCP automations using these tools, update your prompts and 
 - [Telephony Credits](/partner-portal/telephony-credits) – Manage credits for phone calls
 - [MCP Tokens](/partner-portal/ai-agents/mcp/tokens) – Set up MCP access for AI coding tools
 - [Agent Analytics](/partner-portal/agent-analytics) – View call and usage statistics
+---
+
+> Source: [knotie-ai-pro#1394](https://github.com/avijeett007/knotie-ai-pro/pull/1394) — _fix(receptionist): post-launch fixes — business research/KB guaranteed at deploy, curated voices, persona-first branding_
