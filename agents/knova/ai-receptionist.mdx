@@ -1,0 +1,246 @@
+---
+title: "AI Receptionist"
+description: "Deploy a 24/7 AI Receptionist that answers inbound calls on LiveKit — automatically provisioned with your business knowledge base, curated voice, and persona branding."
+---
+
+## What the AI Receptionist is
+
+The **AI Receptionist** is a production-ready, hosted voice agent built on LiveKit Agents. It answers inbound phone calls, introduces itself by your persona name, fetches business context from a guaranteed-deployed knowledge base, and handles caller requests using configurable tools.
+
+Unlike generic Knova agents, the AI Receptionist is provisioned end-to-end through the **Experiences** flow: onboarding steps guide you through persona naming, voice selection, pricing configuration, and auto-deploy — resulting in a live phone number your callers can reach immediately.
+
+<Info>
+The AI Receptionist runs on the **Knova** agent backend (LiveKit Agents runtime). A Knova agent is created and deployed automatically; you do not configure it separately in the Knova Agents page.
+</Info>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the AI Receptionist experience card in the Experiences overview page, showing the Enable toggle and the Ready badge._
+
+> 🎬 **Video walkthrough:** _Record a short clip showing the full AI Receptionist onboarding flow — from clicking Enable on the Experiences page through completing all onboarding steps to making the first live test call._
+
+---
+
+## Prerequisites
+
+Before enabling the AI Receptionist:
+
+1. **Partner Portal access** — you must be logged into your partner account.
+2. **Knotie Credits** on the customer's account (5–10 credits/min depending on the agent tier selected; see [Agent tiers](#agent-tiers)).
+3. A **phone number** — either imported from your own Twilio/Telnyx account, or one auto-provisioned during setup.
+4. Your **business profile** completed (address, phone, hours) — the AI Receptionist's business facts are built deterministically from this profile at deploy time.
+
+---
+
+## Enable the AI Receptionist
+
+1. In the Partner Portal sidebar, go to **Experiences**.
+2. Find the **AI Receptionist** card and click **Enable**.
+3. Complete the onboarding steps (see [Onboarding steps](#onboarding-steps) below).
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Experiences page with the AI Receptionist card highlighted and the Enable toggle visible._
+
+---
+
+## Onboarding steps
+
+The AI Receptionist onboarding is a guided multi-step flow. Each step is server-rendered for fast load times.
+
+| Step | What you configure |
+|------|--------------------|
+| 1 | Business profile — name, address, phone, hours |
+| 2 | Persona name (the character name your receptionist introduces itself as) |
+| 3 | Voice — pick from a curated shortlist of up to 5 voices per tier (audition one at a time with **Hear** / **Try another** / **Browse all**) |
+| 4 | Agent tier — Essentials, Moderate, or Premium (see [Agent tiers](#agent-tiers)) |
+| 5 | Knowledge base — website URL for crawl + business profile doc (auto-created) |
+| 6 | Customer pricing — set a profit multiplier (1.0–5.0×) if you charge your customers for Voice AI usage |
+| 7 | Phone number — auto-provisioned or imported |
+| 8 | Summary and deploy |
+| 9 | Post-deploy confirmation and live test call |
+
+<Note>
+Steps 7–9 are heavier on the client side. Steps 1–6 are fully server-rendered and load in under 200 ms.
+</Note>
+
+> 📷 **Screenshot needed:** _Add a screenshot of Step 3 (voice selection) showing the curated shortlist with Hear / Try another / Browse all controls._
+
+> 📷 **Screenshot needed:** _Add a screenshot of Step 6 (customer pricing) showing the profit multiplier slider and the per-tier credit cost preview._
+
+---
+
+## Persona-first branding
+
+The AI Receptionist is branded with your **persona name** everywhere customers see it — onboarding flow headings, storefront hero, portal shell, authentication pages, and customer emails.
+
+Your legal business name appears only in terms of service, privacy policy, payment pages, and invoices.
+
+A single helper (`brandName.ts`) controls which name is shown in each context; you do not need to configure this manually.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the storefront hero section showing the persona name in the heading and subtitle (not the business name)._
+
+---
+
+## Agent tiers
+
+The AI Receptionist runs on LiveKit Inference. Three tiers are available:
+
+| Tier | LLM | STT | TTS | Credits/min |
+|------|-----|-----|-----|-------------|
+| **Essentials** | Gemma 4 31B | AssemblyAI | Inworld TTS 1.5 Mini | 5 |
+| **Moderate** | Gemini 3.5 Flash | Nova-3 | Inworld TTS 2 (expressive mode) | 7 |
+| **Premium** | GPT-5.1 | Flux | Cartesia Sonic 3.5 | 10 |
+
+<Info>
+**Zero Data Retention** — platform tiers (Essentials, Moderate, Premium) route all LLM, STT, and TTS calls through **LiveKit Inference** exclusively. Your call audio and transcripts never touch a third-party vendor's storage. BYOA agents use the partner's own API keys and are not subject to this policy.
+</Info>
+
+All tiers include:
+- Per-tier fallback chains (the agent stays live if a provider has an outage)
+- Sticky fast TTS failover (1 retry × 4 s, then pinned for the remainder of the call)
+- Duration cap, turn cap, and per-caller inbound frequency limit to protect against call abuse
+
+---
+
+## Voice AI workflow patterns
+
+The AI Receptionist supports four LiveKit workflow modes:
+
+| Mode | When to use |
+|------|-------------|
+| **Solo agent** | Single-agent inbound handling — the default for most receptionists |
+| **Front desk** | Routes caller to the right specialist agent based on intent |
+| **Step by step** | Guides a caller through a structured flow (e.g., appointment booking) |
+| **Concierge** | Silent background consults while the main agent speaks |
+
+The builder sets the workflow mode automatically based on your business profile and the tools you enable. You can override this in the agent configuration.
+
+---
+
+## Knowledge base safety net
+
+At deploy time, the platform guarantees that the agent has at least one knowledge base entry before going live:
+
+1. **Business facts** — a document built deterministically from your business profile (address, phone, hours, services) is attached to the agent.
+2. **Website crawl** — if you provide a URL (Step 5), the platform crawls and indexes it. Requires `STANDARD_APIFY_TOKEN` on Connect Hub; without it, the business facts document is still attached.
+
+If your AI Receptionist went live before this safety net existed (i.e., before this update), you can repair it without redeploying:
+
+```
+POST /api/auto-deploy/refresh-knowledge
+{
+  "partnerId": "<your partner ID>",
+  "customerId": "<customer ID>"
+}
+```
+Include the `x-internal-api-key` header. The response includes `kbSafetyNet: "created"` if a knowledge base was created, or `kbSafetyNet: "exists"` if one was already attached.
+
+---
+
+## Typing / thinking sounds
+
+The AI Receptionist can play a subtle filler sound while the model is generating a response. This is **off by default**.
+
+To enable:
+1. Open the agent's modal (Configure → Agent modal).
+2. Under **Advanced**, toggle **Thinking sounds** on.
+
+<Note>
+Thinking sounds are not available on the **Premium** tier.
+</Note>
+
+---
+
+## Curated voices
+
+In Step 3 of onboarding, the voice picker shows a curated shortlist of up to **5 voices** in the order your partner has configured. You can:
+
+- Click **Hear** to audition the currently highlighted voice.
+- Click **Try another** to cycle to the next voice in the shortlist.
+- Click **Browse all** to see the full voice catalogue.
+
+Each voice is specific to your agent's tier — voices that require a higher tier than the one you selected are not shown.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the voice picker shortlist in Step 3, showing the Hear / Try another / Browse all buttons._
+
+---
+
+## Partner customer pricing (Voice AI multiplier)
+
+Partners can charge their Voice AI customers a custom rate per minute by setting a **profit multiplier** in Step 6:
+
+- Range: **1.0× – 5.0×**
+- The multiplier applies to the base credit rate for the agent's tier.
+- Example: Moderate tier (7 credits/min) at 1.5× = **11 credits/min** (rounded up to whole credits).
+- The preview in Step 6 shows the approximate credit cost per minute at each tier for your multiplier.
+
+If no multiplier is set (default), customers are billed at your platform's standard rate.
+
+Committed partners (on a special pricing plan) are priced from their committed base rate before the multiplier is applied.
+
+The customer-facing voice pricing endpoint (`GET /api/whitelabel/voice-pricing`) returns the display rate ("≈ N credits/min") for each tier chip in the customer portal. Under legacy (no multiplier) pricing, this endpoint no longer reveals your underlying cost rate to customers.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Step 6 pricing card showing the multiplier slider, per-tier preview rows, and the approximate cost displayed._
+
+---
+
+## Call limits and abuse protection
+
+Each AI Receptionist deployment includes configurable call limits to protect against runaway costs:
+
+| Limit | What it controls |
+|-------|-----------------|
+| Duration cap | Maximum call length before the agent gracefully ends the call |
+| Turn cap | Maximum back-and-forth exchanges per call |
+| Per-caller inbound frequency | Rate limit on how often a single caller ID can call |
+
+These limits can be tightened at the agent level. They cannot be loosened beyond the platform defaults.
+
+Withheld caller IDs and rotating callers are automatically rate-limited by the platform.
+
+---
+
+## Site-wide partner voice agent
+
+Partners can designate a single Knova agent as the **site-wide partner voice agent**. This agent is surfaced publicly on the Voice AI landing page and is accessible via a landing token.
+
+To configure:
+1. Go to **Settings → Platform Configuration**.
+2. Under **Voice AI**, select the agent to use as the site-wide agent.
+3. Save. The landing page token is generated automatically.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Platform Configuration settings card showing the site-wide voice agent selector._
+
+---
+
+## Voice Agent Studio
+
+The **Voice Agent Studio** is a node-graph builder for multi-agent orchestration, available in both partner and customer portals.
+
+Key capabilities:
+- **Node graph** — visually wire agents as nodes in an orchestration graph.
+- **AI copilot** — describe what you want in plain language; the copilot proposes a graph.
+- **Per-persona tool picker** — assign specific tools to each agent in the graph.
+- **Import existing agent** — add an already-deployed agent as a node in a team.
+- **Stacked side panel** — edit node properties without leaving the graph view.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Voice Agent Studio node graph showing at least two agent nodes connected by an edge, with the AI copilot panel open on the right._
+
+> 🎬 **Video walkthrough:** _Record a clip building a simple two-agent graph with the Studio copilot — from the blank canvas to a running call between nodes._
+
+<Note>
+Voice Agent Studio is in production. Multi-agent calls are billed the same as single-agent calls: credits are consumed per minute per active agent in the session.
+</Note>
+
+---
+
+## Troubleshooting
+
+| Symptom | Likely cause | Fix |
+|---------|-------------|-----|
+| Agent answers but gives no business info | Knowledge base not attached at deploy | Run `POST /api/auto-deploy/refresh-knowledge` (see above) |
+| Caller hears silence after greeting | TTS failover triggered; call recovers within 4 s | Check LiveKit Inference quota/plan; Premium audio may need Cartesia API key |
+| Agent uses business name instead of persona name | Pre-update deployment | Redeploy the agent from the Experience settings page |
+| Step 6 shows all tiers (no curated shortlist) | Custom-domain branding route not emitting `curatedVoiceKeys` | Update to the latest app build (fixed in post-launch release) |
+| Wide-screen layout overflows | Pre-update build | Update to latest app build (fixed in post-launch release) |
+
+---
+
+> Source: [knotie-ai-pro#1389](https://github.com/avijeett007/knotie-ai-pro/pull/1389) — _feat(voice-platform): production-ready AI Receptionist + Voice AI platform on LiveKit_
