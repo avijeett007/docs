@@ -1,0 +1,143 @@
+---
+title: "Voice AI Platform"
+description: "Enable the Voice AI platform experience to let customers subscribe to AI Receptionist services — with tier selection, custom pricing, and automatic agent provisioning."
+---
+
+## Overview
+
+The **Voice AI Platform** is a resellable experience that lets your customers purchase and deploy an AI Receptionist directly from your branded customer portal. When a customer subscribes:
+
+1. They choose an agent tier (Essentials, Moderate, or Premium).
+2. They complete the onboarding wizard (persona, voice, KB, phone number).
+3. The platform automatically deploys a live Knova agent connected to their phone number.
+
+Partners set a **profit multiplier** (1.0×–5.0×) per tier to earn margin on each minute of call time. The customer sees "≈ N credits/min" at their tier — they never see your underlying cost rate.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Voice AI Platform experience card on the Experiences overview page, showing the Ready badge and the Settings gear button._
+
+> 🎬 **Video walkthrough:** _Record a clip of a customer subscribing to the Voice AI Platform — from the storefront landing page through completing onboarding and making their first call._
+
+---
+
+## Prerequisites
+
+- The **AI Receptionist** experience must be enabled on your partner account first (see [AI Receptionist](/agents/knova/ai-receptionist)).
+- You need at least one **phone number pool** or a Twilio/Telnyx integration to provision customer numbers.
+
+---
+
+## Enable the Voice AI Platform
+
+1. Go to **Experiences** in the Partner Portal sidebar.
+2. Click **Enable** on the **Voice AI Platform** card.
+3. Complete your platform settings (see [Platform settings](#platform-settings) below).
+
+---
+
+## Platform settings
+
+Open the settings by clicking the **gear icon** on the Voice AI Platform experience card.
+
+### Customer pricing
+
+Set a profit multiplier for each tier:
+
+| Tier | Platform base rate | Your multiplier | Customer rate |
+|------|-------------------|----------------|---------------|
+| Essentials | 5 credits/min | 1.5× | ~8 credits/min |
+| Moderate | 7 credits/min | 1.5× | ~11 credits/min |
+| Premium | 10 credits/min | 1.5× | 15 credits/min |
+
+Rates are rounded up to whole credits per started minute.
+
+Leave a tier's multiplier at `null` or unset to bill at the platform's standard rate.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Voice AI Platform settings page showing the per-tier multiplier inputs and the live preview of customer rates._
+
+### Curated voice shortlist
+
+You can pin a shortlist of up to **5 voices** for each tier that your customers see during onboarding Step 3. Voices appear in the order you configure them.
+
+- Click **Browse voices** in the settings to open the full voice catalogue.
+- Drag voices into the shortlist for each tier.
+- Customers see only the voices you've curated; they can still click **Browse all** to choose outside the shortlist.
+
+### App allowlist
+
+When a customer enables the Voice AI experience, a set of integrations (AI Memory, Knowledge Base, MCP token) is automatically granted. You can extend this list with additional apps from your marketplace.
+
+---
+
+## Customer onboarding flow
+
+When a customer subscribes, they go through the same onboarding wizard as the AI Receptionist setup (see [Onboarding steps](/agents/knova/ai-receptionist#onboarding-steps)).
+
+The flow is:
+1. Business profile
+2. Persona name
+3. Voice selection (from your curated shortlist)
+4. Tier selection
+5. Knowledge base
+6. Pricing review (customer sees credits/min at their chosen tier)
+7. Phone number
+8. Deploy
+9. Post-deploy test call
+
+> 📷 **Screenshot needed:** _Add a screenshot of the customer-facing onboarding flow at Step 2 (persona name) showing the persona name input with branding context._
+
+---
+
+## Credit billing for Voice AI customers
+
+Voice AI credits are billed per **started minute** of call time. The platform uses the tier-aware billing logic:
+
+- Credit rate = `ceil(partner_base_rate × multiplier)` whole credits per minute
+- The deduction uses the customer's **experienceType** (`voice_ai_platform`) and the agent's tier to apply the multiplier; all other customers/providers/experiences use standard billing.
+- Every deduction record includes `pricing_basis`, `agent_tier`, and `credit_rate_per_minute_decimal` for audit purposes.
+
+<Note>
+The analytics credit meter is idempotent: a webhook replay or duplicate delivery cannot debit the partner or customer twice. Each call's billing leg is protected by a transaction-scoped advisory lock.
+</Note>
+
+---
+
+## Storefront and landing page
+
+Each Voice AI Platform deployment has a branded storefront landing page:
+
+- **Hero section** — introduces the persona by name and includes your partner tagline.
+- **Feature strip** — wraps and centres correctly at all widths (375 px mobile through 2540 px ultra-wide).
+- **Pricing section** — shows 1–4 tier cards in a grid that adapts to the number of tiers you offer (1 card / 2 cards / 3 cards with a featured highlight / 4 cards in a 2×2 grid).
+
+The storefront is **server-rendered** and partner-branded — the partner's custom domain, logo, colours, and persona name are applied server-side.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Voice AI Platform landing page on a 1340 px viewport, showing the hero, feature strip, and pricing section._
+
+> 📷 **Screenshot needed:** _Add a screenshot of the same landing page on a 375 px mobile viewport, showing the hero stacked correctly._
+
+---
+
+## Call Consent and Recording
+
+The platform supports **opt-in call recording** for compliance purposes:
+
+- Recording does not start until the caller gives verbal consent.
+- If the caller says no (or does not respond), recording is stopped and the clip is discarded immediately.
+- Recording egress to storage is deferred until consent is confirmed.
+
+This is configured per-agent. Check your local jurisdiction's requirements before enabling recording.
+
+---
+
+## Troubleshooting
+
+| Symptom | Likely cause | Fix |
+|---------|-------------|-----|
+| Customer portal shows all voices, not your curated 5 | `curatedVoiceKeys` not emitted by custom-domain branding route | Update to the latest app build |
+| Storefront hero shows legal name, not persona | Pre-update deployment | Redeploy; branded name resolver now uses persona name in all hero contexts |
+| Credit meter double-charges on webhook retry | Pre-update billing logic | Update to latest app build — idempotency lock is now enforced per call leg |
+| Tier pricing preview doesn't match actual bill | Committed-partner base rate not reflected in preview | Update to latest app build — preview now reads the partner's committed rate |
+
+---
+
+> Source: [knotie-ai-pro#1389](https://github.com/avijeett007/knotie-ai-pro/pull/1389) — _feat(voice-platform): production-ready AI Receptionist + Voice AI platform on LiveKit_

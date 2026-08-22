@@ -100,6 +100,7 @@
             "pages": [
               "partner-portal/ai-gateway",
               "partner-portal/experiences/overview",
+              "partner-portal/experiences/voice-ai-platform",
               "partner-portal/experiences/resell-ai-gateway",
               "partner-portal/experiences/experience-dashboards",
               "partner-portal/experiences/jarvis-ai-os",
@@ -177,6 +178,7 @@
             "group": "Knova Agent",
             "pages": [
               "agents/knova/overview",
+              "agents/knova/ai-receptionist",
               "agents/knova/knova-agent",
               "agents/knova/try-agent",
               "agents/knova/manage-knova-agents",
