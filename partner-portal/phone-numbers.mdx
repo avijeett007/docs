@@ -60,6 +60,32 @@ Each number in the list shows its details at a glance: the number itself with a 
 
 The top of the page also gives you a quick summary — how many numbers you own, how many belong to customers, how many are unassigned, and how many are ready to take calls — along with buttons to import numbers, export your list, and manage number pools.
 
+## Outbound calling with platform numbers
+
+Platform numbers (numbers provisioned through Knotie AI Pro, rather than brought via a BYO SIP trunk) now support outbound calling through the **shared platform SIP trunk**.
+
+When an outbound call is made using a platform number, Connect Hub automatically registers that number as the caller ID on the shared trunk immediately before dialling. Inbound routing is not affected — the shared trunk carries no inbound numbers.
+
+### What this means for you
+
+- You do **not** need to configure SIP trunks manually for your platform numbers.
+- Outbound calls via Knova agents now work end-to-end for platform numbers without extra setup in Twilio.
+- BYO trunk and Hexai trunk numbers are unaffected and continue to route through their own trunks.
+
+> 📷 **Screenshot needed:** _Add a screenshot of a successful outbound call log in the Partner Portal showing a platform number as the caller ID._
+
+### Required Connect Hub configuration (self-hosted / Coolify installs)
+
+If you run your own Connect Hub instance, set this environment variable and redeploy:
+
+```env
+LIVEKIT_SHARED_SIP_OUTBOUND_TRUNK_ID=<your-shared-trunk-id>
+```
+
+For **production Connect Hub on Coolify**, use the trunk ID provided during platform setup. Contact support if you have not received one.
+
+> 🎬 **Video walkthrough:** _Record a short clip showing an outbound call placed from a platform number — from the Knova agent outbound-call trigger through to a connected call, with the platform number appearing as caller ID._
+
 ## Troubleshooting
 
 - **Calls aren't reaching the agent**
@@ -68,7 +94,14 @@ The top of the page also gives you a quick summary — how many numbers you own,
   - Check the inbound/outbound settings.
 - **A number won't delete**
   - Unassign it from any customers and agents first, then try again.
+- **Outbound calls from a platform number fail immediately**
+  - Confirm `LIVEKIT_SHARED_SIP_OUTBOUND_TRUNK_ID` is set in your Connect Hub environment and the service has been redeployed.
+  - If calls fail with a Twilio error 21216 or 32203, the destination number may be fraud-blocked by Twilio. This cannot be resolved from the platform — open a support ticket with Twilio to unblock the affected destination.
+- **Outbound calls fail on BYO trunk numbers**
+  - BYO trunk numbers do not use the shared trunk; verify your SIP trunk credentials and Twilio termination settings are correct.
 
 ## Screenshots
 
 ![Phone Numbers list with the Import Phone Numbers modal open, showing provider options in the first step](/images/screenshots/phone-import-2026-07-03.png)
+
+> Source: [knotie-ai-pro#1402](https://github.com/avijeett007/knotie-ai-pro/pull/1402) — _fix(telephony): shared platform outbound trunk + Twilio/LiveKit audit report_
