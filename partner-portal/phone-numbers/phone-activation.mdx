@@ -1,0 +1,147 @@
+---
+title: "Activate Phone Service"
+description: "Set up your Twilio subaccount and submit a regulatory bundle to activate outbound calling for your agency."
+---
+
+## Overview
+
+**Activate Phone Service** provisions a dedicated Twilio subaccount for your agency and submits a regulatory bundle — a set of verified business documents required to make outbound calls in your region. An AI agent pre-reviews your documents before they are submitted to Twilio, so problems are caught early.
+
+Once approved, your subaccount is live and your phone numbers can place outbound calls on behalf of your agency.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the "Activate Phone Service" button or banner on the Phone Numbers page, before activation has been started._
+
+> 🎬 **Video walkthrough:** _Record a short clip of the full activation flow: opening the wizard, filling in business details, uploading documents, submitting, and receiving the confirmation email._
+
+## When you need this
+
+You need to activate phone service if:
+
+- You want your AI agents to make outbound calls
+- Your phone numbers show a "Phone service not activated" status on the Phone Numbers page
+
+Partners who already have an active subaccount will see their status on the phone numbers page instead of the activation prompt.
+
+## Where to find it
+
+1. Partner Portal → **Phone Numbers**
+2. Click **Activate Phone Service** (shown when your subaccount is not yet set up)
+
+## The activation wizard
+
+The wizard walks you through three stages.
+
+### Stage 1 — Business information
+
+Fill in your agency's details:
+
+| Field | Notes |
+|---|---|
+| **Business name** | The legal name of your company |
+| **Business type** | e.g. Limited Company, Sole Trader, LLC |
+| **Country** | The country where your business is registered |
+| **Address** | Registered business address |
+| **Emergency address** | Address used for emergency call routing (can be the same as business address) |
+| **Phone number type** | The type of numbers you plan to use (local, national, mobile, etc.) |
+
+> 📷 **Screenshot needed:** _Add a screenshot of Stage 1 of the activation wizard showing the business information form._
+
+### Stage 2 — Document upload
+
+Upload the regulatory documents required for your region. The platform shows you which documents are needed based on your country and number type.
+
+Commonly required documents include:
+
+- **Proof of business registration** (e.g. Companies House certificate, LLC filing)
+- **Proof of address** (e.g. utility bill, bank statement dated within 90 days)
+- **ID document** for the authorised representative (e.g. passport, driving licence)
+
+Accepted formats: PDF, JPG, PNG. Each file must be under 10 MB.
+
+> 📷 **Screenshot needed:** _Add a screenshot of Stage 2 showing the document upload area with file-type guidance._
+
+### Stage 3 — Review and submit
+
+Before your documents are sent to Twilio, an AI agent reviews them automatically to catch common issues (blurry scans, wrong document type, expired IDs, missing pages). This review typically completes within a few minutes.
+
+- If the AI review **passes**, your regulatory bundle is submitted to Twilio immediately.
+- If the AI review **fails**, you'll see a list of issues to fix. You can correct them and resubmit without starting over.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the submission confirmation screen or the "Under review" status panel after submitting._
+
+## Status tracking
+
+After submission, your activation status is shown on the Phone Numbers page. Possible states are:
+
+| Status | What it means |
+|---|---|
+| **Draft** | You started the wizard but haven't submitted yet |
+| **AI review pending** | Documents are being reviewed by the AI agent |
+| **AI review failed** | Issues found — fix and resubmit |
+| **Submitted to Twilio** | Bundle sent; Twilio is reviewing |
+| **In review** | Twilio is actively reviewing the bundle |
+| **Approved** | Your subaccount is active and ready |
+| **Rejected** | Twilio rejected the bundle — see rejection reason and resubmit |
+| **Processing error** | A technical problem occurred — contact support |
+
+> 📷 **Screenshot needed:** _Add a screenshot of the status panel in each of its main states: "Submitted to Twilio", "Approved", and "AI review failed"._
+
+## Email notifications
+
+You receive a branded email at each status transition:
+
+- **Application received** — when you submit
+- **AI review passed** — when documents are approved by the AI check
+- **AI review failed** — when the AI finds issues, with details on what to fix
+- **Submitted to Twilio** — when your bundle is sent to the carrier
+- **Approved** — when your subaccount is live
+- **Rejected** — when Twilio rejects the bundle, with next steps
+
+## Resubmitting after rejection or AI review failure
+
+If your application is rejected or the AI review fails:
+
+1. Open **Phone Numbers** → click the status panel to view the issues.
+2. Read the rejection reason or AI feedback.
+3. Update your business details or upload corrected documents as needed.
+4. Click **Resubmit**.
+
+You can change your country, business type, or number type before resubmitting — the platform rebuilds the Twilio regulatory bundle from your updated information.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the resubmit flow, showing the rejection reason and the "Resubmit" button._
+
+## How it works (technical overview)
+
+For partners who want to understand what happens behind the scenes:
+
+1. Knotie creates a **Twilio subaccount** scoped to your agency — your calls are billed and tracked separately from other partners.
+2. Your documents are uploaded securely; the AI reviewer checks them for completeness and readability before they leave the platform.
+3. Once the AI check passes, Knotie builds a **Twilio Regulatory Bundle** using the verified GB end-user attribute recipe and submits it via the Twilio API.
+4. Twilio sends webhook status updates (bundle approved / rejected) back to the platform, which triggers email notifications and updates the UI in real time.
+5. A nightly reconciliation job catches any bundles whose webhooks were missed.
+
+## Common questions
+
+### How long does Twilio's review take?
+
+Twilio typically reviews regulatory bundles within 1–5 business days, depending on your country and document type.
+
+### Do I need to do this for every country?
+
+A separate regulatory bundle is required for each country where you want to provision numbers. If you operate in multiple countries, contact support for guidance.
+
+### What happens after approval?
+
+Your Twilio subaccount becomes active. Numbers you import or provision from that point on will use your subaccount for outbound calling. No further action is needed.
+
+### Is my document data secure?
+
+Documents are stored securely and scoped to your partner account. The AI reviewer processes a copy of each document in an isolated, metered task — only the compliance verdict is recorded, not the document contents.
+
+## Next steps
+
+- [Phone Numbers](/partner-portal/phone-numbers) — import or provision numbers once your service is active
+- [Number Pools](/partner-portal/number-pools/overview) — group numbers for campaign routing
+- [Telephony Credits](/partner-portal/telephony-credits) — top up calling credits
+
+> Source: [knotie-ai-pro#1427](https://github.com/avijeett007/knotie-ai-pro/pull/1427) — _feat(phone-activation): complete Activate Phone Service — Twilio subaccount + AI-reviewed regulatory bundle_

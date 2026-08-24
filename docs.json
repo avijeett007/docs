@@ -112,6 +112,7 @@
               "partner-portal/credits",
               "partner-portal/telephony-credits",
               "partner-portal/phone-numbers",
+              "partner-portal/phone-numbers/phone-activation",
               "partner-portal/number-pools/overview",
               "partner-portal/billing-and-invoices",
               "partner-portal/metered-billing"
