@@ -27,11 +27,13 @@ The top of the page shows:
 
 1. Click **+ Create Number Pool**
 2. Enter pool name (required) and a short description (optional)
-3. (Coming soon) Assign the pool to a campaign — currently locked with a "Coming Soon" label until the Campaigns feature ships
+3. Optionally assign the pool to a campaign (see [Campaign assignment](#campaign-assignment) below)
 4. Search your phone number inventory and select numbers via checkboxes
 5. Click **Create Pool**
 
-![Create Number Pool modal — name, description, campaign assignment (locked), and phone-number picker](/images/screenshots/number-pools-create-modal.png)
+![Create Number Pool modal — name, description, campaign assignment dropdown, and phone-number picker](/images/screenshots/number-pools-create-modal.png)
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Create Number Pool modal with the campaign assignment dropdown showing an active campaign selected._
 
 A number can only belong to **one pool at a time**. If you have no provisioned numbers yet, the picker shows "No phone numbers found" — go to **Phone Numbers** to buy or import a number first, then come back to create the pool.
 
@@ -40,6 +42,7 @@ A number can only belong to **one pool at a time**. If you have no provisioned n
 Click **Manage Pool** on any pool card to:
 - Edit name and description
 - Add or remove numbers
+- Change the assigned campaign
 - Delete the pool
 
 ### Add or remove numbers
@@ -48,6 +51,36 @@ Click **Manage Pool** on any pool card to:
 2. Numbers already in the pool are marked "Currently assigned" in green
 3. Select additional numbers to add, or deselect to remove
 4. Save changes
+
+## Campaign assignment
+
+You can assign a number pool to a **Campaign** so that all calls in that campaign use the numbers in the pool. The campaign rotates through the pool's numbers automatically for load-balancing and caller-ID variety.
+
+> 📷 **Screenshot needed:** _Add a screenshot showing the campaign assignment field in the pool creation or edit modal, with a campaign selected from the dropdown._
+
+> 🎬 **Video walkthrough:** _Record a short clip showing: creating a number pool, selecting a campaign, then confirming the pool is shown on the campaign detail page._
+
+### Assign a pool to a campaign when creating
+
+1. Click **+ Create Number Pool**
+2. Fill in name and description
+3. In the **Campaign** dropdown, select the campaign you want to link this pool to
+4. Add phone numbers
+5. Click **Create Pool**
+
+### Assign a pool to a campaign from the manage modal
+
+1. Click **Manage Pool** on an existing pool
+2. In the **Campaign** field, select or change the campaign
+3. Save changes
+
+### Remove a campaign assignment
+
+1. Open **Manage Pool** for the pool
+2. Clear the **Campaign** field
+3. Save changes
+
+The pool's numbers remain available in your inventory and can be reassigned to a different campaign or used individually.
 
 ## Delete a pool
 
@@ -58,15 +91,12 @@ In the Manage Pool modal:
 
 Numbers are released back to your available inventory.
 
-## Campaign assignment (coming soon)
-
-Pool-to-campaign assignment is currently disabled with a padlock icon and "Coming Soon" label. This feature will allow you to assign a pool to a campaign for automated routing.
-
 ## View pool details
 
 Pool cards show:
 - Name and description
 - Creation date
+- Assigned campaign (if any)
 - Number count badge
 - First 6 phone numbers as pills
 - "+N more" if additional numbers exist
@@ -78,5 +108,7 @@ Click **Refresh** to reload all pools and your current plan limits.
 ## Next steps
 
 - [Phone Numbers](/partner-portal/phone-numbers) — manage your number inventory
-- [AI Gateway](/partner-portal/ai-gateway) — manage API access
+- [Campaign Manager](/partner-portal/campaigns/overview) — set up outbound calling campaigns
 - [Credits](/partner-portal/credits) — add credits for calling
+
+> Source: [knotie-ai-pro#1406](https://github.com/avijeett007/knotie-ai-pro/pull/1406) — _feat(campaigns): schema + number-pool campaign assignment (KNOTI-507)_
