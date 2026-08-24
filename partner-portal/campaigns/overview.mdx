@@ -1,0 +1,141 @@
+---
+title: "Campaign Manager"
+description: "Run outbound AI calling campaigns — upload prospects, assign numbers, and track results in real time."
+---
+
+## Overview
+
+The **Campaign Manager** lets you run outbound calling campaigns using your AI voice agents. You upload a list of prospects, choose which agent calls them, assign a number pool, and the platform dials automatically — tracking outcomes, honouring Do Not Call lists, and letting you pause, resume, or cancel at any time.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Campaign list page showing one or more campaigns with their status badges (e.g. Active, Paused, Completed)._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the full flow: creating a campaign, uploading prospects, starting the campaign, and viewing call outcomes._
+
+## Where to find it
+
+Partner Portal → **Campaigns** in the sidebar.
+
+## Key concepts
+
+| Term | What it means |
+|---|---|
+| **Campaign** | A named outbound calling run with an assigned agent, number pool, and prospect list |
+| **Prospect** | A contact record (name + phone number) the campaign will call |
+| **DNC list** | Do Not Call — numbers that are blocked from being dialled |
+| **Number pool** | A group of phone numbers the campaign rotates through for caller-ID variety |
+| **Call outcome** | The result of each call attempt (answered, voicemail, no answer, etc.) |
+
+## Create a campaign
+
+1. Open **Campaigns** in the sidebar.
+2. Click **+ New Campaign**.
+3. Fill in the campaign details:
+   - **Name** — a label for this campaign
+   - **AI Agent** — the voice agent that will make the calls (choose from your imported agents)
+   - **Number Pool** — the pool of caller-ID numbers to rotate through
+   - **Schedule** — calling window (days and hours the campaign is allowed to dial)
+4. Click **Create Campaign**.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the new campaign form, showing the agent picker, number pool selector, and schedule fields._
+
+The campaign is created in a **Draft** state. Add prospects before starting it.
+
+## Upload prospects
+
+Prospects are the contacts your campaign will call. You can upload them as a CSV file.
+
+1. Open the campaign.
+2. Click **Upload Prospects**.
+3. Download the CSV template if you need the correct column format.
+4. Fill in your prospect list and upload the file.
+5. The platform validates each row — invalid rows are flagged and skipped.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the prospect upload modal with the template download link and file picker._
+
+### Required CSV columns
+
+| Column | Description |
+|---|---|
+| `phone` | Phone number in E.164 format (e.g. `+14155552671`) |
+| `name` | Contact's name (shown in the call log) |
+
+Additional columns you include are passed through to the agent as context variables.
+
+### Export prospects
+
+To download the current prospect list (including call outcomes), open the campaign and click **Export Prospects**. The file downloads as a CSV.
+
+## Start a campaign
+
+Once you have prospects uploaded:
+
+1. Open the campaign.
+2. Click **Start Campaign**.
+3. Confirm the start.
+
+The campaign moves to **Active** and begins dialling prospects within the configured schedule window.
+
+## Pause and resume
+
+You can pause an active campaign at any time without losing progress.
+
+- Click **Pause** on the campaign — the dialler stops immediately.
+- Click **Resume** to continue from where it left off.
+
+Prospects that were already called are not redialled.
+
+## Cancel a campaign
+
+Click **Cancel Campaign** to stop the campaign permanently. Cancelled campaigns cannot be restarted; you would need to create a new campaign.
+
+## View call outcomes
+
+Open the campaign and click the **Calls** tab to see a log of every call attempt:
+
+- Prospect name and number
+- Call status (answered, voicemail, no answer, failed, etc.)
+- Duration
+- Agent used
+- Timestamp
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Calls tab showing a list of call records with status badges and duration._
+
+## Campaign statistics
+
+The campaign detail page shows a live stats summary:
+
+- **Total prospects** — how many contacts are in the list
+- **Called** — how many have been attempted
+- **Pending** — remaining to call
+- **Answered rate** — percentage of calls that connected
+
+Click **Estimate** to get a projected completion time based on your schedule and the number of remaining prospects.
+
+## Do Not Call (DNC) list
+
+The DNC list is a blocklist of phone numbers that should never be dialled. Any prospect whose number appears on the DNC list is automatically skipped.
+
+### Manage the DNC list
+
+1. Partner Portal → **Campaigns** → **DNC List**.
+2. To add a number manually, click **+ Add Number**.
+3. To add numbers in bulk, click **Upload DNC** and upload a CSV with one number per row.
+4. To remove a number, find it in the list and click **Remove**.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the DNC list page showing the upload button and a few example entries._
+
+### When a number is on the DNC list
+
+If a prospect's number is on the DNC list at the time the campaign tries to dial it, the call is skipped and the prospect's status is set to `dnc`. The number is never called, even if the campaign is restarted.
+
+## Whitelabel / customer campaigns
+
+If you have a whitelabel portal, your customers can access their own campaign endpoints under the whitelabel API. Campaign creation, prospect management, and call-outcome tracking are all available via the whitelabel route.
+
+## Next steps
+
+- [Number Pools](/partner-portal/number-pools/overview) — create and manage number pools for campaigns
+- [Phone Numbers](/partner-portal/phone-numbers) — manage the numbers in your inventory
+- [Credits](/partner-portal/credits) — outbound calls consume Telephony Credits
+
+> Source: [knotie-ai-pro#1418](https://github.com/avijeett007/knotie-ai-pro/pull/1418) — _feat(campaigns): Campaign Manager — prospects, DNC, number pools, call tracking_
