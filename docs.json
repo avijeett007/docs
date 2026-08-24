@@ -107,6 +107,12 @@
             ]
           },
           {
+            "group": "Campaigns",
+            "pages": [
+              "partner-portal/campaigns/overview"
+            ]
+          },
+          {
             "group": "Credits, Billing & Telephony",
             "pages": [
               "partner-portal/credits",
