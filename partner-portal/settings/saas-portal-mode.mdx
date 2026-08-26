@@ -44,10 +44,13 @@ Knotie AI Pro offers three portal modes:
 
 To use SaaS Portal Mode, you need:
 
-1. **Paid plan** – Starter, Pro, Enterprise, or Ultimate tier
+1. **A supported plan** – Free Forever, Starter, Pro, Enterprise, or Ultimate tier _(see note below)_
 2. **Whitelabel portal configured** – Subdomain or custom domain set up
 3. **Stripe Connect** – For processing customer payments (optional but recommended)
-4. **Manual enablement** – Special offers may provide SaaS mode access on lower tiers
+
+<Note>
+**Free Forever partners.** SaaS Portal mode is now available to Free Forever accounts. Selecting it opens the portal shell and default funnel immediately — no upgrade required. However, individual experience landing pages (such as the AI Receptionist) only go live when a **Stage subscription** grants the corresponding experience entitlement. Without an entitlement, the storefront renders a portal-disabled page (no public content is published). Customer credit plans and subscription plans remain gated behind their own unlock flags. See [Stage subscriptions](/partner-portal/settings/stage-subscriptions).
+</Note>
 
 ## Enable SaaS Portal Mode
 
@@ -326,8 +329,9 @@ Monitor in:
 ## Troubleshooting
 
 ### SaaS mode not available
-- **Upgrade required** – You're on Free Forever plan, upgrade to Starter or above
-- **Contact support** – Request manual SaaS mode enablement
+- **Check your plan** – Free Forever, Starter, Pro, Enterprise, and Ultimate all support SaaS mode now. If you see a "Locked" state, contact support.
+- **Experiences locked** – On Free Forever, experience landing pages (AI Receptionist etc.) require a Stage grant. Subscribe to a Stage that includes your target experience.
+- **Contact support** – If you're on a paid plan and SaaS mode is still locked, contact support for manual enablement.
 
 ### Landing page not showing
 - **Portal mode not saved** – Verify SaaS mode is selected and saved
@@ -370,3 +374,12 @@ Monitor in:
 - [Prospects](/partner-portal/prospects) – Managing prospects in the funnel
 - [Customer Credit Plans](/partner-portal/settings/customer-credit-plans) – Configure pricing packages
 - [Subscription Plans](/partner-portal/settings/subscription-plans) – Monthly/annual billing
+- [Stage subscriptions](/partner-portal/settings/stage-subscriptions) – Grant experience entitlements on Free Forever
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Portal Mode section in Whitelabel settings on a Free Forever account, with the SaaS Portal option visible and selectable (not locked)._
+
+> 🎬 **Video walkthrough:** _Record a short clip showing a Free Forever partner selecting SaaS Portal mode, then subscribing to a Stage to activate the AI Receptionist landing page._
+
+---
+
+> Source: [knotie-ai-pro#1439](https://github.com/avijeett007/knotie-ai-pro/pull/1439) — _fix(whitelabel): open SaaS portal mode to Free Forever partners_
