@@ -1,13 +1,14 @@
 ---
 title: "Phone numbers"
-description: "Import, assign, and manage the phone numbers used by your voice agents."
+description: "Buy, import, assign, and manage the phone numbers used by your voice agents."
 ---
 
 ## What this is for
 
 The **Phone Numbers** section is where you manage the numbers your voice agents use. From here you can:
 
-- Import phone numbers
+- **Buy** a new phone number directly through your Twilio or Telnyx account
+- Import existing phone numbers
 - Assign a number to a customer
 - Assign a number to a specific AI agent
 - Control whether a number handles inbound or outbound calls
@@ -24,6 +25,45 @@ A number can belong to either:
 - **A customer** — it belongs to that customer's account.
 
 Ownership affects billing, permissions, and what you're able to do with the number.
+
+## Buy a phone number
+
+The **Buy Number** button lets you search for and purchase a new number on your own Twilio or Telnyx account — in one step, without leaving the Partner Portal. The number is purchased directly through your provider account and billed by that provider; Knotie charges nothing for the purchase itself.
+
+<Note>
+**Balance requirement.** The number is charged to your Twilio or Telnyx account balance at the time of purchase. Make sure your provider account has sufficient balance before buying. You can check your balance in your Twilio or Telnyx dashboard.
+</Note>
+
+### How to buy a number
+
+1. Open **Phone Numbers** in the Partner Portal sidebar.
+2. Click **Buy Number**.
+3. **Choose a provider** — Twilio or Telnyx. (Telnyx is marked "Coming Soon" and will become available when the feature rolls out.)
+4. **Enter or select credentials:**
+   - If you've previously saved credentials for this provider, choose **Use saved credentials** to reuse them.
+   - Otherwise select **Enter new credentials** and supply your Twilio Account SID + Auth Token, or your Telnyx API Key.
+5. **Search for a number:**
+   - Select a **country** and **number type** (Local, Mobile, or Toll-Free).
+   - Optionally add an **area code** or a **digit pattern** (e.g. `007`) to narrow results.
+   - Click **Search**.
+6. **Pick a number** from the results list. Each result shows locality, region, capability badges (voice, SMS, MMS), and the provider's monthly price where available. (Twilio's search API does not return pricing, so Twilio results show "Price shown by provider".)
+7. **Confirm the purchase** — add an optional friendly name, review the price recap, and click **Buy Number**. This immediately charges your provider account for the number.
+8. The number appears in your Phone Numbers list as **Unassigned** and is ready to be assigned to a customer or agent.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Buy Number modal — showing the provider selection step (Twilio/Telnyx cards) and the search results step with capability badges and pricing._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the full buy-a-number flow: selecting a provider, searching by area code, picking a number, and confirming the purchase._
+
+### Provider support
+
+| Provider | Status | Credentials needed |
+|----------|--------|--------------------|
+| Twilio | Available | Account SID + Auth Token |
+| Telnyx | Coming Soon | API Key |
+
+### Pricing note
+
+The monthly cost shown in search results is the provider's charge, not a Knotie fee. Knotie does not add a markup on number purchases. Phone number charges appear on your Twilio or Telnyx invoice, not your Knotie subscription.
 
 ## Import phone numbers
 
@@ -58,7 +98,7 @@ When you're managing a lot of numbers, the filters and search make it easy to na
 
 Each number in the list shows its details at a glance: the number itself with a friendly name and country flag, the customer it belongs to, the agent it's assigned to (or an **Assign Agent** button if there isn't one yet), whether it handles inbound or outbound calls, its provider, its status, and what it can do (voice, SMS, MMS).
 
-The top of the page also gives you a quick summary — how many numbers you own, how many belong to customers, how many are unassigned, and how many are ready to take calls — along with buttons to import numbers, export your list, and manage number pools.
+The top of the page also gives you a quick summary — how many numbers you own, how many belong to customers, how many are unassigned, and how many are ready to take calls — along with buttons to **buy numbers**, import numbers, export your list, and manage number pools.
 
 ## Troubleshooting
 
@@ -68,7 +108,22 @@ The top of the page also gives you a quick summary — how many numbers you own,
   - Check the inbound/outbound settings.
 - **A number won't delete**
   - Unassign it from any customers and agents first, then try again.
+- **Buy Number search returns no results**
+  - Try broadening your search — remove the area code or digit filter and search for all available numbers in the country/type combination.
+  - Verify your provider credentials are correct and the account is active.
+  - Some number types (e.g. Toll-Free) have limited availability in certain countries.
+- **Buy Number fails at the confirmation step**
+  - Check that your Twilio or Telnyx account has sufficient balance to cover the monthly fee.
+  - Verify your credentials have permission to purchase numbers (some API keys are read-only).
+- **Telnyx shows "Coming Soon"**
+  - Telnyx number purchasing is not yet available. Use the **Import Numbers** flow to add existing Telnyx numbers.
 
 ## Screenshots
 
 ![Phone Numbers list with the Import Phone Numbers modal open, showing provider options in the first step](/images/screenshots/phone-import-2026-07-03.png)
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Buy Number button on the Phone Numbers page header, alongside the Import Numbers and Export buttons._
+
+---
+
+> Source: [knotie-ai-pro#1437](https://github.com/avijeett007/knotie-ai-pro/pull/1437) — _Buy Phone number feature_
