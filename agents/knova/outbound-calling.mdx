@@ -23,12 +23,16 @@ Outbound calling is available in **Phase 1**. Campaigns, CSV dialing, number-poo
 
 Before placing outbound calls, confirm:
 
-1. You have a **Knova agent** created and published in the Partner Portal.
+1. You have a **Knova agent** created with its **Agent Type set to Outbound**. The "Test Outbound Call" button and outbound dial path are only active for agents configured as Outbound. Inbound-only agents cannot place calls.
 2. You have a **voice-capable phone number** imported (Twilio or Telnyx) — or platform ops has configured the shared Knotie trunk for you.
 3. The phone number is **assigned to your Knova agent** (see [Step 1](#step-1--assign-a-phone-number-to-your-knova-agent) below).
 
 <Info>
 If you don't have your own Twilio or Telnyx account, contact support to confirm the shared trunk is set up. Calls via the shared trunk deduct both AI credits and telephony credits.
+</Info>
+
+<Info>
+**Setting the agent type to Outbound is enough.** When you save or update a Knova agent with Agent Type = Outbound, the platform automatically provisions the outbound calling configuration in the background. You do not need to make any additional API calls or manual config changes — this applies whether the agent was created via the Partner Portal, a whitelabel portal, or the MCP integration.
 </Info>
 
 ---
@@ -42,7 +46,11 @@ If you don't have your own Twilio or Telnyx account, contact support to confirm 
 
 When a Knova agent is assigned to a voice-capable number, outbound is automatically enabled. The platform also pre-provisions the calling route in the background so your first call starts immediately without a setup delay.
 
-{/* ℹ️ _Screenshot to add: the "Assign Agent" modal on the Phone Numbers page, showing a Knova agent selected in the dropdown._ */}
+<Warning>
+**Knova agents do not support dual inbound + outbound assignment on a single phone number.** Each Knova agent is either inbound or outbound. If you need both inbound and outbound capability, assign separate agents to separate numbers. Attempting a dual assignment will return an error.
+</Warning>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the "Assign Agent" modal on the Phone Numbers page, showing a Knova outbound agent selected and saved successfully._
 
 ---
 
@@ -52,12 +60,19 @@ Use the built-in portal test to verify end-to-end before wiring any external sys
 
 1. In the Partner Portal, go to **AI Agents → Knova Agents**.
 2. Open the three-dot menu on your agent and click **Test Outbound Call**.
+
+<Info>
+The **Test Outbound Call** option only appears for agents whose Agent Type is set to **Outbound**. If you don't see it, check the agent's type setting and save it as Outbound first.
+</Info>
+
 3. In the modal:
    - Enter the **destination number** (E.164 format, e.g. `+14155551212`) — use your own mobile first.
    - Optionally add **dynamic variables** — key/value pairs that replace `{{key}}` placeholders in the agent's prompt and greeting (e.g. `lead_name = "Sarah"`).
 4. Click **Call**.
 
-{/* ℹ️ _Screenshot to add: the "Test Outbound Call" modal on the Knova Agents page, showing the destination number field and dynamic variables section._ */}
+> 📷 **Screenshot needed:** _Add a screenshot of the "Test Outbound Call" modal on the Knova Agents page, showing the destination number field and dynamic variables section._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the full outbound test call flow — from the agent list to the modal, placing a call, and hearing the agent speak first._
 
 **What to expect:**
 - The agent initiates the call and speaks first (outbound agents always greet the callee).
@@ -187,15 +202,19 @@ Keys not present in `dynamic_variables` are left as `{{key}}` (no error is throw
 
 | Symptom | Likely cause | Fix |
 |---------|-------------|-----|
+| "Test Outbound Call" not visible in agent menu | Agent type is not set to Outbound | Open the agent, set **Agent Type → Outbound**, and save. The option appears immediately after saving. |
 | Agent does not speak first | Outbound greeting not configured | Confirm the agent is set up for outbound and has a greeting message |
 | Dynamic variables not substituted | Key mismatch in prompt | Ensure the prompt uses `{{key}}` matching the `dynamic_variables` key exactly |
 | `NO_OUTBOUND_TRUNK` error | The calling route isn't provisioned yet | Re-assign the agent to the number to trigger setup; contact support if using the shared Knotie trunk |
+| `OUTBOUND_NOT_CONFIGURED` error | Agent was created before the platform auto-provisions outbound config | Place one test call — the platform self-heals by writing the outbound config on the first dial attempt. If the error persists, re-save the agent with Agent Type = Outbound to force re-provisioning. |
+| `AGENT_NOT_FOUND` error (404) | The agent record linked to this phone number no longer exists | Reassign a valid Knova agent to the phone number and try again. |
 | `INSUFFICIENT_CREDITS` | Credit balance too low | Top up credits in the Partner Portal |
 | `NO_AGENT_MAPPING` | Agent not assigned to this number | Re-assign the Knova agent to the number and try again |
 | `DISPATCH_FAILED` | The call couldn't be started | Retry; if it persists, contact support |
 | `CALL_REJECTED` | Callee rejected or was busy | Normal — the person you called declined |
 | `CALL_NO_ANSWER` | No answer / line temporarily unavailable | Retry later; confirm the number is reachable |
 | `SIP_TRUNK_FAILURE` | The telephony carrier returned an error | Check your Twilio/Telnyx account status and credentials |
+| Error "Knova dual assignment not supported" on phone number assignment | Attempted to assign the same Knova agent to a number for both inbound and outbound | Use separate phone numbers and separate agents for inbound vs outbound. Dual assignment is not yet supported for Knova. |
 
 ---
 
@@ -204,3 +223,7 @@ Keys not present in `dynamic_variables` are left as `{{key}}` (no error is throw
 - [Outbound webhook API reference](/agents/knova/outbound-webhook-api) — full request/response spec for integrating external systems
 - [Knova Agents overview](/agents/knova/overview) — set up and manage Knova agents
 - [Phone numbers](/partner-portal/phone-numbers) — import and manage phone numbers
+
+---
+
+> Source: [knotie-ai-pro#1442](https://github.com/avijeett007/knotie-ai-pro/pull/1442) — _fix(knova): Outbound-typed agents can't dial — enforce the outbound invariant server-side + Hub self-heal (KNOTI-547)_
