@@ -1,0 +1,122 @@
+---
+title: "Partner Offers"
+description: "Claim time-limited marketing offers — credits, agent slots, free usage, and tier discounts — targeted to you based on your current level and subscription stage."
+---
+
+## What partner offers are
+
+The platform can surface **targeted marketing offers** to partners based on their level, subscription tier, and current stage. When an offer is available for your account, it appears as a pop-up or a banner in your Partner Portal.
+
+Offers can give you:
+
+| Reward type | What you receive |
+|---|---|
+| **Credits** | Credits added to your balance immediately (never clawed back) |
+| **Feature unlock** | Access to a gated feature (Customer Credit Plans, Subscription Plans, and so on) |
+| **Agent slots** | Extra agent-creation capacity for a set period |
+| **Free usage (Boost)** | Selected charges waived — voice AI, AI memory, knowledge-base processing, or email — for a fixed number of days |
+| **Tier discount** | A single-use promo code for your tier-upgrade checkout |
+| **Stage discount** | A single-use promo code for a Customer Expansion Plan checkout |
+
+---
+
+## Where offers appear
+
+Offers are shown in three places:
+
+- **Dashboard pop-up** — appears a few seconds after you load the Partner Portal dashboard, or when you reach a new level or stage.
+- **Dashboard rail card** — a persistent card in the dashboard sidebar for active, unclaimed offers.
+- **Offers ticker** — a slim banner at the top of the portal for time-sensitive offers.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the partner dashboard showing an offer pop-up (modal with headline, CTA button, and dismiss link)._
+
+> 📷 **Screenshot needed:** _Add a screenshot of the dashboard with the offers rail card visible in the sidebar._
+
+---
+
+## Claiming a free offer
+
+1. When the offer pop-up appears, read the headline and reward summary.
+2. Click the **Claim** button (the label varies — "Claim offer", "Claim my credits", etc.).
+3. The reward is applied immediately. A confirmation screen shows what you received.
+4. Close the confirmation. Your updated credit balance or unlocked feature is live right away.
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through: seeing an offer pop-up → clicking Claim → seeing the reward confirmation → checking the updated credit balance._
+
+---
+
+## Claiming a paid offer
+
+Paid offers require a card payment before the reward is granted.
+
+1. Click the **CTA button** on the offer pop-up or rail card.
+2. You are taken to a Stripe Checkout page. Only card payments are accepted.
+3. Complete payment. Stripe confirms the payment to the platform.
+4. Your reward is granted automatically once payment is confirmed.
+
+---
+
+## Claiming a discount offer
+
+A discount offer mints a single-use promo code and redirects you to the relevant checkout.
+
+1. Click the CTA button on the offer.
+2. The platform creates a one-time promo code scoped to your account.
+3. You are taken to the upgrade checkout (tier upgrade or Customer Expansion Plan) with the discount pre-applied.
+4. Complete the checkout to claim the discounted plan.
+
+> **Note:** The promo code is single-use and bound to your account. It expires after the validity window shown in the offer.
+
+---
+
+## Dismissing an offer
+
+If you don't want to claim an offer, click **Maybe later** (or the offer's custom dismiss label). The offer hides for the current session. Depending on the offer's frequency settings, it may reappear on your next visit.
+
+Dismissing an offer does **not** remove it from your account — you can still claim it if it's still active and the claim cap hasn't been reached.
+
+---
+
+## Viewing your claimed rewards
+
+After claiming an offer, your rewards appear in:
+
+- **Credits**: the balance shown in the Partner Portal header.
+- **Feature unlocks & agent slots**: reflected immediately in the relevant sections of the portal.
+- **Free usage (Boost)**: usage for the covered types shows as $0.00 for the boost period.
+- **Tier / stage discount**: the promo code is single-use; once applied at checkout it is consumed.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the "return" / reward confirmation screen that appears after a successful claim._
+
+---
+
+## Offer tokens in headlines
+
+Offer copy may include dynamic tokens that resolve to your account data:
+
+| Token shown in offer | Meaning |
+|---|---|
+| your partner name | Your business name as set in Partner Settings |
+| your level number | Your current Partner Level (1–10+) |
+| credit amount | The credits offered |
+| days left | Days remaining before the offer expires |
+
+---
+
+## Frequently asked questions
+
+**Can I claim the same offer more than once?**
+No. Each offer may be claimed at most once per account (subject to the total claim cap set by the platform admin).
+
+**What happens if the offer expires before I claim it?**
+The offer disappears from your dashboard and can no longer be claimed. No partial reward is granted.
+
+**Do credit rewards expire?**
+Credits added by an offer follow the same expiry rules as any other credits on your account — check your balance details for any expiry date.
+
+**Can I refund a paid offer?**
+Paid offers are non-refundable once the reward has been granted. Contact support if you believe a payment was processed in error.
+
+---
+
+> Source: [knotie-ai-pro#1460](https://github.com/avijeett007/knotie-ai-pro/pull/1460) — _feat(offers): Partner Offers engine — level/stage-triggered marketing offers with Mission Control authoring (KNOTI-593)_
