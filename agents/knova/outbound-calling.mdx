@@ -169,6 +169,20 @@ Keys not present in `dynamic_variables` are left as `{{key}}` (no error is throw
 
 ---
 
+## Outbound-only Knova agents
+
+If you have a Knova agent that should only make outbound calls and never answer inbound calls, you can configure it as an **outbound-only** agent. Outbound-only agents are fully supported in campaigns and outbound call lists.
+
+To set an agent as outbound-only:
+
+1. Open the agent in **AI Agents → Knova Agents → Configure**.
+2. Under the telephony settings, set the **Call Direction** to **Outbound only**.
+3. Save the agent.
+
+An outbound-only agent will not be matched to inbound calls even if its number receives an inbound call — the call is not answered. This makes outbound-only agents safe to use for campaigns where you don't want inbound traffic interrupting the campaign flow.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Knova agent configuration page showing the Call Direction selector set to "Outbound only"._
+
 ## Phase 1 limits
 
 | Capability | Phase 1 | Phase 2 |
@@ -176,6 +190,7 @@ Keys not present in `dynamic_variables` are left as `{{key}}` (no error is throw
 | Portal test call | Yes | Yes |
 | Webhook-triggered single call | Yes | Yes |
 | Dynamic variables in prompt/greeting | Yes | Yes |
+| Outbound-only agent mode | Yes | Yes |
 | Voicemail detection | Hang up | Voicemail-drop (leave message) |
 | Campaigns / CSV dialing | Not available | Yes |
 | Number pool dialing | Not available | Yes |
