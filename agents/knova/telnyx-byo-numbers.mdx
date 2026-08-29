@@ -1,0 +1,131 @@
+---
+title: "Telnyx BYO numbers for Knova"
+description: "Import your own Telnyx phone numbers and use them with Knova agents for inbound and outbound calling — no Twilio account required."
+---
+
+## What this is for
+
+If you already have phone numbers in a Telnyx account, you can bring them into Knotie AI Pro and use them with your Knova agents. Once imported and assigned, those numbers handle **both inbound calls** (someone calls your number → Knova answers) and **outbound calls** (Knova calls a lead or customer from that number).
+
+This is called **BYO (Bring Your Own) numbers via Telnyx**. The platform provisions the required SIP connection in your Telnyx account automatically — you don't configure anything inside Telnyx by hand.
+
+> **Scope:** Import and assignment only. Purchasing numbers, regulatory compliance filings, and SMS are not covered by this integration. Use your Telnyx dashboard for those.
+
+---
+
+## Prerequisites
+
+- A Telnyx account with at least one **active phone number**.
+- A Telnyx **API key** with permission to manage phone numbers and SIP connections (full-access or phone-numbers + connections scopes).
+- An active **Knova agent** ready to take calls.
+
+---
+
+## Import your Telnyx numbers
+
+1. Open **Phone Numbers** in the Partner Portal sidebar.
+2. Click **Import Numbers**.
+3. Select **Telnyx** as the provider.
+4. Enter your **Telnyx API key** when prompted. The key is stored encrypted and used only to manage SIP connections on your behalf.
+5. The platform fetches your available Telnyx numbers. Select the ones you want to import.
+6. Confirm the import.
+
+The imported numbers appear in your Phone Numbers list with **Telnyx** shown as the provider.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Import Numbers modal with the Telnyx provider selected and numbers listed for selection._
+
+> 🎬 **Video walkthrough:** _Record a short clip: Phone Numbers → Import Numbers → choose Telnyx → enter API key → select numbers → confirm import → numbers appear in the list._
+
+---
+
+## Assign a Telnyx number to a Knova agent
+
+Once a number is imported, assign it to a Knova agent to enable calling:
+
+1. In the **Phone Numbers** list, find the Telnyx number.
+2. Open its action menu and choose **Assign Agent**.
+3. Select your **Knova agent** and choose whether to enable **Inbound**, **Outbound**, or both.
+4. Click **Assign**.
+
+When you assign the number, the platform automatically provisions in your Telnyx account:
+
+- A **SIP connection** (FQDN type) pointed at the platform's LiveKit SIP endpoint.
+- An **outbound voice profile** (if outbound calling is enabled).
+
+This provisioning happens in the background — no manual Telnyx configuration is needed.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Assign Agent modal showing the Knova agent selected and inbound/outbound toggles._
+
+---
+
+## Inbound calling
+
+Once assigned and inbound is enabled:
+
+- Calls to your Telnyx number are routed directly to your Knova agent.
+- The caller's number and the called number are passed to the agent automatically.
+- The setup is carrier-agnostic — it works the same way as Twilio BYO inbound.
+
+No extra configuration is needed.
+
+---
+
+## Outbound calling
+
+With outbound enabled, your Knova agent can dial out from the Telnyx number:
+
+- The Telnyx number is available in campaigns and outbound call lists.
+- Calls from the agent show your Telnyx number as the caller ID.
+- The platform provisions a LiveKit outbound trunk for the number on the first outbound call — this is done automatically.
+
+---
+
+## Unassigning a number
+
+To unassign a Telnyx number from a Knova agent:
+
+1. Open the number's action menu in Phone Numbers.
+2. Choose **Unassign Agent**.
+3. Confirm.
+
+When you unassign, the platform removes the number from the SIP connection in your Telnyx account. If it was the last number on that connection, the connection and voice profile are also deleted from Telnyx automatically — no cleanup needed in your Telnyx dashboard.
+
+---
+
+## Credit-based routing
+
+If the partner account's credit balance reaches zero while a Telnyx number is active, the platform automatically detaches the number from its SIP connection so calls don't continue to be billed. When credits are topped up, the routing is restored automatically.
+
+---
+
+## White-label customers
+
+White-label customers (your clients using the customer portal) can also import their own Telnyx numbers and assign them to their own Knova agents using the same flow in the customer portal.
+
+---
+
+## Limitations
+
+- **No number purchasing** — you can only import numbers that already exist in your Telnyx account. Buy numbers in Telnyx before importing.
+- **No SMS** — inbound and outbound SMS on Telnyx numbers is not currently supported.
+- **One credential set per number** — each imported number is tracked against the Telnyx API key used at import time. If you rotate your Telnyx API key, contact support to update the stored credential.
+
+---
+
+## Frequently asked questions
+
+**Do I need to configure anything in my Telnyx account?**
+No. The platform provisions and manages the SIP connection in your Telnyx account automatically when you assign a number to a Knova agent.
+
+**Can I use the same Telnyx numbers with Retell or VAPI agents?**
+Telnyx numbers imported for other providers (Retell, VAPI) work on a separate provisioning path and are not affected by this feature.
+
+**What happens if the platform can't reach Telnyx during assignment?**
+The assignment will fail with an error. Your Telnyx account is left in the same state it was before — no partial provisioning is left behind.
+
+**Can I import numbers from multiple Telnyx accounts?**
+Yes. Each import can use a different API key. Numbers are tracked per credential.
+
+---
+
+> Source: [knotie-ai-pro#1448](https://github.com/avijeett007/knotie-ai-pro/pull/1448) — _feat(telephony): Telnyx BYO numbers on Knova agents — import, inbound + outbound via LiveKit (KNOTI-549)_
