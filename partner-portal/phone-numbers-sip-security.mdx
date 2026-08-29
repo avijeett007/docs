@@ -1,0 +1,44 @@
+---
+title: "SIP source-IP security for BYO numbers"
+description: "How the platform secures BYO (Bring Your Own) SIP trunks against unauthorised calls — and what it means for your imported numbers."
+---
+
+## What changed
+
+The platform now enforces a **source-IP allowlist** on the SIP trunks it provisions for your bring-your-own phone numbers (Twilio and Telnyx). Only calls originating from the voice provider's published IP ranges are accepted on each trunk.
+
+Previously, new trunks were created with an allow-all IP rule, which accepted SIP traffic from any source address. That configuration is no longer used. All newly assigned numbers and all existing numbers reconciled through the platform now use narrowed, provider-specific CIDR ranges.
+
+**Partners don't need to take any action.** The IP allowlist is applied automatically when you assign a number to an agent, and is updated through Mission Control by the platform administrator when a provider changes its IP ranges.
+
+---
+
+## What this means for your calls
+
+- **Inbound calls still work exactly as before.** The IP restriction is applied at the SIP trunk layer and is transparent to your Knova, Retell, or VAPI agent.
+- **Call quality is unaffected.** Only the origin of accepted SIP packets changes — audio quality, latency, and routing are unchanged.
+- **Fraudulent calls are blocked.** SIP invites from addresses outside the provider's published ranges are rejected at the trunk before reaching your agent.
+
+---
+
+## If inbound calls stop working unexpectedly
+
+If a provider changes its IP ranges and the platform's allowlist has not yet been updated, inbound calls may be rejected at the trunk. Signs of this:
+
+- Inbound calls ring but the agent never answers.
+- Callers hear a fast busy signal.
+- Call logs in your provider's dashboard show invites that do not appear in Knotie AI Pro analytics.
+
+**What to do:** Contact the platform administrator or open a support ticket. The administrator can update the allowlist in Mission Control → Provider Config without a deployment.
+
+---
+
+## Reconciling existing numbers
+
+If you have BYO numbers that were assigned before this security change, you can ask the platform administrator to run a reconciliation. Reconciliation updates the IP allowlist on your existing trunks to match the current secure configuration.
+
+You don't need to unassign and reassign your numbers — reconciliation is non-destructive.
+
+---
+
+> Source: [knotie-ai-pro#1452](https://github.com/avijeett007/knotie-ai-pro/pull/1452) — _fix(ip allow): Mission Control SIP source-IP allowlist and api key management_
