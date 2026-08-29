@@ -1,0 +1,169 @@
+---
+title: "Knova voice widget"
+description: "Embed a voice AI launcher on any website with a single script tag — visitors click once to talk to your Knova agent, with no phone number or SIP trunk required."
+---
+
+## What it is
+
+The **Knova voice widget** lets you put a voice launcher on any webpage. Visitors click the button and speak directly to your Knova agent through their browser — no phone number, no app, no iframe.
+
+The widget is a self-contained JavaScript file you paste onto a site with a single `<script>` tag. It adds nothing to the page until a visitor clicks, so it has no impact on page-load time.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the voice widget launcher (orb style) in its idle state on a webpage, showing the floating button in the bottom-right corner._
+
+> 📷 **Screenshot needed:** _Add a screenshot of the voice widget panel open in the "live" state, showing the waveform / agent-speaking indicator, transcript area, and end-call button._
+
+---
+
+## Prerequisites
+
+- An active Knova agent with **Communication Channel** set to **Web** (not Phone).
+- A credit balance of at least 5 credits on the partner account (checked at every session start).
+- For white-label deployments: the widget's **allowed domains** list must include the site's origin.
+
+---
+
+## Create a widget
+
+1. Open **AI Agents → Knova Agents** in the Partner Portal.
+2. Click **Manage Widgets** on the agent you want to embed.
+3. Click **Create Widget**.
+4. Fill in the form:
+   - **Name** — an internal label so you can find the widget later.
+   - **Allowed Domains** — the website origins the widget may load on (e.g. `https://example.com`). Leave blank only if you want to block all public access (the widget will not load anywhere).
+   - **Launcher style** — `Orb` (circle button) or `Minimal` (text button).
+   - **Position** — corner of the page where the launcher sits.
+   - **Accent colour** — hex colour for the launcher. Must be a 6-digit hex code (e.g. `#6366F1`).
+   - **Label** — visible text for `Minimal` style; screen-reader label for `Orb`.
+   - **Max session length** — how long (in seconds) a single conversation can run before the agent wraps up. Range 60–1800 s (default 600 s / 10 minutes).
+5. Click **Create**. The widget is created and the embed code appears.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Create Widget form / modal, showing the fields for Name, Allowed Domains, style picker, position picker, colour, and session length._
+
+> 🎬 **Video walkthrough:** _Record a short clip: opening AI Agents → Knova Agents → Manage Widgets → Create Widget → filling in the form → copying the embed code → pasting it on a test page → clicking the launcher and talking to the agent._
+
+---
+
+## Edit a widget
+
+To change an existing widget's settings:
+
+1. Open **Manage Widgets** on the relevant Knova agent.
+2. Click the **Edit** icon on the widget row.
+3. Update any fields and click **Save**.
+
+After saving, the form fields reset so you can see clearly which values are currently set. Branding changes (logo, colours, welcome message) take effect on the visitor's next click — you don't need to update the script tag on your site.
+
+---
+
+## Copy and paste the embed code
+
+After saving, click **Copy code** next to the widget. The snippet looks like this:
+
+```html
+<script src="https://your-domain.com/widgets/knova/v1/knotie-voice.js" async
+        data-widget="wgt_…"></script>
+```
+
+Paste this tag into the `<body>` of every page where you want the widget to appear.
+
+If you have a custom domain configured in Partner Settings, the `src` URL uses that domain automatically. In white-label portals, customers see their portal domain in the snippet — "Knotie" never appears in the page source.
+
+---
+
+## Script tag attributes
+
+You can customise the launcher's appearance directly in the script tag:
+
+| Attribute | Values | Default | Effect |
+|---|---|---|---|
+| `data-widget` | `wgt_…` | — (required) | The public widget token that identifies this widget |
+| `data-style` | `orb` or `minimal` | `orb` | Launcher shape — round floating button or inline text button |
+| `data-position` | `bottom-right`, `bottom-left`, `top-right`, `top-left` | `bottom-right` | Corner of the page |
+| `data-color` | 6-digit hex, e.g. `#6366F1` | `#6366F1` | Accent colour for the launcher (non-hex values are ignored) |
+| `data-text` | Any string (trimmed to 40 chars) | `Talk to us` | Label for Minimal style; screen-reader label for Orb |
+| `data-theme` | `auto`, `light`, `dark` | `auto` | Panel colour scheme; `auto` follows the user's OS preference |
+
+---
+
+## How a call works
+
+When a visitor clicks the launcher:
+
+1. The browser asks for microphone permission.
+2. While the visitor grants permission, the widget mints a short-lived session token in the background.
+3. Once the microphone is active, the widget connects to the voice session.
+4. The Knova agent joins and the visitor can speak immediately.
+
+If the visitor denies the microphone, the widget shows an error message and no session is created — no credits are used.
+
+If the Knova agent does not join within the expected window, the widget surfaces a clear "agent unavailable" message instead of leaving the visitor on a silent, hanging connection. The visitor can dismiss the panel and try again.
+
+Each click creates a fresh session. The widget does not reuse or cache tokens.
+
+---
+
+## Branding and white-labelling
+
+The panel that opens on click takes its branding from three layers, in priority order:
+
+1. **Platform defaults** — "Knotie" brand, blue accent.
+2. **Your partner defaults** — your logo, primary colour, font family, and portal name are applied automatically when a widget is created.
+3. **Per-widget overrides** — edit any widget row after creation to change the brand name, logo, welcome message, end-call text, footer text, and whether "Powered by" is shown.
+
+Changes you make in the dashboard take effect on the visitor's next click — you don't need to update the script tag.
+
+---
+
+## Turn a widget off
+
+Toggle the **Active** switch on any widget row to disable it instantly. Visitors who open the launcher while it's off see a "temporarily unavailable" message. No sessions are created and no credits are used.
+
+To turn it back on, toggle it on again.
+
+---
+
+## Security and limits
+
+- **Allowed domains are enforced strictly.** An empty domain list blocks all origins — the widget will not load on any site. Always add your site's origin (e.g. `https://example.com`) before publishing.
+- **Rate limits** protect your credits: 10 session starts per minute per IP address, 60 per minute per widget, 120 per minute across all widgets on your account.
+- **Credit check at every session start.** If your partner credit balance is below 5, the session is refused and the visitor sees an error.
+- **Session cap.** Each conversation ends automatically when the max session length is reached. The agent sends a wrap-up message before disconnecting.
+
+---
+
+## Analytics
+
+Every session is recorded in your **Agent Analytics** dashboard. Events tracked include:
+
+- Widget load (on page)
+- Token issued (visitor clicked)
+- Call started (microphone connected)
+- Call ended (with duration and outcome)
+
+This data lets you see how many visitors are using the widget and how long conversations last.
+
+---
+
+## Frequently asked questions
+
+**Can I add the widget to multiple pages?**
+Yes. Copy the same embed code and paste it on every page you want. One instance loads per page.
+
+**Can my white-label customers create their own widgets?**
+Yes. Customers can manage widgets for their own Knova agents through the customer portal. Their widgets are scoped to their account and their branding defaults.
+
+**What happens if the agent is inactive or deleted?**
+The widget returns an error to the visitor and does not start a session. Re-activate the agent in the portal, or delete the widget if it is no longer needed.
+
+**Does the widget work on mobile?**
+Yes. The widget uses the browser's standard Web Audio API and works on modern mobile browsers. Microphone permission on mobile follows the same browser prompt as desktop.
+
+**What should I do if the visitor sees "agent unavailable"?**
+This means the Knova agent did not join the session in time. Check that the agent is active in the Partner Portal and that the agent's status is green. If the issue persists, contact support.
+
+---
+
+> Source: [knotie-ai-pro#1453](https://github.com/avijeett007/knotie-ai-pro/pull/1453) — _feat: embeddable voice widget for Knova web agents (KNOTI-572)_
+>
+> Updated by: [knotie-ai-pro#1457](https://github.com/avijeett007/knotie-ai-pro/pull/1457) — _fix: Knova voice widget follow-ups — server hardening, agent-join timeout, edit clearing (KNOTI-588, KNOTI-589, KNOTI-590)_

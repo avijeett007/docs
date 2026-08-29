@@ -183,7 +183,8 @@
               "agents/knova/knova-agent-builder",
               "agents/knova/agent-builder-chat",
               "agents/knova/outbound-calling",
-              "agents/knova/outbound-webhook-api"
+              "agents/knova/outbound-webhook-api",
+              "agents/knova/voice-widget"
             ]
           },
           {
