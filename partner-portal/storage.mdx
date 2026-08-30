@@ -1,0 +1,184 @@
+---
+title: "Storage add-on"
+description: "Buy extra file storage for your knowledge bases, media library, website assets, and other platform files — and manage your storage subscription from one place."
+---
+
+## Overview
+
+Every Knotie AI partner account includes a base storage allowance shared across all files on the platform:
+
+- Knowledge base files
+- Media library uploads
+- Artifacts and generated files
+- Website assets
+- Regulatory / compliance documents
+
+When you reach your limit, uploads stop. The **Storage Add-on** lets you subscribe to additional storage tiers so you never hit a wall mid-project.
+
+## Where to find it
+
+Open the Partner Portal sidebar → **Credits accordion** → **Storage**.
+
+You'll land on `/partner/storage`.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Partner Portal sidebar showing the Credits accordion expanded with the "Storage" entry and the "Add Storage" quick-action button visible._
+
+---
+
+## The storage page
+
+The `/partner/storage` page has three main sections.
+
+### Storage usage card
+
+Shows your current allocation and how much you've used:
+
+- **Total storage** — base allowance plus any purchased add-ons.
+- **Used** — sum of all files currently stored under your account.
+- **Usage bar** — fills as you approach the limit.
+
+**Warning banners:**
+- At **75 % used** — a yellow caution banner prompts you to consider adding storage before uploads are affected.
+- At **90 % used** — an orange urgent banner warns that uploads may start failing soon.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the storage usage card showing the progress bar at roughly 85 % with the orange warning banner displayed._
+
+### Available storage plans
+
+The plan cards show every storage tier your platform admin has activated. Each card shows:
+
+- Storage capacity (e.g. 50 GB, 200 GB, 1 TB)
+- Monthly or annual price
+- A **Subscribe** button (disabled and labelled **Current Plan** if you already have an active subscription for that tier)
+
+> 📷 **Screenshot needed:** _Add a screenshot of the plan cards row showing multiple tiers, with one card marked "Current Plan" and others showing an active Subscribe button._
+
+### Purchase history panel
+
+Click **Show History** to expand a list of all your storage subscriptions — date purchased, tier, price, and current status (active, cancelled, etc.).
+
+> 📷 **Screenshot needed:** _Add a screenshot of the expanded purchase-history panel listing a couple of storage subscription rows._
+
+---
+
+## Subscribing to a storage plan
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the full storage purchase flow — opening the storage page, clicking Subscribe on a plan, completing the Stripe checkout, and seeing the "Current Plan" badge appear._
+
+1. Open the **Storage** page from the sidebar.
+2. Find the plan that fits your needs and click **Subscribe**.
+3. A confirmation modal opens showing the plan you selected and the price. Plans you already subscribe to appear as **Current Plan** and cannot be re-selected.
+4. Click **Confirm** — you're redirected to Stripe Checkout.
+5. Enter your payment details and complete the checkout (card only).
+6. You're returned to `/partner/storage?success=true`. Your storage total updates immediately.
+
+> **Tip:** Your extra storage is live the moment the checkout completes — you don't need to wait for an email confirmation.
+
+### After a successful purchase
+
+The page detects the `?success=true` redirect and immediately activates your new subscription server-side. The plan card for the tier you just bought switches to **Current Plan** and your usage bar reflects the higher total.
+
+### If you cancel at checkout
+
+If you close the Stripe Checkout window or click **Back**, you return to the Storage page with a `?canceled=true` flag. Nothing is charged and nothing changes.
+
+---
+
+## Storage Plans section on the Plans & Billing page
+
+If you navigate to **Settings → Plans & Billing** (`/partner/settings/billing`), you'll find a **Storage Plan** summary card toward the bottom of the page. It shows:
+
+- Your current usage bar
+- The active storage plan name and price (if subscribed)
+- An **Upgrade Storage** button (opens the same subscription modal as on the Storage page)
+- A **Manage storage →** link to the full `/partner/storage` page
+
+This gives you quick access to storage management without leaving the billing settings screen.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Plans & Billing settings page with the Storage Plan summary card visible, showing the usage bar and the "Upgrade Storage" button._
+
+---
+
+## Cancelling a storage subscription
+
+Storage subscriptions are Stripe subscriptions. To cancel:
+
+1. Log in to the payment portal via **Settings → Plans & Billing → Manage Billing**.
+2. Locate your Storage add-on subscription and cancel it.
+
+After cancellation you have a **30-day grace window** — your total storage allocation stays the same for 30 days so you can download or clean up files before the limit drops.
+
+---
+
+## For Mission Control admins: managing storage plans
+
+> 🎬 **Video walkthrough:** _Record a short clip of the Mission Control flow — creating a new storage plan, syncing it to Stripe, enabling it, and confirming it appears on the partner-facing storage page._
+
+Admins define sellable storage tiers in **Mission Control → Storage Plans** (`/mission-control/storage-plans`).
+
+### Creating a plan
+
+1. Go to **Mission Control → Storage Plans → New Plan**.
+2. Fill in:
+   - **Key** — unique identifier, e.g. `storage_50gb` (cannot be changed after creation).
+   - **Name** — display name shown to partners, e.g. "50 GB Storage".
+   - **Description** — optional marketing copy.
+   - **Storage (GB)** — positive number.
+   - **Price (cents)** — e.g. `999` for $9.99.
+   - **Billing interval** — Monthly or Annual.
+   - **Interval count** — e.g. `1` for every billing period.
+   - **Sort order** — controls display order on the partner page.
+3. Save. The plan is created with **Inactive** status.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the new storage plan form in Mission Control._
+
+### Syncing to Stripe
+
+A plan must be synced to Stripe before it can be activated.
+
+1. Open the plan from the list.
+2. Click **Sync to Stripe** (or **Re-sync Price** if the plan was already synced but the price changed).
+3. Knotie creates a Stripe Product and a recurring Price for the plan and stores the Stripe price ID. If you change the price later and re-sync, the old Stripe price is archived and a new one is created (Stripe prices are immutable).
+
+### Activating / deactivating a plan
+
+- **Activate** — toggle the plan to Active. Only available after a Stripe price has been synced.
+- **Deactivate** — hides the plan from the partner-facing storage page. Partners with existing active subscriptions are unaffected; the plan just won't be offered to new subscribers.
+
+### Deleting a plan
+
+A plan with one or more active subscriptions cannot be deleted (the API returns 409). Deactivate the plan first, then ask subscribers to cancel their subscriptions, before attempting a delete.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Mission Control storage plans list showing one active plan with its subscriber count, sync status, and action buttons._
+
+---
+
+## Common questions
+
+**Can I subscribe to more than one storage plan?**
+Yes — each subscription is independent. Your purchased total is the sum of all active subscriptions.
+
+**What counts toward my storage?**
+Knowledge base files, media library uploads, artifacts, website assets, and regulatory documents are all counted. Usage is recalculated on every upload so the bar stays accurate.
+
+**What happens when the grace window expires after cancellation?**
+Knotie reduces your purchased storage allocation. Files aren't deleted automatically, but new uploads may be blocked if your used storage exceeds the new total. Clean up files before the 30-day grace window closes.
+
+**Will I be double-charged if a Stripe event fires more than once?**
+No. The storage activation logic is idempotent — a replayed `checkout.session.completed` event for an already-active subscription is detected and ignored.
+
+---
+
+## Troubleshooting
+
+| Symptom | Likely cause | Fix |
+|---------|-------------|-----|
+| Uploads fail with a storage-limit error | Used ≥ total storage | Subscribe to a storage plan or delete old files |
+| Storage page shows "Current Plan" on a plan I didn't buy | A Stripe webhook replayed an old checkout session | Contact support — this is blocked by a server-side guard but log the session ID |
+| Plan doesn't appear after subscribing | Client-side activation failed | Refresh the page; the async Stripe webhook will activate within seconds |
+| Mission Control plan can't be activated | No Stripe price synced yet | Click "Sync to Stripe" on the plan before toggling it active |
+| Mission Control plan delete returns 409 | Active subscribers exist | Deactivate the plan, wait for subscribers to cancel, then delete |
+
+---
+
+> Source: [knotie-ai-pro#1473](https://github.com/avijeett007/knotie-ai-pro/pull/1473) — _Feature/knoti 484 partner buy storage_

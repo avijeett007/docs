@@ -110,6 +110,7 @@
             "group": "Credits, Billing & Telephony",
             "pages": [
               "partner-portal/credits",
+              "partner-portal/storage",
               "partner-portal/telephony-credits",
               "partner-portal/phone-numbers",
               "partner-portal/number-pools/overview",
