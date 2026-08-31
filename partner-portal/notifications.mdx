@@ -1,0 +1,56 @@
+---
+title: "Notifications and live status"
+description: "How the Partner Portal's notification bells, phone activation status, and live platform counter behave."
+---
+
+## Notification bells
+
+The Partner Portal has two notification areas in the top navigation:
+
+- **Agent health notifications** — alerts about your AI agents (errors, connectivity issues, provider outages).
+- **Partner notifications** — general platform notifications (billing alerts, credit thresholds, team updates).
+
+> 📷 **Screenshot needed:** _Add a screenshot of the top navigation bar with both notification bells highlighted, showing an example unread badge._
+
+### How polling works
+
+The notification bells check for new notifications on a 5-minute interval. To save bandwidth, polling **pauses automatically when the browser tab is hidden** (for example, when you switch to another tab or minimise the window) and resumes when you return to the portal tab.
+
+You can dismiss individual notifications or mark all as read from the bell dropdown.
+
+> 🎬 **Video walkthrough:** _Record a short clip showing how to open the notification bell, dismiss an individual notification, and use "mark all as read"._
+
+## Phone activation status
+
+When you have phone numbers going through carrier activation (for example, after importing Telnyx numbers or purchasing Twilio numbers), the phone numbers page shows a live activation status panel.
+
+The panel polls for updates every **30 seconds**. It automatically stops polling once all numbers in the list have reached a final state:
+
+- **Active** — the number is ready to use.
+- **Rejected** — the number could not be activated; see the status detail for the reason.
+
+Numbers in intermediate states (being reviewed, waiting for more information, or in an AI review) continue to poll until they resolve.
+
+If you submit a new number for activation, polling resumes automatically.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the phone numbers page showing the activation status panel with mixed statuses (some active, some in-progress)._
+
+## Live platform stats
+
+The home page and certain dashboard widgets show live platform stats — total partners, customers, agents, and calls. This counter updates every **5 minutes** and only fetches when the browser tab is active.
+
+On first page load, the counter is visible immediately rather than showing a loading state.
+
+## Onboarding progress bar
+
+The onboarding progress bar (shown until your partner setup is complete) refreshes once per minute. Only the floating onboarding widget drives the refresh timer — if you have the progress bar visible elsewhere (for example, on the dashboard), it reads from the same shared data and does not add extra network requests.
+
+Once all onboarding steps are complete, the bar is no longer shown and polling stops.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the onboarding progress bar with some steps completed and some remaining._
+
+> 🎬 **Video walkthrough:** _Record a short clip of completing an onboarding step and watching the progress bar update._
+
+---
+
+> Source: [knotie-ai-pro#1478](https://github.com/avijeett007/knotie-ai-pro/pull/1478) — _perf(shell): one onboarding timer, self-limiting activation/notification polls, cached public counter_
