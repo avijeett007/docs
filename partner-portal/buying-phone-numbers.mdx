@@ -1,0 +1,78 @@
+---
+title: "Buying phone numbers"
+description: "Purchase a Twilio phone number directly from Knotie AI Pro — the platform automatically handles carrier regulatory requirements."
+---
+
+## What this is for
+
+You can buy a phone number from Twilio without leaving Knotie AI Pro. The platform searches available numbers, handles Twilio's address and compliance bundle requirements automatically, and shows you a clear message if anything in your Twilio account still needs attention.
+
+## Where to find it
+
+Open **Phone Numbers** in the Partner Portal sidebar, then click **Buy Number** and select **Twilio** as your provider.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Phone Numbers page with the "Buy Number" button visible, and the provider selection step showing Twilio._
+
+## How to buy a number
+
+1. Open **Phone Numbers** in the sidebar.
+2. Click **Buy Number**.
+3. Choose **Twilio** as the provider.
+4. Select the country, number type (local, mobile, or toll-free), and optionally an area code.
+5. Pick a number from the search results.
+6. Confirm the purchase.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the number search results step, highlighting the country selector and number type options._
+
+> 🎬 **Video walkthrough:** _Record a short clip of the complete number purchase flow — from clicking "Buy Number" to the new number appearing in your list._
+
+## Regulatory requirements
+
+Twilio requires an **address** and/or an approved **regulatory compliance bundle** for many number types — especially:
+
+- Numbers outside the US and Canada (UK, Germany, Australia, etc.)
+- Mobile numbers in regulated markets
+- Local numbers in countries with identity verification laws
+
+Knotie AI Pro handles these requirements automatically during purchase.
+
+### Address required
+
+When Twilio requires a verified address for the number type and country:
+
+1. The platform checks your Twilio account for a saved address in that country.
+2. If one is found, it is used automatically and the purchase proceeds.
+3. If none is found, an address form appears in the modal. Fill it in and submit — the address is saved to your Twilio account and the purchase is retried immediately.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the inline address form that appears inside the buy modal when an address is required._
+
+### Compliance bundle required
+
+When Twilio requires an approved regulatory bundle:
+
+1. The platform checks your Twilio account for an approved bundle matching that country and number type.
+2. If an approved bundle is found, it is used automatically.
+3. If none is found, the modal shows a guidance panel explaining which country and number type needs a bundle, with a link to the Twilio console where you can create and approve one.
+
+Once the bundle is approved in Twilio, return to Knotie AI Pro and try the purchase again.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the compliance bundle guidance panel that appears when a bundle is missing._
+
+## Error messages
+
+| Message | What it means | What to do |
+|---|---|---|
+| **Address required** | Twilio needs a registered address for this number type and country, and no address was found in your account | Fill in the address form that appears in the modal |
+| **Bundle required — [country] [type]** | Twilio requires an approved regulatory compliance bundle that does not yet exist in your Twilio account | Create and approve a bundle in the [Twilio Regulatory Compliance console](https://console.twilio.com/us1/develop/phone-numbers/regulatory-compliance/bundles) for the listed country and number type, then try again |
+| **Purchase failed** (with a carrier message) | The carrier rejected the purchase for a specific reason — the reason is shown verbatim | Read the message. It usually names the exact missing requirement. Contact Twilio support if it is unclear |
+
+## Troubleshooting
+
+- **No numbers in search results.** Try a different area code, region, or number type. Availability varies by country and number type.
+- **Mobile number purchase fails with a validation error.** Mobile numbers sometimes have no locality or region data. This is handled automatically — if you see this error on an older version, update to the latest release.
+- **UK local number shows a "Bad gateway" error.** Carrier rejection errors were previously hidden by Cloudflare. They are now shown as plain error messages in the modal.
+- **Purchase succeeds but the number does not appear in the list.** Refresh the Phone Numbers page. If it still does not appear after a minute, check the **Imports** tab and contact support.
+
+---
+
+> Source: [knotie-ai-pro#1475](https://github.com/avijeett007/knotie-ai-pro/pull/1475) — _fix(telephony): Twilio number purchase — surface carrier rejections, accept null search details, resolve regulatory bundle/address requirements_
