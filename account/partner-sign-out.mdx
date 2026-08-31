@@ -1,0 +1,48 @@
+---
+title: "Partner sign-out and session safety"
+description: "How signing out works for partner accounts, and what happens to your session data when you switch accounts."
+---
+
+## What this covers
+
+When you sign out of the Partner Portal, Knotie AI Pro clears your session completely — including any cached profile data, balances, and query results from that session. This ensures that if you or someone else signs into a different partner account in the same browser tab, none of the previous account's data is visible.
+
+## How sign-out works
+
+Signing out from any location in the portal — the sidebar, the top navigation bar, or any 401 redirect — does the following in order:
+
+1. Clears the cached session data (partner profile, balance, customer list, etc.) from the browser tab's memory.
+2. Removes the partner session token and any associated session keys from browser storage.
+3. Redirects you to the Partner Portal login page.
+
+This order ensures that the previous account's data is gone before the login page loads, so no cached information from Account A can appear when you sign in as Account B.
+
+## Switching accounts in the same browser tab
+
+If you need to sign into a different partner account:
+
+1. Sign out using any logout button or the top-right account menu.
+2. Wait for the login page to load.
+3. Sign in with the new account's credentials.
+
+The session from the previous account is fully cleared before the new login begins.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the partner account menu (top-right corner of the portal) with the sign-out option highlighted._
+
+## Accepting a team invitation while signed in
+
+If you receive a team invitation link while you are already signed into a partner account, the portal clears your current session before processing the invitation. This prevents a situation where two accounts are active in the same tab at the same time.
+
+## What happens in other open tabs
+
+When you sign out in one tab, other open Partner Portal tabs detect the session change and reload as the current account. If you have completely signed out, they redirect to the login page. This keeps all tabs consistent with the actual signed-in state.
+
+## Troubleshooting
+
+- **I see data from a previous account after signing in.** Sign out, clear your browser cache, and sign in again. If the issue persists, contact support.
+- **I was redirected to the login page unexpectedly.** Your session may have expired or been invalidated by a sign-out in another tab. Sign in again to continue.
+- **The sign-out button is not responding.** Try a hard refresh (Ctrl+Shift+R / Cmd+Shift+R) or close and reopen the tab.
+
+---
+
+> Source: [knotie-ai-pro#1480](https://github.com/avijeett007/knotie-ai-pro/pull/1480) — _fix(partner): one cache-clearing sign-out helper for all partner logout/401 sites_
