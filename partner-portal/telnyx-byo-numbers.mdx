@@ -1,0 +1,77 @@
+---
+title: "Telnyx BYO number assignment"
+description: "Assign AI agents to phone numbers from your own Telnyx account — including Knova, Retell, and VAPI agents."
+---
+
+## What this is for
+
+If you have phone numbers in your own Telnyx account (\"Bring Your Own\" / BYO), you can assign Knotie AI Pro agents to them so they handle inbound calls or make outbound calls on your behalf.
+
+This page covers how assignment works, what to expect on reassignment, and how outbound calling is configured by country.
+
+## Assigning an agent to a Telnyx BYO number
+
+1. Open **Phone Numbers** in the Partner Portal sidebar.
+2. Find your Telnyx number in the list.
+3. Open its action menu and choose **Assign Agent**.
+4. Select the provider (Knova, Retell, VAPI, etc.) and the specific agent.
+5. Choose whether the assignment is for inbound, outbound, or both.
+6. Confirm.
+
+The platform creates the necessary SIP connections and outbound voice profiles in your Telnyx account automatically.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Assign Agent modal for a Telnyx number, showing provider and agent selection._
+
+> 🎬 **Video walkthrough:** _Record a short clip of the full Telnyx BYO assignment flow from the phone numbers page._
+
+## Reassigning or repairing after a previous failed attempt
+
+If a previous assignment attempt failed or was interrupted, the platform may have left an outbound voice profile in your Telnyx account. On a fresh assignment, Knotie AI Pro now:
+
+1. **Looks up any existing profile** with the expected name in your Telnyx account.
+2. **Reuses and repairs it** — enabling it and merging any new destinations — rather than failing.
+3. Only creates a new profile if none exists.
+
+This means you do not need to manually delete leftover profiles in the Telnyx console between assignment attempts. The platform handles the cleanup automatically.
+
+If a profile with the expected name exists but cannot be reused (an edge case), the portal shows a plain-English message asking you to delete or rename the profile in the Telnyx console (under **Voice → Outbound Voice Profiles**) and try again.
+
+## Outbound calling destinations by country
+
+The outbound voice profile created for your Telnyx number includes the number's own country as an allowed destination, plus a default list of common destinations.
+
+This means:
+
+- A UK (+44) number can make outbound calls to UK numbers by default.
+- A German (+49) number can make outbound calls to German numbers by default.
+- If you are using Retell or VAPI and previously had a profile configured with only US and Canada destinations, that profile is automatically widened to include the number's country on the next assignment.
+
+> 📷 **Screenshot needed:** _Add a screenshot showing a successfully assigned Telnyx number in the phone numbers list, with the agent and call direction visible._
+
+## Known past issues (fixed)
+
+### Knova assignment failing with \"has already been taken\"
+
+Before **2026-08-31**, Knova assignments to Telnyx BYO numbers could fail with a Telnyx `422` error if an outbound voice profile with the expected name already existed from a previous (possibly failed) run. The assignment would then be permanently blocked for that number.
+
+This is now fixed. The platform reuses the existing profile instead of trying to create a duplicate.
+
+**If you have a number that could not be assigned before this date:** retry the assignment — it should now succeed.
+
+### Retell outbound calls not connecting for non-US/CA numbers
+
+Before **2026-08-31**, Retell outbound calls on Telnyx numbers outside the US and Canada (such as UK mobile numbers) would appear to succeed in the Retell dashboard but Telnyx would silently block them because the outbound voice profile was configured with only US and Canada as allowed destinations.
+
+This is now fixed. The number's own country is included in the allowed destinations.
+
+**If you had Retell outbound calls failing silently:** unassign and reassign the agent. The reassignment updates the outbound voice profile with the correct destinations.
+
+## Troubleshooting
+
+- **Assignment fails with \"Please delete or rename the profile in the Telnyx portal\".** Open the Telnyx console, go to **Voice → Outbound Voice Profiles**, find the profile named `Knotie-Knova-Outbound-<your-number>`, and delete or rename it. Then retry the assignment.
+- **Outbound calls connect to your agent but the called party hears nothing.** Check that the number's country is in the allowed destinations for the outbound voice profile. Unassign and reassign the agent to trigger an automatic update.
+- **Inbound calls are not reaching the agent.** Verify that the SIP connection in your Telnyx account lists the correct SIP address. Contact support if the connection is missing.
+
+---
+
+> Source: [knotie-ai-pro#1465](https://github.com/avijeett007/knotie-ai-pro/pull/1465) — _fix(telnyx): reuse existing outbound voice profiles and set correct destinations so BYO assignment never fails on leftovers_
