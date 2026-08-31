@@ -1,0 +1,62 @@
+---
+title: "Knova phone assignment troubleshooting"
+description: "Fix common issues when assigning or unassigning phone numbers from Knova agents."
+---
+
+## Knova agent stuck in \"Unassigning\"
+
+If a Knova agent's phone number is stuck in an **Unassigning** status and does not complete after a few minutes, this section explains what happened and how to recover.
+
+### What causes it
+
+This happened for phone numbers that had an active SIP config record (for example, imported Telnyx BYO numbers or Twilio numbers in SIP trunk mode). When the carrier cleanup completed cleanly with no warnings, the platform could incorrectly conclude that another process had taken over the unassignment, and would return a `409 UNASSIGN_IN_PROGRESS` response without actually completing the operation.
+
+This is fixed in **knotie-ai-pro#1472** (merged 2026-08-31).
+
+### How numbers self-heal after the fix
+
+Once the fix is deployed:
+
+- **New unassignments** complete normally on the first attempt.
+- **Numbers already stuck** in `Unassigning`: the internal lease on the operation expires after 10 minutes. After that, retry the unassignment — the platform will now complete it correctly.
+
+### How to retry an unassignment
+
+1. Open **Phone Numbers** in the Partner Portal sidebar.
+2. Find the number that is stuck in **Unassigning**.
+3. Wait for the 10-minute lease window to pass (check the time the unassign was first attempted).
+4. Open the number's action menu and choose **Unassign Agent** again.
+5. The operation should now complete.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the phone number action menu with the "Unassign Agent" option highlighted._
+
+### Affected number types
+
+This issue affected numbers with a SIP config record, which includes:
+
+- Imported Telnyx BYO numbers
+- Twilio numbers configured in SIP trunk mode
+
+Knova agents assigned to Telnyx or Twilio numbers via the partner portal or the whitelabel customer portal were both affected.
+
+## Verification after unassignment
+
+After a successful unassignment:
+
+- The agent status on the phone number should clear.
+- The number should show as **Unassigned** in the phone number list.
+- You can reassign the number to the same or a different agent.
+
+> 🎬 **Video walkthrough:** _Record a short clip of unassigning a Knova agent from a phone number and confirming the number shows as Unassigned._
+
+## Getting further help
+
+If a number remains stuck after retrying, contact support with:
+
+- The phone number (E.164 format, e.g. +447441399516)
+- The partner account ID
+- The approximate time the unassignment was first attempted
+
+---
+
+> Source: [knotie-ai-pro#1472](https://github.com/avijeett007/knotie-ai-pro/pull/1472) — _fix(knova): Knova unassign no longer sticks in 'unassigning' after a clean carrier cleanup_
