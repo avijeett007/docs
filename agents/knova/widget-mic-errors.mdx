@@ -1,0 +1,118 @@
+---
+title: "Widget microphone errors"
+description: "Diagnose and fix microphone errors in the Knova voice widget — covers permission denials, in-use errors, insecure-page errors, and site-builder iframe blocks."
+---
+
+## Overview
+
+When a visitor clicks the Knova voice widget launcher and microphone access fails, the widget panel displays a specific error message. The error code is also sent as a `mic_error` analytics event so you can see microphone failures in your widget analytics — separately from call starts and call ends.
+
+This page explains what each error means and how to fix it.
+
+---
+
+## Error codes
+
+### `mic_denied` — Microphone access denied
+
+**Message shown:** _"Microphone access is needed to talk. Please allow it in your browser and try again."_
+
+**What it means:** The browser asked the visitor for microphone permission and they clicked **Block**, or the browser's site settings already have the microphone blocked for this domain.
+
+**Fix for the visitor:**
+1. Look for the camera/mic icon in the browser address bar.
+2. Click it and choose **Allow**.
+3. Refresh the page and try again.
+
+**Fix for you (if visitors consistently report this):** Ensure the page URL (origin) is in the widget's **Allowed domains** list and is served over HTTPS.
+
+---
+
+### `mic_blocked_frame` — Microphone blocked by the embedding frame
+
+**Message shown:** _"This site is blocking microphone access for embedded frames. If you are previewing inside a site builder, open the published page instead."_
+
+**What it means:** The widget is running inside an `<iframe>` whose **Permissions Policy** (formerly Feature Policy) explicitly denies microphone access. This is the most common cause of unexpected microphone failures when previewing inside site builders like Elementor, Wix, or the WordPress customizer.
+
+**Fix:** Open the widget on the **published page** rather than the site-builder preview. The preview iframe sets `allow="camera"` without `microphone`, so the browser cannot grant access regardless of visitor intent.
+
+---
+
+### `mic_in_use` — Microphone held by another app
+
+**Message shown:** _"Your microphone is in use by another app or tab. Close it and try again."_
+
+**What it means:** Another browser tab, application, or OS-level process has an exclusive lock on the microphone (e.g., a video call, OBS, or another web tab requesting the mic).
+
+**Fix for the visitor:** Close other browser tabs that use the microphone, quit apps that might have it (Zoom, Teams, etc.), and try again.
+
+---
+
+### `mic_insecure` — Page not served over HTTPS
+
+**Message shown:** _"This page must be served over HTTPS for the microphone to work."_
+
+**What it means:** The browser refuses to expose `navigator.mediaDevices` (and therefore getUserMedia) on non-HTTPS pages. The widget cannot start a voice session on a plain-HTTP page.
+
+**Fix:** Serve the page over HTTPS. If you are testing locally, use `localhost` or a tool like [ngrok](https://ngrok.com) to tunnel to HTTPS — `localhost` is treated as a secure context by browsers.
+
+---
+
+### `mic_unavailable` — No microphone found
+
+**Message shown:** _"No microphone was found on this device."_
+
+**What it means:** The device genuinely has no audio input — common on some desktops, in virtual machine environments, or when all connected microphones are unplugged.
+
+**Fix for the visitor:** Connect a microphone or headset and try again.
+
+---
+
+### `mic_error` — Unexpected microphone error
+
+**Message shown:** _"Couldn't access the microphone. Please try again."_
+
+**What it means:** An unrecognised error was returned by the browser's getUserMedia API. The raw error name is shown below the message as a small detail line (e.g., `(SomeVendorError)`) so you can report it precisely.
+
+**Fix:** Check the widget analytics for the raw `errorName` field in the `mic_error` event. If the error persists, share the error name with support.
+
+---
+
+## Using widget analytics to diagnose mic failures
+
+Every microphone failure fires a `mic_error` analytics event containing:
+
+| Field | Description |
+|---|---|
+| `errorName` | The raw DOMException name from the browser (e.g., `NotReadableError`) |
+| `code` | The error code shown to the visitor (e.g., `mic_in_use`) |
+| `origin` | The page origin where the failure happened |
+| `inIframe` | Whether the widget was inside an `<iframe>` |
+| `secureContext` | Whether the page was served over HTTPS |
+
+> 📷 **Screenshot needed:** _Add a screenshot of the widget analytics view showing a `mic_error` event row with the errorName, code, origin, and inIframe fields visible._
+
+---
+
+## Error detail line
+
+When the error panel is shown, a small monospaced detail line appears below the main error message — for example, `(NotReadableError)`. This is the raw browser API error name and is safe to copy and share with support without containing any personal information.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Knova widget error panel showing the main error message and the smaller detail line below it (e.g., "(NotReadableError)")._
+
+---
+
+## Quick reference
+
+| What the visitor sees | Error code | Most likely cause | Fix |
+|---|---|---|---|
+| "allow it in your browser" | `mic_denied` | Visitor clicked Block | Re-allow mic in browser settings |
+| "site builder" | `mic_blocked_frame` | Preview iframe blocks mic | Use the published page |
+| "in use by another app" | `mic_in_use` | Another app holds the mic | Close other mic-using apps |
+| "served over HTTPS" | `mic_insecure` | HTTP page | Serve over HTTPS |
+| "No microphone was found" | `mic_unavailable` | No audio input device | Connect a microphone |
+| "try again" | `mic_error` | Unrecognised browser error | Check analytics for errorName |
+
+---
+
+> Source: [knotie-ai-pro#1499](https://github.com/avijeett007/knotie-ai-pro/pull/1499) — _fix(widget): precise microphone failure diagnosis + error telemetry for the Knova voice widget (KNOTI-676)_
