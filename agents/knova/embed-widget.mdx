@@ -1,0 +1,110 @@
+---
+title: "Embed Knova voice widgets"
+description: "Add the Knova voice widget to any website — covers both web agents and inbound telephony agents, domain setup, and snippet installation."
+---
+
+## Overview
+
+Any **active** Knova agent — whether it was created as a `web` channel agent or as an **inbound (telephony)** agent — can be embedded on a website as a floating voice widget. Visitors click the launcher to start an AI voice session without leaving the page.
+
+<Info>
+Outbound telephony agents cannot be embedded. Their prompts are built around campaign data (lead details, call context) that is not available in an anonymous web session.
+</Info>
+
+---
+
+## Prerequisites
+
+Before creating a widget:
+
+1. The Knova agent must be **Active** and in `active` status (not in draft).
+2. You need at least one **allowed domain** — the exact hostname where the widget will be embedded (e.g., `acme.com`).
+3. The target page must be served over **HTTPS**. Browsers deny microphone access on plain-HTTP pages.
+
+---
+
+## Create a widget
+
+> 📷 **Screenshot needed:** _Add a screenshot of the "Embed widget" option in the Knova agent three-dot menu, and the full Embed Widget Manager modal showing the widget list, "Add widget" button, and embed snippet._
+
+1. In the Partner Portal, go to **AI Agents → Knova Agents**.
+2. Open the **⋮** menu on the agent card.
+3. Click **Embed widget**.  
+   The **Embed Widget Manager** modal opens.
+4. Click **Add widget** and fill in:
+
+   | Field | Description |
+   |---|---|
+   | Name | Internal label (not shown to visitors) |
+   | Widget type | `orb` (round launcher) or `bubble` (speech-bubble launcher) |
+   | Allowed domains | Comma-separated hostnames where the snippet may run |
+   | Primary color | Launcher accent color |
+   | Button text | Text on the launcher (e.g., *Talk to us*) |
+   | Position | `bottom-right` or `bottom-left` |
+
+5. Click **Save**. The widget row appears with an **Embed snippet** column.
+
+---
+
+## Install the snippet
+
+Copy the snippet from the modal and paste it before the closing `</body>` tag on every page where you want the widget to appear:
+
+```html
+<script
+  src="https://knotie-ai.pro/widgets/knova/v1/knotie-voice.js"
+  data-widget="wgt_YOUR_TOKEN"
+  data-style="orb"
+  data-position="bottom-right"
+  data-color="#6366F1"
+  data-text="Talk to us"
+  data-theme="auto"
+  async
+></script>
+```
+
+The script loads nothing until a visitor clicks the launcher — there is no performance impact on page load.
+
+---
+
+## Inbound telephony agents
+
+Starting with this release, Knova agents configured as **inbound telephony** agents show the **Embed widget** option in their menu alongside web agents. The embedded widget session uses the same voice infrastructure as the web channel — the agent's knowledge base, tools, and system prompt all apply.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the ⋮ menu on an inbound telephony agent card, showing "Embed widget" in the list._
+
+> 🎬 **Video walkthrough:** _Record a clip showing: opening the Embed widget modal for an inbound telephony agent, creating a widget with a test domain, copying the snippet, and confirming the launcher appears on the page._
+
+---
+
+## Allowed domains and CORS
+
+The widget enforces an origin allowlist — it will refuse to start a session on a domain not listed in **Allowed domains**. Add every hostname (no protocol, no trailing slash) where you embed the snippet.
+
+Example values:
+
+```
+acme.com
+app.acme.com
+staging.acme.com
+```
+
+<Note>
+The Knotie partner portal itself and your verified custom-domain portal are automatically allowed — you can use the **Test widget** preview (see [Test widget preview](/agents/knova/test-widget-preview)) without adding the portal domain to the list.
+</Note>
+
+---
+
+## Pause and resume
+
+Each widget row has a **Pause / Resume** toggle. A paused widget refuses new sessions and shows as inactive — useful for temporarily disabling the widget on a specific domain without deleting it. The **Test widget** button is disabled for paused widgets.
+
+---
+
+## Delete a widget
+
+Click the **trash icon** on the widget row. Any page that still has the snippet installed will silently fail to load the launcher — the script tag stays on the page but makes no network calls.
+
+---
+
+> Source: [knotie-ai-pro#1500](https://github.com/avijeett007/knotie-ai-pro/pull/1500) — _feat(widget): voice widgets for inbound (telephony) Knova agents (KNOTI-677)_
