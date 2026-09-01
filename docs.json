@@ -41,6 +41,7 @@
             "group": "Customer onboarding",
             "pages": [
               "customer-management/onboard-customer",
+              "customer-management/customer-change-password",
               "customer-management/portal-modes",
               "customer-management/whitelabel-subdomain",
               "customer-management/client-portal-navigation-and-ai-gateway",
