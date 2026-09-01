@@ -1,0 +1,64 @@
+---
+title: "Test widget preview"
+description: "Use the built-in Test widget button to preview your Knova voice widget directly inside the Partner Portal — no snippet installation required."
+---
+
+## Overview
+
+The **Test widget** button lets you run the real production widget — with your agent's actual token, branding, and voice configuration — directly inside the Partner Portal embed modal. You don't need to paste the snippet on a live website or configure a test domain on the allowlist.
+
+This makes it straightforward to distinguish widget problems (token, branding, microphone) from site-specific problems (domain not allow-listed, site-builder preview iframe blocking the mic, HTTP vs HTTPS).
+
+---
+
+## How it works
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Embed Widget Manager modal showing the "Test widget" button next to a widget row, and a second screenshot with the widget launcher visible in the bottom corner of the portal page while the button reads "Stop test"._
+
+1. Open **AI Agents → Knova Agents** in the Partner Portal.
+2. Click **⋮** on the agent card and select **Embed widget**.
+3. In the widget list, find the widget you want to test.
+4. Click **Test widget**.  
+   The real production script (`/widgets/knova/v1/knotie-voice.js`) is injected into the current portal page with the widget's own token and branding.
+5. The launcher appears in the page corner — click it to start a full voice session.
+6. Click **Stop test** (the same button) to remove the widget and end any active session.
+
+> 🎬 **Video walkthrough:** _Record a short clip showing: clicking "Test widget", the launcher appearing on the portal page, clicking the launcher to start a voice session, and then clicking "Stop test" to remove it._
+
+---
+
+## What "Test widget" proves vs. what it doesn't
+
+| What it verifies | What it doesn't test |
+|---|---|
+| Token is valid and the agent is active | Whether your specific site's domain is on the allowlist |
+| Agent voice, greeting, and system prompt | Embed on an HTTP-only page |
+| Microphone access in a real browser context | Site-builder preview iframes (Elementor, Wix, etc.) |
+| Branding colours, position, and button text | Customer end-to-end routing on a live domain |
+
+If **Test widget** works but the widget fails on your live site, the most common causes are:
+
+- The site's domain is not in **Allowed domains** on the widget
+- The page is served over HTTP instead of HTTPS
+- The page is inside a site-builder preview iframe — test on the **published** page
+
+---
+
+## Limitations
+
+- Only one widget test can run at a time per browser tab. Starting a test on a second widget automatically stops the first.
+- The **Test widget** button is disabled for paused widgets. Resume the widget first.
+- Deleting a widget while its test is running stops the session automatically.
+- Closing the embed modal stops the test.
+
+---
+
+## Microphone access
+
+The Test widget preview runs inside the portal page, which is served over HTTPS — so microphone access works the same way as on any HTTPS production page. If the browser prompts for microphone permission, allow it.
+
+If you see a microphone error during the test, see [Widget microphone errors](/agents/knova/widget-mic-errors) for a full list of error codes and fixes.
+
+---
+
+> Source: [knotie-ai-pro#1502](https://github.com/avijeett007/knotie-ai-pro/pull/1502) — _feat(widget): one-click 'Test widget' in the embed modal with a same-host token carve-out (KNOTI-678)_

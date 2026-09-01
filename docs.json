@@ -180,6 +180,7 @@
               "agents/knova/knova-agent",
               "agents/knova/try-agent",
               "agents/knova/manage-knova-agents",
+              "agents/knova/test-widget-preview",
               "agents/knova/knova-agent-builder",
               "agents/knova/agent-builder-chat",
               "agents/knova/outbound-calling",
