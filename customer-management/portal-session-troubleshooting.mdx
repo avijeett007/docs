@@ -1,0 +1,96 @@
+---
+title: "Customer portal session troubleshooting"
+description: "Diagnose and fix auto-logout, session-drop, and login-bounce issues in the white-label customer portal."
+---
+
+## Common symptom: instant logout after login
+
+A customer (or you in preview mode) signs into the white-label portal, the login succeeds, and then the portal immediately redirects back to the login page. No error message — just an invisible bounce.
+
+This is almost always a **session cookie problem**, not a credential problem.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the login redirect loop — the login page reloading right after a successful POST, or the browser network tab showing a 401 on `/api/whitelabel/auth/me` immediately after the 200 on `/api/whitelabel/auth/login`._
+
+---
+
+## Root causes and fixes
+
+### 1. Portal accessed over plain HTTP (most common for dev/local testing)
+
+**What happens:** The session cookie carries a `Secure` flag, which tells the browser to send it only over HTTPS. If your portal is served over plain `http://`, the browser silently discards the cookie — so the very next request (the auth-check that loads the portal) has no session, and the portal sends you back to login.
+
+**How to check:** In your browser's DevTools → Application → Cookies, look for `customer_token`. If it is absent immediately after login, this is the cause.
+
+**Fix options:**
+
+| Option | When to use |
+|--------|-------------|
+| Use HTTPS for the portal URL | Preferred for production and staging |
+| Use `localhost` (not a subdomain) for local testing | `localhost` is a browser "secure context" so `Secure` cookies work even over HTTP |
+| Use an HTTPS tunnel (ngrok, Cloudflare Tunnel) for local dev | Lets you test with a real subdomain over HTTPS |
+
+> 📷 **Screenshot needed:** _Add a screenshot of the browser Application → Cookies panel showing the missing `customer_token` cookie after a login attempt on an HTTP origin._
+
+> 🎬 **Video walkthrough:** _Record a short clip showing: (1) logging into the portal over HTTP and being bounced; (2) switching to HTTPS or `localhost` and staying logged in._
+
+**Platform note (as of [knotie-ai-pro#1511](https://github.com/avijeett007/knotie-ai-pro/pull/1511)):** The platform now derives the `Secure` flag from the actual request transport (`x-forwarded-proto` header, then the URL scheme) rather than from the build type. This means:
+- **Production** (Cloudflare → HTTPS): `Secure` is set — unchanged behavior.
+- **Local dev over HTTP** (e.g., `http://*.lvh.me:3000`): `Secure` is _not_ set — cookie sticks, no auto-logout.
+
+If you are still seeing the bounce after this fix, verify you are running a recent version of the platform (post–2026-09-02).
+
+---
+
+### 2. Redis is unreachable
+
+**What happens:** The white-label middleware uses Redis to cache domain lookups. When Redis is down or misconfigured, each request can hang for ~10 seconds while the middleware retries, then the database connection pool exhausts. From the outside, this looks identical to an auth bug — the portal bounces or freezes after login.
+
+**How to check:** On the server, run:
+
+```bash
+redis-cli ping
+# expected: PONG
+```
+
+**Fix:** Ensure the Redis service is running and that `REDIS_URL` in your environment points to it (default: `redis://localhost:6379/0`).
+
+---
+
+### 3. Whitelabel setup not completed
+
+If the portal loads but shows a "Partner not found" error or refuses login:
+
+- Confirm the subdomain (or custom domain) is registered in **Settings → Whitelabel → Domain**.
+- Confirm **Enable Customer Portal** is toggled on.
+- If you are testing on a Cloudflare Tunnel URL (e.g., `your-name.kno2gether.com`), you must register that hostname as the partner's `customDomain` — the tunnel host is not automatically recognized.
+
+---
+
+### 4. Passkey or magic-link sessions
+
+Sessions started via **passkey** or **magic link** use the same cookie mechanism. If you see a bounce with those methods, follow the same HTTPS/cookie-flag checks above.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Whitelabel settings page showing the "Enable Customer Portal" toggle in the Domain section, in both enabled and disabled states._
+
+---
+
+## Quick diagnostic checklist
+
+1. **Cookie present after login?** Check DevTools → Application → Cookies for `customer_token`.
+2. **HTTP vs HTTPS?** Portal URL must start with `https://` in production (or use `localhost` for local dev).
+3. **Redis alive?** Run `redis-cli ping` on the server.
+4. **Whitelabel domain registered?** Settings → Whitelabel → Domain must list your subdomain or custom domain.
+5. **Enable Customer Portal on?** Same settings page, Domain section.
+
+---
+
+## Related pages
+
+- [Whitelabel subdomain](/customer-management/whitelabel-subdomain) – Set up a branded subdomain for the portal
+- [Custom domain](/customer-management/custom-domain) – Configure a fully custom domain
+- [Customer portal access actions](/partner-portal/customers/customer-portal-access-actions) – Preview portal, reset password, block or delete access
+- [Whitelabel settings](/partner-portal/settings/whitelabel-settings) – Full portal configuration reference
+
+---
+
+> Source: [knotie-ai-pro#1511](https://github.com/avijeett007/knotie-ai-pro/pull/1511) — _fix(whitelabel): derive session-cookie Secure flag from request scheme_

@@ -57,6 +57,12 @@
             ]
           },
           {
+            "group": "Customer portal troubleshooting",
+            "pages": [
+              "customer-management/portal-session-troubleshooting"
+            ]
+          },
+          {
             "group": "Partner Portal",
             "pages": [
               "partner-portal/overview",
