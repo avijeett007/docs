@@ -206,12 +206,62 @@ If you use Knotie's MCP server with AI coding tools like Cursor or Claude, note 
 
 If you have existing MCP automations using these tools, update your prompts and tool calls to use the new field names.
 
+## Humanistic confirmation
+
+Knova agents now read back crucial details **before acting on them** — the way a professional receptionist would. When an agent collects a value where a mishearing could cause real harm (a phone number, an appointment date, an address), it briefly confirms: *"That's Thursday at 2 PM, yes?"* rather than booking immediately.
+
+This behaviour is **on by default for every Knova agent**, including existing ones. It does not require any prompt change.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the "Humanistic confirmation" checkbox in the Agent → Advanced tab (partner portal), and the equivalent toggle in the customer portal's Voice & Behavior tab._
+
+### What it does
+
+- The agent reads back the value it heard, in the phrasing a person would actually use
+- It confirms **one detail at a time** — not a full form replay, which sounds robotic
+- It covers values that are costly to get wrong; ordinary back-and-forth is not affected
+- The agent does not invent or guess a value — if it didn't hear something clearly, it asks again rather than confirming a fabricated detail
+
+### How it affects callers
+
+Before:
+> *"I've booked your appointment for Thursday at 2 PM."*
+
+After:
+> *"That's Thursday at 2 PM — is that right?"* → caller confirms → *"Perfect, I've got you booked."*
+
+The conversation is slightly longer per crucial detail, but significantly more accurate.
+
+### Turn it off per agent
+
+You can disable humanistic confirmation for a specific agent if the use case calls for it (for example, an agent handling already-verified data from a CRM lookup):
+
+**Partner portal** — Agent → Edit → **Advanced** tab → uncheck **Humanistic confirmation**.
+
+**Customer portal** — Agent edit → **Voice & Behavior** tab → toggle **Humanistic confirmation** off.
+
+<Warning>
+Disabling confirmation is permanent until re-enabled. The setting is saved explicitly — leaving it absent or clearing it does **not** disable it; only an explicit "off" toggle does. This prevents accidental opt-out when agent configs are cloned or migrated.
+</Warning>
+
+> 🎬 **Video walkthrough:** _Record a short clip of a Knova agent confirming a phone number and an appointment time before acting, compared to a call without confirmation enabled._
+
+---
+
+## Campaign customer picker fix
+
+When creating a campaign and selecting which customer to target, rows for customers who have not yet been provisioned (no active account) are now **excluded from the picker** rather than shown and then returning an error after the form is filled in.
+
+If you were previously seeing a `403 — Customer not found for this partner` error after selecting a customer in the campaign flow, this addresses that. Customers who appear in the picker are guaranteed to have the backend record required to proceed.
+
+---
+
 ## Troubleshooting
 
 - **System prompt exceeds character limit** — Split overly broad scopes into a multi-agent workflow. Each persona or use case should have its own agent.
 - **Voice not loading** — Reload the page. If voices still don't appear, check your internet connection and try a different browser.
 - **Builder session not resuming** — Sessions are listed by `lastTurnAt` (most recent first). If you don't see a session, it may have been created for a different customer or on a different account.
 - **Agent config not updating after edit** — The platform refreshes the agent's live configuration after every save. If the agent's phone number still uses the old settings, wait 30 seconds and call the number again. If it persists, contact support.
+- **Agent is not confirming back values** — Check that Humanistic confirmation is enabled in the Advanced tab. If the checkbox is present and checked, give it a full conversation turn — the confirmation only fires when the agent has captured a specific value, not on every utterance.
 
 ## Related pages
 
@@ -219,3 +269,7 @@ If you have existing MCP automations using these tools, update your prompts and 
 - [Telephony Credits](/partner-portal/telephony-credits) – Manage credits for phone calls
 - [MCP Tokens](/partner-portal/ai-agents/mcp/tokens) – Set up MCP access for AI coding tools
 - [Agent Analytics](/partner-portal/agent-analytics) – View call and usage statistics
+
+---
+
+> Source: [knotie-ai-pro#1525](https://github.com/avijeett007/knotie-ai-pro/pull/1525) — _fix(campaigns): customer id 403 (KNOTI-705) + humanistic confirmation by default (KNOTI-706)_
