@@ -1,0 +1,236 @@
+---
+title: "Inbound Caller Lookup"
+description: "Look up who is calling before your Knova agent answers — personalize greetings, route to a different agent, or decline the call based on CRM data."
+---
+
+## What inbound caller lookup is
+
+When someone calls a phone number assigned to your Knova agent, the platform can fire a **caller lookup webhook** to your system before answering. Your system receives the caller's number, looks them up in your CRM or database, and sends back context — the caller's name, their open ticket, their account tier, or any custom variables you want the agent to know.
+
+The agent then greets the caller by name from the very first word, with full context already loaded.
+
+You can also use the webhook to:
+- **Route to a different agent** — if a caller's account tier or language preference means a different agent should answer
+- **Reject the call** — if the number is blocked or the caller fails a validation check
+
+> 📷 **Screenshot needed:** _Add a screenshot of the phone number settings panel showing the "Inbound Caller Lookup" URL field and HMAC secret copy button (in both the partner portal and customer portal edit views)._
+
+---
+
+## How it works
+
+```
+Caller dials your number
+        ↓
+Platform fires POST to your webhook URL (< 7.5 s budget)
+        ↓
+Your system replies with context / agent override / reject
+        ↓
+Agent answers with the caller's data already in its prompt
+```
+
+The lookup happens **before the agent is resolved and the session starts**. This is by design — if your webhook overrides which agent handles the call, that change must happen before LiveKit creates the session, not after.
+
+If your webhook is down, slow, or returns an error, the call **fails open**: the agent answers normally as though no lookup was configured. The caller never hears a delay or an error.
+
+---
+
+## Prerequisites
+
+- A Knova agent created and active in the Partner Portal
+- A phone number assigned to that agent (see [Knova Outbound Calling](/agents/knova/outbound-calling#step-1--assign-a-phone-number-to-your-knova-agent) for number assignment)
+- An HTTPS endpoint you control that can respond within 7.5 seconds
+
+---
+
+## Configure the lookup URL
+
+### In the partner portal
+
+1. Go to **Phone Numbers**.
+2. Click on the number you want to configure.
+3. Open **Inbound Settings** (or the number's edit panel).
+4. Paste your webhook URL into **Caller Lookup URL**.
+5. Copy the **HMAC secret** — keep it safe; you'll use it to verify requests are genuine.
+6. Click **Save**.
+
+### In the customer portal
+
+The same fields appear in the customer portal's **Edit Phone Number** view under **Voice & Behavior → Inbound Caller Lookup**, so a customer's own team can configure it without partner access.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Inbound Caller Lookup URL field and HMAC secret section in the customer portal's phone number edit view._
+
+---
+
+## Request your webhook receives
+
+When someone calls the number, the platform POSTs to your URL:
+
+```http
+POST https://your-crm.example.com/knotie-caller-lookup
+Content-Type: application/json
+X-Webhook-Signature: sha256=<HMAC-SHA256 of the raw body>
+```
+
+```json
+{
+  "caller_number": "+14155559876",
+  "called_number": "+14155551234",
+  "agent_id": "knova_agent_abc123",
+  "partner_id": "partner_xyz",
+  "timestamp": "2026-09-04T12:00:00.000Z"
+}
+```
+
+| Field | Description |
+|---|---|
+| `caller_number` | The number that dialled in (E.164 format) |
+| `called_number` | Your phone number that was dialled |
+| `agent_id` | The Knova agent currently assigned to this number |
+| `partner_id` | Your partner account ID |
+| `timestamp` | ISO 8601 UTC timestamp of the call |
+
+### Verify the signature
+
+Every request carries an `X-Webhook-Signature` header. Verify it before trusting the payload:
+
+```python
+import hmac, hashlib
+
+def verify(body_bytes: bytes, secret: str, signature_header: str) -> bool:
+    expected = "sha256=" + hmac.new(
+        secret.encode(), body_bytes, hashlib.sha256
+    ).hexdigest()
+    return hmac.compare_digest(expected, signature_header)
+```
+
+```typescript
+import { createHmac, timingSafeEqual } from "crypto";
+
+function verify(body: Buffer, secret: string, header: string): boolean {
+  const expected = "sha256=" + createHmac("sha256", secret).update(body).digest("hex");
+  return timingSafeEqual(Buffer.from(expected), Buffer.from(header));
+}
+```
+
+Reject any request where the signature does not match.
+
+---
+
+## Response your webhook should return
+
+Respond with `200 OK` and a JSON body. All fields are optional — omit what you don't need.
+
+### Pass context to the agent
+
+```json
+{
+  "dynamic_variables": {
+    "caller_name": "Sarah Chen",
+    "account_tier": "Premium",
+    "open_ticket": "TKT-4821 — heating unit not responding"
+  }
+}
+```
+
+These values are substituted into `{{caller_name}}`, `{{account_tier}}`, and `{{open_ticket}}` placeholders in the agent's system prompt and greeting — exactly like [outbound dynamic variables](/agents/knova/dynamic-variables).
+
+<Info>
+The same platform-controlled keys (`direction`, `user_number`) are reserved and will be stripped if your webhook returns them. All other keys are forwarded to the agent.
+</Info>
+
+### Override which agent answers
+
+```json
+{
+  "agent_id": "knova_agent_premium_support_999",
+  "dynamic_variables": {
+    "caller_name": "Sarah Chen"
+  }
+}
+```
+
+The override is honoured only if the named agent belongs to the **same partner tenant** as the number. An agent ID from a different partner is silently ignored and the call falls back to the configured agent — this prevents a compromised or malicious webhook from routing calls across tenant boundaries.
+
+### Reject the call
+
+```json
+{
+  "reject": true,
+  "reason": "Number on do-not-call list"
+}
+```
+
+The platform hangs up cleanly. The `reason` is logged for your records but never spoken to the caller.
+
+### Fail open (no response needed)
+
+If your endpoint returns a non-200 status, times out (> 7.5 s), or returns malformed JSON, the platform treats it as though no lookup was configured — the call is answered by the originally assigned agent with no dynamic variables. **The caller never experiences a delay or an error.**
+
+---
+
+## Response limits
+
+| Limit | Value |
+|---|---|
+| Response budget | 7.5 seconds |
+| Maximum response body | 64 KB |
+| Maximum variables returned | 100 |
+| Maximum value length per variable | 512 characters |
+
+Nested objects in `dynamic_variables` are dropped; only flat string values are used.
+
+---
+
+## Declare variables your agent uses
+
+For the agent to substitute `{{caller_name}}` and other variables from the lookup, declare them in the agent's **Advanced → Per-call variables** section with natural fallbacks (e.g. `"a valued customer"`) — so the prompt reads well even when the lookup returns nothing.
+
+See [Dynamic Variables](/agents/knova/dynamic-variables) for the full declaration flow.
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through: configuring the lookup URL on a phone number, writing a simple webhook that does a CRM lookup, firing a test inbound call, and confirming the agent greets the caller by name._
+
+---
+
+## Security summary
+
+| Safeguard | Detail |
+|---|---|
+| **HMAC signature** | Every request is signed; your webhook should reject unsigned or tampered requests |
+| **HTTPS only** | Plain HTTP URLs are rejected at save time |
+| **Private-range rejection** | URLs resolving to RFC-1918 / loopback / link-local addresses are blocked at config time (SSRF protection) |
+| **7.5 s budget** | Prevents a slow webhook from affecting call quality |
+| **Cross-tenant override refused** | An overriding `agent_id` must belong to the same partner account |
+| **Value sanitization** | Control characters, oversized payloads, and nested objects are stripped from returned variables |
+| **Secret never returned in full** | The portal shows only a preview of the HMAC secret after initial display; copy it when first generated |
+
+---
+
+## Compatibility with Retell call\_inbound
+
+The request/response shape follows **Retell's `call_inbound` webhook contract** — the richest of the three major providers. If you have an existing Retell inbound webhook, it will usually work without changes. The one difference: Retell's `agent_override` (knowledge base, voice, and model swap) is not yet supported; only `agent_id` (which agent answers) is honoured.
+
+---
+
+## Troubleshooting
+
+| Symptom | Likely cause | Fix |
+|---|---|---|
+| Agent answers but ignores caller data | Webhook returned variables but prompt has no `{{placeholders}}` | Add `{{caller_name}}` and other placeholders to the agent's system prompt |
+| Agent always uses fallbacks | Webhook responding but returning empty values | Check that your CRM lookup returns non-empty strings for the caller number |
+| Call is answered by the wrong agent | Agent override silently ignored | Confirm the `agent_id` in your response belongs to the same partner account |
+| Calls answered even when webhook rejects | Rejection not reached within budget | Ensure your endpoint responds within 7.5 s and returns `{"reject": true}` — not just a 4xx status |
+| Signature mismatch errors | Secret mismatch or body re-serialized before hashing | Hash the **raw** request body bytes, not a re-parsed JSON object |
+
+---
+
+## Related pages
+
+- [Dynamic Variables](/agents/knova/dynamic-variables) — declare and use `{{placeholders}}` in the agent's prompt
+- [Knova Outbound Calling](/agents/knova/outbound-calling) — place AI-powered outbound calls
+- [Outbound Webhook API](/agents/knova/outbound-webhook-api) — full outbound webhook spec
+- [Phone Numbers](/partner-portal/phone-numbers) — manage and assign phone numbers
+
+---
+
+> Source: [knotie-ai-pro#1520](https://github.com/avijeett007/knotie-ai-pro/pull/1520) — _feat(knova): inbound caller lookup before the agent answers (KNOTI-700)_
