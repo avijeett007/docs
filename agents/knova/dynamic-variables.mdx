@@ -1,0 +1,180 @@
+---
+title: "Dynamic Variables"
+description: "Personalize every Knova outbound call with per-call data — inject a lead's name, appointment time, or any custom value into the agent's prompt and greeting at runtime."
+---
+
+## What dynamic variables are
+
+When a Knova agent places an outbound call, it often knows who it is calling and why — a campaign record, a CRM entry, a Facebook lead-ad submission. **Dynamic variables** are the bridge between that external data and the agent's prompt.
+
+You declare the variables an agent expects in the **Advanced** tab of the agent modal. At call time, your calling system passes the actual values. The platform substitutes them before the agent starts speaking, so the agent greets the caller by name, references their inquiry, and never reads aloud a raw placeholder.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the new "Per-call variables" section in the Agent → Advanced tab, showing the variable list with name, description, and fallback fields, plus the chip row highlighting undeclared placeholders._
+
+---
+
+## Set up dynamic variables in the portal
+
+### Open the agent's Advanced tab
+
+1. In the Partner Portal, open **AI Agents → Knova Agents**.
+2. Open your agent's **Edit** modal.
+3. Click the **Advanced** tab.
+4. Scroll to **Per-call variables**.
+
+### Declare a variable
+
+Click **Add variable** and fill in:
+
+| Field | Required | Description |
+|---|---|---|
+| **Name** | Yes | The identifier used in `{{name}}` placeholders (letters, digits, underscores) |
+| **Description** | No | Shown in the JSON sample so callers know what to pass |
+| **Fallback** | Recommended | What the agent uses when the calling system omits this variable |
+
+<Warning>
+Variables without a fallback are flagged in the UI. If the calling system omits a variable with no fallback, the placeholder is silently removed from the prompt at call time — the sentence reads naturally, but the intended data is lost. Always set a fallback that reads naturally on its own.
+</Warning>
+
+### Use a variable in the system prompt
+
+In the agent's **System Prompt** (Basic tab), add `{{variable_name}}` wherever you want the value substituted:
+
+```
+You are calling {{lead_name}} about {{outreach_topic}}.
+Always address them by their first name.
+```
+
+When the calling system passes `lead_name = "Sarah"` and `outreach_topic = "Q3 renewal"`, the agent receives:
+
+```
+You are calling Sarah about Q3 renewal.
+Always address them by their first name.
+```
+
+### Check for undeclared placeholders
+
+If your prompt contains `{{some_key}}` but `some_key` is not in the declared variable list, the Advanced tab surfaces it as a **chip** you can click to declare it immediately. An undeclared placeholder is silently removed at call time — clicking the chip turns it into a declared variable so you don't lose the value unintentionally.
+
+### Preview the rendered prompt
+
+The **Per-call variables** section shows a live preview of the prompt after substitution using your declared fallback values. Use this to confirm the fallbacks read naturally on their own before going live.
+
+### Copy the call payload
+
+The section also displays the exact JSON your external system must send at call time — ready to copy and paste into your webhook payload, n8n HTTP node, or GHL workflow:
+
+```json
+{
+  "dynamic_variables": {
+    "lead_name": "Sample Name",
+    "outreach_topic": "Sample Topic"
+  }
+}
+```
+
+> 📷 **Screenshot needed:** _Add a screenshot of the "Per-call variables" preview and the copy-ready JSON payload shown at the bottom of the section._
+
+---
+
+## Pass variables at call time
+
+### Via the portal test call
+
+1. Open **AI Agents → Knova Agents**, three-dot menu → **Test Outbound Call**.
+2. In the modal, the **Dynamic variables** section now shows your declared variables with input fields pre-filled with fallbacks.
+3. Override any value and click **Call**.
+
+### Via the outbound webhook API
+
+Add a `dynamic_variables` object to the request body alongside `from_number` and `to_number`:
+
+```json
+{
+  "from_number": "+14155551234",
+  "to_number": "+14155559876",
+  "dynamic_variables": {
+    "lead_name": "Sarah",
+    "outreach_topic": "Q3 renewal",
+    "appointment_time": "Thursday at 2 PM"
+  }
+}
+```
+
+Any key in `dynamic_variables` substitutes its matching `{{key}}` in the prompt. Keys not declared in the agent are accepted but are only substituted if the prompt uses them — they do not cause errors.
+
+See [Outbound Webhook API](/agents/knova/outbound-webhook-api) for the full request spec.
+
+### Via GoHighLevel (GHL)
+
+Pass variables using the `customData` format — prefix each key with `dynamicdata_`:
+
+```json
+{
+  "customData": {
+    "from_number": "+14155551234",
+    "to_number": "{{contact.phone}}",
+    "dynamicdata_lead_name": "{{contact.full_name}}",
+    "dynamicdata_outreach_topic": "your renewal"
+  }
+}
+```
+
+The integration gateway strips the `dynamicdata_` prefix and merges the values into `dynamic_variables` before forwarding to the worker.
+
+### Via the AI Builder
+
+When you build an agent using the **Agent Builder Chat**, tell the builder where calls will be triggered from (platform campaign / API / Facebook lead ad / CRM webhook) and what the calling system knows about each person. The builder declares the right variables and writes the prompt using them, including natural fallbacks.
+
+---
+
+## Reserved variable names
+
+The following names are reserved by the platform and are refused if you declare them:
+
+- `direction`
+- `user_number`
+
+Declaring a reserved name returns a validation error on save. Use different names for any data that doesn't map to these platform-controlled values.
+
+---
+
+## Security
+
+Variable values are substituted directly into the agent's **system prompt**, which sits in the most privileged part of the conversation. Because callers can influence their own caller ID and form fields, values are hardened at ingress before reaching the prompt:
+
+| Safeguard | Detail |
+|---|---|
+| **Control characters → spaces** | A newline in a value would otherwise break the prompt structure; control characters become spaces |
+| **512-character cap per value** | Overly long strings are truncated |
+| **100-variable cap per call** | Protects against bulk injection attempts |
+| **Nested objects dropped** | Only flat string values are accepted |
+| **Empty / null → fallback applied** | Null or empty values trigger the declared fallback instead of an empty substitution |
+
+These limits are applied automatically — you do not need to sanitize values in your calling system, but keeping values short and well-typed is still good practice.
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through declaring variables in the Advanced tab, writing the prompt with `{{placeholders}}`, and firing a test call that substitutes the values end-to-end._
+
+---
+
+## Troubleshooting
+
+| Symptom | Likely cause | Fix |
+|---|---|---|
+| Agent says `{{lead_name}}` aloud | Variable not declared, or declared name doesn't match the key in the webhook payload | Check that the key in `dynamic_variables` exactly matches the `{{placeholder}}` in the prompt |
+| Agent uses fallback instead of the passed value | Calling system sent an empty or null value | Ensure the webhook payload sends a non-empty string for this key |
+| Save returns "reserved variable name" | Declared name is `direction` or `user_number` | Rename to a non-reserved identifier |
+| Prompt reads awkwardly with fallbacks | Fallback value doesn't fit the sentence naturally | Write fallbacks as standalone phrases: `"a valued customer"` rather than `""` |
+
+---
+
+## Related pages
+
+- [Knova Outbound Calling](/agents/knova/outbound-calling) — place calls and wire external triggers
+- [Outbound Webhook API](/agents/knova/outbound-webhook-api) — full request/response spec
+- [Inbound Caller Lookup](/agents/knova/inbound-caller-lookup) — personalise *inbound* calls the same way
+- [Manage Knova Agents](/agents/knova/manage-knova-agents) — create and configure Knova agents
+
+---
+
+> Source: [knotie-ai-pro#1519](https://github.com/avijeett007/knotie-ai-pro/pull/1519) — _feat(knova): dynamic variables for per-call personalization (KNOTI-699)_
