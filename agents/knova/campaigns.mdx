@@ -1,0 +1,184 @@
+---
+title: "Campaigns"
+description: "Create automated outbound call campaigns — upload a prospect list or add contacts by hand, personalise each call with per-call variables, and control the campaign via the portal or MCP."
+---
+
+## What campaigns are
+
+A **campaign** is an automated outbound dial list for your Knova agent. You define the list of prospects once, and the platform calls each person in turn — pausing for calling windows, honouring the DNC list, and deducting credits per call.
+
+Each call can be personalised with **per-call variables** that let the agent address the specific person by name, reference an appointment time, or speak any detail that is unique to that contact.
+
+---
+
+## Prerequisites
+
+- A **Knova agent** configured for outbound calling (see [Outbound calling](/agents/knova/outbound-calling)).
+- A **voice-capable phone number** assigned to the agent.
+- Enough **Knotie Credits** — each call deducts credits per minute at the agent's tier rate.
+
+---
+
+## Creating a campaign
+
+> 📷 **Screenshot needed:** _Add a screenshot of the "Create Campaign" form in the Partner Portal, showing the campaign name, agent selector, phone number selector, and calling window fields._
+
+1. In the Partner Portal, go to **AI Agents → Campaigns**.
+2. Click **New Campaign**.
+3. Fill in:
+   - **Campaign name** — internal label for this campaign.
+   - **Agent** — the Knova agent that will make the calls.
+   - **Phone number** — the outbound number calls originate from.
+   - **Calling window** — the hours during which the platform will dial (e.g., 9 am–5 pm local time). Calls are never placed outside this window.
+4. Click **Save** to create the campaign in draft state.
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through creating a campaign end-to-end — from selecting the agent to adding the first prospect and starting the campaign._
+
+---
+
+## Adding prospects
+
+A **prospect** is one person the campaign will call. You can add prospects in bulk by CSV or one at a time by hand.
+
+### Upload a CSV
+
+1. Open the campaign and click **Upload CSV**.
+2. Required column: **phone** (E.164 format, e.g. `+14155551212`).
+3. Optional: any other column becomes a **per-call variable** available to the agent as `{{column_name}}`.
+4. Upload and confirm.
+
+### Add a prospect by hand
+
+1. Open the campaign and click **Add Prospect**.
+2. Fill in the prospect's phone number and any other standard fields (name, email).
+3. Expand **Custom Variables** to set per-call variables specific to this prospect.
+4. Click **Add**.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the "Add Prospect" modal showing the phone/name fields and the Custom Variables section where key–value pairs can be entered._
+
+---
+
+## Per-call variables
+
+Per-call variables let the agent speak values unique to each prospect — names, appointment times, offer amounts, or anything else. Any variable you set on a prospect is available in the agent's system prompt and greeting as `{{variable_name}}`.
+
+**Example:** if you set `appointment_time = "Tuesday at 3 pm"` on a prospect, the agent's prompt can say:
+
+```
+Your appointment is scheduled for {{appointment_time}}.
+```
+
+### Naming rules
+
+Variable names must follow these rules or the variable will not substitute correctly:
+
+| Rule | Good ✅ | Bad ❌ | Why |
+|---|---|---|---|
+| Lowercase only | `first_name` | `First_Name` | The agent looks for `{{first_name}}` — a capital letter means no match; the placeholder is silently dropped |
+| Underscores instead of spaces | `outreach_topic` | `outreach topic` | A space breaks the `{{name}}` matching pattern |
+| Do not shadow platform variables | `appointment_time` | `first_name` | The platform already supplies `first_name` from the contact record; a custom field with the same name silently replaces the real value |
+
+**Platform-supplied variable names (do not reuse):** `first_name`, `last_name`, `phone`, `email`, `business_name`.
+
+<Warning>
+If you create a custom variable with the same name as a platform-supplied variable (e.g. `first_name`), **your custom value replaces the real platform value** for that call. The platform does not warn you — the substitution is silent.
+</Warning>
+
+---
+
+## Customer portal access
+
+If you enable **Allow Customer Prospect Upload** on a customer's account, that customer can also add individual prospects to their campaigns directly from the customer portal. The same variable naming rules apply.
+
+To enable:
+1. Go to **Customers → [Customer name] → Features & Add-ons**.
+2. Enable **Allow Customer Prospect Upload**.
+
+---
+
+## Starting, pausing, and resuming a campaign
+
+| Action | What happens |
+|---|---|
+| **Start** | The platform begins dialling prospects in order, respecting the calling window |
+| **Pause** | Dialling stops; any in-progress call finishes before the pause takes effect |
+| **Resume** | Dialling picks up where it left off |
+| **Stop** | The campaign ends permanently; undialled prospects remain uncontacted |
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Campaign detail page showing the Start / Pause / Resume / Stop controls and the prospect list with call-status indicators (e.g. Pending, Called, Failed)._
+
+---
+
+## Automating campaigns with MCP
+
+If you use the platform's MCP integration (Cursor, Claude Code, n8n, or any MCP-compatible client), campaigns are fully accessible via agent tools.
+
+### Partner MCP tools
+
+Partners have **13 campaign tools** covering the full campaign lifecycle — listing campaigns, creating and updating them, managing prospects, and controlling start / pause / resume / stop. These tools require a token scoped to `campaigns:read` or `campaigns:write`.
+
+### Customer MCP tools
+
+Customers have **6 campaign tools** available via their MCP token. The `customerId` is always taken from the MCP **session** — a customer's agent can only access that customer's own campaigns, regardless of any ID passed in a prompt.
+
+### Granting campaign scope
+
+Campaign tools are gated by scope. Without it, the tools are invisible to the MCP client.
+
+1. Go to **Settings → API Keys → MCP Tokens**.
+2. Create or edit a token.
+3. Add **`campaigns:read`** (read-only: list, get) or **`campaigns:write`** (create, update, delete, start, pause, resume, stop, add/remove prospects).
+
+<Note>
+Both scopes are required for full campaign management. `campaigns:write` does not imply `campaigns:read` — add both if you want to list campaigns and also modify them.
+</Note>
+
+### Example: creating a campaign from Claude Code
+
+Once a token with `campaigns:write` is configured in your MCP client:
+
+```
+"Create a campaign called 'Q4 renewal' using my Knova Outbound agent
+and phone number +14155551234, with a calling window of 9 am–5 pm Eastern."
+```
+
+The agent selects the right tool, calls the platform, and confirms the campaign was created — no manual portal interaction needed.
+
+> 🎬 **Video walkthrough:** _Record a short clip showing an AI agent in Claude Code or Cursor creating a campaign and adding a prospect via the campaign MCP tools._
+
+---
+
+## Calling window and compliance
+
+The **calling window** you configure on a campaign is enforced by the platform — calls are never dialled outside those hours regardless of when you click Start. Configure it to match your prospects' local time zone and any applicable regulations.
+
+The platform also honours a **DNC (Do Not Call) list** — any number on the DNC list is automatically skipped.
+
+<Warning>
+The calling window and DNC list reduce your compliance risk but do not replace legal advice. Outbound calling regulations vary by region. Confirm your campaigns comply with applicable laws before launching.
+</Warning>
+
+---
+
+## Troubleshooting
+
+| Symptom | Likely cause | Fix |
+|---|---|---|
+| Variable not substituted in the call | Variable name has a capital letter, space, or typo | Ensure the name matches `{{key}}` exactly — all lowercase, underscores only, no spaces |
+| Custom variable overrode a real name | Variable name shadows a platform-supplied variable | Rename the variable; avoid `first_name`, `last_name`, `phone`, `email`, `business_name` |
+| Campaign not dialling | Outside the configured calling window | Check the calling window setting and your time zone |
+| Campaign MCP tools not visible in client | Token missing `campaigns:read` scope | Add `campaigns:read` (and `campaigns:write` if needed) to the MCP token |
+| Customer can't add prospects | Feature not enabled on the customer account | Enable **Allow Customer Prospect Upload** in the customer's Features & Add-ons |
+
+---
+
+## Related pages
+
+- [Outbound calling](/agents/knova/outbound-calling) — Place individual outbound calls and webhook-triggered calls
+- [Outbound webhook API reference](/agents/knova/outbound-webhook-api) — Full request/response spec
+- [MCP tokens](/partner-portal/ai-agents/mcp/tokens) — Create and manage MCP tokens with the right scopes
+- [Phone numbers](/partner-portal/phone-numbers) — Import and assign phone numbers
+
+---
+
+> Source: [knotie-ai-pro#1537](https://github.com/avijeett007/knotie-ai-pro/pull/1537) — _KNOTI-709 / KNOTI-710: per-call variables on hand-added prospects, and campaign MCP tools_
