@@ -86,6 +86,12 @@
             ]
           },
           {
+            "group": "Outbound Campaigns",
+            "pages": [
+              "partner-portal/campaigns/prospect-csv-upload"
+            ]
+          },
+          {
             "group": "AI Agents & Analytics",
             "pages": [
               "partner-portal/ai-agents-overview",
