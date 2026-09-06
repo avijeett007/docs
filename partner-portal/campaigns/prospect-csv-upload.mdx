@@ -1,0 +1,114 @@
+---
+title: "Prospect CSV Upload"
+description: "Upload a list of prospects to an outbound campaign using the CSV template. Covers the template format, required fields, custom variables, and phone number formatting."
+---
+
+## Overview
+
+Every outbound campaign starts with prospects — the people the agent will call. You can add them one at a time or upload a CSV file. This guide covers the CSV upload flow.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Prospect Upload dialog, showing the "Download the CSV template" link and the upload drop-zone._
+
+---
+
+## Download the CSV template
+
+1. Open **Partner Portal → Campaigns** (or your customer's campaign, if campaign authoring is enabled).
+2. Click **Prospects**.
+3. Click **Upload CSV**.
+4. Click **Download the CSV template**.
+
+The downloaded file contains **only the header row** — no example data. This is intentional: any example row with a real phone number could be dialled by someone who uploads the file unchanged.
+
+---
+
+## Template format
+
+The template header is:
+
+```
+phoneNumber,firstName,lastName,email,custom_1,custom_2,custom_3,notes
+```
+
+### Required columns
+
+| Column | Format | Notes |
+|--------|--------|-------|
+| `phoneNumber` | E.164 — starts with `+` then the country code | Required. Must be a valid, allocated number. |
+
+### Optional columns
+
+| Column | Example | Notes |
+|--------|---------|-------|
+| `firstName` | `Jane` | |
+| `lastName` | `Doe` | |
+| `email` | `jane@example.com` | |
+| `custom_1` | `VIP` | Becomes a per-call variable the agent can use |
+| `custom_2` | `Renewal` | |
+| `custom_3` | Any string | |
+| `notes` | `Prefers afternoons` | Internal note, not spoken by the agent |
+
+Any extra columns you add beyond `custom_3` are preserved as additional variables.
+
+---
+
+## Phone number format
+
+Phone numbers **must** be in [E.164 format](https://en.wikipedia.org/wiki/E.164): a `+` sign followed by the country code and subscriber number. No spaces, dashes, or brackets.
+
+| Country | Example |
+|---------|---------|
+| UK | `+44…` |
+| US / Canada | `+1…` |
+| Australia | `+61…` |
+
+A typical filled row looks like:
+
+```
++44…,Jane,Doe,jane@example.com,VIP,Renewal,,Prefers afternoons
+```
+
+<Note>
+  Numbers that fail E.164 validation are rejected row-by-row when you upload the file. The upload dialog shows which rows failed and why — you can fix and re-upload without losing the rows that succeeded.
+</Note>
+
+---
+
+## Custom variables (per-call personalisation)
+
+The columns `custom_1`, `custom_2`, `custom_3` — and any extra columns you add — become **per-call variables** your agent can reference during the call.
+
+For example, if you set `custom_1 = VIP` and `custom_2 = Renewal`, the agent's system prompt can include `{custom_1}` and `{custom_2}`, and they resolve to those values for that specific call.
+
+> 📷 **Screenshot needed:** _Add a screenshot showing how custom variables appear in an agent's prompt editor or the campaign prospect detail view._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through: downloading the template, filling in a few rows with custom variables, uploading the file, and seeing the variables appear in a campaign prospect row._
+
+---
+
+## Manual add
+
+If you prefer not to use CSV, click **Add Prospect** in the Prospects tab to enter one contact at a time. The same phone number rules apply — start with `+` and the country code.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the manual "Add prospect" form._
+
+---
+
+## Do-Not-Call (DNC) list
+
+Numbers on your DNC list are automatically skipped when a campaign runs — no action needed at upload time. To add a number to the DNC list, go to **Campaigns → DNC List** and enter the number (E.164 format, e.g. `+44…`).
+
+---
+
+## Troubleshooting
+
+| Symptom | Likely cause | Fix |
+|---------|-------------|-----|
+| Upload fails with "invalid E.164" | Number missing `+` or country code | Add `+` and the country code at the start |
+| Row rejected even though the number looks correct | Number is from an unallocated range (e.g. drama/reserved ranges) | Use a real, active phone number |
+| Custom variables not appearing in calls | Agent prompt does not reference the variable | Add `{custom_1}` (etc.) to the agent's system prompt |
+| Upload accepted but prospect count doesn't increase | Duplicates detected | The upload de-duplicates by phone number — already-uploaded numbers are skipped |
+
+---
+
+> Source: [knotie-ai-pro#1539](https://github.com/avijeett007/knotie-ai-pro/pull/1539) — _KNOTI-714: the downloadable CSV template shipped a real, dialable phone number_
