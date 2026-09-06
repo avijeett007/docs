@@ -1,0 +1,130 @@
+---
+title: "Customer Campaign Authoring"
+description: "Let customers on your resold Voice AI platform create and run their own outbound call campaigns — no partner involvement required."
+---
+
+## Overview
+
+When you run the **Resell Voice AI** experience, your customers use your platform like a SaaS product — they build their own agents, hold phone numbers, and review campaign results. **Customer campaign authoring** takes that one step further: customers can create, start, and pause their own outbound campaigns without you doing it for them.
+
+This is separate from the standard `showCampaigns` grant (which gives read-only access). Campaign authoring is an explicit, opt-in capability you grant per customer.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the CustomerManagementModal showing the "Allow Campaign Authoring" toggle under the Outbound Campaigns section._
+
+---
+
+## Prerequisites
+
+Before enabling campaign authoring for a customer:
+
+1. Your partner account must have the **Resell Voice AI** experience active.
+2. The customer must have **Campaigns** enabled (`showCampaigns`). Authoring requires campaigns to be visible first.
+3. The customer must have at least one **active phone number** assigned to them. A customer with no numbers cannot create a campaign — there is nothing to dial from.
+4. The customer must have at least one **outbound AI agent** configured. Only outbound agents can run campaigns.
+
+---
+
+## Enabling campaign authoring for a customer
+
+1. Open **Partner Portal → Customers**.
+2. Select the customer.
+3. Click **Manage**.
+4. Go to **Features & Add-ons**.
+5. Under **Outbound Campaigns**, enable the **Allow Campaign Authoring** toggle.
+6. Save.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the "Allow Campaign Authoring" toggle in the customer's Features & Add-ons modal._
+
+Once enabled, the customer's portal gains **Create Campaign** access. They can create, start, and pause their own campaigns. Cancel and delete remain partner-only actions in this version.
+
+<Note>
+  The **Allow Campaign Authoring** toggle is only shown when the customer's **Campaigns** (`showCampaigns`) feature is already on. Enable that first if the toggle is not visible.
+</Note>
+
+---
+
+## What customers can do
+
+With campaign authoring enabled, a customer in your white-label portal can:
+
+| Action | Available? |
+|--------|-----------|
+| Create a new campaign | ✅ |
+| Start a campaign | ✅ |
+| Pause a campaign | ✅ |
+| View campaign stats and call logs | ✅ |
+| Upload prospects (CSV) | ✅ |
+| Add prospects manually | ✅ |
+| Cancel or delete a campaign | ❌ Partner only |
+
+> 🎬 **Video walkthrough:** _Record a short clip showing a customer creating a campaign end-to-end — filling in the basics, picking an agent, uploading prospects, setting a schedule, and starting the campaign._
+
+---
+
+## Creating a campaign (customer view)
+
+The customer's campaign creation wizard has four steps:
+
+1. **Basics** — Campaign name and description.
+2. **Agent** — Pick from their own outbound agents. Inbound agents are not shown.
+3. **Prospects** — Upload a CSV or add contacts by hand. Per-call variables (e.g., `offer_name`, `renewal_date`) can be set here for each prospect.
+4. **Schedule** — Timezone, calling window, pace (calls per hour). If you have set a concurrency ceiling, it is shown inline next to the pace field.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the four-step campaign creation wizard in the customer portal._
+
+Pool selection is automatic — the system uses a number pool you assigned to the customer, or falls back to their active phone numbers. Customers are not asked to choose.
+
+---
+
+## Partner-set ceilings
+
+To protect your trunk capacity and caller-ID reputation, you can cap how aggressively a customer's campaign can run.
+
+| Setting | Where to configure | Default |
+|---------|-------------------|---------|
+| Max concurrent calls | Partner Portal → Customers → Manage → Campaign Settings | None (no cap) |
+| Max calls per day | Partner Portal → Customers → Manage → Campaign Settings | None (no cap) |
+
+> 📷 **Screenshot needed:** _Add a screenshot of the customer campaign ceiling settings in the partner portal._
+
+When a customer tries to set a pace above your ceiling, the campaign is **refused** with a clear message naming the limit — they are not silently slowed down. The ceiling is shown inline in the wizard's Schedule step so customers know the limit before they reach it.
+
+<Warning>
+  Ceilings only apply to customer-authored campaigns. Your own partner-run campaigns are never constrained by these values.
+</Warning>
+
+---
+
+## Phone number resolution
+
+A customer-authored campaign dials from:
+
+1. A **Number Pool** you have assigned to that customer (if one exists), or
+2. The customer's own **active phone numbers** (used as an implicit pool).
+
+If the customer has neither, the campaign create request is refused with an error: _"Buy or assign a phone number before creating a campaign."_ Customers are linked to the Numbers page directly.
+
+---
+
+## Tenant isolation
+
+Customer campaigns are scoped strictly to that customer:
+
+- A customer can only see, start, and pause campaigns they created.
+- Attempting to access another customer's campaign returns `404` — not `403`. Campaign existence is not disclosed across customer boundaries.
+- Partner credentials are never reused for customer operations. Each customer acts on their own session only.
+
+---
+
+## Troubleshooting
+
+| Symptom | Likely cause | Fix |
+|---------|-------------|-----|
+| "Allow Campaign Authoring" toggle not visible | `showCampaigns` is off for this customer | Enable Campaigns first under Features & Add-ons |
+| Customer cannot create a campaign after toggle is on | No active phone numbers or no outbound agents | Assign a phone number or create an outbound agent |
+| Create request fails with "ceiling exceeded" | Customer's concurrency or daily-calls setting exceeds the partner ceiling | Lower the value or raise the partner ceiling |
+| Campaign created but nothing dials | No numbers resolved at dial time | Check the customer has active numbers, not just assigned |
+
+---
+
+> Source: [knotie-ai-pro#1540](https://github.com/avijeett007/knotie-ai-pro/pull/1540) — _KNOTI-712: let a resold voice-AI customer create and run their own campaigns_

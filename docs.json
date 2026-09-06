@@ -82,7 +82,8 @@
               "partner-portal/customers/deployment-status-tracking",
               "partner-portal/customers/customer-portal-management",
               "partner-portal/customers/vps-terminal",
-              "partner-portal/customers/daily-management"
+              "partner-portal/customers/daily-management",
+              "partner-portal/customers/customer-campaign-authoring"
             ]
           },
           {
