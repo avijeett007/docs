@@ -1,0 +1,102 @@
+---
+title: "Resell Voice AI"
+description: "Run your own voice-AI SaaS. Customers sign up to your platform, build agents, hold phone numbers, and run outbound campaigns — fully self-serve, under your brand."
+---
+
+## What Resell Voice AI is
+
+**Resell Voice AI** is a Partner Experience that turns your Knotie partner account into a fully white-labeled voice-AI platform. When you enable it, your customers arrive as end users of their own AI service — they are not managed clients. They:
+
+- Build and configure their own AI voice agents
+- Acquire and manage their own phone numbers
+- Run their own outbound campaigns (if you grant the authoring permission)
+- Sign up and onboard themselves, without any manual work from you
+
+This is distinct from the default "managed" model, where you control what the customer does and run campaigns on their behalf.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Experiences catalog card for Resell Voice AI, showing the Enable toggle and status badge._
+
+---
+
+## Prerequisites
+
+1. Your partner account must be on a tier that supports the Resell Voice AI experience. Contact support if the card is not visible in **Partner Portal → Experiences**.
+2. You need a configured white-label domain or subdomain for your customers to sign up through.
+3. Stripe Connect is recommended so your customers can be billed for subscriptions.
+
+---
+
+## Enabling the experience
+
+1. Go to **Partner Portal → Experiences**.
+2. Find the **Resell Voice AI** card.
+3. Click **Enable**.
+4. Confirm any auto-enabled dependencies in the confirmation modal.
+
+Once enabled, your platform URL displays a branded landing page where prospects can sign up directly.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the self-serve platform landing page that customers see when they arrive at your white-label domain._
+
+> 🎬 **Video walkthrough:** _Record a short clip showing the full self-serve signup journey: customer arrives at the partner's branded URL, signs up, and lands in their own portal._
+
+---
+
+## Customer onboarding email
+
+When a customer signs up to your Resell Voice AI platform, they receive a **welcome email** confirming their account is ready. The email matches the self-serve nature of the platform:
+
+- It confirms their account is set up and they can start immediately.
+- It **does not promise** a setup call, calendar invite, or a team member reaching out — because on a self-serve platform, none of those happen.
+
+<Note>
+  Earlier platform versions sent a generic "You're booked in — what happens next" email to all new signups regardless of experience type. That email promised a setup call that was never going to be made. If your customers reported receiving a contradictory second email at signup, that issue is resolved.
+</Note>
+
+The welcome email is sent to the customer's registered address. The partner also receives their own separate lead notification email, which is unchanged.
+
+---
+
+## What customers can do
+
+| Capability | Available by default | Requires partner grant |
+|-----------|---------------------|----------------------|
+| Build AI voice agents | ✅ | — |
+| Acquire phone numbers | ✅ | — |
+| View campaign results | ✅ (read-only) | — |
+| Upload prospects to a campaign | ✅ | — |
+| **Create and run their own campaigns** | ❌ | **Allow Campaign Authoring** toggle |
+| Access AI Memory | ✅ | — |
+| Access Knowledge Base | ✅ | — |
+| MCP integration | ✅ | — |
+
+To enable campaign authoring, see [Customer Campaign Authoring](/partner-portal/customers/customer-campaign-authoring).
+
+---
+
+## White-label branding
+
+When customers use your platform, they should only see **your** brand — not Knotie's. The platform enforces this in the following places:
+
+- **Connect Agents modal** and **Connect Studio modal** — show your business name. If branding is not yet configured, these fall back to your product name (e.g. "AI Agents" or "Studio"), not "Knotie".
+- **AI Gateway landing page footer** — shows your copyright line only. The "Built on Knotie AI Gateway" attribution has been removed.
+
+<Warning>
+  If any Knotie branding appears on your customer-facing pages, check your white-label settings under **Partner Portal → Settings → Whitelabel** and ensure your business name and brand colors are configured.
+</Warning>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the white-labeled customer portal showing the partner's own brand (logo, colors, business name) without any Knotie references._
+
+---
+
+## Configuring the experience
+
+Click the **Settings** gear on the Resell Voice AI card to open the configuration page. From there you can:
+
+- Set the platform URL alias
+- Configure the landing page headline and description
+- Set default features for new customer signups
+- Configure campaign authoring ceilings (max concurrent calls, max calls per day)
+
+---
+
+> Source: [knotie-ai-pro#1541](https://github.com/avijeett007/knotie-ai-pro/pull/1541) — _KNOTI-718: stop promising a setup call to self-serve platform signups_
