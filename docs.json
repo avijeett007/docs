@@ -155,7 +155,8 @@
               "partner-portal/api-keys",
               "partner-portal/prospects",
               "partner-portal/marketing",
-              "partner-portal/support-chat"
+              "partner-portal/support-chat",
+              "partner-portal/support-request"
             ]
           },
           {
