@@ -1,0 +1,83 @@
+---
+title: "Submitting a Support Request"
+description: "How to file a support ticket from the Partner Portal, what happens after you submit, and what to do if submission fails."
+---
+
+## Overview
+
+The **Get Support** modal in your Partner Portal lets you send a support request directly to the Knotie team. A successful submission creates a ticket, sends you a reference number, and triggers a confirmation email so you know the request was received.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the "Get Support" modal with the subject and details fields filled in and the Submit button visible._
+
+## How to submit a request
+
+1. In the Partner Portal, click **Get Support** in the sidebar or header.
+2. In the modal that opens, fill in the **Subject** (a short summary of your issue) and **Details** (what happened, any error messages, steps to reproduce).
+3. Click **Submit**.
+
+If the request lands successfully, you will see a confirmation message on screen and receive a confirmation email with your ticket reference number.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the success confirmation state inside the modal — the reference number and next-steps message._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the full support submission flow — opening the modal, filling in the form, submitting, and seeing the confirmation._
+
+## What happens next
+
+Once submitted, a member of the Knotie support team will follow up by email. Response times vary by plan; check your welcome email or the [pricing page](https://knotie-ai.pro/pricing) for the SLA that applies to your account.
+
+<Tip>
+If your issue is urgent, mention it clearly in the **Details** field. Katie (the chat widget) can also help with common questions immediately while you wait for a human response — see [Chat with Katie](/partner-portal/support-chat).
+</Tip>
+
+## If submission fails
+
+Starting with the 2026-09-07 update (KNOTI-720), a failed submission tells you directly instead of silently losing your request.
+
+If something goes wrong on our end when we try to receive your ticket — for example, a temporary connectivity issue between the portal and our support system — you will see an error message like:
+
+> _"We couldn't submit your request. Please email support@knotie-ai.pro and we'll pick it up from there."_
+
+When you see this:
+
+1. **Email [support@knotie-ai.pro](mailto:support@knotie-ai.pro)** with your subject and details. Include your partner account email so the team can locate your account quickly.
+2. The team responds the same way regardless of channel — the reference-number system is a convenience, not a gate.
+
+<Note>
+Before this fix, a failed delivery showed the same success screen as a real one, which meant some requests were lost without anyone knowing. If you submitted a ticket before 2026-09-07 and heard nothing back within your expected SLA, it may have been affected — please re-submit or email support directly.
+</Note>
+
+## Troubleshooting
+
+| Symptom | Likely cause | What to do |
+|---|---|---|
+| Error message with the support@knotie-ai.pro prompt | Webhook delivery failed | Email support directly as described above |
+| "Support system configuration error" | Platform misconfiguration (operators only) | Check that `SUPPORT_WEBHOOK_URL` is set to the production `/webhook/` path — see below |
+| Modal opens but the Submit button is greyed out | Subject or Details field is empty | Fill in both fields |
+| No confirmation email after a successful submission | Email went to spam | Check your spam folder; add noreply@knotie-ai.pro to your contacts |
+
+## For platform operators: configuring the webhook
+
+If you are self-hosting or managing the environment variables, the support form delivery requires two variables in `.env`:
+
+```bash
+# n8n production webhook — MUST use /webhook/<id>, never /webhook-test/<id>
+SUPPORT_WEBHOOK_URL=https://automate.your-domain.com/webhook/your-workflow-id
+SUPPORT_WEBHOOK_API_KEY=your-support-webhook-key
+```
+
+**Important:** n8n exposes two URL paths per workflow:
+
+| Path | Behaviour |
+|---|---|
+| `/webhook/<id>` | Production — always live while the workflow is active |
+| `/webhook-test/<id>` | Editor only — fires once after clicking "Execute workflow" in the n8n canvas, then returns 404 for every subsequent call |
+
+Using the `/webhook-test/` path in production causes every support request to fail on delivery. The route detects this at startup and returns a `500 Support system configuration error` rather than silently dropping requests.
+
+<Warning>
+Rotate `SUPPORT_WEBHOOK_API_KEY` if it was ever stored in plain text inside your repository or documentation. The key is sent in the `X-Api-Key` header on every support submission.
+</Warning>
+
+---
+
+> Source: [knotie-ai-pro#1546](https://github.com/avijeett007/knotie-ai-pro/pull/1546) — _KNOTI-720: partner support requests silently dropped — refuse n8n test webhook, stop reporting false success_
