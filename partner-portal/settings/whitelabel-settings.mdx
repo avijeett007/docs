@@ -57,6 +57,18 @@ Sections are arranged in two columns:
 | **Portal Mode** | Choose your portal experience (Basic / SaaS / Enterprise) | Always open — it's a one-click control |
 | **SaaS Portal Configuration** | Configure your AI receptionist onboarding experience | Only visible when the selected portal mode is **SaaS** |
 
+## Domain verification and Cloudflare
+
+The **Domain** section lets you verify a custom domain by adding DNS records (CNAME or TXT) at your domain registrar or DNS provider, then clicking **Verify** in the portal.
+
+<Warning>
+**Cloudflare one-click domain verification is an upcoming feature.** The "One-Click Verify with Cloudflare" button is currently marked **Coming Soon** and is not active. To verify your domain today, use the standard DNS record method: add the CNAME or TXT record shown in the Domain section to your DNS provider, wait for propagation, then click the **Verify** button in the portal. See [Custom domain](/customer-management/custom-domain) for step-by-step instructions.
+</Warning>
+
+The Cloudflare one-click flow (which will allow direct DNS automation via a Cloudflare OAuth integration) is planned for a future release. No manual token entry or Cloudflare API credentials are needed in the meantime.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Domain Settings section showing the "Coming Soon" badge on the Cloudflare one-click verify button, alongside the standard DNS verification fields._
+
 ## Working with collapsible sections
 
 - **Click a section header** to expand or collapse it. Headers are clickable.
@@ -87,6 +99,7 @@ The Whitelabel page is the **entry point** for most of these settings. For step-
 - **Your subdomain and custom domain can't be changed** once they're registered and verified, so choose them carefully.
 - **Subscription Plans and Customer Credit Plans stay locked** until you finish Stripe Connect.
 - **Every section collapses**, so the page stays short and easy to scan on first load.
+- **Cloudflare one-click verification is not yet available.** Use the standard DNS record method to verify your custom domain today.
 
 ## Related pages
 
@@ -94,3 +107,5 @@ The Whitelabel page is the **entry point** for most of these settings. For step-
 - [Custom domain](/customer-management/custom-domain)
 - [Portal modes](/customer-management/portal-modes)
 - [Partner portal overview](/partner-portal/overview)
+
+> Source: [knotie-ai-pro#1576](https://github.com/avijeett007/knotie-ai-pro/pull/1576) — _KNOTI-752: Cloudflare one-click domain verification marked as upcoming_
