@@ -73,6 +73,27 @@ If you haven't set up a passkey yet, a prompt appears on the dashboard encouragi
 
 If you haven't created an AI agent yet, an **AI Builder** popup may appear guiding you to create your first agent. This can be dismissed once you're familiar with agent creation.
 
+## First-login guided tour (new partners)
+
+When you register as a new partner, the dashboard shows a brief **two-step guided tour** on your very first visit. The tour highlights the two most important starting points so you know exactly where to begin.
+
+| Step | What it spotlights | Why |
+|------|-------------------|-----|
+| **1 — Start here** | The floating tutorial video button (bottom-right corner of every page) | Each page has a short video walkthrough. This step shows you where to find it and prompts you to click it. |
+| **2 — Then start your journey** | The Level System widget on the dashboard | Shows you where to track your agency's growth and unlock rewards as you complete milestones. |
+
+The tour waits until the dashboard has fully loaded and no other onboarding flows (welcome video, preferences wizard, MFA prompt, or the AI Builder popup) are active. If another flow is still running after 60 seconds, the tour silently skips for this session and retries on your next login — your account is not marked as "tour seen" until you actually complete or dismiss it.
+
+**Dismissing the tour:** Click the **✕** button, click outside the spotlight, press **Escape**, or use the **Skip** link at any point. All four gestures mark the tour as seen — it will not appear again on this account, even on a different device or browser.
+
+<Info>
+The guided tour only appears to partners who registered on or after the platform launch date. Partners who signed up before launch will not see it.
+</Info>
+
+> 📷 **Screenshot needed:** _Add a screenshot showing the two-step guided tour overlay — Step 1 spotlighting the floating tutorial video button (bottom-right corner), and Step 2 spotlighting the Level System widget on the dashboard._
+
+> 🎬 **Video walkthrough:** _Record a short clip of a new partner's first dashboard visit: the tour appearing automatically, the partner clicking the video button in Step 1, the tour advancing to Step 2, and the tour being dismissed._
+
 ## Customer quick view
 
 The dashboard includes a customer search and quick-view panel. Clicking a customer name opens a compact summary of their plan, portal status, and recent activity without leaving the Dashboard.
@@ -91,3 +112,5 @@ The dashboard includes a customer search and quick-view panel. Clicking a custom
 - [AI Agents panel](/partner-portal/ai-agents-overview) — Voice / Chat / Automation groupings
 - [AI Gateway](/partner-portal/ai-gateway) — manage API keys and credit budgets
 - [Agent Analytics](/partner-portal/agent-analytics) — call counts, duration, cost breakdown
+
+> Source: [knotie-ai-pro#1576](https://github.com/avijeett007/knotie-ai-pro/pull/1576) — _KNOTI-751: first-login guided tour on the partner dashboard + KNOTI-752: Cloudflare one-click verify marked upcoming_
