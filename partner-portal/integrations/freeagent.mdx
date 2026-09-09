@@ -1,0 +1,119 @@
+---
+title: "FreeAgent Integration"
+description: "Connect FreeAgent to your customers' AI agents — accounting, invoicing, and expense tools via OAuth2. Available as a Premium integration (beta)."
+---
+
+## What FreeAgent is
+
+**FreeAgent** is a cloud accounting platform built for freelancers and small businesses. It covers invoicing, expense tracking, bank reconciliation, tax returns, and more. When a customer connects FreeAgent through their portal, their AI agent gains access to 76 accounting tools — for example, listing invoices, creating expense claims, or querying contacts — directly during a conversation.
+
+<Note>
+FreeAgent is currently in **beta**. The OAuth connection flow is fully wired and the tools are available, but end-to-end live testing is ongoing. Enable it for customers you can monitor during their first few sessions.
+</Note>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the FreeAgent tile in the Integration Hub (customer portal view), showing the "FreeAgent" card with the Connect button._
+
+---
+
+## Prerequisites
+
+- The customer must have a **FreeAgent account** (paid plan or trial at freeagent.com).
+- The partner must have **FreeAgent enabled** in the customer's Allowed Apps list (see below).
+
+---
+
+## Enabling FreeAgent for a customer
+
+FreeAgent is a **Premium** integration. Enable it the same way as any other app:
+
+1. Go to **Customers** → select the customer → **Manage**.
+2. Open the **Features & Add-ons** tab.
+3. Make sure **Show Integration** is toggled ON (under **Menu Visibility**).
+4. Click **Select Apps** next to **Allowed Apps**.
+5. In the modal, find **FreeAgent** under **Premium Apps** and check the box.
+6. Click **Save**.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the App Selection Modal with FreeAgent checked in the Premium Apps section and the BETA badge visible on the tile._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through enabling FreeAgent for a customer — from the Features & Add-ons tab through to the customer's portal showing the FreeAgent Integration card._
+
+---
+
+## How the customer connects FreeAgent
+
+Once you've enabled FreeAgent for a customer, they connect it themselves from their portal:
+
+1. The customer opens **Integration** in their portal.
+2. They find the **FreeAgent** card and click **Connect**.
+3. They are redirected to the FreeAgent login page to authorize access.
+4. After authorizing, they are returned to the portal and the card shows **Connected**.
+
+The connection is OAuth2-managed by Knotie's Connect Hub — the customer does not need to copy an API key.
+
+<Note>
+If the FreeAgent OAuth page doesn't appear, ask the customer to clear their browser cookies for freeagent.com and try again.
+</Note>
+
+---
+
+## Available tools
+
+FreeAgent exposes **76 tools** through the Composio integration layer. These cover:
+
+| Area | Examples |
+|---|---|
+| Invoices | List invoices, create invoice, update invoice status |
+| Expenses | Create expense, list expenses, categorize expense |
+| Contacts | List contacts, get contact, create contact |
+| Bank transactions | List transactions, reconcile transaction |
+| Timeslips | Create timeslip, list timeslips |
+| Projects | List projects, get project details |
+
+The full tool list is resolved automatically when the connection is active — no manual configuration is needed.
+
+---
+
+## Agent usage
+
+Once the customer's FreeAgent account is connected, their AI agent can call FreeAgent tools during conversations without any extra setup. For example, a customer could ask their agent:
+
+> "Show me all unpaid invoices"  
+> "Log a £45 meal expense for today"  
+> "Create a new invoice for £500 to Acme Ltd"
+
+The agent handles the tool call and returns the result as part of the conversation.
+
+---
+
+## Disconnecting FreeAgent
+
+If a customer wants to remove the FreeAgent connection:
+
+1. The customer opens **Integration** in their portal.
+2. They click the **FreeAgent** card (showing **Connected**).
+3. They click **Disconnect** and confirm.
+
+The OAuth authorization is revoked and the tools are no longer available to the agent.
+
+---
+
+## Troubleshooting
+
+| Symptom | Likely cause | Fix |
+|---|---|---|
+| FreeAgent card not visible in the portal | App not enabled for this customer | Add FreeAgent to the customer's Allowed Apps list |
+| OAuth redirect fails or shows an error | Browser cookies or redirect mismatch | Ask the customer to clear freeagent.com cookies and try a private window |
+| "Connected" but tools don't appear in agent calls | Connection may be stale | Ask the customer to disconnect and reconnect; then run a test call |
+| Agent calls the wrong FreeAgent tool | Prompt needs more specificity | Refine the agent prompt to name the exact action (e.g., "list unpaid invoices" rather than "check invoices") |
+
+---
+
+## Related pages
+
+- [Integration Apps Selection](/partner-portal/customers/integration-apps-selection) — Enable FreeAgent and other apps for a customer
+- [Connected App Tools](/agents/connected-app-tools) — How integration tools reach a running agent
+- [Tool Call Quota](/partner-portal/customers/tool-call-quota) — Monitor and limit tool calls per customer
+
+---
+
+> Source: [knotie-ai-pro#1588](https://github.com/avijeett007/knotie-ai-pro/pull/1588) — _KNOTI-762: add FreeAgent (accounting) to the app integrations catalog_
