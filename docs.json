@@ -61,6 +61,7 @@
             "pages": [
               "partner-portal/overview",
               "partner-portal/dashboard",
+              "partner-portal/first-login-tour",
               "partner-portal/level-system",
               "partner-portal/tutorials"
             ]
