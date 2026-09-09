@@ -1,0 +1,84 @@
+---
+title: "First-Login Guided Tour"
+description: "A two-step guided tour that appears automatically the first time a new partner opens the dashboard, pointing out the key areas to get started."
+---
+
+## What the tour is
+
+When you sign up and open the Partner Dashboard for the first time, a **guided tour** appears automatically. It highlights two controls to help you get oriented:
+
+1. **Step 1 — Start here (video):** Points to the floating video button, which plays a short introduction to the platform.
+2. **Step 2 — Start your journey (level system):** Points to the level-progress widget, which shows how to unlock features and grow your agency tier.
+
+The tour runs once. After you close it (or complete both steps), it never appears again for your account.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Partner Dashboard with the first-login tour overlay active on Step 1, showing the spotlight highlight around the video button and the tooltip text "Start here"._
+
+> 🎬 **Video walkthrough:** _Record a short clip of a brand-new partner going through the full tour — from the moment the dashboard loads, through both tour steps, to the tour closing._
+
+---
+
+## How the tour appears
+
+The tour waits for the page to go quiet before starting. A "quiet page" means:
+
+- The dashboard has finished loading
+- No sign-up modals, welcome videos, preferences pickers, MFA warnings, or offers pop-ups are on screen
+- No full-screen overlay is active
+
+This prevents the tour from appearing on top of other important first-time flows (like the welcome video or the partner preferences picker). Once those clear, the tour begins automatically — usually within 2 seconds of the page going quiet.
+
+<Tip>
+If it takes a while to clear modals on your first login (welcome video, preferences, MFA setup), that's normal. The tour waits up to **10 minutes** for the page to go quiet before giving up and saving the tour for your next login instead.
+</Tip>
+
+---
+
+## How the tour handles interruptions
+
+The tour is designed to stay out of the way while other things happen on the screen. It behaves this way after it starts:
+
+- If a modal appears (for example, you open a dialog or the platform shows a notification), **the tour pauses** — the overlay disappears from the screen.
+- When the modal clears, **the tour resumes on the same step** — it never resets to the beginning.
+
+This means interruptions during the tour (including opening the video the tour is pointing at) won't break your progress.
+
+### Clicking the spotlit button
+
+In Step 1, the tour points to the floating video button. Clicking that button **automatically advances the tour to Step 2** — because doing what the step asked *is* completing the step. After the video plays and you close it, the tour resumes on Step 2.
+
+---
+
+## Closing the tour early
+
+You can close the tour at any time:
+
+- Click the **×** button in the tour tooltip.
+- Press **Escape** on your keyboard.
+
+Closing the tour marks it as seen. It will not appear again on your next login.
+
+---
+
+## If the tour doesn't appear
+
+In some cases the tour may not appear on your first login:
+
+| Reason | What happens |
+|---|---|
+| The page never went quiet within 10 minutes | The tour is saved for your next login |
+| The video button is not configured | Step 1 is skipped; the tour still runs showing Step 2 only |
+| Your account already has the tour marked as seen | The tour does not run again |
+
+If you'd like to see the tour again for testing, a team member with database access can clear the `dashboard_tour_seen_at` column for your partner row.
+
+---
+
+## Related pages
+
+- [Partner Portal Dashboard](/partner-portal/dashboard) — Overview of dashboard metrics, charts, and quick actions
+- [Level System](/partner-portal/level-system) — How to unlock features and advance through tiers (what Step 2 points at)
+
+---
+
+> Source: [knotie-ai-pro#1577](https://github.com/avijeett007/knotie-ai-pro/pull/1577) — _KNOTI-751: tour gating follow-ups — keep watching after start, free the video, stop it seeing itself_
