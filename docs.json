@@ -215,6 +215,12 @@
               "agents/openclaw-setup",
               "agents/migration/agent-migration"
             ]
+          },
+          {
+            "group": "Integrations",
+            "pages": [
+              "partner-portal/integrations/freeagent"
+            ]
           }
         ]
       },
