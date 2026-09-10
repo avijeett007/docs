@@ -261,8 +261,55 @@ If a customer connected ElevenLabs or HeyGen via API key but the agent doesn't s
 - **Monitor usage** – Track which apps customers actually use via the [Tool Call Quota](/partner-portal/customers/tool-call-quota) tab
 - **Regular reviews** – Quarterly review of app access per customer
 
+## Locked apps and unlock fees
+
+If you have configured [Integration Pricing](/partner-portal/settings/integration-pricing) with a non-zero unlock fee for an app, customers who have been granted access to that app (it appears in their allowed apps list) but have not yet paid the fee will see it as **locked** in their Integration grid.
+
+### What the customer sees
+
+- **Locked tile** — A lock icon and the unlock price in AI credits (e.g. "Unlock for 50 credits").
+- **Unlock dialog** — Clicking the tile opens a confirmation dialog showing the one-time cost.
+- **Per-call badge** — After unlocking, connected apps display the per-call credit cost as a badge (e.g. "0.045 credits/call") so customers understand the running cost.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the customer Integration grid showing a locked app tile with "Unlock for N credits" label, an unlocked connected app with the per-call badge, and an app that is fully free._
+
+> 📷 **Screenshot needed:** _Add a screenshot of the unlock confirmation dialog showing the app name, one-time fee, and the customer's current credit balance._
+
+### Unlock flow
+
+1. Customer clicks the locked app tile.
+2. A modal confirms the unlock fee and their current AI credit balance.
+3. Customer clicks **Unlock**.
+4. The platform deducts the fee from their AI credit balance (this is a one-time charge).
+5. The app is now available to connect via OAuth or API key as normal.
+6. If the customer's balance is too low, the unlock is rejected and no credits are deducted.
+
+Connected apps are never shown as locked — once an app is connected it remains accessible regardless of any later pricing changes.
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the customer unlock flow: landing on the Integration grid with a locked app, clicking to unlock, confirming the charge, and then connecting the app via OAuth._
+
+### Per-call credit costs
+
+Once integration charging is enabled by the partner, each successful tool call your customer's AI agent makes deducts a small number of AI credits from the customer's balance. The per-call cost depends on:
+
+1. The **platform base rate** (0.03 credits) set by Knotie.
+2. The **profit multiplier** you configured in Integration Pricing (default 1.5×).
+3. Any **per-app override price** you set for that specific app.
+
+Customers see the per-call cost displayed as a badge on each connected app in their Integration grid.
+
+If a customer's AI credit balance reaches zero, tool calls for that customer are blocked until they purchase more credits.
+
+---
+
 ## Related pages
 
 - [Features & Add-ons](/partner-portal/customers/features-addons-and-menu-visibility) – Menu visibility settings
+- [Integration Pricing](/partner-portal/settings/integration-pricing) – Set profit margins, per-app prices, and unlock fees
 - [Integration Settings](/partner-portal/settings/integration-settings) – Configure provider API keys
 - [Tool Call Quota](/partner-portal/customers/tool-call-quota) – Monitor and limit integration tool calls
+- [Credits and AI credit management](/partner-portal/customers/credits-and-ai-credit-management) – Manage customer credit balances
+
+---
+
+> Source: [knotie-ai-pro#1601](https://github.com/avijeett007/knotie-ai-pro/pull/1601) — _partners charge customers for integration tool usage (pricing page, margins, per-app unlock, API)_

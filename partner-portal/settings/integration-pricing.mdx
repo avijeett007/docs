@@ -1,0 +1,173 @@
+---
+title: "Integration pricing"
+description: "Charge your customers AI credits when they use integration tool calls, set profit margins, configure per-app prices, and control unlock fees."
+---
+
+## What integration pricing does
+
+**Integration Pricing** lets you charge customers AI credits every time their AI agent successfully executes a tool call from a connected app (Gmail, HubSpot, Slack, and so on). You set the margin you earn over the platform's base rate, and optionally gate access to specific apps behind a one-time AI-credit unlock fee.
+
+By default, integration charging is **off** for all partners and customers. Nothing changes for existing customers until you turn it on.
+
+## Where to find it
+
+1. Open **Settings** in the partner sidebar.
+2. Select **Integration Pricing**.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Integration Pricing settings page showing the master switch, platform base rate, profit multiplier slider, and per-app price table._
+
+---
+
+## Master switch
+
+The **Enable Integration Charging** toggle at the top of the page is the global on/off for your entire account.
+
+| State | What happens |
+|---|---|
+| **Off** (default) | Customers are not charged for tool calls regardless of any other settings |
+| **On** | Charging is active — the rates below apply to all customers unless overridden |
+
+Turning the master switch off immediately stops all customer charges.
+
+---
+
+## Platform base rate
+
+The platform charges your account **0.03 AI credits per successful tool call**. This rate is set by Knotie and is shown for reference — you cannot change it.
+
+---
+
+## Profit multiplier
+
+The **Profit Multiplier** (default **1.5×**) is applied on top of the base rate to determine what your customers are charged.
+
+**Customer per-call charge = base rate × multiplier**
+
+At the default 1.5× multiplier: 0.03 × 1.5 = **0.045 credits per tool call**.
+
+You can increase or decrease the multiplier. The page shows you the resulting per-call price as you adjust it.
+
+> 📷 **Screenshot needed:** _Add a screenshot showing the profit multiplier control and the calculated per-call price display._
+
+---
+
+## Per-app prices
+
+In addition to the global multiplier, you can override the price for individual apps. The per-app table lists every app available on your account.
+
+| Column | Meaning |
+|---|---|
+| **App** | The integration (Gmail, HubSpot, Slack, etc.) |
+| **Per-call price** | AI credits charged to the customer per successful tool call for this app |
+| **Unlock fee** | One-time AI-credit cost the customer pays to unlock this app (0 = free to unlock) |
+
+Per-app prices take precedence over the global multiplier for that specific app.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the per-app price table with a few rows showing app name, per-call price input, and unlock fee input._
+
+---
+
+## Unlock fees
+
+An **unlock fee** is a one-time AI-credit payment a customer makes before they can connect and use an app.
+
+- **0 credits** — the app is free to unlock (default)
+- **Any positive amount** — customer pays this once from their AI credit balance to gain access
+
+After paying the unlock fee, the customer can connect the app normally. The fee is non-refundable and idempotent — customers are charged at most once per app regardless of how many times they try.
+
+If a customer's AI credit balance is too low to cover the unlock fee, the unlock is rejected with an `INSUFFICIENT_CUSTOMER_CREDITS` error and no credits are deducted.
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through setting up integration pricing — enabling the master switch, adjusting the multiplier, setting per-app prices and unlock fees, and then showing what a customer sees when they try to unlock an app._
+
+---
+
+## Per-customer override
+
+You can disable or re-enable integration charging for individual customers without changing the global setting.
+
+1. Go to **Customers** → select a customer → **Manage**.
+2. Open the **AI Credits** section.
+3. Find **Integration Charging** and set it to:
+
+| Setting | Effect |
+|---|---|
+| **Inherit** (default) | Customer follows the global master switch |
+| **On** | Charging is active for this customer even if the master switch is off |
+| **Off** | Charging is disabled for this customer even if the master switch is on |
+
+---
+
+## Per-experience override
+
+Charging can also be disabled at the experience (AI agent) level so that specific automations are never billed, regardless of customer or global settings. This is configured in the experience settings screen.
+
+---
+
+## Billing mechanics
+
+- Charges are deducted from the **customer's AI credit balance**, not from your partner balance.
+- Each deduction is recorded in the customer's **credit transaction ledger** with full provenance (app, tool call ID, per-call price, multiplier used at the time of the call).
+- Charges happen inside the same transaction as the partner's platform fee — if either leg fails, both are rolled back.
+- The customer balance **cannot go negative** — if a customer runs out of credits mid-call, only the tool calls that started while credits were available are charged; subsequent calls in the same conversation are blocked.
+
+---
+
+## Fail-open during outages
+
+If the pricing system is temporarily unavailable (for example, the database is being migrated), the customer leg **fails open** — the tool call is allowed to proceed and the customer is not charged for that call. This prevents an infrastructure outage from blocking all integration calls. Partner billing is unaffected.
+
+---
+
+## API access
+
+Partner API users can read and update integration pricing programmatically:
+
+| Tool | Description |
+|---|---|
+| `integration_pricing_get` | Return the current global pricing config (base rate, multiplier, per-app prices, master switch) |
+| `integration_pricing_update` | Update the multiplier, per-app prices, unlock fees, or master switch |
+| `customer_integration_charging_set` | Set the per-customer charging override (inherit / on / off) |
+
+For `customers_update`, pass `integrationChargingEnabled: true | false | null` (`null` = inherit).
+
+---
+
+## Deploy order (important)
+
+The integration pricing feature requires a **database migration** before the main app deployment. If your partner account runs a self-hosted instance:
+
+1. Run `db push` (or the Prisma migration) on the database **first**.
+2. Deploy the main app.
+3. Redeploy the Connect Hub.
+
+Deploying the main app before the migration causes `/api/partner/integration-pricing` to return 500. The Connect Hub fails open (tool calls proceed without charging) until it is redeployed.
+
+---
+
+## Frequently asked questions
+
+**Does charging apply to internal tools (calendar lookups, CRM reads the agent does itself)?**
+No. Internal tools have their own separate pricing. Only third-party integration apps (OAuth and API-key apps) shown in the Integration grid are affected.
+
+**What happens to apps that were already connected before the unlock fee was set?**
+The paywall is not retroactive. Apps connected before a fee was added remain accessible; the fee only applies to new connections.
+
+**Can I set different multipliers for different customers?**
+Not with multipliers — use per-app prices and the per-customer override instead. A global multiplier change applies to all customers who inherit the default.
+
+**What currency are unlock fees in?**
+AI credits (the same credits customers buy from you). There is no fiat-currency unlock option.
+
+---
+
+## Related pages
+
+- [Credits and AI credit management](/partner-portal/customers/credits-and-ai-credit-management) — Manage customer credit balances
+- [Integration apps selection](/partner-portal/customers/integration-apps-selection) — Choose which apps are available to each customer
+- [Tool call quota](/partner-portal/customers/tool-call-quota) — Cap how many tool calls a customer can make
+- [Integration settings](/partner-portal/settings/integration-settings) — Provider API keys
+
+---
+
+> Source: [knotie-ai-pro#1601](https://github.com/avijeett007/knotie-ai-pro/pull/1601) — _partners charge customers for integration tool usage (pricing page, margins, per-app unlock, API)_
