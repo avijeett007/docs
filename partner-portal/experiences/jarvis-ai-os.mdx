@@ -1,6 +1,6 @@
 ---
 title: "JARVIS AI OS"
-description: "Give your clients their own branded AI business assistant — voice-first, trained on their business, live in their portal. A prospecting and demo experience in Beta."
+description: "Give your clients their own branded AI business assistant — voice-first, trained on their business, live in their portal. An Experimental experience for demos and early access."
 ---
 
 ## What JARVIS AI OS is
@@ -14,10 +14,10 @@ Use JARVIS AI OS when you want to:
 - Offer a voice-first AI experience without building any backend yourself
 
 <Warning>
-  **Best for prospecting and demos, not live sale yet.** JARVIS AI OS is still in Beta. Show it to prospects and let them try the voice demo, but hold off on selling it as a finished product until the full launch.
+  **JARVIS AI OS is Experimental.** Use it for demos and early pilots, but do not present it as a finished, production-ready product.
 </Warning>
 
-![JARVIS AI OS experience card on the Experiences catalog, with its tagline and an Enable button](/images/screenshots/jarvis-ai-os-experience-card-2026-06-30.png)
+![JARVIS AI OS card showing its Experimental status, onboarding count, public path, and enable controls](/images/screenshots/jarvis-ai-os-experimental-dev.png)
 
 ---
 
@@ -25,9 +25,9 @@ Use JARVIS AI OS when you want to:
 
 Before enabling JARVIS AI OS:
 
-1. **Your Knotie Credit balance must be positive.** Setting up each customer creates a voice assistant that runs on credits (7 credits per minute). Top up at **Partner Portal → Credits** if needed.
-2. **Voice assistants must be available** in your plan. Contact support if you don't see them in your agent list.
-3. **Phone credentials** (optional — only needed if you want to give customers a phone number). These are pulled from your white-label settings at **Partner Portal → Settings → White-label**, so there's nothing extra to set up if they're already entered there.
+1. Make sure your workspace has enough credits for the voice assistant.
+2. Confirm that voice assistants are available in your plan.
+3. Add phone credentials only if you want to offer customers a phone number.
 
 ---
 
@@ -38,23 +38,15 @@ Before enabling JARVIS AI OS:
 3. Click **Enable**.
 4. Your experience is created with the default web address ending in `/ai-os`, and you're taken to the JARVIS AI OS settings page.
 
-![Experiences catalog grid with the JARVIS AI OS card among the other experiences](/images/screenshots/jarvis-ai-os-experiences-catalog-2026-06-30.png)
+![JARVIS AI OS listed in the Experiences catalog](/images/screenshots/jarvis-ai-os-experimental-dev.png)
 
 You can change the public alias at any time from **General Settings**. If your landing page lives at `yourdomain.com/ai-os`, that is what prospects will visit.
 
 ---
 
-## Settings page overview
+## After enabling the experience
 
-The JARVIS AI OS settings page has these sections, top to bottom:
-
-1. **Beta banner** — a reminder that this is a Beta experience for demos, not live sale.
-2. **Overview** — your experience title, web address, status, and prospect and customer counts, plus quick links to open the landing page and general settings.
-3. **Phone provisioning** — controls whether converted customers get a phone number for their JARVIS assistant.
-4. **Free-trial credits** — sets how many AI credits each free-trial customer receives on signup.
-5. **Customer Portal** — branding, assistant name, dashboard layout, sidebar visibility, and the free-trial toggle.
-
-![JARVIS AI OS settings page showing the Beta banner, overview stats, the phone panel, the free-trial credits panel, and the Customer Portal section](/images/screenshots/jarvis-ai-os-settings-2026-06-30.png)
+The Experiences catalog shows the experience status, onboarding step count, public path, and prospect or customer counts. Use the experience controls to manage availability and open its settings.
 
 ---
 
@@ -182,10 +174,15 @@ Converted customers appear in **Partner Portal → Customers** and show their JA
 
 ---
 
-## Known limitations (Beta)
+## Customer portal availability
 
-- **Still marked as Beta.** The settings page shows a Beta banner while the experience is in development. It'll be removed at full launch.
+JARVIS customers receive their assistant in the customer portal after provisioning. The current production and development validation confirmed the Experimental catalog card, but did not expose a customer Work page or task-approval screen. Treat those behaviors as unconfirmed until they are available in an enabled customer portal.
+
+---
+
+## Known limitations (Experimental)
+
+- **Experimental status.** The Experiences catalog labels JARVIS AI OS as Experimental. Use it for demos and early pilots.
 - **Browser voice only, unless you turn on phone numbers.** Customers can talk to their JARVIS in the browser by default. To add phone access, turn on phone numbers in settings and make sure your phone credentials are set up in your white-label settings.
 - **Website learning takes a little time.** The knowledge base is created right away, but reading the customer's website happens in the background. The assistant may not know everything about their website for the first few minutes after the "ready" email.
 - **Urgent notifications aren't active yet.** The "notify me about urgent things" choice from onboarding is saved, but doesn't trigger any calls yet. It's planned for a future update.
-- **No autonomous tasks yet.** JARVIS can answer questions, use tools during a conversation, and remember things. Doing work on its own in the background is planned for a future update.
