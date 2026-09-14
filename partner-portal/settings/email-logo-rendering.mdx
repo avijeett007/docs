@@ -1,0 +1,74 @@
+---
+title: "Partner logo in white-label emails"
+description: "How your partner logo is hosted and displayed in white-label emails, and what to do if it stops appearing."
+---
+
+## What this covers
+
+Every white-label email Knotie AI Pro sends — customer invites, welcome messages, payment confirmations, cancellation notices, and low-credit warnings — can carry your branded logo in the email header. This page explains how that logo is stored and rendered, and how to fix a logo that is not appearing.
+
+## How logo hosting works
+
+When you upload a logo on the **Branding** page, the file is stored in the platform's media bucket and your `Partner.logo` field holds an `https://` URL. Email clients receive a small URL reference (~60 bytes) and load the image directly — the same way any web image works.
+
+This means your logo renders correctly in Gmail, Outlook, and every other major email client. Earlier uploads stored the full image file as a base64 string inside the database row. Both Gmail and Outlook block `data:` image URIs regardless of size, so those logos never appeared in email even when the file was small.
+
+## The inline-logo notice
+
+If your account was created before this hosting change, your current logo may still be stored as an inline base64 string. The **Branding** page detects this and shows a notice:
+
+> **Your logo may not appear in emails.** It is stored as an inline image, which Gmail and Outlook block. Upload it again to fix this.
+
+**To resolve it:** open **Settings → White-Label Portal → Portal Branding**, re-upload your logo, and save. The new upload goes to hosted storage and the notice disappears.
+
+No other settings change. Every place that already uses your logo — the customer portal, widgets, landing pages, and PDF reports — continues to work exactly as before.
+
+## Size and delivery
+
+| Logo type | Size | Appears in email? |
+|---|---|---|
+| Hosted `https://` URL | Any size | Yes — URL is ~60 bytes regardless of the image size |
+| Legacy inline base64 | Under 50 KB | Yes — small enough to include directly |
+| Legacy inline base64 | 50 KB or more | No — replaced with a plain-text brand mark so the message arrives complete |
+
+The 50 KB cut-off for inline logos is a delivery safeguard. Gmail truncates any email body over ~102 KB and shows "Message clipped", hiding your greeting, button, and call-to-action. The platform drops oversized inline images before sending rather than let the body clip.
+
+A hosted logo avoids this limit entirely: the body carries only the URL.
+
+## Which emails show the logo
+
+Your logo appears in the header of:
+
+- Customer portal invitation
+- Customer team invitation
+- Welcome email
+- Password reset
+- Payment confirmation
+- Cancellation request
+- Support ticket confirmation
+- Audit completion
+- Phone activation
+- Low-credit warning (sent from the Connect Hub service)
+
+## Troubleshooting
+
+**Logo not appearing in emails after re-upload**
+
+Allow a few minutes for the new URL to propagate. Check that you clicked **Save** after uploading. Then send a test invite to yourself to confirm the logo appears in your inbox.
+
+**Branding page still shows the inline-logo notice after re-upload**
+
+Refresh the page. If the notice persists, try uploading a freshly exported copy of your logo file — the platform checks whether the uploaded content differs from what is stored.
+
+**Logo appears in the portal but not in emails**
+
+Your logo is most likely still stored as a legacy inline string. Follow the steps in [The inline-logo notice](#the-inline-logo-notice) above.
+
+**Logo replaced by a text brand mark in email**
+
+Your legacy inline logo exceeds 50 KB. Re-upload it from the branding page to switch it to hosted storage, which removes the size limit entirely.
+
+## Related pages
+
+- [Whitelabel settings](/partner-portal/settings/whitelabel-settings)
+- [Email settings (SMTP and Domain Email Service)](/partner-portal/settings/email-settings)
