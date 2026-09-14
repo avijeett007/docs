@@ -1,19 +1,25 @@
 ---
 title: "Docs & Media library"
-description: "Upload, organise, and share media assets from the customer portal. Files get a stable public link that agents can use directly."
+description: "Upload, organise, and share media assets and private documents from the customer portal."
 ---
 
 ## What the media library is for
 
-The **Docs & Media** section lets your customers (the people using your whitelabel portal) upload images, documents, and other files that their AI agents can reference. Each uploaded file gets a stable public link with no expiry — so it works everywhere, including platforms like Instagram that reject links that expire.
+The **Docs & Media** section has two tabs:
+
+- **Media** — images and videos stored on a public URL. Files get a stable link with no expiry, so agents, social posts, and widget templates can reference them directly.
+- **Docs** — private documents (PDFs, Word, spreadsheets, and more) stored securely on Cloudflare R2. Access requires a time-limited signed download link.
 
 Use the media library when a customer wants to:
 
-- Store brand images, logos, or product photos for agents to use in social posts
-- Upload PDFs or documents an agent should be able to surface
-- Build a reusable asset bank for marketing or outreach campaigns
+- Store brand images, logos, or product photos for agents to use in social posts (Media tab)
+- Upload private PDFs, reports, or reference documents for agents to retrieve (Docs tab)
+- Build a reusable asset bank for marketing or outreach campaigns (Media tab)
+- Let an AI agent save call summaries or notes as documents (Docs tab)
 
-![My Docs & Media in the customer portal — a search bar, Upload Media button, a per-customer storage meter, All / Images / Videos filter tabs, and the empty state prompting the first upload](/images/screenshots/whitelabel-media-library-2026-07-02.png)
+![My Docs & Media in the customer portal — a search bar, Upload button, a per-customer storage meter, Media / Docs tabs, and the empty state prompting the first upload](/images/screenshots/whitelabel-media-library-2026-07-02.png)
+
+For a full guide to the Docs tab, including folders, download links, and AI agent access, see [Documents and folders](/customer-management/documents-and-folders).
 
 ## Prerequisites
 
@@ -38,33 +44,42 @@ When a customer hits their individual cap, uploads return an error instead of co
 
 Partners can adjust a customer's individual cap in **Customers → Manage → Features & Add-ons → Allocated Storage (MB)**.
 
-## Uploading assets
+## Uploading media assets (Media tab)
 
-1. Open the customer portal and navigate to **Docs & Media**.
-2. Click **Upload** and select a file.
+1. Open the customer portal and navigate to **Docs & Media → Media**.
+2. Select **Upload** and choose an image or video file.
 3. The platform checks the file against the customer's allocated storage cap.
-4. On success, the file appears in the card grid with its name and a direct URL.
+4. On success, the file appears in the card grid with its name and a stable public URL.
 
-Accepted file types depend on the upload configuration; images (PNG, JPG, WEBP, GIF) and common documents (PDF) are supported.
+Accepted types: images (PNG, JPG, WEBP, GIF) and video files. For documents (PDF, DOCX, and others), use the Docs tab.
+
+## Uploading documents (Docs tab)
+
+Documents are stored privately. See [Documents and folders](/customer-management/documents-and-folders) for the full guide, including folder creation, downloads, and moving files.
 
 ## Searching and managing assets
 
-- Use the **search bar** to filter assets by name.
+- Use the **search bar** to filter assets by name within the current tab.
 - Each card shows a preview (for images), the file name, and action buttons.
-- Click **Delete** on a card to permanently remove the file from storage.
+- Select **Delete** on a card to permanently remove the file from storage.
+- Media cards also offer **Move to…** to place the asset in a folder in the Media tab.
 
 Deletions are immediate and cannot be undone. Storage is reclaimed after deletion.
 
-## Using assets in agents
+## Using media assets in agents
 
-Media asset URLs are stable and do not expire. You can paste a URL directly into an agent prompt, a social post template, or any field that accepts a URL.
+Media asset URLs are stable and do not expire. Paste a URL directly into an agent prompt, a social post template, or any field that accepts a URL.
 
 Agents granted the `MEDIA_LIST_ASSETS` MCP tool can retrieve a customer's asset list programmatically, and agents with `MEDIA_IMPORT_FROM_URL` can pull external images directly into the media library.
 
-See [MCP tool modes](/api-reference/mcp/tool-modes) for how agent-facing tools are scoped.
+For documents, agents use `MEDIA_GET_DOWNLOAD_URL` to obtain a signed link and `MEDIA_SAVE_TEXT` to store notes or summaries as files.
+
+See [MCP media tools](/api-reference/mcp/media-tools) for a full reference.
 
 ## Related pages
 
+- [Documents and folders](/customer-management/documents-and-folders) — Private documents, folders, and signed download links
 - [Features, add-ons, and menu visibility](/partner-portal/customers/features-addons-and-menu-visibility) — Enable the Docs & Media menu for a customer
 - [Social posting calendar](/customer-management/social-posting) — Schedule posts that reference media assets
 - [Pricing and features](/getting-started/pricing-and-features) — Storage quotas per plan
+- [MCP media tools](/api-reference/mcp/media-tools) — Agent-facing tools for media and documents
