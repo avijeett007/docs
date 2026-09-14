@@ -1,221 +1,77 @@
 ---
 title: "Manage Knova agents"
-description: "Create, configure, and manage Knova AI voice agents — Knotie's built-in agent type that requires no external provider account."
+description: "Create, configure, test, and assign Knova voice agents."
 ---
 
-## What Knova agents are
+## Create an agent
 
-**Knova** is Knotie AI Pro's native agent type. Unlike Retell or VAPI agents, Knova agents run entirely within the platform — no third-party API key is required. They support inbound and outbound phone calls, a configurable system prompt, knowledge bases, and custom tools.
+1. Open **AI Agents → Knova Agents**.
+2. Select **Build with AI**.
+3. Choose a customer and a setup mode.
+4. Complete the **Basic**, **Advanced**, and **Functions** tabs.
+5. Review the agent and save it.
 
-Use Knova agents when:
+Choose **AI Builder** when you want help drafting the agent from a plain-language description. Choose **Manual** when you want to complete the fields yourself.
 
-- You want the fastest onboarding (no external provider setup)
-- You are on the Free Forever plan (Knova agents are included)
-- You want AI-assisted agent creation via the built-in Agent Builder Chat
+## Choose the agent type
 
-## Create a Knova agent
+The Basic tab offers four agent types:
 
-<Frame>
-  <img src="/images/screenshots/knova-create-agent-modal-2026-06-20.png" alt="Knova Create Agent modal — Tab 1 (Customer) selected, showing 5-tab sequential flow (Customer, Setup Mode, Basic, Advanced, Functions) and a customer list with 3 example customers. Tabs gate the next one." />
-</Frame>
+- **Inbound** answers incoming phone calls.
+- **Outbound** places outgoing phone calls.
+- **Web** is used for a browser voice widget.
+- **Multi-Agent** routes a conversation to specialist agents.
 
-The **Create Agent** modal is a **5-tab sequential flow**, not a flat Basic form. Each tab gates the next:
+Choose a voice and use its play control to preview it with the greeting.
 
-1. **Customer** – Pick the customer this agent belongs to.
-2. **Setup Mode** – Choose **AI Builder** (chat-driven, recommended) or **Manual** (fill fields yourself). If you pick Manual, the AI Builder tab is hidden for the rest of the flow.
-3. **Basic** – Agent name, system prompt, greeting, voice (see [Voice selection](#voice-selection) below). The Basic tab is replaced by the AI Builder chat panel if you chose AI Builder on the Setup Mode tab.
-4. **Advanced** – Tools, knowledge base, advanced config.
-5. **Functions** – Function calls / tool wiring.
+## Confirm important details
 
-To open the modal:
+In the **Advanced** tab, **Confirm important details before acting** helps the agent read back names, phone numbers, dates, and similar details before it records or uses them. Production currently shows this setting enabled for the inspected agent.
 
-1. In the Partner Portal, open **AI Agents → Knova Agents**.
-2. Click **Create Agent** (top right).
-3. Walk through tabs 1–5 in order; click **Save** on the Functions tab to create the agent.
+Use it for booking and information-capture flows where a small hearing mistake would matter.
 
-The Build with AI button (top of the Knova agents page) also opens the modal, defaulting to the AI Builder chat on the Basic tab.
+## Personalize individual calls
 
-## System prompt guidelines
+**Per-call variables** let the system starting a call provide values such as a person's name, an offer, or an appointment time.
 
-The system prompt is the core of your agent's behavior. It defines personality, scope, and rules.
+1. Open the agent and select **Advanced**.
+2. Select **Add a variable**.
+3. Give the variable a clear name and add a fallback.
+4. Use the name in the prompt with double braces, such as `{{name}}`.
+5. Save the agent.
 
-**Limits:**
+When the calling system supplies the value, the agent uses it for that call. If it is missing, the agent uses the fallback.
 
-| Field | Maximum |
-|---|---|
-| System prompt length | **15,000 characters** |
+![Knova Advanced settings with confirmation and per-call variables](/images/screenshots/knova-agent-advanced-settings-2026-09-14.png)
 
-If your use case is very broad, consider splitting it into multiple agents rather than one large prompt — each agent handles a focused scope, which improves response quality and makes prompts easier to maintain.
+## Use the agent menu
 
-**Tips:**
+Open an agent's three-dot menu for the actions available to that agent. Depending on its type and customer assignment, the menu can include:
 
-- Start with the agent's role: _"You are a friendly receptionist for Acme Plumbing..."_
-- Include what it should and should **not** do
-- Specify how to handle transfers and escalations
-- Use the **AI Builder Chat** to generate a first draft from your business context (see [AI Agent Builder Chat](/agents/knova/agent-builder-chat))
+- **Try Agent**
+- **Test Outbound Call**
+- **Embed widget**
+- **Edit Agent**
+- **Assign Customer**
+- **Configure Metrics**
+- **Delete Agent**
 
-## Voice selection
+## Assign a customer and phone number
 
-Knova agents use one of two text-to-speech banks:
+Use **Assign Customer** to connect the agent to the correct customer. Then open **Phone Numbers**, choose a number, and use **Assign Agent**.
 
-| Bank | Indicator |
-|---|---|
-| First TTS bank | Blue dot next to the voice name |
-| Second TTS bank | Purple dot next to the voice name |
-
-**Note:** You pick the voice, not the provider behind it. Your existing agent voice settings are preserved when the platform upgrades its underlying voice models.
-
-The platform periodically upgrades its default voices for better quality and broader language coverage. These upgrades don't change the voice catalog — Ashley, Edward, Olivia, and other named voices continue to work exactly as before.
-
-<Frame>
-  <img src="/images/screenshots/knova-voice-picker-2026-06-20.png" alt="Knova Edit Agent modal — Basic tab Voice section with a search box and voice list (Abby Female, Alex Male, Anjali Female) each with a coloured dot indicator and a play preview button. First TTS bank voices have blue dots; second TTS bank voices have purple dots." />
-</Frame>
-
-## Resumable builder sessions
-
-When you use the **AI Agent Builder Chat** to create an agent, the conversation is saved automatically as a **Builder Session**. You can resume the conversation later:
-
-1. Open an existing Knova agent in the Partner Portal.
-2. Click the **AI Builder** button (chat icon in the agent modal).
-3. The modal shows a list of recent builder sessions for this agent. Click a session card to resume from where you left off.
-
-Each session card displays:
-- The first message you sent (as a conversation preview)
-- The model used
-- The time of the last turn
-- The current stage (`conversing`, `proposed`, or `applied`)
-
-Sessions from previous conversations are loaded when you open the Agent Builder — you do not need to start fresh every time.
-
-{/*
-Resume session cards only appear when the AI Builder Chat is opened for an existing Knova agent that has previous builder sessions. With a single fresh draft agent, the modal opens with no prior sessions and shows only the welcome message. To capture the resume cards, build an agent via the AI Builder, save it, then re-open the AI Builder for the same agent.
-*/}
-
-## Assign a phone number
-
-After creating a Knova agent and **assigning it to a customer** (see [Customer assignment](#customer-assignment-and-token-lifecycle) in the knova-agent.mdx overview, or the kebab **Assign Customer to Agent** action), phone-number assignment is done in the customer's own agent edit view — **not** in the Knova agent modal.
-
-1. Open the assigned customer's record.
-2. Edit the agent from the customer's **Manage Agents** view.
-3. Pick a provisioned number from the customer's pool and click **Assign**.
-
-<Note>
-  The Knova agent modal itself does **not** have an "Assign Phone Number" step — that flow was removed in 2026. Phone numbers are bound to the customer + agent pair, not to the Knova agent alone.
-</Note>
-
-Inbound calls to that number will now be handled by this agent.
-
-## Builder sessions API
-
-The builder session history is accessible via the partner API for integrations:
-
-### List sessions for a customer
-
-```
-GET /api/partner/knova-agents/builder-sessions?customerId={customerId}
-```
-
-Optional query parameter: `agentId` — filter to sessions that produced a specific agent.
-
-**Response:**
-
-```json
-{
-  "sessions": [
-    {
-      "id": "session_cuid",
-      "currentStage": "applied",
-      "messageCount": 12,
-      "firstUserMessage": "Create a receptionist for an HVAC company...",
-      "resultingAgentId": "agent_abc123",
-      "createdAt": "2026-05-26T02:00:00.000Z",
-      "lastTurnAt": "2026-05-26T02:08:00.000Z"
-    }
-  ]
-}
-```
-
-Session stages:
-
-| `currentStage` | Meaning |
-|---|---|
-| `conversing` | The conversation is in progress |
-| `proposed` | The AI has drafted an agent config; partner reviewing |
-| `applied` | The partner clicked "Apply" and saved the agent |
-| `abandoned` | Session closed without applying |
-
-### Fetch a single session
-
-```
-GET /api/partner/knova-agents/builder-sessions/{sessionId}
-```
-
-Returns the full message history and draft proposal for that session.
-
-## Telephony credit settings API
-
-Partners can now **read** telephony credit settings via API in addition to writing them:
-
-```
-GET /api/partner/telephony-credits/settings
-```
-
-**Response:**
-
-```json
-{
-  "success": true,
-  "data": {
-    "lowCreditThresholdCents": 1000,
-    "lowCreditThresholdDollars": 10.0,
-    "lowCreditNotificationsEnabled": true,
-    "autoTopUpEnabled": false,
-    "autoTopUpThresholdCents": 500,
-    "autoTopUpThresholdDollars": 5.0,
-    "autoTopUpAmountCents": 5000,
-    "autoTopUpAmountDollars": 50.0
-  }
-}
-```
-
-Use `POST /api/partner/telephony-credits/settings` to update these values (see [Telephony Credits](/partner-portal/telephony-credits) for UI instructions).
-
-## MCP tool changes
-
-If you use Knotie's MCP server with AI coding tools like Cursor or Claude, note these updated tool schemas:
-
-**`agents_create`** — field names updated:
-
-| Old field | New field | Notes |
-|---|---|---|
-| `name` | `agentName` | Agent display name |
-| `config` (nested object) | Top-level fields | `systemPrompt`, `voiceId`, `voiceProvider`, `modelProvider`, etc. |
-
-**`invoices_create` / `invoices_update`** — field names updated:
-
-| Old field | New field | Notes |
-|---|---|---|
-| `items` (array) | `title`, `amount` | `amount` is in **cents** (min 50) |
-| `notes` | `description` | — |
-
-**`invoices_recurring_create`** — field names updated: `interval` → `recurringInterval`; `items` → `title`, `amount` (in **dollars** for this route).
-
-**`metered_plans_create`** — schema overhauled: `unit`/`pricePerUnitCents` replaced with `metricType`, `metricName`, `pricingModel`, `pricingTiers` (array), and `billingCycle`.
-
-**`customer_credits_balance`** — now returns balance + recent transactions (additional data in the same call).
-
-If you have existing MCP automations using these tools, update your prompts and tool calls to use the new field names.
+The assignment options depend on the agent type. For example, an outbound agent needs outbound calling available on its assigned number.
 
 ## Troubleshooting
 
-- **System prompt exceeds character limit** — Split overly broad scopes into a multi-agent workflow. Each persona or use case should have its own agent.
-- **Voice not loading** — Reload the page. If voices still don't appear, check your internet connection and try a different browser.
-- **Builder session not resuming** — Sessions are listed by `lastTurnAt` (most recent first). If you don't see a session, it may have been created for a different customer or on a different account.
-- **Agent config not updating after edit** — The platform refreshes the agent's live configuration after every save. If the agent's phone number still uses the old settings, wait 30 seconds and call the number again. If it persists, contact support.
+- **An action is missing:** confirm the agent type and customer assignment.
+- **A phone number cannot be selected:** confirm the number and agent are active and belong to the intended customer.
+- **The agent uses the fallback:** confirm the per-call value name matches the name declared in Advanced settings.
+- **A website visitor cannot start a call:** follow the [voice widget troubleshooting steps](/agents/knova/voice-widget#microphone-troubleshooting).
 
 ## Related pages
 
-- [AI Agent Builder Chat](/agents/knova/agent-builder-chat) – How to use the AI-powered chat builder
-- [Telephony Credits](/partner-portal/telephony-credits) – Manage credits for phone calls
-- [MCP Tokens](/partner-portal/ai-agents/mcp/tokens) – Set up MCP access for AI coding tools
-- [Agent Analytics](/partner-portal/agent-analytics) – View call and usage statistics
+- [Knova Agent Builder](/agents/knova/knova-agent-builder)
+- [Outbound calling](/agents/knova/outbound-calling)
+- [Voice widget](/agents/knova/voice-widget)
+- [Import Telnyx numbers](/agents/knova/telnyx-byo-numbers)

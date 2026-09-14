@@ -56,6 +56,21 @@ If the page shows **Activate Phone Service**, select **Get Started** and complet
 
 See [Activate phone service](/partner-portal/phone-numbers/phone-activation) for the full flow.
 
+## Look up an inbound caller
+
+An assigned inbound number can show **Caller lookup**. Select it to let the portal ask your system who is calling before the agent answers.
+
+Use the result to greet a known customer, provide account or order details to the agent, route a caller to a different agent, or decline the call.
+
+1. Select **Caller lookup** on the assigned number.
+2. Enter a public HTTPS address for your lookup service.
+3. Expand **What we send, and what to send back** for the current request and response format.
+4. Save the setting and test with a number you control.
+
+The production dialog states that the portal waits up to 7.5 seconds. If your service is slow or unavailable, the call is answered normally.
+
+![Caller lookup settings for an inbound phone number](/images/screenshots/knova-caller-lookup-production-2026-09-14.png)
+
 ## Number pools and exports
 
 - Select **Number Pool** to group numbers for campaign routing.
@@ -67,6 +82,7 @@ See [Activate phone service](/partner-portal/phone-numbers/phone-activation) for
 - **A purchase cannot continue:** check the provider balance, credentials, and any address or document request shown in the form.
 - **Calls do not reach the agent:** confirm the customer and agent assignments and the selected call direction.
 - **A number cannot be removed:** unassign it from customers and agents first.
+- **A number remains in an unassigning state:** wait for the current action to finish, refresh the page, and retry only after the number appears as unassigned. Contact support if the status does not change.
 
 ## Related pages
 
