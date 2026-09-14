@@ -1,0 +1,111 @@
+---
+title: "Additional custom domains"
+description: "Point up to three extra branded domains at different One-Click Experiences in your portal — available on the Ultimate Agency Tier plan."
+---
+
+## Overview
+
+Enterprise and Pro (Ultimate Agency Tier) partners can register **up to four custom hostnames** and route each one to a different One-Click Experience:
+
+- 1 primary custom domain (always present, configured via **Domain Settings**)
+- Up to 3 additional custom domains (configured in this section)
+
+Each additional domain can be independently verified and assigned to any enabled experience in your portal. Visitors who open one of those domains see that experience's root page, not the default portal landing page.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Additional Custom Domains card in White-Label Settings, showing one or two domains listed alongside their verification badge and assigned experience name._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the full flow: adding a second domain, verifying it via DNS, then assigning it to an experience in the portal._
+
+## Prerequisites
+
+- Your plan must be **Ultimate Agency Tier** (Enterprise or Pro). Partners on other plans see an upsell notice in this section.
+- Your **primary custom domain** must already be verified before you can add additional domains.
+
+## Add a domain
+
+1. Open **Settings → White-Label Portal**.
+2. Scroll to **Additional Custom Domains** (below the primary domain block).
+3. Select **Add domain** and enter the hostname (for example, `studio.youragency.com`).
+4. Select **Add**.
+
+A new row appears with status **Pending** and the DNS record you need to add.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the "Add domain" dialog and the newly added domain row showing Pending status with DNS instructions._
+
+## Verify a domain
+
+1. Log in to your DNS provider (the service where you registered the domain).
+2. Add the CNAME or TXT record shown in the portal.
+3. Wait for DNS to propagate (typically a few minutes to a few hours).
+4. Return to the portal and select **Verify** beside the domain.
+
+The badge changes to **Verified** once the check passes. Only verified domains can be assigned to an experience.
+
+## Assign a domain to an experience
+
+Once a domain is verified:
+
+1. Open **White-Label Portal → One-Click Experiences** (or **Settings → White-Label Portal**).
+2. Find the experience you want the domain to open.
+3. Select **Make default** on the experience card.
+4. If you have more than one domain, the **Domain Assignment** picker opens. Select the domain to assign and confirm.
+
+The experience card shows the assigned domain name after the assignment is saved. The change takes effect immediately — visitors to that domain now see the experience's root page.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Domain Assignment picker dialog, showing a list of verified and unverified domains with Assign / Unassign / Free buttons._
+
+## Unassign or reassign a domain
+
+- **Unassign:** Open the Domain Assignment picker on the currently assigned experience and select **Unassign**. The domain returns to unassigned state and visitors see a "domain not yet set up" notice until you reassign it.
+- **Reassign to a different experience:** Open the picker on the new experience. If the domain is already assigned elsewhere, select **Free** beside it first, then assign it to the new experience.
+
+Unassigning does not remove the domain or un-verify it. DNS remains in place.
+
+## Remove an additional domain
+
+1. In **Additional Custom Domains**, select the delete icon beside the domain.
+2. Confirm the removal.
+
+The domain row is removed immediately and the experience that was assigned to it is unaffected. You can add the same domain again later if needed.
+
+<Warning>
+Removing a domain breaks any visitor traffic that is routing to it. Check whether customers or marketing links are using the domain before removing it.
+</Warning>
+
+## What visitors see on an unassigned domain
+
+If you add a domain and visit it before assigning an experience, the domain shows a "not yet set up" notice rather than your portal or any experience. Assign an experience to the domain to make it active.
+
+## How routing works
+
+| Situation | What visitors see |
+|---|---|
+| Domain assigned to an enabled experience | That experience's root page |
+| Domain assigned to a disabled experience | "Not yet set up" notice |
+| Domain added but not assigned | "Not yet set up" notice |
+| Primary domain (no slot-0 assignment yet) | Your portal's default experience |
+
+Your primary domain and Knotie subdomain (`.knotie-ai.pro`) always fall back to your default experience regardless of additional-domain assignments.
+
+## Domain limits
+
+| Domain type | Limit |
+|---|---|
+| Primary custom domain | 1 (via Domain Settings) |
+| Additional custom domains | Up to 3 |
+| Total custom hostnames | Up to 4 |
+
+These limits are enforced per partner account. The portal shows **Add domain** only when you are below the 4-domain cap.
+
+## Tier requirement
+
+This feature is available on the **Ultimate Agency Tier plan** (Enterprise and Pro). Partners on the Free Forever, Solo Agency, or Scaleup plans see an upgrade notice in place of the Additional Custom Domains card.
+
+## Related pages
+
+- [Whitelabel settings](/partner-portal/settings/whitelabel-settings)
+- [Custom domain](/customer-management/custom-domain)
+- [AI Gateway & Experiences overview](/partner-portal/experiences/overview)
+- [Pricing and features](/getting-started/pricing-and-features)
+
+> Source: [knotie-ai-pro#1469](https://github.com/avijeett007/knotie-ai-pro/pull/1469) — _feat(whitelabel): multiple custom domains per experience (KNOTI-408)_
