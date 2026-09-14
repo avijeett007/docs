@@ -1,0 +1,130 @@
+---
+title: "Documents and folders"
+description: "Upload and organise private documents in the Docs tab of the customer Docs & Media library — stored securely on Cloudflare R2."
+---
+
+## Overview
+
+The **Docs** tab in the customer **Docs & Media** section lets customers upload private documents — PDFs, Word files, spreadsheets, presentations, and plain text — and organise them in folders. Documents are stored privately on Cloudflare R2; they are not publicly accessible and can only be downloaded through a time-limited signed link.
+
+This is separate from the **Media** tab, which stores images and videos on a public Supabase bucket.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Docs tab in the customer Docs & Media section, showing the folder sidebar, a breadcrumb trail, document cards with download/move/delete actions, and the "Upload" button._
+
+> 🎬 **Video walkthrough:** _Record a short clip covering the full flow: opening the Docs tab, creating a folder, uploading a document into it, downloading it, and moving it to a different folder._
+
+## Supported file types
+
+| Category | Extensions |
+|---|---|
+| Documents | PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX |
+| Text | TXT, Markdown, CSV, JSON |
+
+Maximum file size: **50 MB** per document (configurable by the platform; contact support if you need a higher limit).
+
+## Enable documents for a customer
+
+Before a customer can see the Docs tab:
+
+1. Open the Partner Portal and go to **Customers → Active Customers**.
+2. Select **Manage** for the customer.
+3. Open **Features & Add-ons**.
+4. Enable **Docs & Media** under **Menu Visibility Options**.
+5. Save.
+
+Once enabled, the customer sees the Docs tab when they open **Docs & Media** in their portal.
+
+## Upload a document
+
+1. Open the customer portal and navigate to **Docs & Media → Docs**.
+2. Optionally, open or create the folder where you want to store the file.
+3. Select **Upload** and choose a file.
+4. The platform checks the file type and size, then stores it in Cloudflare R2.
+5. The document card appears in the current folder once the upload is complete.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Upload modal showing a document selected and the folder destination._
+
+## Download a document
+
+1. Find the document card in the Docs tab.
+2. Select **Download**.
+
+A signed download link is generated and the file is downloaded immediately. Signed links expire after 5 minutes — they are not shareable URLs.
+
+## Create a folder
+
+1. In the Docs tab, select **New folder**.
+2. Enter a name for the folder.
+3. Confirm.
+
+The folder appears in the folder sidebar and in the main grid. Folders can be nested up to 10 levels deep.
+
+## Navigate folders
+
+- The **folder sidebar** on the left shows your folder tree.
+- The **breadcrumb trail** at the top shows your current location.
+- Select a folder in the sidebar or a folder tile in the grid to open it.
+- Select **All Documents** in the breadcrumb to return to the root level.
+
+## Move a document to a different folder
+
+1. On a document card, select **Move to…**.
+2. Choose the destination folder from the picker.
+3. Confirm.
+
+The document moves immediately and the card disappears from the current view.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the "Move to…" folder picker dialog._
+
+## Rename or move a folder
+
+1. Right-click (or use the folder action menu) on the folder you want to rename or move.
+2. Select **Rename** or **Move**.
+3. Enter the new name or choose the destination, then confirm.
+
+Renaming or moving a folder does not affect the files inside it or any signed download links that are currently active.
+
+## Delete a folder
+
+1. Right-click on the folder (or use its action menu).
+2. Select **Delete**.
+3. Confirm.
+
+<Warning>
+Deleting a folder permanently removes it and all documents inside it from storage. This cannot be undone.
+</Warning>
+
+## Delete a document
+
+On a document card, select **Delete** and confirm. Deletions are immediate and permanent.
+
+## Using documents with AI agents
+
+Agents can list and download documents through the MCP tools described in [MCP media tools](/api-reference/mcp/media-tools).
+
+- `MEDIA_LIST_ASSETS` with `type: "document"` — list documents (and optionally filter by folder).
+- `MEDIA_GET_DOWNLOAD_URL` — generate a signed download URL for a specific document.
+- `MEDIA_CREATE_FOLDER` — create a folder programmatically.
+- `MEDIA_SAVE_TEXT` — save a text summary or transcript as a Markdown file in a folder.
+
+Voice agents can call `MEDIA_SAVE_TEXT` to store a call summary, transcript, or notes directly in the customer's document library after a call.
+
+## Storage and quotas
+
+Documents count against the same partner storage pool and individual customer cap as media assets. Check usage in **Partner Portal → Credits → Storage** and adjust the per-customer cap in **Customers → Manage → Features & Add-ons → Allocated Storage (MB)**.
+
+## Privacy and access
+
+Documents are stored in a **private** Cloudflare R2 bucket. They are never accessible via a public URL. Access requires:
+
+- A signed download link (generated on demand, valid for 5 minutes), or
+- An authenticated MCP request with the `MEDIA_GET_DOWNLOAD_URL` tool.
+
+## Related pages
+
+- [Docs & Media library](/customer-management/media-library)
+- [Features, add-ons, and menu visibility](/partner-portal/customers/features-addons-and-menu-visibility)
+- [MCP media tools](/api-reference/mcp/media-tools)
+- [Storage](/partner-portal/storage)
+
+> Source: [knotie-ai-pro#1622](https://github.com/avijeett007/knotie-ai-pro/pull/1622) — _KNOTI-802: documents with folders in Docs & Media, private on Cloudflare R2_

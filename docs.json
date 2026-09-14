@@ -54,6 +54,7 @@
             "group": "Customer portal features",
             "pages": [
               "customer-management/media-library",
+              "customer-management/documents-and-folders",
               "customer-management/social-posting",
               "customer-management/media-studio",
               "customer-management/media-studio-projects",
