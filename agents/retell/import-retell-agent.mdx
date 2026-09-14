@@ -1,55 +1,34 @@
 ---
 title: "Import a Retell agent"
-description: "Onboard or import a Retell agent for a customer."
+description: "Bring an existing Retell voice agent into your Partner Portal."
 ---
-
-## What “import” means
-
-Importing pulls your existing Retell agents into Knotie AI so you can manage them in the Partner Portal.
-
-This is the fastest path if you already built agents in Retell and want them available inside Knotie.
 
 ## Before you start
 
-- You need a **Retell API key**.
-- You must be able to log in to the Partner Portal.
+Have your Retell API key ready. Keep this key private and paste it only into the secure import window.
 
-## Import Retell agents into Knotie AI
+## Import agents
 
-1. In the Partner Portal, open **AI Agents**.
-2. Click **Retell Agents**.
-3. Click **Import Agents**.
-4. In the modal, paste your **Retell API Key**.
-5. Click **Fetch Retell Agents**.
-6. Select the agents you want to import:
-   - Agents already imported show as **Imported**.
-   - Use **Select All** if you’re importing multiple at once.
-7. Click **Import**.
+1. In the Partner Portal, open **AI Agents → Retell Agents**.
+2. Click **Import Agents**.
+3. Paste your **Retell API Key**.
+4. Click **Fetch Retell Agents**.
+5. Select the voice agents you want to add.
+6. Click **Import**.
 
-Knotie AI will import the agents and automatically handle the “plumbing” behind the scenes (analytics registration + webhook configuration).
+![Import Retell Agents window with the API key field and Fetch Retell Agents button](/images/screenshots/retell-import-production-2026-09-12.png)
 
-## After import (recommended next step)
-
-- Open an imported agent and map it to a customer if needed (so your customer sees the right agents and usage).
-
-<Tip>
-Once an agent is assigned to a customer, Knotie AI Pro automatically wires in a live MCP server — the agent can use tools from any app the customer has connected without a rebuild. See [Connected App Tools](/agents/connected-app-tools).
-</Tip>
+After the import, open an agent to assign it to a customer or review its settings.
 
 ## Troubleshooting
 
-- **“Retell API key is missing” or “Invalid Retell API key”**
-  - Go to **Settings** and update your Retell API key.
-  - Then come back and try importing again.
-- **You hit the Free Forever limit**
-  - Free Forever accounts have a Retell agent limit. If you hit it, you’ll see an upgrade message.
-- **No agents available for import**
-  - This usually means all your Retell agents are already imported.
+- **The Fetch button is unavailable:** enter the API key first.
+- **The key is rejected:** copy a current key from Retell and try again.
+- **An agent is missing:** confirm it is a Retell voice agent and refresh the list.
+- **The agent is already present:** return to the Retell Agents page and search for it by name.
 
-## Screenshots
+## Related pages
 
-![Retell Agents page showing imported agent cards with Import Agents and Create New Agent buttons in the header](/images/Screenshot2025-12-28at02.13.11.png)
-
-![Import Retell Agents modal with Retell API Key field and Fetch Retell Agents button](/images/Screenshot2025-12-28at02.13.21.png)
-
-![Create New Agent modal with Work in Progress notice, Setup tab showing Select Customer field, and tabs for Basic Settings, Advanced Settings, and Function Calls](/images/Screenshot2025-12-28at02.13.34.png)
+- [Create a Retell agent](/agents/retell/create-retell-agent)
+- [Connected app tools](/agents/connected-app-tools)
+- [Phone numbers](/partner-portal/phone-numbers)

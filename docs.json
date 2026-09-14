@@ -34,7 +34,8 @@
               "account/passkeys",
               "account/mfa",
               "account/card-verification",
-              "account/login-flow"
+              "account/login-flow",
+              "account/appearance"
             ]
           },
           {
@@ -53,7 +54,8 @@
             "group": "Customer portal features",
             "pages": [
               "customer-management/media-library",
-              "customer-management/social-posting"
+              "customer-management/social-posting",
+              "customer-management/media-studio"
             ]
           },
           {
@@ -103,7 +105,8 @@
               "partner-portal/experiences/resell-ai-gateway",
               "partner-portal/experiences/experience-dashboards",
               "partner-portal/experiences/jarvis-ai-os",
-              "partner-portal/experiences/auto-install"
+              "partner-portal/experiences/auto-install",
+              "partner-portal/experiences/website-studio"
             ]
           },
           {
@@ -145,7 +148,8 @@
               "partner-portal/settings/notification-preferences",
               "partner-portal/settings/demo-video",
               "partner-portal/settings/knowledge-base-processing",
-              "partner-portal/settings/support-keyword"
+              "partner-portal/settings/support-keyword",
+              "partner-portal/media-studio"
             ]
           },
           {
@@ -170,7 +174,8 @@
             "pages": [
               "partner-portal/nexus/overview",
               "partner-portal/vps/overview",
-              "partner-portal/vps/app-catalog"
+              "partner-portal/vps/app-catalog",
+              "partner-portal/vps/customer-portal"
             ]
           },
           {
@@ -190,8 +195,10 @@
             "group": "Third-Party Agents",
             "pages": [
               "agents/retell/import-retell-agent",
+              "agents/retell/create-retell-agent",
               "agents/retell-chat/overview",
               "agents/vapi/import-vapi-agent",
+              "agents/vapi/create-vapi-agent",
               "agents/ultravox/manage-ultravox-agents",
               "agents/elevenlabs/manage-elevenlabs-agents",
               "agents/ghl/manage-ghl-agents",
