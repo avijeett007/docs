@@ -105,7 +105,8 @@ The Outbound Webhook section only appears for numbers with an outbound-capable a
 In the client's GoHighLevel account:
 
 - Add a Webhook step:
-  - `POST https://connecthub.knotie-ai.pro/api/outbound-call`
+  - Set the method to `POST`.
+  - Copy the URL shown in the phone number's **Outbound Webhook** section.
 - Add `Authorization: Bearer owk_...`
 - Add required custom data:
   - `from_number`

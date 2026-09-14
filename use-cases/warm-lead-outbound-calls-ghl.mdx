@@ -70,7 +70,7 @@ The list of agents you can pick from is scoped to the customer you just assigned
 3. Click **Generate Key**
 4. Copy the key immediately (shown once)
 
-![Outbound Webhook section in the phone number detail panel — masked owk_ API key with an Active badge, Regenerate Key and Revoke buttons, and a curl usage example posting to connecthub.knotie-ai.pro/api/outbound-call](/images/screenshots/ghl-outbound-webhook-section-2026-06-22.png)
+![Outbound Webhook section in the phone number detail panel with a masked API key, status badge, key controls, and an example request](/images/screenshots/ghl-outbound-webhook-section-2026-06-22.png)
 
 ## Step 3 — Create the GHL Workflow
 
@@ -89,9 +89,9 @@ Add an action:
 
 - **Action type**: `Webhook`
 - **Method**: `POST`
-- **URL**: `https://connecthub.knotie-ai.pro/api/outbound-call`
+- **URL**: Copy the URL shown in the phone number's **Outbound Webhook** section.
 
-> ℹ️ In the GHL workflow, add a **Webhook** action and set Method to **POST** and the URL to `https://connecthub.knotie-ai.pro/api/outbound-call`. This configuration lives in the GoHighLevel action panel.
+> ℹ️ This configuration lives in the GoHighLevel action panel. Use the URL from the portal so you always have the current endpoint.
 
 ## Step 5 — Add required custom data fields
 
