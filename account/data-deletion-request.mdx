@@ -1,0 +1,117 @@
+---
+title: "Data deletion request"
+description: "Request permanent deletion of your Knotie AI Pro partner account and understand what happens at each step of the 30-day process."
+---
+
+## Overview
+
+As a partner, you have the right to request permanent deletion of your account and all associated data. The deletion process has four stages:
+
+1. **Request** — you submit the request from Partner Settings.
+2. **Review** — the Knotie team reviews your account details (typically within a few business days).
+3. **30-day freeze** — if approved, a 30-day window begins. Your account remains usable. You can download your data or withdraw the request during this period.
+4. **Anonymisation** — on the scheduled date, your personal data and your customers' data are permanently anonymised. This cannot be undone.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Danger zone section in Partner Settings, showing the "Download my data" and "Request account deletion" options._
+
+## What gets retained
+
+Anonymisation replaces personal data with placeholder values. The following records are **never deleted**:
+
+- Invoices, receipts, and payment records (retained for legal / accounting purposes, typically six years)
+- Credit and telephony ledgers
+- Audit and consent records
+- Stripe transaction IDs
+- Regulatory records (e.g., telecom address filings)
+
+Financial records are kept to comply with applicable law. Personal details in those records (name, email, address) are replaced with placeholder values so the record no longer identifies you.
+
+## Submit a request
+
+1. Open the Partner Portal.
+2. Go to **Settings**.
+3. Scroll to the **Danger zone** section at the bottom of the page and expand it.
+4. Select **Request account deletion**.
+5. Type `DELETE` in the confirmation field exactly as shown.
+6. Select **Confirm**.
+
+A reference ID in the format `GDPR-<timestamp>-<last4>` is shown after submission. Keep it for any follow-up with support. You also receive a confirmation email.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the expanded Danger zone with the "Request account deletion" confirmation dialog and the DELETE input field._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the data deletion request flow — finding the Danger zone, typing DELETE, submitting the request, and viewing the confirmation reference ID._
+
+## During the freeze period
+
+While your request is under review or in the approved freeze period, the Danger zone shows:
+
+- the current status of your request
+- the scheduled anonymisation date (after approval)
+- a **Download my data** button — use this to export a copy of your data
+- a **Withdraw request** button — use this if you change your mind
+
+Your account, portal, customers, and agents continue to work normally during the freeze.
+
+## Withdraw a request
+
+Select **Withdraw request** in the Danger zone at any time before the scheduled anonymisation date. The request is cancelled immediately and your account continues as normal.
+
+## Download your data
+
+Select **Download my data** in the Danger zone to receive a JSON export of your partner record, customers, agents, and call history. The export is capped at 10,000 rows per category. Large accounts may receive a summary rather than every row.
+
+The download is available both while a deletion request is pending and at any time independently.
+
+## What happens on the anonymisation date
+
+On the scheduled date, the platform runs an automated pipeline that:
+
+1. Cancels your active Stripe subscription.
+2. Revokes portal access for you and your team.
+3. Replaces personal data in 74 partner fields with placeholder values.
+4. Anonymises every customer record, call record, and prospect record associated exclusively with your account.
+5. Purges conversation logs and knowledge-base content.
+6. Removes your data from the analytics warehouse.
+7. Clears any files stored in your account's R2 storage prefix.
+8. Overwrites your Stripe customer record.
+
+After anonymisation, login is no longer possible. The process is irreversible.
+
+## Marketing email suppression
+
+When your deletion request is approved, your email address is immediately added to the platform's permanent marketing suppression list. You will no longer receive promotional or marketing emails from Knotie or from white-label portals powered by Knotie, even after anonymisation completes.
+
+Transactional messages (confirmations, receipts, security alerts) are not affected during the freeze period.
+
+## Shared customers
+
+If you share customers with other partners, anonymisation affects only the data your account exclusively owns. Records shared with other partners are not altered.
+
+## After anonymisation
+
+- Any custom domain you had configured is released and its DNS cache is cleared.
+- Your Knotie subdomain no longer routes to a portal.
+- Phone numbers assigned to your account are released back to the pool.
+- Agents and knowledge bases associated exclusively with your account are removed.
+
+## Common questions
+
+**Can I log in after submitting the request?**
+Yes. Submitting the request does not restrict login. Your account is fully usable until anonymisation runs on the scheduled date.
+
+**Will my customers be notified?**
+The platform sends a data deletion request confirmation to you as the account owner. Customer notification is your responsibility as the data controller for your portal.
+
+**Can I re-register after anonymisation?**
+Yes, but a new account will not have any of the data from the deleted account.
+
+**What if I want to cancel my subscription but keep my account?**
+Use the billing and subscription controls in **Settings → Billing** instead of the data deletion flow. Data deletion is a permanent, irreversible action.
+
+## Related pages
+
+- [Terms and privacy pages](/account/terms-and-privacy)
+- [Whitelabel settings](/partner-portal/settings/whitelabel-settings)
+- [Billing and invoices](/partner-portal/billing-and-invoices)
+
+> Source: [knotie-ai-pro#1632](https://github.com/avijeett007/knotie-ai-pro/pull/1632) — _KNOTI-813: GDPR partner right-to-erasure — request, Mission Control review, 30-day freeze, anonymise_

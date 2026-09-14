@@ -35,7 +35,8 @@
               "account/card-verification",
               "account/login-flow",
               "account/appearance",
-              "account/terms-and-privacy"
+              "account/terms-and-privacy",
+              "account/data-deletion-request"
             ]
           },
           {
