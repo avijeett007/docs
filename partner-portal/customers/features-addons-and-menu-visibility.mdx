@@ -1,137 +1,70 @@
 ---
 title: "Features, add-ons, and menu visibility"
-description: "Control customer portal access, enable add-on features, and decide which customer-portal menus appear, including AI Gateway."
+description: "Choose which services and portal sections each customer can use."
 ---
 
-## Where to find it
+## Open the controls
 
-1. Open **Customers** (sidebar — expands to Active Customers + Prospects).
-2. Select a customer.
-3. Open **Manage**.
-4. Go to **Features & Add-ons**.
+1. Open **Customers → Active Customers**.
+2. Select **Manage** for a customer.
+3. Open **Features & Add-ons**.
 
-## Customer Portal toggle
+The first switch, **Enable Customer Portal**, controls access to the customer's branded portal.
 
-The first toggle is:
+## Add-on features
 
-- **Enable Customer Portal**
+The current production panel includes controls for advanced call analysis, API access, and premium add-ons. **Knowledge Base Processing** is visible but marked **Coming soon**.
 
-This controls whether the customer can access their own portal.
+Some customer controls depend on a partner-level setting. If a switch is unavailable, enable the related service in your partner settings first.
 
-If portal access cannot be enabled yet, the modal returns an eligibility error instead of silently turning the setting on.
+## Credits and pricing
 
-## Add-on feature toggles
+Use **AI Credits Enabled** to charge the customer with credits. The same section can control integration charges, low-credit notifications, and which credit plans the customer sees.
 
-The modal currently includes these add-on controls:
+When credit billing is enabled, pricing display and AI Gateway availability follow the options shown in the panel.
 
-- **Advanced AI Analytics**
-- **Detailed Call Analysis**
-- **Action Point Analysis**
-- **API Access**
-- **Knowledge Base Processing** - shown as **coming soon**
+## Customer portal sections
 
-Notes:
+The menu controls currently include:
 
-- **Advanced AI Analytics** can be blocked at the partner level until the partner enables that capability first.
-- **Knowledge Base Processing** is present in the UI but grayed out as coming soon.
+- Knowledge Base, integrations, Docs & Media, and Social Planner
+- Phone Numbers, Campaigns, API Keys, and AI Gateway
+- AI Memory, MCP Access, and curated marketplace solutions
+- Media Studio, Website Studio, and AI Agents
+- browser access to a customer's server
 
-## Premium add-ons
+![Customer controls for Media Studio, Website Studio, and self-service AI Agents](/images/screenshots/customer-media-website-vps-controls-production-2026-09-14.png)
 
-The same panel also includes premium add-ons.
+### Media Studio
 
-At the moment, the customer modal includes:
+Turn on **Media Studio** to let the customer create images and videos. Upload access is confirmed automatically when the customer first uploads a file.
 
-- **Twitter / X Integration**
+### Website Studio
 
-This is presented as a paid add-on with customer-level billing.
+Turn on **Website Studio** to let the customer submit a website brief and follow the build in their portal. The main Website Studio experience must also be enabled.
 
-## AI Credit Management
+### AI Agents
 
-The AI credit section includes:
+Turn on **AI Agents** to let the customer use the self-service Voice AI Platform. Use **Agent slots** to limit how many agents they can create; `0` means view and test only.
 
-- **AI Credits Enabled**
-- **Enable Notifications**
-- **Low Credit Threshold**
+## Customer VPS controls
 
-When **AI Credits Enabled** is turned on:
+The same panel can:
 
-- The customer is billed using AI Credits rather than standard dollar pricing.
-- **Show Pricing Information** is automatically turned off.
-- The **AI Gateway** menu becomes available to enable for that customer.
+- allow a customer to buy managed servers
+- set a customer-specific margin
+- inherit, show, or hide the One-Click Apps section
+- allow browser-based server access
 
-You can also turn on branded email alerts when the customer's credit balance runs low — set a threshold (in credits remaining) to trigger the alert.
+The global VPS settings remain the default unless you choose a customer-specific override.
 
-If you turn **AI Credits Enabled** back off, the **AI Gateway** menu is also removed for that customer.
+## Team and portal access
 
-## Pricing information visibility
-
-**Show Pricing Information** controls whether cost details appear in the customer portal. When **AI Credits Enabled** is on, this is automatically turned off — you can't run both at the same time.
-
-## Menu Visibility Options
-
-You can control which sections appear in the customer portal. The modal has 12 menu visibility toggles:
-
-- Knowledge Base
-- Integration
-- Docs & Media (hidden by default — toggle on to show; see [Media Library](/customer-management/media-library))
-- Social Planner (hidden by default — toggle on to show; requires Social Planner to be configured)
-- Schedule Meeting
-- Phone Numbers
-- API Keys (requires API Access)
-- AI Gateway Beta (requires AI Credits)
-- Enable AI Memory (Mind) — **Beta**; gives the customer a persistent Mind their agents Remember, Recall, and Ask about across conversations (see [AI Memory](/partner-portal/ai-memory)). Turning it off only blocks access — the customer's existing Minds are **kept, not deleted**.
-- MCP Access
-- New Solutions
-- Connect Your Server (VPS Access)
-
-### API Keys visibility
-
-**API Keys** can only be shown when **API Access** is enabled for that customer. If you turn off API Access, the API Keys menu is automatically hidden and its toggle is greyed out until you re-enable API Access.
-
-### AI Gateway visibility
-
-**AI Gateway Beta** is a separate toggle from API Keys. It becomes available only when **AI Credits Enabled** is turned on for the customer. When shown, it lets the customer generate their own AI Gateway API keys, billed through their AI Credits.
-
-For the customer to see AI Gateway in their portal, you also need to enable **Customer Self-Service API Keys** on the partner-level [AI Gateway](/partner-portal/ai-gateway) page.
-
-### Billing & Payments visibility
-
-**Billing & Payments** appears automatically in the customer portal once the customer has active portal access — there's no manual toggle for it.
-
-## Embed URLs and portal access
-
-If you plan to generate customer-scoped embed links, first confirm the customer has portal access configured and the account is ready for embedded experiences.
-
-Use [Embed URLs](/partner-portal/customers/embed-urls) when you need widget, iframe, or other embedded access links for a specific customer.
-
-### Knowledge Base storage allocation
-
-When **Knowledge Base** is enabled, the UI exposes storage controls such as:
-
-- Storage usage bar
-- Allocated Storage (MB)
-- Partner Available
-
-The UI also mentions additional storage pricing (example: “\$8/GB”).
-
-## Team management controls
-
-This section also includes:
-
-- **Enable Team Members**
-- **Maximum Team Members**
-- Team member list (when enabled)
-
-If the portal isn’t enabled yet, the UI may show a notice that team members require customer portal access.
+The lower part of the panel controls team-member access, portal preview, password reset, and account access. Save after making changes.
 
 ## Related pages
 
-- [AI Gateway](/partner-portal/ai-gateway) - Partner-level AI Gateway setup and customer self-service controls
-- [Client portal navigation, billing, and AI Gateway](/customer-management/client-portal-navigation-and-ai-gateway) - What the customer actually sees in the whitelabel portal
-- [Customer's Portal Access](/partner-portal/customers/customer-portal-access-actions) – Enable and manage customer portal access actions
-- [Embed URLs](/partner-portal/customers/embed-urls) – Generate customer-scoped embed tokens and URLs
-- [API access overview](/partner-portal/api-keys) – High-level API access guidance and where AI Gateway fits
-
-## Screenshots
-
-![Features and Add-ons tab with Customer Portal enable toggle, Add-on Features (Advanced Analytics, Detailed Call Analysis, Action Point Analysis, API Access), and Phone Numbers, API Keys, Team Management controls](/images/screenshots/customer-features-addons-tab-2026-07-03.png)
+- [Customer Media Studio](/customer-management/media-studio)
+- [Website Studio](/partner-portal/experiences/website-studio)
+- [Voice AI Platform](/partner-portal/experiences/resell-voice-ai-platform)
+- [VPS App Catalog](/partner-portal/vps/app-catalog)

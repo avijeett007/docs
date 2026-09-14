@@ -1,141 +1,46 @@
 ---
 title: "VPS Servers"
-description: "Purchase, provision, and manage cloud VPS instances and assign them to your customers."
+description: "Purchase and manage cloud servers for your customers."
 ---
 
 ## Overview
 
-VPS (Virtual Private Server) management lets partners purchase, provision, and manage cloud VPS instances, then assign them to their customers. It's a self-serve infrastructure layer within the Partner Portal.
+Open **VPS Servers** to purchase cloud servers, assign them to customers, and manage active instances.
 
-![Knotie AI Pro Partner Portal VPS management page](/images/screenshots/vps-page-2026-06-09.png)
+## Set the lifecycle policy
 
-## Where to find it
+Before purchasing, review what happens after a customer stops paying. You can set a grace period from 0 to 30 days and choose the available action shown for the end of that period.
 
-1. Partner Portal → **VPS Servers** in the sidebar (under **INFRASTRUCTURE**)
+<Warning>
+The production page states that released servers are permanently deleted and their data is not retained after the grace period.
+</Warning>
 
-## Purchase a VPS
+## Purchase a server
 
-1. Click **Buy VPS**
-2. Select a **plan** (Cloud VPS 10–60)
-3. Select a **region** (EU, US — more coming soon)
-4. Optionally assign to a **customer**
-5. Optionally set a **display name**
-6. Click **Proceed to Payment**
+1. Select **Purchase VPS**.
+2. Choose a plan. The current catalog shows Cloud VPS 10 through Cloud VPS 60.
+3. Choose the available region and customer assignment.
+4. Review the monthly price before continuing.
 
-![Partner Portal — VPS purchase view: plan selection cards (Cloud VPS 10–60 with vCPU, RAM, NVMe, network specs and monthly pricing) followed by a region picker (EU/US regions marked "Coming soon — pricing for this region is being finalised") and a "Proceed to Payment" button.](/images/screenshots/partner-vps-plan-region-picker.png)
+Plan prices are live and can change. Use the amount shown at purchase rather than a saved price table.
 
-### Plans available
+## Manage an instance
 
-| Plan | vCPU | RAM | NVMe Storage | Network Port |
-|------|------|-----|--------------|--------------|
-| Cloud VPS 10 | 4 | 8 GB | 75 GB | 200 Mbps |
-| Cloud VPS 20 | 6 | 12 GB | 100 GB | 400 Mbps |
-| Cloud VPS 30 | 8 | 24 GB | 200 GB | 600 Mbps |
-| Cloud VPS 40 | 12 | 48 GB | 250 GB | 800 Mbps |
-| Cloud VPS 50 | 16 | 64 GB | 300 GB | 1 Gbps |
-| Cloud VPS 60 | 18 | 96 GB | 350 GB | 1 Gbps |
+Open **My Instances** to see each server's plan, status, resources, region, billing date, and customer assignment.
 
-![Partner Portal — VPS plan cards showing Cloud VPS 10–60 with full specs (vCPU, RAM, NVMe storage, network port), monthly USD pricing, and the "Popular" badge on Cloud VPS 20. Same capture as above.](/images/screenshots/partner-vps-plan-region-picker.png)
+For an active instance, the production portal currently offers:
 
-## Instance states
+- **Request Credentials**
+- **Regenerate SSH Keys** when a customer cannot connect
+- **Reinstall** with a fresh operating system or One-Click App
+- assign or unassign the server from a customer
 
-VPS instances move through these states:
-
-| State | Description |
-|-------|-------------|
-| Pending payment | Order placed, awaiting payment |
-| Provisioning | Payment received, being set up |
-| Active | Live and operational |
-| Suspended | Paused due to non-payment or issues |
-| Cancelled | Terminated |
-
-{/* SCREENSHOT deferred: each provisioned VPS appears as an instance card with a colored status badge matching the table above — amber Provisioning, green Active, grey Suspended. Cards render only once at least one VPS exists; a fresh account reads "No VPS instances yet." Capture from an account with a live instance. */}
-
-## Assign to customer
-
-Each instance can be assigned to a customer:
-
-1. Open the **Assign to Customer** dropdown on the instance card
-2. Select the customer (or "Not assigned")
-3. Confirm
-
-Unassigned instances show "Not assigned to a customer."
-
-## View instance details
-
-Click on an instance card to see:
-- Plan specs
-- Region
-- Partner price
-- Creation date
-- Status badge
-
-{/* SCREENSHOT deferred: clicking an instance card opens a details panel listing plan specs, region, partner price, creation date, and the current status badge in a single read-only view. Renders only for an existing instance — capture from an account with a provisioned VPS. */}
-
-## Credentials
-
-For active instances, you can request root credentials:
-
-1. Click **Request Credentials**
-2. Credentials are sent to your email and displayed on screen
-3. Password is shown in a monospace box
-
-{/* SCREENSHOT deferred: after Request Credentials on an active instance, a reveal panel shows the root username and password (also emailed). Appears only for a live active instance — capture the first time you request credentials on a real VPS. */}
-
-### Regenerate SSH keys
-
-To regenerate SSH keys for an instance:
-
-1. Click **Regenerate SSH Keys**
-2. Confirms the action
-3. New keys are generated
-
-### Fix credentials
-
-If credentials aren't working, use the **Fix Credentials** modal:
-
-- **Auto-fix**: The platform automatically generates and installs fresh credentials for you
-- **Manual**: Enter your current root password, and the platform installs a new key for you
-
-{/* SCREENSHOT deferred: the Fix Credentials modal offers two tabs — Auto-fix (the platform generates and installs fresh credentials for you) and Manual (you enter your current root password so the platform can install a new key). Reachable only from an active instance — capture from an account that has one. */}
-
-## Reinstall with App
-
-You can reinstall the OS with one-click apps:
-
-### Single App mode
-
-Select one app to install. Options include:
-- Clean Ubuntu OS
-- Docker + Portainer
-- Domain controllers
-- Other curated apps
-
-### Package Builder mode
-
-Select multiple apps to install together as a package:
-
-- **Port conflict detection**: If two apps use the same port, a warning blocks installation
-- **RAM estimation**: Shows total RAM required across selected apps
-- **Badge indicators**: "Verified" (passed testing), "Under construction" (being fixed), "New", "Popular"
-
-![Partner Portal — VPS Settings page App Packages section showing "New Package" modal with package name, pricing, customer selection, and Bundled Apps multi-select. This is the closest equivalent to the Reinstall-with-App Package Builder mode accessible in the current account.](/images/screenshots/partner-vps-app-package-builder.png)
-
-### App categories
-
-| Category | Examples |
-|----------|----------|
-| AI & ML | — |
-| Developer Tools | — |
-| Databases | — |
-| Monitoring | — |
-| Productivity | — |
-| Security | — |
-| Networking | — |
+<Warning>
+Reinstalling wipes the server's existing data. Back up anything the customer needs before continuing.
+</Warning>
 
 ## Next steps
 
-- [VPS App Catalog](/partner-portal/vps/app-catalog) — browse and deploy apps
-- [AI Gateway](/partner-portal/ai-gateway) — manage API keys and budgets
-- [Customer Management](/customer-management/onboard-customer) — assign VPS to customers
-- [Partner Portal Overview](/partner-portal/overview) — explore other features
+- [VPS App Catalog and Packages](/partner-portal/vps/app-catalog)
+- [VPS Coupons](/partner-portal/vps/coupons)
+- [Customer VPS access](/partner-portal/vps/customer-portal)
