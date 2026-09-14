@@ -1,74 +1,75 @@
 ---
 title: "Phone numbers"
-description: "Import, assign, and manage the phone numbers used by your voice agents."
+description: "Buy, import, assign, and manage phone numbers for your voice agents."
 ---
 
-## What this is for
+## Open Phone Numbers
 
-The **Phone Numbers** section is where you manage the numbers your voice agents use. From here you can:
+Select **Phone Numbers** in the Partner Portal sidebar. The page shows ownership, customer, billing, assignment, provider, status, and capability filters.
 
-- Import phone numbers
-- Assign a number to a customer
-- Assign a number to a specific AI agent
-- Control whether a number handles inbound or outbound calls
+The summary cards show how many numbers are partner-owned, customer-owned, assigned, unassigned, ready for inbound calls, and imported.
 
-## Where to find it
+## Buy a number
 
-Open **Phone Numbers** in the Partner Portal sidebar.
+1. Select **Buy Number**.
+2. Choose the provider account you want to use.
+3. Follow the prompts to connect the account and search for an available number.
+4. Review the number and any provider requirements shown in the purchase form.
+5. Confirm only when you are ready to buy.
 
-## Who owns a number
+![Provider selection in the Buy a New Number dialog](/images/screenshots/phone-number-buy-modal-2026-09-14.png)
 
-A number can belong to either:
+The provider charges your connected account for the purchase. Review the price and recurring cost shown before confirming.
 
-- **You (the partner)** — your agency owns it, and you can assign it out to customers.
-- **A customer** — it belongs to that customer's account.
+<Note>
+Some countries or number types require a registered address or supporting documents. If the purchase form requests them, complete those steps before retrying.
+</Note>
 
-Ownership affects billing, permissions, and what you're able to do with the number.
+## Import existing numbers
 
-## Import phone numbers
+1. Select **Import Numbers**.
+2. Choose Twilio or Telnyx.
+3. Enter the requested account details.
+4. Select the numbers to import and confirm.
 
-1. Open **Phone Numbers**.
-2. Click **Import Numbers**.
-3. Follow the steps and confirm.
-
-Once it's done, the number shows up in your list.
+The imported numbers then appear in the main list. See [Import Telnyx numbers](/agents/knova/telnyx-byo-numbers) for the Telnyx flow.
 
 ## Assign a number to a customer
 
 1. Find the number in the list.
 2. Open its actions menu.
-3. Choose **Assign to Customer**.
-4. Pick the customer and confirm.
+3. Select the customer assignment action.
+4. Choose the customer and save.
 
 ## Assign a number to an agent
 
-To route a number to a specific agent:
+1. Open the number's actions menu and select **Assign Agent**.
+2. Choose the AI agent.
+3. Select the available inbound or outbound options.
+4. Save.
 
-1. Find the number.
-2. Open its actions menu.
-3. Choose **Assign Agent**.
-4. Select the provider (Retell, VAPI, Ultravox, and so on), the agent, and whether it's for inbound or outbound calls.
-5. Save.
+The list displays the assigned customer and agent, provider, call directions, status, and capabilities.
 
-## Find numbers quickly
+## Activate phone service
 
-When you're managing a lot of numbers, the filters and search make it easy to narrow things down — by number, name, or customer, and by provider, status, ownership, or whether a number is assigned yet.
+If the page shows **Activate Phone Service**, select **Get Started** and complete the requested business information, documents, and review steps.
 
-## What the list shows
+See [Activate phone service](/partner-portal/phone-numbers/phone-activation) for the full flow.
 
-Each number in the list shows its details at a glance: the number itself with a friendly name and country flag, the customer it belongs to, the agent it's assigned to (or an **Assign Agent** button if there isn't one yet), whether it handles inbound or outbound calls, its provider, its status, and what it can do (voice, SMS, MMS).
+## Number pools and exports
 
-The top of the page also gives you a quick summary — how many numbers you own, how many belong to customers, how many are unassigned, and how many are ready to take calls — along with buttons to import numbers, export your list, and manage number pools.
+- Select **Number Pool** to group numbers for campaign routing.
+- Select **Export** to download the number list using the options shown in the portal.
 
 ## Troubleshooting
 
-- **Calls aren't reaching the agent**
-  - Check the number is assigned to the right customer.
-  - Check the agent assignment exists and is active.
-  - Check the inbound/outbound settings.
-- **A number won't delete**
-  - Unassign it from any customers and agents first, then try again.
+- **A search returns no results:** broaden the country, type, area-code, or digit filters and try again.
+- **A purchase cannot continue:** check the provider balance, credentials, and any address or document request shown in the form.
+- **Calls do not reach the agent:** confirm the customer and agent assignments and the selected call direction.
+- **A number cannot be removed:** unassign it from customers and agents first.
 
-## Screenshots
+## Related pages
 
-![Phone Numbers list with the Import Phone Numbers modal open, showing provider options in the first step](/images/screenshots/phone-import-2026-07-03.png)
+- [Activate phone service](/partner-portal/phone-numbers/phone-activation)
+- [Number Pools](/partner-portal/number-pools/overview)
+- [Knova outbound calling](/agents/knova/outbound-calling)

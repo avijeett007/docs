@@ -114,11 +114,19 @@
             ]
           },
           {
+            "group": "Campaigns",
+            "pages": [
+              "partner-portal/campaigns/overview"
+            ]
+          },
+          {
             "group": "Credits, Billing & Telephony",
             "pages": [
               "partner-portal/credits",
+              "partner-portal/storage",
               "partner-portal/telephony-credits",
               "partner-portal/phone-numbers",
+              "partner-portal/phone-numbers/phone-activation",
               "partner-portal/number-pools/overview",
               "partner-portal/billing-and-invoices",
               "partner-portal/metered-billing"
@@ -193,7 +201,9 @@
               "agents/knova/knova-agent-builder",
               "agents/knova/agent-builder-chat",
               "agents/knova/outbound-calling",
-              "agents/knova/outbound-webhook-api"
+              "agents/knova/outbound-webhook-api",
+              "agents/knova/voice-widget",
+              "agents/knova/telnyx-byo-numbers"
             ]
           },
           {
