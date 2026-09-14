@@ -150,6 +150,7 @@
               "partner-portal/settings/integration-settings",
               "partner-portal/settings/integration-pricing",
               "partner-portal/settings/email-settings",
+              "partner-portal/settings/email-logo-rendering",
               "partner-portal/settings/stripe-connect",
               "partner-portal/settings/subscription-and-billing",
               "partner-portal/settings/stage-subscriptions",
