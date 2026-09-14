@@ -145,6 +145,7 @@
             "pages": [
               "partner-portal/settings/overview",
               "partner-portal/settings/whitelabel-settings",
+              "partner-portal/settings/additional-custom-domains",
               "partner-portal/settings/platform-configuration",
               "partner-portal/settings/dashboard-experiences",
               "partner-portal/settings/integration-settings",
