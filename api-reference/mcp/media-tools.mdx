@@ -1,0 +1,210 @@
+---
+title: "MCP media tools"
+description: "Upload, download, and organise media and documents through the Customer MCP and Partner MCP gateway — no file bytes pass through the Connect Hub."
+---
+
+## Overview
+
+Agents can manage a customer's media library and document vault entirely over MCP — requesting presigned upload URLs, confirming uploads, listing files, downloading documents, and saving text artifacts. No file bytes pass through the Connect Hub or the Next.js app; files go directly between the caller and Cloudflare R2 (documents) or Supabase (images and video).
+
+Two integration paths exist:
+
+| Path | Who uses it |
+|---|---|
+| **Customer MCP** (`/api/mcp`) | Voice agents (Knova, Retell, VAPI), customer MCP tokens, Claude Code sessions |
+| **Partner MCP gateway** (`/api/partner-mcp`) | Partner API keys with `media:read` / `media:write` scopes |
+
+> 📷 **Screenshot needed:** _Add a screenshot of a Claude Code or Cursor session listing the media tools after running `tools/list` on a customer MCP connection._
+
+> 🎬 **Video walkthrough:** _Record a short clip of a voice agent calling MEDIA_SAVE_TEXT at the end of a call and the resulting file appearing in the customer's Docs tab._
+
+## Customer MCP tools
+
+Available to any agent or client authenticated with a customer MCP token. Voice agents receive the `MEDIA_DOCUMENTS` grant automatically (scope `all` tokens pass; explicit grant lists must include `MEDIA_DOCUMENTS`).
+
+### `MEDIA_LIST_ASSETS`
+
+List media and document assets for the customer.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `type` | `"media"` \| `"document"` \| `"all"` | No | Defaults to `"media"` — documents are excluded unless `"document"` or `"all"` is passed |
+| `folder_id` | string | No | List only assets in this folder |
+| `limit` | integer | No | Maximum results to return |
+| `offset` | integer | No | Pagination offset |
+
+**Result:** Array of asset objects. Documents include `downloadable: true` (no public URL).
+
+**Credit cost:** Free.
+
+---
+
+### `MEDIA_REQUEST_UPLOAD_URL`
+
+Mint a presigned PUT URL so a file can be uploaded directly to storage without passing through the platform.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `filename` | string | Yes | The file's name, including extension |
+| `contentType` | string | Yes | MIME type (e.g. `application/pdf`, `image/png`) |
+| `folder_id` | string | No | Folder to place the file in after confirmation (documents only) |
+
+**Result:** `{ uploadUrl, assetId, expiresIn }`. Use `uploadUrl` with an HTTP PUT. The `assetId` is needed for `MEDIA_CONFIRM_UPLOAD`.
+
+**Credit cost:** Free.
+
+---
+
+### `MEDIA_CONFIRM_UPLOAD`
+
+Confirm that a presigned PUT completed. The platform verifies the upload via a HEAD request and records the file's actual size and type.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `assetId` | string | Yes | The `assetId` from `MEDIA_REQUEST_UPLOAD_URL` |
+
+**Result:** The confirmed asset record.
+
+**Credit cost:** Charged like a standard upload — deducted from the customer's Knotie Credits and AI Credits (if `aiCreditsEnabled`).
+
+---
+
+### `MEDIA_GET_DOWNLOAD_URL`
+
+Generate a time-limited signed URL to download a document.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `assetId` | string | Yes | The document's asset ID |
+| `expiresIn` | integer | No | Expiry in seconds. Must be between 60 and 3600. Defaults to 300 (5 minutes) |
+
+**Result:** `{ downloadUrl, expiresIn }`. The URL is valid for the stated duration.
+
+**Credit cost:** Free.
+
+---
+
+### `MEDIA_CREATE_FOLDER`
+
+Create a folder in the customer's document library.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `name` | string | Yes | Folder name |
+| `parentId` | string | No | ID of the parent folder. Omit to create at the root level |
+
+**Result:** The new folder record, including its `id`.
+
+**Credit cost:** Free. Maximum folder depth: 10 levels.
+
+---
+
+### `MEDIA_LIST_FOLDERS`
+
+List folders in the customer's document library.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `parentId` | string | No | List children of this folder. Omit to list root folders |
+
+**Result:** Array of folder objects including `id`, `name`, `parentId`, and `childCount`.
+
+**Credit cost:** Free.
+
+---
+
+### `MEDIA_SAVE_TEXT`
+
+Save a text artifact (such as a call summary, transcript, or notes) as a file in the customer's document library.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `content` | string | Yes | The text to save. Maximum 1 MB by byte length |
+| `filename` | string | Yes | Name for the file, with extension (`.txt`, `.md`, or `.json`) |
+| `folder_id` | string | No | Folder to place the file in |
+
+**Result:** The new asset record.
+
+**Credit cost:** Same as a confirmed upload — deducted from the customer's credits.
+
+**Typical use:** A voice agent calls `MEDIA_SAVE_TEXT` at the end of a call to store a summary in the customer's Docs tab. The file appears immediately in their portal.
+
+---
+
+## Partner MCP tools
+
+Available via the Partner MCP gateway to partner API keys with the `media:read` or `media:write` scope. Tools operate on behalf of a specific customer — the partner passes a `customerId` in each call. The customer's own gates (Docs & Media enabled, storage quota) apply.
+
+### Scopes
+
+| Scope | What it grants |
+|---|---|
+| `media:read` | `media_list`, `media_list_folders`, `media_get_download_url` |
+| `media:write` | All `media:read` tools plus `media_create_folder`, `media_upload_url`, `media_confirm_upload`, `media_delete` |
+
+Add the scope when creating or editing an API key in **Settings → API Keys**.
+
+<Warning>
+Every `*` (wildcard) partner API key automatically includes `media:*`. Partners who do not want agents to access customer documents should issue narrower-scoped keys instead.
+</Warning>
+
+### Tool reference
+
+| Tool | Scope | Description |
+|---|---|---|
+| `media_list` | `media:read` | List a customer's media or document assets |
+| `media_list_folders` | `media:read` | List folders in a customer's document library |
+| `media_get_download_url` | `media:read` | Generate a signed download URL for a document |
+| `media_create_folder` | `media:write` | Create a folder in a customer's document library |
+| `media_upload_url` | `media:write` | Mint a presigned PUT URL |
+| `media_confirm_upload` | `media:write` | Confirm an upload and record the asset |
+| `media_delete` | `media:write` | Permanently delete an asset |
+
+Each tool accepts `customerId` as a required parameter. The platform verifies that the customer belongs to the calling partner's account before executing.
+
+### Connect to the Partner MCP gateway
+
+```bash
+claude mcp add knotie-partner-media \
+  --transport http \
+  --url https://<integration-gateway>/api/partner-mcp \
+  --header "Authorization: Bearer <partner_api_key>"
+```
+
+Replace `<integration-gateway>` with your integration gateway URL and `<partner_api_key>` with a key that has `media:write` scope.
+
+---
+
+## Example: voice agent saves a call summary
+
+This sequence shows how a Knova or Retell agent can save a call summary to the customer's Docs folder after a call:
+
+1. During the call, the agent collects the summary text.
+2. At call end, the agent calls `MEDIA_SAVE_TEXT`:
+
+```json
+{
+  "tool": "MEDIA_SAVE_TEXT",
+  "arguments": {
+    "content": "Call summary for 2026-09-14:\n- Customer asked about pricing.\n- Follow-up scheduled for next Monday.",
+    "filename": "call-summary-2026-09-14.md",
+    "folder_id": "optional-folder-id"
+  }
+}
+```
+
+3. The file appears in the customer's **Docs & Media → Docs** tab immediately.
+
+> 🎬 **Video walkthrough:** _Record a short clip of the end-to-end flow: a Knova agent completing a call, calling MEDIA_SAVE_TEXT, and the customer seeing the file in their portal._
+
+---
+
+## Related pages
+
+- [Documents and folders](/customer-management/documents-and-folders)
+- [Docs & Media library](/customer-management/media-library)
+- [MCP tool modes](/api-reference/mcp/tool-modes)
+- [MCP authentication](/api-reference/mcp/authentication)
+- [Partner API keys](/partner-portal/api-keys)
+
+> Source: [knotie-ai-pro#1626](https://github.com/avijeett007/knotie-ai-pro/pull/1626) — _KNOTI-803: agents and partners upload, download and organise documents over MCP_
