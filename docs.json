@@ -276,7 +276,8 @@
               "api-reference/mcp/authentication",
               "api-reference/mcp/tool-modes",
               "api-reference/mcp/endpoints",
-              "api-reference/mcp/memory-tools"
+              "api-reference/mcp/memory-tools",
+              "api-reference/mcp/media-tools"
             ]
           },
           {
