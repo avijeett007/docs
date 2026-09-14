@@ -1,0 +1,35 @@
+---
+title: "Payment redirect domains"
+description: "Choose which websites your payment links can return customers to after checkout."
+---
+
+## Open the setting
+
+1. Open **Settings**.
+2. Select **Partner API Keys**.
+3. Open the **Platform API** tab.
+4. Scroll to **Payment redirect domains**.
+
+![Payment redirect domains with example approved domains and the Add and Save domains actions](/images/screenshots/payment-redirect-domains-production-2026-09-14.png)
+
+## Add a domain
+
+1. Enter the domain that hosts your landing page, such as `portal.example.com`.
+2. Select **Add**.
+3. Select **Save domains**.
+
+Use the domain name only. Payment links must use an `https://` address on an approved domain or one of its subdomains.
+
+<Warning>
+If the list is empty, you cannot create payment links. Add the website that should receive customers after checkout before creating a link.
+</Warning>
+
+## Remove a domain
+
+Select the delete icon beside the domain, then select **Save domains**. Check any active payment links before removing a domain so customers are not sent to an address that is no longer approved.
+
+## Related pages
+
+- [Partner API keys](/partner-portal/api-keys)
+- [Stripe Connect](/partner-portal/settings/stripe-connect)
+- [Subscription plans](/partner-portal/settings/subscription-plans)

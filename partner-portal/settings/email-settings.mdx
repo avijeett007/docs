@@ -37,16 +37,11 @@ Notes:
 - If you already have a saved password, you may not need to re-enter it unless you're changing it.
 - **Test Connection** sends a check to your SMTP server so you can confirm the details work before saving.
 
-### SMTP security and vulnerabilities
+### Keep email access safe
 
-When using custom SMTP, be aware of potential security considerations:
+Use a dedicated email account for portal messages and do not reuse its password elsewhere. Follow your email provider's recommended secure connection settings and sending limits.
 
-- **Credential exposure** – SMTP credentials are stored in the database. Use a dedicated email account with limited permissions.
-- **Connection security** – Always use TLS/SSL (port 465 or 587) to encrypt the connection.
-- **Rate limiting** – Some SMTP providers have rate limits. Monitor your sending volume.
-- **SPF/DKIM/DMARC** – Configure these DNS records to improve deliverability and prevent spoofing.
-
-The UI includes a risk acknowledgment checkbox to ensure you understand these considerations before enabling custom SMTP.
+The setup form includes a required confirmation before custom SMTP can be enabled.
 
 ![SMTP Configuration with Security Warning](/images/Screenshot2025-12-26at1.03.08AM.png)
 

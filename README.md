@@ -13,7 +13,7 @@ This repo contains all user-facing guides, API references, use-case walkthroughs
 ├── docs.json                 # Mintlify configuration (nav, theme, footer)
 ├── index.mdx                 # Landing page
 ├── quickstart.mdx            # Getting started guide
-├── getting-started/          # Onboarding, pricing, video tutorials
+├── getting-started/          # Onboarding and pricing
 ├── account/                  # Sign-up, login, MFA, passkeys
 ├── customer-management/      # Portal modes, whitelabel, domains
 ├── partner-portal/           # Core partner features

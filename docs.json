@@ -20,7 +20,6 @@
               "getting-started/overview",
               "getting-started/onboarding-checklist",
               "getting-started/progressive-onboarding",
-              "getting-started/video-tutorials",
               "getting-started/pricing-and-features",
               "getting-started/free-forever",
               "getting-started/landing-page-and-revenue-calculators"
@@ -35,7 +34,8 @@
               "account/mfa",
               "account/card-verification",
               "account/login-flow",
-              "account/appearance"
+              "account/appearance",
+              "account/terms-and-privacy"
             ]
           },
           {
@@ -66,8 +66,7 @@
             "pages": [
               "partner-portal/overview",
               "partner-portal/dashboard",
-              "partner-portal/level-system",
-              "partner-portal/tutorials"
+              "partner-portal/level-system"
             ]
           },
           {
@@ -105,6 +104,7 @@
             "pages": [
               "partner-portal/ai-gateway",
               "partner-portal/experiences/overview",
+              "partner-portal/experiences/ai-receptionist-settings",
               "partner-portal/experiences/resell-ai-gateway",
               "partner-portal/experiences/resell-voice-ai-platform",
               "partner-portal/experiences/experience-dashboards",
@@ -150,7 +150,7 @@
               "partner-portal/settings/saas-portal-mode",
               "partner-portal/settings/mcp-custom-domain",
               "partner-portal/settings/notification-preferences",
-              "partner-portal/settings/demo-video",
+              "partner-portal/settings/redirect-domains",
               "partner-portal/settings/knowledge-base-processing",
               "partner-portal/settings/support-keyword",
               "partner-portal/media-studio"
