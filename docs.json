@@ -198,6 +198,7 @@
             "pages": [
               "agents/knova/overview",
               "agents/knova/knova-agent",
+              "agents/knova/ultra-tier",
               "agents/knova/try-agent",
               "agents/knova/manage-knova-agents",
               "agents/knova/knova-agent-builder",
