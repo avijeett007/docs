@@ -1,0 +1,139 @@
+---
+title: "Ultra tier — GPT-Live full-duplex voice"
+description: "Run your Knova agent on OpenAI GPT-Live for sub-second turns, model-controlled barge-in, and simultaneous listen-and-speak — the highest-performance option on the platform."
+---
+
+## What the Ultra tier is
+
+The **Ultra tier** is the highest-performance option for Knova agents. It runs the entire conversation over OpenAI **GPT-Live** (`gpt-live-1`) — a full-duplex voice model that listens and speaks at the same time. Callers can interrupt naturally, and the agent responds in under a second rather than waiting for a full pause.
+
+Compared to the Premium tier, Ultra offers:
+
+| | Premium | Ultra |
+|---|---|---|
+| Architecture | Pipeline (speech → LLM → speech) | Full-duplex (simultaneous) |
+| Turn latency (median) | 2.7–2.9 s | 0.9–1.8 s |
+| Barge-in | Caller-side | Model-controlled |
+| Standard credits/min | 10 | 14 |
+| Committed credits/min | 7 | 10 |
+
+Everything that works on the other tiers — knowledge base queries, partner HTTP tools, MCP servers, call transfers, post-call actions, and analytics — carries over to Ultra unchanged.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Knova agent creation modal with the Ultra tier card visible alongside Essentials, Moderate, and Premium._
+
+---
+
+## Availability
+
+The Ultra tier is enabled per deployment by a feature flag. If you do not see an **Ultra** option when creating or editing a Knova agent, the flag is not yet enabled for your environment.
+
+Platform admins enable Ultra by setting:
+
+```
+NEXT_PUBLIC_FEATURE_ULTRA_TIER=true
+```
+
+A worker-side kill switch (`ULTRA_TIER_ENABLED`) lets the platform disable Ultra at the voice worker level without a redeploy. When the kill switch is off, an Ultra agent automatically falls back to the Premium pipeline.
+
+---
+
+## Create an Ultra tier agent
+
+1. Open **AI Agents → Knova Agents** in the Partner Portal.
+2. Click **New Agent** (or edit an existing agent).
+3. In the Knova agent modal, select the **Ultra** tier card.
+4. Choose a voice from the **GPT-Live voice list** (`openai-live` voices).
+5. Configure your system prompt, knowledge base, and tools as normal.
+6. Click **Save**.
+
+<Note>
+Voice preview is not available for Ultra voices. You can test the agent in real time using [Try agent in browser](/agents/knova/try-agent).
+</Note>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Ultra tier card selected in the Knova agent creation modal, showing the GPT-Live voice picker and the tier notice._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through creating an Ultra tier Knova agent end-to-end, from the modal through the first test call, highlighting the reduced turn latency._
+
+---
+
+## Voices
+
+Ultra agents use **OpenAI-Live voices** (`openai-live`). The available voice list is shown in the modal when Ultra is selected.
+
+Voice preview is not available for GPT-Live voices. Use [Try agent in browser](/agents/knova/try-agent) to audition a voice in a real call.
+
+---
+
+## Credit usage
+
+Ultra agents consume credits at a higher rate than other tiers because they run on a premium real-time model.
+
+| Rate type | Credits per minute |
+|---|---|
+| Standard | 14 |
+| Committed | 10 |
+
+For comparison:
+
+| Tier | Standard | Committed |
+|---|---|---|
+| Essentials | 5 | 3 |
+| Moderate | 7 | 5 |
+| Premium | 10 | 7 |
+| **Ultra** | **14** | **10** |
+
+Credits are deducted at the call's start using the rate that was in effect at that moment. You can always see the exact rate that was applied to any call from the analytics reports.
+
+See [Credits](/partner-portal/credits) for how to top up and [Agent Analytics](/partner-portal/agent-analytics) for per-call breakdowns.
+
+---
+
+## How full-duplex differs from the pipeline tiers
+
+Essentials, Moderate, and Premium use a **pipeline** model: the agent waits for the caller to stop talking, converts speech to text, runs the LLM, converts the response to speech, and plays it back. Each step takes time, adding up to the 2–4 second gap most callers notice.
+
+Ultra uses a **full-duplex** model: audio flows in both directions simultaneously. The model processes incoming speech while generating the outgoing response, producing conversational turns of under a second. The model also controls barge-in — it decides when to yield based on what it hears rather than waiting for a silence detector.
+
+This makes Ultra best suited for:
+
+- High-touch customer service where a natural pace matters
+- Scenarios where callers frequently interrupt or ask follow-up questions mid-sentence
+- Use cases where latency reduction measurably increases conversion or satisfaction
+
+---
+
+## AI Agent Builder and Ultra
+
+When building an agent with the [AI-Powered Agent Builder](/agents/knova/knova-agent-builder), the Builder may ask whether you want a premium real-time experience for high-touch interactions. Selecting yes configures the agent for the Ultra tier (only shown when Ultra is enabled for your environment).
+
+---
+
+## Data handling note
+
+Ultra audio is processed by **OpenAI's GPT-Live API** using the platform's OpenAI key. This is a different data path from the other Knova tiers, which route through LiveKit's infrastructure. Review OpenAI's data processing terms if you have data-residency or zero-data-retention requirements before enabling Ultra for regulated workloads.
+
+---
+
+## Troubleshooting
+
+- **No Ultra option visible in the agent modal**
+  - The feature flag (`NEXT_PUBLIC_FEATURE_ULTRA_TIER`) is not enabled. Contact your platform admin.
+- **"Ultra tier is currently disabled" error when creating an agent**
+  - The worker-side kill switch (`ULTRA_TIER_ENABLED`) is off. The flag may be on but the worker update may not yet be deployed.
+- **Agent falls back to Premium behavior**
+  - The worker kill switch may have been triggered. The agent will automatically run the Premium pipeline until Ultra is re-enabled.
+- **Voice preview not available**
+  - GPT-Live voices do not support preview. Use [Try agent in browser](/agents/knova/try-agent) for a real-time test.
+
+---
+
+## Related pages
+
+- [Knova agent overview](/agents/knova/knova-agent) — How Knova agents work and prerequisites
+- [Manage Knova agents](/agents/knova/manage-knova-agents) — Create, configure, and edit agents
+- [Try agent in browser](/agents/knova/try-agent) — Test your agent with your microphone
+- [Credits](/partner-portal/credits) — Credit balances and top-up
+
+---
+
+> Source: [knotie-ai-pro#1637](https://github.com/avijeett007/knotie-ai-pro/pull/1637) — _feat(knova): Ultra tier — GPT-Live full-duplex voice for Knova agents_
