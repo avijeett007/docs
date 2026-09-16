@@ -1,0 +1,195 @@
+---
+title: "Tier pricing"
+description: "Manage AI agent tier credit rates from Mission Control — change prices without a redeploy, with a full audit trail and per-call evidence on every charge."
+---
+
+## What this page is for
+
+The **Tier Pricing** page in Mission Control lets you view and update the credit-per-minute rates for each Knova agent tier (Essentials, Moderate, Premium, Ultra). Price changes take effect immediately (or at a future date you choose) and require no application redeploy.
+
+Every change is recorded with the operator's identity, a mandatory reason, the old and new rates, and the exact timestamp — so every invoice, refund, or dispute can be answered from the record.
+
+<Note>
+This page is only accessible to platform administrators via Mission Control. Partner Portal users see the current public rates when creating agents, but cannot edit them.
+</Note>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Mission Control → Pricing page showing the current tier pricing table with all four tiers (Essentials, Moderate, Premium, Ultra), their standard and committed rates, effective date, and the change history section below._
+
+---
+
+## Where to find it
+
+1. Open **Mission Control** (admin access required).
+2. Click **Pricing** in the left nav.
+
+The page shows the current active rate for each tier and a history of all past changes.
+
+---
+
+## Current tier rates
+
+These are the platform's seeded default rates:
+
+| Tier | Standard (credits/min) | Committed (credits/min) |
+|---|---|---|
+| Essentials | 5 | 3 |
+| Moderate | 7 | 5 |
+| Premium | 10 | 7 |
+| Ultra | 14 | 10 |
+
+**Standard** is the default rate. **Committed** is the rate for customers on committed-usage plans.
+
+All four tiers are seeded when the platform is first deployed. The current active rate for each tier is always visible on this page.
+
+---
+
+## How pricing works
+
+When a call starts, the platform looks up the rate that was in effect **at that moment** for the agent's tier. That exact rate — including which pricing version it came from — is stored with the call record.
+
+This means:
+- Changing a tier's rate does not retroactively affect past calls.
+- Every call record has an audit trail linking it to the exact pricing version that applied.
+- If you change the same tier twice in quick succession, calls that started between the two changes use the rate that was in effect when they started.
+
+---
+
+## Change a tier rate
+
+1. On the **Pricing** page, click **Change Rate** next to the tier you want to update.
+2. Enter the new **Standard** and/or **Committed** rate.
+3. Enter a **Reason** (minimum 10 characters — required for the audit trail).
+4. Choose when the change takes effect:
+   - **Immediately** — new calls use the new rate as soon as you save.
+   - **Future date** — specify a date/time; calls before that moment still use the old rate.
+5. Review the **confirmation panel** showing the old and new rates side by side.
+6. Click **Confirm Change**.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the change rate form/modal showing the old rate, new rate fields, the mandatory Reason field, the effective-now vs. future-date option, and the confirmation panel._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through making a tier rate change in Mission Control — from clicking Change Rate through confirming and verifying the change appeared in the history._
+
+<Warning>
+Pricing rows are **append-only** — they cannot be edited or deleted after saving. If you enter the wrong rate, create a new row with the correct rate immediately (it supersedes the previous one).
+</Warning>
+
+---
+
+## View rate history
+
+Below the current rates table, the **History** section shows all previous pricing versions for each tier:
+
+- Previous standard and committed rates
+- Who changed it (operator identity)
+- The reason provided
+- When it took effect
+- When it was superseded
+
+Click **Export CSV** to download the full history.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the pricing history section for one tier, showing several rows with old rate → new rate, who changed it, and when._
+
+---
+
+## Usage-at-rate report
+
+The **Usage at Rate** report shows how many minutes were billed at each pricing version across a selected date range:
+
+1. On the Pricing page, click **Usage Report**.
+2. Filter by partner, customer, or date window.
+3. Review the breakdown: minutes × rate per pricing version, with subtotals per tier.
+4. Click **Export CSV** to download.
+
+This report is the primary tool for answering customer billing questions when a rate change happened mid-month.
+
+---
+
+## Per-call rate evidence
+
+Every call record now stores:
+
+| Field | What it contains |
+|---|---|
+| Rate | The credits/min applied to this call |
+| Rate type | `standard` or `committed` |
+| Pricing version ID | Reference to the exact pricing row in effect at call start |
+
+You can view per-call details in [Agent Analytics](/partner-portal/agent-analytics).
+
+---
+
+## Public tier pricing endpoint
+
+The current tier rates are available at a public read-only endpoint, which partner-facing pricing cards and the whitelabel onboarding flow use to display up-to-date prices:
+
+```
+GET /api/public/tier-pricing
+```
+
+This endpoint reflects the currently active rate for each tier with up to 60 seconds of cache. No authentication is required.
+
+**Sample response:**
+
+```json
+{
+  "essentials": { "standard": 5, "committed": 3 },
+  "moderate":   { "standard": 7, "committed": 5 },
+  "premium":    { "standard": 10, "committed": 7 },
+  "ultra":      { "standard": 14, "committed": 10 }
+}
+```
+
+---
+
+## Environment variables (deprecated)
+
+Previously, tier rates were set via environment variables (`NEXT_PUBLIC_AGENT_TIER_ESSENTIALS_CREDITS_PER_MIN`, etc.). These variables still work as a fallback but are **deprecated**. If they are set, the platform logs a deprecation warning on startup. Remove them from your environment once you've confirmed the database-managed rates are correct.
+
+<Warning>
+Do not set both `AGENT_TIER_*` env vars and database rates at the same time. The database rates take precedence; the env vars are only used if the database lookup fails entirely.
+</Warning>
+
+---
+
+## Post-deploy setup checklist
+
+After deploying the version that introduced database-managed pricing (knotie-ai-pro#1647), complete these steps before using Mission Control → Pricing:
+
+1. **Run the database migration**: `npm run db:push`
+2. **Run the seed script** (installs the append-only trigger and seeds the four default rows):
+   ```bash
+   DRY_RUN=false npx tsx -r dotenv/config scripts/seed-tier-pricing.ts
+   ```
+   This is safe to run multiple times (idempotent).
+3. **Open Mission Control → Pricing** and confirm all four tiers appear with their default rates (5/3, 7/5, 10/7, 14/10).
+4. **Remove deprecated env vars**: Remove any `AGENT_TIER_*` environment variables from your Coolify / hosting config.
+
+<Note>
+Until the seed script has run, the `POST /api/admin/pricing` endpoint returns a 503 error by design. The trigger must exist before any rate changes are allowed.
+</Note>
+
+---
+
+## Troubleshooting
+
+- **Pricing page is empty / no rows shown**
+  - The seed script has not been run. See the post-deploy setup checklist above.
+- **503 error when trying to save a rate change**
+  - The append-only database trigger is not installed. Run the seed script.
+- **Rate change shows as effective immediately but calls still use the old rate**
+  - There is a 60-second cache on the public endpoint. Wait 60 seconds and check again.
+- **"Reason must be at least 10 characters" error**
+  - The reason field is mandatory and enforced server-side. Provide a meaningful description of why you're changing the rate.
+
+---
+
+## Related pages
+
+- [Credits](/partner-portal/credits) — Partner credit balances and top-up
+- [Agent Analytics](/partner-portal/agent-analytics) — Per-call breakdowns including rate applied
+- [Metered Billing](/partner-portal/metered-billing) — How credits are consumed during calls
+- [Knova Agent — Ultra tier](/agents/knova/ultra-tier) — The Ultra tier and its credit rates
+
+---
+
+> Source: [knotie-ai-pro#1647](https://github.com/avijeett007/knotie-ai-pro/pull/1647) — _feat(pricing): tier prices managed in Mission Control — append-only table, audit trail, per-call evidence, usage-at-rate report_

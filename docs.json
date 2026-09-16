@@ -157,6 +157,7 @@
               "partner-portal/settings/subscription-plans",
               "partner-portal/settings/subscription-plan-features",
               "partner-portal/settings/customer-credit-plans",
+              "partner-portal/settings/tier-pricing",
               "partner-portal/settings/saas-portal-mode",
               "partner-portal/settings/mcp-custom-domain",
               "partner-portal/settings/notification-preferences",
