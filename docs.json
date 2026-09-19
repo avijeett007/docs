@@ -163,6 +163,7 @@
               "partner-portal/settings/redirect-domains",
               "partner-portal/settings/knowledge-base-processing",
               "partner-portal/settings/support-keyword",
+              "partner-portal/settings/data-export",
               "partner-portal/media-studio"
             ]
           },
