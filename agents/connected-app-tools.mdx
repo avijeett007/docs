@@ -30,7 +30,10 @@ This means:
 When an agent is **created** or **updated** with a customer assigned:
 
 1. Knotie AI Pro mints an MCP token for that customer and attaches it to the agent automatically — for both Retell and VAPI, with no manual wiring on your part.
-2. At call time, the agent looks up whichever apps the customer has **currently** connected. New apps appear automatically — no token regeneration needed when the customer's apps change.
+2. Named connected-app tools for the customer's currently-enabled apps are attached as static webhooks so the model always has them in its tool list.
+3. At call time, the MCP server is also available as a dynamic fallback — any app the customer connects *after* the agent was built is automatically discoverable.
+
+When a customer is **reassigned** to a different agent (or the agent's customer changes), stale MCP tokens and connected-app webhooks from the previous customer are cleaned up and fresh ones minted for the new customer.
 
 ## What tools are served via MCP vs. static webhooks
 
@@ -38,10 +41,14 @@ Not all tool types switch to MCP. The table below explains the routing:
 
 | Tool type | Delivery | Why |
 |---|---|---|
-| Connected-app tools (Gmail, Slack, HubSpot, etc.) | **Live MCP server** | Dynamic; new apps appear automatically |
+| Connected-app tools (Gmail, Slack, HubSpot, etc.) | **Static webhook** (primary) + **Live MCP server** (dynamic fallback) | Webhook ensures the model always sees named tool definitions at build time; MCP catches any new apps the customer connects after the agent was built |
 | Custom API integrations | **Static webhook** | Custom wiring that MCP doesn't cover |
 | Tools with pre-filled parameter values | **Static webhook** | Pre-fills are baked into the webhook; would be lost via MCP |
 | Built-in tools (`end_call`, etc.) | **Static webhook** | Provider built-ins, not app-specific |
+
+<Note>
+Voice agents (Retell, VAPI, Knova) use **meta mode** for their MCP connection. In meta mode the MCP server returns only two generic meta-tools plus internal tools, not the full per-app tool list. Named connected-app tools (like `gmail_send_email`) therefore reach the agent via static webhook, with the MCP server available for any app the customer connects dynamically after the agent was built.
+</Note>
 
 ## Supported voice providers
 
