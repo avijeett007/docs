@@ -1,0 +1,115 @@
+---
+title: "Agent Mailbox"
+description: "Connect a custom IMAP/SMTP mailbox to your AI agents so they can read, organise, draft, and send emails from your own domain."
+---
+
+## Overview
+
+Agent Mailbox lets you wire a real email account — any host that supports IMAP and SMTP — directly into a Knotie AI agent. Once connected, the agent gains a set of **mailbox tools** it can invoke during voice or chat sessions: reading threads, filing messages, drafting replies, and sending outbound mail either directly or with your approval first.
+
+Gmail and Outlook accounts continue to work through their existing Composio OAuth integration. Agent Mailbox is for **custom-domain or self-hosted mailboxes** (e.g. company mail on Hostinger, Zoho, cPanel, or a private mail server).
+
+## Prerequisites
+
+| Requirement | Details |
+|---|---|
+| **Mailbox credentials** | IMAP and SMTP host, port, username, and app password (or account password). App passwords are recommended when 2FA is active. |
+| **Agent assignment** | The agent must already be assigned to the customer you are connecting the mailbox for. |
+| **Access level** | You set a per-agent access level when you configure the connection. Choose the least-permissive level that covers the agent's task. |
+
+## Connect a mailbox
+
+1. In the Partner Portal, open **Customers → Active Customers**, find the customer, and click **Manage**.
+2. Navigate to **Agent Mailbox** (under Integrations or the AI Agents section, depending on your portal layout).
+3. Click **Add Mailbox** and fill in the connection form:
+   - **Display name** — a label for this account (e.g. *Support inbox*).
+   - **Email address** — the full address the agent will send from.
+   - **IMAP host / port** — typically `imap.yourdomain.com:993` (SSL).
+   - **SMTP host / port** — typically `smtp.yourdomain.com:587` (STARTTLS) or `:465` (SSL).
+   - **Username / password** — credentials for the mailbox. Use an app password where possible.
+4. Click **Test Connection**. Knotie will attempt a live IMAP and SMTP handshake and report any errors.
+5. On success, set the **access level** for the agents that will use this mailbox (see below), then click **Save**.
+
+Credentials are encrypted at rest. The plaintext password is never stored after it is encrypted.
+
+## Access levels
+
+When you link a mailbox to an agent you choose one of three access levels. The level caps what the agent can do regardless of what a user asks.
+
+| Level | What the agent can do |
+|---|---|
+| **Read-only** | Read emails and list threads. No send, no draft, no file. |
+| **Read + Organise** | Read, search, move, label, and archive messages. Still no send. |
+| **Full access** | All of the above plus draft creation, send-for-approval, and direct send (if enabled). |
+
+You can change the access level at any time from the mailbox configuration page.
+
+## Mailbox tools available to agents
+
+When an agent has a connected mailbox at **Full access**, up to twelve `mailbox_*` tools become available at call time via the MCP server:
+
+| Tool | What it does |
+|---|---|
+| `mailbox_list_folders` | List available mail folders / labels |
+| `mailbox_list_messages` | List messages in a folder with subject, sender, date |
+| `mailbox_read_message` | Fetch the full body of a single message |
+| `mailbox_search_messages` | Search by keyword, sender, date range, or folder |
+| `mailbox_get_thread` | Fetch all messages in a conversation thread |
+| `mailbox_move_message` | Move a message to a different folder |
+| `mailbox_mark_read` | Mark a message as read |
+| `mailbox_mark_unread` | Mark a message as unread |
+| `mailbox_archive_message` | Archive a message |
+| `mailbox_create_draft` | Create a draft reply or new message |
+| `mailbox_send_for_approval` | Queue a draft for your review before it is sent |
+| `mailbox_send_message` | Send a message directly (requires explicit enablement) |
+
+Tools that exceed the configured access level are not served to the agent. For example, an agent set to **Read-only** will not see `mailbox_create_draft` or `mailbox_send_message`.
+
+## Send approval queue
+
+When an agent calls `mailbox_send_for_approval`, the draft is placed in a queue rather than sent immediately. You review it in the Partner Portal under **Agent Mailbox → Pending Approvals** and click **Approve** or **Reject**.
+
+<Note>
+`mailbox_send_message` (direct send) is disabled by default. Enable it per-agent only if you trust the agent to send without human review. For most use cases, `mailbox_send_for_approval` is the safer choice.
+</Note>
+
+## Security
+
+- **SSRF guard**: The connection endpoint is validated against a blocklist before any IMAP/SMTP handshake. Private IP ranges (RFC 1918), loopback addresses, link-local, and CGNAT ranges are rejected. This prevents an agent from being directed at internal network services.
+- **Encrypted credentials**: Mailbox passwords are encrypted before storage. The plaintext value is used only during active IMAP/SMTP sessions.
+- **Rate limiting**: Mailbox tool calls are rate-limited per agent per customer to prevent runaway usage.
+- **Action log**: Every mailbox action (read, move, send, approval decision) is written to an audit log visible under **Agent Mailbox → Activity Log**.
+
+## Difference from Gmail and Outlook integrations
+
+| | Agent Mailbox | Gmail / Outlook |
+|---|---|---|
+| **Auth method** | IMAP/SMTP credentials | OAuth 2.0 via Composio |
+| **Best for** | Custom domains, self-hosted, or any IMAP-compatible host | Google Workspace and Microsoft 365 accounts |
+| **Tools served** | `mailbox_*` tools via MCP | Provider-specific tools via Composio (e.g. `gmail_send_email`) |
+| **Send approval queue** | Built-in | Not available (sends directly) |
+
+## Troubleshooting
+
+**Test Connection fails**
+
+- Check that the host and port are correct and that the server accepts external connections on those ports.
+- If 2FA is active, use an **app password** (not your login password).
+- Confirm the username format — some hosts require the full email address, others just the local part.
+
+**Agent cannot use mailbox tools**
+
+- Confirm the agent is assigned to the customer the mailbox belongs to.
+- Confirm the mailbox is active (not in an error state) in the configuration page.
+- Confirm the agent's assigned access level covers the tool being called.
+- Rebuild the agent (trigger an update) to refresh the MCP token and tool list.
+
+**Draft appeared in queue but was not sent after approval**
+
+- Check the **Activity Log** for an error entry. SMTP send failures are logged with the error message from the mail server.
+
+## Related pages
+
+- [Choose customer integrations](/partner-portal/customers/integration-apps-selection)
+- [Connected App Tools for Voice Agents](/agents/connected-app-tools)
+- [MCP Tokens](/partner-portal/ai-agents/mcp/tokens)

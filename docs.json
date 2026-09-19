@@ -235,6 +235,7 @@
             "group": "Agent Tools & Setup",
             "pages": [
               "agents/connected-app-tools",
+              "agents/agent-mailbox",
               "agents/byo-agent/overview",
               "agents/openclaw-setup",
               "agents/migration/agent-migration"
