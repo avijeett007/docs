@@ -200,11 +200,18 @@ Every proposal is checked before being presented:
 | Rule | Detail |
 |---|---|
 | System prompt length | Max 15,000 characters per persona |
+| Dynamic variable usage | Every variable declared in the `dynamicVariables` list must appear as a `{{placeholder}}` somewhere in the system prompt or greeting |
 | Multi-agent: persona count | Minimum 2 personas |
 | Multi-agent: routing | Must include a valid routing setup and an entry persona |
 | Persona references | Every persona named in the routing must exist |
 
 If a proposal doesn't meet a rule, the builder corrects itself on the next turn rather than showing you an error.
+
+#### Dynamic variable rule
+
+If the builder declares a dynamic variable (for example `customerName`) but never uses it in the system prompt as `{{customerName}}`, the proposal is rejected during validation. This prevents silent misconfiguration where the variable is wired up but the prompt never references it.
+
+**What to do**: either add the `{{placeholder}}` to the system prompt / greeting, or remove the variable from the `dynamicVariables` declaration. The builder will handle this automatically if you ask it to revise the proposal.
 
 ---
 
