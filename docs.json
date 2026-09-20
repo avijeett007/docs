@@ -205,7 +205,8 @@
               "agents/knova/outbound-calling",
               "agents/knova/outbound-webhook-api",
               "agents/knova/voice-widget",
-              "agents/knova/telnyx-byo-numbers"
+              "agents/knova/telnyx-byo-numbers",
+              "agents/knova/custom-tools"
             ]
           },
           {
