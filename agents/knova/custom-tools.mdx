@@ -1,0 +1,77 @@
+---
+title: "Custom tools on Knova agents"
+description: "Connect Composio integrations and other custom tools to a Knova agent, and understand which tools are reserved for internal platform use."
+---
+
+## What are custom tools?
+
+Knova agents can use **custom tools** — Composio integrations (Gmail, Outlook, Twilio SMS, Notion, Salesforce, and hundreds more) or partner-defined functions — that you attach to an agent from the **Advanced** tab. These appear in the model's tool list and let the agent take real actions during a call, such as sending an email, creating a CRM record, or searching a knowledge base.
+
+## How to attach a custom tool
+
+1. Open **AI Agents → Knova Agents**.
+2. Open the agent's three-dot menu and select **Edit**.
+3. Go to the **Advanced** tab.
+4. Under **Tools**, select **Add tool** and pick the integration or function you want.
+5. Save the agent.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Advanced tab with the Tools section showing a Composio Gmail tool attached alongside the built-in tools._
+
+> 🎬 **Video walkthrough:** _Record a short clip showing how to connect a Composio integration to a Knova agent and verify it appears during a test call._
+
+## Reserved tool names
+
+Knotie uses a small set of tool names that are **reserved** for internal platform functions:
+
+| Reserved identity | What it does |
+|---|---|
+| `EMAIL_SEND_NOTIFICATION` | Sends a post-call notification email |
+| `SMS_SEND_MESSAGE` | Sends a post-call SMS notification |
+| `KNOWLEDGE_BASE_QUERY` | Queries the agent's attached knowledge base |
+
+These tools are managed by the platform and are never visible as regular tools in the model's call list — the Knova worker filters them out automatically.
+
+<Warning>
+Do **not** name a custom tool `EMAIL_SEND_NOTIFICATION`, `SMS_SEND_MESSAGE`, or `KNOWLEDGE_BASE_QUERY`. A tool with an exact matching identity will be treated as a platform tool and removed from the model's list.
+</Warning>
+
+## Tools that were silently hidden (resolved)
+
+Before the fix shipped with the September 2026 Knova worker update, the worker matched reserved tool names by **substring** rather than exact identity. This meant:
+
+- A Composio **Gmail** tool (e.g. `gmail_send_email`) was hidden because its name contained `email`.
+- A **Twilio SMS** tool (e.g. `twilio_send_sms`) was hidden because its name contained `sms`.
+- A **Notion** or **"knowledgebase"** search tool was hidden because its name contained `knowledge`.
+
+Partners whose Knova agents had these integrations attached saw no errors — the tools silently disappeared from the model's available list, and any agent prompt that relied on them stopped working.
+
+**The fix:** the Knova worker now matches only on **exact tool identity** (the same rule the main app uses). Composio Gmail, Twilio SMS, and similar tools appear correctly after a worker redeploy.
+
+### What you need to do
+
+If your agents were affected, **no changes to your agent configuration are required**. After the Knova worker is redeployed by your operator, the tools will reappear automatically on the next call.
+
+To verify a tool is available:
+
+1. Open the agent in **Edit** mode.
+2. Check the **Advanced → Tools** list to confirm the integration is still attached.
+3. Run a test call and ask the agent to use the tool — confirm it responds correctly.
+
+> 📷 **Screenshot needed:** _Add a screenshot of a Knova agent's Advanced tab showing a Gmail or SMS tool attached and visible in the list after the fix._
+
+## Troubleshooting
+
+**My custom tool still doesn't appear after the worker was redeployed.**
+
+- Confirm the tool name does not exactly match a reserved identity (see the table above).
+- Check that the Composio connection is still active in **Integrations → App Store**.
+- Re-attach the tool from the Advanced tab, save, and test again.
+
+**The agent calls the wrong tool.**
+
+- Rename the custom tool in the Composio dashboard to something that clearly describes its function, then re-attach it.
+- Make the system prompt more specific about when to use which tool.
+
+---
+
+> Source: [knotie-ai-pro#1659](https://github.com/avijeett007/knotie-ai-pro/pull/1659) — _fix(knova): hide only the exact mandatory tools, not every tool named \*email\*/\*sms\*_
