@@ -1,0 +1,90 @@
+---
+title: "Approval Defaults (Settings)"
+description: "Provision your phone-approval tenant and set default rules that apply to all your customers."
+---
+
+## Overview
+
+**Settings → Approval Defaults** is where you set up and manage the phone-approval feature for your entire platform. This page lets you:
+
+- **Provision your approval tenant** — a one-time step that connects your Knotie account to the approval server so phone approvals can work for your customers.
+- **Set default rules** — choose which tools require approval by default for all new customers.
+- **Lock rules** — prevent customers from changing specific approval settings.
+
+<Info>
+Phone Approvals must be enabled for your deployment (`APPROVALS_ENABLED`). If you don't see this page, contact your platform administrator.
+</Info>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Settings → Approval Defaults page showing the "Provision Approval Tenant" button, the provisioned status badge, and the default-rules panel below._
+
+---
+
+## Provisioning your tenant
+
+Each partner account has its own isolated approval tenant on the approval server. Your customers' approval decisions and paired devices are completely separate from every other partner's.
+
+<Steps>
+  <Step title="Open Settings → Approval Defaults">
+    Navigate to **Settings** in your partner portal and select **Approval Defaults** from the sidebar.
+  </Step>
+  <Step title="Click Provision Approval Tenant">
+    Click the **Provision Approval Tenant** button. Knotie registers a new tenant on the approval server and stores the credentials securely against your account. This takes a few seconds.
+  </Step>
+  <Step title="Confirm the provisioned status">
+    Once complete, the page shows a green status badge. Your tenant is now ready and phone approvals are available to your customers.
+  </Step>
+</Steps>
+
+Provisioning is idempotent — if you click the button more than once (for example after a failed attempt), Knotie claims the same tenant rather than creating a duplicate.
+
+<Warning>
+The approval-server credentials are stored encrypted and the plaintext key is never shown again. Back up your database's `partner_approval_tenants` table and your `ENCRYPTION_KEY`. If either is lost, you will need to re-provision and all customers will need to re-pair their phones.
+</Warning>
+
+---
+
+## Setting default rules
+
+Once provisioned, the **Default Rules** panel lists all tool categories and individual tools available through the Knotie integration gateway.
+
+For each tool you can set the default for new customers:
+
+| Default | Meaning |
+|---|---|
+| **Off (allow freely)** | Tool calls run without an approval step. This is the default for all tools. |
+| **On (require approval)** | New customers will have approval-on for this tool unless they change it. |
+
+### Locking a rule
+
+Toggle the **lock icon** next to any rule to prevent customers from changing it. A locked rule shows a padlock in the customer portal and cannot be modified by the customer.
+
+<Note>
+If you lock a rule that requires approval and a customer has no phone paired, that customer cannot use the tool. The Approval Defaults page shows a count of affected customers at the bottom of the panel so you can reach out before locking.
+</Note>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the default rules panel showing a mix of unlocked and locked rules, including the "X customers affected" warning for a locked rule with no paired device._
+
+---
+
+## Branding on the phone
+
+When your tenant is provisioned, the approval server is seeded with your `Business Name` from your branding settings. This name appears on the push notification the customer receives. If you update your branding later, the approval server is updated automatically.
+
+> 📷 **Screenshot needed:** _Add a screenshot of a phone push notification showing the partner's business name as the notification title._
+
+---
+
+## Environment variables
+
+If you self-host Knotie, the following variables are required for phone approvals:
+
+| Variable | Where | Purpose |
+|---|---|---|
+| `APPROVALS_ENABLED` | Main app | Set to `true` to enable the feature. Off by default. |
+| `APPROVALS_ADMIN_API_KEY` | Main app | Operator key for the approval server — used only to provision new partner tenants. |
+| `APPROVALS_WEBHOOK_BASE_URL` | Main app | Public base URL of your Knotie deployment, used to receive decision callbacks. |
+| `MAIN_APP_ENCRYPTION_KEY` | Connect Hub | Must equal the main app's `ENCRYPTION_KEY` — used to decrypt partner tenant credentials at call time. |
+
+---
+
+> Source: [knotie-ai-pro#1674](https://github.com/avijeett007/knotie-ai-pro/pull/1674) — _feat(approvals): a tenant per partner, so one approval server serves them all (KNOTI-969)_

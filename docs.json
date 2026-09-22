@@ -159,6 +159,7 @@
               "partner-portal/settings/customer-credit-plans",
               "partner-portal/settings/saas-portal-mode",
               "partner-portal/settings/mcp-custom-domain",
+              "partner-portal/settings/approval-defaults",
               "partner-portal/settings/notification-preferences",
               "partner-portal/settings/redirect-domains",
               "partner-portal/settings/knowledge-base-processing",
