@@ -1,0 +1,136 @@
+---
+title: "Phone Approvals for Agent Tool Calls"
+description: "Require a phone approval — Face ID or fingerprint — before an AI agent runs a high-risk tool on a customer's behalf."
+---
+
+## Overview
+
+Phone Approvals let you mark specific tools as **high-risk**. When a customer's AI agent tries to call one of those tools — whether that agent is a Knova voice agent, a Claude or Codex session, an n8n workflow, or any other caller on the customer MCP gateway — the call is **not executed until someone approves it on a paired phone**.
+
+- **Customer controls:** the customer pairs one or more phones via their portal, then enables approval-on per app or per tool.
+- **Agency controls:** as a partner, you can set a default approval policy and lock rules that customers cannot override.
+- **Off by default.** While `APPROVALS_ENABLED` is not turned on for your deployment, every tool call behaves exactly as it does today.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the customer portal Approvals page showing the paired-device list and the per-tool toggle panel._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the end-to-end flow: pairing a phone via QR code, marking a tool as requiring approval, then approving a live agent tool call on the phone._
+
+---
+
+## How approvals work
+
+<Note>
+**The agent retries the call after approval.** Nothing runs in the background while a person decides. Once the customer approves on their phone, the agent must call the tool again with the exact same arguments — at that point the call runs immediately.
+</Note>
+
+1. **Agent calls a gated tool.** The MCP gateway checks whether this customer has an approval rule for the tool. If approval is required, the gateway sends a push notification to the customer's paired phone(s).
+2. **Agent receives `APPROVAL_REQUIRED`.** The response includes a 4-digit code and instructions: *"Nothing has run. Once approved, call this tool again with exactly the same arguments."* The same 4-digit code appears on the phone notification so the customer can verify the request.
+3. **Customer approves on their phone.** Using Face ID or a fingerprint, the customer approves the action in the Knotie phone app.
+4. **Agent calls the same tool again.** With the same arguments, the gateway claims the approval (single-use, atomic) and runs the call immediately.
+5. **Result returns normally.** The tool result flows back to the agent exactly as if no approval step existed.
+
+### What the agent receives
+
+| Situation | Response |
+|---|---|
+| First call — no prior approval | `APPROVAL_REQUIRED` + 4-digit code + instructions to retry |
+| Retry — approval still pending | `APPROVAL_REQUIRED` + same code (no second push sent) |
+| Retry — customer approved | Tool result (call runs now) |
+| Retry — customer denied | `APPROVAL_DENIED` |
+| Retry — arguments changed | A new approval request is raised |
+
+Approvals are **single-use and argument-locked**. If the agent sends different parameters on retry, a new approval request is created (safe by design — the customer sees and approves exactly what runs).
+
+### `internal_await_approval`
+
+Agents that support long-running tool calls can call `internal_await_approval` to check the current status of a pending approval instead of polling with the original tool call. This tool reports `pending`, `approved`, or `denied` but does not run anything — only the re-call of the original tool executes the action.
+
+---
+
+## Setting up approvals (partner)
+
+<Steps>
+  <Step title="Enable the approvals feature">
+    Go to **Settings → Approval Defaults** and click **Provision Approval Tenant**. Knotie will register your account on the approval server and store the credentials. This step requires `APPROVALS_ENABLED` to be turned on for your deployment — contact support if you don't see this page.
+  </Step>
+  <Step title="Set default rules (optional)">
+    On the same page, you can define default rules that apply to all new customers. You can also lock specific rules so customers cannot turn them off.
+  </Step>
+  <Step title="Customer pairs a phone">
+    The customer logs into their portal and navigates to **Integrations → Approvals**. They click **Pair a phone** and scan the QR code with the Knotie phone app.
+  </Step>
+  <Step title="Customer enables approvals per tool">
+    The customer toggles approval-on for an entire app (e.g., Gmail) or for individual tools (e.g., `gmail_send_email`). Tools marked as high-risk are pre-highlighted.
+  </Step>
+</Steps>
+
+> 📷 **Screenshot needed:** _Add a screenshot of Settings → Approval Defaults showing the provisioned status badge and default-rules panel._
+
+---
+
+## Customer portal: pairing a phone
+
+1. In the customer portal, go to **Integrations → Approvals**.
+2. Click **Pair a phone** and scan the QR code with the Knotie phone app.
+3. The device appears in the **Paired devices** list within a few seconds.
+4. Paired devices can be renamed or revoked at any time.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Pair a Phone modal showing the QR code._
+
+---
+
+## Customer portal: managing rules
+
+The **Rules** tab shows all tools grouped by connected app. For each tool:
+
+- **Require approval** — the phone is asked every time this tool is called.
+- **Allow freely** — the tool runs without an approval step.
+
+Rules locked by your partner show a padlock icon and cannot be changed.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the approval rules panel showing mixed states — some on, some off, at least one locked._
+
+---
+
+## Security notes
+
+- Approvals are **single-use**. Once claimed, the approval cannot trigger a second call.
+- **Arguments are hashed.** Changing any argument on retry raises a new approval request.
+- Approval decisions are **HMAC-signed**. A decision for one customer cannot release a different customer's tool.
+- Credentials are stored encrypted at rest (AES-256-GCM).
+- **Fail-closed:** if the approval server is unreachable, gated calls are refused, not run.
+- **No credentials at rest while pending.** Nothing is held in the background between the initial call and the retry — there is no stored token, no background runner, no queued job.
+
+---
+
+## Supported callers
+
+Any caller that reaches the customer MCP gateway supports approvals, including per-tool tokens:
+
+| Caller | Notes |
+|---|---|
+| Knova voice agents | Fully supported, including Ultra and Premium |
+| Claude / Codex sessions | Via MCP client |
+| n8n automations | Via the Knotie n8n node |
+| OpenClaw / Hermes | Via MCP |
+| REST `/api/dynamic` | Supported; per-tool tokens go through the same gate |
+
+---
+
+## FAQ
+
+**What if no phone is paired?**
+If approval is required but no device is paired, the tool call is refused with `APPROVAL_REQUIRED`. The agent receives instructions to have the customer pair a device. Partner-locked rules with no paired device are shown as a warning in **Settings → Approval Defaults**.
+
+**Does the customer have to approve every call?**
+Yes, each approval is single-use. If you want an automation to run a tool repeatedly without interruptions, do not mark that tool as requiring approval.
+
+**What if the agent changes the arguments on retry?**
+A new approval request is raised for the new arguments. The original approval is not consumed, but it expires after the approval server's use window (default 10 minutes).
+
+**Can I use approvals with voice agents?**
+Yes. During an active voice call, the agent receives `APPROVAL_REQUIRED` and can communicate with the customer ("I need your approval on your phone before I can send that email"). Once the customer approves, the agent calls the tool again and the call proceeds.
+
+---
+
+> Source: [knotie-ai-pro#1684](https://github.com/avijeett007/knotie-ai-pro/pull/1684) — _feat(approvals): an approved call runs when the agent calls it again, nothing is held (KNOTI-984)_
