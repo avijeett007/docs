@@ -41,15 +41,35 @@ Select FreeAgent and save the app list to make it available to the customer. The
 Selecting an app controls availability. The customer must still connect their own account before an agent can use it.
 </Note>
 
+## Integration in all portal modes
+
+Integration is available in every dashboard mode — **Standard**, **Agency + Infra**, **Infrastructure**, and **Integrations & Approvals**. You no longer need to be on Standard mode to offer it to customers.
+
+The **Integration** and **MCP Access** options appear under their own **Integrations & Approvals** group in the Platform Configuration default-menu customizer, separate from the voice-agent menus.
+
+## What customers see when they have no apps yet
+
+If Integration is turned on for a customer but no apps have been selected for them, they see a clear **"No apps are enabled for your account yet"** message instead of the full catalog. This prevents customers from seeing and trying to connect apps they aren't authorized to use.
+
+To give a customer apps quickly, either select them in **Edit Apps** or use the [partner-wide app list](/partner-portal/settings/customer-default-apps).
+
+## Free Forever plan
+
+Partners on the Free Forever plan can only offer **free-tier apps** to customers. Premium apps show as **Not on your plan** with a notice explaining that the customer's provider needs to upgrade before they become available.
+
 ## If a customer cannot find an app
 
 - Confirm **Integration** is turned on for that customer.
-- Confirm the app is selected in **Edit Apps**.
+- Confirm the app is selected in **Edit Apps** (or the customer is receiving it from the [partner app list](/partner-portal/settings/customer-default-apps)).
 - Check the app's plan group and its Alpha or Beta label.
 - Ask the customer to refresh their portal after you save.
 
 ## Related pages
 
 - [Features & add-ons](/partner-portal/customers/features-addons-and-menu-visibility)
+- [Apps for your customers (partner-wide list)](/partner-portal/settings/customer-default-apps)
+- [Integration app requests](/partner-portal/customers/integration-app-requests)
 - [Connected app tools](/agents/connected-app-tools)
 - [Tool call quota](/partner-portal/customers/tool-call-quota)
+
+> Source: [knotie-ai-pro#1688](https://github.com/avijeett007/knotie-ai-pro/pull/1688) — _fix(whitelabel): Integration reaches customers — every mode, every creation path, and the real app list (KNOTI-985)_
