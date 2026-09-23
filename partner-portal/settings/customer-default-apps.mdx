@@ -1,0 +1,117 @@
+---
+title: "Apps for your customers"
+description: "Set a partner-wide list of integration apps so you can give every customer the same starting set in one action, instead of editing each customer individually."
+---
+
+## What this setting does
+
+**Settings → Integration Pricing → Apps for your customers** lets you pick which integration apps your customers should have access to by default. Instead of opening every customer record and selecting apps one at a time, you configure it once and apply the list to any number of customers.
+
+<Note>
+This setting controls which apps a customer **can** access. The customer still connects their own account for each app before an agent can use it.
+</Note>
+
+---
+
+## Open the app list
+
+1. In the Partner Portal, open **Settings → Integration Pricing**.
+2. Scroll to the **Apps for your customers** section.
+
+You'll see the integration app catalog grouped by availability (free, premium, standard). New apps added since your last save are badged **NEW**.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the "Apps for your customers" section in Integration Pricing, showing the app catalog with checkboxes, the NEW badge, and the Select All / Clear All controls._
+
+---
+
+## Choose apps
+
+Use the bulk controls to make a broad change:
+
+| Control | What it does |
+|---------|-------------|
+| **Select All** | Ticks every app in the catalog |
+| **Select All Free** | Ticks only the free-tier apps |
+| **Clear All** | Unticks all apps |
+
+You can also tick or untick individual apps.
+
+**Free Forever partners**: apps outside the free tier are locked and cannot be selected. They display an **Upgrade to offer** label.
+
+When you're done, click **Save** to store your selection.
+
+---
+
+## Automatically add new apps
+
+The **Automatically add new apps as we release them** switch, when on, adds newly released Knotie apps to your saved list each time we release one.
+
+- **Snapshot-based**: turning the switch on saves a snapshot of the catalog at that moment. New apps are "anything released after that snapshot".
+- If you have never saved a list, the auto-add switch has no reference point and cannot act on its own.
+- The switch only ever **adds** — it never removes an app you previously selected.
+
+---
+
+## Apply the list to existing customers
+
+Saving the list does not automatically update existing customers. To hand the list to existing customers:
+
+1. Click **Give them this list** on the **Apps for your customers** page.
+2. Review the confirmation — it shows how many customers will be updated, including any who had no apps before.
+3. Confirm.
+
+The update only sets the list. It never removes apps a customer already had from another source (a plan grant, a per-customer selection, an add-on).
+
+> 🎬 **Video walkthrough:** _Record a short clip configuring the partner app list, saving it, and using "Give them this list" to apply it to existing customers._
+
+<Warning>
+"Give them this list" is a one-way action. Customers who receive the list are marked as following it. Clicking it a second time sends the current ticked apps — not the previously saved list — so make sure your selection is up to date before clicking.
+</Warning>
+
+---
+
+## How the list reaches customers
+
+A customer follows the partner's list only if they are **marked as a follower**. The mark is set when:
+
+- A new customer is onboarded with no app list of their own
+- You click **Give them this list** for existing customers
+
+The mark is cleared when a customer gets their own app list from any other source (a plan, a per-customer selection, an add-on webhook). A customer with their own list always uses that list, not yours.
+
+This means you can always give one customer a deliberate, individual list and it won't be overwritten by your partner-wide default.
+
+---
+
+## Free Forever plan restrictions
+
+Free Forever partners can only offer **free-tier apps** to customers. Attempting to save a list containing paid apps returns an error naming the restricted apps.
+
+The app catalog clearly shows which apps are free and which require a higher plan with an **Upgrade to offer** label.
+
+---
+
+## Frequently asked questions
+
+<AccordionGroup>
+  <Accordion title="Will saving a new list change existing customers?">
+    No. Saving the list only affects new customers onboarded after the save, and existing customers who specifically receive it via "Give them this list".
+  </Accordion>
+  <Accordion title="What if a customer has no apps and is not a follower?">
+    They see an empty Integrations page with a "No apps are enabled for your account yet" message. Use "Give them this list" (or edit the customer directly) to give them access.
+  </Accordion>
+  <Accordion title="Can I give individual customers a different list?">
+    Yes. Open the customer record, go to Features & Add-ons, and click Edit Apps. Giving a customer their own list clears the follower mark — they will no longer track your partner-wide default.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Related pages
+
+- [Choose customer integrations](/partner-portal/customers/integration-apps-selection)
+- [Integration pricing](/partner-portal/settings/integration-pricing)
+- [Features, Add-ons & Menu Visibility](/partner-portal/customers/features-addons-and-menu-visibility)
+- [Integration app requests](/partner-portal/customers/integration-app-requests)
+
+> Source: [knotie-ai-pro#1689](https://github.com/avijeett007/knotie-ai-pro/pull/1689) — _feat(integrations): apps for your customers — a partner-wide app list, and auto-add new apps (KNOTI-987)_

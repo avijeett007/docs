@@ -149,6 +149,7 @@
               "partner-portal/settings/dashboard-experiences",
               "partner-portal/settings/integration-settings",
               "partner-portal/settings/integration-pricing",
+              "partner-portal/settings/customer-default-apps",
               "partner-portal/settings/email-settings",
               "partner-portal/settings/email-logo-rendering",
               "partner-portal/settings/stripe-connect",
