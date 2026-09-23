@@ -1,0 +1,95 @@
+---
+title: "Integrations & Approvals mode"
+description: "Set up your customer portal for partners whose primary offering is connected apps, MCP access, and phone approvals — not voice agents."
+---
+
+## What Integrations & Approvals mode is
+
+**Integrations & Approvals** is a dashboard mode designed for partners whose product is:
+
+- Connected apps (OAuth integrations, API key connections)
+- MCP (Model Context Protocol) access
+- Phone number approvals
+
+In this mode the customer portal replaces the standard voice-agent menus with an Integrations-first layout. Customers land on the **Integrations** page instead of the voice dashboard.
+
+<Info>
+This is the fourth dashboard mode, alongside **Standard**, **Agency + Infra**, and **Infrastructure**. It is stored as `dashboardModeKey = 'integrations'` and selected separately from the two Boolean flags used by the other three modes.
+</Info>
+
+---
+
+## Customer portal layout in this mode
+
+| Section | Menu entries |
+|---------|--------------|
+| **Core** | Integrations (`/whitelabel/integration`) |
+| **Management** | Only the features you have switched on: VPS, AI Gateway, My Minds, the media studios |
+| **Settings & Security** | Settings, Billing & Payments, MCP Access, Approvals |
+
+Voice-agent menus (AI Agents, Knowledge Base, Phone Numbers, etc.) are hidden for customers in this mode.
+
+> 📷 **Screenshot needed:** _Add a screenshot of a customer portal in Integrations & Approvals mode, showing the sidebar with Integrations as the first item and Settings & Security at the bottom._
+
+---
+
+## How to enable Integrations & Approvals mode
+
+1. In the Partner Portal, open **Settings → White-Label Portal**.
+2. Scroll to (or click) **Platform Configuration** in the Section Navigation Rail.
+3. Click the **Integrations & Approvals** mode card.
+   - The selected card shows a check-mark (✓) and a blue border.
+   - The change is saved immediately.
+4. Customers created after this point will start in Integrations & Approvals mode.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Platform Configuration card with the Integrations & Approvals mode card selected (blue border and checkmark)._
+
+> 🎬 **Video walkthrough:** _Record a short clip switching to Integrations & Approvals mode and showing what the customer portal looks like when a customer logs in for the first time._
+
+---
+
+## Access control
+
+Customers must have **Integration** turned on for them (via **Features & Add-ons**) to access the Integrations page. This is enforced server-side on all six integration routes — a customer without the feature flag gets a **403** even if they know the URL.
+
+If **Integration** is off for a customer in this mode, they land on the standard dashboard instead.
+
+<Note>
+Switching a partner to Integrations & Approvals mode hides the voice menus in the sidebar but does **not** revoke `showAiAgents` or `showKnowledgeBase`. A customer can still reach those pages by typing the URL directly. To fully restrict access, turn those features off per customer in **Features & Add-ons**.
+</Note>
+
+---
+
+## The v2 Integrations dashboard
+
+Customers in this mode see a dedicated dashboard body with:
+
+- Where to start (getting-connected quick-links)
+- MCP access card
+- Approvals card
+- Billing & credits summary
+
+The dashboard does not show a count of connected apps or pending approvals — those numbers are shown on the Integrations and Approvals pages themselves, not the dashboard.
+
+---
+
+## Existing customers
+
+Switching to Integrations & Approvals mode affects **new** customers only. Existing customers keep their current menu settings. To update existing customers:
+
+1. Open **Customers → Active Customers**.
+2. Find the customer and click **Manage**.
+3. Open **Features & Add-ons**.
+4. Adjust menu visibility as needed.
+5. Save.
+
+---
+
+## Related pages
+
+- [Platform Configuration](/partner-portal/settings/platform-configuration)
+- [Features, Add-ons & Menu Visibility](/partner-portal/customers/features-addons-and-menu-visibility)
+- [Choose customer integrations](/partner-portal/customers/integration-apps-selection)
+- [MCP tokens](/partner-portal/ai-agents/mcp/tokens)
+
+> Source: [knotie-ai-pro#1691](https://github.com/avijeett007/knotie-ai-pro/pull/1691) — _feat(whitelabel): an Integrations & Approvals mode, and the page that mode leads to enforces itself (KNOTI-986)_
