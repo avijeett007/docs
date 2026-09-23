@@ -1,0 +1,113 @@
+---
+title: "Customer tier pricing"
+description: "Charge customers different credit rates based on the tier of the agent that handles each call."
+---
+
+## What customer tier pricing is
+
+By default every customer pays a flat rate — their **AI credit price per minute** — regardless of which agent takes the call. Customer tier pricing adds a **tier ladder**: the same base rate is multiplied by a factor that reflects the agent tier used for that call.
+
+```
+credits/min = base rate × multiplier[tier]
+```
+
+Default multipliers:
+
+| Agent tier | Multiplier | Example (base rate = 2 credits/min) |
+|------------|-----------|--------------------------------------|
+| Essentials | 1× | 2 credits/min |
+| Moderate | 2× | 4 credits/min |
+| Premium | 3× | 6 credits/min |
+| Ultra | 4× | 8 credits/min |
+
+Multipliers are applied at two decimal places with no rounding up.
+
+<Note>
+Tier pricing is **off by default for all existing partners**. Nothing changes for any customer until you turn it on. New partners created after this release start with it on by default.
+</Note>
+
+---
+
+## Enable tier pricing for your account
+
+1. In the Partner Portal, open **Settings → Customer Pricing**.
+2. Find the **Tier-based pricing** toggle.
+3. Switch it **on**.
+4. Click **Save**.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Customer Pricing settings page showing the tier-based pricing toggle in the on position._
+
+Once enabled, every customer inherits the partner-level ladder by default.
+
+---
+
+## Customize the multipliers
+
+The platform sets default multipliers (1× / 2× / 3× / 4×). You can adjust them in **Settings → Customer Pricing** under **Tier multipliers**.
+
+Enter a value for each tier and save. Changes apply to new calls; past calls are unaffected.
+
+<Warning>
+Set Essentials-tier multipliers thoughtfully. At a 1× multiplier on a base rate of 1 credit/min, a partner needs to price credits at 5 credits per monetary unit just to break even, since the platform charges 5 credits/min for Essentials agents.
+</Warning>
+
+---
+
+## Override for one customer
+
+A customer can be opted out (or in) individually without changing the partner default.
+
+1. Open **Customers → Active Customers**.
+2. Find the customer and click **Manage**.
+3. Open the **Customer Management** modal.
+4. Find **Tier pricing** under the pricing section.
+5. Choose **Inherit from partner**, **On**, or **Off**.
+6. Save.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Customer Management modal showing the tier pricing override toggle (Inherit / On / Off)._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through enabling tier pricing at the partner level, adjusting the multipliers, and overriding a single customer._
+
+---
+
+## Credit transaction records
+
+Every call that uses the tier ladder records the evidence in the credit transaction:
+
+- **Agent tier** (e.g., `premium`)
+- **Multiplier applied** (e.g., `3`)
+- **Base rate** at the time of the call
+- **Partner's own rate** for that tier
+- **Pricing version ID** (so you can audit which rate table was active)
+
+This means `baseRatePerMinute × multiplier = creditRatePerMinute` can be verified from the transaction alone if a customer disputes a charge.
+
+---
+
+## Frequently asked questions
+
+<AccordionGroup>
+  <Accordion title="What happens when tier pricing is off?">
+    Customers are charged their flat base rate for every call, as before. The tier of the agent is recorded in the call but not used for billing.
+  </Accordion>
+  <Accordion title="Does this affect non-Knova providers?">
+    Non-Knova providers (VAPI, Retell, Ultravox, etc.) or calls where the tier cannot be determined fall back to the customer's flat rate regardless of this setting.
+  </Accordion>
+  <Accordion title="Can I use tier pricing alongside a voice profit multiplier?">
+    Both can be configured. When both are set, the tier ladder takes precedence. The existing voice profit multiplier path still applies when the ladder is not configured for the relevant tier.
+  </Accordion>
+  <Accordion title="My customer is on Free Forever — does tier pricing apply?">
+    Free Forever plan constraints apply before tier pricing is calculated. The billing rules for Free Forever customers are unchanged.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Related pages
+
+- [Integration pricing](/partner-portal/settings/integration-pricing)
+- [AI credit management](/partner-portal/customers/ai-credit-management)
+- [Credits & AI credit billing](/partner-portal/customers/credits-and-ai-credit-management)
+- [Pricing and features](/getting-started/pricing-and-features)
+
+> Source: [knotie-ai-pro#1698](https://github.com/avijeett007/knotie-ai-pro/pull/1698) — _feat(billing): charge customers by the tier of the agent that took the call (KNOTI-993)_
