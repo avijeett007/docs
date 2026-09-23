@@ -146,6 +146,7 @@
               "partner-portal/settings/overview",
               "partner-portal/settings/whitelabel-settings",
               "partner-portal/settings/platform-configuration",
+              "partner-portal/settings/integrations-approvals-mode",
               "partner-portal/settings/dashboard-experiences",
               "partner-portal/settings/integration-settings",
               "partner-portal/settings/integration-pricing",
