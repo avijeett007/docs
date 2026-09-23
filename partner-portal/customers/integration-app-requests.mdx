@@ -1,0 +1,91 @@
+---
+title: "Integration app requests"
+description: "Let customers request integration apps they can't access yet, so you can act on demand rather than guessing what they need."
+---
+
+## What app requests are
+
+When a customer opens the Integrations page and finds an app they want but cannot access — either because it isn't in their allowed list or their plan doesn't include it — they can now click **Request an app** and tell you what they need.
+
+Each request:
+
+- Generates a reference code the customer can quote when following up (e.g., `APP-7K3Q9D`)
+- Sends three emails: a confirmation to the customer, a notification to you (the partner), and an alert to Knotie support
+- Is stored so you can review it at any time
+
+---
+
+## Where customers see the request button
+
+The **Request an app** button appears in two places on the customer's Integrations page:
+
+1. **Empty state** — when the customer has no available apps at all, a prompt appears beside **Refresh** inviting them to request one.
+2. **"Not on your plan" notice** — when an app is blocked by the plan, the notice includes a direct request link with that app pre-selected.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Integrations page empty state showing the "Request an app" button beside the Refresh button._
+
+> 📷 **Screenshot needed:** _Add a screenshot of the "Not on your plan" notice on an integration app card, with the Request link highlighted._
+
+---
+
+## What the request form offers
+
+The form lists only the apps this customer **cannot currently use** — resolved through the same access check the portal enforces for connections. It never advertises an app the customer could already connect.
+
+Apps the customer could pay to unlock on their own are omitted (they can just buy access). The customer can also choose **Something else…** and describe what they need in their own words.
+
+> 🎬 **Video walkthrough:** _Record a short clip showing a customer submitting an integration request — picking an app, typing a note, and receiving the reference code._
+
+---
+
+## The three emails
+
+| Recipient | Sent from | What it says |
+|-----------|-----------|--------------|
+| **Customer** | Your agency's branded email (your domain and SMTP/SES settings) | Confirmation, their reference code (`APP-XXXXXX`), what they asked for |
+| **You (partner)** | Knotie platform email | Who asked, which app, their note, and a link to the customer record; if the app is blocked by your own plan, an upgrade suggestion |
+| **Knotie support** | Knotie platform email | Customer, partner, app, details, reference |
+
+Only the customer email uses your branding and is billed at the usual credit rate for partner-attributed sends. The other two use Knotie's sender identity.
+
+<Note>
+If one email fails to send, the request is still stored and the customer still receives their reference code. A send failure doesn't block the request.
+</Note>
+
+---
+
+## Rate limit
+
+Each customer can submit up to **six requests per hour**. Each request triggers three emails, so this limit protects your sending quota.
+
+---
+
+## Reviewing requests
+
+Request storage is live; a partner-facing queue to browse and act on requests is a planned follow-up. For now, the notification email to you contains everything you need to take action: the customer's name, what they asked for, their note, and a direct link to their customer record.
+
+---
+
+## Frequently asked questions
+
+<AccordionGroup>
+  <Accordion title="Can a customer request an app they could just buy?">
+    No. Apps the customer can unlock by purchasing are omitted from the request form. Those apps show an unlock button instead.
+  </Accordion>
+  <Accordion title="Will my customers know which plan they are on?">
+    No. The customer-facing confirmation email does not mention your plan or Knotie's plan tiers. If an app is plan-blocked, the customer sees a generic "not on your plan" message that names your agency, not us.
+  </Accordion>
+  <Accordion title="Is the free text the customer types safe to include in emails?">
+    Yes. All customer-typed content (app description, free-text note) is escaped in both HTML email builders before sending.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Related pages
+
+- [Choose customer integrations](/partner-portal/customers/integration-apps-selection)
+- [Features, Add-ons & Menu Visibility](/partner-portal/customers/features-addons-and-menu-visibility)
+- [Integration pricing](/partner-portal/settings/integration-pricing)
+
+> Source: [knotie-ai-pro#1690](https://github.com/avijeett007/knotie-ai-pro/pull/1690) — _feat(integrations): customers can request an app, and three emails go out (KNOTI-988)_
