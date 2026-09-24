@@ -1,0 +1,66 @@
+---
+title: "Customer Approval App"
+description: "Download and pair the approval app so customers can approve AI agent actions from their phone."
+---
+
+## Overview
+
+The approval app lets a customer approve or deny actions their AI agent wants to take — from their phone. Before the first approval can be sent, the customer must pair at least one phone with their portal.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Approvals page showing the "Get the approval app" panel with the QR code and download button._
+
+## Step 1 — Download the app
+
+The customer portal shows a **Get the approval app** panel the first time a customer visits the Approvals section (before any phone is paired).
+
+1. Open the customer portal and go to **Approvals**.
+2. On the **Get the approval app** panel, either:
+   - Tap **Download for Android** to open the download page directly.
+   - Scan the QR code with the phone's camera to open the same page.
+
+<Note>
+The Android app is available to everyone. iPhone access is through TestFlight — the customer can request an invitation from support.
+</Note>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the "Get the approval app" card showing the download button and QR code side by side._
+
+## Step 2 — Pair a phone
+
+Once the app is installed, the customer pairs their phone from the portal:
+
+1. On the **Approvals** page, click **Pair a phone**.
+2. A QR code appears on screen.
+3. Open the approval app on the phone and scan the QR code.
+4. The portal confirms: **Phone paired**.
+
+The paired phone now appears in **Your paired devices**. Multiple phones can be paired.
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the full pairing flow: opening Approvals, scanning the QR code in the app, and seeing the "Phone paired" confirmation._
+
+> 📷 **Screenshot needed:** _Add a screenshot of the pairing dialog showing the QR code and the "Waiting for your phone…" state._
+
+## Troubleshooting
+
+### "We cannot tell whether your phone paired"
+
+If the portal cannot confirm the pairing status after several attempts, it shows:
+
+> We cannot tell whether your phone paired.
+> If the app says it is paired, close this — it will be in your list of phones. Otherwise start again.
+
+If the phone app shows it is paired, close the dialog and refresh the **Your paired devices** list — the phone will appear there. If nothing is paired, tap **Close** and try again.
+
+### The QR code expired
+
+Pairing codes expire after a short time. Click **Close** and open the pairing dialog again to get a fresh code.
+
+### The app is not available in my region
+
+The Android build is available globally. For iPhone, contact support to request a TestFlight invitation.
+
+## Related pages
+
+- [Customer portal management](/partner-portal/customers/customer-portal-management)
+- [Features & add-ons](/partner-portal/customers/features-addons-and-menu-visibility)
+
+> Source: [knotie-ai-pro#1708](https://github.com/avijeett007/knotie-ai-pro/pull/1708) — _fix(approvals): stop Next.js caching the approval-server calls, which hung pairing (KNOTI-1003)_
