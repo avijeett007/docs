@@ -58,7 +58,8 @@
               "customer-management/media-studio",
               "customer-management/media-studio-projects",
               "customer-management/media-studio-agent-connections",
-              "customer-management/media-studio-storyboard"
+              "customer-management/media-studio-storyboard",
+              "customer-management/approval-app"
             ]
           },
           {
