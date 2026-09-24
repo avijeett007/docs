@@ -1,0 +1,112 @@
+---
+title: "Mailbox Delete Tools"
+description: "Let AI agents move email to Trash or delete it permanently — with safety limits your customer controls."
+---
+
+## Overview
+
+The mailbox integration exposes three delete tools to AI agents. Two are reversible (the email ends up in Trash and the customer can recover it); one is permanent and requires an explicit permission switch.
+
+| Tool | What it does | Reversible? |
+|------|-------------|------------|
+| `mailbox_delete` | Moves messages to Trash | Yes — recoverable from Trash |
+| `mailbox_permanent_delete` | Deletes messages for good | **No** |
+| `mailbox_empty_trash` | Purges messages already in Trash or Junk | **No** |
+
+> 📷 **Screenshot needed:** _Add a screenshot of the mailbox agent-access settings panel showing the "Allow permanent delete" toggle alongside the access level selector._
+
+## Access levels
+
+All three tools require at least **Organise** access. The Organise level lets an agent read, mark, flag, move, and delete email. Deleted email goes to Trash, so the customer can recover it.
+
+`mailbox_permanent_delete` and `mailbox_empty_trash` require two things: Organise level **and** the **Allow permanent delete** switch (described below).
+
+| Access level | `mailbox_delete` | `mailbox_permanent_delete` | `mailbox_empty_trash` |
+|---|---|---|---|
+| Read | — | — | — |
+| Organise | ✅ | Requires switch | Requires switch |
+| Draft | ✅ | Requires switch | Requires switch |
+| Send approval | ✅ | Requires switch | Requires switch |
+| Send | ✅ | Requires switch | Requires switch |
+
+## Enabling permanent delete
+
+Because permanent delete cannot be undone, it is turned off for every agent by default — including agents set up before this feature existed.
+
+To enable it for a specific agent:
+
+1. Open the customer portal and go to **Integrations**.
+2. Find the **Mailbox** app and open the agent's access settings.
+3. Set the access level to **Organise** or higher if not already set.
+4. Expand the **Advanced** section.
+5. Turn on **Allow permanent delete**.
+6. Confirm the action when prompted.
+
+The portal labels the agent with **Can delete for good** once the switch is on.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Advanced settings panel showing "Allow permanent delete" on and the "Can delete for good" label on the agent card._
+
+> 🎬 **Video walkthrough:** _Record a short clip showing how to open the mailbox access settings, enable permanent delete, and confirm the prompt._
+
+<Warning>
+Turning off **Allow permanent delete** does not recover email the agent already deleted. The switch only controls future actions.
+</Warning>
+
+## Tool reference
+
+### `mailbox_delete`
+
+Moves one or more messages to Trash. No extra permission required beyond Organise level.
+
+| Parameter | Type | Description |
+|---|---|---|
+| `message_refs` | string or string[] | One message ref or a list of up to 50 |
+| `mailbox` | string (optional) | The mailbox to act on; defaults to the primary mailbox |
+
+Returns: `{ moved: number }`
+
+### `mailbox_permanent_delete`
+
+Deletes messages for good. Requires the **Allow permanent delete** switch.
+
+| Parameter | Type | Description |
+|---|---|---|
+| `message_refs` | string or string[] | One message ref or a list of up to **25** |
+| `mailbox` | string (optional) | The mailbox to act on |
+
+Returns: `{ deleted, failed?, not_found? }`
+
+<Note>
+The per-call limit is 25 — half the reversible batch size — as an additional safeguard for the one irreversible action.
+</Note>
+
+### `mailbox_empty_trash`
+
+Purges messages already in Trash or Junk. Requires the **Allow permanent delete** switch.
+
+| Parameter | Type | Description |
+|---|---|---|
+| `mailbox` | string (optional) | The mailbox to act on |
+| `folder` | `"trash"` or `"junk"` (optional) | Which folder to purge; defaults to `"trash"` |
+| `older_than_days` | number (optional) | Purge only messages older than this many days |
+| `limit` | number (optional) | Maximum messages to purge in this call (1–500; default 100) |
+
+Returns: `{ deleted, remaining, failed? }`
+
+<Note>
+Use `limit` and `older_than_days` together to let the agent purge in controlled batches, especially for large mailboxes.
+</Note>
+
+## Safety limits
+
+The platform enforces a rolling 24-hour cap on permanent deletes per mailbox to prevent a runaway agent from wiping a mailbox in a loop. The cap applies to `mailbox_permanent_delete` and `mailbox_empty_trash` together, counting messages, not calls. `mailbox_delete` (move to Trash) is not counted because it is reversible.
+
+If the agent hits the cap, calls return an error and no messages are deleted.
+
+## Related pages
+
+- [Connected App Tools for Voice Agents](/agents/connected-app-tools)
+- [Tool call quota](/partner-portal/customers/tool-call-quota)
+- [Choose customer integrations](/partner-portal/customers/integration-apps-selection)
+
+> Source: [knotie-ai-pro#1700](https://github.com/avijeett007/knotie-ai-pro/pull/1700) — _feat(mailbox): delete to Trash, permanent delete and empty Trash (KNOTI-996)_
