@@ -1,0 +1,73 @@
+---
+title: "AI Assistant (WebMCP)"
+description: "Let your AI agent navigate and act in the Partner Portal on your behalf using WebMCP — an in-browser tool protocol."
+---
+
+## What it is
+
+**WebMCP** is an in-browser capability that lets a compatible AI agent (such as Claude, running in a Chrome or Edge tab) see what the current Partner Portal page can do and act on your behalf.
+
+Instead of clicking through menus and forms yourself, you can ask your agent:
+
+- "What pages can I use in this portal?"
+- "Show me a summary of my account."
+- "Go to the white-label settings and tell me what's not configured yet."
+- "What is my current credit balance and burn rate?"
+
+The agent uses **named tools** — one per action a page already exposes — to answer and act. It never calls anything the page does not already call, and consequential actions (spending money, sending campaigns, deleting data) always require your confirmation in the browser before they complete.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the AI agent panel open in the Partner Portal, showing the tool invocation sidebar or chat interface._
+
+## How to enable it
+
+WebMCP requires two things:
+
+1. **The `NEXT_PUBLIC_WEBMCP_ENABLED` environment variable set to `true`** on your deployment. Ask your platform administrator or set it in your `.env` if you are self-hosted.
+
+2. **A browser that supports the WebMCP origin-trial.** Chrome and Edge with the `document.modelContext` origin-trial token work today. In local development you can bypass this via `chrome://flags/#enable-webmcp-testing`. For production you will need to register an origin-trial token and add it to `NEXT_PUBLIC_WEBMCP_ORIGIN_TRIAL_TOKENS`.
+
+Once enabled, the partner shell mounts the WebMCP provider automatically. No per-page configuration is needed.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the environment variable settings panel (or .env file) showing `NEXT_PUBLIC_WEBMCP_ENABLED=true`._
+
+## Core tools — always available
+
+These eight tools are mounted in the partner layout and work on every page:
+
+| Tool | What it does |
+|---|---|
+| `whoami` | Returns your partner ID, business name, email, role, plan, and active permissions. |
+| `list_areas` | Lists every portal area with a one-line description and whether your plan includes it. The most useful tool for an agent that just opened the portal. |
+| `go_to` | Navigates to any named area (e.g. `go_to('phone-numbers')`). |
+| `get_page_context` | Returns the current route, its area name, and a brief description of what tools are available here. |
+| `get_account_summary` | Returns live credit balances, customer count, active agent count, active phone numbers, and any items needing attention. |
+| `search` | Runs a single query across customers, agents, and numbers simultaneously. |
+| `go_to_dashboard` | Returns the browser to the Dashboard from any page. |
+| `get_my_level` | Returns the partner's current level, streak, and the challenge in progress — useful when the agent is guiding a setup flow across pages. |
+
+> 🎬 **Video walkthrough:** _Record a clip showing a partner asking their AI agent "What can I do here?" and the agent calling `list_areas` to explain the portal._
+
+## Security model
+
+WebMCP is designed so that adding a tool never gives an agent a capability the signed-in person does not already have.
+
+| Property | How it is held |
+|---|---|
+| **No new API routes** | Every tool calls an endpoint the page already calls. Nothing new is exposed to the internet. |
+| **Session-based auth** | Tools use the existing session in the browser tab — no token is minted or stored. |
+| **Server-side enforcement** | RBAC, tenant scoping, and plan gating apply on every call, exactly as they do for a click. |
+| **Consequential actions require confirmation** | Any tool that spends money, deletes data, or sends communication is a `start_*` tool. It opens the existing confirmation dialog prefilled but cannot complete the action — only the person in the browser can confirm. |
+| **No secret egress** | Tool results are scrubbed before they reach the agent. Credential material is never fetched in the first place. |
+| **Annotations are enforced** | A mutating tool cannot be shipped with `readOnlyHint`. The `defineTool` factory derives annotations from the tool's declared `kind`. |
+
+## What's next
+
+Page-level tools (one tool set per portal page — dashboard, customers, white-label, phone numbers, etc.) are added in [KNOTI-1007 (WebMCP full rollout)](/partner-portal/webmcp-ai-assistant), documented on this same page once that update ships.
+
+## Related pages
+
+- [AI Agents panel](/partner-portal/ai-agents-overview)
+- [MCP Tokens](/partner-portal/ai-agents/mcp/tokens)
+- [Partner Portal overview](/partner-portal/overview)
+
+> Source: [knotie-ai-pro#1709](https://github.com/avijeett007/knotie-ai-pro/pull/1709) — _feat(webmcp): foundation for agent-usable tools on partner pages (KNOTI-1008)_

@@ -94,6 +94,7 @@
             "pages": [
               "partner-portal/ai-agents-overview",
               "partner-portal/ai-agents/mcp/tokens",
+              "partner-portal/webmcp-ai-assistant",
               "partner-portal/agent-analytics",
               "partner-portal/ai-usage/overview",
               "partner-portal/auto-deploy"
