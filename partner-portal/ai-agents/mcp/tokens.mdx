@@ -70,15 +70,82 @@ If you'd rather the assistant look up tools as it needs them (instead of loading
 
 In meta mode the assistant gets two helper tools: one to search for the tool it needs, and one to run it. Rate limits and credit charges work exactly the same either way.
 
-You can also limit which connected app tools a token is allowed to use:
+## Limit a token to specific apps
+
+You can restrict a token to only the tools belonging to specific connected apps. Use the `apps` field when creating a token via the API:
 
 ```json
 {
-  "allowedApps": ["elevenlabs", "retell"]
+  "scope": "all",
+  "apps": ["elevenlabs", "retell"]
 }
 ```
 
+When `apps` is set, the token can only call tools from those apps. Attempts to call tools from any other app are rejected at the server.
+
+<Note>
+  The `apps` field is the current way to restrict app access. The older `allowedApps` field still works and behaves identically — `apps` takes precedence if both are sent.
+</Note>
+
 See [MCP tool modes](/api-reference/mcp/tool-modes) for the full reference.
+
+## Email (Mailbox) access
+
+When you create a token with `scope: 'all'` and the customer has a connected email mailbox, the token now includes access to the customer's email tools by default.
+
+### Access levels
+
+Control how much of the customer's email the token can touch with the `mailboxAccessLevel` field:
+
+| Level | What the token can do |
+|---|---|
+| `read` (**default**) | Read emails and threads. No modifications. |
+| `organise` | Read + label, archive, move emails. |
+| `draft` | Read + organise + create drafts. |
+| `send_approval` | Read + organise + draft + submit drafts for approval. |
+| `send` | Full access — read, organise, draft, and send emails directly. |
+
+### Creating a token with email access
+
+```json
+{
+  "scope": "all",
+  "mailboxAccessLevel": "draft"
+}
+```
+
+The response includes a `mailboxGranted` field that confirms whether email access was successfully set up:
+
+```json
+{
+  "success": true,
+  "data": {
+    "token": "mcp_...",
+    "scope": "all",
+    "mailboxAccessLevel": "draft",
+    "mailboxGranted": true
+  }
+}
+```
+
+If `mailboxGranted` is `false`, the customer's mailbox was not connected or was temporarily unavailable. The token is still valid for all other tools — visit the customer's **Agents** tab to review mailbox connection status.
+
+### Excluding email access
+
+To create a `scope: 'all'` token that does **not** include email access, list only the apps you want:
+
+```json
+{
+  "scope": "all",
+  "apps": ["elevenlabs", "retell"]
+}
+```
+
+Only apps named in `apps` can be reached, and the mailbox is excluded because `mailbox` is not in the list.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Create Token modal showing the email access level selector (if this option has been added to the UI), or the Customer Agents tab showing a partner-managed token with email access._
+
+> 🎬 **Video walkthrough:** _Record a clip creating a token with `mailboxAccessLevel: 'draft'` via the API and then showing the mailbox connection on the customer's Agents tab._
 
 ## Token security
 
@@ -107,3 +174,5 @@ Once revoked, the token immediately stops working.
 - [API Keys](/partner-portal/api-keys) – Partner API keys for general automation
 - [MCP API Reference](/api-reference/mcp/introduction) – Endpoint documentation
 - [MCP tool modes](/api-reference/mcp/tool-modes) – Full vs meta mode, and how to limit which app tools a token can use
+
+> Source: [knotie-ai-pro#1696](https://github.com/avijeett007/knotie-ai-pro/pull/1696) — _feat(mcp-tokens): "all" scope includes email, and tokens can be scoped to chosen apps (KNOTI-992)_
