@@ -1,0 +1,72 @@
+---
+title: "Account and data deletion requests"
+description: "How customers can request deletion of their account or personal data, and what happens when they do."
+---
+
+## Overview
+
+Customers can request that their account or personal data be deleted directly from their portal. The request is sent to you (the partner) by email — **nothing is deleted automatically**. You review the request and take action using the account controls you already have in the customer management panel.
+
+This feature is available on the **Account Settings** page inside the customer portal, at the bottom of the page below Team Management.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the bottom of the Account Settings page showing the "Request account deletion" and "Request data deletion" sections, including the confirmation step._
+
+## What a customer can request
+
+- **Delete my account** — A request to remove their entire account, including all associated data.
+- **Delete some of my data** — A request to remove specific personal data while keeping their account.
+
+Both requests are declared in the **Data safety** section of the AgentAction Google Play listing, so the platform is obligated to honour them.
+
+## How the request flow works
+
+1. The customer opens **Account Settings** in their portal.
+2. They scroll to the bottom of the page.
+3. They select **Request account deletion** or **Request data deletion**.
+4. A confirmation prompt appears. They must confirm before the request is sent.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the confirmation modal that appears when a customer selects "Request account deletion"._
+
+> 🎬 **Video walkthrough:** _Record a short clip showing a customer navigating to Account Settings, scrolling to the deletion section, confirming a request, and the resulting email the partner receives._
+
+## What you receive as the partner
+
+When a customer submits a deletion request, you receive an email at the address configured in your email settings. The email includes:
+
+- The customer's name and email address.
+- The type of request (account deletion or data deletion).
+- The date and time of the request.
+
+<Note>
+If the email notification fails to send (for example, due to a temporary SMTP issue), the request is still logged and the customer sees a success confirmation. The email failure is recorded in your platform logs.
+</Note>
+
+## What you do next
+
+Deletion requests do not take effect automatically. You review the email, decide what to do, and then act using your existing customer controls:
+
+1. Open **Customers → Active Customers** in your Partner Portal.
+2. Find the customer.
+3. Select **Manage** and use the available options:
+   - **Block Access** to immediately suspend the account while you prepare.
+   - **Delete** under Customer Portal Access to remove their portal login.
+
+For more on these actions, see [Customer portal access](/partner-portal/customers/customer-portal-access-actions).
+
+## Rate limit
+
+Customers can submit up to **5 deletion requests per hour**. This prevents accidental or repeated submissions from flooding your inbox.
+
+## Partner visibility
+
+Currently, the only record of a deletion request is the email you receive. There is no in-portal list of pending requests. Future updates may add a request queue visible inside the Partner Portal.
+
+## Related pages
+
+- [Customer portal access](/partner-portal/customers/customer-portal-access-actions)
+- [Customer portal management](/partner-portal/customers/customer-portal-management)
+- [Features, add-ons, and menu visibility](/partner-portal/customers/features-addons-and-menu-visibility)
+
+---
+
+> Source: [knotie-ai-pro#1755](https://github.com/avijeett007/knotie-ai-pro/pull/1755) — _feat(portal): customer-initiated account and data deletion requests (KNOTI-1039)_
