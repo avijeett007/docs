@@ -1,0 +1,91 @@
+---
+title: "Integrations & Approvals"
+description: "Package the integration catalogue and the AgentAction approval gate as a branded, resellable experience customers can subscribe to."
+---
+
+## Overview
+
+**Integrations & Approvals** (experience type `RESELL_INTEGRATIONS`) gives your customers a branded storefront where they can connect third-party apps (Google, HubSpot, Slack, and more) and configure the approval gate that controls what AI agents are allowed to do on their behalf. Partners can enable it, configure free signup credits, choose which apps customers can connect, and optionally set it as their root domain experience.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Integrations & Approvals card in the One-Click Experiences catalog, showing its status badge and available actions._
+
+Unlike Voice AI Platform, this experience does **not** provision an agent builder, phone numbers, or campaigns. Customers bring their own AI tools (Claude, Cursor, n8n, and so on) and use Knotie to give those tools app connections and a controllable approval gate.
+
+## Enable the experience
+
+1. Open **One-Click Experiences** in your Partner Portal.
+2. Find the **Integrations & Approvals** card.
+3. Select **Enable** to activate the experience.
+4. Optionally, select **Make default** to place this experience on your root customer-facing domain.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Integrations & Approvals experience card in the One-Click Experiences catalog after enabling it._
+
+## Configure the experience
+
+Select **Settings** on the Integrations & Approvals card to open the configuration panel. There are three controls:
+
+### Free signup credits
+
+Set the number of AI credits new customers receive automatically when they sign up through this experience. Changing this value only affects **new signups** — existing customers' credits are never adjusted retroactively.
+
+<Note>
+Setting this to `0` means "grant nothing at signup." Leaving the field empty means "use my account default." These behave differently — a typed `0` actively suppresses the grant.
+</Note>
+
+### Allowed apps
+
+Choose which integration apps customers in this experience may connect. Leave this unset to allow all apps. Set it to an empty selection to restrict all app connections.
+
+<Note>
+A blank selection (`[]`) means "no apps allowed." Leaving the control unset means "no restriction." These behave differently.
+</Note>
+
+### Landing copy
+
+Customise the text shown on the customer-facing landing page. The landing degrades gracefully to platform defaults if no copy is provided.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Integrations & Approvals settings card showing the free credits field, app allowlist selector, and landing copy textarea._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through enabling the experience, setting free signup credits and allowed apps, and viewing the resulting customer-facing landing page._
+
+## Give a customer access
+
+Once the experience is enabled:
+
+1. Open **Customers → Active Customers**.
+2. Select **Manage** for the customer, then open **Features & Add-ons**.
+3. Ensure **AI Gateway** or the relevant integration menu items are turned on.
+4. Save the customer changes.
+
+Customers who sign up through the experience landing page are provisioned automatically.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Features & Add-ons panel for a customer showing the integration-related toggles for this experience._
+
+## What the customer sees
+
+Customers signing up through the experience landing page receive:
+
+- A provisioned portal account.
+- Any free signup credits you configured.
+- Access to the app catalogue restricted to the apps you allowed.
+- The AgentAction approval gate, where they can review and approve or deny actions an agent wants to take.
+
+The customer experience **does not include** an agent builder, phone numbers, or campaigns. Customers use their own AI tools and connect them via the MCP token or API.
+
+> 🎬 **Video walkthrough:** _Record a short clip showing the customer-facing signup and the resulting portal, highlighting the app connections panel and the approval gate._
+
+## Set this as your root domain experience
+
+Select **Make default** on the card to route your root customer-facing domain to the Integrations & Approvals landing page. Only one experience can be the root experience at a time.
+
+## Related pages
+
+- [One-Click Experiences overview](/partner-portal/experiences/overview)
+- [Voice AI Platform](/partner-portal/experiences/resell-voice-ai-platform)
+- [Resell AI Gateway](/partner-portal/experiences/resell-ai-gateway)
+- [Features, add-ons, and menu visibility](/partner-portal/customers/features-addons-and-menu-visibility)
+- [MCP tokens](/partner-portal/ai-agents/mcp/tokens)
+
+---
+
+> Source: [knotie-ai-pro#1758](https://github.com/avijeett007/knotie-ai-pro/pull/1758) — _feat(experience): one-click Integrations & Approvals experience partners can resell (KNOTI-1040)_
