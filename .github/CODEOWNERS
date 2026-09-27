@@ -1,15 +1,39 @@
 # Code owners for the public Knotie AI documentation site.
 #
-# Every pull request into `develop` requires an approving review from an owner
-# listed here — this is what "only these people decide what gets published"
-# actually rests on, together with the branch protection rule on `develop`
-# (require a PR, require an approving review, require review from code owners,
-# no direct pushes, no force-pushes, no branch deletion).
+# WHAT THIS FILE DOES BY ITSELF: nothing except name owners and cause GitHub to
+# request their review automatically. On its own it does NOT require anyone's
+# approval and does NOT stop a direct push to `develop`. Do not read it as an
+# active safeguard on what gets published.
+#
+# WHAT MAKES IT BINDING: the branch protection rule on `develop`, which lives in
+# repository settings, not in this repo. The guarantee "only these people decide
+# what gets published" holds only while that rule has:
+#
+#     require a pull request before merging
+#     required_approving_review_count >= 1
+#     require_code_owner_reviews       = true   <-- without this, owners are
+#                                                  merely requested, not required
+#     enforce_admins                   = true   <-- without this, any admin
+#                                                  token merges regardless
+#     allow_force_pushes               = false
+#     allow_deletions                  = false
+#
+# If any of those is off, this file is documentation and nothing more.
+#
+# Verify before relying on it:
+#
+#     gh api repos/avijeett007/docs/branches/develop/protection \
+#       -q '{codeowners:.required_pull_request_reviews.require_code_owner_reviews,
+#            approvals:.required_pull_request_reviews.required_approving_review_count,
+#            enforce_admins:.enforce_admins.enabled}'
+#
+# Last confirmed enabled: 2026-09-27 (KNOTI-1084).
 #
 # This repository is PUBLIC. Anything merged here is immediately visible to
-# customers and search engines, so the merge decision is deliberately narrow.
+# customers and indexable by search engines, which is why the merge decision is
+# deliberately narrow — and why changing an owner below should go through the
+# same review as any other change.
 #
-# Adding or removing an owner is itself a change to this file, so it needs an
-# existing owner's approval.
+# Handles come from the repository collaborator list, not from display names.
 
 *       @avijeett007 @SohamK2G
