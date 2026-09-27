@@ -1,0 +1,15 @@
+# Code owners for the public Knotie AI documentation site.
+#
+# Every pull request into `develop` requires an approving review from an owner
+# listed here — this is what "only these people decide what gets published"
+# actually rests on, together with the branch protection rule on `develop`
+# (require a PR, require an approving review, require review from code owners,
+# no direct pushes, no force-pushes, no branch deletion).
+#
+# This repository is PUBLIC. Anything merged here is immediately visible to
+# customers and search engines, so the merge decision is deliberately narrow.
+#
+# Adding or removing an owner is itself a change to this file, so it needs an
+# existing owner's approval.
+
+*       @avijeett007
