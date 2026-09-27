@@ -49,6 +49,19 @@ Knotie AI Pro will show the DNS records you need to add.
    - Sign-in works.
    - Branding is correct.
 
+## Portal URL structure
+
+After a custom domain is verified, your customer portal pages appear at paths starting with `/platform/`. For example:
+
+- `portal.customer.com/platform/dashboard`
+- `portal.customer.com/platform/login`
+
+Links that use the legacy `/whitelabel/` prefix still work — the portal redirects them to the canonical `/platform/` URL automatically.
+
+<Note>
+**Operator note:** the `/platform/` URL canonicalization requires the Cloudflare worker to be deployed after this update. Until the worker is deployed on a custom domain, old `/whitelabel/` bookmarks and email links continue to work but the browser address bar does not update to `/platform/`. The fix is backward-compatible and no customer action is needed.
+</Note>
+
 ## Troubleshooting
 
 - **Verification fails immediately**
