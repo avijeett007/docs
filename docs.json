@@ -29,6 +29,7 @@
             "group": "Account & security",
             "pages": [
               "account/signup",
+              "account/passwordless-login",
               "account/google-login",
               "account/passkeys",
               "account/mfa",

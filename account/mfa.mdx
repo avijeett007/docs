@@ -5,6 +5,13 @@ description: "Enable MFA for your account and learn our recommendations."
 
 ## Overview
 
+<Note>
+  **Changing on 10 October 2026.** The Partner Portal is moving to passwordless sign-in —
+  email address, then a passkey or a one-time email link. Two things change on this page:
+  the **email code** option below is being removed, and a **passkey** signs you in without
+  an MFA step at all. See [Passwordless sign-in](/account/passwordless-login).
+</Note>
+
 MFA adds an extra layer of security by requiring a second factor during sign-in.
 
 ## Recommendation
@@ -32,7 +39,11 @@ If you connect Stripe, we strongly recommend enabling MFA.
 
 ## Signing in with MFA
 
-Once MFA is on, signing in shows a **Two-Factor Authentication** step after your email and password. You can verify in one of three ways — switch between them using the tabs at the top of the window.
+Once MFA is on, signing in shows a **Two-Factor Authentication** step after your first sign-in step. You can verify in one of the ways below — switch between them using the tabs at the top of the window.
+
+<Note>
+  Signing in with a **passkey** skips this step entirely: a passkey already proves both your device and you, so it satisfies MFA on its own.
+</Note>
 
 ### Authenticator app
 
@@ -42,9 +53,20 @@ Enter the 6-digit code from your authenticator app. This is the default method.
   <img src="/images/screenshots/mfa-verify-authenticator.png" alt="Two-Factor Authentication window on the Authenticator tab, with a six-digit code field and a Verify button." />
 </Frame>
 
-### Email code
+### Email code (removed on 10 October 2026)
 
-Prefer a code by email? Switch to the **Email** tab and click **Send Email Code** — we'll email you a verification code to enter.
+<Warning>
+  This option is being removed on **10 October 2026**. Once sign-in itself uses a one-time
+  email link, a second code by email is not a second factor — anyone with access to your
+  inbox would have both. After that date, use your authenticator app or a backup code.
+
+  **If you've lost your authenticator app and have been relying on email codes, act before
+  10 October:** regenerate your backup codes from **Settings → Profile Settings → Security**
+  and save them somewhere safe.
+</Warning>
+
+Until then: switch to the **Email** tab and click **Send Email Code** — we'll email you a
+verification code to enter.
 
 <Frame>
   <img src="/images/screenshots/mfa-verify-email.png" alt="Two-Factor Authentication window on the Email tab, offering to send a verification code to your email address." />
@@ -52,7 +74,7 @@ Prefer a code by email? Switch to the **Email** tab and click **Send Email Code*
 
 ### Backup code
 
-Lost access to your authenticator and email? Switch to the **Backup Code** tab and enter one of your 8-character backup codes. Each code works once.
+Lost access to your authenticator? Switch to the **Backup Code** tab and enter one of your 8-character backup codes. Each code works once.
 
 <Frame>
   <img src="/images/screenshots/mfa-verify-backup.png" alt="Two-Factor Authentication window on the Backup Code tab, with a field to enter one of your 8-character backup codes." />
@@ -68,7 +90,7 @@ In **Settings** → **Profile Settings**, you can generate and download new back
 
 You can disable MFA in **Settings** → **Profile Settings** in some cases.
 
-If Stripe Connect is enabled for your account, MFA may be required (and cannot be disabled while Stripe Connect is active — see the [Stripe Connect](/partner-portal/settings/stripe-connect) doc).
+If Stripe Connect is enabled for your account, MFA is required and cannot be disabled while Stripe Connect is active — see the [Stripe Connect](/partner-portal/settings/stripe-connect) doc. From **10 October 2026** this is enforced at sign-in: if MFA is not set up, you are guided through setting it up before reaching your dashboard. Setting up a passkey instead also satisfies it.
 
 ## What the Security section looks like
 
