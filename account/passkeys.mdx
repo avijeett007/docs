@@ -5,6 +5,14 @@ description: "Set up passkeys for fast, secure, passwordless authentication as p
 
 ## Overview
 
+<Note>
+  **From 10 October 2026, a passkey is the recommended way to sign in.** The Partner Portal
+  is retiring password sign-in: you'll enter your email address, then use a passkey if you
+  have one, or a one-time email link if you don't. Setting up a passkey now means the
+  fastest sign-in and no waiting for an email.
+  See [Passwordless sign-in](/account/passwordless-login).
+</Note>
+
 Passkeys let you sign in securely without a password using your device authentication (Face ID, Touch ID, Windows Hello, or a device PIN).
 
 In Knotie AI, passkeys are designed to be:
@@ -21,6 +29,10 @@ Passkeys serve as a strong form of **multi-factor authentication (MFA)**. When y
 - **Something you are** – Your biometric (Face ID, Touch ID, fingerprint)
 
 This combination provides stronger security than traditional password + SMS code methods.
+
+Because a passkey already proves both of those things, **signing in with a passkey satisfies
+MFA on its own** — you won't be asked for an authenticator code as well, even on an account
+that has MFA enabled.
 
 ### Benefits over traditional MFA
 
@@ -43,7 +55,8 @@ There are two common ways you’ll be prompted:
 
 ### Option A: Setup prompt after login
 
-After your first login, Knotie AI may show a security prompt to set up a passkey.
+After your first login, Knotie AI may show a security prompt to set up a passkey. You can
+also set one up at any time from **Settings → Profile Settings → Security**.
 
 1. Click **Set up passkey**.
 2. Confirm in your browser.
@@ -67,4 +80,9 @@ If your email already has a passkey registered:
 - Make sure your device has a screen lock enabled.
 - If you don’t see passkey options on the login page, enter a valid email first.
 - **Passkey not working on new device** – You’ll need to register a new passkey on each device you use.
-- **Lost access to passkey device** – Use your backup authentication method (password + MFA) to log in and register a new passkey.
+- **Lost access to passkey device** – Sign in with your other method, then register a new
+  passkey. Until 10 October 2026 that means your password (plus MFA if enabled); from
+  10 October it means a one-time email sign-in link (plus your authenticator code if MFA is
+  enabled). If you can't reach your registered email address either, contact support.
+- **Register a passkey on every device you use** – so losing one device never leaves you
+  waiting on an email to get in.
