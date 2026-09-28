@@ -1,0 +1,90 @@
+---
+title: "Phone approvals"
+description: "Require human phone confirmation before sensitive admin API actions run."
+---
+
+## What phone approvals do
+
+Phone approvals add a human-in-the-loop gate in front of high-impact admin API actions. When a gated action is called, it is held and a push notification is sent to the enrolled phone. The caller must re-send the same request — including a 4-digit approval code — before the action runs.
+
+This protects against credential theft: a leaked admin key alone is not enough to execute a gated operation.
+
+## Enable phone approvals
+
+1. Set the environment variable `ADMIN_APPROVALS_ENABLED=true` on the platform.
+2. In **Mission Control**, open **Approvals** and enrol the platform tenant.
+3. Pair a phone number. All enrolled admins receive the approval notification; the first one to respond wins.
+4. Toggle on the actions you want to gate.
+
+<Note>
+  Phone approvals are **off by default**. Merging the feature code does not change existing behaviour until `ADMIN_APPROVALS_ENABLED=true` is set and the platform tenant is enrolled.
+</Note>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Mission Control Approvals page showing the enrolled phone number and the list of gated actions with their toggles._
+
+## Gated actions
+
+The following admin API actions can be gated:
+
+| Action | API endpoint |
+|---|---|
+| Send email campaign | `POST /api/v1/admin/emails` |
+| Adjust credits | `POST /api/v1/admin/credits` |
+| Read partner list | `GET /api/v1/admin/partners` |
+| Read partner detail | `GET /api/v1/admin/partners/:id` |
+| Read analytics engines | `GET /api/v1/admin/analytics/engines` |
+| Submit analytics run | `POST /api/v1/admin/analytics/runs` |
+| Read analytics audiences | `GET /api/v1/admin/analytics/audiences` |
+| Create analytics audience | `POST /api/v1/admin/analytics/audiences` |
+
+## Approval flow
+
+When a request hits a gated action:
+
+1. The API responds with `428 APPROVAL_REQUIRED` and a JSON body:
+
+   ```json
+   {
+     "error": "APPROVAL_REQUIRED",
+     "code": "7391",
+     "message": "Approval required. Re-send this request with the code after approval."
+   }
+   ```
+
+2. All enrolled phones receive a push notification showing the action title and the 4-digit code.
+
+3. An admin approves or denies the notification on their phone.
+
+4. The caller re-sends the **identical** request body, adding the `X-Approval-Code` header:
+
+   ```bash
+   curl -X POST "https://YOUR_DOMAIN/api/v1/admin/emails" \
+     -H "Authorization: Bearer YOUR_ADMIN_KEY" \
+     -H "X-Approval-Code: 7391" \
+     -H "Content-Type: application/json" \
+     -d '{ ... same body as the original request ... }'
+   ```
+
+5. The code is single-use. A second request with the same code receives `403 ALREADY_USED`.
+
+### Denial and timeout
+
+| Outcome | Response |
+|---|---|
+| Admin denies on phone | `403 FORBIDDEN` |
+| Phone unreachable / approval service down | `503 SERVICE_UNAVAILABLE` (fails closed — the action does not run) |
+
+> 🎬 **Video walkthrough:** _Record a short clip of the full approval flow: sending a gated request, receiving the push notification, approving on phone, and re-sending with the code to complete the action._
+
+## Security notes
+
+- The approval notification shows only a **static action title** — not the request body — so the notification cannot be spoofed by padding the request with extra fields.
+- Denying a request refunds the rate-limit budget for that call so a re-attempt after a genuine approval does not fail due to the original refused call.
+- All enrolled admins are notified simultaneously. The first response wins; subsequent taps have no effect.
+
+## Related pages
+
+- [Admin API overview](/api-reference/admin/overview)
+- [Email campaigns](/api-reference/admin/email-campaigns)
+
+> Source: [knotie-ai-pro#1774](https://github.com/avijeett007/knotie-ai-pro/pull/1774) — _feat: KNOTI-1085 admin API — targeted sends, partner_\* scopes, and phone approvals_

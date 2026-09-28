@@ -1,0 +1,114 @@
+---
+title: "Admin email campaigns"
+description: "Send targeted or broadcast email campaigns to partners via the admin API."
+---
+
+## Overview
+
+The admin email campaign endpoint (`POST /api/v1/admin/emails`) lets the platform owner send email campaigns to partner accounts. Campaigns can target a specific list of partners or a saved Super Analytics audience.
+
+This endpoint requires a key with the `emails` scope. If phone approvals are enabled for the **Send email campaign** action, each send also requires an approval code — see [Phone approvals](/api-reference/admin/phone-approvals).
+
+## Request
+
+```bash
+curl -X POST "https://YOUR_DOMAIN/api/v1/admin/emails" \
+  -H "Authorization: Bearer YOUR_ADMIN_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "subject": "Platform update",
+    "htmlContent": "<p>Hello {{partnerName}},</p><p>...</p>",
+    "targetType": "specific_partners",
+    "partnerEmails": ["partner@example.com"],
+    "dryRun": false
+  }'
+```
+
+## Target types
+
+### `specific_partners`
+
+Sends to a named list of partner accounts. Provide `partnerEmails` (email addresses) or `partnerIds` (partner IDs), or both.
+
+```json
+{
+  "targetType": "specific_partners",
+  "partnerEmails": ["alice@agency.com", "bob@agency.com"],
+  "subject": "Action required",
+  "htmlContent": "<p>Hello {{partnerName}},</p><p>Please review your settings.</p>"
+}
+```
+
+Addresses that do not match an active partner account are skipped — they are never sent to. This prevents a compromised key from being used as an open relay on the platform's shared sending domain.
+
+### `audience`
+
+Sends to a saved Super Analytics audience. Each member in the audience receives their own individually drafted message if `bodySource: "draftMessage"` is set.
+
+```json
+{
+  "targetType": "audience",
+  "audienceId": "aud_abc123",
+  "bodySource": "draftMessage",
+  "subject": "Personalised update for {{partnerName}}"
+}
+```
+
+The audience must be in `active` state. Draft audiences are refused. To activate an audience, use Mission Control — activation cannot be done via the API.
+
+## Template variables
+
+The `htmlContent` field supports per-recipient substitution:
+
+| Variable | Value |
+|---|---|
+| `{{partnerName}}` | The partner's business name |
+| `{{email}}` | The partner's account email address |
+| `{{unsubscribe}}` | A one-click unsubscribe link (injected automatically — you do not need to include it) |
+
+All variable values are HTML-escaped before substitution.
+
+## Unsubscribe links
+
+Every outgoing email automatically includes:
+
+- A **footer unsubscribe link** personalised to the recipient. If your `htmlContent` already contains `{{unsubscribe}}`, the footer is not duplicated.
+- An **RFC 8058 `List-Unsubscribe` header** and a `List-Unsubscribe-Post: List-Unsubscribe=One-Click` header for mail clients that surface a one-click unsubscribe button.
+
+These are applied to all target types — specific partner sends, audience sends, and test sends — so every campaign is compliant with email deliverability requirements.
+
+<Warning>
+  Do not strip or replace the unsubscribe link from your HTML. Campaigns without a working opt-out violate deliverability rules on the platform's shared sending domain and may affect delivery for all partners.
+</Warning>
+
+## Dry run
+
+Set `dryRun: true` to resolve recipients and preview the campaign without sending or recording any sends.
+
+```json
+{
+  "targetType": "specific_partners",
+  "partnerEmails": ["partner@example.com"],
+  "subject": "Test",
+  "htmlContent": "<p>Hello {{partnerName}}</p>",
+  "dryRun": true
+}
+```
+
+The response lists the resolved recipients and the substituted subject line for each, so you can confirm targeting before committing.
+
+## Audit log
+
+Each send attempt creates an `EmailCampaignRecipient` record. The audit log stores the recipient address and outcome — not the full rendered body — so opt-out status remains inspectable without storing personal data unnecessarily.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Mission Control campaign audit log showing a completed send with per-recipient delivery status._
+
+> 🎬 **Video walkthrough:** _Record a short clip demonstrating a `specific_partners` dry run, reviewing the resolved recipients, then confirming the live send._
+
+## Related pages
+
+- [Admin API overview](/api-reference/admin/overview)
+- [Phone approvals](/api-reference/admin/phone-approvals)
+- [Super Analytics audiences](/api-reference/admin/overview)
+
+> Source: [knotie-ai-pro#1774](https://github.com/avijeett007/knotie-ai-pro/pull/1774) — _feat: KNOTI-1085 admin API — targeted sends, partner_\* scopes, and phone approvals_
