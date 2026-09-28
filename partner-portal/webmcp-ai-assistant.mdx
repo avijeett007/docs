@@ -1,0 +1,247 @@
+---
+title: "AI Assistant (WebMCP)"
+description: "Let your AI agent navigate and act in the Partner Portal on your behalf — tools available on every page."
+---
+
+## What it is
+
+**WebMCP** is an in-browser capability that lets a compatible AI agent (such as Claude, running in a Chrome or Edge tab) see what the current Partner Portal page can do and act on your behalf.
+
+Instead of clicking through menus and forms yourself, you can ask your agent:
+
+- "What pages can I use in this portal?"
+- "Go to white-label settings and list what isn't configured."
+- "What is my current credit balance and burn rate?"
+- "Search for a customer named Acme Corp."
+- "Open the phone number purchase dialog for a US number starting with 415."
+
+The agent uses **named tools** — one per action a page already exposes — to answer and act. It never calls anything the page doesn't already call, and consequential actions (spending money, sending campaigns, deleting data) always require your confirmation in the browser.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the AI agent panel open in the Partner Portal, showing the tool invocation sidebar or a chat interface with tool calls visible._
+
+## How to enable it
+
+WebMCP requires two things:
+
+1. **The `NEXT_PUBLIC_WEBMCP_ENABLED` environment variable set to `true`** on your deployment. Ask your platform administrator, or set it in your `.env` file if you are self-hosted.
+
+2. **A browser that supports the WebMCP origin-trial.** Chrome and Edge with the `document.modelContext` origin-trial token work today. In local development you can bypass this via `chrome://flags/#enable-webmcp-testing`. For production, register an origin-trial token and add it to `NEXT_PUBLIC_WEBMCP_ORIGIN_TRIAL_TOKENS`.
+
+Once enabled, the partner shell mounts the WebMCP provider automatically on every page. No per-page setup is needed.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the environment variable settings panel showing `NEXT_PUBLIC_WEBMCP_ENABLED=true`._
+
+## Core tools — always available
+
+These tools are mounted on every page in the partner layout:
+
+| Tool | What it does |
+|---|---|
+| `whoami` | Your partner ID, business name, email, role, plan, and active permissions. |
+| `list_areas` | Every portal area with a one-line description and whether your plan includes it. The most useful tool for an agent that just opened the portal. |
+| `go_to` | Navigate to any named area (e.g. `go_to('phone-numbers')`). |
+| `get_page_context` | Current route, area name, and what tools are available here. |
+| `get_account_summary` | Live credit balances, customer count, active agent count, active phone numbers, and items needing attention. |
+| `search` | Query across customers, agents, and numbers in one call. |
+| `go_to_dashboard` | Return to the Dashboard from any page. |
+| `get_my_level` | Current partner level, streak, and the active challenge — stays available as you navigate through setup steps. |
+
+## Page-by-page tools
+
+Each portal page exposes its own set of tools. Here is the full catalog by area.
+
+### Dashboard
+
+| Tool | What it does |
+|---|---|
+| `get_dashboard_metrics` | Calls, minutes, spend, and new customers for a period. |
+| `get_current_challenge` | The challenge in progress — each step with its link and how it's verified. |
+| `list_upcoming_challenges` | What comes next on the setup path, with the level each earns. |
+| `open_challenge_step` | Jump to the page a challenge step is done on, or return its video/article link. |
+| `get_setup_checklist` | What is still unconfigured, in the order it should be done. |
+| `open_setup_step` | Navigate to the page for a checklist item. |
+| `get_credit_burn_rate` | Actual credit consumption per day and projected runway. |
+
+### Customers
+
+| Tool | What it does |
+|---|---|
+| `list_customers` | Search, filter, and paginate your customer list. |
+| `get_customer` | One customer: status, plan, agent, numbers, credits. |
+| `filter_customers` | Apply search, volume, complexity, and timeline filters to the page. |
+| `open_customer` | Navigate to a customer's detail page. |
+| `update_customer_status` | Change order status. |
+| `start_onboard_customer` | Open the onboarding modal prefilled (requires confirmation). |
+| `start_set_portal_access` | Open the portal-access dialog (requires confirmation). |
+| `list_customer_agents` | Which agents are mapped to a customer. |
+| `get_customer_credits` | Balance and monthly allowance. |
+
+### Settings — overview
+
+| Tool | What it does |
+|---|---|
+| `list_settings_sections` | The ten settings sub-pages and what each controls. |
+| `get_business_profile` | Business name, contact, address, timezone. |
+| `update_business_profile` | Change business details. |
+| `get_notification_preferences` | Which notifications are on. |
+| `update_notification_preferences` | Toggle notification settings. |
+| `go_to_settings_section` | Open a settings sub-page by name. |
+
+### White-label portal
+
+| Tool | What it does |
+|---|---|
+| `get_whitelabel_settings` | Current branding, copy, domain, and enabled features. |
+| `update_branding` | Colors, logo URL, favicon, company name, tagline. |
+| `preview_branding` | Apply values to the live preview **without saving**. |
+| `update_portal_copy` | Hero heading, subheading, footer text. |
+| `list_portal_features` | Which portal features are on for customers. |
+| `toggle_portal_feature` | Turn a portal feature on or off. |
+| `get_custom_domain_status` | Domain, DNS records needed, verification state. |
+| `start_add_custom_domain` | Open the add-domain dialog prefilled (requires confirmation). |
+| `open_portal_preview` | Open the customer portal preview in a new tab. |
+
+> 🎬 **Video walkthrough:** _Record a clip of a partner asking their agent "Set my brand color to teal and preview it" — showing `update_branding` + `preview_branding` in action._
+
+### AI Agents
+
+| Tool | What it does |
+|---|---|
+| `list_agents` | All agents across providers, with provider, tier, and status. |
+| `get_agent` | One agent: prompt summary, voice, tier, assigned number, customer. |
+| `list_agent_providers` | Which providers are configured and what each is for. |
+| `open_agent` | Open an agent's edit page. |
+| `filter_agents` | Filter by provider, customer, or status. |
+| `start_create_agent` | Open the agent builder prefilled with a description (requires confirmation). |
+| `start_import_agent` | Open the provider import dialog (requires confirmation). |
+| `get_agent_tier_pricing` | Tier names and credits/minute (Essentials: 5, Moderate: 7, Premium: 10). |
+| `start_map_agent_to_customer` | Open the mapping dialog (requires confirmation). |
+
+### Phone numbers
+
+| Tool | What it does |
+|---|---|
+| `list_phone_numbers` | Owned numbers with provider, assigned agent, and customer. |
+| `get_phone_number` | One number's routing and SIP config. |
+| `search_available_numbers` | Search purchasable numbers by country/area code. |
+| `assign_number_to_agent` | Point a number at an agent (immediate, reversible). |
+| `start_purchase_number` | Open checkout for a chosen number (requires confirmation). |
+| `list_number_pools` | Pools and their membership. |
+| `open_number` | Open a number's detail view. |
+| `filter_numbers` | Filter by provider, assignment status, or customer. |
+
+### Credits, storage & telephony credits
+
+| Tool | What it does |
+|---|---|
+| `get_credit_balance` | AI, telephony, and storage balances. |
+| `list_credit_transactions` | Recent debits and credits with reason. |
+| `list_credit_plans` | Purchasable packs and prices. |
+| `get_credit_burn_rate` | Consumption per day and projected runway. |
+| `start_purchase_credits` | Open the purchase modal with a pack selected (requires confirmation). |
+
+### Billing & invoices
+
+| Tool | What it does |
+|---|---|
+| `get_billing_summary` | Current plan, next invoice date, payment method on file. |
+| `list_invoices` | Invoice list with amount, status, and download link. |
+| `filter_invoices` | Filter invoices by date range, status, or amount. |
+
+### Metered billing
+
+| Tool | What it does |
+|---|---|
+| `get_metered_billing_config` | Active metered billing plans and their charge triggers. |
+| `get_metered_usage` | Actual usage against metered limits for the current period. |
+
+### API keys
+
+| Tool | What it does |
+|---|---|
+| `list_api_keys` | All partner API keys with name, scope, and creation date. |
+| `get_mcp_connection_info` | Returns the exact `claude mcp add` command for the Partner MCP Gateway, with the key as a placeholder. |
+
+### AI Gateway
+
+| Tool | What it does |
+|---|---|
+| `get_gateway_resell_settings` | Current resell configuration — which models customers can access. |
+| `get_gateway_usage` | Usage breakdown by model for the current period. |
+
+### Team management
+
+| Tool | What it does |
+|---|---|
+| `list_team_members` | Current team, with role and invitation status. |
+| `get_team_seats` | How many seats are available and whether you can invite another person. |
+
+### Knowledge base
+
+| Tool | What it does |
+|---|---|
+| `get_knowledge_base_tier` | Which processing tier is configured for new customers' KBs. |
+| `set_knowledge_base_tier` | Change the default KB processing tier. |
+
+### Campaigns
+
+| Tool | What it does |
+|---|---|
+| `list_campaigns` | All campaigns with status, type, and dates. |
+| `get_campaign` | One campaign: script, schedule, target list, and outcomes. |
+| `open_campaign` | Open a campaign's detail view. |
+| `start_create_campaign` | Open the campaign wizard prefilled (requires confirmation). |
+| `get_dnc_list` | Summary of numbers on the Do Not Call list. |
+
+### Marketplace
+
+| Tool | What it does |
+|---|---|
+| `list_marketplace_apps` | Available apps with category and install status. |
+| `get_marketplace_app` | One app: description, pricing, and setup steps. |
+| `open_marketplace_app` | Open an app's listing page. |
+
+### VPS
+
+| Tool | What it does |
+|---|---|
+| `list_vps_instances` | Provisioned VPS instances with status and plan. |
+| `get_vps_instance` | One instance: resources, hostname, customer assignment. |
+| `list_vps_plans` | Available VPS plan specs and prices. |
+
+### Memory / AI Minds
+
+| Tool | What it does |
+|---|---|
+| `get_memory_summary` | How many Minds are active, their sync status, and storage used. |
+| `list_memory_sources` | Connected data sources for each Mind. |
+
+### AI Usage
+
+| Tool | What it does |
+|---|---|
+| `get_ai_usage_summary` | Total AI token usage for the period, broken down by provider. |
+| `get_ai_usage_by_customer` | Usage per customer for the period. |
+
+## Security model
+
+WebMCP is designed so that adding a tool never gives an agent a capability the signed-in person does not already have.
+
+| Property | How it is held |
+|---|---|
+| **No new API routes** | Every tool calls an endpoint the page already calls. Nothing new is exposed to the internet. |
+| **Session-based auth** | Tools use the existing session in the browser tab — no token is minted or stored. |
+| **Server-side enforcement** | RBAC, tenant scoping, and plan gating apply on every call, exactly as for a click. |
+| **Consequential actions require confirmation** | Any tool that spends money, deletes data, or sends communication is a `start_*` tool that opens the existing confirmation dialog. The agent cannot confirm. |
+| **No secret egress** | Tool results are scrubbed before reaching the agent. Credential material is never fetched in the first place. |
+| **Annotations are enforced** | A mutating tool cannot be shipped with `readOnlyHint`. The `defineTool` factory derives annotations from the tool's declared `kind`. |
+
+> 🎬 **Video walkthrough:** _Record a clip walking through the end-to-end setup flow: opening the portal, asking the agent to list unconfigured items, and having the agent navigate to each settings page to guide you through setup._
+
+## Related pages
+
+- [AI Agents panel](/partner-portal/ai-agents-overview)
+- [MCP Tokens](/partner-portal/ai-agents/mcp/tokens)
+- [Partner Portal overview](/partner-portal/overview)
+
+> Source: [knotie-ai-pro#1740](https://github.com/avijeett007/knotie-ai-pro/pull/1740) — _feat(webmcp): agent-usable tools on every partner page (KNOTI-1007)_
