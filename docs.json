@@ -281,6 +281,14 @@
             ]
           },
           {
+            "group": "Admin API (Mission Control)",
+            "pages": [
+              "api-reference/admin/overview",
+              "api-reference/admin/phone-approvals",
+              "api-reference/admin/email-campaigns"
+            ]
+          },
+          {
             "group": "More API specs",
             "pages": [
               "api-reference/future-specs"
