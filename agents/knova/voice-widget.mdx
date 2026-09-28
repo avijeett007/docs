@@ -43,7 +43,7 @@ Return to **Embed widget** and use the controls beside the widget:
 - select the copy button to copy the current code
 - select the delete button to remove it
 
-## Microphone troubleshooting
+## Voice session troubleshooting
 
 If a visitor cannot start a voice session:
 
@@ -54,7 +54,26 @@ If a visitor cannot start a voice session:
 5. Confirm the widget is active and the current website is in **Allowed domains**.
 6. Reload the page and try again.
 
+### Understanding error messages
+
+The widget shows a specific error message when a session fails to start. Error messages now distinguish between microphone problems and connection problems:
+
+| Message | What it means | What to do |
+|---|---|---|
+| "Microphone access was denied" | The visitor declined the browser permission prompt | Ask the visitor to allow microphone access in browser settings |
+| "No microphone found" | No input device is available | Check that a microphone is connected and selected in system settings |
+| "Microphone is in use by another app" | Another application holds the microphone | Close video-call apps and other tabs that use the microphone |
+| "Connection error" or a specific LiveKit error | A network or session issue, not a hardware problem | Reload the page; if the error persists, check the network connection |
+
+Connection errors (such as a brief LiveKit session failure) will automatically retry once. If the retry succeeds, the session starts normally. If the retry fails, the visitor sees an accurate description of what went wrong so they can take the right action.
+
+> 📷 **Screenshot needed:** _Add a screenshot showing the error message overlay in the widget when a connection error occurs, so partners can identify what their visitors are seeing._
+
+> 🎬 **Video walkthrough:** _Record a short clip showing the widget recovering from a transient connection error — the automatic retry and successful session start._
+
 ## Related pages
 
 - [Manage Knova agents](/agents/knova/manage-knova-agents)
 - [Agent analytics](/partner-portal/agent-analytics)
+
+> Source: [knotie-ai-pro#1784](https://github.com/avijeett007/knotie-ai-pro/pull/1784) — _fix(widget): stop blaming the microphone for a LiveKit failure (KNOTI-1096)_
