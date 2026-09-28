@@ -20,15 +20,13 @@ The agent uses **named tools** — one per action a page already exposes — to 
 
 ## How to enable it
 
-WebMCP requires two things:
+WebMCP requires:
 
-1. **The `NEXT_PUBLIC_WEBMCP_ENABLED` environment variable set to `true`** on your deployment. Ask your platform administrator or set it in your `.env` if you are self-hosted.
 
-2. **A browser that supports the WebMCP origin-trial.** Chrome and Edge with the `document.modelContext` origin-trial token work today. In local development you can bypass this via `chrome://flags/#enable-webmcp-testing`. For production you will need to register an origin-trial token and add it to `NEXT_PUBLIC_WEBMCP_ORIGIN_TRIAL_TOKENS`.
+ **A browser that supports the WebMCP origin-trial.** Chrome and Edge with the `document.modelContext` origin-trial token work today. In local development you can bypass this via `chrome://flags/#enable-webmcp-testing`.
 
 Once enabled, the partner shell mounts the WebMCP provider automatically. No per-page configuration is needed.
 
-> 📷 **Screenshot needed:** _Add a screenshot of the environment variable settings panel (or .env file) showing `NEXT_PUBLIC_WEBMCP_ENABLED=true`._
 
 ## Core tools — always available
 
@@ -60,9 +58,6 @@ WebMCP is designed so that adding a tool never gives an agent a capability the s
 | **No secret egress** | Tool results are scrubbed before they reach the agent. Credential material is never fetched in the first place. |
 | **Annotations are enforced** | A mutating tool cannot be shipped with `readOnlyHint`. The `defineTool` factory derives annotations from the tool's declared `kind`. |
 
-## What's next
-
-Page-level tools (one tool set per portal page — dashboard, customers, white-label, phone numbers, etc.) are added in [KNOTI-1007 (WebMCP full rollout)](/partner-portal/webmcp-ai-assistant), documented on this same page once that update ships.
 
 ## Related pages
 
@@ -70,4 +65,3 @@ Page-level tools (one tool set per portal page — dashboard, customers, white-l
 - [MCP Tokens](/partner-portal/ai-agents/mcp/tokens)
 - [Partner Portal overview](/partner-portal/overview)
 
-> Source: [knotie-ai-pro#1709](https://github.com/avijeett007/knotie-ai-pro/pull/1709) — _feat(webmcp): foundation for agent-usable tools on partner pages (KNOTI-1008)_
