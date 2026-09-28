@@ -37,17 +37,36 @@ When minting a token manually you can include two optional claims:
 
 Values: `"full"` | `"meta"`. Omitting the claim defaults to `"full"` for partner-minted tokens.
 
-### `allowedApps`
+### `apps` (preferred) / `allowedApps` (legacy)
+
+Restrict the token to tools from specific connected apps only:
 
 ```json
 {
-  "allowedApps": ["elevenlabs", "retell"]
+  "apps": ["elevenlabs", "retell"]
 }
 ```
 
-When present, the token can only invoke tools belonging to the listed apps. Attempts to call tools from unlisted apps are rejected. Both the legacy tool-list and tool-call endpoints (`/api/mcp/tools/list`, `/api/mcp/tools/call`) enforce this claim.
+The older `allowedApps` field is still accepted and behaves identically. If both are sent, `apps` takes precedence. When present, the token can only invoke tools belonging to the listed apps. Attempts to call tools from unlisted apps are rejected. Both the legacy tool-list and tool-call endpoints (`/api/mcp/tools/list`, `/api/mcp/tools/call`) enforce this claim.
 
-Omitting `allowedApps` grants access to all apps the token's scope allows.
+Omitting both fields grants access to all apps the token's scope allows.
+
+### `mailboxAccessLevel`
+
+Control how much of a customer's email the token can access when `scope: 'all'` is used:
+
+```json
+{
+  "scope": "all",
+  "mailboxAccessLevel": "draft"
+}
+```
+
+Valid values: `read` (default) | `organise` | `draft` | `send_approval` | `send`.
+
+When `scope: 'all'` is used and the customer has a connected email mailbox, the token includes mailbox access at the specified level. Use `apps` to exclude the mailbox entirely — if `mailbox` is not in the `apps` list, no mailbox access is granted regardless of `mailboxAccessLevel`.
+
+See [Email (Mailbox) access](/partner-portal/ai-agents/mcp/tokens#email-mailbox-access) in the MCP Tokens guide for a full walkthrough.
 
 <Frame caption="The Create Token modal in AI Agents → MCP Tokens. Modal exposes Customer, Token Name, Description, Tool Scope, Usage Limit, Expires In — no toolMode or allowedApps controls.">
   <img src="/images/screenshots/mcp-create-token-modal-2026-06-20.png" alt="Create Token modal in AI Agents → MCP Tokens" />
@@ -89,3 +108,5 @@ The following tools are now available to agent tokens with appropriate scope:
 - [MCP API reference](/api-reference/mcp/introduction) — Full endpoint documentation
 - [Social posting calendar](/customer-management/social-posting) — Schedule social posts via the portal or via agent tools
 - [Docs & Media library](/customer-management/media-library) — Upload and manage media assets
+
+> Source: [knotie-ai-pro#1696](https://github.com/avijeett007/knotie-ai-pro/pull/1696) — _feat(mcp-tokens): "all" scope includes email, and tokens can be scoped to chosen apps (KNOTI-992)_
