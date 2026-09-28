@@ -281,6 +281,12 @@
             ]
           },
           {
+            "group": "Admin API (Mission Control)",
+            "pages": [
+              "api-reference/admin/email-opt-out"
+            ]
+          },
+          {
             "group": "More API specs",
             "pages": [
               "api-reference/future-specs"
