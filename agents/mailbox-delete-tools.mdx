@@ -1,0 +1,43 @@
+---
+title: "Let agents delete email"
+description: "Allow AI agents to move email to Trash, or delete it permanently, with safety limits."
+---
+
+Agents connected to an [Email (any mailbox)](/agents/agent-mailbox) account can delete email in two ways:
+
+| Action | What happens | Can it be undone? |
+|---|---|---|
+| **Move to Trash** | The email goes to the Trash folder | Yes — restore it from Trash |
+| **Delete permanently** | The email is deleted for good, including emptying Trash or Junk | **No** |
+
+## Move to Trash
+
+Any agent with **Organise** access or higher can move email to Trash. Nothing else needs to be turned on.
+
+## Allow permanent delete
+
+Permanent delete is off for every agent until you turn it on.
+
+1. In the customer portal, open **Integration** and find **Email (any mailbox)**.
+2. Open the access settings for the agent.
+3. Make sure its access is **Organise** or higher.
+4. Expand **Advanced** and turn on **Allow permanent delete**.
+5. Confirm when asked.
+
+The agent is then labelled **Can delete for good**.
+
+<Warning>
+Turning **Allow permanent delete** off again only stops future deletes. Email that was already deleted can't be recovered.
+</Warning>
+
+## Safety limits
+
+- An agent can permanently delete up to 25 emails in one go, and can empty Trash or Junk in small batches.
+- Each mailbox has a daily limit on permanent deletes. If an agent reaches it, nothing more is deleted until the limit resets.
+- Moving email to Trash doesn't count toward the limit, because it can be undone.
+
+## Related pages
+
+- [Email (any mailbox)](/agents/agent-mailbox)
+- [Connected app tools](/agents/connected-app-tools)
+- [Tool call quota](/partner-portal/customers/tool-call-quota)

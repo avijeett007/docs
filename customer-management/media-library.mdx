@@ -1,32 +1,35 @@
 ---
 title: "Docs & Media library"
-description: "Upload, organise, and share media assets from the customer portal. Files get a stable public link that agents can use directly."
+description: "Upload, organize, and manage images, videos, and documents from the customer portal."
 ---
 
 ## What the media library is for
 
-The **Docs & Media** section lets your customers (the people using your whitelabel portal) upload images, documents, and other files that their AI agents can reference. Each uploaded file gets a stable public link with no expiry — so it works everywhere, including platforms like Instagram that reject links that expire.
+**My Docs & Media** is one place for a customer's images, videos, and documents. Files can be kept in folders, and connected AI agents can use them.
 
-Use the media library when a customer wants to:
+Use it when a customer wants to:
 
-- Store brand images, logos, or product photos for agents to use in social posts
-- Upload PDFs or documents an agent should be able to surface
-- Build a reusable asset bank for marketing or outreach campaigns
+- Store brand images, logos, or product photos for social posts
+- Keep PDFs, reports, or reference documents that an agent can look up
+- Build a reusable set of marketing images and videos
+- Let an AI agent save call summaries or notes as documents
 
-![My Docs & Media in the customer portal — a search bar, Upload Media button, a per-customer storage meter, All / Images / Videos filter tabs, and the empty state prompting the first upload](/images/screenshots/whitelabel-media-library-2026-07-02.png)
+![My Docs & Media with the All, Images, Videos, and Docs filters, the Home folder link, and the New folder button](/images/screenshots/docs-media-docs-filter-2026-09-29.png)
 
-## Prerequisites
+## Before you start
 
-Before a customer can see the Docs & Media section in their portal:
+Before a customer can use Docs & Media:
 
-1. The partner must enable the **Docs & Media** menu toggle in that customer's **Features & Add-ons** panel.
-2. The customer must have an active portal account.
+1. Turn on **Docs & Media** in that customer's **Features & Add-ons**.
+2. Make sure the customer has an active portal account.
 
-See [Features, add-ons, and menu visibility](/partner-portal/customers/features-addons-and-menu-visibility) for the toggle location.
+If Docs & Media isn't turned on, the customer sees a message asking them to contact their provider.
 
-## Storage quotas per plan
+See [Features, add-ons, and menu visibility](/partner-portal/customers/features-addons-and-menu-visibility) for where to find the switch.
 
-Storage is now enforced per-plan. Each partner account has a pool limit, and each customer gets an individual cap configured by the partner.
+## Storage limits
+
+Each partner account has a storage pool, and each customer has an individual limit set by the partner.
 
 | Plan | Partner pool |
 |---|---|
@@ -34,37 +37,38 @@ Storage is now enforced per-plan. Each partner account has a pool limit, and eac
 | Solo Agency / Pro | 1 GB |
 | Ultimate Scaleup Agency | 5 GB |
 
-When a customer hits their individual cap, uploads return an error instead of consuming partner storage. When the partner pool is full, uploads across all customers are blocked until storage is freed.
+When a customer reaches their own limit, new uploads are refused. When the partner pool is full, uploads are blocked for all customers until space is freed.
 
-Partners can adjust a customer's individual cap in **Customers → Manage → Features & Add-ons → Allocated Storage (MB)**.
+To change a customer's limit, go to **Customers → Manage → Features & Add-ons → Allocated Storage (MB)**.
 
-## Uploading assets
+## Upload files
 
-1. Open the customer portal and navigate to **Docs & Media**.
-2. Click **Upload** and select a file.
-3. The platform checks the file against the customer's allocated storage cap.
-4. On success, the file appears in the card grid with its name and a direct URL.
+1. In the customer portal, open **My Docs & Media**.
+2. Open the folder you want, or stay in **Home**.
+3. Select **Upload** and choose a file.
 
-Accepted file types depend on the upload configuration; images (PNG, JPG, WEBP, GIF) and common documents (PDF) are supported.
+Images and videos get a permanent link that can be used in agent prompts, social posts, and anywhere else that accepts a link. Documents stay private — see [Documents and folders](/customer-management/documents-and-folders).
 
-## Searching and managing assets
+## Find and manage files
 
-- Use the **search bar** to filter assets by name.
-- Each card shows a preview (for images), the file name, and action buttons.
-- Click **Delete** on a card to permanently remove the file from storage.
+- Use **All**, **Images**, **Videos**, or **Docs** to show one kind of file.
+- Use the search bar to find a file by name.
+- Select **New folder** to create a folder, and **Home** to go back to the top level.
+- Use **Move to…** on a file to put it in a different folder.
+- Select **Delete** on a file to remove it.
 
-Deletions are immediate and cannot be undone. Storage is reclaimed after deletion.
+Deleting a file is permanent. The storage it used becomes available again.
 
-## Using assets in agents
+## Use files with AI agents
 
-Media asset URLs are stable and do not expire. You can paste a URL directly into an agent prompt, a social post template, or any field that accepts a URL.
+Image and video links don't expire, so you can paste them straight into an agent prompt or social post.
 
-Agents granted the `MEDIA_LIST_ASSETS` MCP tool can retrieve a customer's asset list programmatically, and agents with `MEDIA_IMPORT_FROM_URL` can pull external images directly into the media library.
-
-See [MCP tool modes](/api-reference/mcp/tool-modes) for how agent-facing tools are scoped.
+Agents that are connected to the customer's account can also list files, bring in images from a web link, fetch documents, and save notes as new documents. See [MCP media tools](/api-reference/mcp/media-tools) for the technical reference.
 
 ## Related pages
 
-- [Features, add-ons, and menu visibility](/partner-portal/customers/features-addons-and-menu-visibility) — Enable the Docs & Media menu for a customer
-- [Social posting calendar](/customer-management/social-posting) — Schedule posts that reference media assets
-- [Pricing and features](/getting-started/pricing-and-features) — Storage quotas per plan
+- [Documents and folders](/customer-management/documents-and-folders)
+- [Features, add-ons, and menu visibility](/partner-portal/customers/features-addons-and-menu-visibility)
+- [Social posting calendar](/customer-management/social-posting)
+- [Pricing and features](/getting-started/pricing-and-features)
+- [MCP media tools](/api-reference/mcp/media-tools)

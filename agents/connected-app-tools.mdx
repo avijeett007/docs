@@ -29,8 +29,11 @@ This means:
 
 When an agent is **created** or **updated** with a customer assigned:
 
-1. Knotie AI Pro mints an MCP token for that customer and attaches it to the agent automatically — for both Retell and VAPI, with no manual wiring on your part.
-2. At call time, the agent looks up whichever apps the customer has **currently** connected. New apps appear automatically — no token regeneration needed when the customer's apps change.
+1. Knotie AI Pro creates an MCP token for that customer and attaches it to the agent automatically — for both Retell and VAPI, with no manual wiring on your part.
+2. Tools for the apps the customer has connected at that moment are added to the agent by name, so the agent always knows they're available.
+3. During a call, the agent can also find apps the customer connected **after** the agent was saved — no rebuild needed.
+
+If you move the agent to a different customer, the previous customer's apps and token are removed and the new customer's are added.
 
 ## What tools are served via MCP vs. static webhooks
 
@@ -38,7 +41,7 @@ Not all tool types switch to MCP. The table below explains the routing:
 
 | Tool type | Delivery | Why |
 |---|---|---|
-| Connected-app tools (Gmail, Slack, HubSpot, etc.) | **Live MCP server** | Dynamic; new apps appear automatically |
+| Connected-app tools (Gmail, Slack, HubSpot, etc.) | **Static webhook**, plus the **live MCP server** for apps connected later | Apps connected when the agent is saved are always listed; later apps are still found during calls |
 | Custom API integrations | **Static webhook** | Custom wiring that MCP doesn't cover |
 | Tools with pre-filled parameter values | **Static webhook** | Pre-fills are baked into the webhook; would be lost via MCP |
 | Built-in tools (`end_call`, etc.) | **Static webhook** | Provider built-ins, not app-specific |

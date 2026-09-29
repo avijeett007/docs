@@ -1,0 +1,47 @@
+---
+title: "Tools for Knova agents"
+description: "Add connected-app tools to a Knova agent so it can take actions during a call."
+---
+
+Tools let a Knova agent do things during a call — send an email, book an appointment, create a CRM contact, or look something up. You manage them in the agent's **Functions** tab.
+
+## Add a tool
+
+1. Open **AI Agents → Knova Agents**.
+2. Select **Configure** on the agent.
+3. Open the **Functions** tab.
+4. Under **Function Calls**, select **Add Function Call** and choose the app and action.
+5. Select **Update Agent** to save.
+
+Each tool in the list shows its name, a short description, the **App** it belongs to, and the **Tool** (action) it runs.
+
+The app must be available to the agent's customer and connected in their portal. See [Choose customer integrations](/partner-portal/customers/integration-apps-selection).
+
+## Built-in tools
+
+Some tools are provided by the platform and show **App: internal**, for example:
+
+| Tool | What it does |
+|---|---|
+| `KNOWLEDGE_BASE_QUERY` | Answers questions from the agent's knowledge base |
+| `SMS_SEND_MESSAGE` | Sends a text message after the call |
+| `EMAIL_SEND_NOTIFICATION` | Sends an email after the call |
+
+Don't give your own tools these exact names. Names that simply contain words like "email", "SMS", or "knowledge" — such as a Gmail send-email tool — are fine.
+
+<Note>
+Earlier, some Knova agents lost access to tools whose names included "email", "sms", or "knowledge", such as Gmail or Twilio SMS tools. This has been fixed. You don't need to change anything — just run a test call to check the tool works.
+</Note>
+
+## If a tool isn't working
+
+- Check the tool is still listed in the **Functions** tab.
+- Check the customer has connected the app in their portal.
+- Make the agent's instructions clear about when to use each tool.
+- Save the agent and try another test call.
+
+## Related pages
+
+- [Connected app tools](/agents/connected-app-tools)
+- [Manage Knova agents](/agents/knova/manage-knova-agents)
+- [Choose customer integrations](/partner-portal/customers/integration-apps-selection)

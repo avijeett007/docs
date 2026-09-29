@@ -1,0 +1,75 @@
+---
+title: "Email (any mailbox)"
+description: "Connect your own domain email so AI agents can read, organize, draft, and send messages."
+---
+
+**Email (any mailbox)** connects an email account from almost any provider — for example Hostinger, Namecheap, GoDaddy/Titan, or cPanel — so your AI agents can work with it. You choose exactly what each agent is allowed to do, from just reading email to sending it.
+
+It's marked **Beta** and is one of the free apps you can offer every customer.
+
+<Note>
+Using Gmail or Microsoft 365? Connect the **Gmail** or **Outlook** app instead. Email (any mailbox) is for other providers and custom domain email.
+</Note>
+
+## Make it available to a customer
+
+As a partner, add **Email (any mailbox)** to the customer's apps:
+
+- For one customer: **Customers → Manage → Features & Add-ons → Edit Apps**. See [Choose customer integrations](/partner-portal/customers/integration-apps-selection).
+- For all customers: add it to your list under [Apps for your customers](/partner-portal/settings/integration-pricing#apps-for-your-customers).
+
+The customer then connects their mailbox from the **Integration** page in their portal.
+
+## What you need to connect
+
+Your email provider can give you these details:
+
+- **Incoming mail (IMAP)** server and port — often `imap.yourdomain.com`, port 993
+- **Outgoing mail (SMTP)** server and port — often `smtp.yourdomain.com`, port 587 or 465
+- The mailbox **username** (usually the full email address) and **password**
+
+If your mailbox uses two-step sign-in, create an **app password** with your provider and use that instead of your normal password.
+
+## Connect the mailbox
+
+1. In the customer portal, open **Integration** and find **Email (any mailbox)**.
+2. Enter a name for the mailbox, the email address, the server details, and the sign-in details.
+3. Test the connection, fix anything it reports, and save.
+4. Choose which agents can use the mailbox and what each one is allowed to do.
+
+## Choose what each agent can do
+
+| Access | The agent can |
+|---|---|
+| **Read** | Read and search email |
+| **Organise** | Everything above, plus mark, flag, and move email, and move it to Trash |
+| **Draft** | Everything above, plus write drafts |
+| **Send approval** | Everything above, plus prepare email that waits for your approval before it's sent |
+| **Send** | Everything above, plus send email straight away |
+
+Give each agent the lowest level it needs. You can change it at any time.
+
+Agents can never permanently delete email unless you also turn on **Allow permanent delete**. See [Let agents delete email](/agents/mailbox-delete-tools).
+
+## Approve email before it's sent
+
+With **Send approval**, the agent's email is held until you approve or reject it. This is the safer choice for most agents. Only choose **Send** for an agent you trust to email people without review.
+
+## If the connection fails
+
+- Check the server names and ports with your email provider.
+- Try the full email address as the username.
+- If two-step sign-in is on, use an app password.
+- Check that your provider allows IMAP and SMTP connections — some turn them off by default.
+
+## If an agent can't use the mailbox
+
+- Check the agent is assigned to the same customer as the mailbox.
+- Check the agent's access level allows the action — for example, **Read** can't send email.
+
+## Related pages
+
+- [Let agents delete email](/agents/mailbox-delete-tools)
+- [Choose customer integrations](/partner-portal/customers/integration-apps-selection)
+- [Connected app tools](/agents/connected-app-tools)
+- [Phone approvals for agent actions](/agents/phone-approvals)

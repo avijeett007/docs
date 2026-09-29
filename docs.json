@@ -36,7 +36,8 @@
               "account/card-verification",
               "account/login-flow",
               "account/appearance",
-              "account/terms-and-privacy"
+              "account/terms-and-privacy",
+              "account/data-deletion-request"
             ]
           },
           {
@@ -55,11 +56,13 @@
             "group": "Customer portal features",
             "pages": [
               "customer-management/media-library",
+              "customer-management/documents-and-folders",
               "customer-management/social-posting",
               "customer-management/media-studio",
               "customer-management/media-studio-projects",
               "customer-management/media-studio-agent-connections",
-              "customer-management/media-studio-storyboard"
+              "customer-management/media-studio-storyboard",
+              "customer-management/approval-app"
             ]
           },
           {
@@ -82,6 +85,7 @@
               "partner-portal/customers/credits-and-ai-credit-management",
               "partner-portal/customers/ai-credit-management",
               "partner-portal/customers/integration-apps-selection",
+              "partner-portal/customers/integration-app-requests",
               "partner-portal/customers/embed-urls",
               "partner-portal/customers/tool-call-quota",
               "partner-portal/customers/deployment-status-tracking",
@@ -146,6 +150,7 @@
             "pages": [
               "partner-portal/settings/overview",
               "partner-portal/settings/whitelabel-settings",
+              "partner-portal/settings/additional-custom-domains",
               "partner-portal/settings/platform-configuration",
               "partner-portal/settings/dashboard-experiences",
               "partner-portal/settings/integration-settings",
@@ -158,8 +163,10 @@
               "partner-portal/settings/subscription-plans",
               "partner-portal/settings/subscription-plan-features",
               "partner-portal/settings/customer-credit-plans",
+              "partner-portal/settings/customer-tier-pricing",
               "partner-portal/settings/saas-portal-mode",
               "partner-portal/settings/mcp-custom-domain",
+              "partner-portal/settings/approval-defaults",
               "partner-portal/settings/notification-preferences",
               "partner-portal/settings/redirect-domains",
               "partner-portal/settings/knowledge-base-processing",
@@ -199,6 +206,7 @@
             "pages": [
               "agents/knova/overview",
               "agents/knova/knova-agent",
+              "agents/knova/ultra-tier",
               "agents/knova/try-agent",
               "agents/knova/manage-knova-agents",
               "agents/knova/knova-agent-builder",
@@ -206,7 +214,8 @@
               "agents/knova/outbound-calling",
               "agents/knova/outbound-webhook-api",
               "agents/knova/voice-widget",
-              "agents/knova/telnyx-byo-numbers"
+              "agents/knova/telnyx-byo-numbers",
+              "agents/knova/custom-tools"
             ]
           },
           {
@@ -236,6 +245,9 @@
             "group": "Agent Tools & Setup",
             "pages": [
               "agents/connected-app-tools",
+              "agents/agent-mailbox",
+              "agents/mailbox-delete-tools",
+              "agents/phone-approvals",
               "agents/byo-agent/overview",
               "agents/openclaw-setup",
               "agents/migration/agent-migration"
@@ -277,7 +289,8 @@
               "api-reference/mcp/authentication",
               "api-reference/mcp/tool-modes",
               "api-reference/mcp/endpoints",
-              "api-reference/mcp/memory-tools"
+              "api-reference/mcp/memory-tools",
+              "api-reference/mcp/media-tools"
             ]
           },
           {
@@ -314,15 +327,15 @@
   },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
   },
   "footer": {
     "socials": {
