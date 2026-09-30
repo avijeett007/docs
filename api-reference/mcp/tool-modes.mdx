@@ -37,25 +37,41 @@ When minting a token manually you can include two optional claims:
 
 Values: `"full"` | `"meta"`. Omitting the claim defaults to `"full"` for partner-minted tokens.
 
-### `allowedApps`
+### `apps` (limit the token to chosen apps)
 
 ```json
 {
-  "allowedApps": ["elevenlabs", "retell"]
+  "apps": ["gmail", "hubspot"]
 }
 ```
 
-When present, the token can only invoke tools belonging to the listed apps. Attempts to call tools from unlisted apps are rejected. Both the legacy tool-list and tool-call endpoints (`/api/mcp/tools/list`, `/api/mcp/tools/call`) enforce this claim.
+When present, the token can only use tools from the listed apps. Calls to any other app are refused. The older name `allowedApps` still works the same way; if you send both, `apps` wins. Leave both out to allow every app the token's scope includes.
 
-Omitting `allowedApps` grants access to all apps the token's scope allows.
+### Mailbox access level
 
-<Frame caption="The Create Token modal in AI Agents → MCP Tokens. Modal exposes Customer, Token Name, Description, Tool Scope, Usage Limit, Expires In — no toolMode or allowedApps controls.">
-  <img src="/images/screenshots/mcp-create-token-modal-2026-06-20.png" alt="Create Token modal in AI Agents → MCP Tokens" />
+A token with access to all apps also includes the customer's connected mailbox, if they have one. You can set how much it may do with the `mailboxAccessLevel` option:
+
+| Value | What the token can do |
+|---|---|
+| `read` (default) | Read emails and threads. |
+| `organise` | Read, plus label, archive, and move emails. |
+| `draft` | The above, plus write drafts. |
+| `send_approval` | The above, plus submit drafts for the customer to approve before sending. |
+| `send` | The above, plus send emails directly. |
+
+To keep a token away from email entirely, use `apps` and leave the mailbox out of the list.
+
+## Setting these options in the portal
+
+The **Create Token** tab in the Partner Portal covers the most common case. Its **Tool Scope** menu offers **All apps and tools**, **Specific apps** (the same as `apps`), and **Specific tools**.
+
+<Frame caption="Tool Scope set to Specific apps in the MCP Token Manager">
+  <img src="/images/screenshots/mcp-token-specific-apps-2026-09-30.png" alt="Tool Scope set to Specific apps, with a list of the customer's apps and how many tools each has" />
 </Frame>
 
-<Warning>
-  The **Create Token** modal in the Partner Portal UI does **not** expose `toolMode` or `allowedApps` controls. The modal fields are: Customer, Token Name, Description, Tool Scope (a disabled dropdown with only "All Tools" / "Specific Tools" — no meta/full selector, no allowedApps field), Usage Limit, Expires In. **`toolMode` and `allowedApps` are JWT-claim-only** — they are honored when present in a token's payload, but cannot be set from this UI. Any partner token minted from the Create Token modal is always **full** mode with **all apps allowed**. To mint a `meta`-mode or app-restricted token, mint it directly via the API / MCP route with the JWT claims set explicitly.
-</Warning>
+<Note>
+  Meta mode (`toolMode`) and the mailbox access level can only be set when you create a token through the API. Tokens created in the portal use full mode, and the default `read` level for the mailbox.
+</Note>
 
 ## How agents use meta mode
 
@@ -63,7 +79,7 @@ In meta mode the agent workflow changes:
 
 1. **Discover** — call `internal_search_tools` with a keyword (e.g., `"social post"`) to get relevant tool names and descriptions.
 2. **Execute** — call `internal_execute_tool` with the tool name and parameters.
-3. Rate limits, credit charges, scope, and `allowedApps` enforcement all apply inside `internal_execute_tool` exactly as they do for direct tool calls.
+3. Rate limits, credit charges, scope, and app-limit enforcement all apply inside `internal_execute_tool` exactly as they do for direct tool calls.
 
 ## Revert to full mode for voice agents
 

@@ -49,7 +49,8 @@
               "customer-management/client-portal-navigation-and-ai-gateway",
               "customer-management/custom-domain",
               "customer-management/email-domains",
-              "customer-management/ai-memory-my-minds"
+              "customer-management/ai-memory-my-minds",
+              "customer-management/account-deletion-requests"
             ]
           },
           {
@@ -99,6 +100,7 @@
             "pages": [
               "partner-portal/ai-agents-overview",
               "partner-portal/ai-agents/mcp/tokens",
+              "partner-portal/webmcp-ai-assistant",
               "partner-portal/agent-analytics",
               "partner-portal/ai-usage/overview",
               "partner-portal/auto-deploy"
@@ -112,6 +114,7 @@
               "partner-portal/experiences/ai-receptionist-settings",
               "partner-portal/experiences/resell-ai-gateway",
               "partner-portal/experiences/resell-voice-ai-platform",
+              "partner-portal/experiences/resell-integrations",
               "partner-portal/experiences/experience-dashboards",
               "partner-portal/experiences/jarvis-ai-os",
               "partner-portal/experiences/auto-install",

@@ -1,0 +1,56 @@
+---
+title: "AI Assistant in the portal (WebMCP)"
+description: "Let an AI assistant in your browser find its way around the Partner Portal and answer questions about your account."
+---
+
+## What it is
+
+The Partner Portal can describe itself to an AI assistant running in your browser. It uses **WebMCP**, a standard way for a web page to tell an assistant which actions it offers. With a compatible assistant open in the same tab, you can ask things like:
+
+- "What can I do in this portal?"
+- "How is my account doing?"
+- "Take me to phone numbers."
+- "Find my customer called Acme."
+- "What should I set up next?"
+
+The assistant uses the same signed-in session as you. It can only see and do what you can already see and do, and it never gets your password or API keys.
+
+## What you need
+
+- A browser and AI assistant that support WebMCP.
+- To be signed in to the Partner Portal in that browser.
+
+There is nothing to switch on in your account. When a compatible assistant is present, the portal makes its tools available automatically on every page.
+
+## What the assistant can do
+
+These tools are available on every page of the Partner Portal:
+
+| Tool | What it does |
+|---|---|
+| `whoami` | Shows the signed-in account: business name, contact, email, and approval status. |
+| `list_areas` | Lists every area of the portal and what each one is for. You can narrow it to one group: Sell, Build, Run, Money, or Account. |
+| `go_to` | Opens an area by name, for example "customers" or "phone numbers". |
+| `get_page_context` | Explains the page you're on and what that area is for. |
+| `get_account_summary` | Gives your account at a glance: customers, phone numbers, monthly recurring revenue, credit balance, and anything that needs attention. |
+| `search` | Finds a customer or phone number by name or digits. |
+| `go_to_dashboard` | Takes you back to the dashboard, which re-checks your setup progress when it loads. |
+| `get_my_level` | Shows your level, streak, and the setup challenge you're on. See [Level system](/partner-portal/level-system). |
+
+All of these tools only read information or move you around the portal. None of them change settings, spend credits, or send anything.
+
+<Note>
+  More page-specific tools are planned. Until they arrive, the assistant can guide you to the right page, but you make changes yourself.
+</Note>
+
+## Safety
+
+- **Same access as you.** The assistant works through your own session, and the usual permission and plan checks apply to every request.
+- **Nothing new is exposed.** The tools only use information the portal already shows you.
+- **No secrets.** Passwords, API keys, and other credentials are never passed to the assistant.
+
+## Related pages
+
+- [MCP tokens](/partner-portal/ai-agents/mcp/tokens)
+- [AI Agents overview](/partner-portal/ai-agents-overview)
+- [Partner Portal overview](/partner-portal/overview)

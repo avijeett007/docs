@@ -43,7 +43,7 @@ Return to **Embed widget** and use the controls beside the widget:
 - select the copy button to copy the current code
 - select the delete button to remove it
 
-## Microphone troubleshooting
+## Voice session troubleshooting
 
 If a visitor cannot start a voice session:
 
@@ -53,6 +53,19 @@ If a visitor cannot start a voice session:
 4. Close other apps that may be using the microphone.
 5. Confirm the widget is active and the current website is in **Allowed domains**.
 6. Reload the page and try again.
+
+### What the error messages mean
+
+The widget tells the visitor whether the problem is their microphone or the connection:
+
+| Message | What it means | What to do |
+|---|---|---|
+| Microphone access was denied | The visitor said no to the browser's microphone prompt. | Allow microphone access for the site in the browser settings, then reload. |
+| No microphone found | The device has no microphone available. | Connect a microphone and check it's selected in system settings. |
+| Microphone is in use by another app | Another app or tab is using the microphone. | Close video-call apps and other tabs that use the microphone. |
+| A connection error | A network or session problem, not the microphone. | Reload the page. If it keeps happening, check the internet connection. |
+
+If a connection error happens, the widget tries again once by itself. Often the session then starts normally and the visitor never sees an error.
 
 ## Related pages
 
