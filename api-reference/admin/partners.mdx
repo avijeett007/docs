@@ -1,0 +1,187 @@
+---
+title: "Admin API — Partners"
+description: "GET /api/v1/admin/partners — query and filter your partner roster using a scoped admin API key."
+---
+
+## Overview
+
+`GET /api/v1/admin/partners` returns a paginated list of partners registered on your platform. The fields, filters, and sort options available to a request depend on the **scopes** attached to the API key used.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Mission Control API Keys page showing the available scopes when creating an admin key._
+
+---
+
+## Authentication
+
+Pass your admin API key in the `Authorization` header:
+
+```
+Authorization: Bearer ack_<your-key>
+```
+
+Admin keys are created in Mission Control. See [API Keys](/partner-portal/api-keys) for how to create one and choose its scopes.
+
+---
+
+## Scopes
+
+Three scopes govern what this endpoint accepts. They are cumulative — each adds to the one below it.
+
+| Scope | What it unlocks |
+|---|---|
+| `partner_read_only` | Base field projection, paging (`limit`/`cursor`), default sort by creation date |
+| `partner_query_filter` | Filter parameters (e.g. `?approvalStatus=`, `?partnerLevel=`) and the `sort`/`order` params |
+| `partner_list_data_field` | Extended `?fields=` projection over the full data field allowlist |
+
+A key only needs the scope for the features it uses. If your key lists analytics or support scopes but not `partner_query_filter`, it can read the full unfiltered list — it simply cannot narrow it.
+
+---
+
+## Request
+
+```
+GET /api/v1/admin/partners
+```
+
+### Paging parameters (always available)
+
+| Parameter | Type | Description |
+|---|---|---|
+| `limit` | integer | Number of partners to return. Clamped to 1–200; default 50. |
+| `cursor` | string | Opaque cursor from a previous response's `pagination.nextCursor`. Omit for the first page. |
+
+### Filter parameters (requires `partner_query_filter` scope)
+
+| Parameter | Values | Description |
+|---|---|---|
+| `approvalStatus` | `PENDING`, `ACTIVE`, `SUSPENDED` | Partners in that approval state only. |
+| `partnerLevel` | integer (0–5) | Partners at exactly that level. |
+| `signedUpBefore` | ISO 8601 date-time | Partners who signed up before this timestamp. |
+| `signedUpAfter` | ISO 8601 date-time | Partners who signed up after this timestamp. |
+| `planId` | string | Partners on this subscription plan. |
+
+### Sort parameters (requires `partner_query_filter` scope)
+
+| Parameter | Values | Default |
+|---|---|---|
+| `sort` | `createdAt`, `updatedAt`, `partnerName` | `createdAt` |
+| `order` | `asc`, `desc` | `desc` |
+
+### Field projection (requires `partner_list_data_field` scope)
+
+| Parameter | Description |
+|---|---|
+| `fields` | Comma-separated list of extended fields to include. Requested fields you are not permitted to see appear in `fields.rejected` — the row is still returned with base fields. |
+
+---
+
+## Response
+
+```json
+{
+  "partners": [
+    {
+      "id": "partner_xxx",
+      "partnerName": "Acme Agency",
+      "email": "admin@acme.com",
+      "approvalStatus": "ACTIVE",
+      "partnerLevel": 3,
+      "createdAt": "2026-01-15T10:00:00Z"
+    }
+  ],
+  "pagination": {
+    "total": 142,
+    "limit": 50,
+    "nextCursor": "eyJpZCI6InBhcnRuZXJfeHh4In0"
+  },
+  "filters": {
+    "applied": ["approvalStatus"],
+    "ignored": []
+  },
+  "fields": {
+    "requested": [],
+    "rejected": []
+  }
+}
+```
+
+---
+
+## Error responses
+
+### 400 — FILTERS_NOT_PERMITTED
+
+**Introduced in [knotie-ai-pro#1817](https://github.com/avijeett007/knotie-ai-pro/pull/1817).**
+
+If you send filter or sort parameters with a key that does not hold the `partner_query_filter` scope, the request is now **refused** with a `400`:
+
+```json
+{
+  "error": "FILTERS_NOT_PERMITTED",
+  "message": "This key cannot narrow a partner query. partnerLevel requires the `partner_query_filter` scope. Refused rather than answered with every partner, which is what an ignored filter would have returned."
+}
+```
+
+**Before this change**, filter parameters sent without the required scope were silently dropped and the full unfiltered partner list was returned. That meant a caller asking for "level-3 partners" could receive every partner on the platform — a data-exposure risk, especially on the campaign send path.
+
+**What to do:**
+- If you need filtering, add the `partner_query_filter` scope to your API key in Mission Control.
+- If you only need a full list, remove the filter parameters from your request.
+
+### 400 — SORT_NOT_PERMITTED
+
+`sort` and `order` also require the `partner_query_filter` scope. Sending them without it returns the same class of error:
+
+```json
+{
+  "error": "FILTERS_NOT_PERMITTED",
+  "message": "This key cannot change the default sort order. sort requires the `partner_query_filter` scope. ..."
+}
+```
+
+### Projection asymmetry
+
+The `?fields=` parameter behaves differently from filters and sort: an extended field your key cannot access is **silently omitted** from the response and listed in `fields.rejected` — the row is still returned with its base fields. This is intentional: omitting a column is less than you asked for; returning more partners than you asked for is more.
+
+---
+
+## Example: read-only list (no filters)
+
+```bash
+curl -X GET \
+  "https://knotie-ai.pro/api/v1/admin/partners?limit=20" \
+  -H "Authorization: Bearer ack_your_key_here"
+```
+
+## Example: filtered list (requires `partner_query_filter`)
+
+```bash
+curl -X GET \
+  "https://knotie-ai.pro/api/v1/admin/partners?approvalStatus=ACTIVE&partnerLevel=3&sort=createdAt&order=asc" \
+  -H "Authorization: Bearer ack_your_key_here"
+```
+
+## Example: paginate with a cursor
+
+```bash
+curl -X GET \
+  "https://knotie-ai.pro/api/v1/admin/partners?limit=50&cursor=eyJpZCI6InBhcnRuZXJfeHh4In0" \
+  -H "Authorization: Bearer ack_your_key_here"
+```
+
+---
+
+> 📷 **Screenshot needed:** _Add a screenshot of a sample API response in a REST client (e.g. Postman) showing the `filters.applied` field and a narrowed result set._
+
+> 🎬 **Video walkthrough:** _Record a short clip: create an admin API key with `partner_query_filter` scope in Mission Control, then run a filtered partner query in Postman showing the narrowed results._
+
+---
+
+## Related pages
+
+- [API Keys](/partner-portal/api-keys)
+- [API reference introduction](/api-reference/introduction)
+
+---
+
+> Source: [knotie-ai-pro#1817](https://github.com/avijeett007/knotie-ai-pro/pull/1817) — _fix(admin-api): KNOTI-1106 refuse a filter the key cannot honour, instead of returning every partner_
