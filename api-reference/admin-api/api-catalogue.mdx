@@ -1,0 +1,87 @@
+---
+title: "Admin API catalogue"
+description: "A single, drift-tested reference for every key-authenticated admin endpoint — downloadable as a Postman collection or browseable in Mission Control."
+---
+
+## Overview
+
+The admin API catalogue is a unified, machine-verified reference for the 16 endpoints reachable with an `ack_` admin API key. It is the authoritative source of truth for the key-callable surface: if an endpoint is not listed, it is not reachable by key, regardless of what you may find in route files.
+
+The catalogue is generated from one source (`apiCatalogue.ts`) and rendered in three places simultaneously:
+
+| Where | Format | Use it when |
+|---|---|---|
+| Mission Control → **Settings → API reference** | Interactive page | Browsing and one-click Postman download |
+| `documentations/admin-api/knotie-admin-api.postman_collection.json` | Postman v2.1 JSON | Committed artefact; share with a team or import offline |
+| `documentations/admin-api/README.md` | Markdown, 700+ lines | Human-readable complete reference |
+
+A build test verifies every entry against the actual route files — a stale catalogue fails CI rather than silently misleading callers.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Mission Control Settings → API reference page, showing the catalogue table and the "Download Postman collection" button._
+
+## Downloading the Postman collection
+
+### From Mission Control
+
+1. Log in to Mission Control.
+2. Go to **Settings → API reference**.
+3. Click **Download Postman collection**.
+
+The downloaded file is generated against the live deployment, so base URLs and environment variables already point at production.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the "Download Postman collection" button on the API reference page._
+
+### From the committed file
+
+The collection is also committed to the repository at `documentations/admin-api/knotie-admin-api.postman_collection.json` and can be imported directly into Postman or any compatible client.
+
+<Warning>
+  The downloaded collection ships with `adminApiKey` **empty**. Fill in your own key before running requests. Never commit a collection that already contains an `ack_` key.
+</Warning>
+
+> 🎬 **Video walkthrough:** _Record a short clip showing: opening Mission Control → Settings → API reference, browsing the catalogue, and downloading then importing the Postman collection._
+
+## What the catalogue covers
+
+The catalogue documents the 16 routes callable with an `ack_` key, grouped into 8 folders in Postman:
+
+| Area | What you can do |
+|---|---|
+| **Partners — list** | Page through all partners, filter by status, subscription level, date range, activity |
+| **Partners — single** | Fetch one partner by ID; get their full status, credit balance, level history |
+| **Credits** | Read a partner's credit balance; add or deduct credits |
+| **Campaigns** | List campaigns by status; read a campaign by ID |
+| **Approvals** | Poll a pending approval; list pending approvals |
+| **Support** | Verify a support keyword; raise a support ticket |
+| **Blog** | Submit a blog draft; attach media |
+| **Email** | Send a campaign to all partners, a named list, or a filtered audience |
+
+Routes that appear in the codebase but require a browser session (Supabase-authenticated admin routes) are **not** included — listing them in a key-callable reference would promise access the key does not have.
+
+## Known gaps
+
+The catalogue is honest about what is not reachable by key:
+
+- **Challenge progress** — `PartnerChallengeProgress` exists in the database but has no key-authenticated route; challenge endpoints are session-only.
+- **Lookup by correlation ID** — there is no way to query a partner by a caller-supplied correlation ID; use platform IDs (UUIDs) instead.
+- **`partnerLevel` range filter** — credits has a min/max pair; `partnerLevel` does not. Use `eq` instead.
+- **Audience activation** — triggers are Mission Control only and cannot be initiated by key.
+
+If you need one of these and it is blocking an integration, open a support request — gaps are tracked and may ship in a future release.
+
+## Recipes
+
+The catalogue ships 12 named Postman requests covering the most-common questions. Two caveats apply to every recipe that filters on `partnerLevel`:
+
+- `partnerLevel` is an **exact match**, not a minimum. A partner at level 5 does not match a filter for level 4.
+- A partner who has never logged in has a `null` `lastLoginAt` and will not match any dormancy filter regardless of how long ago they signed up.
+
+See `documentations/admin-api/README.md` for the full recipe list with example URLs.
+
+## Keeping the catalogue current
+
+Run `npm run api:spec` to regenerate the committed Postman collection and Markdown reference from the catalogue source. The build enforces that committed files match the live render — a stale file fails CI.
+
+---
+
+> Source: [knotie-ai-pro#1785](https://github.com/avijeett007/knotie-ai-pro/pull/1785) — _feat(admin-api): KNOTI-1097 one catalogue for the admin API, rendered as Postman and Markdown_

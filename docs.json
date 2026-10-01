@@ -297,6 +297,12 @@
             ]
           },
           {
+            "group": "Admin API",
+            "pages": [
+              "api-reference/admin-api/api-catalogue"
+            ]
+          },
+          {
             "group": "More API specs",
             "pages": [
               "api-reference/future-specs"
