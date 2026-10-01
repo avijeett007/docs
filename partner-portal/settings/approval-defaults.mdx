@@ -1,0 +1,50 @@
+---
+title: "Approval defaults"
+description: "Choose which AI agent actions your customers must approve on their phone, and lock the rules that matter most."
+---
+
+**Approval defaults** lets you decide which agent actions your customers must approve on their phone before they happen. Your rules apply to every customer who hasn't chosen their own. A **locked** rule is always on, and customers can't switch it off.
+
+To learn how approvals work on a call, see [Phone approvals for agent actions](/agents/phone-approvals).
+
+![Approval defaults, showing how many customers have paired a phone and the Add a rule box](/images/screenshots/approval-defaults-production-2026-09-29.png)
+
+## Open Approval defaults
+
+In the Partner Portal, open **Settings → Approval Defaults**.
+
+The **Your customers** panel shows:
+
+- How many of your customers have paired a phone
+- How many have locked rules but no phone — these customers can't use the locked actions until they pair one
+
+## Add a rule
+
+1. Under **Add a rule**, type the action in the form `app/ACTION_NAME` — for example, `gmail/GMAIL_SEND_EMAIL`.
+   To cover every action in an app, use `app/*` — for example, `gmail/*`.
+2. Select **Add**.
+
+The rule applies to every customer who hasn't set this action themselves.
+
+## Lock a rule
+
+Lock a rule when customers must never be able to skip approval for that action. Select the lock icon next to the rule in your **Rules** list. Customers see a padlock next to locked rules.
+
+<Warning>
+If a customer with a locked rule hasn't paired a phone, their agents can't use that action at all. Check **have locked rules but no phone** and ask those customers to pair a phone before you lock important rules.
+</Warning>
+
+## Give customers access to approvals
+
+Customers need **MCP Access & Approvals** turned on to see the **Approvals** page. You can turn it on:
+
+- For one customer: **Customers → Manage → Features & Add-ons**
+- For everyone at once: **Settings → Customer Portal Defaults → Enable MCP Access & Approvals for All Existing Customers**
+
+Then share the [Customer approval app](/customer-management/approval-app) guide so they can pair a phone.
+
+## Related pages
+
+- [Phone approvals for agent actions](/agents/phone-approvals)
+- [Customer approval app](/customer-management/approval-app)
+- [Platform configuration](/partner-portal/settings/platform-configuration)

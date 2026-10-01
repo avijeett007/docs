@@ -1,109 +1,101 @@
 ---
 title: "MCP Tokens"
-description: "Generate and manage MCP tokens for AI coding assistants and automation tools."
+description: "Create and manage MCP tokens so AI tools can use a customer's connected apps."
 ---
 
-## What MCP Tokens are for
+## What MCP tokens are for
 
-**MCP Tokens** (Model Context Protocol tokens) allow AI coding assistants like Cursor, Windsurf, and Claude to interact with your Knotie AI Pro account programmatically.
+An **MCP token** lets an AI tool, such as Claude Desktop, Cursor, Windsurf, or n8n, use the apps a customer has connected in Knotie AI Pro. Each token belongs to one customer, and you decide which of that customer's apps and tools it can reach.
 
 Use MCP tokens when you want to:
 
-- **Automate workflows** – Let AI tools manage customers, agents, or credits.
-- **Build integrations** – Connect Knotie AI Pro to your development environment.
-- **Access data** – Query analytics and customer information via AI assistants.
+- **Let an AI assistant act for a customer**, for example reading their Gmail or updating their CRM.
+- **Automate workflows** in tools like n8n.
+- **Keep access narrow**, by giving each tool its own token limited to the apps it needs.
 
 ## Where to find it
 
-**Primary:** Go to **AI Agents → MCP Tokens** in the sidebar.
+Go to **AI Gateway → MCP Tokens** in the sidebar.
 
-**Alternative:** Open **Settings → Partner API Keys** and switch to the **MCP Tokens** tab.
+![The MCP Token Management page](/images/screenshots/mcp-tokens-page-2026-09-30.png)
 
-![MCP Tokens Section](/images/screenshots/screenshot-2026-03-19-212021.png)
+The page shows the details you need to connect an AI tool:
 
-## Generate an MCP token
+- **Server URL:** `https://mcp.knotie-ai.pro/api/mcp`
+- **Authentication:** Bearer token (the MCP token you create)
+- **Cost:** each tool call uses 0.1 Knotie credits (about 1,000 calls = 100 credits ≈ $1)
 
-1. In the **MCP Tokens** section, click **Generate Token**.
-2. Give the token a descriptive name (e.g., "Cursor Development").
-3. Copy the generated token immediately—it won't be shown again.
-4. Store the token securely in a password manager.
+## Create a token
 
-![Create MCP Token Modal](/images/screenshots/screenshot-2026-03-19-212041.png)
+1. On the **MCP Tokens** page, select **Create New Token**. The **MCP Token Manager** opens.
+2. Open the **Create Token** tab.
+3. Choose the **Customer** the token is for.
+4. Enter a **Token Name** (for example, "Claude Desktop – Sales") and, if you like, a **Description**.
+5. Choose the **Tool Scope** (see below).
+6. Set the **Usage Limit (per hour)** and when the token **Expires In** (1 day to 1 year).
+7. Select **Create Token**.
+8. Copy the token straight away and store it somewhere safe, such as a password manager. It won't be shown again.
 
-## Using MCP tokens
+![The Create Token tab in the MCP Token Manager](/images/screenshots/mcp-create-token-modal-2026-09-30.png)
 
-### With Cursor
+## Choose what a token can reach
 
-Add your MCP token to Cursor's settings to enable Knotie AI Pro integration:
+**Tool Scope** becomes available once you've picked a customer. It has three options:
 
-1. Open Cursor settings.
-2. Navigate to MCP configuration.
-3. Add your Knotie AI Pro endpoint and token.
+| Option | What the token can use |
+|---|---|
+| **All apps and tools** | Every app the customer has connected, including their mailbox if they have one connected. |
+| **Specific apps** | Every tool of the apps you tick, and nothing else. |
+| **Specific tools** | Only the individual tools you tick. Each app has a **Select All** shortcut. |
 
-### With Windsurf
+**Specific apps** is the easiest way to keep a token narrow. Each app shows how many tools it includes:
 
-Configure MCP in Windsurf:
+![Tool Scope set to Specific apps, with the Select Apps list](/images/screenshots/mcp-token-specific-apps-2026-09-30.png)
 
-1. Open Windsurf settings.
-2. Add MCP server configuration.
-3. Include your token in the authentication header.
+<Tip>
+  If you don't want a token to touch a customer's email, choose **Specific apps** and leave their email apps (such as **Gmail** or **Email (any mailbox)**) unticked.
+</Tip>
 
-### With Claude Desktop
+Creating tokens through the API? See [MCP tool modes](/api-reference/mcp/tool-modes) for the matching `apps` and mailbox options.
 
-Set up MCP for Claude Desktop:
+## Connect an AI tool
 
-1. Edit your Claude configuration file.
-2. Add the Knotie AI Pro MCP server.
-3. Include your authentication token.
+In your AI tool's MCP settings, add a server with:
+
+1. The **Server URL** shown on the MCP Tokens page.
+2. An `Authorization` header set to `Bearer` followed by your token.
+
+Claude Desktop, Cursor, Windsurf, and n8n all support this. Look for "MCP servers" in their settings.
 
 ## Tool modes (full vs meta)
 
-By default, a token runs in **full mode** — the AI assistant sees the complete list of available tools at once.
+By default, a token gives the AI tool the complete list of tools at once (**full** mode). If you create tokens through the API, you can choose **meta** mode instead, where the tool searches for what it needs as it goes. Rate limits and credit charges are the same either way. See [MCP tool modes](/api-reference/mcp/tool-modes).
 
-If you'd rather the assistant look up tools as it needs them (instead of loading the whole list up front), you can switch the token to **meta mode** by adding this option when you create it:
+## Keep tokens safe
 
-```json
-{
-  "toolMode": "meta"
-}
-```
+- **Never share tokens.** Treat them like passwords.
+- **Use one token per tool**, so you can revoke one without affecting the others.
+- **Keep scope narrow.** Only give a token the apps it needs.
+- **Set an expiry** and replace tokens regularly.
+- **Revoke tokens you no longer use.**
 
-In meta mode the assistant gets two helper tools: one to search for the tool it needs, and one to run it. Rate limits and credit charges work exactly the same either way.
+## Revoke a token
 
-You can also limit which connected app tools a token is allowed to use:
+1. Go to **AI Gateway → MCP Tokens** and open the **MCP Token Manager**.
+2. On the **Token List** tab, find the token.
+3. Revoke or delete it, then confirm.
 
-```json
-{
-  "allowedApps": ["elevenlabs", "retell"]
-}
-```
-
-See [MCP tool modes](/api-reference/mcp/tool-modes) for the full reference.
-
-## Token security
-
-- **Never share tokens** – Treat MCP tokens like passwords.
-- **Rotate regularly** – Generate new tokens periodically.
-- **Revoke unused tokens** – Delete tokens you no longer need.
-- **Use separate tokens** – Create different tokens for different tools/environments.
-
-## Revoking tokens
-
-1. Go to **Settings → Partner API Keys → MCP Tokens** tab.
-2. Find the token you want to revoke.
-3. Click **Delete** or **Revoke**.
-4. Confirm the action.
-
-Once revoked, the token immediately stops working.
+The token stops working immediately.
 
 ## Troubleshooting
 
-- **Token not working** – Confirm you copied the full token without extra spaces.
-- **Access denied** – Check that your account has API access enabled.
-- **Can't find the MCP Tokens section** – Look under **AI Agents → MCP Tokens** in the sidebar, or **Settings → Partner API Keys → MCP Tokens** tab.
+- **Token not working:** check you copied the whole token with no extra spaces, and that it hasn't expired.
+- **A tool is refused:** the token's **Tool Scope** may not include that app or tool. Create a new token with the right scope.
+- **Tool Scope is greyed out:** choose a **Customer** first.
 
 ## Related pages
 
-- [API Keys](/partner-portal/api-keys) – Partner API keys for general automation
-- [MCP API Reference](/api-reference/mcp/introduction) – Endpoint documentation
-- [MCP tool modes](/api-reference/mcp/tool-modes) – Full vs meta mode, and how to limit which app tools a token can use
+- [API Keys](/partner-portal/api-keys) – partner API keys for general automation
+- [MCP API reference](/api-reference/mcp/introduction) – endpoint documentation
+- [MCP tool modes](/api-reference/mcp/tool-modes) – full vs meta mode, and API options for limiting apps
+- [AI Assistant in the portal (WebMCP)](/partner-portal/webmcp-ai-assistant)

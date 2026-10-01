@@ -1,0 +1,166 @@
+---
+title: "MCP media tools"
+description: "List, upload, download, and organize a customer's images, videos, and documents over MCP."
+---
+
+## Overview
+
+These MCP tools let an AI agent work with a customer's **Docs & Media** library: list files, upload and download them, create folders, and save text as a new document.
+
+There are two ways to connect:
+
+| Connection | Who uses it |
+|---|---|
+| **Customer MCP** (`/api/mcp`) | Voice agents (Knova, Retell, VAPI) and apps connected with a customer MCP token |
+| **Partner MCP** (`/api/partner-mcp`) | Your own tools, using a partner API key with a media scope |
+
+Both are served from `mcp.knotie-ai.pro`, or from your own domain if you've set up a [custom MCP domain](/partner-portal/settings/mcp-custom-domain).
+
+The customer must have **Docs & Media** turned on, and uploads count toward their storage limit.
+
+## Customer MCP tools
+
+Voice agents assigned to a customer can use these tools automatically. Other apps need a customer MCP token that includes media access.
+
+### `MEDIA_LIST_ASSETS`
+
+Lists the customer's files.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `type` | `"media"`, `"document"`, or `"all"` | No | Defaults to `"media"`. Pass `"document"` or `"all"` to include documents |
+| `folder_id` | string | No | Only list files in this folder |
+| `limit` | integer | No | Maximum number of results |
+| `offset` | integer | No | Number of results to skip, for paging |
+
+Documents are returned with `downloadable: true` and no public link. Free to use.
+
+### `MEDIA_REQUEST_UPLOAD_URL`
+
+Gets a short-lived link to upload a file to.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `filename` | string | Yes | File name, including the extension |
+| `contentType` | string | Yes | File type, for example `application/pdf` or `image/png` |
+| `folder_id` | string | No | Folder to put the file in (documents only) |
+
+Returns `{ uploadUrl, assetId, expiresIn }`. Upload the file to `uploadUrl` with an HTTP `PUT`, then call `MEDIA_CONFIRM_UPLOAD` with the `assetId`. Free to use.
+
+### `MEDIA_CONFIRM_UPLOAD`
+
+Confirms the upload finished and adds the file to the library.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `assetId` | string | Yes | The `assetId` from `MEDIA_REQUEST_UPLOAD_URL` |
+
+Returns the saved file. Charged like an upload made in the portal.
+
+### `MEDIA_GET_DOWNLOAD_URL`
+
+Gets a short-lived link to download a document.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `assetId` | string | Yes | The document's ID |
+| `expiresIn` | integer | No | Seconds until the link expires, from 60 to 3600. Default 300 (5 minutes) |
+
+Returns `{ downloadUrl, expiresIn }`. Free to use.
+
+### `MEDIA_CREATE_FOLDER`
+
+Creates a folder.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `name` | string | Yes | Folder name |
+| `parentId` | string | No | Parent folder. Leave out to create it at the top level |
+
+Returns the new folder, including its `id`. Folders can be up to 10 levels deep. Free to use.
+
+### `MEDIA_LIST_FOLDERS`
+
+Lists folders.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `parentId` | string | No | List the folders inside this one. Leave out to list top-level folders |
+
+Returns each folder's `id`, `name`, `parentId`, and `childCount`. Free to use.
+
+### `MEDIA_SAVE_TEXT`
+
+Saves text, such as a call summary or notes, as a new document.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `content` | string | Yes | The text to save, up to 1 MB |
+| `filename` | string | Yes | File name ending in `.txt`, `.md`, or `.json` |
+| `folder_id` | string | No | Folder to save it in |
+
+Returns the new document. Charged like an upload made in the portal.
+
+## Partner MCP tools
+
+Partner MCP tools act on one of your customers. Pass the customer's `customerId` with every call; requests for customers outside your account are refused.
+
+### Scopes
+
+Add a scope when you create or edit a key in **Settings → Partner API Keys**.
+
+| Scope | Tools |
+|---|---|
+| `media:read` | `media_list`, `media_list_folders`, `media_get_download_url` |
+| `media:write` | Everything in `media:read`, plus `media_create_folder`, `media_upload_url`, `media_confirm_upload`, `media_delete` |
+
+<Warning>
+A key with full access (`*`) also has media access. If a tool shouldn't be able to read customer documents, give it a key with narrower scopes.
+</Warning>
+
+### Tool reference
+
+| Tool | Scope | What it does |
+|---|---|---|
+| `media_list` | `media:read` | List a customer's files |
+| `media_list_folders` | `media:read` | List a customer's folders |
+| `media_get_download_url` | `media:read` | Get a short-lived download link for a document |
+| `media_create_folder` | `media:write` | Create a folder |
+| `media_upload_url` | `media:write` | Get a short-lived upload link |
+| `media_confirm_upload` | `media:write` | Confirm an upload and save the file |
+| `media_delete` | `media:write` | Permanently delete a file |
+
+### Connect from Claude Code
+
+```bash
+claude mcp add knotie-partner-media \
+  --transport http \
+  --url https://mcp.knotie-ai.pro/api/partner-mcp \
+  --header "Authorization: Bearer <partner_api_key>"
+```
+
+Replace `<partner_api_key>` with a key that has the `media:write` scope. If you use a custom MCP domain, use it in place of `mcp.knotie-ai.pro`.
+
+## Example: save a call summary
+
+At the end of a call, a voice agent can save a summary to the customer's library:
+
+```json
+{
+  "tool": "MEDIA_SAVE_TEXT",
+  "arguments": {
+    "content": "Call summary:\n- Asked about pricing.\n- Follow-up booked for Monday.",
+    "filename": "call-summary.md"
+  }
+}
+```
+
+The document appears in the customer's **My Docs & Media** straight away.
+
+## Related pages
+
+- [Documents and folders](/customer-management/documents-and-folders)
+- [Docs & Media library](/customer-management/media-library)
+- [MCP tool modes](/api-reference/mcp/tool-modes)
+- [MCP authentication](/api-reference/mcp/authentication)
+- [Partner API keys](/partner-portal/api-keys)

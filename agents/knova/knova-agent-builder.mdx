@@ -200,11 +200,18 @@ Every proposal is checked before being presented:
 | Rule | Detail |
 |---|---|
 | System prompt length | Max 15,000 characters per persona |
+| Per-call variables | Every per-call variable must be used somewhere in the prompt or greeting, such as `{{name}}` |
 | Multi-agent: persona count | Minimum 2 personas |
 | Multi-agent: routing | Must include a valid routing setup and an entry persona |
 | Persona references | Every persona named in the routing must exist |
 
 If a proposal doesn't meet a rule, the builder corrects itself on the next turn rather than showing you an error.
+
+#### Per-call variable rule
+
+If the builder adds a per-call variable, such as `name`, but never uses `{{name}}` in the prompt or greeting, it fixes the proposal before showing it to you. Otherwise the calling system could send a value the agent never uses.
+
+If you edit the agent yourself, either use each variable in the prompt or remove the ones you don't need. See [Personalize individual calls](/agents/knova/manage-knova-agents#personalize-individual-calls).
 
 ---
 

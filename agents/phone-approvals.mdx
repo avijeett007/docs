@@ -1,0 +1,42 @@
+---
+title: "Phone approvals for agent actions"
+description: "Make AI agents ask for the customer's approval on their phone before taking risky actions."
+---
+
+Phone approvals add a safety check before an AI agent does something risky, such as sending an email, deleting a record, or taking a payment. The agent stops, the customer's phone shows exactly what the agent wants to do, and nothing happens until the customer approves it with Face ID or their fingerprint.
+
+This works for any agent or tool that uses the customer's connected apps — Knova, Retell, and VAPI voice agents, n8n automations, and AI assistants like Claude that connect over MCP.
+
+## Who sets what
+
+| Who | What they do | Where |
+|---|---|---|
+| **You (partner)** | Choose default rules for all customers, and lock rules customers can't turn off | **Settings → Approval Defaults** — see [Approval defaults](/partner-portal/settings/approval-defaults) |
+| **Your customer** | Pair a phone and choose which actions need their approval | **Approvals** in their portal — see [Customer approval app](/customer-management/approval-app) |
+
+Customers need **MCP Access & Approvals** turned on to see the Approvals page.
+
+## What happens during a call
+
+1. The agent tries an action that needs approval.
+2. The action is paused, and every paired phone gets a notification with a short code. The agent gets the same code, so it can tell the caller what to look for — for example, *"I've sent a request to your phone. Please approve it and I'll carry on."*
+3. The customer checks the request and approves or denies it. If several phones are paired, the first answer counts.
+4. If approved, the agent tries the action again and it goes ahead. If denied, nothing happens.
+
+Each approval covers one action, exactly as shown on the phone. If the agent changes any details — a different recipient or amount, for example — the customer is asked again.
+
+If no phone is paired, or the approval can't be checked, the action is blocked rather than allowed through.
+
+## Common questions
+
+**Does the customer have to approve every time?**
+Yes. Each approval is used once. If an action needs to run often without interruption, don't require approval for it.
+
+**Can I stop customers turning off approval for an action?**
+Yes. Lock the rule in [Approval defaults](/partner-portal/settings/approval-defaults).
+
+## Related pages
+
+- [Approval defaults](/partner-portal/settings/approval-defaults)
+- [Customer approval app](/customer-management/approval-app)
+- [Connected app tools](/agents/connected-app-tools)
