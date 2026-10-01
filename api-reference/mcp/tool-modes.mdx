@@ -99,6 +99,43 @@ The following tools are now available to agent tokens with appropriate scope:
 
 `MEDIA_IMPORT_FROM_URL` runs the URL through a safe-fetch validator (HTTPS-only, private/loopback IP rejection, ≤3 redirects) before downloading.
 
+## Partner-page WebMCP tools
+
+Partner tokens (Cursor, Claude Desktop, and similar) can call tools that operate directly on Partner Portal pages. These are registered per-page and give agents the ability to read usage data, check settings, and inspect portal state.
+
+### `get_agent_usage`
+
+Returns call and cost metrics for a named agent. This tool now returns the same five fields the partner portal analytics page uses (`totalCalls`, `totalMinutes`, `totalCost`, `avgCallDuration`, `successRate`). Earlier builds returned zero for every metric due to a parsing mismatch.
+
+**If you have automation that calls `get_agent_usage` and was receiving zero values, re-run it — the tool now returns accurate data.**
+
+### `list_top_agents` — removed
+
+This tool was removed. It claimed to rank agents by call volume, but every agent scored zero because the underlying API endpoints do not return usage fields. A confident wrong result is worse than no result. Use `get_agent_usage` to check usage for a specific agent by name.
+
+### MFA gate and tool registration
+
+When a partner session requires a multi-factor authentication prompt (for example, on a sensitive action), all registered partner-page tools are automatically unregistered until the prompt is dismissed. This prevents agent calls from succeeding through an MFA-gated session. Tools re-register automatically once the prompt closes.
+
+> 📷 **Screenshot needed:** _Add a screenshot or diagram showing the partner session MFA prompt alongside a note indicating tool calls are suspended._
+
+### AI Gateway resale status
+
+The `get_ai_gateway_resale_settings` tool now correctly reports whether AI Gateway resale is **enabled or disabled** for your account. Earlier builds always reported disabled, regardless of actual configuration.
+
+## Kill switch
+
+Partners and platform operators can disable all WebMCP tool registration by setting the `WEBMCP_ENABLED` environment variable. Accepted values (case-insensitive, whitespace-trimmed):
+
+| Disable | Meaning |
+|---|---|
+| `false`, `0`, `off`, `no`, `disabled` | WebMCP tools will not register — the feature is off. |
+| unset or empty | No opinion — WebMCP is on by default. |
+
+<Warning>
+Earlier builds only accepted the exact string `false`. Any other value (including `0` and `off`) left the feature on. Operators who tried to disable WebMCP using `0` or `off` should verify the feature is now correctly off after updating.
+</Warning>
+
 ## Related pages
 
 - [MCP tokens](/partner-portal/ai-agents/mcp/tokens) — Generate and manage partner MCP tokens.
