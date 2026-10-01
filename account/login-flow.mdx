@@ -29,9 +29,22 @@ Go to the partner login page:
 https://knotie-ai.pro/partner/login
 ```
 
-![Partner Login page](/images/screenshots/login-page-2026-06-09.png)
+> 📷 **Screenshot needed:** _Add a screenshot of the new email-first login form — showing just the email address field and "Continue" button, without a password field._
 
-**What you'll see:**
+**What you'll see on the updated login page:**
+- An **email address** field only — the form asks for your email first
+- After you enter your email, the page shows only the sign-in options that apply to your account:
+  - **Passkey prompt** if you have a passkey registered on this device
+  - **"Email me a sign-in link"** button if you don't have a passkey (or want to use a different device)
+  - **"Continue with Google"** if your account has Google sign-in enabled
+
+<Note>
+  If you are still seeing the combined email + password form, your platform has not yet
+  switched to the new login flow. That happens on 10 October 2026 for the hosted platform
+  at knotie-ai.pro. Either flow works — the steps below describe both.
+</Note>
+
+**What you'll see on the original login page (until 10 October 2026):**
 - Email and password fields
 - Sign In button
 - "Continue with Google" option
@@ -176,14 +189,24 @@ On a shared computer, close the browser after signing out and do not save the pa
 
 ## Troubleshooting
 
-**From 10 October 2026: no password field on the login page**
-- That's expected — see [Passwordless sign-in](/account/passwordless-login). Enter your
-  email address and use your passkey, or the one-time link we email you.
+**No password field on the login page**
+- That's expected on platforms that have enabled the new login flow, and will apply
+  everywhere from 10 October 2026. See [Passwordless sign-in](/account/passwordless-login).
+  Enter your email address and use your passkey, or the one-time link we email you.
 
 **"Invalid credentials" on login**
 - Check your email spelling — use the address from your welcome email
 - Your temporary password expires after first use — must be changed immediately
-- If you forgot your password, use **"Forgot password?"** to reset
+- If you forgot your password, use **"Forgot password?"** to reset (available until
+  10 October 2026)
+
+**Welcome email has a sign-in link instead of a password**
+- New partner accounts receive a one-time sign-in link (valid 24 hours) instead of a
+  generated password. Follow the link to reach your dashboard, then set up a passkey
+  from **Settings → Profile Settings → Security**.
+
+**Passkey prompt, but your passkey is on a different device**
+- Select **Use another way** on the passkey screen and choose **Email me a sign-in link**.
 
 **MFA setup failing**
 - Use an authenticator app (Google Authenticator, Authy, etc.)
@@ -198,3 +221,7 @@ On a shared computer, close the browser after signing out and do not save the pa
 **Onboarding steps not saving progress**
 - Progress saves automatically after each step
 - If a step doesn't save, try completing it again or refresh the dashboard
+
+---
+
+> Source: [knotie-ai-pro#1816](https://github.com/avijeett007/knotie-ai-pro/pull/1816) — _feat(auth): KNOTI-1069 passwordless partner login — complete epic_
