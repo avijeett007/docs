@@ -1,0 +1,96 @@
+---
+title: "Feature flags"
+description: "Server-side environment variables that let platform operators enable or disable features without a full rebuild."
+---
+
+<Note>
+  This page is for **platform operators** who deploy Knotie AI Pro on their own infrastructure.
+  If you are a partner using the hosted platform at knotie-ai.pro, you do not set these —
+  the Knotie team manages them for you.
+</Note>
+
+## Overview
+
+Feature flags control whether specific platform capabilities are active in your deployment.
+They are read at **server runtime**, not at build time, so you can flip them with an
+environment variable change and a server restart — no rebuild required.
+
+Most flags default to the **safe** state: either already on (mature features) or off
+(features being rolled out gradually). Each flag below says what it does and how it fails
+safe.
+
+---
+
+## Passwordless partner login
+
+Introduced in [knotie-ai-pro#1771](https://github.com/avijeett007/knotie-ai-pro/pull/1771).
+Full implementation in [knotie-ai-pro#1816](https://github.com/avijeett007/knotie-ai-pro/pull/1816).
+
+The passwordless login rollout uses **two separate flags** so you can enable the additive
+part first, watch it on real traffic, and then flip the cutover separately. Target cutover
+for the hosted platform: **10 October 2026**.
+
+### `FEATURE_MAGIC_LINK_LOGIN`
+
+| | |
+|---|---|
+| **Type** | `"true"` / anything else |
+| **Default** | Off — magic-link login does not exist until this is on |
+| **Stage** | 1 of 2 |
+
+Enables one-time email sign-in links as a login method for the partner portal.
+
+When this is **on**, partners who don't have a passkey see an **"Email me a sign-in link"**
+button on the login page. The link they receive is valid for **15 minutes** and works once.
+
+When this is **off**, the magic-link button does not appear, and the only passwordless
+option is a registered passkey.
+
+```bash
+# .env or Coolify environment
+FEATURE_MAGIC_LINK_LOGIN=true
+```
+
+### `FEATURE_PASSWORD_LOGIN`
+
+| | |
+|---|---|
+| **Type** | `"false"` / anything else |
+| **Default** | On — password login works unless you explicitly set this to `"false"` |
+| **Stage** | 2 of 2 |
+
+Disables password-based sign-in when set to `"false"`. This is the **cutover switch** —
+the one that removes passwords from the login flow.
+
+Setting this to `"false"` hides the password field, the "Forgot password?" flow, and
+the password-reset routes. Partners must use a passkey or magic link.
+
+**Only set this after `FEATURE_MAGIC_LINK_LOGIN=true` has been running successfully on
+real traffic.** A partner with no passkey who cannot receive a magic link has no way in.
+
+```bash
+# .env or Coolify environment — set only when Stage 1 is stable
+FEATURE_PASSWORD_LOGIN=false
+```
+
+### Why these are server-only
+
+Both flags are read server-side on purpose. `NEXT_PUBLIC_*` environment variables are
+inlined at build time: flipping one would require a full rebuild for the change to take
+effect, and a rollback would need another rebuild. A server-side flag takes effect on the
+next request after a server restart — reversible in seconds if something goes wrong.
+
+The login page asks `POST /api/partner/auth/methods` what options to render, so the
+browser never needs to read the flags directly.
+
+---
+
+## Related pages
+
+- [Passwordless sign-in guide](/account/passwordless-login)
+- [Passkeys](/account/passkeys)
+- [MFA](/account/mfa)
+
+---
+
+> Source: [knotie-ai-pro#1771](https://github.com/avijeett007/knotie-ai-pro/pull/1771) — _feat(auth): KNOTI-1069 passwordless partner login — design, cutover flag and campaign fact sheet_
