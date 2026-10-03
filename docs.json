@@ -201,7 +201,8 @@
               "partner-portal/vps/overview",
               "partner-portal/vps/app-catalog",
               "partner-portal/vps/coupons",
-              "partner-portal/vps/customer-portal"
+              "partner-portal/vps/customer-portal",
+              "partner-portal/vps/agent-server-exec"
             ]
           },
           {

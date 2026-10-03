@@ -1,0 +1,117 @@
+---
+title: "Agent Server Command Execution"
+description: "Let your customers' AI agents run and monitor commands on their VPS server, with a risk-classification and approval gate that keeps every write-class command behind a human decision."
+---
+
+## What it does
+
+Once enabled, a customer's AI agent can run shell commands on their VPS server directly through the Customer MCP server. Every command is classified by risk before it runs — a read-only check like `df -h` goes straight through, while a destructive action like `rm -rf` is held until the customer approves it on their phone.
+
+The approval system your customers already use (phone push notifications for sensitive actions) handles the gate. No separate approval service is needed.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the customer's agent tool interface showing an agent calling a server command, and the resulting output in the conversation._
+
+> 🎬 **Video walkthrough:** _Record a short clip showing an agent running a read-only command (e.g., `df -h`), then a service restart that triggers an approval prompt on the customer's phone._
+
+## How commands are classified
+
+Every command goes through three layers before it runs:
+
+1. **Lexer** — refuses anything that isn't a plain command with arguments. No shell operators (`; | & > < $`), no interpreters (`bash`, `python`, `sh -c`), no quotes that wrap hidden logic. This is the security boundary, not just a filter.
+2. **Control-plane guard** — permanently refuses commands that would disable the approval system itself: touching `authorized_keys`, `/etc/shadow`, the Docker socket, `.env` files, or anything that changes who is running on the box.
+3. **Risk classification** — assigns one of five risk classes:
+
+| Class | Examples | Default gate |
+|---|---|---|
+| `READ_ONLY` | `uptime`, `cat /var/log/app.log` | No approval needed |
+| `DIAGNOSTIC` | `docker ps`, `journalctl -n 50` | No approval needed |
+| `SERVICE_CONTROL` | `systemctl restart nginx` | Approval required |
+| `PACKAGE_INSTALL` | `apt-get install ffmpeg` | Approval required |
+| `FILE_WRITE` | `echo config > /opt/app/.env` | Approval required |
+| `DESTRUCTIVE` | `rm -rf /opt/testdir` | Approval required — permanently locked |
+| `UNCLASSIFIED` | Anything the classifier can't resolve | Approval required — permanently locked |
+
+The final class is always the stricter of the built-in floor and the AI classifier's verdict. A classifier that rates `docker ps` as `READ_ONLY` has no effect — the floor keeps it at `DIAGNOSTIC`.
+
+## Setting it up (platform operator)
+
+This feature ships inert. Nothing changes for your customers until you explicitly enable it on your server.
+
+### Step 1 — Add the environment variables
+
+Add the following to your deployment's environment:
+
+```
+SERVER_EXEC_ENABLED=true
+SERVER_EXEC_CLASSIFIER_MODEL=<model-id>
+OPENROUTER_API_KEY=<your-openrouter-key>
+```
+
+<Warning>
+`SERVER_EXEC_ENABLED` must be set to exactly the string `true`. Any other value — `yes`, `TRUE`, `1`, an empty string — leaves the feature disabled and the tool will not appear in any agent's toolset.
+</Warning>
+
+### Step 2 — Apply the database migration
+
+The audit table (`server_exec_audit`) is additive — it adds a new table without modifying any existing ones.
+
+```bash
+npm run db:push
+```
+
+### Step 3 — Customer VPS access
+
+Each customer whose agent will use this feature needs their VPS credentials saved in the portal (the same credentials used for the [Server Terminal](/partner-portal/customers/vps-terminal)).
+
+If a customer has both a managed VPS instance and a manually saved server, the manually saved credentials take precedence.
+
+## The approval flow for customers
+
+When a command requires approval:
+
+1. The agent pauses and a push notification is sent to the customer's phone.
+2. The notification shows the exact command that is about to run — the customer sees what they are approving.
+3. The customer taps Approve or Deny.
+4. The agent receives the decision and either runs the command or reports that it was denied.
+
+`DESTRUCTIVE` and `UNCLASSIFIED` commands are permanently gated — your customers cannot configure them to bypass approval, even if they set up a permissive approval rule.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the phone approval notification showing a real command (e.g., `systemctl restart nginx`) and the Approve/Deny buttons._
+
+## Audit trail
+
+Every command attempt — including ones the lexer refused and ones the customer denied — is recorded in the audit trail with:
+
+- The command and its arguments (redacted in full audit rows — secrets are never stored in plain text)
+- The floor class and the AI classifier's verdict
+- The final class applied
+- The outcome: `executed`, `refused_lexer`, `refused_control_plane`, `awaiting_approval`, `approved`, `denied`, `refused_approval_unavailable`, or `failed`
+
+Partners can review the audit trail under **Customers → [Customer] → Server Command History** (when the feature is enabled).
+
+> 📷 **Screenshot needed:** _Add a screenshot of the audit trail table showing a mix of READ_ONLY, DIAGNOSTIC, and denied DESTRUCTIVE commands._
+
+## What's still disabled by default
+
+Even with the feature on, two command classes are permanently blocked until additional configuration (in a future release) is ready:
+
+- `DESTRUCTIVE` — always gated; currently partner-level rules cannot modify this
+- `UNCLASSIFIED` — always gated; same
+
+These classes exist, they work, and customers can approve them one at a time. What's missing is a self-service approval-rules UI that lets partners configure blanket rules for these classes.
+
+## Security model summary
+
+- The **lexer is the real security boundary** — it doesn't parse bash, it accepts a tiny enumerated language and rejects everything else.
+- The **control-plane guard** protects the ability to approve future commands — a command that would remove your ability to ask the next question is refused unconditionally.
+- The **classifier can only escalate**, never downgrade — prompt injection at the classifier can only cause an unnecessary approval prompt, not an unlocked command.
+- **Absence of an approval rule means ask, not proceed** — if no rule covers a write-class command, the approval gate fires.
+
+## Related pages
+
+- [Server Terminal](/partner-portal/customers/vps-terminal) — Browser-based terminal access for customers
+- [Phone Approvals](/agents/phone-approvals) — How the phone approval system works
+- [Customer VPS access](/partner-portal/vps/customer-portal) — Customer-side VPS management
+- [VPS Servers](/partner-portal/vps/overview) — Purchasing and managing VPS instances
+
+> Source: [knotie-ai-pro#1836](https://github.com/avijeett007/knotie-ai-pro/pull/1836) — _feat(vps): KNOTI-1116 guarded server command execution for customer agents_
