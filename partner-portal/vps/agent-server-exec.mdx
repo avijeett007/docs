@@ -25,13 +25,17 @@ Every command goes through three layers before it runs:
 |---|---|---|
 | `READ_ONLY` | `uptime`, `cat /var/log/app.log` | No approval needed |
 | `DIAGNOSTIC` | `docker ps`, `journalctl -n 50` | No approval needed |
-| `SERVICE_CONTROL` | `systemctl restart nginx` | Approval required |
-| `PACKAGE_INSTALL` | `apt-get install ffmpeg` | Approval required |
-| `FILE_WRITE` | `echo config > /opt/app/.env` | Approval required |
-| `DESTRUCTIVE` | `rm -rf /opt/testdir` | Approval required — permanently locked |
-| `UNCLASSIFIED` | Anything the classifier can't resolve | Approval required — permanently locked |
+| `SERVICE_CONTROL` | `systemctl restart nginx` | **Approval required** |
+| `PACKAGE_INSTALL` | `apt-get install ffmpeg` | **Approval required** |
+| `FILE_WRITE` | `echo config > /opt/app/.env` | **Approval required** |
+| `DESTRUCTIVE` | `rm -rf /opt/testdir` | **Approval required — permanently locked** |
+| `UNCLASSIFIED` | Anything the classifier can't resolve | **Approval required — permanently locked** |
 
 The final class is always the stricter of the built-in floor and the AI classifier's verdict. A classifier that rates `docker ps` as `READ_ONLY` has no effect — the floor keeps it at `DIAGNOSTIC`.
+
+<Warning>
+`SERVICE_CONTROL`, `PACKAGE_INSTALL`, and `FILE_WRITE` require an explicit approval even when no approval rule is configured for them. **Absence of a rule means ask, not proceed.** If approval is unavailable (the approval service is down or no device is paired), the command is refused rather than allowed through.
+</Warning>
 
 ## Setting it up (platform operator)
 
@@ -48,7 +52,7 @@ OPENROUTER_API_KEY=<your-openrouter-key>
 ```
 
 <Warning>
-`SERVER_EXEC_ENABLED` must be set to exactly the string `true`. Any other value — `yes`, `TRUE`, `1`, an empty string — leaves the feature disabled and the tool will not appear in any agent's toolset.
+`SERVER_EXEC_ENABLED` must be set to exactly the string `true` (lowercase, no surrounding whitespace). `yes`, `TRUE`, `1`, an empty string, and any other value leave the feature disabled — the server command tool will not appear in any customer agent's toolset, and the endpoint refuses all calls with 503 before any network or compute cost is incurred.
 </Warning>
 
 ### Step 2 — Apply the database migration
@@ -85,7 +89,7 @@ Every command attempt — including ones the lexer refused and ones the customer
 - The command and its arguments (redacted in full audit rows — secrets are never stored in plain text)
 - The floor class and the AI classifier's verdict
 - The final class applied
-- The outcome: `executed`, `refused_lexer`, `refused_control_plane`, `awaiting_approval`, `approved`, `denied`, `refused_approval_unavailable`, or `failed`
+- The outcome: `executed`, `refused_lexer`, `refused_control_plane`, `awaiting_approval`, `approved`, `denied`, `refused_approval_unavailable` (approval was requested but the service could not be reached), or `failed`
 
 Partners can review the audit trail under **Customers → [Customer] → Server Command History** (when the feature is enabled).
 
@@ -115,3 +119,4 @@ These classes exist, they work, and customers can approve them one at a time. Wh
 - [VPS Servers](/partner-portal/vps/overview) — Purchasing and managing VPS instances
 
 > Source: [knotie-ai-pro#1836](https://github.com/avijeett007/knotie-ai-pro/pull/1836) — _feat(vps): KNOTI-1116 guarded server command execution for customer agents_
+> Updated by: [knotie-ai-pro#1840](https://github.com/avijeett007/knotie-ai-pro/pull/1840) — _fix(vps): KNOTI-1123/1124/1127 close post-merge review findings on server-exec_
