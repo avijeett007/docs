@@ -1,0 +1,87 @@
+---
+title: "Bulk Email"
+description: "Send transactional or marketing email to one or more partners via the Admin API."
+---
+
+## Endpoint
+
+```
+POST /api/v1/admin/emails
+```
+
+Requires scope: `emails`
+
+## Request body
+
+```json
+{
+  "targetType": "specific_partners",
+  "partnerEmails": ["alice@example.com", "bob@example.com"],
+  "subject": "Platform update",
+  "content": "<base64-encoded HTML>",
+  "attachments": []
+}
+```
+
+### `targetType`
+
+Controls who receives the email. If omitted, it is **inferred** from which recipient field you provide:
+
+| Provided field | Inferred `targetType` |
+|---|---|
+| `partnerEmails` or `partnerIds` | `specific_partners` |
+| `audienceId` | `audience` |
+| Neither | `active_partners` (sends to all active partners) |
+
+Pass `targetType` explicitly when you want to be certain — a mismatch between `targetType` and the recipient field you provided is refused with `TARGET_TYPE_CONFLICT`.
+
+### Recipient fields
+
+Only one recipient field may be present per request:
+
+| Field | Type | Description |
+|---|---|---|
+| `partnerEmails` | string[] | Send to specific partner email addresses |
+| `partnerIds` | string[] | Send to specific partners by ID |
+| `audienceId` | string | Send to a saved Super Analytics audience |
+
+Providing both `partnerEmails` and `partnerIds` in the same request is refused with `TARGET_TYPE_CONFLICT`.
+
+### Content fields
+
+| Field | Type | Required | Notes |
+|---|---|---|---|
+| `subject` | string | Yes | Email subject line |
+| `content` | string | Yes | Base64-encoded HTML body (standard or URL-safe base64, padded or unpadded) |
+| `attachments` | array | No | Each item: `{ filename, content (base64), contentType }` |
+
+<Warning>
+`content` and attachment `content` fields must be valid base64 that decodes to well-formed UTF-8. Garbage bytes are rejected with `INVALID_BASE64` — the API never silently mails corrupted content.
+</Warning>
+
+The request body is **strict**: unknown fields (e.g., `partnerEmail` instead of `partnerEmails`, `emails`) return `400 UNKNOWN_FIELDS`. This prevents typos from being silently ignored.
+
+## Dry run
+
+Append `?dryRun=true` to validate the request without sending anything:
+
+```
+POST /api/v1/admin/emails?dryRun=true
+```
+
+The response includes `willSend: true/false` and a `targeting` summary. A dry run that returns `willSend: false` means the live request will be refused for the same reason — the dry run evaluates the same validation path.
+
+## Common error codes
+
+| Code | HTTP | Meaning |
+|---|---|---|
+| `UNKNOWN_FIELDS` | 400 | Unrecognised field in request body |
+| `TARGET_TYPE_CONFLICT` | 422 | Contradictory targeting (both email list and audience ID, or `targetType` mismatches the recipient field) |
+| `INVALID_BASE64` | 422 | `content` or an attachment `content` is not valid base64 or does not decode to valid UTF-8 |
+| `APPROVAL_REQUIRED` | 202 | The send requires approval before it will be delivered |
+
+> 📷 **Screenshot needed:** _Add a screenshot of Mission Control showing the bulk email history or the approval gate for a pending bulk send._
+
+> 🎬 **Video walkthrough:** _Record a short clip showing creating an admin API key with the `emails` scope, sending a test dry-run request, and confirming the `willSend` response._
+
+> Source: [knotie-ai-pro#1841](https://github.com/avijeett007/knotie-ai-pro/pull/1841) — _fix(admin-api): close KNOTI-1106 admin API QA gaps_

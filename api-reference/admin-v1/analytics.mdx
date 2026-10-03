@@ -1,0 +1,87 @@
+---
+title: "Super Analytics (Admin API)"
+description: "Create and manage Super Analytics runs programmatically via the Admin API."
+---
+
+## Overview
+
+The Super Analytics Admin API lets you trigger discovery engine runs, scoped to a partner or an audience, without using the Mission Control UI.
+
+## Create a run
+
+```
+POST /api/v1/admin/analytics/runs
+```
+
+Requires scope: `analytics`
+
+### Request body
+
+```json
+{
+  "engine": "partner-health",
+  "scope": {
+    "type": "partner",
+    "partnerId": "par_..."
+  },
+  "params": {
+    "lookbackDays": 7
+  }
+}
+```
+
+### Strict field validation
+
+The request body is validated strictly:
+
+- **Unknown top-level fields** are refused with `400 UNKNOWN_FIELDS`. An unrecognised field is never silently dropped.
+- **Unknown `params` keys** for the selected engine return `400 UNKNOWN_ENGINE_PARAMS` with a list of the unrecognised keys. For example, passing `lookbackDays: 7` to an engine that does not declare a `lookbackDays` parameter is refused — the run does not proceed with its own default.
+
+This means that if you're migrating a script from one engine to another, check that your `params` match the new engine's schema exactly.
+
+### Scope
+
+| Scope type | Fields | Notes |
+|---|---|---|
+| `all_partners` | — | Runs across all partners |
+| `partner` | `partnerId` | Runs for one partner |
+| `audience` | `audienceId` | Runs for a saved audience |
+
+A `partner` scope with a non-existent `partnerId` returns `404 SCOPE_NOT_FOUND` **before** any approval gate or LLM call is made.
+
+## Audiences
+
+### Creating an audience
+
+```
+POST /api/v1/admin/analytics/audiences
+```
+
+Audiences are lists of partners. Every member of the audience must resolve to a real partner by ID or case-insensitive email.
+
+**Validation rules:**
+- A member that provides both `id` and `email` must name the same partner — a mismatch is refused.
+- Members that cannot be resolved to a partner are refused with `400 AUDIENCE_MEMBERS_NOT_PARTNERS` along with an `unresolvedMembers` list.
+- Unresolvable members are never silently dropped.
+
+```json
+{
+  "name": "Q4 renewal targets",
+  "members": [
+    { "email": "alice@example.com" },
+    { "id": "par_xyz" }
+  ]
+}
+```
+
+### Common error codes for audience creation
+
+| Code | HTTP | Meaning |
+|---|---|---|
+| `AUDIENCE_MEMBERS_NOT_PARTNERS` | 400 | One or more members could not be matched to a partner (list in `unresolvedMembers`) |
+
+> 📷 **Screenshot needed:** _Add a screenshot of Mission Control showing a Super Analytics run scoped to a partner audience, and the resulting discovery output._
+
+> 🎬 **Video walkthrough:** _Record a short clip showing creating an audience via the Admin API and then triggering a discovery run against it._
+
+> Source: [knotie-ai-pro#1841](https://github.com/avijeett007/knotie-ai-pro/pull/1841) — _fix(admin-api): close KNOTI-1106 admin API QA gaps_

@@ -123,4 +123,8 @@ The link works only once and expires after 15 minutes. If it expires before you 
 
 - Your codes are protected with strong encryption — the setup key is never stored in plain text.
 - Every keyword is unique — no two accounts ever share the same one.
+- **Single-use codes**: each 6-digit code from your authenticator app can only be accepted once. A code cannot be reused even within the same 30-second window. This blocks replay attacks and protects against a race condition if your keyword auto-rotates during a support session.
+- **Brute-force lockout**: repeated failed verification attempts temporarily lock the keyword. If a keyword becomes locked, contact support through a different channel (email or Discord) to reset it, then regenerate your keyword afterwards.
 - If you think your keyword or authenticator entry has been seen by someone else, regenerate it right away from the Support Keyword tab.
+
+> Source: [knotie-ai-pro#1841](https://github.com/avijeett007/knotie-ai-pro/pull/1841) — _fix(admin-api): close KNOTI-1106 admin API QA gaps_
