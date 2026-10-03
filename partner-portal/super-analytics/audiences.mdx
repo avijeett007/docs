@@ -13,10 +13,18 @@ When no lists have been saved, the page shows: **Select an audience to view its 
 
 ## Creating an audience
 
+### From the UI
+
 1. Open a completed discovery run or an Insights Chat finding.
 2. Choose **Save as Audience**.
 3. Enter a name.
 4. Save the list.
+
+### Validation
+
+Every member added to an audience must be a real partner on the platform (matched by ID or email address). Members that cannot be matched are refused — they are never silently dropped from the list. If the save fails, review the list of unresolved members shown in the error and correct any typos before retrying.
+
+This means audience counts you see are always accurate — the platform never inflates a count by silently including addresses that don't match real partners.
 
 ## Viewing an audience
 
@@ -27,6 +35,8 @@ Open **Customer Insights → Audiences**, then select a saved list to view its m
 If the list includes an **Export CSV** action, use it to download the audience for review in your email or customer-management tool. Review any generated message before sending it.
 
 Audiences are saved snapshots. They do not update automatically when customer data changes.
+
+> Source: [knotie-ai-pro#1841](https://github.com/avijeett007/knotie-ai-pro/pull/1841) — _fix(admin-api): close KNOTI-1106 admin API QA gaps_
 
 ## Related pages
 

@@ -297,6 +297,16 @@
             ]
           },
           {
+            "group": "Admin API v1",
+            "pages": [
+              "api-reference/admin-v1/introduction",
+              "api-reference/admin-v1/bulk-email",
+              "api-reference/admin-v1/credits",
+              "api-reference/admin-v1/approvals",
+              "api-reference/admin-v1/analytics"
+            ]
+          },
+          {
             "group": "More API specs",
             "pages": [
               "api-reference/future-specs"

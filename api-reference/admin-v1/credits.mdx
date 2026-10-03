@@ -1,0 +1,53 @@
+---
+title: "Credit Adjustments"
+description: "Add or deduct AI credits from a partner account via the Admin API."
+---
+
+## Endpoint
+
+```
+POST /api/v1/admin/credits
+```
+
+Requires scope: `credits`
+
+## Request body
+
+```json
+{
+  "partnerEmail": "partner@example.com",
+  "amount": 500,
+  "operation": "add",
+  "reason": "Promotional grant"
+}
+```
+
+### Fields
+
+| Field | Type | Required | Notes |
+|---|---|---|---|
+| `partnerEmail` | string | Yes (or `partnerId`) | Case-insensitive lookup |
+| `partnerId` | string | Yes (or `partnerEmail`) | Exact match by partner ID |
+| `amount` | number | Yes | Positive integer — credits to add or deduct |
+| `operation` | `"add"` \| `"deduct"` | Yes | Direction of the adjustment |
+| `reason` | string | No | Audit note (recommended) |
+
+Provide exactly one of `partnerEmail` or `partnerId`.
+
+### Partner email lookup
+
+Partner email lookup is **case-insensitive**. If two partners share the same email in different cases (which should not happen but is detected), the request is refused with `409 AMBIGUOUS_PARTNER` — provide `partnerId` instead.
+
+### Debit overdraft protection
+
+A `deduct` operation that would bring the partner's credit balance below zero is refused with `422 INSUFFICIENT_CREDITS`. Partial deductions are not applied.
+
+## Common error codes
+
+| Code | HTTP | Meaning |
+|---|---|---|
+| `PARTNER_NOT_FOUND` | 404 | No partner matches the email or ID provided |
+| `AMBIGUOUS_PARTNER` | 409 | Multiple partners matched the email — use `partnerId` |
+| `INSUFFICIENT_CREDITS` | 422 | Deduction would result in a negative balance |
+
+> Source: [knotie-ai-pro#1841](https://github.com/avijeett007/knotie-ai-pro/pull/1841) — _fix(admin-api): close KNOTI-1106 admin API QA gaps_

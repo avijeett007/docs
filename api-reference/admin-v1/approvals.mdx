@@ -1,0 +1,50 @@
+---
+title: "Approvals"
+description: "Poll the status of a pending admin approval request."
+---
+
+## Endpoint
+
+```
+GET /api/v1/admin/approvals/{requestId}
+```
+
+Requires scope: `approvals`
+
+## What it does
+
+Some Admin API operations — such as a large bulk email or a high-value credit adjustment — enter an approval queue before they are carried out. This endpoint lets you poll whether an approval has been granted, denied, or is still pending.
+
+## Access restriction
+
+Only the API key that created the approval request may poll its status. A key that did not create the request receives the same `404` as a missing request ID — the existence of the request is not revealed to other keys.
+
+If the attempt to record which key raised the request failed at creation time, the poll returns `404` and you can re-send the original request to create a new, trackable approval.
+
+## Response
+
+```json
+{
+  "requestId": "req_...",
+  "status": "pending",
+  "title": "Bulk email to 1,200 active partners",
+  "createdAt": "2026-10-03T10:00:00Z"
+}
+```
+
+### `status` values
+
+| Value | Meaning |
+|---|---|
+| `pending` | Awaiting a human decision |
+| `approved` | The operation was approved and will be executed |
+| `denied` | The operation was denied |
+| `expired` | The request was not acted on within the approval window |
+
+## Common error codes
+
+| Code | HTTP | Meaning |
+|---|---|---|
+| `404` | 404 | Request ID not found, or the calling key did not create it |
+
+> Source: [knotie-ai-pro#1841](https://github.com/avijeett007/knotie-ai-pro/pull/1841) — _fix(admin-api): close KNOTI-1106 admin API QA gaps_

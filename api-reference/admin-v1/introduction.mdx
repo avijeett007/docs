@@ -1,0 +1,52 @@
+---
+title: "Admin API v1 overview"
+description: "Programmatic access to platform-level operations: bulk email, credit adjustments, approval management, support verification, and analytics."
+---
+
+## What it's for
+
+The Admin API v1 lets you automate platform-level operations that would otherwise require clicking through Mission Control. It is separate from the Partner API (which scopes to a single partner's resources) — Admin API keys have access to cross-partner data and platform operations.
+
+## Authentication
+
+All Admin API v1 endpoints require an API key with the appropriate scope, passed as a bearer token:
+
+```
+Authorization: Bearer ak_...
+```
+
+Admin API keys are created and managed in **Mission Control → Settings → Admin API Keys**.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Mission Control Admin API Keys settings panel showing the key list, scope selector, and the scope acknowledgement checkbox._
+
+## Key scopes
+
+When creating an Admin API key, you select the scopes it may use:
+
+| Scope | What it allows |
+|---|---|
+| `emails` | Send bulk email to partners |
+| `credits` | Adjust partner credit balances |
+| `partner_data` | Read partner records and lists |
+| `analytics` | Create and query Super Analytics runs |
+| `approvals` | Poll approval request status |
+| `support` | Verify support keywords |
+
+<Warning>
+Combining `emails` with `partner_data` on the same key grants access to both sending bulk email and reading recipient lists. Acknowledge this explicitly when creating a combined-scope key in Mission Control — the UI requires it.
+</Warning>
+
+## Base URL
+
+```
+https://<your-domain>/api/v1/admin
+```
+
+## Related pages
+
+- [Bulk email](/api-reference/admin-v1/bulk-email)
+- [Credit adjustments](/api-reference/admin-v1/credits)
+- [Approvals](/api-reference/admin-v1/approvals)
+- [Super Analytics](/api-reference/admin-v1/analytics)
+
+> Source: [knotie-ai-pro#1841](https://github.com/avijeett007/knotie-ai-pro/pull/1841) — _fix(admin-api): close KNOTI-1106 admin API QA gaps_
