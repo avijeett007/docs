@@ -1,0 +1,78 @@
+---
+title: "Mission Control admin API"
+description: "Platform-owner API for managing partners, campaigns, and approval workflows."
+---
+
+## Overview
+
+The Mission Control admin API (`/api/v1/admin/`) is a platform-owner API for operating the platform at the tenant level. It is distinct from the partner-facing MCP API — admin keys are issued by the platform owner and operate across all partner tenants.
+
+<Warning>
+  Admin API keys carry elevated access. Store them securely and rotate them if you suspect compromise. Every request is logged and audited.
+</Warning>
+
+## Authentication
+
+Admin API requests require a key in the `Authorization: Bearer` header:
+
+```bash
+curl -X GET \
+  "https://YOUR_DOMAIN/api/v1/admin/partners" \
+  -H "Authorization: Bearer YOUR_ADMIN_KEY"
+```
+
+Admin keys are minted in **Mission Control** and are separate from the `pkt_` partner API keys used for the MCP API.
+
+## Scopes
+
+Each admin key is issued with one or more scopes. A request is refused with `403 FORBIDDEN` if the key lacks the required scope.
+
+### Legacy scopes
+
+The following scopes existed before the partner scope family was introduced:
+
+| Scope | Access |
+|---|---|
+| `all` | Authorises all legacy scopes below (does **not** include any `partner_*` scope) |
+| `credits` | Read and adjust partner credit balances |
+| `emails` | Send email campaigns |
+| `read` | Read platform-level data |
+
+### Partner scopes (new)
+
+The `partner_*` scopes grant read access to partner data and analytics. They form a cumulative hierarchy — a higher scope includes all lower ones.
+
+| Scope | What it unlocks |
+|---|---|
+| `partner_read_only` | Read a single partner's basic profile fields (`GET /api/v1/admin/partners/:id`) |
+| `partner_query_filter` | List partners with filtering and sorting (`GET /api/v1/admin/partners`) |
+| `partner_list_data_field` | Access extended partner data fields |
+| `partner_super_analytics_read` | Read Super Analytics engines, audiences, and completed run results |
+| `partner_super_analytics_execute` | Submit analytics runs and draft audience segments (activating an audience requires Mission Control) |
+
+<Note>
+  An existing key holding `all` does **not** gain any `partner_*` scope automatically. Partner-scope access must be explicitly granted when the key is minted.
+</Note>
+
+#### Field access and privacy
+
+Not all partner fields are readable via a `partner_*`-scoped key. Fields containing credentials, private keys, payment tokens, per-partner commission rates, and TOTP secrets are withheld regardless of scope. If you need a field that is not returned, contact the platform administrator.
+
+## Rate limiting
+
+Each key can be configured with:
+- A **per-minute limit** — requests above this limit receive `429 TOO_MANY_REQUESTS`
+- A **daily budget** — requests above this limit receive `429 DAILY_BUDGET_EXCEEDED`
+- An **allowed-origins allowlist** — requests from origins not on the list receive `403 FORBIDDEN`
+
+Rate-limit counters are claimed atomically. Refusals for limits enforced by a server-side approval gate refund both the daily and minute counters so a retry does not cost extra budget.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Mission Control key-creation form showing the scope selector with the new `partner_*` scopes listed._
+
+## Related pages
+
+- [Phone approvals](/api-reference/admin/phone-approvals)
+- [Email campaigns](/api-reference/admin/email-campaigns)
+- [MCP API authentication](/api-reference/mcp/authentication)
+
+> Source: [knotie-ai-pro#1774](https://github.com/avijeett007/knotie-ai-pro/pull/1774) — _feat: KNOTI-1085 admin API — targeted sends, partner_\* scopes, and phone approvals_
