@@ -1,0 +1,55 @@
+---
+title: "Email opt-out compliance"
+description: "How the admin email campaign API enforces unsubscribe links and opt-out behaviour."
+---
+
+## Guarantee: every campaign email has an opt-out link
+
+The admin email campaign API (`POST /api/v1/admin/emails`) guarantees that every email sent through any campaign path — including broadcast sends to the full partner base — contains:
+
+1. A **one-click unsubscribe link** unique to the recipient.
+2. An **RFC 8058 `List-Unsubscribe` header** and `List-Unsubscribe-Post: List-Unsubscribe=One-Click` for mail clients that surface a native unsubscribe button.
+
+These are applied automatically. You do not need to include `{{unsubscribe}}` in your HTML to trigger them, although including it controls where the link appears in the body.
+
+<Warning>
+  Do not remove or replace the unsubscribe footer. Email campaigns without a working opt-out link risk deliverability for all emails sent from the platform's shared sending domain.
+</Warning>
+
+## Per-recipient tokens
+
+Each recipient receives their own personalised unsubscribe link. The token in the link is unique to that recipient's email address. If your `htmlContent` was copied or templated from a previous campaign, the platform detects and replaces any token that does not belong to the current recipient — it is not possible for a recipient to click a link that unsubscribes someone else.
+
+### Example
+
+If your HTML body contains:
+
+```html
+<a href="https://your-domain.com/unsubscribe/tok_abc123_old">Unsubscribe</a>
+```
+
+And the current recipient's correct token is `tok_xyz789`, the platform replaces the link before sending:
+
+```html
+<a href="https://your-domain.com/unsubscribe/tok_xyz789">Unsubscribe</a>
+```
+
+This replacement happens silently. The recipient always sees a working link for their own address.
+
+## Scope and analytics data privacy
+
+Admin keys with `partner_super_analytics_read` or `partner_super_analytics_execute` scope receive aggregated analytics results with entity names and email addresses withheld from the output. Analytics results are safe to log and store without handling personal data.
+
+## Rate-limit behaviour on approval-gated sends
+
+When phone approvals are enabled for the **Send email campaign** action, the initial gated request receives `428 APPROVAL_REQUIRED` and **does not consume rate-limit budget**. Both the per-minute and daily counters are refunded so the subsequent approved retry does not fail due to the prior refused call.
+
+> 📷 **Screenshot needed:** _Add a screenshot of a received campaign email showing the unsubscribe footer and the mail client's one-click unsubscribe button (if visible in the mail client header area)._
+
+## Related pages
+
+- [Admin email campaigns](/api-reference/admin/email-campaigns) _(full API reference — coming soon)_
+- [Phone approvals](/api-reference/admin/phone-approvals) _(coming soon)_
+- [Email settings](/partner-portal/settings/email-settings)
+
+> Source: [knotie-ai-pro#1783](https://github.com/avijeett007/knotie-ai-pro/pull/1783) — _fix(admin-api): KNOTI-1093 close four review findings, two of them live opt-out failures_
