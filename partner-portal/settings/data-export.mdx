@@ -1,0 +1,66 @@
+---
+title: "Data Export (GDPR)"
+description: "Export your account data as a downloadable archive — runs as a background job and emails you a secure download link when ready."
+---
+
+## Overview
+
+The **Data Export** feature lets you download a full archive of your Knotie AI Pro account data to satisfy GDPR data-portability requirements or for your own records. Because large accounts can contain thousands of records, the export runs as a **background job** rather than waiting for an immediate download.
+
+## Start an export
+
+1. In the Partner Portal, open **Settings → Danger Zone** (scroll to the bottom of the Settings page).
+2. Click **Export My Data**.
+3. Confirm the request in the dialog that appears.
+
+The system queues a background export job and returns immediately. You do not need to keep the page open.
+
+## Track progress
+
+After you start the export, the **Danger Zone** section shows a progress indicator with one of these states:
+
+| Status | Meaning |
+|---|---|
+| **Queued** | The job is waiting to start |
+| **Running** | The export is in progress |
+| **Ready** | The archive is ready to download |
+| **Failed** | The job encountered an error — see troubleshooting below |
+
+The page updates automatically while the job runs. You can safely navigate away and return later.
+
+## Download the archive
+
+When the status changes to **Ready**, a **Download** button appears in the Danger Zone section. Click it to save the archive to your device.
+
+The download link is:
+- **Signed** — valid only for your account session
+- **Time-limited** — expires after a set retention period (you will see an expiry date next to the Download button)
+
+You will also receive an **email notification** when the archive is ready, so you do not need to check the portal manually.
+
+<Warning>
+Download the archive before the expiry date. After it expires the file is automatically deleted and you will need to start a new export.
+</Warning>
+
+## What is included
+
+The archive contains the exportable records associated with your partner account, including customers, agents, and configuration data. Sensitive secrets (API keys, webhook signing secrets) are not included in the export.
+
+## Troubleshooting
+
+**The export shows "Failed"**
+
+Refresh the page. If the status is still Failed, click **Export My Data** again to queue a new job. If repeated attempts fail, contact support with the approximate time you started the export.
+
+**I didn't receive the email notification**
+
+Check your spam folder. Confirm that the email address on your account is correct under **Settings → Account**. The download button is also available in the Danger Zone section of the portal — you do not need the email to download.
+
+**The Download button is gone**
+
+The archive has expired. Start a new export from **Settings → Danger Zone → Export My Data**.
+
+## Related pages
+
+- [Account & security](/account/signup)
+- [Platform Settings](/partner-portal/settings/overview)
