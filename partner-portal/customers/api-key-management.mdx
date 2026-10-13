@@ -1,0 +1,74 @@
+---
+title: "Managing customer API keys"
+description: "Revoke and renew a customer's API keys from the partner portal."
+---
+
+## Overview
+
+Partners can manage any customer's API keys directly from the partner portal. This is especially important when a key has been exposed or a customer cannot access their own portal to take action.
+
+The customer can also manage their own keys from their portal. Both routes work independently.
+
+## Open the customer API keys page
+
+1. Open **Customers → Active Customers**.
+2. Select **Manage** for the customer.
+3. Open the **Features & Add-ons** tab.
+4. Scroll to **API Access**.
+5. Select **Manage API keys**.
+
+The page opens in a new tab so any unsaved changes in the popup are not lost.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Features & Add-ons tab showing the API Access section with the "Manage API keys" link visible._
+
+## Revoke a key
+
+Revoking a key immediately invalidates it. Any integration or application using that key will stop working.
+
+1. Open the customer API keys page (steps above).
+2. Find the key you want to revoke.
+3. Select **Revoke**.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the partner-side customer API keys page with the Revoke and Renew buttons highlighted on a key row._
+
+> 🎬 **Video walkthrough:** _Record a short clip showing: opening the customer popup → Features & Add-ons → Manage API keys → revoking a key and confirming it is gone from the list._
+
+<Warning>
+Revoking a key cannot be undone. The customer will need to generate a new key and update any systems that used the revoked one.
+</Warning>
+
+When to revoke a key:
+
+- A key has been accidentally shared, committed to source code, or otherwise exposed.
+- You are offboarding a customer and want to ensure no lingering programmatic access remains.
+- A customer asks you to revoke a key on their behalf.
+
+## Renew a key
+
+Renewing replaces an existing key with a new secret while keeping the key's name and settings. The old secret stops working immediately.
+
+1. Open the customer API keys page.
+2. Find the key you want to renew.
+3. Select **Renew**.
+
+The new key value is shown once. Copy it before closing the dialog — it cannot be retrieved again.
+
+Share the new key with the customer securely (for example, through your support channel or a password manager). Do not email key values in plain text.
+
+## Partner MCP tools
+
+The `customer_api_keys_revoke` and `customer_api_keys_renew` Partner MCP tools use the same server endpoints as the portal buttons. If you have AI agents calling those tools, they are now working correctly.
+
+## Notes and known limitations
+
+- **API Access must be enabled** for the customer before they can create keys. You enable this under Features & Add-ons → API Access.
+- **The MCP Scopes column** on the customer API keys page currently shows "All tools" for every customer key and cannot be changed. This is a known issue and does not affect key functionality.
+- **Success and error messages** do not currently appear on the customer's own API keys page after a revoke or renew. The action still works — the key list updates to reflect the change.
+
+## Related pages
+
+- [Features, add-ons, and menu visibility](/partner-portal/customers/features-addons-and-menu-visibility)
+- [API access overview](/partner-portal/api-keys)
+- [Customer portal access](/partner-portal/customers/customer-portal-access-actions)
+
+> Source: [knotie-ai-pro#1901](https://github.com/avijeett007/knotie-ai-pro/pull/1901) — _fix(api): add the missing [keyId] routes for partner customer API-key revoke and renew (KNOTI-1053)_
