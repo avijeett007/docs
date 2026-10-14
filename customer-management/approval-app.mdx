@@ -1,24 +1,28 @@
 ---
 title: "Customer approval app"
-description: "Install the approval app, pair a phone, and choose which AI agent actions need your approval."
+description: "Install the approval app on Google Play, pair a phone, and choose which AI agent actions need your approval."
 ---
 
 The approval app lets your customers approve or deny risky actions their AI agents want to take — such as sending an email or taking a payment — from their phone. Share this page with customers when you turn approvals on for them.
 
 Customers find everything on the **Approvals** page in their portal.
 
-![The Approvals page, with the Get the approval app panel, the Download for Android button, a blurred QR code, and the How this works steps](/images/screenshots/customer-approvals-get-app-2026-09-29.png)
+> 📷 **Screenshot needed:** _Update the screenshot of the Approvals page to show the new "Get it on Google Play" button and Google Play QR code (replacing the old GitHub APK download button)._
 
 ## Step 1: Install the app
 
 1. In the portal, open **Approvals**.
-2. On the phone you want to approve from, either:
+2. On the Android phone you want to approve from, either:
    - scan the QR code with the phone's camera, or
-   - select **Download for Android**.
+   - select **Get it on Google Play**.
+
+The Google Play Store page opens. Tap **Install** to download and install the app.
 
 <Note>
-On iPhone, the app isn't open to everyone yet. Contact your provider to ask for an invitation.
+On iPhone, the app is coming soon to the Apple App Store. Check back for updates.
 </Note>
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the full flow: opening the Approvals page, tapping the Google Play button, installing the app, scanning the pairing code, and approving a test action._
 
 ## Step 2: Pair your phone
 
@@ -28,7 +32,7 @@ On iPhone, the app isn't open to everyone yet. Contact your provider to ask for 
 
 Your phone now appears under **Your phones**. You can pair more than one phone — each one is notified, and the first answer counts.
 
-![The Your phones section before any phone is paired, with the Pair a phone button](/images/screenshots/customer-approvals-your-phones-2026-09-29.png)
+> 📷 **Screenshot needed:** _Add a screenshot of the "Your phones" section after a phone has been successfully paired._
 
 ## Step 3: Choose what needs approval
 
@@ -51,7 +55,14 @@ Codes only last a short time. Close the pairing window and select **Pair a phone
 **I don't see the Approvals page**
 Ask your provider to turn on **MCP Access & Approvals** for your account.
 
+**I previously sideloaded an earlier version of the app**
+The GitHub APK release and the Google Play version use different signing keys, so they can't update each other. Uninstall the old version first, then install from Google Play. You'll need to pair your phone again after reinstalling.
+
 ## Related pages
 
 - [Phone approvals for agent actions](/agents/phone-approvals)
 - [Approval defaults](/partner-portal/settings/approval-defaults)
+
+---
+
+> Source: [knotie-ai-pro#1910](https://github.com/avijeett007/knotie-ai-pro/pull/1910) — _feat(approvals): point the app download at Google Play (KNOTI-1150)_
