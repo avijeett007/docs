@@ -75,6 +75,34 @@ While Stripe Connect is active, the Partner Portal keeps two-factor authenticati
 
 > "MFA cannot be disabled while Stripe Connect is active. This ensures secure payment processing."
 
+## Webhook security
+
+Knotie AI processes Stripe events (invoice payments, subscription changes, and similar) over a set of webhook routes. Every route in this tree requires a valid Stripe signature — the platform verifies the `stripe-signature` header using `stripe.webhooks.constructEvent` before any business logic runs.
+
+**What this means for you:**
+
+- You do not need to configure anything extra. Signature verification is handled automatically by the platform.
+- When you register a webhook endpoint in your Stripe Dashboard, point it at the URLs shown in your partner portal. Do not use any custom or unlisted paths — only the published webhook routes accept Stripe deliveries.
+- If a delivery shows a signature error in Stripe's dashboard, confirm the webhook secret in your partner settings matches the one Stripe is using for that endpoint.
+
+### Testing Stripe webhooks locally
+
+To test webhook handling during development, use the [Stripe CLI](https://stripe.com/docs/stripe-cli):
+
+```bash
+stripe listen --forward-to http://localhost:3100/api/whitelabel/billing/webhooks/stripe
+```
+
+The CLI injects a valid test signature on every forwarded event, so the signature check passes the same way it does in production.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Stripe Dashboard webhook endpoint list showing the registered webhook URL for the billing route._
+
+> 🎬 **Video walkthrough:** _Record a short clip showing how to register the Knotie webhook URL in the Stripe Dashboard and verify the first test delivery is signed correctly._
+
+---
+
+> Source: [knotie-ai-pro#1885](https://github.com/avijeett007/knotie-ai-pro/pull/1885) — _security(billing): delete the anonymous unsigned Stripe test webhook (KNOTI-1052)_
+
 ## Screenshots
 
 ![Stripe Connect panel in Partner Settings — Express account with a masked Account ID, Accept Charges and Receive Payouts both Enabled, and the Revenue Sharing card showing the 2.5% platform fee (you keep 97.50%) with the Premium Benefit 1% callout](/images/screenshots/stripe-connect-2026-07-03.png)
