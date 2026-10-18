@@ -1,33 +1,175 @@
 ---
 title: "Website Studio"
-description: "Offer branded website services and let customers follow their website build."
+description: "Offer branded, AI-built websites with golden templates, refresh mode, and per-tier quality models."
 ---
 
 ## Overview
 
-Website Studio helps you offer done-for-you websites from your customer-facing domain. The production catalog currently marks it **Experimental**.
+Website Studio helps you offer done-for-you websites under your brand. Your customers submit a brief, and the platform builds a fully fresh site — every photo, video loop, colour palette, and font is generated for that specific business, not taken from a stock template.
 
-The public page can present your recent work, service areas, included deliverables, common questions, and contact or booking actions.
+The production catalog currently marks Website Studio **Experimental**. Review the live experience on a test account before selling it to customers.
 
-![Customer-facing Website Studio page showing recent work and service categories](/images/screenshots/website-studio-storefront-production-2026-09-14.png)
+> 📷 **Screenshot needed:** _Add a screenshot of the Website Studio storefront / landing page as it appears for a customer on a white-labelled domain._
+
+## Design tiers
+
+Website Studio now offers two build quality tiers. The tier you select at order time determines which templates are available and which AI model is used to build the site.
+
+| Tier | AI model | Templates | Approx. cost | Credits |
+|---|---|---|---|---|
+| **Basic** | Claude Haiku 5.5 | Standard goldens | Lower | Standard rate |
+| **Premium** | Claude Sonnet 5.5 | All goldens (standard + premium) | ~\$5–9 all-in | ~2,000 credits |
+
+The model choice reflects a benchmark on real businesses: Sonnet 5.5 scored highest on brand match and accuracy; Haiku 5.5 delivers a solid result at lower cost. Neither model shipped a wrong price in benchmark testing.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the tier selector as it appears on the order/brief form._
+
+## Golden templates
+
+Both tiers use golden templates — skeleton HTML structures with no pre-loaded media. Every customer site is assembled fresh:
+
+- Photos and video loops are generated or sourced at the template's exact dimensions.
+- Colours, fonts, and copy are chosen for the specific business.
+- Headline words are never glued together regardless of the chosen font.
+- All self-hosted Google Fonts load as declared in the template's `fonts.faces` configuration.
+
+**Basic** builds use the standard set of golden templates (8 application-style, 2 static).
+**Premium** builds have access to all 10 templates including the premium-only designs.
+
+A **freshness gate** (checks F1–F7) runs automatically before the site is promoted. It blocks delivery if any of these are detected:
+
+- Stock bytes or near-identical images carried over from the template skeleton
+- Template file paths still present in the built site
+- Palette or font pairing left at the template default (Premium only)
+
+The build fails rather than ships a generic-looking site.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the template picker (if user-facing) or the build progress screen showing the freshness gate check._
+
+> 🎬 **Video walkthrough:** _Record a short clip showing a complete Website Studio order: brief submission → build progress → partner preview screen._
+
+## Refresh mode
+
+If a customer already has a live website, Website Studio can crawl it and use the real brand as ground truth for the new build. Refresh mode extracts:
+
+- Logo
+- Colour palette and fonts
+- Service names and descriptions
+- Exact prices
+- Business hours
+- Social handles
+
+The build inherits this extracted information so the new site reflects the business accurately without manual re-entry.
+
+<Note>
+Refresh mode uses the customer's public website only — it respects `robots.txt` and scans up to 8 pages. It never logs in or accesses private pages.
+</Note>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the brief form showing the "Refresh from existing website" option and the URL input field._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the Refresh flow: entering an existing website URL → the brief auto-filling with extracted brand details → partner review._
+
+## Accuracy gate
+
+Before a built site reaches your partner review queue, an automatic accuracy check compares every claim on the site against:
+
+1. The customer's brief
+2. The customer's live website (if Refresh mode was used)
+
+The check catches:
+
+- Wrong prices or services not in the brief
+- Invented credentials, reviews, or social handles
+- A price list that is less than 90% complete
+- Business hours that differ from the brief
+
+When the gate finds a problem it sends the content back with corrections. A site that is still inaccurate after corrections fails the build rather than reaching review.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the accuracy gate result in the partner review screen — both a passing result and a failing result with correction notes._
 
 ## Make Website Studio available
 
 1. Open **One-Click Experiences** in the Partner Portal.
 2. Find **Website Studio** and select **Enable** if it is off.
-3. Use **View Landing Page** to review the public page.
-4. If you want this experience on the root of your customer-facing domain, select **Make default**.
+3. Use **View Landing Page** to review the public-facing page.
+4. If you want Website Studio on the root of your customer-facing domain, select **Make default**.
 
 ## Give a customer access
 
-The main experience switch and the customer switch are separate.
+The main experience switch and the per-customer switch are separate.
 
 1. Open **Customers → Active Customers**.
 2. Select **Manage** for the customer.
 3. Open **Features & Add-ons**.
 4. Turn on **Website Studio** and save.
 
-Once enabled, the customer can submit their website brief and follow the build from their branded portal.
+Once enabled, the customer can submit their brief and follow the build from their branded portal.
+
+## Brief submission
+
+When a customer opens the brief form:
+
+- They can enter a plain `http://` URL or a bare domain (e.g. `mybusiness.com`) — both are accepted.
+- They can optionally enter an existing website URL to trigger Refresh mode.
+- Phone number fields support a prefix selector so the country code pre-fills correctly.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the customer-facing brief form with the URL field and optional refresh URL field visible._
+
+## Partner review
+
+Once the build completes and passes the accuracy gate, the site appears in your partner review queue. From there you can:
+
+- Preview the full built site before releasing it to the customer.
+- Approve to publish or return for revisions.
+- View the build receipt, including the charged tier, model used, and monthly price.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the partner review screen showing a completed build with the tier badge, accuracy gate result, and approve/revise actions._
+
+## Self-hosted configuration
+
+If you run the orchestrator yourself, the new environment variables introduced in this release are:
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `NEXT_PUBLIC_WEBSITE_STUDIO_GOLDENS` | unset | Set to `1` (build-time) to show the goldens option in the brief form |
+| `WEBSITE_GOLDENS` | unset | Set to `1` to enable the golden-template orchestrator lane |
+| `WEBSITE_AGENT_MODEL_PREMIUM` | `claude-sonnet-5-5` | AI model for Premium tier builds |
+| `WEBSITE_AGENT_MODEL_STANDARD` | `claude-haiku-5-5` | AI model for Basic tier builds |
+| `WEBSITE_ORCH_CONCURRENCY` | `1` | Number of parallel builds per orchestrator container |
+| `BUSINESS_LOOKUP_XFF_CLIENT_HOP` | unset | Position of the real client IP in `X-Forwarded-For` for the prod proxy chain |
+
+<Warning>
+The orchestrator must **not** run with `--no-new-privileges` in Docker. The builder launcher requires `setpriv`, which is blocked by that flag. Use Docker's default seccomp profile instead.
+</Warning>
+
+### Database migration
+
+This release adds a `design_tier` column to the website revision table. Run the following before deploying:
+
+```bash
+prisma db push
+```
+
+The migration adds only: `ADD COLUMN design_tier TEXT NOT NULL DEFAULT 'standard'`
+
+### Deployment order
+
+Deploy services in this order to avoid downtime:
+
+1. Connect Hub
+2. KnotieManager (before the orchestrator — it handles `/ping`, promote, and the write transaction)
+3. Orchestrator image
+4. App
+5. Cron container (KB retry sweep)
+
+## Known limitations
+
+The following items are tracked as follow-ups and are not blocking the release:
+
+- **Logo contrast** — The contrast check when the header sits over a dark hero photo has not shipped yet.
+- **Refresh mode — policies** — Cancellation, consultation, and patch-test policies are not yet extracted from the live site.
+- **Palette** — A brief's default palette can occasionally carry into a design; a fix is planned.
+- **Copy polish** — Typos from the live site may carry into the refreshed copy.
 
 <Warning>
 Website Studio is under active development. Review the live experience before sharing it with customers.
@@ -38,3 +180,5 @@ Website Studio is under active development. Review the live experience before sh
 - [One-Click Experiences](/partner-portal/experiences/overview)
 - [Features and add-ons](/partner-portal/customers/features-addons-and-menu-visibility)
 - [Stripe Connect](/partner-portal/settings/stripe-connect)
+
+> Source: [knotie-ai-pro#1926](https://github.com/avijeett007/knotie-ai-pro/pull/1926) — _KNOTI-1149 Website Studio: fresh premium goldens, refresh mode, accuracy gate, per-tier models_
