@@ -43,6 +43,14 @@ Return to **Embed widget** and use the controls beside the widget:
 - select the copy button to copy the current code
 - select the delete button to remove it
 
+## How fast calls connect
+
+After the visitor clicks the widget button and grants microphone permission, the agent should be ready to listen in approximately **4 seconds**. The widget checks microphone access, connects to the session, and buffers audio for the agent — all before the visitor's first word.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the widget showing the "Listening" state after a fast connection — ideally showing the timer or visual indicator at roughly 4 seconds after the button click._
+
+> 🎬 **Video walkthrough:** _Record a short clip of a visitor clicking the widget button, granting microphone access, and reaching the "Listening" state in approximately 4 seconds._
+
 ## Voice session troubleshooting
 
 If a visitor cannot start a voice session:
@@ -53,6 +61,14 @@ If a visitor cannot start a voice session:
 4. Close other apps that may be using the microphone.
 5. Confirm the widget is active and the current website is in **Allowed domains**.
 6. Reload the page and try again.
+
+### Session is slow to connect
+
+If a session takes more than 10 seconds to reach the "Listening" state:
+
+- Make sure the page was loaded over HTTPS and is not inside an iframe that blocks microphone access.
+- Try a different browser — Chrome and Edge connect the most reliably.
+- Check that nothing else is occupying the microphone (another browser tab, a video-call app running in the background).
 
 ### What the error messages mean
 
@@ -71,3 +87,7 @@ If a connection error happens, the widget tries again once by itself. Often the 
 
 - [Manage Knova agents](/agents/knova/manage-knova-agents)
 - [Agent analytics](/partner-portal/agent-analytics)
+
+---
+
+> Source: [knotie-ai-pro#1946](https://github.com/avijeett007/knotie-ai-pro/pull/1946) — _fix(knova-widget): connect before publishing the mic — removes 15 s stall on every call_
