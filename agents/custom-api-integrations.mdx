@@ -1,0 +1,126 @@
+---
+title: "Custom API Integrations"
+description: "Connect your own API as a tool that Knova and Retell agents can call during a conversation."
+---
+
+## Overview
+
+Custom API integrations let you define your own HTTP API endpoints and expose them as tools inside Knova and Retell voice agents. Unlike the built-in connected apps (Gmail, HubSpot, etc.), custom integrations are fully under your control — you bring the API spec, the platform handles the call.
+
+A customer can manage their integrations from their portal's **Integration** page.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Integration page showing the Custom API Integrations section with an imported definition listed._
+
+## What you can import
+
+| Format | Notes |
+|---|---|
+| OpenAPI 3.0 / 3.1 (JSON or YAML) | `servers[0].url` is used as the base URL; server variables fall back to their defaults; `allOf` members are merged automatically |
+| Swagger 2.0 (JSON or YAML) | `schemes[0]://host + basePath` |
+| Postman collection v2.0 / v2.1 | `{{variable}}` placeholders are resolved; multiple example requests for the same method and URL are folded into one tool |
+| Manual builder | One operation at a time |
+
+Paste YAML directly into the spec field — the platform converts it to JSON automatically. For Postman collections you can also provide an **Environment / Variables JSON** file (flat map or a Postman environment export) to override `{{variable}}` values.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the import modal with the format selector, spec text area, and optional Environment JSON field._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through importing a Postman collection end-to-end: opening the Integration page, pasting the collection JSON, providing environment variables, previewing the parsed tools, and saving._
+
+## How tool names are derived
+
+| Input | Example operationId / route | Tool name |
+|---|---|---|
+| OpenAPI / Swagger | `bookWorkshop` | `book_workshop` |
+| Postman collection | `POST /api/workshops/:id/book` | `post_api_workshops_id_book` |
+
+Tool names must be unique within a definition. Names that collide with built-in tools (`KNOWLEDGE_BASE_QUERY`, `SMS_SEND_MESSAGE`, `EMAIL_SEND_NOTIFICATION`) are rejected.
+
+## Use custom API tools in a Knova agent
+
+After an integration is saved, its tools appear as options under **Functions** in any Knova agent that belongs to that customer.
+
+1. Open **AI Agents → Knova Agents**.
+2. Select **Configure** on the agent.
+3. Open the **Functions** tab.
+4. Select **Add Function Call** and choose the integration by name.
+5. Select an operation, optionally pre-fill any parameters, and click **Add**.
+6. Select **Update Agent** to save.
+
+The agent sees the tool's description and every parameter from the spec. You can pre-fill a default value for any parameter in the editor (for example, a fixed `channel` header or a default date format).
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Function Calls panel showing a custom API integration listed alongside standard connected-app tools, with the operation picker open._
+
+## Use custom API tools in a Retell agent
+
+Create or update a Retell agent and assign it to the customer that owns the integration. The custom API tools are available as static webhook functions. See [Connected App Tools](/agents/connected-app-tools) for how tool wiring works.
+
+## Use custom API tools via the customer MCP server
+
+Full-mode MCP tokens see custom API tools in `tools/list` as `<definitionId>_<toolName>`. The tool schema uses only LLM-safe fields (no internal routing keys). Call them with `tools/call` exactly like any other MCP tool.
+
+```json
+{
+  "method": "tools/call",
+  "params": {
+    "name": "abc123_book_workshop",
+    "arguments": {
+      "workshopId": "wksp_456",
+      "attendeeEmail": "user@example.com"
+    }
+  }
+}
+```
+
+`allowedApps` and scoped grants apply. A customer that has not been granted access to the integration cannot list or call its tools.
+
+## How API errors are handled
+
+If the customer's API responds with a **4xx error**, the platform passes the response body back to the agent as a `success: false` result rather than treating it as a tool failure. This lets the agent read the error and react intelligently:
+
+- API returns `{"error": "email_required"}` → agent asks the caller for their email.
+- API returns `{"error": "slot_unavailable"}` → agent suggests another time.
+
+Only **successful calls** (2xx responses) are charged at the standard tool-call rate.
+
+## Security
+
+Custom API tools are executed through a hardened HTTP client:
+
+- **Private-range blocking**: loopback, RFC 1918, link-local, CGNAT (100.64/10), multicast, NAT64, and 6to4 addresses are all refused — the call never reaches internal services.
+- **DNS pinning**: the connection goes to the address resolved at call time, not one that could change mid-flight.
+- **Redirect safety**: each redirect hop is re-checked; credential headers are dropped when the origin changes; HTTPS → HTTP redirects are refused.
+- **Arguments cannot override auth**: an LLM-supplied argument can never set `Authorization`, the stored API-key header, or `Cookie`.
+- **Declared parameters only**: the call sends only the parameters listed in the spec.
+- **Limits**: 30-second timeout, 100,000-character response cap.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Integration settings showing the stored base URL and the authentication header field (without revealing the actual API key)._
+
+## Troubleshooting
+
+**The tool is not listed in the Functions tab**
+
+- Confirm the integration was saved and has at least one valid operation.
+- Confirm the agent's customer is the one who owns the integration.
+- Open the agent with **Configure** (not the quick-edit modal) to see all tools.
+
+**The agent reports "tool failed" instead of the API error message**
+
+- This applies only to Retell and older Knova worker versions. The Knova worker returns the API body on 4xx; Retell's own infrastructure may swallow non-200 tool responses.
+- Check the Hub logs for the actual HTTP status and body.
+
+**Import error: `[object Object]`**
+
+- This occurred in older versions when a spec had parse errors. Update to the latest build — the platform now returns a plain-language 400 error describing the problem.
+
+**YAML is not accepted**
+
+- Paste the YAML directly into the spec text field. The platform converts it server-side. Do not save a `.yaml` file and upload it — paste the text.
+
+## Related pages
+
+- [Tools for Knova agents](/agents/knova/custom-tools)
+- [Connected app tools](/agents/connected-app-tools)
+- [Customer MCP tokens](/partner-portal/ai-agents/mcp/tokens)
+- [Choose customer integrations](/partner-portal/customers/integration-apps-selection)
+
+> Source: [knotie-ai-pro#1950](https://github.com/avijeett007/knotie-ai-pro/pull/1950) — _fix(integrations): custom API tools run from Knova/Retell agents and the MCP server_
