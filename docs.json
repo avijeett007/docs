@@ -248,6 +248,7 @@
             "group": "Agent Tools & Setup",
             "pages": [
               "agents/connected-app-tools",
+              "agents/custom-api-integrations",
               "agents/agent-mailbox",
               "agents/mailbox-delete-tools",
               "agents/phone-approvals",
