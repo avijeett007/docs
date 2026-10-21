@@ -28,15 +28,28 @@ Imported numbers appear in the Phone Numbers list with **Telnyx** shown as the p
 
 The available inbound and outbound options depend on the selected agent. Follow the choices shown in the assignment form.
 
+## Outbound calling for UK and EU numbers
+
+Telnyx phone numbers with UK (+44) or EU country codes connect through Telnyx's global SIP routing by default. This is the correct setting for most accounts — regional routing (e.g. `europe.sip.telnyx.com`) is not necessary and was the cause of outbound calls never connecting for UK/EU BYO numbers.
+
+If you imported a UK or EU Telnyx number before October 2026 and outbound calls did not connect, the fix is already live — no action is required. Existing numbers that were stuck due to the previous routing are now able to be re-assigned normally.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Phone Numbers list showing a successfully assigned UK/EU Telnyx number with active outbound status._
+
 ## Troubleshooting
 
 - If no numbers appear, confirm that the API key belongs to the correct Telnyx account and has the required access.
 - If assignment fails, confirm that the number and agent are active, then try again.
 - If the needed call direction is unavailable, review the agent's configuration or contact support.
-- If a number is still being unassigned, wait for the status to finish before retrying. Refresh **Phone Numbers** and assign it again only after it appears as unassigned.
+- If a number shows status **Cleanup pending** and cannot be reassigned, wait a few minutes and refresh **Phone Numbers**. If the status does not clear after several minutes, contact support.
 - For international outbound calls, confirm that the destination country is available in your Telnyx account before testing.
+- If outbound calls from a UK or EU number fail to connect, verify the number is active in your Telnyx dashboard and that the outbound voice profile is correctly attached. Global SIP routing is used by default and does not require any configuration change on your part.
 
 ## Related pages
 
 - [Phone numbers](/partner-portal/phone-numbers)
 - [Knova outbound calling](/agents/knova/outbound-calling)
+
+---
+
+> Source: [knotie-ai-pro#1948](https://github.com/avijeett007/knotie-ai-pro/pull/1948) — _fix(telnyx): default to global SIP routing — UK/EU BYO outbound never connected_
