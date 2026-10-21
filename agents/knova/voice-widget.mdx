@@ -43,6 +43,23 @@ Return to **Embed widget** and use the controls beside the widget:
 - select the copy button to copy the current code
 - select the delete button to remove it
 
+## How web calls end
+
+When a visitor uses the voice widget, calls end in one of two ways:
+
+- **The visitor closes the widget** — they click the end-call button or close the panel.
+- **Automatic hang-up after the agent says goodbye** — if the agent ends the conversation with a farewell phrase and the visitor stays quiet, the call closes automatically about 6 seconds later.
+
+The automatic hang-up prevents calls from staying open and accruing credits after the conversation is already over. If the visitor speaks after the agent's goodbye (for example, asks a follow-up question), the timer resets and the call continues normally.
+
+<Note>
+  **JARVIS AI-OS sessions** are not affected by the automatic hang-up. The JARVIS orb has its own idle-session flow, so those sessions end only when the visitor closes them.
+</Note>
+
+> 📷 **Screenshot needed:** _Add a screenshot of an active widget call ending — showing the post-goodbye state where the call closes and the widget returns to its idle launcher state._
+
+> 🎬 **Video walkthrough:** _Record a short clip demonstrating the automatic hang-up flow: an agent says goodbye in the widget, the visitor stays quiet, and the call closes after ~6 seconds._
+
 ## Voice session troubleshooting
 
 If a visitor cannot start a voice session:
@@ -71,3 +88,7 @@ If a connection error happens, the widget tries again once by itself. Often the 
 
 - [Manage Knova agents](/agents/knova/manage-knova-agents)
 - [Agent analytics](/partner-portal/agent-analytics)
+
+---
+
+> Source: [knotie-ai-pro#1958](https://github.com/avijeett007/knotie-ai-pro/pull/1958) — _fix(knova-agent): hang up web calls after the agent's goodbye_
