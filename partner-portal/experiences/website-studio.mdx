@@ -9,7 +9,7 @@ Website Studio helps you offer done-for-you websites from your customer-facing d
 
 The public page can present your recent work, service areas, included deliverables, common questions, and contact or booking actions.
 
-![Customer-facing Website Studio page showing recent work and service categories](/images/screenshots/website-studio-storefront-production-2026-09-14.png)
+> 📷 **Screenshot needed:** _Add a screenshot of the Website Studio storefront showing the default Signature landing flavor with the triptych portfolio stage, industries marquee, and motion graphics section._
 
 ## Make Website Studio available
 
@@ -33,8 +33,71 @@ Once enabled, the customer can submit their website brief and follow the build f
 Website Studio is under active development. Review the live experience before sharing it with customers.
 </Warning>
 
+## Landing flavors
+
+Website Studio offers four landing-page visual styles called **flavors**. You can choose the one that best represents your studio.
+
+| Flavor | Character |
+|---|---|
+| **Signature** *(default)* | Elegant editorial. Night stage in dark mode, ivory paper in light. Your brand color is the only chroma; headlines use a serif display face. |
+| **Bold Trades** | High-contrast, trade-focused aesthetic. |
+| **Modern Agency** | Clean, minimal, agency-oriented layout. |
+| **Vibrant Creative** | Colorful, energetic presentation. |
+
+To change the flavor, open **Website Studio → Landing Settings** and select from the style options. Partners who have not yet made a selection see the **Signature** flavor by default.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the flavor selector in Website Studio landing settings, showing the four options with Signature highlighted as the default._
+
+> 🎬 **Video walkthrough:** _Record a short clip switching between the four landing flavors and previewing each on the live page._
+
+## Typography
+
+Partners can choose their own heading and body typefaces for the Website Studio landing page, replacing the default faces shipped with each flavor.
+
+To set custom typography:
+
+1. Open **Website Studio → Landing Settings**.
+2. Find the **Typography** section.
+3. Choose a **Display / Heading** face from the available options. Each tile is rendered in the face itself so you can compare at a glance.
+4. Choose a **Body** face.
+5. A live preview shows your headline text in your selected heading face and brand color.
+6. Save the settings.
+
+The selected fonts load only on the pages that need them and do not affect your portal's other pages.
+
+<Note>
+A small curated set of faces is available — Inter, Playfair Display, and similar common picks are intentionally not offered so your storefront stays visually distinct.
+</Note>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Typography Picker in landing settings, showing the font tile grid and live preview with a partner's brand color._
+
+> 🎬 **Video walkthrough:** _Record a short clip opening the typography picker, selecting a heading and body face, and saving — showing the live preview updating._
+
+## Motion graphics showcase
+
+If your studio produces motion graphics or video work for clients, you can feature a reel alongside your websites.
+
+- Add video clips under the **Motion** section in Website Studio content settings.
+- The clips appear as a scrollable shelf: the first clip is shown at 16:9, additional clips at 9:16.
+- A **Motion** navigation link and section appear on the landing page only when at least one clip is present.
+- On mobile, users can swipe through the shelf with a peek of the next clip.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the motion graphics shelf as it appears on the landing page — first 16:9 clip prominent, 9:16 clips in a scrollable row beside it._
+
+## Industries marquee
+
+The landing page can display a scrolling strip of the industries or niches your portfolio covers, placed between the work section and the "What's included" section.
+
+Industries are pulled automatically from the distinct niche tags on your portfolio items. The marquee appears only when at least one niche is tagged and loops only when four or more niches are present.
+
+No configuration is needed — tag your portfolio items with the relevant niche and the marquee builds itself.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the industries marquee band on the landing page, showing niche labels scrolling horizontally._
+
 ## Related pages
 
 - [One-Click Experiences](/partner-portal/experiences/overview)
 - [Features and add-ons](/partner-portal/customers/features-addons-and-menu-visibility)
 - [Stripe Connect](/partner-portal/settings/stripe-connect)
+
+> Source: [knotie-ai-pro#2007](https://github.com/avijeett007/knotie-ai-pro/pull/2007) — _feat(website-studio): premium Signature landing, partner typography, motion showcase (KNOTI-1179)_
