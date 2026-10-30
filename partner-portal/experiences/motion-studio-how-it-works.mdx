@@ -1,0 +1,96 @@
+---
+title: "Motion Studio — How It Works"
+description: "The AI pipeline behind Motion Studio: how a customer brief becomes a delivered, QA-checked video."
+---
+
+## Overview
+
+When a customer submits a motion brief and the partner schedules it, an orchestrator pipeline automatically turns the brief into a polished video. This page explains the stages, quality checks, and outputs — useful context for partners who want to understand what happens between "Schedule" and delivery.
+
+---
+
+## The pipeline
+
+Each job runs these stages in order:
+
+| Stage | What happens |
+|-------|-------------|
+| **1. Prepare** | The brief and any uploaded files are fetched. For Creator Recut, the clip is transcribed with Deepgram nova-3 (with a Whisper fallback). |
+| **2. Concept** | An AI agent writes a `data.json` file that drives the template engine. A honesty gate checks that every visible string comes from the brief, transcript, or revision note — no invented facts, numbers, names, or quotes. |
+| **3. Build** | The template engine assembles the video frames from `data.json`. |
+| **4. Check** | HyperFrames linting and a bounds check confirm the layout is within safe zones. |
+| **5. Render** | The video renders at 90 fps with a shutter blend. |
+| **6. QA** | Six automated checks run (see below). |
+| **7. Deliver** | The video is written to the private `motion-assets` bucket and the job moves to `needs_review`. |
+
+> 🎬 **Video walkthrough:** _Record a clip showing the job moving through the pipeline stages in the partner console queue view._
+
+---
+
+## QA checks
+
+The orchestrator runs these checks automatically on every render:
+
+| Check | What it verifies |
+|-------|-----------------|
+| **Format** | Correct resolution and aspect ratio for each output (9:16, 16:9, 1:1). |
+| **File size** | Each output file is within limits. |
+| **Loudness** | Audio loudness meets broadcast norms (LUFS). If the loudness is wrong, a loudnorm repair pass runs automatically. |
+| **Black frames** | No unexpected black frames at the start or end. |
+| **Legibility sheets** | Per-frame screenshots showing whether text is readable at small sizes. |
+| **Safe zones** | Text and key graphics stay inside the safe zone for each aspect ratio. |
+
+If any check fails, the job is set to `needs_attention`. The partner can trigger one free retry. After that, the job moves to `needs_review` and the partner decides whether to approve with caveats or request changes.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the QA check list in the partner review panel, showing the check names and pass/fail status._
+
+---
+
+## Output formats
+
+Most templates produce three format variants. The orchestrator renders all variants in one job:
+
+| Format | Pixel size | Typical use |
+|--------|-----------|-------------|
+| 9:16 | 1080×1920 | Instagram Reels, TikTok, Stories |
+| 16:9 | 1920×1080 | YouTube, LinkedIn video, web embeds |
+| 1:1 | 1080×1080 | Instagram feed, Facebook |
+
+Invite Reveal and Creator Recut produce 9:16 and 16:9 only. See the [template catalog](/partner-portal/experiences/motion-studio-templates) for per-template format availability.
+
+---
+
+## Honesty gate
+
+The concept stage enforces an honesty check: the AI agent cannot invent claims. Every visible piece of text in the final video must be traceable to:
+
+- The customer's brief (what they typed in the wizard).
+- The transcript of their uploaded clip (Creator Recut only).
+- Their revision note (if they requested changes).
+
+If the AI agent attempts to include a number, name, quote, or offer that is not in the source material, the stage fails and the job retries the concept pass.
+
+This means the video the customer receives reflects what they submitted — not what the AI thought would sound good.
+
+---
+
+## Revision flow
+
+After the partner reviews a delivered video, they can:
+
+- **Approve** — the job is marked delivered and the customer can download.
+- **Request changes** — the partner writes a revision note. One revision is included free; further revisions cost 800 credits each, up to 5 per project.
+
+On a revision, the orchestrator runs the full pipeline again with the original brief plus the revision note.
+
+If a revision render fails, the job returns to review with the previously delivered video intact. The free revision is not consumed.
+
+---
+
+## Related pages
+
+- [Motion Studio](/partner-portal/experiences/motion-studio)
+- [Motion Studio templates](/partner-portal/experiences/motion-studio-templates)
+- [Motion Studio operator configuration](/partner-portal/experiences/motion-studio-operator-config)
+
+> Source: [knotie-ai-pro#2012](https://github.com/avijeett007/knotie-ai-pro/pull/2012) — _feat(motion): Motion Studio engine — 5 templates + orchestrator motion lane (KNOTI-1153, KNOTI-1155–1158)_
