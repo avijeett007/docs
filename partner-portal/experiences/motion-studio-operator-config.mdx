@@ -1,0 +1,87 @@
+---
+title: "Motion Studio — Operator Configuration"
+description: "Server-side environment variables that control the AI agent model, spend limits, and template exceptions in Motion Studio."
+---
+
+## Overview
+
+Motion Studio exposes several server-side variables that let platform operators tune the quality and cost of the AI concept agent without redeploying the application. These are set in your server environment (for example, in `coolify.yaml` or your deployment platform's env-var configuration).
+
+<Note>
+These variables affect the orchestrator's behaviour. Changes take effect on the **next** orchestrator restart — in-flight jobs continue using the settings that were active when they started.
+</Note>
+
+---
+
+## Agent model
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `MOTION_AGENT_MODEL` | `claude-opus-5-5` | The Claude model the concept agent uses on every concept run (first pass, gate retry, and build-feedback pass). |
+
+**Constraints:**
+- Must be a Claude model ID. The orchestrator refuses non-Claude IDs at boot.
+- The model must have a price entry in `agents/pricing.ts`. An unpriced model makes job cost unknown and skips the budget check.
+- Cannot be combined with a non-Claude `MOTION_AGENT` (BYOA agent). The orchestrator refuses the combination at boot.
+- Each job's event log records which model was used.
+
+**Why it exists:** before this variable, the concept agent ran on the CLI's own default model. Explicitly setting the model ensures predictable quality and cost across all concept runs.
+
+---
+
+## Agent spend budget
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `MOTION_AGENT_BUDGET_USD` | `15` | Maximum USD the concept agent may spend per job across all passes. |
+
+The previous default was $6. At that level, two ordinary concept passes consumed the budget, causing the build-feedback pass to be refused and the job to move to `needs_review`.
+
+**Guidance:**
+- The worst-case spend with `claude-opus-5-5` is approximately $20 per job.
+- A standard video sells for 2,500 credits. Set the budget comfortably below your per-video margin.
+- If a job is refused for budget, the orchestrator sets the job to `needs_review` and the partner can retry it.
+
+---
+
+## Render cost tracking
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `MOTION_RENDER_USD_PER_MIN` | (unset) | Render cost in USD per minute of wall-clock render time. |
+
+Until this is set, the **render cost** and **total cost** columns in the Mission Control → Costs tab show as **unknown**. Provider (AI model) cost is always known.
+
+Set this to match your actual render infrastructure cost after launch. Render minutes exclude time spent waiting for the render lock.
+
+---
+
+## Template exceptions
+
+Some templates have special content rules that differ from the global defaults. These are managed in the orchestrator's `banned.md` configuration and require an orchestrator redeployment to change.
+
+**saas-glow-launch — glow exception:** the `saas-glow-launch` template is permitted to use glow effects even though they are banned by default. This exception is hardcoded in `GLOW_EXCEPTION_TEMPLATES` in `stages.ts` and reflected in `banned.md`.
+
+---
+
+## Environment variable summary
+
+| Variable | Required | Default | Notes |
+|----------|----------|---------|-------|
+| `MOTION_STUDIO_ENABLED` | Yes (to activate) | — | Server-side feature flag. |
+| `NEXT_PUBLIC_MOTION_STUDIO` | Yes (to activate) | — | Next.js build-time flag. |
+| `MOTION_INTERNAL_API_SECRET` | Yes | — | Shared secret: app ↔ KnotieManager ↔ orchestrator. |
+| `MOTION_ASSETS_BUCKET` | No | `motion-assets` | R2 bucket name for private motion assets. |
+| `MOTION_AGENT_MODEL` | No | `claude-opus-5-5` | Claude model for the concept agent. |
+| `MOTION_AGENT_BUDGET_USD` | No | `15` | Per-job USD spend cap for the concept agent. |
+| `MOTION_RENDER_USD_PER_MIN` | No | (unset) | Render-time cost per minute; needed for accurate cost totals. |
+| `MOTION_AGENT_SELF_CHECK` | No | `1` | Set to `0` to disable the agent's self-check pass (restart required). |
+
+---
+
+## Related pages
+
+- [Motion Studio](/partner-portal/experiences/motion-studio)
+- [Motion Studio templates](/partner-portal/experiences/motion-studio-templates)
+
+> Source: [knotie-ai-pro#2032](https://github.com/avijeett007/knotie-ai-pro/pull/2032) — _feat(motion): best Claude model, reviewed budget, saas-glow exception, L4 approved (KNOTI-1188)_
