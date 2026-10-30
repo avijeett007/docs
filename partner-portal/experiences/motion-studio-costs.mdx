@@ -1,0 +1,67 @@
+---
+title: "Motion Studio — Cost Breakdown"
+description: "Per-video cost tracking in Mission Control, and how render costs and AI model costs are calculated."
+---
+
+## Overview
+
+Motion Studio records a detailed cost breakdown for every render job. Platform operators can review these costs in **Mission Control → Costs** under the internal Motion Studio tab.
+
+<Note>
+The Motion Studio costs tab is **internal only**. It is not visible to partners or customers. The data is used by platform operators to track infrastructure spend and set credit prices.
+</Note>
+
+---
+
+## What is tracked
+
+Each render job records a `costBreakdown` with these line items:
+
+| Line item | What it measures |
+|-----------|-----------------|
+| **Per-model tokens and USD** | AI model tokens and estimated USD spend per model call (concept, gate retry, build-feedback). |
+| **Transcription** | Cost of the Deepgram nova-3 transcription pass for Creator Recut jobs. Unknown if the transcription ran but the result failed to parse. |
+| **Render minutes** | Wall-clock minutes of rendering. Excludes time spent waiting for the render lock. |
+| **Render cost** | Render minutes × `MOTION_RENDER_USD_PER_MIN`. Shows as **unknown** until that env var is set. |
+| **Total cost** | Sum of all known line items. Unknown fields are excluded from the total. |
+
+**Unknown is never shown as $0.** If a cost cannot be calculated, the cell shows "unknown" rather than a misleading zero.
+
+---
+
+## Setting up render cost tracking
+
+Render cost is only tracked if you set the `MOTION_RENDER_USD_PER_MIN` environment variable in your orchestrator deployment.
+
+1. Determine your actual render infrastructure cost per minute (from your cloud provider's billing).
+2. Set `MOTION_RENDER_USD_PER_MIN` in your orchestrator environment.
+3. Restart the orchestrator.
+
+Until this is set, the render cost and total cost columns show as **unknown**. AI model costs are always tracked automatically.
+
+---
+
+## Partner and customer visibility
+
+Partners and customers **do not see cost or token data** for motion jobs. The API response for motion jobs deliberately omits cost and token fields in partner-facing and customer-facing responses. This is verified by a test that fails if those fields ever appear in external responses.
+
+---
+
+## Reading the costs tab
+
+In Mission Control → Costs → Motion Studio (internal tab):
+
+- Each row is one render job.
+- Expand a row to see the full breakdown: per-model lines, transcription, render minutes.
+- The **Total** column shows the sum of all known costs for that job.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Mission Control → Costs → Motion Studio tab showing the breakdown rows (internal access only — coordinate with platform operator)._
+
+---
+
+## Related pages
+
+- [Motion Studio](/partner-portal/experiences/motion-studio)
+- [Motion Studio operator configuration](/partner-portal/experiences/motion-studio-operator-config)
+
+> Source: [knotie-ai-pro#2036](https://github.com/avijeett007/knotie-ai-pro/pull/2036) — _feat(motion): agent self-check, cost per video, wording tiers, end-card spacing (KNOTI-1189, KNOTI-1190, KNOTI-1193, KNOTI-1195)_
