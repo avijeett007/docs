@@ -1,0 +1,190 @@
+---
+title: "Motion Studio — Template Catalog"
+description: "All available motion-graphics templates, what each one needs from the customer, and which output formats it produces."
+---
+
+## Overview
+
+Motion Studio ships with nine templates across two release waves. Partners choose which templates to offer in their Website Studio settings. Each template tile in the customer portal shows a preview video so customers can see what they're getting before they submit.
+
+<Note>
+Template availability depends on your platform version. Wave 1 templates ship with the initial Motion Studio release; Wave 2 templates (app-promo-pop, saas-glow-launch, paper-collage-explainer, menu-carousel) became selectable in the portal after the KNOTI-1183 update.
+</Note>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the template gallery in the customer portal showing all available tiles with preview videos._
+
+---
+
+## Wave 1 templates
+
+### Kinetic Hype
+
+Best for product launches, hiring campaigns, and creator hype reels.
+
+| Field | Required | Details |
+|-------|----------|---------|
+| Headline | Yes | Main hook for the video. |
+| Body copy | No | Supporting text. |
+
+**Output formats:** 9:16, 16:9, 1:1
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Kinetic Hype template tile in the gallery and/or its brief wizard step._
+
+---
+
+### Photo Film
+
+Best for product, food, and shop launches that lead with photography.
+
+| Field | Required | Details |
+|-------|----------|---------|
+| Headline | Yes | Main message. |
+| Photos | Yes | 4–6 images. |
+
+**Output formats:** 9:16, 16:9, 1:1
+
+---
+
+### Data Story
+
+Best for annual results, year-in-numbers, or stat-driven marketing.
+
+| Field | Required | Details |
+|-------|----------|---------|
+| Headline | Yes | Framing line. |
+| Stats | Yes | 2–5 data points, each with a label. |
+
+**Output formats:** 9:16, 16:9, 1:1
+
+---
+
+### Invite Reveal
+
+Best for grand openings, events, and weddings.
+
+| Field | Required | Details |
+|-------|----------|---------|
+| Title | Yes | Event or occasion name. |
+| Date | Yes | The event date. |
+| Venue | Yes | Location name. |
+
+**Output formats:** 9:16, 16:9
+
+---
+
+### Creator Recut
+
+Best for creators and brands that have a talking-head clip and want motion-graphics layered on top.
+
+| Field | Required | Details |
+|-------|----------|---------|
+| Video clip | Yes | Customer's own talking-head clip. |
+| Optional overlay text | No | Extra text to add. |
+
+**Output formats:** 9:16, 16:9
+
+The AI transcribes the clip with Deepgram (with a Whisper fallback) and builds captions verbatim from the transcript.
+
+> 🎬 **Video walkthrough:** _Record a clip showing a creator-recut brief submission and the delivered captioned video._
+
+---
+
+## Wave 2 templates
+
+These four templates became available for partners to offer after the KNOTI-1183 update and show preview videos in the gallery.
+
+### App Promo Pop
+
+Best for SaaS and mobile apps — showcases screenshots with animated feature chips.
+
+| Field | Required | Details |
+|-------|----------|---------|
+| Headline | Yes | Product tagline. |
+| Screenshots | Yes | 1–4 product screenshots. |
+| Feature chips | No | Short bullet labels for key features. |
+
+**Output formats:** 9:16, 16:9, 1:1
+
+> 📷 **Screenshot needed:** _Add a screenshot of the App Promo Pop brief wizard showing the screenshot upload and feature-chips step._
+
+---
+
+### SaaS Glow Launch
+
+Best for SaaS product announcements with an editorial, high-end feel.
+
+| Field | Required | Details |
+|-------|----------|---------|
+| Headline | Yes | Launch statement. |
+| Steps | No | Up to 4 numbered steps. |
+| Features | No | Feature list items. |
+| Stat + series | No | A key number and its label. |
+| CTA button text | No | Call-to-action label. |
+
+**Output formats:** 9:16, 16:9, 1:1
+
+---
+
+### Paper Collage Explainer
+
+Best for mission-led brands, non-profits, or indie products that want a crafted, tactile feel.
+
+| Field | Required | Details |
+|-------|----------|---------|
+| Headline | Yes | Opening statement. |
+| Photos | Yes | 1–6 images with captions. |
+| Steps or dated milestones | No | Choose between steps, a timeline, or photos only. |
+| Paper look | No | Toggle for the torn-paper texture. |
+
+**Output formats:** 9:16, 16:9, 1:1
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Paper Collage Explainer brief wizard showing the photo captions and paper-look toggle._
+
+---
+
+### Menu Carousel
+
+Best for restaurants, cafés, and food brands.
+
+| Field | Required | Details |
+|-------|----------|---------|
+| Headline | Yes | Restaurant or campaign name. |
+| Photos | Yes | 3–8 dish or product photos, each with a name and optional price. |
+
+**Output formats:** 9:16, 16:9, 1:1
+
+<Note>
+Photos and menu items must match in count — each photo maps to exactly one item name. The platform enforces this in the brief wizard.
+</Note>
+
+---
+
+## Template previews
+
+Every Wave 2 template (and Wave 1 templates where a preview clip exists) shows a short preview video in the gallery. Previews play on hover or tap, and a poster image shows before playback starts.
+
+Preview files are served from `public/motion-previews/` and are same-origin paths — they play without a CDN or external dependency.
+
+---
+
+## Partner template selection
+
+Partners can offer any combination of available templates:
+
+1. Open **One-Click Experiences → Website Studio** in the Partner Portal.
+2. Under **Motion videos**, find the **Template selection** list.
+3. Toggle each template on or off.
+4. Save.
+
+A partner who has never saved a template list automatically offers all available templates. An explicit saved list requires the partner to opt in to new templates as they arrive.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the template selection list in Website Studio settings._
+
+---
+
+## Related pages
+
+- [Motion Studio](/partner-portal/experiences/motion-studio)
+- [Website Studio](/partner-portal/experiences/website-studio)
+
+> Source: [knotie-ai-pro#2023](https://github.com/avijeett007/knotie-ai-pro/pull/2023) — _feat(motion-studio): four new templates selectable in the portal, with previews (KNOTI-1183)_
