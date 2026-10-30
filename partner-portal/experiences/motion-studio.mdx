@@ -1,0 +1,169 @@
+---
+title: "Motion Studio"
+description: "Sell AI-generated motion-graphics videos to your customers — directly from Website Studio."
+---
+
+## Overview
+
+Motion Studio is a second service inside **Website Studio** that lets partners sell short, AI-generated motion-graphics videos alongside websites. Customers submit a brief through their portal, an AI agent turns it into a polished video, and the partner reviews and approves it before delivery.
+
+<Note>
+Motion Studio is behind a feature flag. Set `MOTION_STUDIO_ENABLED=true` (server) and `NEXT_PUBLIC_MOTION_STUDIO=true` (Next.js) to activate it. Enable per partner during rollout.
+</Note>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Website Studio section in the Partner Portal showing the Motion videos panel and the enable toggle._
+
+## How it works
+
+1. A partner enables Motion Studio and picks which templates to offer.
+2. A customer browses the template gallery, fills in the brief wizard, and submits.
+3. The partner schedules the job, which charges credits and queues the render.
+4. An AI agent produces the video (typically within a few minutes).
+5. The partner reviews the result in the console and approves or requests changes.
+6. On approval the customer sees a player and download links in their portal.
+
+> 🎬 **Video walkthrough:** _Record a clip showing the full flow: partner enables Motion Studio → customer submits brief → partner schedules → video renders → partner approves → customer downloads._
+
+---
+
+## Set up Motion Studio for your account
+
+1. Open **One-Click Experiences → Website Studio** in the Partner Portal.
+2. Scroll to the **Motion videos** section.
+3. Turn on **Enable motion videos** and choose which templates to offer.
+4. Save your settings.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Motion videos section inside the Website Studio settings, showing the enable toggle and template list._
+
+---
+
+## Give a customer access to Motion Studio
+
+The global switch and per-customer access are independent.
+
+1. Open **Customers → Active Customers**.
+2. Click **Manage** for the customer.
+3. Open **Features & Add-ons**.
+4. Enable **Motion videos** under Menu Visibility Options.
+5. Save.
+
+---
+
+## Customer experience
+
+Once enabled, the customer sees a **Motion videos** card in their portal.
+
+### Template gallery
+
+The gallery lists every template the partner has activated, with a preview video for each. Hovering or tapping a tile plays the preview clip.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Motion videos template gallery in the customer portal._
+
+### Brief wizard
+
+After the customer picks a template, a six-step wizard collects the brief:
+
+| Step | What the customer fills in |
+|------|---------------------------|
+| Template | Already selected; shown for confirmation. |
+| Brief details | Template-specific fields — headlines, steps, stats, or a video clip depending on template. |
+| Photos / logo | Upload photos, logos, or short clips (where the template needs them). |
+| Style | Optional choices (paper look, colour emphasis, etc.) where offered by the template. |
+| Review | Summary of all inputs before submitting. |
+| Confirmation | Submission notice; the customer waits for the partner to schedule. |
+
+Uploads are signed and stored privately. The wizard autosaves drafts. A customer can have up to five active drafts.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the brief wizard (step 2 or 3 — the detail entry or photo upload step)._
+
+> 🎬 **Video walkthrough:** _Record a clip of a customer completing the brief wizard end-to-end (template selection through submission)._
+
+### Tracker and delivery
+
+After submission the customer sees a tracker card. Once the partner approves, the card becomes a video player with download buttons.
+
+---
+
+## Partner console — review and approve
+
+The **Motion videos** section in the Website Studio console shows the full job queue. For each job, the partner can:
+
+| Action | When to use |
+|--------|-------------|
+| **Schedule** | Charge credits and start the render. Deducts 2,500 credits. |
+| **Approve** | Accept the rendered video and deliver it to the customer. |
+| **Request changes** | Send a revision note; one revision is included free. Additional revisions cost 800 credits each (up to 5 revisions per project). |
+| **Retry** | Restart a failed render (one free retry per job). |
+| **Cancel** | Cancel a pending job (credits are refunded). |
+
+The review panel includes:
+
+- A player for each output format (9:16, 16:9, and 1:1 where available).
+- **Proof sheets** — per-frame legibility screenshots.
+- **QA checks** in plain words (format, loudness, contrast, safe zones, hook).
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Partner Console review panel with the video player and QA check list visible._
+
+> 🎬 **Video walkthrough:** _Record a clip of a partner reviewing a rendered video, checking the proof sheets, and clicking Approve._
+
+---
+
+## Credits
+
+| Action | Credit cost |
+|--------|------------|
+| Schedule a new video render | 2,500 credits |
+| Revision (second and beyond) | 800 credits per revision |
+| Refund on render failure | Full refund (once per job) |
+
+<Warning>
+Credit prices are marked **needs-founder** in the codebase and may change before general availability. Confirm the live prices in your platform settings before advertising them to customers.
+</Warning>
+
+---
+
+## Available templates
+
+See [Motion Studio templates](/partner-portal/experiences/motion-studio-templates) for the full template catalog and brief requirements.
+
+---
+
+## Maintenance cron
+
+A cron job (`/api/cron/motion-maintenance`) runs every 15 minutes via `coolify.yaml`. It:
+
+- Sweeps expired upload tickets.
+- Reconciles any credit refunds that failed to record.
+
+This runs automatically after deployment — no manual setup needed.
+
+---
+
+## Deploy checklist
+
+Before enabling Motion Studio in production:
+
+1. Run `npm run db:push` — the migration adds the `MotionProject` and `MotionRenderJob` tables.
+2. Set the required environment variables:
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `MOTION_STUDIO_ENABLED` | Yes | Activates the feature server-side. |
+| `NEXT_PUBLIC_MOTION_STUDIO` | Yes | Activates the feature in the Next.js build. |
+| `MOTION_INTERNAL_API_SECRET` | Yes | Shared secret between the app, KnotieManager and the orchestrator. |
+| `MOTION_ASSETS_BUCKET` | No | R2 bucket name for motion assets. Defaults to `motion-assets`. |
+
+3. Deploy KnotieManager **before** the orchestrator.
+4. Enable Motion Studio per partner during initial rollout.
+
+---
+
+## Related pages
+
+- [Motion Studio templates](/partner-portal/experiences/motion-studio-templates)
+- [Website Studio](/partner-portal/experiences/website-studio)
+- [One-Click Experiences](/partner-portal/experiences/overview)
+- [Credits](/partner-portal/credits)
+- [Features and add-ons](/partner-portal/customers/features-addons-and-menu-visibility)
+
+> Source: [knotie-ai-pro#2013](https://github.com/avijeett007/knotie-ai-pro/pull/2013) — _feat(website-studio): sell motion videos — queue, backend, console and portal (KNOTI-1154, KNOTI-1159, KNOTI-1160)_
