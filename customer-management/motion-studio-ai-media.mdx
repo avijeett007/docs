@@ -1,0 +1,94 @@
+---
+title: "Motion Studio — AI-generated media"
+description: "How Motion Studio generates music beds, SFX hits, and plates automatically during a video job, and what the budget defaults mean."
+---
+
+## Overview
+
+Motion Studio can generate its own background media while building a video: a music bed, SFX hits, and image-to-video plates. This means videos can use freshly generated audio and visual content instead of relying solely on pre-built template assets.
+
+<Note>
+AI-generated media is an opt-in feature. It is **off by default** and must be enabled by your partner before it becomes active.
+</Note>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Motion Studio portal showing a video job in progress, with the generated media indicator visible (music bed / SFX / plate status)._
+
+## What gets generated
+
+When the feature is enabled, the Motion Studio concept agent may propose a media plan for any job. The following media types can be generated:
+
+| Media type | What it is | Template requirement |
+|---|---|---|
+| Music bed | A continuous background track matched to the video's length and tempo | Any template with a music-bed module |
+| SFX hit | A short sound effect that replaces a stock hit in the template | Template must include hit files |
+| Plate still | An AI-generated still image used as a scene background | Template must include the `ai-plate` module |
+| Plate clip | A short AI-generated video clip used as a scene background | Template must include the `ai-plate` module |
+
+Voice-over is stubbed and reserved for a future release.
+
+## Budget defaults
+
+Before any paid generation call is made, the system checks that the budget for that media type has not been exceeded. Defaults are:
+
+| Budget | Default |
+|---|---|
+| Music bed | $1.20 per job |
+| SFX (all hits combined) | $0.10 per job |
+| Plate (stills + clips) | $4.00 per job |
+| Voice-over | $0.50 per job |
+| Total media per job | $6.00 |
+
+If a call would exceed the budget, the job falls back to the template's stock assets — the video still completes, just without generated media.
+
+## Fallback behaviour
+
+Generated media is never required for a job to succeed. If generation is over budget, the provider is unavailable, or the result fails quality checks, the job automatically:
+
+1. Falls back to the template's stock music bed or stock hit.
+2. Removes the plate (or skips it if no fallback plate exists).
+3. Rebuilds once using stock assets before marking the job as complete.
+
+The customer receives a finished video in all cases.
+
+## Models used
+
+| Media kind | Provider and model |
+|---|---|
+| Music bed | Eleven Music via fal (instrumental) |
+| SFX hit | ElevenLabs SFX v2 via fal |
+| Plate still | Nano Banana Pro 2K via fal |
+| Plate clip | Seedance 2.0 at 1080p (fal) or Higgsfield Kling 3.0 Pro |
+
+Your partner configures API keys and selects the preferred plate clip model.
+
+## Cost breakdown in the job record
+
+Every generation attempt is recorded in the job's `generations[]` list:
+
+- **Success:** the list price charged.
+- **Provider failure:** `$0` (you were not billed).
+- **Outcome unknown:** `null` (the system cannot confirm whether the call was billed).
+
+This lets you audit media spend per video job.
+
+> 🎬 **Video walkthrough:** _Record a short clip showing a partner enabling `MOTION_GENERATED_MEDIA`, submitting a Motion Studio job, and reviewing the cost breakdown in the completed job record._
+
+## Enabling the feature
+
+This feature requires your partner to:
+
+1. Set the `MOTION_GENERATED_MEDIA` environment variable to `true` on the KnotieManager service.
+2. Supply provider API keys: `FAL_AI_API_KEY`, `ELEVENLABS_API_KEY`, and (for Higgsfield plates) `MOTION_HIGGSFIELD_KLING_USD_PER_S`.
+3. Optionally adjust the budget defaults using the corresponding `MOTION_*_BUDGET_USD` environment variables.
+
+If the variable is not set, generation is completely skipped — no API calls are made and no costs are incurred.
+
+## Related pages
+
+- [Motion Studio — reusable media library](/customer-management/motion-studio-media-library)
+- [Motion Studio — template catalogue](/customer-management/motion-studio-wave2-templates)
+- [Create with Media Studio](/customer-management/media-studio)
+
+---
+
+> Source: [knotie-ai-pro#2039](https://github.com/avijeett007/knotie-ai-pro/pull/2039) — _feat(motion): generated music, SFX and plates with budgets and fallbacks, off by default (KNOTI-1156)_
