@@ -1,0 +1,86 @@
+---
+title: "Motion Studio — reusable media library"
+description: "How Motion Studio saves and reuses generic generated assets — music beds, SFX hits, and plates — to reduce costs across future video jobs."
+---
+
+## Overview
+
+When the reusable media library is enabled, Motion Studio saves generic generated assets — music beds, SFX hits, plate stills, and plate clips — into a private, tagged library. A later video job with a matching brief can reuse a saved asset for **$0** instead of generating it again.
+
+<Note>
+The reusable media library is an opt-in feature. It is **off by default** and must be enabled by your partner before it becomes active.
+</Note>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Motion Studio portal showing a completed video job with a "Reused from library" indicator next to a music bed or SFX asset._
+
+## What gets saved
+
+Only generic, context-free assets are saved. The library **never stores** anything tied to a specific customer, including:
+
+- Their business or product name
+- Their website or uploaded files
+- People, faces, hands, logos, or text
+- Voice recordings
+- Anything built from customer-supplied content
+
+Assets saved to the library are safe to reuse across different customers' videos because they contain no identifying information.
+
+## What gets reused
+
+When a new video job starts, the system looks for matching library assets before generating new ones. A candidate asset must pass **hard matching rules**:
+
+| Asset type | Match criteria |
+|---|---|
+| Music bed | Same asset kind; at least as long as the video; tempo within ±6 % of the planned beat |
+| SFX hit | Same hit ID |
+| Plate still | Same aspect ratio; matching still attached |
+| Plate clip | Same aspect ratio; clip at least as long as the planned plate; matching still attached |
+
+Assets that pass the hard rules are then evaluated by an AI judge. The judge must identify a specific match with a confidence of 0.85 or higher. If the judge is uncertain, or if anything goes wrong, a fresh asset is generated instead.
+
+> 🎬 **Video walkthrough:** _Record a short clip showing two back-to-back Motion Studio jobs: the first generating a music bed, the second reusing it from the library with $0 cost._
+
+## Cost accounting
+
+Every reuse is recorded in the job's `generations[]` list:
+
+- **Reused asset:** `source: 'library'`, `usd: 0`, plus a `savedUsd` field showing what would have been charged.
+- **AI judge calls** (match, classify, pixel checks): each is a separate priced line.
+
+You can see the savings per job in the job record.
+
+## Privacy and safety
+
+Before saving anything to the library, the system runs both rule-based and AI checks:
+
+1. **Rule checks (first).** Any match means the asset is discarded, not saved:
+   - It contains a voice-over.
+   - It was built from a customer upload.
+   - Its licence row is not approved for reuse.
+   - It references the customer's business name, website, or brief keywords.
+   - It shows people, faces, hands, logos, or text.
+
+2. **AI check (second, only if rules pass).** The model reviews the asset for anything the rules might have missed. Plates (stills and clips) are checked separately using only the image — no brief text is passed.
+
+An asset must pass both checks to enter the library.
+
+## Enabling the feature
+
+Your partner must:
+
+1. Set `MOTION_MEDIA_LIBRARY=true` on the KnotieManager service.
+2. Set `MOTION_LIBRARY_BUCKET` to a valid object-storage bucket path. Library API routes return `503` until this variable is set.
+
+The AI judge model is configurable via `MOTION_LIBRARY_MODEL` (defaults to `claude-opus-5-5`).
+
+If `MOTION_MEDIA_LIBRARY` is not set, no search, classification, or save operations run — nothing changes in existing video jobs.
+
+## Related pages
+
+- [Motion Studio — AI-generated media](/customer-management/motion-studio-ai-media)
+- [Motion Studio — template catalogue](/customer-management/motion-studio-wave2-templates)
+- [Create with Media Studio](/customer-management/media-studio)
+
+---
+
+> Source: [knotie-ai-pro#2041](https://github.com/avijeett007/knotie-ai-pro/pull/2041) — _feat(motion): reusable media library — classify, keep and reuse generated media, off by default (KNOTI-1182)_
