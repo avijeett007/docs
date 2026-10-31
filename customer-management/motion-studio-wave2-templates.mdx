@@ -1,0 +1,93 @@
+---
+title: "Motion Studio — template catalogue (wave 2)"
+description: "Nine new video template families available in the Motion Studio portal wizard: 3D product, characters, isometric, comic, mono-3D, and footage overlay."
+---
+
+## Overview
+
+Motion Studio includes nine new template families in wave 2. Each template has a distinct visual style and takes a small amount of customer input — a product photo, a few words, or a short video clip. The portal wizard presents all available templates with preview thumbnails.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Motion Studio template picker in the portal wizard showing the wave-2 template cards (product-hero-3d, clay-character, footage-overlay, etc.)._
+
+## Wave-2 template catalogue
+
+### Product templates
+
+| Template | Visual look | Customer input required |
+|---|---|---|
+| **product-hero-3d** | The customer's product appears as a 3D hero object placed in a generated world | 1 product photo |
+| **product-orbit-3d** | Lifestyle objects orbit the product and burst on the beat drop | 1 product photo |
+| **comic-panel-ad** | A comic page builds panel-by-panel on the beat; the product crashes in on the drop | 1 product photo (used as uploaded — not AI-processed) |
+
+### Character templates
+
+| Template | Visual look | Customer input required |
+|---|---|---|
+| **clay-character** | An original plasticine character performs in a miniature clay set at 12 fps | Story captions |
+| **papercraft-character** | A cardboard toy theatre with cut-paper layers and torn caption strips | Story captions |
+
+### Typographic and explainer templates
+
+| Template | Visual look | Customer input required |
+|---|---|---|
+| **kinetic-3d-type** | Extruded 3D words move through generated worlds | Words (the text to extrude) |
+| **mono-3d-explainer** | A grey 3D stage with one accent colour; features a phone counter, a calendar, and a prize wheel | Numbers and steps |
+
+### Story templates
+
+| Template | Visual look | Customer input required |
+|---|---|---|
+| **isometric-story** | Abstract figures clear one named hurdle per beat on a flat isometric track | Hurdle names (one per beat) |
+
+### Footage templates
+
+| Template | Visual look | Customer input required |
+|---|---|---|
+| **footage-overlay** | The customer's own video clip plays full-frame while icon tiles arc out of an anchor point | 1 video clip (trimmed, retimed, or cropped only — no AI processing applied to the clip) |
+
+> 📷 **Screenshot needed:** _Add a screenshot of the portal wizard showing a specific template selected (e.g., clay-character), with its input fields visible._
+
+## Picking a template
+
+1. Open **Media Studio → Motion Studio** in the portal.
+2. The wizard shows available templates with preview thumbnails.
+3. Select a template to see what inputs it needs.
+4. Supply the required input (photo, words, captions, or video clip).
+5. Review the credit estimate, then select **Make it**.
+
+<Note>
+Templates that use AI-generated plates (such as the 3D product and character templates) require the `ai-plate` module to be active. Ask your partner if a template is unavailable.
+</Note>
+
+## Template previews
+
+Each template ships with a 9:16 preview video rendered end-to-end with real generated media. You can watch previews in the template picker before committing to a generation.
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the Motion Studio template picker, selecting the clay-character template, entering story captions, and starting a generation._
+
+## Footage overlay — video clip requirements
+
+The footage-overlay template accepts a customer-supplied video clip. The clip must meet these technical requirements:
+
+- Between 16 and 4096 pixels on each side
+- Aspect ratio within a 4:1 ratio (e.g., standard 16:9, 9:16, or 1:1 are all fine)
+
+The clip is trimmed, retimed, or cropped as needed, but its content is not AI-processed or replaced.
+
+## Character template content policy
+
+Clay-character, papercraft-character, and comic-panel-ad use AI to generate stylised characters. To comply with the platform's content policy:
+
+- Do not enter real names (famous people, public figures, or other individuals) in story captions or brief fields.
+- The generation system automatically blocks prompts that appear to describe or imitate a real person.
+- If a character prompt is rejected, rewrite it to describe a fictional character without referencing a real person's appearance.
+
+## Related pages
+
+- [Motion Studio — AI-generated media](/customer-management/motion-studio-ai-media)
+- [Motion Studio — reusable media library](/customer-management/motion-studio-media-library)
+- [Create with Media Studio](/customer-management/media-studio)
+
+---
+
+> Source: [knotie-ai-pro#2043](https://github.com/avijeett007/knotie-ai-pro/pull/2043) — _feat(motion): wave-2 template families — 3D product, characters, isometric, comic, mono-3D, footage overlay (KNOTI-1187)_
