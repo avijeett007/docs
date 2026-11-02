@@ -1,0 +1,87 @@
+---
+title: "Media Studio — Motion Graphics Recipes"
+description: "Create professional motion graphics videos directly from Media Studio using ready-made recipes."
+---
+
+## Overview
+
+**Motion graphics** is now a first-class recipe category in Media Studio. A dedicated **"Motion graphics"** shelf lists one recipe for each available motion template — so you can go from prompt to MP4 without leaving the portal. Motion recipes also work from the Storyboard and from any MCP tool that can run a Media Studio recipe.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Media Studio Recipes page showing the new "Motion graphics" shelf with its recipe cards (e.g. the App Promo Pop, Menu Carousel, or SaaS Glow Launch tiles)._
+
+## What motion recipes produce
+
+Each recipe maps to one motion template. You describe your content in plain language, fill in any required inputs (logo, tagline, colours, product screenshots, etc.), choose a target length (see [Motion Video Length](/customer-management/media-studio-motion-video-length)), and Media Studio produces a full MP4 and delivers it straight to your Media Library.
+
+Typical templates include social-first short-form formats, product showcase reels, and branded explainers. The shelf description reads: **"Made by our motion graphics studio — takes a few minutes."**
+
+> 📷 **Screenshot needed:** _Add a screenshot of an individual motion recipe detail page showing the brief fields (e.g. logo upload, tagline, colour picker) and the credit estimate._
+
+## Access requirements
+
+Motion graphics recipes are gated. Your partner must have:
+
+- **Media Studio** enabled for your account
+- The **Motion Studio** feature enabled at the partner level (`MOTION_STUDIO_ENABLED`)
+
+If the Motion graphics shelf does not appear, contact your provider to confirm both features are active on your account.
+
+## Create a motion video from a recipe
+
+1. Open **Media Studio → Recipes**.
+2. Scroll to the **Motion graphics** shelf, or search for your template by name.
+3. Select a recipe card to open the brief form.
+4. Complete the brief — describe your scene, upload any required assets, and choose a colour palette or brand inputs if prompted.
+5. Choose a **video length** if the template offers multiple options (see [Motion Video Length](/customer-management/media-studio-motion-video-length)).
+6. Review the credit estimate, then select **Make it**.
+7. Media Studio queues the job. Renders typically take a few minutes; you will receive a notification when the MP4 is ready in your Media Library.
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the end-to-end flow: opening the Motion graphics shelf, selecting a recipe, filling in a brief, picking a length, and confirming the job starts._
+
+## Create a motion video from a Storyboard
+
+Motion recipes are available inside the Storyboard tool. When you add a scene to a storyboard you can choose any catalogue recipe, including motion templates. The final board renders via the same motion engine.
+
+See [Media Studio Storyboard](/customer-management/media-studio-storyboard) for the full storyboard workflow.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Storyboard recipe picker with a motion graphics recipe selected._
+
+## Create a motion video from an MCP tool
+
+Any MCP tool that can list and run Media Studio recipes has automatic access to motion recipes — no extra configuration is needed once the gate is enabled. Use the `list-recipes` and `run-recipe` MCP tools and filter by the `motion-graphics` shelf.
+
+See [MCP Media Tools](/api-reference/mcp/media-tools) for the MCP API reference.
+
+## Billing and credits
+
+Motion recipes are billed the same way as all other Media Studio recipes:
+
+- **Partners** are charged the motion render credit amount (multiplied by the chosen length tier).
+- **Customers** are charged at the partner's configured media credit multiplier.
+
+The credit quote shown in the brief form is an estimate. The final amount is confirmed before the job starts. If the price changes between quote and start the job is cancelled and your credits are returned automatically.
+
+See [Motion Video Length](/customer-management/media-studio-motion-video-length) for the full credit multiplier table.
+
+## Completed renders
+
+Finished videos are delivered to your **Media Library** as MP4 files. From there you can download, embed, or use them as a source asset in further creations.
+
+## Troubleshooting
+
+| Issue | What to do |
+|-------|-----------|
+| Motion graphics shelf not visible | Ask your partner to confirm `MOTION_STUDIO_ENABLED` and Media Studio are active for your account |
+| Recipe returns an error before charging | A required brief field may be missing or invalid — check all fields and try again |
+| Job queued but no notification | Open **Media Library** and refresh; or check the **Projects** view for status |
+| Credits were charged but no video delivered | Contact support — the system automatically refunds failed renders, but allow a few minutes for the refund to appear |
+
+## Related pages
+
+- [Create with Media Studio](/customer-management/media-studio)
+- [Motion Video Length](/customer-management/media-studio-motion-video-length)
+- [Media Studio Storyboard](/customer-management/media-studio-storyboard)
+- [Media Studio projects](/customer-management/media-studio-projects)
+- [MCP Media Tools](/api-reference/mcp/media-tools)
+
+> Source: [knotie-ai-pro#2052](https://github.com/avijeett007/knotie-ai-pro/pull/2052) — _feat(media-studio): Motion graphics recipes — motion videos in Media Studio, storyboards and MCP_
