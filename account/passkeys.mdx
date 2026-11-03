@@ -74,6 +74,16 @@ If your email already has a passkey registered:
 
 ![Partner Login page — "Login with Passkey" option visible at the bottom of the form](/images/screenshots/login-page-2026-06-09.png)
 
+## What happens after sign-in
+
+Once your passkey is verified, you land directly on your **dashboard**. You will not be
+prompted to change a password — passkey sign-ins bypass that step entirely, because a
+passkey proves your identity without a password in the first place.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the dashboard immediately after a successful passkey sign-in, confirming no change-password prompt appears._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through a full passkey sign-in from the login page to the dashboard._
+
 ## Troubleshooting
 
 - If passkey setup fails, confirm you’re using a modern browser (Chrome, Safari, or Edge).
@@ -83,6 +93,11 @@ If your email already has a passkey registered:
 - **Lost access to passkey device** – Sign in with your other method, then register a new
   passkey. Until 10 October 2026 that means your password (plus MFA if enabled); from
   10 October it means a one-time email sign-in link (plus your authenticator code if MFA is
-  enabled). If you can't reach your registered email address either, contact support.
+  enabled). If you can’t reach your registered email address either, contact support.
 - **Register a passkey on every device you use** – so losing one device never leaves you
   waiting on an email to get in.
+- **Stuck on a change-password screen after a passkey sign-in?** This was a known bug (fixed
+  in November 2026). If you are on an older version of the portal, signing in with a passkey
+  will never send you to the change-password page — clear your browser cache and try again.
+  If the issue persists, contact support.
+> Source: [knotie-ai-pro#2062](https://github.com/avijeett007/knotie-ai-pro/pull/2062) — _fix(auth): passkey sign-in no longer lands on change-password_
