@@ -9,7 +9,7 @@ Website Studio helps you offer done-for-you websites from your customer-facing d
 
 The public page can present your recent work, service areas, included deliverables, common questions, and contact or booking actions.
 
-![Customer-facing Website Studio page showing recent work and service categories](/images/screenshots/website-studio-storefront-production-2026-09-14.png)
+> 📷 **Screenshot needed:** _Add a screenshot of the customer-facing Website Studio landing page, showing the navigation bar including the new "Log in" link._
 
 ## Make Website Studio available
 
@@ -17,6 +17,27 @@ The public page can present your recent work, service areas, included deliverabl
 2. Find **Website Studio** and select **Enable** if it is off.
 3. Use **View Landing Page** to review the public page.
 4. If you want this experience on the root of your customer-facing domain, select **Make default**.
+
+## Landing page navigation
+
+The public Website Studio landing page includes a **Log in** link in the navigation bar so returning customers can reach their portal directly. This link is present on both desktop and the mobile menu.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Website Studio landing page navigation bar, showing the "Log in" link on desktop and the mobile menu._
+
+## How applicants get an account
+
+When a visitor submits the Website Studio application form, Knotie AI Pro **creates their customer account immediately** — before any payment is made. This means:
+
+- The applicant receives a **login email** as soon as their application is saved, so they can access their portal right away.
+- If the applicant already has an account with that email address, their application is linked to the existing account.
+- If a **package is selected**, the project is created with `awaiting_payment` status and linked to the account after payment is complete.
+- If the application is a **booking-only** enquiry (no package), the account is active and the applicant can log in without paying.
+
+<Note>
+No credits are granted at sign-up. Website Studio is not in the platform's welcome-credit program. Credits are only spent when motion videos are requested.
+</Note>
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the full applicant journey — landing page, completing the form, receiving the login email, and signing in to the portal._
 
 ## Give a customer access
 
@@ -38,3 +59,5 @@ Website Studio is under active development. Review the live experience before sh
 - [One-Click Experiences](/partner-portal/experiences/overview)
 - [Features and add-ons](/partner-portal/customers/features-addons-and-menu-visibility)
 - [Stripe Connect](/partner-portal/settings/stripe-connect)
+
+> Source: [knotie-ai-pro#2065](https://github.com/avijeett007/knotie-ai-pro/pull/2065) — _fix(website-studio): applicants become customers at sign-up; Log in link on the landing_
