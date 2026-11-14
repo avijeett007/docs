@@ -1,0 +1,152 @@
+---
+title: "Twilio Webhook Signature Verification"
+description: "Configure and roll out Twilio webhook signature verification to protect your platform from forged inbound-call, Knova refer, usage, and bundle-status requests."
+---
+
+## What this is
+
+Knotie AI Pro verifies the `X-Twilio-Signature` header on every inbound Twilio webhook. Without this check, a forged request could:
+
+- Mark a regulatory bundle as approved without Twilio's consent
+- Trigger agent call flows for any customer
+- Generate bogus usage credits charges
+- Expose internal SIP endpoints and tenant IDs in a TwiML response
+
+Signature verification is now enabled on four webhook paths:
+
+| Path | Location | Default mode |
+|------|----------|-------------|
+| `/api/webhooks/twilio/bundle-status` | App | **Enforced** (rejects unsigned on deploy) |
+| `/twilio/inbound-call` | Connect Hub | Log-first (verifies, logs mismatches, allows) |
+| `/twilio/knova/refer` | Connect Hub | Log-first |
+| `POST /webhook/twilio/usage/:partnerId/:customerId` | Connect Hub | **Enforced** (always rejects unsigned) |
+
+---
+
+## Rollout steps (self-hosted / managed)
+
+<Warning>
+Follow these steps before enabling enforce mode. Skipping them will cause legitimate inbound calls to fail.
+</Warning>
+
+### 1. Set the Hub's public URL
+
+The Hub needs to know its own public URL to rebuild the signed URL correctly:
+
+```bash
+# Connect Hub environment (.env or deployment config)
+CONNECT_HUB_URL=https://hub.your-domain.com
+```
+
+Twilio signs the _exact_ URL it POSTs to. If `CONNECT_HUB_URL` doesn't match, every signature check will fail.
+
+### 2. Confirm encryption key alignment
+
+The Hub resolves customer subaccount tokens using the same encryption key the app uses:
+
+```bash
+# Must be identical in both the App and the Connect Hub
+MAIN_APP_ENCRYPTION_KEY=<same value as app ENCRYPTION_KEY>
+```
+
+### 3. Deploy in log mode (default)
+
+The Hub's default is `TWILIO_SIGNATURE_MODE=log`. In this mode the platform:
+
+- Verifies every signature
+- Logs `twilio_signature.verification_failed` when verification fails
+- **Still allows the request through**
+
+Deploy normally — no env-var change needed to reach log mode.
+
+> 📷 **Screenshot needed:** _Add a screenshot of a `twilio_signature.verification_failed` event in SigNoz, showing the `reason` field (`signature_mismatch` or `no_token_known`)._
+
+### 4. Watch SigNoz for failures
+
+After deploying, make a test inbound call to a platform number and to a customer sub-account number. Both should connect without any `twilio_signature.verification_failed` events in SigNoz.
+
+If you do see failures, check the `reason` field:
+
+| `reason` | Fix |
+|----------|-----|
+| `signature_mismatch` | A URL mismatch. Confirm `CONNECT_HUB_URL` matches the public URL Twilio is POSTing to exactly (including scheme and port if non-standard). |
+| `no_token_known` | The signing token for a Twilio AccountSid isn't stored in the platform. Confirm the customer's sub-account is fully provisioned or add the platform auth token. |
+
+### 5. Enable enforce mode
+
+Once log mode runs cleanly for a few days with no unexpected failures, switch to full enforcement:
+
+```bash
+# Connect Hub — add-only, do not remove to roll back (set to "log" instead)
+TWILIO_SIGNATURE_MODE=enforce
+```
+
+Restart the Hub. From this point, any unsigned or incorrectly signed request to `/twilio/inbound-call` or `/twilio/knova/refer` returns HTTP 403 and is not processed.
+
+**To roll back**, set `TWILIO_SIGNATURE_MODE=log` and restart.
+
+> 🎬 **Video walkthrough:** _Record a short clip showing: checking SigNoz for signature events, confirming a successful inbound call, then switching from log to enforce mode._
+
+---
+
+## App — bundle-status webhook
+
+The `/api/webhooks/twilio/bundle-status` endpoint is enforced on deploy. No extra config is needed in most cases. If legitimate Twilio callbacks start returning 403, you can temporarily disable enforcement:
+
+```bash
+# App .env — disable only while diagnosing
+TWILIO_WEBHOOK_SIGNATURE_ENFORCED=false
+```
+
+If you host the app behind a reverse proxy that rewrites the host, set the exact URL Twilio uses when calling back:
+
+```bash
+# App .env — override the callback URL the app was registered with
+TWILIO_BUNDLE_WEBHOOK_URL=https://your-domain.com/api/webhooks/twilio/bundle-status
+```
+
+---
+
+## Token resolution order
+
+When the Hub receives a Twilio request it identifies the correct signing token by AccountSid in this order:
+
+1. Platform Twilio account (`TWILIO_AUTH_TOKEN` / `TWILIO_ACCOUNT_SID`)
+2. Customer `twilioSubaccountAuth` (encrypted, stored on the Customer record)
+3. `PhoneServiceActivation` credentials
+4. `PhoneNumberProvider.credentials` (BYO Twilio)
+5. `Partner.telephonyCredentials`
+
+If no token is found for the AccountSid, the request is rejected with `no_token_known` even in log mode.
+
+---
+
+## Billing webhook (usage credits)
+
+The usage webhook at `POST /webhook/twilio/usage/:partnerId/:customerId` **always enforces** signature verification because a forged request could drain a partner's telephony credit balance. There is an incident-only switch to override this:
+
+```bash
+# Connect Hub — incident use only
+TWILIO_BILLING_SIGNATURE_MODE=log
+```
+
+<Warning>
+Only set `TWILIO_BILLING_SIGNATURE_MODE=log` during an active incident where you need to unblock legitimate traffic while diagnosing a signing issue. Remove it immediately afterwards.
+</Warning>
+
+---
+
+## Environment variable reference
+
+| Variable | Location | Default | Description |
+|----------|----------|---------|-------------|
+| `CONNECT_HUB_URL` | Hub | _(none)_ | Public URL of the Connect Hub. Required for correct URL reconstruction. |
+| `TWILIO_SIGNATURE_MODE` | Hub | `log` | `log` = verify and warn; `enforce` = reject unsigned requests on inbound-call and knova-refer. |
+| `TWILIO_BILLING_SIGNATURE_MODE` | Hub | `enforce` | Incident-only override. Set to `log` only while diagnosing billing webhook failures. |
+| `TWILIO_WEBHOOK_SIGNATURE_ENFORCED` | App | `true` | Set to `false` to log-but-allow unsigned bundle-status callbacks. |
+| `TWILIO_BUNDLE_WEBHOOK_URL` | App | _(derived from `NEXT_PUBLIC_APP_URL`)_ | Override the callback URL registered with Twilio for bundle-status. |
+| `MAIN_APP_ENCRYPTION_KEY` | Hub | _(none)_ | Must match the app's `ENCRYPTION_KEY`. Used to decrypt stored sub-account tokens. |
+
+---
+
+> Source: [knotie-ai-pro#1865](https://github.com/avijeett007/knotie-ai-pro/pull/1865) — _security(telephony): verify X-Twilio-Signature on four Twilio webhooks, log-first on the Hub_
