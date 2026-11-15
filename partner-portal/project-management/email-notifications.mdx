@@ -1,0 +1,154 @@
+---
+title: "Project Emails & Hours Statements"
+description: "Send branded project update emails to clients and let them download a full CSV statement of their hours activity."
+---
+
+<Note>
+  Email notifications use your partner's verified email domain. Set up your domain in
+  [Email Settings](/partner-portal/settings/email-settings) first. Notifications are
+  **off by default** — nothing is sent until you opt in per customer.
+</Note>
+
+## Overview
+
+Knotie can send your clients **partner-branded project emails** — from your name, through
+your domain — and let both you and the client download a **CSV statement** of all hours
+activity.
+
+**Email types available:**
+
+| Email | When it's sent |
+|---|---|
+| **Approval needed** | Batched per customer when new approval requests are waiting |
+| **Low hours alert** | Once when the client's balance drops below your threshold |
+| **Project summary** | Weekly (Mondays) or monthly (1st of month), or on demand |
+
+> 📷 **Screenshot needed:** _Add a screenshot of the customer's "Projects & Hours" tab
+> showing the notification settings panel with the low-hours threshold and summary
+> frequency fields._
+
+> 🎬 **Video walkthrough:** _Record a short clip of configuring the low-hours alert and
+> summary frequency, sending a test summary, and downloading a CSV statement._
+
+---
+
+## Configuring email notifications
+
+<Steps>
+  <Step title="Open customer notification settings">
+    Customer → Manage → **Projects & Hours** → Notification settings.
+  </Step>
+  <Step title="Set the low-hours threshold">
+    Enter the number of minutes (e.g. `120` for 2 hours) at which to send a low-hours
+    alert. Leave blank to disable.
+  </Step>
+  <Step title="Choose a summary frequency">
+    Select **Weekly** (Mondays at 07:00 UTC), **Monthly** (1st of month at 07:00 UTC), or
+    **Off** (default). The first summary fires at the next scheduled time.
+  </Step>
+  <Step title="Send a summary now (optional)">
+    Click **Send summary now** to send an immediate summary to the client outside the
+    schedule. This is rate-limited to one send per 10 minutes per customer.
+  </Step>
+</Steps>
+
+---
+
+## Approval-needed emails
+
+When one or more tasks are waiting for client approval, Knotie batches them into a single
+email and sends it every 10 minutes (if new approvals have come in since the last send).
+No configuration is needed — this email fires automatically once project management is
+enabled.
+
+The email includes:
+- A list of tasks awaiting approval with their hour estimates.
+- A direct link to the client's portal approvals panel.
+- Your partner brand name and logo.
+
+---
+
+## Low-hours alerts
+
+A low-hours alert is sent **once** when the balance drops below the threshold you set. It
+re-arms automatically when the balance recovers (e.g. after a purchase or grant), so the
+client can receive another alert the next time hours run low.
+
+<Note>
+  The alert is sent to the customer's main account holder only. Team members do not
+  receive it.
+</Note>
+
+---
+
+## Project summaries
+
+A project summary email gives the client a snapshot of their projects and hours for the
+period: tasks completed, hours charged, and current balance.
+
+Summaries are sent on a **per-partner** basis — only the partner that manages a customer's
+hours account sends summaries. If a customer has no hours account, no summary is sent.
+
+If a scheduled run is missed (e.g. the cron was restarted), the next run catches up and
+sends the summary for the missed period.
+
+---
+
+## Hours statement (CSV)
+
+Both partners and clients can download a **CSV statement** of all hours transactions.
+
+**How to download:**
+- **Partner**: Customer → Manage → Projects & Hours → **Download statement**.
+- **Client portal**: Hours tab → **Download statement**. Quick presets (last 30 days, last
+  90 days, custom range) are available.
+
+**CSV columns:**
+
+| Column | Description |
+|---|---|
+| Date (UTC) | Transaction date and time |
+| Type | grant / approval / charge / refund / expiry / purchase |
+| Hours | Amount (positive = added, negative = deducted) |
+| Balance after | Running balance after this row |
+| Project | Project name (if applicable) |
+| Task | Task title (if applicable) |
+| Note | Description or reference |
+
+The default range is 90 days. The maximum range is 366 days.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the portal Hours tab with the "Download
+> statement" button and preset selector visible._
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Emails are not arriving">
+    Check that your email domain is verified in Settings → Email Settings. The partner's
+    SES domain is tried first; if it fails, the partner's SMTP config is tried; then the
+    platform default. If none are configured, emails cannot be sent.
+  </Accordion>
+  <Accordion title="Client is not receiving the approval-needed email">
+    Verify that the customer has at least one pending approval and that the cron
+    (`*/10 * * * *` for `pm-notifications`) is running. Check that the customer's main
+    account holder has a valid email address.
+  </Accordion>
+  <Accordion title="Low-hours alert fired but the client is not getting it again">
+    The alert re-arms only when the balance recovers above the threshold. Check the
+    customer's current balance — if it has not recovered, no second alert is sent.
+  </Accordion>
+  <Accordion title="CSV is missing recent transactions">
+    The statement is generated on demand from the ledger. If a very recent transaction
+    (seconds ago) does not appear, wait a moment and re-download.
+  </Accordion>
+  <Accordion title="Summary says 'Send now' is unavailable">
+    "Send summary now" is rate-limited to one send per 10 minutes per customer. Wait a few
+    minutes and try again.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+> Source: [knotie-ai-pro#2127](https://github.com/avijeett007/knotie-ai-pro/pull/2127) — _feat(pm): KNOTI-1229 Phase 4 — branded PM emails + hours statement CSV_
