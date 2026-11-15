@@ -1,0 +1,50 @@
+---
+title: "Project Management — recent improvements"
+description: "Post-launch fixes for the Project & Hours Management feature: rejection-hold behaviour, mobile layout, and light/dark theme readability."
+---
+
+<Note>
+  This page documents fixes applied in [knotie-ai-pro#2129](https://github.com/avijeett007/knotie-ai-pro/pull/2129)
+  shortly after the initial Project & Hours Management launch. The main feature is
+  described in [Project & Hours Management overview](/partner-portal/project-management/overview).
+</Note>
+
+## What changed
+
+### Rejection holds
+
+Previously, when a client rejected an hours approval, the hold on those hours was
+released immediately. This caused an edge case where a partner could change the estimate
+and re-propose, but the previously held hours were already freed.
+
+**After this fix:** rejection correctly holds the hours in a pending state until the
+partner explicitly cancels or proposes a revised estimate, so the balance accurately
+reflects in-flight negotiations.
+
+### Mobile layout
+
+The project list page and task drawer were difficult to use on small screens.
+
+**After this fix:** both the partner's project list and the portal task list use a
+responsive layout that stacks correctly on mobile. The task drawer opens as a bottom
+sheet on small screens rather than as a side panel.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the portal task list on a mobile screen
+> (375 px) showing the stacked layout and the bottom-sheet task drawer._
+
+### Light and dark theme readability
+
+Several text colours in the project pages were taken from the wrong theme token, making
+labels and status chips unreadable in dark mode (or in light mode if the wrong token was
+used).
+
+**After this fix:** all project management components use the correct semantic theme
+tokens (`text-foreground`, `text-muted-foreground`, `bg-card`, etc.), so the UI reads
+correctly in both light and dark mode.
+
+> 📷 **Screenshot needed:** _Add a side-by-side screenshot of the Task Table in light
+> mode and dark mode showing legible status chips and labels in both themes._
+
+---
+
+> Source: [knotie-ai-pro#2129](https://github.com/avijeett007/knotie-ai-pro/pull/2129) — _fix(pm): post-merge fixes for Project & Hours Management — rejection holds, mobile + light/dark readability (KNOTI-1230)_
