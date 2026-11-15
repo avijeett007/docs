@@ -1,0 +1,153 @@
+---
+title: "Hours Packages & Purchasing"
+description: "Create hours packages that clients can buy through Stripe, set monthly hour grants, and configure rollover and expiry."
+---
+
+<Note>
+  Hours packages require Project & Hours Management to be enabled and a Stripe Connect
+  account to be connected to your partner account. See
+  [Stripe Connect](/partner-portal/settings/stripe-connect) for setup.
+</Note>
+
+## Overview
+
+You can create **hours packages** that your clients purchase directly in their portal.
+Payment is processed through your Stripe Connect account — the funds go to you, and Knotie
+adds the purchased hours to the client's balance automatically.
+
+You can also set up **monthly hour grants** so clients receive a fixed allowance each
+billing cycle, with optional rollover of unused hours.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the partner's Hours Packages list showing
+> package names, prices, and hour amounts._
+
+> 🎬 **Video walkthrough:** _Record a short clip showing: creating a package, the client
+> seeing it in the portal, completing the Stripe checkout, and the balance updating._
+
+---
+
+## Creating an hours package
+
+<Steps>
+  <Step title="Open customer settings">
+    In the partner sidebar, click **Customers**, select a customer, click **Manage**, and
+    open the **Projects & Hours** tab.
+  </Step>
+  <Step title="Add a package">
+    Under **Hours packages**, click **Add package**. Fill in:
+    - **Name** — shown to the client in the portal.
+    - **Hours** — number of hours included.
+    - **Price** — in your account currency. A Stripe product and price are created on your
+      connected account automatically.
+  </Step>
+  <Step title="Choose which customers can see it">
+    By default the package is visible to all customers with project management enabled.
+    You can restrict visibility to specific customers in the package settings.
+  </Step>
+</Steps>
+
+<Warning>
+  Once a client has purchased a package you cannot delete it — you can only make it
+  invisible to new customers. This protects purchase history.
+</Warning>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the "Add package" dialog with name,
+> hours, and price fields._
+
+---
+
+## Client purchase flow
+
+Clients with project management enabled see a **Buy hours** button in their portal's Hours
+tab.
+
+<Steps>
+  <Step title="Client selects a package">
+    The portal shows available packages with name, hours, and price.
+  </Step>
+  <Step title="Stripe Checkout">
+    Clicking a package launches a Stripe Checkout session on your connected account. The
+    client pays with any card Stripe supports.
+  </Step>
+  <Step title="Hours added automatically">
+    After a successful payment, Knotie adds the hours to the client's balance immediately
+    on the success page. If the page is closed before it loads, a daily reconciliation
+    job ensures the hours are always added for completed payments.
+  </Step>
+</Steps>
+
+<Note>
+  Impersonation and embedded portal sessions cannot purchase hours. Only the customer's
+  main account holder can complete a checkout.
+</Note>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the client-side portal Hours tab showing
+> the "Buy hours" button and package cards._
+
+---
+
+## Monthly hour grants
+
+You can automatically add hours to a customer's balance on a fixed monthly schedule.
+
+<Steps>
+  <Step title="Open the customer's Hours settings">
+    Customer → Manage → **Projects & Hours** → Hours settings.
+  </Step>
+  <Step title="Set the monthly amount">
+    Enter the number of hours to grant each month (e.g. `10` for 10 hours/month).
+  </Step>
+  <Step title="Choose the start date">
+    Pick the day of the month for the first grant (1–28). Subsequent grants fire on the
+    same day each month.
+  </Step>
+  <Step title="Configure rollover">
+    - **Rollover on** — unused granted hours carry forward indefinitely.
+    - **Rollover off** (default) — hours granted this month expire at the next grant date
+      if unused.
+  </Step>
+</Steps>
+
+---
+
+## Hours expiry
+
+Granted hours can expire if rollover is off, or if you set an explicit expiry when
+granting hours manually.
+
+**Expiry rules:**
+
+- Reserved (held) hours are backed by expiring lots first — a purchase can never cause
+  reserved hours to expire.
+- Expired hours appear in the transaction history with type **Expired**.
+- Purchased hours do not expire unless the partner explicitly sets an expiry.
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Client does not see the Buy hours button">
+    Check that: (1) project management is enabled for this customer, (2) at least one
+    hours package is set to visible for this customer, and (3) the client is signed in as
+    the main account holder (not via embed or as a team member).
+  </Accordion>
+  <Accordion title="Payment succeeded but hours were not added">
+    The daily reconciliation job (runs at 05:30 UTC) will add missing hours for all
+    confirmed payments. If it's urgent, contact your platform administrator — they can run
+    the `grant-hours-purchase.ts` admin script for the specific purchase.
+  </Accordion>
+  <Accordion title="Cannot delete a package">
+    Packages that have been purchased cannot be deleted. Hide them from new customers
+    instead by unchecking their visibility in the package settings.
+  </Accordion>
+  <Accordion title="Monthly grant did not fire">
+    The grant cron runs at 05:00 UTC. If the first grant date has not arrived yet, nothing
+    is sent. Check the **Transaction history** in the customer's Hours tab — a successful
+    grant appears as type **Grant**.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+> Source: [knotie-ai-pro#2126](https://github.com/avijeett007/knotie-ai-pro/pull/2126) — _feat(project-hours): hours packages, Stripe purchase, monthly grants — Phase 3 (KNOTI-1229)_
