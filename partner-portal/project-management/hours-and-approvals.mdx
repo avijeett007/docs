@@ -1,0 +1,148 @@
+---
+title: "Hours Ledger & Client Approvals"
+description: "Track billable hours per project, get client sign-off on estimates, and charge automatically when tasks complete in Plane."
+---
+
+<Note>
+  Hours & Approvals require Project & Hours Management to be enabled on your Knotie instance
+  and for the specific customer. See the [Project & Hours Management overview](/partner-portal/project-management/overview).
+</Note>
+
+## Overview
+
+Every customer with project management enabled gets an **hours balance** — a running
+ledger of approved, reserved, and available hours. Clients see their balance and pending
+approvals in their portal; you see the same view from the partner side.
+
+**How the lifecycle works:**
+
+1. You **allocate hours** to a project (optional, for large scopes).
+2. You or Plane set an **estimate** on a task.
+3. Knotie sends the client an **approval request** for those hours.
+4. The client **approves, rejects, or makes a counter-offer**.
+5. When a task is marked **Done in Plane**, the approved hours are automatically
+   **charged** from the balance.
+6. If a task is **reopened**, the charge is refunded and re-held for re-approval.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Task Drawer with the approval status
+> chip and "Approve / Reject / Counter" buttons visible from the partner side._
+
+> 🎬 **Video walkthrough:** _Record a short clip of the full approval cycle: partner
+> proposes hours → client approves in portal → task goes Done in Plane → balance updates._
+
+---
+
+## Hours balance
+
+The **hours balance** is per customer. It starts at zero and increases when you:
+- **Grant hours** manually (admin action on the customer's hours settings).
+- A client **purchases an hours package** (see [Hours Packages](/partner-portal/project-management/hours-packages)).
+- A **monthly grant** fires on schedule (if configured).
+
+The balance decreases as hours are approved and tasks complete.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the portal's Hours tab showing the
+> balance summary, available/reserved/spent counters, and transaction history._
+
+---
+
+## Project allotments
+
+For large projects you can **allot a block of hours** up front. The allotment draws from
+the customer's balance and reserves those hours for the project.
+
+<Steps>
+  <Step title="Open the project">
+    In the partner sidebar, click **Projects** and select the project.
+  </Step>
+  <Step title="Set an allotment">
+    Click **Allot hours** on the project page and enter the number of hours.
+  </Step>
+  <Step title="Client approves the allotment">
+    The client receives an approval request. Until they approve, task-level approvals
+    cannot exceed the allotment.
+  </Step>
+</Steps>
+
+---
+
+## Task hour approvals
+
+When a task has an hour estimate (from a Plane `Nh` label), Knotie creates an approval
+request automatically.
+
+**Approval states:**
+
+| State | Meaning |
+|---|---|
+| **Pending** | Waiting for the client |
+| **Approved** | Client accepted; hours are reserved |
+| **Rejected** | Client declined; you can revise and re-propose |
+| **Counter** | Client proposed a different number; you can accept or decline |
+| **Charged** | Task done in Plane; hours deducted from balance |
+
+### Changing hours on an approved task
+
+If the scope of a task grows, you can propose a new estimate:
+1. Open the task drawer.
+2. Click **Change hours** and enter the revised amount.
+3. The client receives a new approval request for the difference.
+
+### Closing a project
+
+You can close a project once all client decisions are resolved (no pending charges). Click
+**Close project** on the project page. Remaining allotment hours are released back to the
+balance.
+
+---
+
+## Two-way comments
+
+Comments marked `#client` in Plane appear in the client's portal task drawer. The client
+can reply from the portal; their reply is posted back to Plane as `[Client] <text>`.
+
+<Note>
+  Impersonation and embedded portal sessions can read comments but cannot post replies.
+  Only the customer's main account holder can comment.
+</Note>
+
+---
+
+## Hours history
+
+Both you and the client can view a full transaction history:
+
+- Partner: open the customer's **Projects & Hours** tab → **Hours history**.
+- Client: portal → **Hours** tab → **Transaction history**.
+
+Each row shows the date, type (grant / approval / charge / refund / expiry), amount,
+running balance, and the linked project and task where applicable.
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="A task was done in Plane but the balance did not change">
+    The charge runs during the next sync. Click **Refresh** on the project page to force
+    an immediate sync. If the balance still doesn't update, check that the task has an
+    approved hours estimate — unapproved tasks are charged but flagged for client review.
+  </Accordion>
+  <Accordion title="Client cannot approve — the button is disabled">
+    Only the customer's main account holder can approve hours. Team members and sessions
+    entered via embed URL cannot approve.
+  </Accordion>
+  <Accordion title="Approval request is not arriving for a task">
+    Check that the task has an `Nh` label in Plane. If the label format is not recognised
+    (e.g. `2 hours` instead of `2h`), no estimate is read and no approval is created.
+  </Accordion>
+  <Accordion title="Cannot close the project — getting an error">
+    The project can only be closed when there are no unresolved client decisions. Open the
+    task list and check for tasks with **Pending** or **Counter** approval status and
+    resolve them first.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+> Source: [knotie-ai-pro#2125](https://github.com/avijeett007/knotie-ai-pro/pull/2125) — _feat(project-hours): hours ledger, client approvals, two-way comments — Phase 2 (KNOTI-1229)_
