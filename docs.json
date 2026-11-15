@@ -30,6 +30,7 @@
             "pages": [
               "account/signup",
               "account/passwordless-login",
+              "account/password-reset",
               "account/google-login",
               "account/passkeys",
               "account/mfa",
@@ -93,6 +94,15 @@
               "partner-portal/customers/customer-portal-management",
               "partner-portal/customers/vps-terminal",
               "partner-portal/customers/daily-management"
+            ]
+          },
+          {
+            "group": "Project Management",
+            "pages": [
+              "partner-portal/project-management/overview",
+              "partner-portal/project-management/hours-and-approvals",
+              "partner-portal/project-management/hours-packages",
+              "partner-portal/project-management/email-notifications"
             ]
           },
           {

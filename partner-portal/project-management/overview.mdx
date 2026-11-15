@@ -1,0 +1,172 @@
+---
+title: "Project & Hours Management"
+description: "Manage client projects, tasks, and hours directly from Knotie AI Pro — backed by your Plane workspace."
+---
+
+<Note>
+  **Project & Hours Management is a feature-flagged capability.** It must be enabled on
+  your Knotie instance (`PROJECT_MANAGEMENT_ENABLED`) before it appears in the portal or
+  your partner sidebar. Contact your platform administrator to enable it.
+</Note>
+
+## Overview
+
+Project & Hours Management lets agencies manage client deliverables and billable hours
+without leaving Knotie AI Pro. Your existing Plane workspace is the source of truth — Knotie
+keeps a synchronised copy that powers both your partner view and your clients' white-label
+portal.
+
+**What you can do:**
+
+- **Create or link Plane projects** to customers in one step.
+- **See every task, estimate, and status** without opening Plane.
+- **Show clients their project progress** in the portal, with only client-visible comments
+  displayed.
+- **Track and approve hours** per project and task (see [Hours & Approvals](/partner-portal/project-management/hours-and-approvals)).
+- **Let clients buy hours** via Stripe (see [Hours Packages](/partner-portal/project-management/hours-packages)).
+- **Send branded project emails** and downloadable CSV statements (see [Email Notifications & Reports](/partner-portal/project-management/email-notifications)).
+
+> 📷 **Screenshot needed:** _Add a screenshot of the partner Projects list page showing
+> projects linked to customers, with the task table and status column visible._
+
+> 🎬 **Video walkthrough:** _Record a short clip of the end-to-end flow: enabling project
+> management on a customer, linking a Plane project, and showing what the client sees in
+> their portal._
+
+---
+
+## Prerequisites
+
+Before you can use Project & Hours Management:
+
+1. **Feature flag enabled** — your platform administrator must have set both
+   `PROJECT_MANAGEMENT_ENABLED=true` (server) and
+   `NEXT_PUBLIC_PROJECT_MANAGEMENT_ENABLED=true` (build-time) in Coolify.
+2. **Plane connection configured** — the admin must have run
+   `scripts/project-management/set-connection.ts` with a valid Plane API key for your
+   workspace (or a default connection exists). You will see a "connected ✓" indicator on the
+   Projects page once this is in place.
+3. **Customer has project management enabled** — each customer must have the toggle turned
+   on individually (see [Enabling for a customer](#enabling-for-a-customer)).
+
+---
+
+## Enabling for a customer
+
+<Steps>
+  <Step title="Open the customer">
+    In the Partner Portal sidebar, click **Customers** and select the customer.
+  </Step>
+  <Step title="Open Customer Management">
+    Click **Manage** to open the customer management modal.
+  </Step>
+  <Step title="Enable project management">
+    On the **Projects & Hours** tab, toggle **Enable project management** on.
+  </Step>
+</Steps>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Customer Management modal with the
+> "Projects & Hours" tab selected and the project management toggle highlighted._
+
+Once enabled, **Projects** appears in your partner sidebar under this customer's section,
+and the portal shows a **Projects** menu item for the client.
+
+---
+
+## Creating a project
+
+<Steps>
+  <Step title="Open Projects">
+    Click **Projects** in the partner sidebar.
+  </Step>
+  <Step title="Create new">
+    Click **New Project**. Enter a name and choose the customer it belongs to.
+  </Step>
+  <Step title="Project is created in Plane">
+    Knotie creates the project in your connected Plane workspace and links it to the
+    customer. Labels `0.5h`–`40h` are created automatically for time estimates.
+  </Step>
+</Steps>
+
+Alternatively, if the project already exists in Plane, click **Link Existing** and select
+it from the list.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the "New Project" or "Link Existing"
+> dialog._
+
+---
+
+## Working with tasks
+
+The **Task Table** on the project page shows every task from Plane:
+
+| Column | What it shows |
+|---|---|
+| **Title** | Task title from Plane |
+| **Status** | Current Plane state (Todo / In Progress / Done / …) |
+| **Hours** | Estimated hours (from the `Nh` label in Plane) |
+| **Approval** | Hours approval status (see [Hours & Approvals](/partner-portal/project-management/hours-and-approvals)) |
+
+Click a row to open the **Task Drawer** with full details, client-visible comments, and
+(where hours are configured) an approval action.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Task Table with the Task Drawer open
+> on the right._
+
+### Keeping tasks in sync
+
+Knotie syncs with Plane automatically every few minutes. To trigger an immediate refresh,
+click **Refresh** on the project page. A full reconciliation runs weekly.
+
+---
+
+## Client portal view
+
+Clients see a **Projects** section in their white-label portal. For each project they can
+see:
+
+- Project status and task list.
+- Hours estimates for each task.
+- Comments marked `#client` in Plane (internal comments are never shown).
+- Their hours balance and pending approvals (if hours are configured).
+
+Client comments posted in the portal are sent back to Plane automatically, prefixed with
+`[Client] `.
+
+---
+
+## Hours & Approvals
+
+Hours tracking, client approval workflows, and the hours balance are covered in the next
+page:
+
+→ [Hours & Approvals](/partner-portal/project-management/hours-and-approvals)
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Projects does not appear in the sidebar">
+    Check that `NEXT_PUBLIC_PROJECT_MANAGEMENT_ENABLED` is set at build time (not just at
+    runtime). If you recently set it, you may need to trigger a redeployment.
+  </Accordion>
+  <Accordion title="Tasks are not updating">
+    Click **Refresh** on the project page. If tasks still don't appear, ask your administrator
+    to verify the Plane connection and check the connection status indicator.
+  </Accordion>
+  <Accordion title="No hour estimate on a task">
+    Hours are read from a Plane label in the format `Nh` or `N.5h` (e.g. `2h`, `1.5h`).
+    Add or update the label directly in Plane and the next sync will pick it up. If two
+    hour labels exist on the same task, it appears as an estimate conflict — resolve it in
+    Plane.
+  </Accordion>
+  <Accordion title="A client comment is not appearing in Plane">
+    The portal sends comments as the connection's service account. Check that the Plane API
+    key still has write access and that the project has not been archived.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+> Source: [knotie-ai-pro#2118](https://github.com/avijeett007/knotie-ai-pro/pull/2118) — _feat(project-hours): Plane-backed project management for agencies — Phase 1 (KNOTI-1229)_
