@@ -166,6 +166,7 @@
               "partner-portal/settings/subscription-plans",
               "partner-portal/settings/subscription-plan-features",
               "partner-portal/settings/customer-credit-plans",
+              "partner-portal/settings/customer-hours-packages",
               "partner-portal/settings/customer-tier-pricing",
               "partner-portal/settings/saas-portal-mode",
               "partner-portal/settings/mcp-custom-domain",
