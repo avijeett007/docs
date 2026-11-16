@@ -1,0 +1,60 @@
+---
+title: "Hours remaining in the portal sidebar"
+description: "Customers with Project Management enabled now see their hours balance and a Buy hours button directly in the portal sidebar."
+---
+
+## Overview
+
+Customers whose accounts have **Project Management** enabled now see an **Hours remaining** indicator and a **Buy hours** button directly in the portal sidebar. Previously, customers had to navigate to **Billing → Hours** to check their balance or purchase more time — a tab most users never opened.
+
+The sidebar widget shows the same live balance as the Hours page, so a purchase made anywhere updates both views instantly.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the portal sidebar showing the "Hours remaining" balance and "Buy hours" button (both the classic sidebar and the dashboard sidebar variants)._
+
+## Where it appears
+
+| Sidebar type | Location |
+|---|---|
+| **Dashboard sidebar** | Inside the credits card, below "Add Credits" |
+| **Classic sidebar** | Small card below the AI-credit widget |
+| **Collapsed rail (both)** | A clock icon whose tooltip shows the balance |
+
+The widget is only visible when **Project Management** is switched on for that customer's account. Customers without Project Management see no change.
+
+## Buying hours from the sidebar
+
+1. The customer opens the portal (the white-label URL their partner gave them).
+2. In the sidebar, they see **Hours remaining: X h Y min** (or the equivalent in their portal language).
+3. They click **Buy hours** to open the purchase window.
+4. They choose a package and complete checkout.
+5. The sidebar balance updates immediately after the purchase confirms.
+
+> 🎬 **Video walkthrough:** _Record a short clip showing a customer opening the portal, seeing the hours balance in the sidebar, clicking "Buy hours", completing a purchase, and watching the balance update._
+
+## When "Buy hours" is hidden
+
+The **Buy hours** button is not shown in every context:
+
+- **Impersonation sessions** — When a partner views the portal as a customer for support purposes, the button is hidden to prevent accidental purchases.
+- **Embedded portal** — When the portal is loaded inside an iframe or embedded integration (`canPurchase: false`), the button is hidden. The hours balance still shows.
+
+In both cases the hours balance is still visible; only the purchase action is restricted.
+
+## Prerequisites for customers to see this
+
+Partners need to have configured the following before customers see the sidebar widget:
+
+1. **Project Management enabled** for the customer — toggle it on under **Customers → [Customer] → Manage → Features & Add-ons**.
+2. **At least one active Customer Hours Package** created — see [Customer hours packages](/partner-portal/settings/customer-hours-packages).
+3. **Stripe Connect configured** — required so customers can complete purchases.
+
+If any of these is missing, the sidebar widget is hidden for that customer.
+
+## Related pages
+
+- [Customer hours packages](/partner-portal/settings/customer-hours-packages) — Create and manage the hours packages customers can buy
+- [Features and add-ons](/partner-portal/customers/features-addons-and-menu-visibility) — Enable Project Management per customer
+- [Credits and AI credit management](/partner-portal/customers/credits-and-ai-credit-management) — Managing AI credits (separate from hours)
+- [Billing a customer](/partner-portal/customers/billing-for-a-customer) — Manual invoicing and credit purchases
+
+> Source: [knotie-ai-pro#2142](https://github.com/avijeett007/knotie-ai-pro/pull/2142) — _feat(portal): hours remaining and Buy hours in the customer sidebar_
