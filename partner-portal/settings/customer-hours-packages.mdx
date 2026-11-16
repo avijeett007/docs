@@ -1,0 +1,75 @@
+---
+title: "Customer hours packages"
+description: "Create sellable hours packages that customers with Project Management enabled can purchase from their portal."
+---
+
+## What customer hours packages are for
+
+**Customer Hours Packages** let you define time-based bundles (e.g., "10 hours", "40 hours") that your customers can buy directly from their white-label portal. Hours are drawn down as customers use project-related services.
+
+This is separate from the AI Credit plans. Hours packages apply when **Project Management** is enabled for a customer.
+
+## Where to find it
+
+1. Open **Settings** in the Partner Portal sidebar.
+2. Click **White-Label Portal**.
+3. In the **Section Nav Rail** on the left, click **Customer Hours Packages**.
+
+## Prerequisites
+
+- Your account must be on a paid plan (Starter, Pro, or Enterprise).
+- **Stripe Connect** must be configured and charges enabled — customers pay for packages via Stripe.
+- **Project Management** must be enabled on the customer's account for them to see and use the packages.
+
+If Stripe is not set up, the section will show a prompt to complete Stripe Connect first.
+
+## Create a hours package
+
+1. Click **Create Package** (or **Create hours plan**, depending on your version).
+2. Fill in:
+   - **Name** — Visible to your customers (e.g., "Starter Hours", "Agency Bundle").
+   - **Hours** — The number of hours included in the package.
+   - **Price** — The amount the customer pays.
+   - **Description** — Optional; shown in the customer portal.
+3. Toggle **Active** to make the package purchasable immediately.
+4. Click **Create**.
+
+The package is now visible to eligible customers on their portal's **Billing → Hours** page and in the **Buy hours** flow.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Create Package modal inside Settings → White-Label Portal → Customer Hours Packages._
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through creating a hours package, activating it, and verifying it appears in the customer portal._
+
+## Manage existing packages
+
+### Edit a package
+
+1. Find the package in the list.
+2. Click the edit icon (pencil).
+3. Update the fields.
+4. Click **Save**.
+
+### Deactivate a package
+
+Toggle **Active** off on any package to hide it from customers without deleting it. Deactivated packages can be reactivated at any time.
+
+### Delete a package
+
+Click the delete icon (trash) next to a package. Customers who already purchased the package are unaffected; only the listing is removed.
+
+## Common issues
+
+| Symptom | Likely cause | Fix |
+|---|---|---|
+| "Create Package" reloads the page instead of saving | A known bug in earlier versions (fixed in releases after KNOTI-1239) | Update to the latest version |
+| Package not visible to customer | Project Management is off for the customer, or the package is deactivated | Enable Project Management on the customer's account and confirm the package is Active |
+| Stripe error on purchase | Stripe Connect is not fully set up | Complete Stripe onboarding in **Settings → Stripe Connect** |
+
+## Related pages
+
+- [Customer credit plans](/partner-portal/settings/customer-credit-plans) — AI-credit packages (separate from hours)
+- [Stripe Connect](/partner-portal/settings/stripe-connect)
+- [Features and add-ons](/partner-portal/customers/features-addons-and-menu-visibility) — Enable Project Management per customer
+
+> Source: [knotie-ai-pro#2134](https://github.com/avijeett007/knotie-ai-pro/pull/2134) — _fix(hours): Create package no longer submits the White-Label settings form_
+> Source: [knotie-ai-pro#2139](https://github.com/avijeett007/knotie-ai-pro/pull/2139) — _fix(hours): render hours modals in a portal so Create package works in browsers_
