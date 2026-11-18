@@ -1,0 +1,124 @@
+---
+title: "Website Studio — hosting on k3s"
+description: "Host Website Studio sites on Knotie's own k3s cluster instead of Vercel, with custom domain verification and built-in analytics."
+---
+
+## Overview
+
+Website Studio sites can now be hosted on **Knotie's own k3s cluster**, behind Cloudflare, as an alternative to Vercel. This is a platform-level option controlled by the `WEBSITE_DEPLOY_PROVIDER` orchestrator environment variable.
+
+<Info>
+**Nothing changes for existing sites** until the platform owner sets `WEBSITE_DEPLOY_PROVIDER=k3s`. All sites deployed before this release stay on Vercel. Each site migrates individually using the runbook below.
+</Info>
+
+> 📷 **Screenshot needed:** _Add a screenshot of a deployed Website Studio site on the k3s cluster, showing the preview URL and production URL in the Knotie admin dashboard._
+
+---
+
+## How it works
+
+Sites deployed to k3s are stored as **immutable, content-addressed bundles in R2** (Cloudflare Object Storage). Each deployment has:
+
+- An immutable manifest at `sites/<site>/deployments/<id>/manifest.json`
+- A `production.json` pointer that promote moves via compare-and-swap
+- Preview URLs: `https://<deploymentId>--<site>.sites.knotie.ai`
+- Production URL: `https://<site>.sites.knotie.ai` (or a custom domain)
+
+Page analytics work the same way as Vercel sites — the `va()` shim is included in every build. On k3s, analytics post to `/_knotie/insights/send` on the same origin, forwarded in-cluster to Umami.
+
+---
+
+## Configuration (self-hosted orchestrator)
+
+If you run your own orchestrator, set these variables to enable k3s hosting:
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `WEBSITE_DEPLOY_PROVIDER` | `vercel` | Set to `k3s` to route new site deploys to k3s |
+| `WEBSITE_K3S_S3_ENDPOINT` | — | R2 endpoint with read/write access to the websites bucket |
+| `WEBSITE_K3S_S3_ACCESS_KEY_ID` | — | Access key for the R2 bucket |
+| `WEBSITE_K3S_S3_SECRET_ACCESS_KEY` | — | Secret key for the R2 bucket |
+| `WEBSITE_K3S_S3_BUCKET` | `kno2-websites` | R2 bucket name |
+| `WEBSITE_SITES_BASE_DOMAIN` | `sites.knotie.ai` | Base domain for site URLs |
+| `WEBSITE_UMAMI_URL` | — | Umami analytics instance URL |
+| `WEBSITE_UMAMI_USERNAME` | — | Umami analytics username |
+| `WEBSITE_UMAMI_PASSWORD` | — | Umami analytics password |
+
+<Warning>
+If `WEBSITE_DEPLOY_PROVIDER=k3s` is set but the `WEBSITE_K3S_S3_*` variables are missing, the orchestrator will refuse to start.
+</Warning>
+
+---
+
+## Custom domains
+
+Custom domains for k3s-hosted sites require **DNS verification** before the site will be served on that domain. This prevents domain squatting.
+
+### Add a custom domain
+
+1. In the Knotie partner portal, open the customer's Website Studio settings.
+2. Enter your custom domain and click **Attach**.
+3. Add these DNS records to your domain:
+   - `CNAME <yourdomain.com> → fallback.sites.knotie.ai` (apex domains need CNAME flattening or ALIAS support)
+   - `TXT _knotie-verify.<yourdomain.com> = knotie-verify=<token shown in portal>`
+
+> 📷 **Screenshot needed:** _Add a screenshot of the custom domain attachment UI showing the two DNS records to add, the pending state, and the Verify button._
+
+### Verify ownership
+
+After adding DNS records, click **Verify** in the portal. The system looks up your TXT record. Once the token matches:
+
+- Your domain becomes `active` and starts serving the site.
+- If another site previously held the same domain, ownership transfers to your verified claim.
+
+<Note>
+Pending domain claims expire after **7 days**. If you do not verify within that window, start again — a new token will be issued.
+</Note>
+
+### Remove a custom domain
+
+Click **Detach** in the portal. Only the site that currently holds the domain can detach it.
+
+> 🎬 **Video walkthrough:** _Record a clip walking through attaching a custom domain: entering the domain, adding DNS records, clicking Verify, and confirming the site loads on the custom domain._
+
+---
+
+## Migrating a Vercel site to k3s
+
+Each site migrates individually — bulk migration is not automated. Use the migration script provided in the orchestrator:
+
+```bash
+# Dry run (reads from Vercel only, writes nothing)
+npx tsx orchestrator/scripts/migrate-vercel-site-to-k3s.ts \
+  --project <vercel-project-name> \
+  --deployment <dpl_...> \
+  --website-id <uuid> \
+  --dry-run
+
+# Actual migration
+npx tsx orchestrator/scripts/migrate-vercel-site-to-k3s.ts \
+  --project <vercel-project-name> \
+  --deployment <dpl_...> \
+  --website-id <uuid>
+
+# Then promote
+npx tsx orchestrator/scripts/migrate-vercel-site-to-k3s.ts \
+  --project <vercel-project-name> \
+  --deployment <dpl_...> \
+  --website-id <uuid> \
+  --promote
+```
+
+After promotion:
+1. Verify the site at `https://<site>.sites.knotie.ai`.
+2. If the customer has a custom domain on Vercel, attach and verify it on k3s, then update the CNAME.
+3. Keep the Vercel project for **7 days** as a rollback option.
+
+---
+
+## Related pages
+
+- [Website Studio](/partner-portal/experiences/website-studio)
+- [One-Click Experiences](/partner-portal/experiences/overview)
+
+> Source: [knotie-ai-pro#2131](https://github.com/avijeett007/knotie-ai-pro/pull/2131) — _feat(website-studio): host sites on our k3s cluster instead of Vercel (KNOTI-1238)_
