@@ -137,7 +137,8 @@
               "partner-portal/phone-numbers/phone-activation",
               "partner-portal/number-pools/overview",
               "partner-portal/billing-and-invoices",
-              "partner-portal/metered-billing"
+              "partner-portal/metered-billing",
+              "partner-portal/billing/stripe-connect-webhook-security"
             ]
           },
           {
