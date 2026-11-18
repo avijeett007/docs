@@ -1,0 +1,83 @@
+---
+title: "Stripe Connect webhook security"
+description: "How Knotie validates Stripe Connect events and what changed for partners using Standard Stripe accounts."
+---
+
+## Overview
+
+When a partner connects a **Standard Stripe account**, Knotie's webhooks now verify that every incoming event genuinely belongs to that partner's account and was sent for a purpose Knotie recognises.
+
+This protects the platform from a class of exploit where a connected account could craft events that grant platform credits.
+
+<Info>
+This change applies only to **Stripe Connect events** — events that carry a `Stripe-Account` header. Events from the Knotie platform account (auto-recharge, subscriptions, platform plans) behave exactly as before.
+</Info>
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Stripe Connect section in Partner Portal Settings, showing a connected Standard account._
+
+---
+
+## What changed
+
+### Duplicate subscription credit grants removed
+
+Previously, when a subscription was created, the platform could grant credits **twice** — once for the `customer.subscription.created` event and again for the first paid invoice in the same period.
+
+Starting with this release, credit grants are **idempotent per subscription and billing period**. A partner who was previously receiving double grants will receive only one grant going forward.
+
+<Note>
+If your credit balance appears lower than expected after this change, this is the expected behaviour. Total billing amounts are unaffected; only double-counted grants are removed.
+</Note>
+
+### Connect events are validated against your account
+
+Stripe events from a connected account are now matched to your registered Stripe account before any action is taken. Events from accounts Knotie does not recognise are silently ignored (the platform returns HTTP 200 to Stripe so Stripe does not retry).
+
+Flows that credit the Knotie platform pool — such as auto-recharge, credit purchases, and partner subscription plans — must arrive from the **platform account**, never from a partner's connected account.
+
+### Custom invoice metadata keys restricted (connected accounts only)
+
+If you submit invoices through the partner invoicing API (`/partner/invoices`) with **custom metadata keys that end in `Id` or `_id`**, those keys will be ignored when the invoice is paid on a connected account.
+
+The built-in Knotie metadata fields (`partnerId`, `customerId`, `planId`, and so on) continue to work correctly.
+
+<Warning>
+If your integration adds custom metadata keys ending in `Id` or `_id` to partner invoices (for example, `externalOrderId`), those values will not be processed for connected-account events. Contact Knotie support if you need an allow-list for specific keys.
+</Warning>
+
+---
+
+## Affected webhook routes
+
+| Route | Change |
+|---|---|
+| `POST /api/stripe/webhook` | Rejects all Connect events (platform-only) |
+| `POST /api/partner/credits/webhook` | Rejects all Connect events (platform-only) |
+| `POST /api/webhooks/stripe/metered-billing` | Validates account ownership and purpose |
+| `POST /api/webhooks/stripe/customer-credits` | Validates account ownership and purpose |
+| `POST /api/webhooks/stripe` | Validates account ownership and purpose |
+| `POST /api/whitelabel/billing/webhooks/stripe` | Validates account ownership and purpose |
+| `POST /api/whitelabel/billing/webhooks/subscriptions` | Rejects all Connect events |
+
+---
+
+## Action required
+
+**Most partners do not need to do anything.** The change is transparent for Express-account partners and for all platform-initiated flows.
+
+If you use a **Standard** Stripe account, review the following:
+
+1. Confirm your account is registered in **Settings → Integrations → Stripe Connect** so Knotie can match your events.
+2. Audit any custom invoice metadata for keys ending in `Id` or `_id`. If you rely on those for downstream processing, contact support.
+
+> 🎬 **Video walkthrough:** _Record a clip showing how to verify your Stripe Connect account in Partner Portal Settings and confirm event delivery in the Stripe Dashboard event log._
+
+---
+
+## Related pages
+
+- [Metered billing](/partner-portal/metered-billing)
+- [Billing and invoices](/partner-portal/billing-and-invoices)
+- [Stripe Connect](/partner-portal/settings/stripe-connect)
+
+> Source: [knotie-ai-pro#2140](https://github.com/avijeett007/knotie-ai-pro/pull/2140) — _security(stripe): Connect webhooks verify the sending account and purpose (KNOTI-1241)_
