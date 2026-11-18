@@ -1,0 +1,178 @@
+---
+title: "Sonti Commerce"
+description: "Launch a branded e-commerce storefront for your clients — physical products, services, and digital downloads — powered by Vendure and managed by AI."
+---
+
+## Overview
+
+**Sonti Commerce** is a multi-tenant e-commerce platform built into Knotie. Each client gets their own branded storefront and dashboard on a shared Vendure 3 install. One image, one database, one cluster — but every client sees only their own catalogue, orders, and customers.
+
+The commerce engine runs at `https://commerce.knotie.ai`. Demo stores:
+- `https://hearthandbloom-demo.knotie.ai`
+- `https://kettleandco-demo.knotie.ai`
+
+> 📷 **Screenshot needed:** _Add a screenshot of a demo storefront showing the branded header, product listing, and Stripe checkout flow._
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Vendure admin dashboard ("Sonti Commerce" branding) showing the product and order views for one shop._
+
+---
+
+## What it supports
+
+| Product type | Supported |
+|---|---|
+| Physical products | ✅ Inventory tracked, shipping configured |
+| Services | ✅ Duration, location, schedule, booking URL |
+| Digital downloads | ✅ Signed, expiring, count-limited download links; revoked on refund |
+| Multi-language | ✅ English, French, German |
+| Stripe payments | ✅ Stripe Payment Element, webhooks, automatic fulfilment |
+
+---
+
+## Onboarding a new client
+
+Each new client is one **Vendure Channel**. The onboarding script creates everything the client needs in one command.
+
+<Note>
+The `sonti-commerce-onboard` Claude skill covers the full onboarding flow. Run it inside a Claude Code session to walk through each step interactively.
+</Note>
+
+> 🎬 **Video walkthrough:** _Record a clip showing the full onboarding flow: running the seed script, logging in as the new shop owner, adding a product, and completing a test checkout._
+
+### What onboarding creates
+
+1. A **Channel** for the client, with:
+   - Unique order code prefix (for example `HB-` for Hearth & Bloom)
+   - `brandConfig` JSON (logo URL, palette, shop name) — read at runtime by the storefront
+   - Links to the Knotie partner and customer records (`knotiePartnerId`, `knotieCustomerId`)
+2. A **stock location** for the channel.
+3. A **Shop manager role** scoped to this channel only. It cannot see other channels, payment methods, or admin accounts.
+4. An **owner login** — the shop owner uses this to manage products and orders.
+5. **Payment method** (Stripe, with the client's encrypted keys), **shipping method**, and **tax category**.
+
+### Manual steps (owner, once)
+
+After onboarding:
+
+1. **Log in** to the Vendure dashboard at `https://commerce.knotie.ai/dashboard` with the owner credentials.
+2. **Add products**: go to Catalog → Products → New Product.
+3. **Configure Stripe**: if the payment keys were not supplied during onboarding, add them under Settings → Payment Methods.
+
+---
+
+## The storefront
+
+The Next.js storefront reads the channel's `brandConfig` at runtime — no rebuild needed for a new client. It automatically shows the client's logo, colours, and shop name.
+
+> 📷 **Screenshot needed:** _Add a side-by-side screenshot of two demo stores with different branding (Hearth & Bloom and Kettle & Co) on the same storefront URL pattern._
+
+### Storefront pages
+
+| Page | Path |
+|---|---|
+| Home / product listing | `/` |
+| Product detail | `/products/<slug>` |
+| Service detail | `/products/<slug>` (service kind) |
+| Cart | `/cart` |
+| Checkout (Stripe Payment Element) | `/checkout` |
+| Order confirmation | `/checkout/confirmation?code=<order-code>` |
+| Digital download link (from email) | `https://commerce.knotie.ai/downloads/<token>` |
+
+### Sending the right channel
+
+Include the shop's channel token in every Storefront API request:
+
+```
+vendure-token: <channel-token>
+```
+
+The shop URL itself (the hostname or a path prefix) also carries the channel context. Contact Knotie support for the channel token for your client's storefront.
+
+---
+
+## Digital downloads
+
+Digital files are protected. Download links are:
+
+- **Signed** with HMAC — a tampered URL returns 404.
+- **Expiring** — the link expires after a configurable number of days (default: 30).
+- **Count-limited** — a download limit can be set per product variant (0 = unlimited).
+- **Revoked** automatically when an order is cancelled, the line is refunded, or the full payment is refunded.
+
+The buyer receives download links in the order-confirmation email and can also find them on their order page.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the order confirmation email showing the download link, and a screenshot of the 404 page shown for a tampered link._
+
+---
+
+## AI-driven shop management (MCP)
+
+The `commerce/agent-mcp` server exposes **12 tools** for running a shop through Claude or any MCP-compatible AI agent. It is channel-scoped — the agent logs in as the channel's Shop manager and can only see that shop's data.
+
+### Available tools
+
+| Tool | What it does |
+|---|---|
+| `get_shop_info` | Currency, tax mode, languages, available custom fields |
+| `list_products` | Search products by name or SKU, filter by kind |
+| `get_product` | Full product details: variants, prices, stock, translations |
+| `create_product` | Add a product with one variant |
+| `update_variant_price` | Change the price of one variant |
+| `update_stock` | Set absolute stock level for one variant |
+| `list_orders` | Recent orders, with optional state filter |
+| `get_order` | Full order details: lines, totals, payments, fulfilments |
+| `sales_summary` | Revenue and order count for a date range |
+| `create_promotion` | Add a discount or coupon code |
+| `list_customers` | Search customers by name or email |
+| `translate_product` | Add a translation for a product in another language |
+
+<Note>
+Money-moving actions (refunds, cancellations, payment capture, order edits) are not available through the MCP server. Use the Vendure dashboard for those.
+</Note>
+
+Every write tool supports `dryRun: true` to preview the change without committing it.
+
+### Connecting the MCP server to Claude Desktop
+
+```json
+{
+  "mcpServers": {
+    "sonti-commerce": {
+      "command": "node",
+      "args": ["/path/to/commerce/agent-mcp/dist/index.js"],
+      "env": {
+        "VENDURE_ADMIN_API_URL": "https://commerce.knotie.ai/admin-api",
+        "VENDURE_CHANNEL_TOKEN": "<your-channel-token>",
+        "VENDURE_USERNAME": "<shop-manager-username>",
+        "VENDURE_PASSWORD": "<shop-manager-password>"
+      }
+    }
+  }
+}
+```
+
+For HTTP transport (Knotie gateway integration):
+
+```env
+MCP_TRANSPORT=http
+PORT=3333
+MCP_BEARER_TOKEN=<at-least-24-chars>
+```
+
+> 🎬 **Video walkthrough:** _Record a clip showing the MCP server in Claude Desktop: asking Claude to list products, create a promotion, and check yesterday's sales summary._
+
+---
+
+## Pricing and credits
+
+Sonti Commerce usage is billed through the Knotie credit system. Contact your Knotie partner success manager for Commerce tier pricing.
+
+---
+
+## Related pages
+
+- [Credit-based client billing](/use-cases/credit-based-client-billing)
+- [Automated customer onboarding](/use-cases/automated-customer-onboarding)
+- [Website Studio](/partner-portal/experiences/website-studio)
+
+> Source: [knotie-ai-pro#2130](https://github.com/avijeett007/knotie-ai-pro/pull/2130) — _feat(commerce): Sonti Commerce Day 0-1 — Vendure engine, branded storefront, shop-admin MCP, onboarding (KNOTI-1231)_

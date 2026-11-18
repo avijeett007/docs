@@ -271,6 +271,7 @@
               "use-cases/agency-outbound-command-center",
               "use-cases/automated-customer-onboarding",
               "use-cases/credit-based-client-billing",
+              "use-cases/sonti-commerce",
               "use-cases/coming-soon"
             ]
           }
