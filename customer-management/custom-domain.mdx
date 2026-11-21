@@ -63,8 +63,8 @@ Older links that start with `/whitelabel/`, such as bookmarks or links in past e
 - **Verification fails immediately**
   - Re-check for typos in the record value.
   - Confirm you didn’t add the record to the wrong domain.
-- **Verification is “pending” for a while**
-  - DNS can take time to propagate. Wait a bit and try again.
+- **Verification is “pending”**
+  - **This is normal** for the first few minutes after your DNS records go live. The SSL certificate issues automatically — click **Verify** again after a minute or two. If still pending after an hour, re-check that the CNAME record points to the exact target shown in the settings page (for example `custom.knotie-ai.pro`) and that no existing record conflicts with it.
 - **Portal loads but shows the wrong thing**
   - Clear cache or test in an incognito window.
   - Confirm you used the exact subdomain you verified.
@@ -74,3 +74,9 @@ Older links that start with `/whitelabel/`, such as bookmarks or links in past e
 ## Screenshots
 
 ![Custom Domain section in White-Label Portal settings — the domain field with a Verified badge and a "Domain Verified Successfully" confirmation showing the customer portal is now live on the custom domain](/images/screenshots/custom-domain-verified-2026-07-02.png)
+
+> 📷 **Screenshot needed:** _Add a screenshot of the pending verification state in the White-Label Portal — showing the informational "still activating" message (not an error) that appears while the SSL certificate is being issued._
+
+> 🎬 **Video walkthrough:** _Record a short clip showing the full custom domain setup flow — entering the domain, adding DNS records, clicking Verify, seeing the pending state, then seeing it go active._
+
+> Source: [knotie-ai-pro#2157](https://github.com/avijeett007/knotie-ai-pro/pull/2157) — _fix: email signup error after checkout, misleading custom-domain verify messages, and the broken typecheck_
