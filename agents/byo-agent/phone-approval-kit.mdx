@@ -1,0 +1,124 @@
+---
+title: "Phone approval kit for external agents"
+description: "Let any external agent — Claude Code, a server bot, a CI pipeline — ask for phone approval before it runs commands or deploys on its own machine."
+---
+
+Knotie's built-in tools already ask the customer's phone before they act, because Knotie runs them. The **phone approval kit** extends that same safety net to actions that Knotie does *not* run — a bash command on your laptop, a migration script, a deployment — by giving any agent a standard way to ask first.
+
+> 📷 **Screenshot needed:** _Add a screenshot of the Approvals page in the customer portal showing the AgentAction app paired and "MCP Access & Approvals" enabled._
+
+## Prerequisites
+
+1. **Pair a phone.** In the white-label customer portal, go to **Approvals → Add a phone** and pair the AgentAction app with the QR code and Face ID.
+2. **Enable MCP Access & Approvals** for the customer account. If the Approvals page isn't visible, the partner needs to turn on the add-on.
+3. **Create a customer MCP token.** In the customer portal, create a token under **MCP Access**. This token is the only credential the agent needs — the approval server's own key stays inside Knotie.
+4. **Confirm the tool is listed.** Call `tools/list` on the Connect Hub. You should see `internal_request_approval` and `internal_await_approval`. If those are missing, step 1 or 2 is incomplete.
+
+## Connect the MCP server
+
+Point the agent at the Connect Hub's `/api/mcp` endpoint, using the customer MCP token as a bearer token.
+
+**Claude Code:**
+
+```bash
+claude mcp add --transport http knotie https://<your-hub-host>/api/mcp \
+  --header "Authorization: Bearer <customer-mcp-token>"
+```
+
+**Any HTTP MCP client:**
+
+```
+POST https://<your-hub-host>/api/mcp
+Authorization: Bearer <customer-mcp-token>
+```
+
+## Two ways to enforce approvals
+
+The kit gives you two layers, which you can use together:
+
+| Layer | What it is | When to use it |
+|---|---|---|
+| **Skill** | A prompt you give the agent | The agent follows the flow by instruction |
+| **Hook (Claude Code only)** | A `PreToolUse` hook that runs outside the model | Enforced — the agent cannot skip it |
+
+For a coding agent on your machine, use the hook **and** add the skill, so the agent understands why a command waits.
+
+### Add the skill
+
+Copy [`SKILL.md`](https://github.com/avijeett007/knotie-ai-pro/blob/develop/documentations/agentaction/agent-kit/SKILL.md) to `.claude/skills/knotie-phone-approval/SKILL.md` in your project, or to `~/.claude/skills/knotie-phone-approval/SKILL.md` to apply it to every project. For other agents, paste its contents into the system prompt.
+
+The skill tells the agent:
+1. Call `internal_request_approval(action, summary, details)` before the risky action.
+2. Call `internal_await_approval(request_id)` with the returned ID.
+3. Try the original action again only after `internal_await_approval` succeeds.
+
+### Add the hook (Claude Code)
+
+Download [`request-approval-hook.mjs`](https://github.com/avijeett007/knotie-ai-pro/blob/develop/documentations/agentaction/agent-kit/request-approval-hook.mjs) somewhere stable, for example `~/.claude/hooks/request-approval-hook.mjs`. Then add this block to `.claude/settings.json` (project) or `~/.claude/settings.json` (global):
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ~/.claude/hooks/request-approval-hook.mjs",
+            "timeout": 300
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Set these environment variables where Claude Code runs. Keep the token out of the repo and out of `settings.json` — export it from your shell profile or a secrets manager:
+
+| Variable | Required | Meaning |
+|---|---|---|
+| `KNOTIE_MCP_URL` | Yes | `https://<your-hub-host>/api/mcp` |
+| `KNOTIE_MCP_TOKEN` | Yes | The customer MCP token |
+| `KNOTIE_APPROVAL_SKIP` | No | Regex of whole commands that run without asking. Example: `^(ls\|pwd\|git status\|git diff)$`. Commands containing `;`, `&`, `\|`, `` ` ``, `$`, `<`, `>`, `(`, `)`, `{`, `}`, `\`, or a newline always ask, whatever this regex says. |
+| `KNOTIE_APPROVAL_WAIT_SEC` | No | Seconds the hook waits for your phone (default 240). Keep it below the hook `timeout`. |
+| `KNOTIE_APPROVAL_ACTION` | No | The action name rules are set on (default `bash`, resource key `agent/BASH`). |
+
+> 📷 **Screenshot needed:** _Add a screenshot of a phone notification showing "Bash via Agent" with the command summary and 4-digit code._
+
+## What happens end-to-end
+
+> 🎬 **Video walkthrough:** _Record a short clip walking through the full flow: Claude Code runs a deploy command → phone notification appears → customer approves with Face ID → command runs._
+
+1. Claude Code tries `sudo systemctl restart nginx`.
+2. The hook intercepts it and calls `internal_request_approval`. Every paired phone receives a notification with a short code. The agent can tell the caller: *"I've sent a request to your phone. Please approve it and I'll carry on."*
+3. The hook waits. You approve with Face ID; the hook claims the approval and the command runs. Claude Code's own permission rules still apply on top.
+4. If you deny, the command is blocked and the agent is told not to retry.
+5. If you don't answer within the wait time, the command is blocked with the code — approve it later and the same command goes through when the agent runs it again.
+
+## Security guarantees
+
+- **Fails closed.** Approvals off, no tenant, unreadable credentials, Hub down, or `APPROVALS_FAIL_OPEN` unset all refuse the command. It never fails open.
+- **What you approve is what you saw.** The phone shows the exact command text. If the agent changes any detail, it must ask again.
+- **Compound commands always ask.** A command containing `;`, `&&`, `||`, backticks, `$()`, or redirection characters (`<`, `>`) always triggers approval, regardless of the skip regex.
+- **Long commands are blocked.** A command longer than 200 characters is rejected — the phone could not show it in full. Put long commands in a named script and run the script instead.
+- **One approval per command.** Each approval is used once, bound to the exact command text. Five commands need five approvals.
+
+## Limitations
+
+- `agent/*` resource keys are not yet shown on the portal's Approvals rules page, so they always ask. An explicit switch-off in the rules will honour it, but there is no UI to set one yet.
+- The skip regex is matched against the entire command string; partial matches are not honoured.
+- The approval wait is capped by the hook `timeout` in `settings.json`. Set `timeout` ≥ `KNOTIE_APPROVAL_WAIT_SEC`.
+
+## Related pages
+
+- [Phone approvals for agent actions](/agents/phone-approvals) — how approvals work for Knotie's built-in tools
+- [Customer approval app](/customer-management/approval-app) — how customers pair their phone
+- [Approval defaults](/partner-portal/settings/approval-defaults) — partner-level rules
+- [MCP API — authentication](/api-reference/mcp/authentication) — customer MCP tokens
+- [Connected app tools](/agents/connected-app-tools)
+
+---
+
+> Source: [knotie-ai-pro#2164](https://github.com/avijeett007/knotie-ai-pro/pull/2164) — _feat(approvals): let any agent ask for phone approval before its own actions_
