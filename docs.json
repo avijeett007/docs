@@ -252,6 +252,7 @@
               "agents/mailbox-delete-tools",
               "agents/phone-approvals",
               "agents/byo-agent/overview",
+              "agents/byo-agent/phone-approval-kit",
               "agents/openclaw-setup",
               "agents/migration/agent-migration"
             ]
